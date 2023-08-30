@@ -1,0 +1,79 @@
+.cartera-body {
+    width: 100%;
+    min-height: 1000px;
+    background-color: #0A0B0D;
+}
+
+.cartera-container {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.cartera-balance {
+    width: 100%;
+    height: 65px;
+    background-color: #151515;
+    border-radius: 5px;
+    padding: 25px;
+}
+
+.cartera-balance-buttons {
+    margin-top: 20px;
+}
+
+.cartera-balance-button {
+    width: 125px;
+    height: 35px;
+    background-color: #ff60b2;
+    border: none;
+    border-radius: 5px;
+    color: #ededed;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cartera-balance-button:hover {
+    background-color: #bd3b7e;
+}
+
+.cartera-history {
+    width: 100%;
+    padding: 25px;
+    height: 550px;
+    background-color: #151515;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.cartera-history-card{
+    margin-top: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #ededed;
+    display: flex;
+    align-items: center;
+    background-color: #303030;
+    border-radius: 3px;
+}
+
+.cartera-history-card-name {
+    width: 20%;
+}
+
+.cartera-history-card-destino {
+    width: 30%;
+}
+
+.cartera-history-card-amount {
+    width: 10%;
+}
+
+.cartera-history-card-status {
+    width: 10%;
+}
+
+
+.cartera-history-card-date {
+    width: 20%;
+}

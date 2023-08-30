@@ -1,0 +1,142 @@
+.viewtweet-popup-body {
+    position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	background-color: rgba(0,0,0, 0.5);
+    z-index: 9999;
+   
+}
+
+.viewtweet-popup-container {
+    width: 35%;
+    height: 800px;
+    overflow: scroll;
+	margin: auto;
+    padding: 30px;
+	text-align: center;
+	background: #18181b;
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+}
+
+.popupgallery-view-primary {
+    width: 70%;
+    height: 750px;
+    padding: 10px;
+}
+
+.viewtweet-quantity {
+    display: flex;
+}
+
+.viewtweet-quantity-card {
+    margin-right: 10px;
+}
+
+.viewtweet-quantity-card p{
+    border-bottom: 1px solid transparent;
+}
+
+.viewtweet-quantity-card p:hover{
+    border-bottom: 1px solid rgba(255, 255, 255, 0.319);
+}
+
+.viewtweet-button-reply {
+    background-color: #f960b3;
+    border: none;
+    color: white;
+    width: 100px;
+    border-radius: 3px;
+    padding: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.popupgallery-view-secondary {
+    width: 30%;
+    padding: 10px;
+    height: 750px;
+}
+
+.popupgallery-view-secondary-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+.popupgallery-view-secondary-comments-container {
+    margin-top: 50px;
+    height: 475px;
+}
+
+.popupgallery-view-secondary-comments-card {
+    margin-top: 20px;
+    text-align: left;
+}
+
+
+.popupgallery-view-secondary-icons {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.viewtweet-comments-container {
+    width: 100%;
+    height: 470px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.popupgallery-view-input-container {
+    display: flex;
+    align-items: center;
+    background-color: rgb(65, 65, 65);
+    padding: 4px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.popupgallery-view-input {
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    border-radius: 3px;
+    width: 80%;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+    outline: none;
+}
+
+
+
+.popupgallery-view-icon-publish {
+    width: 18px;
+    border-radius: 3px;
+    height: 18px;
+    padding: 5px;
+    background-color: #ff60b2;
+}
+
+
+
+
+.usersettings-popup-close {
+    display: flex;
+    justify-content: right;
+    
+}
+
+.usersettings-popup-close button{
+    border: none;
+    color: #ededed;
+    cursor: pointer;
+}
+
+

@@ -1,0 +1,23 @@
+.suscriptions-body {
+    width: 100%;
+    min-height: 1000px;
+    background-color: #0A0B0D;
+}
+
+.suscriptions-container {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.subscriptions-card {
+    width: 280px;
+    height: 400px;
+    background-color: #151515;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.subscriptions-card-content {
+    padding-left: 20px;
+    padding-right: 20px;
+}

@@ -1,0 +1,24 @@
+.streammanager-atajos-card {
+    width: 43%;
+    min-width: 150px;
+    padding: 10px;
+    height: 100px;
+    margin-left: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.streammanager-atajos-card:hover {
+    filter: brightness(95%);
+}
+
+@media screen and (max-width: 768px) {
+    .streammanager-atajos-card {
+        width: 95%;
+        margin: 0 auto;
+        height: 30px;
+        display: flex;
+        align-items: center;
+    }
+}

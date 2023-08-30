@@ -1,0 +1,52 @@
+.usersettings-pagos-body {
+    height: 700px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.usersettings-pagos-container {
+    background-color: #151515;
+    padding: 30px;
+    border-radius: 10px;
+    width: 40%;
+    height: 600px;
+    text-align: justify;
+}
+
+.usersettings-pagos-button {
+    padding: 7px;
+    border: none;
+    width: 125px;
+    border-radius: 3px;
+    background-color: #ff60b2;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.usersettings-pagos-card-container {
+    margin-top: 50px;
+}
+
+.usersettings-pagos-card {
+    background-color: #101010;
+    padding: 30px;
+    height: 50px;
+    text-align: justify;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.usersettings-pagos-input {
+    width: 250px;
+    background-color: rgb(56, 56, 56);
+    border: none;
+    padding: 7px;
+    font-size: 12px;
+    outline: none;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+}

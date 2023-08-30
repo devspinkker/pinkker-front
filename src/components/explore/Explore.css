@@ -1,0 +1,49 @@
+.explore-body {
+    background-color: transparent;
+    width: 100%;
+    min-height: 3500px;
+}
+
+.explore-container {
+    width: 95%;
+    margin: 0 auto;
+    position: relative;
+    top: 30px;
+}
+
+
+.explore-title {
+    width: 100%;
+    margin: 0 auto;
+    font-family: 'Poppins';
+    font-weight: 700;
+    color: #ededed;
+}
+
+
+.explore-banners {
+    width: 100%;
+    margin: 0 auto;
+    min-height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.explore-banner {
+    min-width: 301px;
+    max-width: 301px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    color: #ededed;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.explore-card-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,105 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.dropdownmessage-menu {
+    position: absolute;
+    top: 52px;
+    right: 200px;
+    display: flex;
+    background: #0a0a0afc;
+    border: 1px solid #ffffff1a;
+    border-radius: 5px;
+    font-family: 'Roboto';
+    width: 350px;
+    height: 300px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+    
+.dropdownmessage-menu li {
+    display: flex;
+    width: 100%;
+    font-size: 12px;
+    padding: 3px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+    
+    
+.dropdownmessage-menu.clicked {
+    display: none;
+}
+    
+.dropdownmessage-button {
+      background-color: #f36196;
+      border: none;
+      margin-top: 20px;
+      width: 50%;
+      font-family: 'Montserrat';
+      font-weight: 800;
+      padding: 5px;
+      color: #ededed;
+      cursor: pointer;
+      border-radius: 3px;
+
+}
+
+.dropdownmessage-input {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.dropdownmessage-input input{
+    width: 90%;
+    background-color: #040404;
+    border: none;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    padding: 5px;
+    color: #ededed;
+    outline: none;
+    margin-left: 1px;
+}
+
+.dropdownmessage-input input:focus {
+    background-color: rgb(0, 0, 0);
+    outline: 1px solid #ff60b2;
+} 
+    
+
+.dropdownmessage-input i {
+    background-color: #040404;
+    padding: 7px;
+    color: #ededed;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.dropdownmessage-news-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #ededed;
+    text-align: left;
+}
+
+.dropdownmessage-menu li:hover {
+    background-color: #161616;
+}
+    
+@media screen and (max-width: 758px) {
+  
+      .dropdownmessage-menu {
+        width: 100%;
+        right: 0;
+        top: 63px;
+  
+      }
+  
+      .fa-caret-down {
+        display: none;
+      }
+}

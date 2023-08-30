@@ -1,0 +1,154 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.dropdownbet-menu {
+    position: absolute;
+    margin-top: -285px;
+    left: 0px;
+    width: 342px;
+    height: 303px;
+    display: flex;
+    background: #0a0a0afc;
+    border: 1px solid #15151563;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 10px;
+    border-bottom: 1px solid #ffffff1a;
+}
+
+
+    .dropdownbet-menu li {
+      cursor: pointer;
+      display: flex;
+      text-align: center;
+      font-size: 13px;
+      border-radius: 5px;
+    }
+    
+    .dropdownbet-menu i {
+      transition: 0.3s all;
+
+    }
+
+    .dropdownbet-menu li:hover .dropdownbet-content i{
+      transform: translateY(-3px);
+    }
+
+    .dropdownbet-menu li:hover {
+      background: #2e2e2e;
+    }
+    
+    .dropdownbet-menu.clicked {
+      display: none;
+    }
+    
+    .dropdownbet-link {
+      display: flex;
+      justify-content: center;
+      font-family: "Poppins";
+      align-items: center;
+      width: 100%;
+      text-decoration: none;
+      color: #fff;
+      padding: 5px;
+    }
+
+    .dropdownbet-button {
+      background: none;
+      border: none;
+      width: 80%;
+      font-family: 'Montserrat';
+      font-weight: 800;
+      height: 100%;
+      padding: 16px;
+      color: #ededed;
+      cursor: pointer;
+
+    }
+
+    .dropdownbet-content {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      justify-content: space-between;
+      color: #ededed;
+      font-family: 'Montserrat';
+      font-weight: 800;
+    }
+
+    .dropdownbet-input {
+        background-color: #303030;
+        padding: 1px;
+        width: 45%;
+        border-radius: 5px;
+        display: flex;
+        
+    }
+
+    .dropdownbet-input input {
+        width: 60%;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: #ededed;
+        font-family: 'Poppins';
+        font-size: 14px;
+        border-top-left-radius: 5px;
+        border-end-start-radius: 5px;
+        padding-left: 3px;
+
+    }
+
+    .dropdownbet-input input:focus{
+        background-color: black;
+        outline: 1px solid #ff60b2;
+    }
+
+    .dropdownbet-bet {
+        margin-top: 15px;
+        width: 100%;
+        height: 250px;
+    }
+
+    .dropdownbet-vote-button {
+        width: 55px;
+        border: none;
+        padding: 3px;
+        color: white;
+        font-family: "Poppins";
+        font-weight: 800;
+        border-top-right-radius: 5px;
+        border-end-end-radius: 5px;
+        cursor: pointer;
+    }
+
+    .dropdownbet-card-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin-top: 10px;
+    }
+
+    .dropdownbet-card {
+        width: 40%;
+        height: 125px;
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+        background-color: #151515;
+    }
+
+
+    @media screen and (max-width: 960px) {
+  
+      .dropdownbet-menu {
+        width: 220%;
+        top: 60px;
+        z-index: 200;
+  
+      }
+  
+      .fa-caret-down {
+        display: none;
+      }
+    }

@@ -1,0 +1,23 @@
+.privacy-body {
+    width: 100%;
+    min-height: 1000px;
+}
+
+.privacy-container {
+    width: 70%;
+    color: lightgray;
+    margin: 0 auto;
+}
+
+.privacy-container p{
+    margin-top: 20px;
+}
+
+.privacy-container h2{
+    margin-top: 20px;
+}
+
+.privacy-container h3{
+    color: #f36196;
+    margin-top: 20px;
+}

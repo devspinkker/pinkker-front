@@ -1,0 +1,103 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.dropdownfriends-menu {
+    position: absolute;
+    top: 52px;
+    right: 200px;
+    display: flex;
+    background: #0a0a0afc;
+    border: 1px solid #ffffff1a;
+    border-radius: 5px;
+    font-family: 'Roboto';
+    width: 375px;
+    height: 300px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+    
+.dropdownfriends-menu li {
+    display: flex;
+    width: 100%;
+    font-size: 12px;
+    padding: 10px;
+}
+    
+    
+.dropdownfriends-menu.clicked {
+    display: none;
+}
+    
+
+.dropdownfriends-input {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.dropdownfriends-input input{
+    width: 90%;
+    background-color: #040404;
+    border: none;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    padding: 5px;
+    color: #ededed;
+    outline: none;
+    margin-left: 1px;
+}
+
+.dropdownfriends-input i {
+    background-color: #040404;
+    padding: 7px;
+    color: #ededed;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.dropdownfriends-news-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #ededed;
+    text-align: left;
+}
+
+.dropdownfriends-menu li:hover {
+    background-color: #161616;
+}
+
+.dropdownfriends-button-follow {
+    width: 80px;
+    padding: 5px;
+    background-color: #762543;
+    border: 1px solid #762543;
+    color: #ededed;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dropdownfriends-button-follow:hover {
+    background-color: #762543;
+}
+
+    
+@media screen and (max-width: 758px) {
+  
+      .dropdownfriends-menu {
+        width: 500px;
+        right: 0;
+        top: 63px;
+  
+      }
+      
+  
+      .fa-caret-down {
+        display: none;
+      }
+}

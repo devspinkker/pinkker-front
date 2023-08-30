@@ -1,0 +1,46 @@
+.usersettings-prime-body {
+    height: 700px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.usersettings-prime-container {
+    background-color: #0404048f;
+    padding: 30px;
+    border-radius: 10px;
+    width: 40%;
+    height: 600px;
+    text-align: justify;
+}
+
+.usersettings-prime-button {
+    margin-top: 20px;
+    width: 110px;
+    padding: 5px;
+    background-color: transparent;
+    border: 1px solid #f36196;
+    color: #ededed;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.pinkker-chat-naming-prime {
+    background: url("https://res.cloudinary.com/pinkker/image/upload/v1677784906/naming/colaborador_qwwmv6.gif") no-repeat;
+    background-position-y: -10px;
+}
+
+
+@media screen and (max-width: 758px) {
+    .usersettings-prime-container {
+        width: 90%;
+    }
+
+    .usersettings-prime-button {
+        width: 130px;
+        font-size: 15px;
+    }
+}

@@ -1,0 +1,50 @@
+.search-body {
+    background-color: transparent;
+    width: 100%;
+    min-height: 3500px;
+}
+
+.search-container {
+    width: 95%;
+    margin: 0 auto;
+    position: relative;
+    top: 30px;
+}
+
+.search-info-canales {
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.search-info-canales-card {
+    width: 150px;
+    height: 220px;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    background-color: #3030307c;
+    border-radius: 5px;
+    transition: 0.6s;
+    
+}
+
+.search-info-canales-card-image {
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 200px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.75);
+    position: relative;
+}
+
+
+.search-info-canales-card:hover {
+    background-color: #303030;
+}

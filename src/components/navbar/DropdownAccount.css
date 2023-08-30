@@ -1,0 +1,92 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.dropdownaccount-menu {
+    position: absolute;
+    right: 15px;
+    top: 52px;
+    display: flex;
+    background: #0a0a0afc;
+    border: 1px solid #ffffff1a;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 5px;
+    font-family: 'Roboto';
+    z-index: 99999;
+    }
+    
+    .dropdownaccount-menu li {
+      cursor: pointer;
+      display: flex;
+      text-align: center;
+      margin: 5px;
+      width: 230px;
+      font-size: 12px;
+
+    }
+    
+    .dropdownaccount-menu li:hover {
+      background: #161616;
+    }
+    
+    .dropdownaccount-menu.clicked {
+      display: none;
+    }
+    
+    .dropdownaccount-link {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      text-decoration: none;
+      color: #fff;
+      padding: 16px;
+      font-weight: 400;
+    }
+
+    .dropdownaccount-button {
+      background: none;
+      border: none;
+      width: 80%;
+      font-family: 'Montserrat';
+      font-weight: 800;
+      height: 100%;
+      padding: 16px;
+      color: #ededed;
+      cursor: pointer;
+
+    }
+
+
+    .dropdownaccount-pink-text-hover {
+      border-bottom: 1px solid transparent;
+    }
+
+
+    .dropdownaccount-pink-text-hover:hover {
+      border-bottom: 1px solid #cf5481;
+    }
+
+    .droppdownaccount-name {
+      color: #ededed;
+    }
+
+    .droppdownaccount-name:hover {
+      color: darkgray;
+    }
+    
+    @media screen and (max-width: 758px) {
+  
+      .dropdownaccount-menu {
+        width: 100%;
+        right: 0;
+        top: 63px;
+      }
+
+      .dropdownaccount-menu li {
+        width: 435px;
+        font-size: 17px;
+      }
+  
+      .fa-caret-down {
+        display: none;
+      }
+    }

@@ -1,0 +1,120 @@
+.clipcard-follow {
+    height: 19px;
+    width: 19px;
+    background-color: red;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    justify-content: center;
+    color: white;
+    font-family: Poppins;
+    position: absolute;
+    left: 15px;
+    margin-top: -15px;
+}
+
+.clipcard-muted {
+    position: absolute;
+    animation: opacityAnimation 0.4s;
+}
+
+.clipcard-progress-body {
+    width: 100%;
+    margin: 0 auto;
+    color: #ededed;
+    margin-top: 10px;
+    transition: 0.7s;
+    
+}
+
+.clipcard-progress-body p{
+    opacity: 0;
+}
+
+.clipsmain-video:hover .clipcard-progress-body p{
+    opacity: 1;
+}
+
+.clipcard-icon-like {
+    color: #ededed;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.clipcard-icon-like:hover {
+    color: #f36196;
+}
+
+.clipcard-icon-comment {
+    color: #ededed;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.clipcard-icon-comment:hover {
+    color: rgb(46, 220, 255);
+}
+
+.clipcard-icon-share {
+    color: #ededed;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.clipcard-icon-share:hover {
+    color: rgb(248, 255, 46);
+}
+
+.clipmain-comments-container {
+    z-index: 8888;
+    margin-top: 40px;
+    position: relative;
+    left: -30px;
+    padding: 20px;
+    animation: 1s moveToLeft ease-in-out;
+}
+
+
+@keyframes moveToLeft {
+    0% {
+        left: 0px;
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        left: -30px;
+    }
+}
+
+@keyframes moveToRight {
+    0% {
+        left: -30px;
+    }
+    100% {
+        left: 0px;
+    }
+}
+
+@keyframes opacityAnimation { 
+    0% {
+      opacity: 0;
+      transform: scale(1.5);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1.0);
+    }
+}
+  

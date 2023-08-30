@@ -1,0 +1,32 @@
+.home-clips {
+    width: 95%;
+    margin: 0 auto;
+    min-height: 300px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+.home-clips-card-container {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    color: #8a8a8ab9;
+    margin-top: 40px;
+}
+
+
+
+
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3) { 
+
+    .home-clips {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+
+}

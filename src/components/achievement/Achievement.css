@@ -1,0 +1,22 @@
+.achievement-body {
+    width: 100%;
+    min-height: 1500px;
+    background-color: #0A0B0D;
+}
+
+.achievement-container {
+    width: 60%;
+    margin: 0 auto;
+    height: 500px;
+}
+
+.achievement-title {
+    color: #ededed;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.achievement-card-container {
+    margin-top: 20px;
+}
