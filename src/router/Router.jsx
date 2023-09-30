@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
+    BrowserRouter as Router,
+    Route,
+    Redirect,
+    Switch,
 } from "react-router-dom";
 
 import { useSelector } from "react-redux";
@@ -75,37 +75,37 @@ const AppRouter = () => {
             window.removeEventListener('resize', handleWindowSizeChange);
         }
     }, []);
-    
+
 
     const isMobile = width <= 768;
-    
+
 
 
     useEffect(() => {
         setSocketMain(io(process.env.REACT_APP_DEV_CHATMESSAGE_URL));
 
-      }, []);
-    
+    }, []);
+
     useEffect(() => {
-        if(user.name != null && user.name != undefined) {
-            loadDataOnlyOnce() 
+        if (user.name != null && user.name != undefined) {
+            loadDataOnlyOnce()
         }
     }, [user]);
-        
-    
+
+
     const loadDataOnlyOnce = () => {
         const name = user.name;
-    
-        if(name != undefined && name != null) {
+
+        if (name != undefined && name != null) {
             console.log("[PINKKER] [CHAT MESSAGE] User name: " + user.name);
-            socketMain.emit("join", { _id: user._id, name, room: "general"}, (socketMain) => {
-                  console.log("[PINKKER] [CHAT MESSAGE] Joined " + socketMain);
+            socketMain.emit("join", { _id: user._id, name, room: "general" }, (socketMain) => {
+                console.log("[PINKKER] [CHAT MESSAGE] Joined " + socketMain);
             });
         }
     };
 
     useEffect(() => {
-        if(socketMain != null) {
+        if (socketMain != null) {
             socketMain.on("newMessage", (name) => {
                 addOpenMessage(name, true)
                 console.log("Nuevo mensaje de " + name)
@@ -123,18 +123,18 @@ const AppRouter = () => {
 
     function addOpenMessage(streamer, openedWindow) {
         if (!messagesOpen.filter(e => e.streamer === streamer).length > 0) {
-            if(messagesOpen.length <= 5) {
-                setMessagesOpen([...messagesOpen, {streamer, openedWindow}]);
+            if (messagesOpen.length <= 5) {
+                setMessagesOpen([...messagesOpen, { streamer, openedWindow }]);
                 setOpenMessage(true)
-                setOpenMessageStreamer(streamer)    
+                setOpenMessageStreamer(streamer)
             }
-        }  
+        }
     }
 
 
     function removeOpenMessage(streamer) {
         setMessagesOpen(messagesOpen.filter(message => message.streamer !== streamer))
-        if(messagesOpen.length === 0) {
+        if (messagesOpen.length === 0) {
             setOpenMessage(false)
             setOpenMessageStreamer(null)
         }
@@ -143,7 +143,7 @@ const AppRouter = () => {
     return (
         <Router>
             <LastLocationProvider>
-                <Navbar isMobile={isMobile} exact socketMain={socketMain} handleMessage={(e) => addOpenMessage(e, false)} expanded={expanded} tyExpanded={() => toggleExpanded()}/>
+                <Navbar  isMobile={isMobile} exact socketMain={socketMain} handleMessage={(e) => addOpenMessage(e, false)} expanded={expanded} tyExpanded={() => toggleExpanded()} />
                 {openMessage && <Message socketMain={socketMain} closeMessageChat={(e) => removeOpenMessage(e)} messagesOpen={messagesOpen} />}
                 {/*!isLogged && <NavbarButtom isMobile={isMobile}/>*/}
                 <Layout isMobile={isMobile} tyExpanded={expanded}>
@@ -151,147 +151,148 @@ const AppRouter = () => {
 
 
                         <Route exact path="/:streamer/dashboard/home">
-                            <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true}/>
-                            <Dashboard isMobile={isMobile}/>
+                            <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true} />
+                            <Dashboard isMobile={isMobile} />
                         </Route>
 
                         <Route exact path="/:streamer/dashboard/analytics">
-                            <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true}/>
-                            <Analytics/>
+                            <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true} />
+                            <Analytics />
                         </Route>
-                        
+
                         <Route exact path="/:streamer/dashboard/streammanager">
-                            <NavbarLeft isMobile={isMobile} setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true}/>
-                            <StreamManager isMobile={isMobile} socketMain={socketMain} handleMessage={(e) => addOpenMessage(e)}/>
+                            <NavbarLeft isMobile={isMobile} setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true} />
+                            <StreamManager isMobile={isMobile} socketMain={socketMain} handleMessage={(e) => addOpenMessage(e)} />
                         </Route>
 
                         <Route exact path="/:streamer/dashboard/settings/stream">
-                            <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true}/>
-                            <SettingsStream/>
+                            <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true} />
+                            <SettingsStream />
                         </Route>
 
                         <Route exact path="/:streamer/dashboard/content">
-                            <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true}/>
-                            <Content/>
+                            <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true} />
+                            <Content />
                         </Route>
 
                         <Route exact path="/:streamer/dashboard/community">
-                            <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true}/>
-                            <Community/>
+                            <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={true} />
+                            <Community />
                         </Route>
 
                         <Route exact path="/:streamer">
-                            {!isMobile && <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={false}/>}
-                            <Channel isMobile={isMobile} socketMain={socketMain} handleMessage={(e) => addOpenMessage(e)} expanded={() => setExpanded(false)} tyExpanded={expanded}/>
+                            {!isMobile && <NavbarLeft setExpanded={setExpanded} tyExpanded={expanded} tyDashboard={false} />}
+                            <Channel isMobile={isMobile} socketMain={socketMain} handleMessage={(e) => addOpenMessage(e)} expanded={() => setExpanded(false)} tyExpanded={expanded} />
                         </Route>
 
                         <Route exact path="/:streamer/settings">
-                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false}/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
                             <UserSettings isMobile={isMobile} />
                         </Route>
-                        
+
                         <Route path="/user/activate/:activation_token" component={Activate} exact />
 
                         <Route exact path="/plataform/tendency">
-                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false}/>
-                            <Tendency/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <Tendency />
                         </Route>
 
                         <Route exact path="/admin/general">
-                            <NavbarLeft tyExpanded={expanded} tyDashboard={false}/>
-                            <Admin/>
+                            <NavbarLeft tyExpanded={expanded} tyDashboard={false} />
+                            <Admin />
                         </Route>
 
                         <Route exact path="/admin/pagos">
-                            <NavbarLeft tyExpanded={expanded} tyDashboard={false}/>
-                            <Pagos/>
+                            <NavbarLeft tyExpanded={expanded} tyDashboard={false} />
+                            <Pagos />
                         </Route>
 
                         <Route exact path="/admin/statistics">
-                            <NavbarLeft tyExpanded={expanded} tyDashboard={false}/>
-                            <Statistics/>
+                            <NavbarLeft tyExpanded={expanded} tyDashboard={false} />
+                            <Statistics />
                         </Route>
 
                         <Route exact path="/user/reset/:token">
-                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false}/>
-                            <ResetPassword isMobile={isMobile}/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <ResetPassword isMobile={isMobile} />
                         </Route>
-                        
+
                         <Route exact path="/plataform/explore">
-                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false}/>
-                            <Explore isMobile={isMobile}/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <Explore isMobile={isMobile} />
                         </Route>
 
                         <Route exact path="/plataform/cartera">
-                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false}/>
-                            <Cartera/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <Cartera />
                         </Route>
 
                         <Route exact path="/plataform/subscriptions">
-                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false}/>
-                            <Suscriptions/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <Suscriptions />
                         </Route>
 
                         <Route exact path="/plataform/achievement">
-                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false}/>
-                            <Achievement/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <Achievement />
                         </Route>
 
                         <Route exact path="/plataform/clips">
-                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false}/>
-                            <ClipsMain/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <ClipsMain />
                         </Route>
 
                         <Route exact path="/plataform/muro">
-                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false}/>
-                            <Muro isMobile={isMobile}/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <Muro isMobile={isMobile} />
                         </Route>
 
                         <Route exact path="/vod/:vodId">
-                            <NavbarLeft tyExpanded={expanded} tyDashboard={false}/>
-                            <Vod/>
+                            <NavbarLeft tyExpanded={expanded} tyDashboard={false} />
+                            <Vod />
                         </Route>
 
                         <Route path="/categorie/:categorieName" exact>
-                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false}/>
-                            <Categorie/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <Categorie />
                         </Route>
 
                         <Route path="/clip/:clipId" exact>
-                            <NavbarLeft tyExpanded={expanded} tyDashboard={false}/>
-                            <ClipView/>
+                            <NavbarLeft tyExpanded={expanded} tyDashboard={false} />
+                            <ClipView />
                         </Route>
-                        
+
                         <Route exact path="/" component={Home}>
-                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false}/>
-                            <Home isMobile={isMobile} socketMain={socketMain} handleMessage={(e) => addOpenMessage(e)} cancelExpand={(e) => setExpanded(e)} socketMain={socketMain} expanded={expanded}/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <Home isMobile={isMobile} socketMain={socketMain} handleMessage={(e) => addOpenMessage(e)} cancelExpand={(e) => setExpanded(e)} socketMain={socketMain} expanded={expanded} />
                         </Route>
 
                         <Route exact path={"/direct/inbox"}>
-                            <NavbarLeft tyExpanded={expanded} tyDashboard={false}/>
-                            <GeneralChat/>
+                            <NavbarLeft tyExpanded={expanded} tyDashboard={false} />
+                            <GeneralChat />
                         </Route>
 
                         <Route exact path={"/plataform/search"}>
-                            <NavbarLeft tyExpanded={expanded} tyDashboard={false}/>
-                            <Search/>
+
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <Search />
                         </Route>
 
                         <Route exact path="/plataform/terms">
-                            <NavbarLeft tyExpanded={expanded} tyDashboard={false}/>
-                            <Terms/>
+                            <NavbarLeft isMobile={isMobile} tyExpanded={expanded} tyDashboard={false} />
+                            <Terms />
                         </Route>
 
                         <Route exact path="/plataform/privacy">
-                            <NavbarLeft tyExpanded={expanded} tyDashboard={false}/>
-                            <Privacy/>
+                            <NavbarLeft tyExpanded={expanded} tyDashboard={false} />
+                            <Privacy />
                         </Route>
 
 
                     </Switch>
                 </Layout>
             </LastLocationProvider>
-            
+
         </Router>
     )
 }

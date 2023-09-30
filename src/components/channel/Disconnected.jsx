@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, { useEffect, useState } from "react"
 
 import "./Disconnected.css"
 import { useParams } from "react-router-dom"
@@ -32,12 +32,13 @@ import { useNotification } from "../Notifications/NotificationProvider"
 
 import PopupFollowers from "../popup/PopupFollowers/PopupFollowers"
 import useImageColor from 'use-image-color'
+import { Button } from "@mui/material"
 
 
-export default function Disconnected({isMobile}) {
+export default function Disconnected({ isMobile }) {
 
     const auth = useSelector(state => state.auth)
-    const {user, isLogged} = auth
+    const { user, isLogged } = auth
     const token = useSelector(state => state.token)
 
 
@@ -70,9 +71,9 @@ export default function Disconnected({isMobile}) {
 
 
     const onMouseEnterOptions = () => {
-        if(dropdownOptions === true) {
+        if (dropdownOptions === true) {
             setDropdownOptions(false);
-        } else{
+        } else {
             setDropdownOptions(true);
         }
     };
@@ -83,30 +84,30 @@ export default function Disconnected({isMobile}) {
         window.scrollTo(0, 0);
 
         const dataStreamer = await getUser(streamer);
-        if(dataStreamer != null && dataStreamer != undefined) {
+        if (dataStreamer != null && dataStreamer != undefined) {
             setStreamerData(dataStreamer);
         }
 
         const dataFollowers = await getStreamerFollowers(streamer);
-        if(dataFollowers != null && dataFollowers != undefined) {
+        if (dataFollowers != null && dataFollowers != undefined) {
             setStreamerFollowers(dataFollowers);
         }
 
-        if(token != null && token != undefined && token != "") {
+        if (token != null && token != undefined && token != "") {
             const fetchData = async () => {
                 const dataFollowParam = await userFollowUser(token, streamer);
-                if(dataFollowParam != null && dataFollowParam != undefined) {
+                if (dataFollowParam != null && dataFollowParam != undefined) {
                     setFollowParam(dataFollowParam.data);
                 }
-    
+
                 const dataStream = await getStreamerStream(token, streamer);
-                if(dataStream != null && dataStream != undefined) {
+                if (dataStream != null && dataStream != undefined) {
                     setStream(dataStream);
                 }
 
-                
+
             }
-    
+
             fetchData();
         }
     }, [token])
@@ -118,105 +119,105 @@ export default function Disconnected({isMobile}) {
 
     useEffect(async () => {
 
-        if(streamerData != null && streamerData != undefined && streamerData != "") {
-            if(container != null && container != undefined) {
+        if (streamerData != null && streamerData != undefined && streamerData != "") {
+            if (container != null && container != undefined) {
 
                 //const color = await fac.getColorAsync(streamerData.banner);
                 //container.style.backgroundColor = color.rgba;
-                
-                
-                if(colors != null && colors != undefined && colors.length > 0) {
+
+
+                if (colors != null && colors != undefined && colors.length > 0) {
                     setColorAverage(colors[0]);
                 }
 
             }
         }
-        
+
     }, [streamerData, container])
 
 
     async function followUser() {
-        const data =  await follow(token, streamer);
-        if(data != null) {
-            alert({type: "SUCCESS", message: data.data.msg})
+        const data = await follow(token, streamer);
+        if (data != null) {
+            alert({ type: "SUCCESS", message: data.data.msg })
             setFollowParam(true);
 
         } else {
-            alert({type: "ERROR", message: data})
+            alert({ type: "ERROR", message: data })
         }
     }
 
     async function unfollowUser() {
-        const data =  await unfollow(token, streamer);
-        if(data != null) {
-            alert({type: "SUCCESS", message: data.data.msg})
+        const data = await unfollow(token, streamer);
+        if (data != null) {
+            alert({ type: "SUCCESS", message: data.data.msg })
             setFollowParam(false);
         } else {
-            alert({type: "ERROR", message: data})
+            alert({ type: "ERROR", message: data })
         }
     }
 
     function getFollowButton() {
-        if(followParam != null && followParam != undefined) {
-            if(followParam) {
+        if (followParam != null && followParam != undefined) {
+            if (followParam) {
                 return (
-                    <Tippy theme="pinkker" content={<h1 style={{fontSize: "12px", fontFamily: "Montserrat"}}>Dejar de seguir</h1>}>
-                        <button style={{marginTop: "0px", width: "100px", marginLeft: "5px", marginRight: "5px", backgroundColor: nameD === "Siguiendo" && "#762543"}} onMouseEnter={() => setNameD("Dejar de seguir")} onMouseLeave={() => setNameD("Siguiendo")} onClick={() => unfollowUser()} className="followerscard-button-unfollow">{nameD}</button>
+                    <Tippy theme="pinkker" content={<h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>Dejar de seguir</h1>}>
+                        <button style={{ marginTop: "0px", width: "100px", marginLeft: "5px", marginRight: "5px", backgroundColor: nameD === "Siguiendo" && "#762543" }} onMouseEnter={() => setNameD("Dejar de seguir")} onMouseLeave={() => setNameD("Siguiendo")} onClick={() => unfollowUser()} className="followerscard-button-unfollow">{nameD}</button>
                     </Tippy>
                 )
             } else {
                 return (
-                    <Tippy theme="pinkker" content={<h1 style={{fontSize: "12px", fontFamily: "Montserrat"}}>Empezar a seguir</h1>}>
-                        <button onClick={() => followUser()} style={{marginLeft: "5px", marginTop: "0px"}} className="channel-bottom-v2-button-follow">Seguir</button>    
+                    <Tippy theme="pinkker" content={<h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>Empezar a seguir</h1>}>
+                        <button onClick={() => followUser()} style={{ marginLeft: "5px", marginTop: "0px" }} className="channel-bottom-v2-button-follow">Seguir</button>
                     </Tippy>
                 )
-            }    
+            }
         }
-        
+
     }
 
 
     function getLeftForType() {
 
-        if(type === 0) {
+        if (type === 0) {
             return "42px"
         }
 
-        if(type === 1) {
+        if (type === 1) {
             return "137px"
         }
 
-        if(type === 2) {
+        if (type === 2) {
             return "229px"
         }
 
-        if(type === 3) {
+        if (type === 3) {
             return "322px"
         }
     }
 
     function getType() {
-        if(type === 0) {
+        if (type === 0) {
             return (
-                <Muro streamer={streamer} limit={4} sort={1}/>
+                <Muro streamer={streamer} limit={4} sort={1} />
             )
         }
 
-        if(type === 1) {
+        if (type === 1) {
             return (
-                <Gallery unlocked={unlocked} gallerys={gallerys} streamer={streamer}/>
+                <Gallery unlocked={unlocked} gallerys={gallerys} streamer={streamer} />
             )
         }
 
-        if(type === 2) {
+        if (type === 2) {
             return (
-                <Clips unlocked={unlocked} gallerys={gallerys} streamer={streamer}/>
+                <Clips unlocked={unlocked} gallerys={gallerys} streamer={streamer} />
             )
         }
 
-        if(type === 3) {
+        if (type === 3) {
             return (
-                <About streamer={streamerData} limit={4} sort={1}/>
+                <About streamer={streamerData} limit={4} sort={1} />
             )
         }
     }
@@ -236,12 +237,26 @@ export default function Disconnected({isMobile}) {
 
 
     function renderProfile() {
-        if(streamerData != null) {
-           return ( <div>
-                <div style={{background: `url(../../images/headerarriba.png)`}} className="disconnected-top">
+        if (streamerData != null) {
+            return (
+                <div>
+                    <div style={{ display: 'flex', flexDirection: 'column' }} >
+                        {/*BANNER*/}
+                        <div style={{ background: `right cover no-repeat url(../../images/headerarriba.png)`, height: '150px' }}></div>
+                        {/* perfil */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', alignItems:'top' }}>
+                            <div style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}}>
+                                <img className="disconnected-user-avatar" style={{ width: isMobile ? "100px" : "200px", borderRadius: '50%' }} src={streamerData.avatar} />
+                                <h1 style={{ fontFamily: "Poppins", fontSize: isMobile ? "24px" : "30px", lineHeight: "73px", display: "flex", alignItems: "center", color:'white' }}>{streamerData.name} {streamerData && streamerData.verified && <Emblem style={{ marginLeft: "10px", marginTop: "-15px", borderRadius: "2px" }} imageWidth={"25px"} name="Verificado" img="/images/emblem/verificado.jpg" />}</h1>
+                            </div>
+                            <Button>Editar perfil</Button>
+                        </div>
+                    </div>
+                    {/* <div style={{background: `url(../../images/headerarriba.png)`}} className="disconnected-top">
                     <div className="disconnected-top-image">
                         <img className="disconnected-user-avatar" style={{ width: isMobile ? "150px" : "200px"}} src={streamerData.avatar} />
                     </div>
+
                     <div className="disconnected-top-profile">
                         <div style={{position: "relative", top: isMobile ? "-20px" : "-30px"}}>
                             <h1 style={{fontFamily: "Poppins", fontSize: isMobile ? "55px" : "75px", lineHeight: "73px", display: "flex", alignItems: "center"}}>{streamerData.name} {streamerData && streamerData.verified && <Emblem style={{marginLeft: "10px", marginTop: "-15px", borderRadius: "2px"}} imageWidth={"25px"} name="Verificado" img="/images/emblem/verificado.jpg" />}</h1>
@@ -286,11 +301,6 @@ export default function Disconnected({isMobile}) {
                         
 
 
-                        {/*token && <button style={{zIndex: "9999"}} onClick={() => onMouseEnterOptions()} className="disconnected-button-add">
-                            +
-                            {dropdownOptions && <OptionsDropdown closeNavbar={() => setDropdownOptions(false)} />}
-
-           </button>*/}
 
                     </div>
 
@@ -322,19 +332,20 @@ export default function Disconnected({isMobile}) {
 
                     {getType()}
                     
+                </div> */}
                 </div>
-            </div>
-        )}
+            )
+        }
     }
 
 
 
     return (
         <div className="disconnected-body">
-           
+
             {renderProfile()}
-            
-            {showPopupFollowers === true && <PopupFollowers typeDefault={typeFollowers} closePopup={() => togglePopupFollowers()} streamer={streamer}/>}
+
+            {showPopupFollowers === true && <PopupFollowers typeDefault={typeFollowers} closePopup={() => togglePopupFollowers()} streamer={streamer} />}
 
         </div>
     )

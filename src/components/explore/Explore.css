@@ -1,14 +1,14 @@
 .explore-body {
     background-color: transparent;
     width: 100%;
-    min-height: 3500px;
+
 }
 
 .explore-container {
     width: 95%;
     margin: 0 auto;
     position: relative;
-    top: 30px;
+    top: 10px;
 }
 
 

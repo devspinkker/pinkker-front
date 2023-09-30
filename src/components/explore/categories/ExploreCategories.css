@@ -6,3 +6,7 @@
     margin-top: 10px;
     width: 100%;
 }
+.filtros:hover{
+    cursor: pointer;
+    background-color: rgba(243, 97, 150, 0.2);
+}

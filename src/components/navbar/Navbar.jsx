@@ -26,10 +26,11 @@ import DropdownLang from './DropdownLang';
 
 import Skeleton from '@mui/material/Skeleton';
 
-import { Link } from "react-router-dom"
+import { Link ,useLocation} from "react-router-dom"
 
 function Navbar({ socketMain, tyExpanded, expanded, handleMessage, isMobile }) {
 
+  const location = useLocation()
   const auth = useSelector(state => state.auth)
   const { user, isLogged } = auth
   const token = useSelector(state => state.token)
@@ -258,7 +259,7 @@ function Navbar({ socketMain, tyExpanded, expanded, handleMessage, isMobile }) {
             <div style={{ display: "flex", alignItems: "center", position: "relative", left: isLogged ? "20px" : "0px" }}>
 
 
-              {isLogged && <div style={{ display: "flex", alignItems: "center",gap: '15px'}}>
+              {isLogged && <div style={{ display: "flex", alignItems: "center", gap: '15px' }}>
 
                 {/* {isMobile && searchMobile === false && 
                   <li onClick={() => setSearchMobile(true)} style={{marginRight: "5px", marginLeft: "3px", position: "relative", top: "-5px", left: "5px"}} className={'nav-item-' + theme.theme + " pinkker-button-more"}>
@@ -285,7 +286,7 @@ function Navbar({ socketMain, tyExpanded, expanded, handleMessage, isMobile }) {
 
 
                 {searchMobile === true && <Tippy placement="bottom" theme="pinkker" content={<h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>Notificaciones</h1>}>
-                  <li onClick={onMouseEnterNotifications}  className={'nav-item-' + theme.theme + " pinkker-button-more"}>
+                  <li onClick={onMouseEnterNotifications} className={'nav-item-' + theme.theme + " pinkker-button-more"}>
                     <a className={"nav-links-" + theme.theme} onClick={closeMobileMenu}>
                       {donations && donations.length != 0 && <div className='navbar-numbers'>{donations.length}</div>}
                       <img style={{ width: isMobile ? "30px" : "17px" }} src="/images/iconos/notificacion.png" />
@@ -301,6 +302,10 @@ function Navbar({ socketMain, tyExpanded, expanded, handleMessage, isMobile }) {
                     </a>
                   </li>
                 </Tippy>}
+                {
+                  isLogged && !isMobile &&
+                  userLink()
+                }
 
 
                 {/* {searchMobile === false && <button className='button-purchase-pixels' onClick={onMouseEnterPurchase}><img style={{width: isMobile ? "25px" : "17px", marginRight: "5px"}} src="/images/pixel.png" alt="" /> Comprar Pixeles</button>} */}
@@ -360,7 +365,12 @@ function Navbar({ socketMain, tyExpanded, expanded, handleMessage, isMobile }) {
 
   return (
     <>
-      {getNavbar()}
+      {
+        location?.pathname == '/' ?
+          getNavbar()
+
+          : null
+      }
     </>
   );
 }

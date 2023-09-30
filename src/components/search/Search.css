@@ -1,7 +1,7 @@
 .search-body {
     background-color: transparent;
     width: 100%;
-    min-height: 3500px;
+    min-height: max-content;
 }
 
 .search-container {

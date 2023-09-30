@@ -85,10 +85,10 @@
 
     @media screen and (max-width: 758px) {
       .dropdownsearch-menu {
-        width: 180%;
+        max-width: 100%;
         top: 60px;
         z-index: 200;
-  
+        height: 100vh;
       }
 
       .dropdownsearch-menu li {

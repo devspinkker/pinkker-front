@@ -59,9 +59,7 @@ export default function Explore({ isMobile }) {
     return (
         <div className="explore-body">
             <div className="explore-container">
-                <div className="explore-title">
-                    <h2>Explorar</h2>
-                </div>
+                
 
                 <ExploreCategories isMobile={isMobile}/>
 

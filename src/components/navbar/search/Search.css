@@ -9,7 +9,7 @@
     margin-top: 5px;
     height: 35px;
     border: 2px solid #3f3f3f;
-    border-radius: 50px;
+    border-radius: 17px;
   }
 
   .navbar-search-dark:hover {
@@ -73,8 +73,14 @@
   }
   @media screen and (max-width: 768px) {
     .navbar-search-dark {
-      width: 100%;
-      left: 40px;
+      width: 100% !important;
+      left: 0px !important;
       margin-left: 0px;
+    }
+    .navbar-search-margin{
+      margin-bottom: 0px  !important;
+      left: 0px !important;
+      width: 100% !important;
+      height: 50px !important;
     }
   }

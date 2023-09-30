@@ -23,7 +23,7 @@ export default function Card(props) {
     getTagsWithLimit(props.tags, 2);
 
     async function getTagsWithLimit (tag, limit) {
-        for(let i = 0; i < tag.length; i++) {
+        for(let i = 0; i < tag?.length; i++) {
             if(i < limit) {
                 tags.push(tag[i])
             }
@@ -36,7 +36,7 @@ export default function Card(props) {
 
         if(image) {
             return (
-                <div style={{position: props.isLoading && "absolute", opacity: props.isLoading && "0", width: props.width ? props.width : "140px", margin: '3px' }} className="home-categories-card">
+                <div style={{position: props.isLoading && "absolute", opacity: props.isLoading && "0", width: props.width ? props.width : "140px", margin: '3px', height: props?.height }} className="home-categories-card">
                     <div className="home-categories-card-contain">
                         <Link to={"/categorie/" + props.name}><img style={{width:'100%'}} src={props.image} loading={"lazy"} alt="" /></Link>
                     </div>

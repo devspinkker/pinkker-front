@@ -203,7 +203,7 @@ export default function NavbarLeft({isMobile, tyExpand, tyExpanded, setExpanded,
                         
                         <Link onClick={() => activeNormal = 2}  className="navbarleft-link" to="/plataform/explore" >
                             <li style={{backgroundColor: activeNormal === 2 && "#3b3b3b", borderLeft: activeNormal === 2 && "3px solid #f36196"}} class={activeNormal === 2 ? "navbaraccount-li has-subnav nav-active" : "navbaraccount-li has-subnav"}>
-                                <div style={{width: "75px", textAlign: "center", color: "white"}}>
+                                <div style={{width: "30%", textAlign: "center", color: "white"}}>
                                     <i class="fab fa-google-play" />
                                 </div>
                                 <span class="nav-text">
@@ -214,19 +214,19 @@ export default function NavbarLeft({isMobile, tyExpand, tyExpanded, setExpanded,
 
                         <Link onClick={() => activeNormal = 1} className="navbarleft-link" to="/plataform/tendency" >
                             <li style={{backgroundColor: activeNormal === 1 && "#3b3b3b", borderLeft: activeNormal === 1 && "3px solid #f36196"}} class={activeNormal === 1 ? "navbaraccount-li has-subnav nav-active" : "navbaraccount-li has-subnav"}>
-                                <div style={{width: "75px", textAlign: "center"}}>
+                                <div style={{width: "30%", textAlign: "center"}}>
                                     <img style={{width: "18px"}} src="/images/iconos/navbar/tendencia.png" />
                                 </div>
                                 <span class="nav-text">
-                                    Tendencias <a style={{backgroundColor: "rgb(249, 24, 128)", padding: "2px", borderRadius: "3px", fontSize: "9px", color: "#ededed"}}>HOT</a>
+                                    Tendencias 
                                 </span>
                             </li>
                         </Link>
 
                         <Link onClick={() => activeNormal = 5} className="navbarleft-link" to="/plataform/tendency" >
                             <li style={{backgroundColor: activeNormal === 5 && "#3b3b3b", borderLeft: activeNormal === 5 && "3px solid #f36196"}} class={activeNormal === 5 ? "navbaraccount-li has-subnav nav-active" : "navbaraccount-li has-subnav"}>
-                                <div style={{width: "75px", textAlign: "center", color: "white"}}>
-                                    <i style={{position: "relative", left: "7px"}} class="fas fa-images" />
+                                <div style={{width: "30%", textAlign: "center", color: "white"}}>
+                                    <i style={{position: "relative", left: "5px"}} class="fas fa-images" />
                                 </div>
                                 <span class="nav-text">
                                     Galeria
@@ -236,7 +236,7 @@ export default function NavbarLeft({isMobile, tyExpand, tyExpanded, setExpanded,
 
                         <Link onClick={() => activeNormal = 3}  className="navbarleft-link" to="/plataform/clips" >
                             <li style={{backgroundColor: activeNormal === 3 && "#3b3b3b", borderLeft: activeNormal === 3 && "3px solid #f36196"}} class={activeNormal === 3 ? "navbaraccount-li has-subnav nav-active" : "navbaraccount-li has-subnav"}>
-                                <div style={{width: "75px", textAlign: "center"}}>
+                                <div style={{width: "30%", textAlign: "center"}}>
                                     <img style={{width: "18px"}} src="/images/iconos/navbar/clips.png" />
                                 </div>
                                 <span class="nav-text">
@@ -247,7 +247,7 @@ export default function NavbarLeft({isMobile, tyExpand, tyExpanded, setExpanded,
 
                         <Link onClick={() => activeNormal = 4}  className="navbarleft-link" to="/plataform/muro" >
                             <li style={{backgroundColor: activeNormal === 4 && "#3b3b3b", borderLeft: activeNormal === 4 && "3px solid #f36196"}} class={activeNormal === 4 ? "navbaraccount-li has-subnav nav-active" : "navbaraccount-li has-subnav"}>
-                                <div style={{width: "75px", textAlign: "center"}}>
+                                <div style={{width: "30%", textAlign: "center"}}>
                                     <img style={{width: "18px"}} src="/images/iconos/navbar/muro.png" />
                                 </div>
                                 <span class="nav-text">

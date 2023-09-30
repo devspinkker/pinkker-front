@@ -63,7 +63,7 @@ export default function NavbarLeftMobile({ streamer }) {
         {
           isLogged &&
           <div className="navbar-left-mobile-card">
-            <Link style={{ textDecoration: "none", color: active === 5 ? "#ff60b2" : "white" }}  to={`/${streamer}/settings`}>    
+            <Link style={{ textDecoration: "none", color: active === 5 ? "#ff60b2" : "white" }}  to={`/${streamer}`}>    
                 <img src={user.avatar} alt="" style={{width:'70px', height:'70px', borderRadius:'50%'}} />
                 {/* <h1 style={{ fontSize: "22px", fontFamily: "Cairo" }}>Perfil</h1>               */}
             </Link>

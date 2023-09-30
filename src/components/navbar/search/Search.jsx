@@ -147,9 +147,9 @@ export default function Search({isMobile}) {
     return (
         <div ref={divRef} className={search === null ? 'navbar-search-'+ theme.theme + ' navbar-search-margin' : 'navbar-search-'+ theme.theme}>
 
-            <div style={{display: "flex", alignItems: "center"}}>
+            <div style={{display: "flex", alignItems: "center", height: isMobile ? '50px' : ''}}>
                 <i style={{fontSize: "16px"}} class="fas fa-search navbar-search-i"/>
-                <input style={{fontSize: "12px"}} value={text} onClickCapture={handleMouseEnter} onKeyDown={handleKey} onChange={handleChange} placeholder='¿Que quieres buscar?' type="search" />
+                <input style={{fontSize: "16px"}} value={text} onClickCapture={handleMouseEnter} onKeyDown={handleKey} onChange={handleChange} placeholder='Buscar' type="search" />
             </div>
           
 
