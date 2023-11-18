@@ -1,0 +1,41 @@
+.channel-gallery-body {
+    width: 95%;
+    margin: 0 auto;
+    min-height: 500px;
+    display: flex;
+    color: #ededed;
+}
+
+.channel-gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.channel-gallery-card {
+    max-width: 285px;
+    min-width: 285px;
+    height: 285px;
+    margin-top: 20px;
+    margin-right: 25px;
+    position: relative;
+    cursor: pointer;
+}
+
+.channel-gallery-image-pinkker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 285px;
+    height: 285px;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    box-shadow: -1px 1px 224px 0px rgba(0,0,0,0.75) inset;
+    opacity: 0;
+}
+
+.channel-gallery-card:hover .channel-gallery-image-pinkker {
+    opacity: 1;
+
+}

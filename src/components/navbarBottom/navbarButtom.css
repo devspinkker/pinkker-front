@@ -1,0 +1,38 @@
+.navbar-buttom {
+    width: 88.5%;
+    margin-left: 11.5%;
+    height: 65px;
+    top: 93%;
+    background: rgb(243,97,150);
+    background: linear-gradient(90deg, rgb(194, 56, 107) 0%, rgba(171,59,99,1) 35%, rgb(197, 53, 106) 69%, rgba(255,33,113,1) 100%);    
+    position: fixed;
+    z-index: 9999;
+    color: #ededed;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px black;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-boton {
+    padding: 7px;
+    border: none;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.navbar-boton:hover {
+    background-color: rgb(204, 204, 204);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar-buttom {
+        width: 92%;
+        margin-left: 8%;
+        top: 94%;
+    }
+}

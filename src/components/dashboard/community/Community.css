@@ -1,0 +1,108 @@
+.dashboard-community-body {
+    width: 100%;
+    min-height: 1000px;
+    background-color:#0a0b0d;
+
+}
+
+.dashboard-community-container {
+    width: 95%;
+    margin: 0 auto;
+    color: #ededed;
+}
+
+
+.dashboard-community-card-container {
+    width: 100%;
+    min-height: 400px;
+    margin-top: 20px;
+    display: flex;
+}
+
+.dashboard-community-card {
+    min-width: 20%;
+    max-width: 20%;
+    background-color: #161616;
+    border-radius: 5px;
+    height: 200px;
+    cursor: pointer;
+    margin-right: 10px;
+
+}
+
+.dashboard-community-card-image {
+    width: 100%;
+    text-align: center;
+}
+
+
+.dashboard-community-card:hover {
+    background-color: #303030;
+}
+
+.dashboard-community-card-hover {
+    opacity: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.dashboard-community-card:hover .dashboard-community-card-hover {
+    opacity: 1;
+}
+
+
+.dashboard-content-emotes-container {
+    background-color: #151515;
+    width: 50%;
+    padding: 20px;
+    height: 500px;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+}
+
+.dashboard-content-emotes {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.dashboard-content-emotes-image {
+    width: 40px;
+    height: 40px;
+    margin-top: 20px;
+    background-color: #303030;
+    padding: 10px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-content-emotes-image img{
+    max-width: 40px;
+}
+
+.dashboard-content-emotes-image i {
+    opacity: 0;
+}
+
+.dashboard-content-emotes-image:hover i{
+    opacity: 1;
+    cursor: pointer;
+}
+
+.dashboard-content-emotes-empty {
+    width: 40px;
+    height: 40px;
+    margin-top: 20px;
+    padding: 10px;
+    border-style: dashed;
+    border-color: #303030;
+    border-width: 1px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

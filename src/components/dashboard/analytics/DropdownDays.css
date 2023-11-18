@@ -1,0 +1,20 @@
+.dropdowndays-body {
+    width: 150px;
+    position: absolute;
+    right: 0;
+    top: 90px;
+    background-color: #151515;
+    border-radius: 5px;
+}
+
+.dropdowndays-body p {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdowndays-body p:hover {
+    background-color: #303030;
+}

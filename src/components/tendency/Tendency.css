@@ -1,0 +1,34 @@
+.tendency-body {
+    width: 100%;
+    min-height: 1000px;
+    background-color: transparent;
+}
+
+.tendency-container {
+    width: 95%;
+    min-height: 1000px;
+    margin: 0 auto;
+    display: block;
+    justify-content: left;
+    position: relative;
+    margin-left: 6%;
+    margin-top: 2%;
+
+}
+
+.tendency-title {
+    display: flex;
+    align-items: center;
+    color: #ededed;
+
+}
+
+.tendency-card-container {
+    margin-top: 100px;
+}
+
+@media screen and (max-width: 758px) {
+    .tendency-body {
+        min-height: 1500px;
+    }
+}

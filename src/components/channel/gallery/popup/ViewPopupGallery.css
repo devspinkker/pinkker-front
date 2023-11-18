@@ -1,0 +1,177 @@
+.popupgallery-view-popup-body {
+    position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	background-color: rgba(0,0,0, 0.5);
+    z-index: 9999;
+   
+}
+
+.popupgallery-view-popup-container {
+    width: 70%;
+    height: 750px;
+	margin: auto;
+    padding: 30px;
+	text-align: center;
+	background: #18181b;
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+    display: flex;
+    align-items: center;
+}
+
+.popupgallery-view-primary {
+    width: 70%;
+    height: 750px;
+    padding: 10px;
+}
+
+.popupgallery-view-secondary {
+    width: 30%;
+    padding: 10px;
+    height: 750px;
+}
+
+.popupgallery-view-secondary-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+.popupgallery-view-secondary-comments-container {
+    margin-top: 50px;
+    height: 475px;
+}
+
+.popupgallery-view-secondary-comments-card {
+    margin-top: 20px;
+    text-align: left;
+}
+
+
+.popupgallery-view-secondary-icons {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.popupgallery-view-input-container {
+    display: flex;
+    align-items: center;
+    background-color: rgb(65, 65, 65);
+    padding: 4px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.popupgallery-view-input {
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    border-radius: 3px;
+    width: 80%;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+    outline: none;
+}
+
+
+
+.popupgallery-view-icon-publish {
+    width: 18px;
+    border-radius: 3px;
+    height: 18px;
+    padding: 5px;
+    background-color: #ff60b2;
+}
+
+
+
+
+.usersettings-popup-close {
+    display: flex;
+    justify-content: right;
+    
+}
+
+.usersettings-popup-close button{
+    border: none;
+    color: #ededed;
+    cursor: pointer;
+    background-color: blue;
+}
+
+
+.popupgallery-view-loadfile {
+    width: 100%;
+    background-color: red;
+    height: 30%;
+    top: 190px;
+    left: 0;
+    position: absolute;
+    opacity: 0;
+}
+
+
+.usersettings-crop-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-color: #333;
+
+}
+
+
+.usersettings-crop-input-container {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.usersettings-crop-input-container input{
+    width: 70%;
+}
+
+
+  .usersettings-popup-cancel {
+      width: 75px;
+      padding: 7px;
+      background-color: #333;
+      color: #ededed;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+
+  .usersettings-popup-save {
+    width: 75px;
+    padding: 7px;
+    background-color: #ff60b2;
+    color: #ededed;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.popupgallery-view-button {
+    background-color: #ff60b2;
+    color: white;
+    font-weight: 800;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popupgallery-view-button:hover {
+    background-color: #bd3b7e;
+}

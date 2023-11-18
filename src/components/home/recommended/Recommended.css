@@ -1,0 +1,23 @@
+.home-recommended {
+    width: 95%;
+    margin: 0 auto;
+    min-height: 520px;
+    margin-top: 20px;
+}
+.home-recommended-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    color: #8a8a8ab9;
+    height: 100% !important;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    .home-recommended {
+        width: 100%;
+        padding-bottom: 15% !important;
+    }
+
+
+}

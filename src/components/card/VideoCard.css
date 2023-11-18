@@ -1,0 +1,347 @@
+.videocard-body {
+    min-width: 290px;
+    max-width: 290px;
+    position: relative;
+    top: 0px;
+    margin-top: 25px;
+    margin-right: 15px;
+    margin-left: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+
+.videocard-online {
+    font-size: 14px;
+    position: absolute;
+    margin-top: 10px;
+    left: 10px;
+    width: 30%;
+    background-color: rgb(249, 24, 128);
+    color: #ededed;
+    text-align: center;
+    border-radius: 5px;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    padding: 2px;
+    z-index: 10;
+}
+
+.videocard-entrar {
+    font-size: 14px;
+    position: absolute;
+    bottom: 10px;
+    right: 25px;
+    width: 15%;
+    background-color: rgb(249, 24, 128);
+    color: #ededed;
+    text-align: center;
+    border-radius: 5px;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    padding: 2px;
+    z-index: 10;
+}
+
+.videocard-spectator {
+    font-size: 14px;
+    position: absolute;
+    left: 10px;
+    width: 15%;
+    background-color: rgba(0, 0, 0, 0.74);
+    color: #ededed;
+    text-align: center;
+    border-radius: 3px;
+    padding: 2px;
+    z-index: 9999;
+}
+
+.videocard-container {
+    width: 100%;
+}
+
+.videocard-body p {
+    color: darkgray;
+}
+
+.videocard-h3 a {
+    color: #ededed;
+}
+
+.videocard-h3 a:hover {
+    width: 100%;
+    color: #f36196;
+}
+
+
+.videocard-container .videocard-image {
+    transition: 0.4s all;
+}
+
+.videocard-hover-ellipsis {
+    opacity: 0;
+
+}
+
+.videocard-body:hover .videocard-hover-ellipsis {
+    opacity: 1;
+}
+
+.videocard-body-big:hover .videocard-hover-ellipsis {
+    opacity: 1;
+}
+
+.videocard-container:hover .videocard-image {
+    color: #ff693d;
+    font-weight: bold;
+    box-shadow: #f36196 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+    cursor: pointer;
+}
+
+.videocard-container:hover img {
+    color: #ff693d;
+    font-weight: bold;
+    box-shadow: #f36196 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+    cursor: pointer;
+    transition: 0.4s all;
+}
+
+
+.videocard-body .videocard-spectator {
+    transition: 0.4s all;
+}
+
+.videocard-container:hover .videocard-spectator {
+    transform: translate3d(6px, -6px, 0);
+    transition: 0.4s all;
+}
+
+.videocard-body .videocard-online {
+    transition: 0.4s all;
+}
+
+.videocard-container:hover .videocard-online {
+    transform: translate3d(6px, -6px, 0);
+    transition: 0.4s all;
+}
+
+.video-tag {
+    background-color: rgb(17, 17, 17);
+    color: rgb(204, 204, 204);
+    border-radius: 2px;
+    padding: 4px;
+    letter-spacing: 0.7px;
+    text-align: center;
+    font-size: 8.9px;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    margin-right: 5px;
+    font-family: ProximaNova, Arial, Tahoma, PingFangSC, sans-serif;
+}
+
+.boost-tag {
+    background-color: #d70026;
+    color: rgb(255, 255, 255);
+    border-radius: 2px;
+    padding: 3px;
+    text-align: center;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+
+@keyframes ps1 {
+    0% {
+        box-shadow: 1px 1px 5px 1px rgba(255, 0, 0, 0.568)
+    }
+
+    50% {
+        box-shadow: 1px 1px 5px 1px rgba(255, 0, 0, 0.623)
+    }
+
+    75% {
+        box-shadow: 1px 1px 5px 1px rgba(255, 0, 0, 0.767)
+    }
+
+    100% {
+        box-shadow: 1px 1px 5px 1px rgba(255, 0, 0, 0.568)
+    }
+}
+
+/* BIG */
+
+
+.videocard-body-big {
+    min-width: 100%;
+    max-width: 100%;
+    position: relative;
+    top: 0px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+
+.videocard-online-big {
+    font-size: 12px;
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    width: 80px;
+    background-color: rgb(249, 24, 128);
+    color: #ededed;
+    text-align: center;
+    border-radius: 5px;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    padding: 2px;
+    z-index: 10;
+    transition: 0.4s all;
+
+}
+
+.videocard-spectator-big {
+    font-size: 12px;
+    position: absolute;
+    top: 385px;
+    left: 10px;
+    width: 100px;
+    padding: 3px;
+    background-color: rgba(0, 0, 0, 0.74);
+    color: #ededed;
+    text-align: center;
+    border-radius: 3px;
+    z-index: 10;
+    transition: 0.4s all;
+}
+
+.videocard-container-big {
+    width: 100%;
+}
+
+
+
+.videocard-body-big p {
+    color: darkgray;
+}
+
+
+
+.videocard-container-big .videocard-image {
+    transition: 0.4s all;
+
+}
+
+
+.videocard-container-big:hover .videocard-image {
+    color: #ff693d;
+    font-weight: bold;
+    box-shadow: #f36196 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+    cursor: pointer;
+}
+
+.home-categories-container-card-contain img {
+    transition: 0.4s all;
+}
+
+.videocard-container-big:hover img {
+    color: #ff693d;
+    font-weight: bold;
+    box-shadow: #f36196 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+    cursor: pointer;
+    transition: 0.4s all;
+}
+
+
+
+
+.videocard-body-big .videocard-spectator-big {
+    transition: 0.4s all;
+}
+
+.videocard-container-big:hover .videocard-spectator-big {
+    transform: translate3d(6px, -6px, 0);
+    transition: 0.4s all;
+}
+
+.videocard-body-big .videocard-online-big {
+    transition: 0.4s all;
+}
+
+.videocard-container-big:hover .videocard-online-big {
+    transform: translate3d(6px, -6px, 0);
+    transition: 0.4s all;
+}
+
+
+
+
+
+
+/* */
+
+
+
+
+.videocard-streamer-image-container {
+    width: 55px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+}
+
+.videocard-streamer-image {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s all;
+}
+
+
+.videocard-streamer-image img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50px;
+    background-color: #040404;
+    position: relative;
+    object-fit: cover;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+    .videocard-body-big {
+        min-width: 90%;
+        max-width: 90%;
+    }
+
+    .videocard-body {
+        max-width: 100%;
+    }
+
+    .videocard-container {
+        width: 100% !important;
+    }
+
+    .videocard-spectator-big {
+        top: 270px;
+    }
+
+    .videocard-spectator {
+        top: 90%;
+    }
+}

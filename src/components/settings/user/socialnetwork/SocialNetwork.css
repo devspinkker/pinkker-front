@@ -1,0 +1,64 @@
+.socialnetwork-body {
+    width: 50%;
+    margin-top: 50px;
+}
+
+.socialnetwork-container {
+    width: 100%;
+    background-color: #0404048f;
+    border-radius: 5px;
+    margin-top: 10px;
+    height: 375px;
+}
+
+
+
+.socialnetwork-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 65px;
+    background-color: #0404048f;
+    margin-top: -1px;
+}
+
+.socialnetwork-input {
+    width: 80%;
+}
+
+
+.socialnetwork-input input{
+    width: 80%;
+    background-color: #303030;
+    border: none;
+    padding: 10px;
+    outline: none;
+    color: white;
+    border-end-end-radius: 5px;
+    border-top-right-radius: 5px;
+    font-weight: 600;
+}
+
+.socialnetwork-input input:focus {
+    background-color: #000000;
+    border: 1px solid #ff60b2;
+}
+
+
+.socialnetwork-button {
+    padding: 7px;
+    background-color: #ff60b2;
+    color: white;
+    font-family: 'Montserrat';
+    font-size: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 758px) {
+    .socialnetwork-body{
+        width: 100%;
+    }
+}

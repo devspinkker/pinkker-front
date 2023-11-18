@@ -1,0 +1,22 @@
+.layout {
+    width: 88.6%;
+    margin-left: 11.4%;
+    background-color: #0e0e10;
+    position: relative;
+    transition: 0.15s;
+
+}
+
+.layout-expanded{
+    width: 98%;
+    margin-left: 2%;
+    background-color: #0e0e10;
+    position: relative;
+    transition: 0.15s;
+
+}
+
+
+@media screen and (max-width: 1000px) {
+    
+}

@@ -1,0 +1,15 @@
+.comment-answer-input {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.comment-answer-input input{
+    border: none;
+    padding: 3px;
+    width: 60%;
+    border-bottom: 1px solid white;
+    background-color: transparent;
+    color: white;
+    outline: none;
+}

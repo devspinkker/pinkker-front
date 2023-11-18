@@ -1,0 +1,54 @@
+.followerscard-body {
+    width: 90%;
+    height: 45px;
+    margin: 0 auto;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+
+.followerscard-button {
+    width: 100px;
+    padding: 5px;
+    background-color: transparent;
+    border: 1px solid #f36196;
+    color: #ededed;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.followerscard-button:hover {
+    background-color: #762543;
+ }
+
+.followerscard-button-unfollow {
+    background-color: transparent;
+    border: 1px solid #ff60b2;
+    width: 100px;
+    padding: 5px;
+    color: #ededed;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 5px;
+ }
+ 
+ 
+.followerscard-button-unfollow:hover {
+    width: 120px;
+    background-color: #d700271c;
+    border: 1px solid #d70026;
+    color: #d70026;
+}
+
+
+.followerscard-body p:hover {
+    filter: brightness(69%);
+}

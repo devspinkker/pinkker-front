@@ -1,0 +1,197 @@
+.createnegocio-body {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	background-color: rgba(0,0,0, 0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.createnegocio-primary {
+    width: 20%;
+    height: 650px;
+    padding: 30px;
+	background: #18181b;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+
+}
+
+.createnegocio-secundary {
+    width: 20%;
+    height: 650px;
+    padding: 30px;
+    text-align: center;
+    background: #1f1f23;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+}
+
+
+.createnegocio-primary-type1 {
+    width: 20%;
+    height: 600px;
+    padding: 30px;
+    background-color: brown;
+    background: #18181b;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+
+}
+
+.createnegocio-secundary-type1 {
+    width: 20%;
+    height: 600px;
+    padding: 30px;
+    text-align: center;
+    background: #1f1f23;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+}
+
+.createnegocio-close {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    position: relative;
+    left: 55px;
+    top: -20px;
+}
+
+.createnegocio-close button{
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.createnegocio-title {
+    width: 100%;
+	font-family: 'Poppins';
+    display: flex;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 16px;
+    border-top: 1px solid rgb(41, 41, 41);
+}
+
+.createnegocio-title-card {
+    width: 20%;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.createnegocio-title-card.active {
+   border-top: 1px solid #AE0026;
+}
+
+.createnegocio-content {
+    color: white;
+    margin: 30px;
+    text-align: left;
+}
+
+
+.createnegocio-content-input {
+    width: 100%;
+    margin: 15px auto;
+}
+
+.createnegocio-content-input p{
+    font-weight: 300;
+    font-size: 14px;
+    text-align: justify;
+}
+.createnegocio-content input{
+    background-color: rgb(65, 65, 65);
+    border: none;
+    padding: 7px;
+    width: 95%;
+    font-size: 12px;
+    border-radius: 5px;
+    color: white;
+}
+
+.createnegocio-content input:hover{
+    outline: 1px solid rgb(92, 92, 92);
+   
+}
+
+.createnegocio-content select{
+    background-color: rgb(65, 65, 65);
+    border: none;
+    padding: 5px;
+    width: 104%;
+    border-radius: 5px;
+    color: white;
+    transition: 0.5s all;
+}
+
+.input-error{
+    background-color: rgb(0, 0, 0);
+    outline: 1px solid #EB0400;
+}
+
+
+.createnegocio-content input:focus{
+    background-color: rgb(0, 0, 0);
+    outline: 1px solid #ff60b2;
+}
+
+.createnegocio-content select:focus{
+    background-color: rgb(0, 0, 0);
+    outline: 1px solid #ff60b2;
+}
+
+.createnegocio-button-login {
+    margin-top: 20px;
+    width: 105px;
+    padding: 5px;
+    background-color: transparent;
+    border: 1px solid #f36196;
+    color: #ededed;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+.createnegocio-button-login:hover {
+    background-color: #762543;
+}
+
+
+.createnegocio-info-type1-content {
+    margin-top: 100px;
+}
+
+@media screen and (max-width: 1000px) {
+
+    .createnegocio-primary {
+        width: 80%;
+        min-height: 750px;
+    
+    }
+
+    .createnegocio-secundary {
+       display: none;
+    }
+
+    .createnegocio-secundary-type1 {
+        display: none;
+    }
+    
+}

@@ -1,0 +1,139 @@
+.disconnected-body {
+    width: 100%;
+    min-height: 2500px;    
+}
+
+.disconnected-top {
+    width: 100%;
+    height: 300px;
+    background: rgb(121,69,126);
+    background: linear-gradient(90deg, rgba(121,69,126,1) 0%, rgba(114,9,121,1) 35%, rgba(169,19,187,1) 69%, rgba(124,4,91,1) 100%);
+    display: flex;
+    align-items: center;
+    z-index: 500;
+}
+
+.disconnected-shadow {
+    opacity: 1;
+    width: 100%;
+    position: relative;
+    transition: 0.5s all;
+    position: relative;
+    overflow: hidden;
+    z-index: 600;
+}
+
+.disconnected-top-image {
+    height: 60px;
+    width: 17%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    z-index: 1000;
+}
+
+.disconnected-top-image img {
+    border-radius: 200px;
+    box-shadow: 0.5px 0.5px 15px rgba(0, 0, 0, 0.79);
+   
+}
+
+
+.disconnected-top-profile {
+    margin-left: 20px;
+    height: 220px;
+    background-color: #101010de;
+    padding: 20px;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+
+}
+
+.disconnected-secondary {
+    height: 300px;
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 20px;
+    
+}
+
+.disconnected-buttons-container {
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+
+}
+
+.disconnected-button-follow {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    padding: 10px;
+    width: 100px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Poppins";
+    letter-spacing: 1px;
+    z-index: 1000;
+
+}
+
+.disconnected-button-follow:hover {
+    border: 2px solid white;
+    padding: 9px;
+}
+
+.disconnected-button-add {
+    width: 30px;
+    height: 30px;
+    background-color: #f36196;
+    font-size: 16px;
+    color: white;
+    font-weight: 600;
+    margin-left: 10px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+
+}
+
+.disconnected-button-add:hover {
+    background-color: #bd3b7e;
+}
+
+.disconnected-top-profile {
+    text-shadow: 1px 1px 1px rgb(0, 0, 0);
+}
+
+.disconnected-top-profile h1{
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.261);
+}
+
+.disconnected-top-profile p{
+    color: darkgray;
+}
+
+.disconnected-top-profile p:hover {
+    filter: brightness(69%);
+}
+
+.disconnected-url-link:hover {
+    border-bottom: 1px solid #ff60b2;
+}
+
+
+@media screen and (max-width: 768px) {
+    .disconnected-top-image {
+        width: 100px;
+    }
+
+    .disconnected-top-profile {
+        width: 450px;
+        height: 200px;
+    }
+}

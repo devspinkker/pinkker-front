@@ -1,0 +1,91 @@
+.userinfo-body {
+    width: 99%;
+    min-height: 300px;
+    background-color: #18181b;
+    position: absolute;
+    border-radius: 5px;
+    cursor: move;
+    z-index: 99999;
+    border: 1px solid #ffffff1a;
+
+}
+
+.userinfo-background-overlay {
+    background-color: rgba(255, 255, 255, 0.158);
+    height: 95px;
+    width: 100%;
+    left: 0px;
+    top: 0;
+    position: absolute;
+    opacity: 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.userinfo-navbar:hover .userinfo-background-overlay {
+    opacity: 1;
+}
+
+.userinfo-navbar {
+    height: 95px;
+    padding: 10px;
+    border-radius: 5px;
+
+}
+
+.userinfo-close {
+    display: flex;
+    justify-content: right;
+}
+
+.userinfo-info {
+    display: flex;
+    align-items: center;
+}
+
+.userinfo-button {
+    background-color: #ff60b2;
+    color: #ededed;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    padding: 7px;
+    margin-top: 10px;
+    border-radius: 3px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.userinfo-sub-button {
+    background-color: #9147ff;
+    color: #ededed;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    padding: 7px;
+    margin-top: 10px;
+    border-radius: 3px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.userinfo-sub-button:hover {
+    background-color: #5b12c9;
+}
+
+.userinfo-emblem-container {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.emblem-card {
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.emblem-card:hover {
+    background-color: #303030;
+}

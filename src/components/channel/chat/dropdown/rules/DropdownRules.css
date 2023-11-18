@@ -1,0 +1,109 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.dropdownrules-menu {
+    position: absolute;
+    margin-top: -150px;
+    left: 0px;
+    width: 342px;
+    height: 303px;
+    display: flex;
+    background: #0a0a0afc;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 10px;
+    border: 1px solid #15151563;
+    overflow: scroll;
+    overflow-x:hidden;
+    border-bottom: 1px solid #ffffff1a;
+    z-index: 1000;
+  }
+
+  .dropdownrules-menu:hover {
+    overflow-y: scroll;
+  }
+    
+    .dropdownrules-menu li {
+      cursor: pointer;
+      font-size: 13px;
+      border-radius: 5px;
+    }
+    
+    .dropdownrules-menu i {
+      transition: 0.3s all;
+
+    }
+
+    .dropdownrules-menu li:hover .dropdownrules-content i{
+      transform: translateY(-3px);
+    }
+
+    .dropdownrules-menu li:hover {
+      background: #2e2e2e;
+    }
+    
+    .dropdownrules-menu.clicked {
+      display: none;
+    }
+    
+    .dropdownrules-link {
+      display: flex;
+      justify-content: center;
+      font-family: "Poppins";
+      height: 100%;
+      width: 100%;
+      text-decoration: none;
+      color: #fff;
+      padding: 5px;
+    }
+
+    .dropdownrules-button {
+      background: none;
+      border: none;
+      width: 80%;
+      font-family: 'Montserrat';
+      font-weight: 800;
+      height: 100%;
+      padding: 16px;
+      color: #ededed;
+      cursor: pointer;
+
+    }
+
+    .dropdownrules-content {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      justify-content: space-between;
+      color: #ededed;
+      font-family: 'Montserrat';
+      font-weight: 800;
+    }
+
+    .dropdownrules-button-okay {
+        width: 80%;
+        margin: 0 auto;
+        padding: 5px;
+        font-size: 14px;
+        font-family: "Poppins";
+        color: #ededed;
+        background-color: #ff60b2;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+
+    
+    @media screen and (max-width: 960px) {
+  
+      .dropdownrules-menu {
+        width: 220%;
+        top: 60px;
+        z-index: 200;
+  
+      }
+  
+      .fa-caret-down {
+        display: none;
+      }
+    }

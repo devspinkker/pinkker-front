@@ -1,0 +1,108 @@
+.form-container {
+    display: flex;
+    background: #18181b;
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, .651);
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 15%;
+    text-align: center;
+    top: 25%;
+    width: 20%;
+    z-index: 9999;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+form {
+    display: flex;
+    background: #18181b;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    bottom: 25%;
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, .651);
+    left: 0;
+    /* margin: auto; */
+    padding: 30px;
+    position: absolute;
+    right: 15%;
+    text-align: center;
+    top: 25%;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+label {
+    display: block;
+
+    input,
+    textarea,
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        box-sizing: border-box;
+    }
+
+    input[type="checkbox"] {
+        margin-right: 5px;
+    }
+
+    div {
+        display: flex;
+        align-items: center;
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+    }
+}
+
+label {
+    color: white;
+}
+
+.auth-contentOAuth2callback {
+    background-color: #414141;
+    padding: 10px;
+}
+
+
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+}
+
+
+
+.OAuth2Login {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.OAuth2Login-button {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1.25;
+    color: #fff;
+    border: none;
+    width: 100%;
+    text-align: center;
+}

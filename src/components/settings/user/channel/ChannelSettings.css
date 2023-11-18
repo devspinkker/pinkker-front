@@ -1,0 +1,50 @@
+.usersettings-channel-body {
+    height: 800px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.usersettings-channel-container {
+
+}
+
+.usersettings-channel-card {
+    width: 70%;
+}
+
+.usersettings-channel-card-content {
+    background-color: #0404048f;
+    width: 90%;
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #ffffff1a;
+}
+
+.usersettings-channel-card-content-card {
+    padding: 20px;
+    border-bottom: 1px solid #ffffff1a;
+    min-height: 50px;
+    display: flex;
+}
+
+.usersettings-channel-card-content-card-title {
+    width: 30%;
+}
+
+.usersettings-channel-card-content-card-text {
+    width: 55%;
+}
+
+.usersettings-channel-card-content-card-edit {
+    width: 15%;
+}
+
+@media screen and (max-width: 758px) {
+    .usersettings-channel-card {
+        width: 100%;
+    }
+
+    .usersettings-channel-card-content {
+        width: 100%;
+    }
+}

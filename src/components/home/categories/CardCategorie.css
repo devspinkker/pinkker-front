@@ -1,0 +1,145 @@
+.custom-categories {
+    width: 95%;
+    margin: 0 auto;
+    min-height: 300px;
+    margin-top: 20px;
+    z-index: 10000;
+}
+
+.custom-categories-card-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.custom-categories-card {
+    width: 25% !important;
+    margin-top: 8px !important;
+    max-width: 700px;
+    min-width: 343px;
+    height: auto;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.custom-categories-card img {
+    transition: 0.3s all;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.custom-categories-card-contain:hover img {
+    color: #ff693d;
+    font-weight: bold;
+    box-shadow: #f36196 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+    cursor: pointer;
+}
+
+.custom-categories-p-1 {
+    width: 100%;
+    color: #ededed;
+}
+
+.custom-categories-link-hover {
+    color: white;
+}
+
+.custom-categories-link-hover:hover {
+    color: #f36196;
+}
+
+.custom-categories-p-1:hover {
+    color: #f36196;
+}
+
+.custom-categories-p-2 {
+    color: darkgray;
+}
+
+.custom-categories-p-2 p:hover {
+    color: #f36196;
+}
+
+.text-remarcado:hover {
+    border-bottom: 1px solid #f36196;
+    cursor: pointer;
+}
+
+.custom-categories-card-tag-container {
+    display: flex;
+    align-items: center;
+}
+
+.custom-card-tag {
+    background-color: #30353f;
+    border-radius: 7px;
+    color: rgb(204, 204, 204);
+    padding: 5px;
+    margin-top: 5px;
+    letter-spacing: 0.7px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    margin-right: 5px;
+    font-family: ProximaNova, Arial, Tahoma, PingFangSC, sans-serif;
+}
+
+.custom-card-tag:hover {
+    background-color: #1c1d1f;
+}
+
+.custom-carousel {
+    background-color: red;
+    height: 300px;
+}
+
+.styles-module_carousel-arrow__26sRw {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .custom-categories {
+        width: 90%;
+    }
+
+    .custom-categories-card {
+        display: flex;
+        align-items: center;
+        padding: 5px 0px;
+    }
+
+    .user_data_contain {
+        display: flex;
+        margin-left: 12px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .custom-categories {
+        width: 90%;
+    }
+}
+
+.user_data_contain {
+    display: flex;
+}
+
+.img-categorie-card {
+    width: 100%;
+}
+
+.custom-categories-p-1-name {
+    font-size: 15px;
+    font-family: Inter, sans-serif;
+    cursor: pointer;
+    font-weight: 300;
+    letter-spacing: 0.6px;
+    margin-top: 3px;
+}

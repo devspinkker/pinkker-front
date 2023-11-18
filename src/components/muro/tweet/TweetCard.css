@@ -1,0 +1,191 @@
+.tweetcard-body {
+    width: 97.8%;
+    min-height: 75px;
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #ffffff1a;
+    z-index: 1000;
+}
+
+.tweetcard-container {
+    width: 97.8%;
+    min-height: 75px;
+    display: flex;
+    z-index: 1000;
+    cursor: pointer;
+
+}
+
+.tweetcard-open-tweet {
+    position: absolute;
+    height: 55px;
+    width: 650px;
+}
+
+.tweetcard-body:hover {
+    background-color: #141414a7;
+}
+
+.tweetcard-avatar {
+    width: 18%;
+    text-align: center;
+}
+
+.tweetcard-primary {
+    color: white;
+    width: 80%;
+    position: relative;
+    left: -10px;
+}
+
+.tweetcard-icons {
+    width: 80%;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tweetcard-icon {
+    color: lightgray;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tweetcard-icon-comment {
+    color: lightgray;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tweetcard-icon-comment i {
+    padding: 5px;
+    border-radius: 50px;
+    transition: 0.5s;
+
+}
+
+.tweetcard-icon-comment:hover i {
+    background-color: rgba(46, 220, 255, 0.315);
+}
+
+.tweetcard-icon-comment:hover {
+    color: rgb(46, 220, 255);
+}
+
+
+.tweetcard-icon-retweet {
+    color: lightgray;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tweetcard-icon-retweet i {
+    padding: 5px;
+    border-radius: 50px;
+    transition: 0.5s;
+
+}
+
+.tweetcard-icon-retweet:hover i {
+    background-color: rgba(46, 255, 60, 0.315);
+
+}
+
+
+.tweetcard-icon-retweet:hover {
+    color: rgb(46, 255, 60);
+}
+
+.tweetcard-icon-like {
+    color: lightgray;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.tweetcard-icon-like i {
+    padding: 5px;
+    border-radius: 50px;
+    transition: 0.5s;
+
+}
+
+.tweetcard-icon-like:hover i {
+    background-color: rgba(255, 46, 46, 0.315);
+}
+
+
+
+.tweetcard-icon-like:hover {
+    color: rgb(255, 46, 46);
+}
+
+.tweetcard-icon-share {
+    color: lightgray;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.tweetcard-icon-share i {
+    padding: 5px;
+    border-radius: 50px;
+    transition: 0.5s;
+
+}
+
+.tweetcard-icon-share:hover i {
+    background-color: rgba(46, 238, 255, 0.315);
+}
+
+
+.tweetcard-icon-share:hover {
+    color: rgb(46, 238, 255);
+}
+
+
+.like-btn-svg {
+    width: 80px;
+    height: 100px;
+    position: absolute;
+    left: 25px;
+    bottom: 0;
+    /* temp value */
+    transform: translate(-50%, -50%);
+    background: url(https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png) no-repeat;
+    background-position: 0 0;
+    cursor: pointer;
+}
+
+.like-btn-svg.animate {
+    transition: background 1s steps(28);
+    animation: fave-like-btn-svg 1s steps(28);
+    background-position: -2800px 0;
+}
+
+@keyframes fave-like-btn-svg {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: -2800px 0;
+    }
+}
+
+.tweetcard-citetweet {
+    width: 95%;
+    min-height: 75px;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #ffffff1a;
+    text-align: left;
+    color: white;
+}

@@ -1,0 +1,91 @@
+.analytics-body{
+    width: 100%;
+    min-height: 1000px;
+    background-color:#0a0b0d;
+
+}
+
+.analytics-container {
+    width: 60%;
+    margin: 0 auto;
+    position: relative;
+    color: #ededed;
+}
+
+
+.analytics-primary {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.analytics-primary-card {
+    background-color: #202020;
+    width: 205px;
+    margin: 5px;
+    padding: 20px;
+    height: 85px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.analytics-primary-card:hover {
+    background-color: #303030;
+}
+
+.analytics-clips {
+    width: 100%;
+    height: 300px;
+    display: flex;
+
+}
+
+.analytics-clips-card {
+    width: 350px;
+    height: 265px;
+    padding: 10px;
+    margin: 5px;
+    background-color: #202020;
+    display: flex;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.analytics-clips-card:hover {
+    background-color: #303030;
+}
+
+
+
+.analytics-vods {
+    width: 100%;
+    height: 300px;
+    display: flex;
+
+}
+
+.analytics-vods-card {
+    width: 225px;
+    height: 265px;
+    padding: 10px;
+    margin: 5px;
+    background-color: #202020;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.analytics-vods-card:hover {
+    background-color: #303030;
+}
+
+.analytics-type-stats {
+    height: 350px;
+}
+
+rect {
+    fill: #202020;
+    text: white;
+    border-radius: 5px;
+}
