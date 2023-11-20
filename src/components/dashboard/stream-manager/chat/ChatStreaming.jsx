@@ -9,7 +9,7 @@ export function ChatStreaming({ OnechatId }) {
   useEffect(() => {
     const connectWebSocket = () => {
       const newSocket = new WebSocket(
-        `ws://localhost:8080/ws/chatStreaming/${OnechatId}/bruno2`
+        `ws://https://pinkker-chat-czpr.4.us-1.fl0.io/ws/chatStreaming/${OnechatId}/bruno2`
       );
 
       newSocket.onmessage = (event) => {
