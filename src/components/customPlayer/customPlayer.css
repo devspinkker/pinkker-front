@@ -157,6 +157,8 @@
   background-color: transparent;
   z-index: 10;
   left: 6px;
+  width: 100%;
+  height: -webkit-fill-available;
 }
 
 .customPlayer-sound {
@@ -197,8 +199,8 @@
     position: relative;
     background-color: transparent;
     z-index: 10;
-    width: -webkit-fill-available;
-    left: 6px;
+    width: 100%;
+    height: -webkit-fill-available;
   }
 
   .customPlayer-sound {

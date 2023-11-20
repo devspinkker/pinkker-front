@@ -199,9 +199,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                                 userSe.keyTransmission.substring(
                                   4,
                                   userSe.keyTransmission.length
-                                ) +
-                                  "?token=" +
-                                  userSe.cmt
+                                )
                             )
                           }
                           className="button-copy"
@@ -428,9 +426,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                             userSe.keyTransmission.substring(
                               4,
                               userSe.keyTransmission.length
-                            ) +
-                              "?token=" +
-                              userSe.cmt
+                            )
                           }
                           className="settingstream-input"
                           style={{ width: "90%", fontSize: "11px" }}
@@ -471,9 +467,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                                   userSe.keyTransmission.substring(
                                     4,
                                     userSe.keyTransmission.length
-                                  ) +
-                                    "?token=" +
-                                    userSe.cmt
+                                  )
                               )
                             }
                             className="button-copy"

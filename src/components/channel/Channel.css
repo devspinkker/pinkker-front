@@ -51,7 +51,7 @@
     background-color: #171a1f;
     transition: 0.15s;
     overflow-y: auto;
-    z-index: 100000;
+    z-index: 1000;
 }
 
 .channel-info {

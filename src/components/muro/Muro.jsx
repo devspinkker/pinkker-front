@@ -61,7 +61,9 @@ export default function Muro({ isMobile }) {
   }, []);
 
   async function PostGetsf() {
+    console.log("data");
     const data = await PostGets();
+    console.log(data);
     setTweets(data.data);
   }
   useEffect(() => {

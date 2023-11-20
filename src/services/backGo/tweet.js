@@ -39,12 +39,7 @@ export const PostGetFollow25h = async () => {
 
 export const PostGets = async () => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    const res = await axios.get(`${url}/post/PostGets`, config);
+    const res = await axios.get(`${url}/post/PostGets`);
     return res.data;
   } catch (error) {
     console.error("Error in PostGets:", error);

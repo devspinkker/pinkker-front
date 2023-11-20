@@ -15,7 +15,6 @@ import {
 
 export default function TweetCard({ tweet }) {
   const auth = useSelector((state) => state.auth);
-  const { user, isLogged } = auth;
   const token = useSelector((state) => state.token);
 
   const [popupTweetView, setPopupTweetView] = useState(false);

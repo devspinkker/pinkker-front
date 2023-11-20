@@ -272,7 +272,7 @@ export default function Channel({
       //   setStreamerFollowers(dataFollowers);
       // }
       const dataStreamer = await getUserByNameUser(streamer);
-      if (dataStreamer.data.NameUser == streamer) {
+      if (dataStreamer?.message == "ok") {
         setStreamerData(dataStreamer.data);
       }
       let loggedUser = window.localStorage.getItem("_id");
@@ -1097,7 +1097,7 @@ export default function Channel({
     }
 
     if (type === 1) {
-      return <Muro streamer={streamer} limit={4} sort={1} />;
+      return <Muro streamer={streamerData?.id} limit={4} sort={1} />;
     }
 
     if (type === 2) {

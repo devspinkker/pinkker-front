@@ -5,79 +5,64 @@ interface ReactHlsPlayerProps {
   src: string;
   autoPlay?: boolean;
   muted?: boolean;
-  videoRef: React.RefObject<HTMLVideoElement>; 
+  videoRef: React.RefObject<HTMLVideoElement>;
 }
 
 function ReactHlsPlayer({ src, autoPlay = false, muted = false, videoRef }: ReactHlsPlayerProps) {
   const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
-    console.log(src);
-    
     let hls: Hls | null = null;
 
-    function initPlayer() {
-      if (hls !== null) {
-        hls.destroy();
-      }
+    async function initPlayer() {
+      if (Hls.isSupported()) {
+        hls = new Hls();
+        hlsRef.current = hls;
 
-      const newHls = new Hls({
-        enableWorker: false,
-      });
+        if (videoRef.current) {
+        
+          hls.loadSource(src);
+          hls.attachMedia(videoRef.current);
 
-      if (videoRef.current !== null) {
-        newHls.attachMedia(videoRef.current);
-      }
-
-      newHls.on(Hls.Events.MEDIA_ATTACHED, () => {
-        newHls.loadSource(src);
-
-        newHls.on(Hls.Events.MANIFEST_PARSED, () => {
-          if (autoPlay) {
-            videoRef.current?.play().catch(() => {
-              console.error('Unable to autoplay prior to user interaction with the dom.');
-            });
-          }
-
-          if (videoRef.current !== null) {
-            videoRef.current.muted = muted ?? false;
-          }
-        });
-      });
-
-      newHls.on(Hls.Events.ERROR, (event, data) => {
-        if (data.fatal) {
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              newHls.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              newHls.recoverMediaError();
-              break;
-            default:
-              initPlayer();
-              break;
-          }
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            
+            if (autoPlay) {
+              videoRef.current?.play().catch((error) => {
+                console.error('Error during video playback:', error);
+              });
+            }
+ 
+            if (videoRef.current) {
+              videoRef.current.muted = muted ?? false;
+            }
+          });
         }
-      });
+      } else if (videoRef.current) {
+        // Fallback to standard video tag if Hls is not supported
+        alert('Tu navegador no es compatible con Hls.js. Se usará el reproductor de video estándar.');
+        videoRef.current.src = src;
+        videoRef.current.load();
 
-      hls = newHls;
-      hlsRef.current = newHls;
+        if (autoPlay) {
+          videoRef.current.play().catch((error) => {
+            console.error('Error during video playback:', error);
+          });
+        }
+
+        videoRef.current.muted = muted ?? false;
+      }
     }
 
-    if (Hls.isSupported()) {
-      initPlayer();
-    }
+    initPlayer();
 
     return () => {
-      if (hls !== null) {
+      if (hls) {
         hls.destroy();
       }
     };
-  }, [src, autoPlay, muted]);
+  }, [src, autoPlay, muted, videoRef]);
 
   return <video autoPlay={true} playsInline ref={videoRef} />;
-  // ref={playerRef} src={src} autoPlay={autoPlay} {...props} webkit-playsinline playsInline
 }
 
 export default ReactHlsPlayer;

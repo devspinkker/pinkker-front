@@ -66,11 +66,8 @@ export async function getUserByIdTheToken(token) {
 }
 export async function getUserByNameUser(nameUser) {
     try {
-        const response = await axios.get(`${baseURL}/user/getUserByNameUser?nameUser=${nameUser}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const response = await axios.get(`${baseURL}/user/getUserByNameUser?nameUser=${nameUser}`);
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Error en getUserById:', error.message);

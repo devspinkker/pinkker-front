@@ -82,10 +82,10 @@ export const getTweetFollowing = async (token, page, limit) => {
   }
 };
 
-export const getTweetUser = async (name, page, limit) => {
+export const getTweetUser = async (id, page, limit) => {
   try {
     let response = await axios.get(
-      `${url}/get_tweets_user?name=${name}&page=${page}&limit=${limit}`,
+      `${url}/post/get_tweets_user?id=${id}&page=${page}&limit=${limit}`,
       {}
     );
     return response.data;

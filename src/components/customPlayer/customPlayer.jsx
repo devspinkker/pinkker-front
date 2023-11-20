@@ -181,14 +181,16 @@ export default function CustomPlayer({
 
   const toggleFullScreen = () => {
     var el = document.getElementById("pinkker-player");
-    if (el.requestFullscreen) {
-      el.requestFullscreen();
-    } else if (el.msRequestFullscreen) {
-      el.msRequestFullscreen();
-    } else if (el.mozRequestFullScreen) {
-      el.mozRequestFullScreen();
-    } else if (el.webkitRequestFullscreen) {
-      el.webkitRequestFullscreen();
+    if (el) {
+      if (el.requestFullscreen) {
+        el.requestFullscreen();
+      } else if (el.msRequestFullscreen) {
+        el.msRequestFullscreen();
+      } else if (el.mozRequestFullScreen) {
+        el.mozRequestFullScreen();
+      } else if (el.webkitRequestFullscreen) {
+        el.webkitRequestFullscreen();
+      }
     }
   };
 
@@ -231,6 +233,9 @@ export default function CustomPlayer({
   }
 
   function getHlsPlayer() {
+    // if (isMobile) {
+    //   return <video style={{position: "relative", top: "60px"}} id="pinkker-player" playerRef={videoRef} src={video} autoPlay={true} muted controls={false} width="100%" height="729px"/>
+    // }
     return (
       <ReactHlsPlayer
         id="pinkker-player"
