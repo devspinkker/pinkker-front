@@ -37,7 +37,6 @@ export default function ExploreCategories({ isMobile }) {
       }
       const getCategoriesWithLimitData = await getCategoriesWithLimit();
       if (getCategoriesWithLimitData?.message == "ok") {
-        console.log(getCategoriesWithLimitData.data);
         setCategories(getCategoriesWithLimitData.data);
       }
     };

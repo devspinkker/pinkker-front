@@ -32,7 +32,6 @@ export default function Categories({ isMobile }) {
   useEffect(() => {
     const fetchData = async () => {
       const result = await getCategoriesWithLimit();
-      console.log(result);
       if (result != null && result != undefined) {
         setCategories(result.data);
         setIsLoading(false);

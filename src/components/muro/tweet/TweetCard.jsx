@@ -40,11 +40,9 @@ export default function TweetCard({ tweet }) {
   const handleLike = async () => {
     let token = window.localStorage.getItem("token");
     let idUser = window.localStorage.getItem("_id");
-    console.log(idUser);
     if (token) {
       setToken(token);
       if (tweet.Likes.includes(idUser)) {
-        console.log(tweet._id);
         setIsLiked(!isLiked);
         await DislikePost({ idPost: tweet._id });
       } else {

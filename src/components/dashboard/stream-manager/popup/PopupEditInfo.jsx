@@ -36,11 +36,11 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    setTitle(stream.stream_title);
-    setNotification(stream.stream_notification);
-    setCategory(stream.stream_category);
-    setTag(stream.stream_tag);
-    setIdiom(stream.stream_idiom);
+    setTitle(stream?.stream_title);
+    setNotification(stream?.stream_notification);
+    setCategory(stream?.stream_category);
+    setTag(stream?.stream_tag);
+    setIdiom(stream?.stream_idiom);
     // async function fetchData() {
     //   const res2 = await getAllCategories(token);
     //   if (res2 != null && res2 != undefined) {
@@ -86,8 +86,8 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
   const getTagOptions = async () => {
     if (stream != null && stream != undefined) {
       await tagsOptions.map((tag2) => {
-        if (!stream.stream_tag.includes(tag2.name)) {
-          if (!tag.includes(tag2.name)) {
+        if (!stream.stream_tag?.includes(tag2.name)) {
+          if (!tag?.includes(tag2.name)) {
             tagsOp.push({ name: tag2.name, value: tag2.name });
           }
         }
@@ -105,11 +105,11 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
   };
 
   const onChangeTag = async (e) => {
-    if (tag.includes(e)) {
+    if (tag?.includes(e)) {
       return;
     }
 
-    if (tag.length === 4) {
+    if (tag?.length === 4) {
       return;
     }
 
@@ -119,7 +119,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
   };
 
   const removeTag = async (e) => {
-    if (!tag.includes(e)) {
+    if (!tag?.includes(e)) {
       return;
     }
     const [...newTag] = tag;
@@ -163,7 +163,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
                 <p style={{ fontSize: "13px", color: "lightgray" }}>
                   te quedan{" "}
                   <a style={{ color: "#ff60b2" }}>
-                    {30 - title.length} caracteres.
+                    {30 - title?.length} caracteres.
                   </a>
                 </p>
               </div>
@@ -201,7 +201,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
                 <p style={{ fontSize: "13px", color: "lightgray" }}>
                   te quedan{" "}
                   <a style={{ color: "#ff60b2" }}>
-                    {30 - notification.length} caracteres.
+                    {30 - notification?.length} caracteres.
                   </a>
                 </p>
               </div>
@@ -268,7 +268,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
                   alignItems: "center",
                 }}
               >
-                {tag.map((t) => (
+                {tag?.map((t) => (
                   <p
                     onClick={() => removeTag(t)}
                     className="tags-p gray-button"

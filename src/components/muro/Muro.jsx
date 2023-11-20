@@ -88,7 +88,6 @@ export default function Muro({ isMobile }) {
           setMessage("");
           setImage(null);
           const res = await PostCreate(formData);
-          console.log(res);
         }
       } catch (error) {
         console.log(error);

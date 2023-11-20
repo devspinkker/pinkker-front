@@ -6,10 +6,8 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
 import { Link } from "react-router-dom";
-import io from "socket.io-client";
 
 import DropdownSettings from "../home/dropdown/DropdownSettings";
-import Chat from "../channel/chat/Chat";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -47,15 +45,13 @@ export default function VideoCard(props) {
   const ENDPOINT = process.env.REACT_APP_DEV_CHAT_URL;
 
   useEffect(() => {
-    const unlisten = history.listen(() => {
-      socket.emit("removeUser", { room: streamer }, () => {});
-
-      socket.disconnect();
-    });
-
-    return () => {
-      unlisten();
-    };
+    // const unlisten = history.listen(() => {
+    //   socket.emit("removeUser", { room: streamer }, () => {});
+    //   socket.disconnect();
+    // });
+    // return () => {
+    //   unlisten();
+    // };
   }, [history]);
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
@@ -63,7 +59,7 @@ export default function VideoCard(props) {
     const name = user.name;
     const room = streamer;
 
-    socket = io(ENDPOINT);
+    // socket = io(ENDPOINT);
 
     setName(name);
     setRoom(room);
@@ -100,108 +96,74 @@ export default function VideoCard(props) {
     if (props.big === true) {
       return (
         <>
-          <div style={props.style} className="videocard-body">
+          {" "}
+          <div className="content-streamer-img-follow-content">
+            <Link
+              style={{ textDecoration: "none", cursor: "pointer" }}
+              to={"/" + props.streamer}
+            >
+              <div className="videocard-streamer-image">
+                <img
+                  src={
+                    props.streamerImage
+                      ? props.streamerImage
+                      : "/images/pinkker-stream.png"
+                  }
+                  alt=""
+                />
+                {dropdownSettings && (
+                  <DropdownSettings
+                    closeNavbar={() => toggleDropdownSettings()}
+                  />
+                )}
+              </div>
+            </Link>
             <div
               style={{
                 display: "flex",
-                gap: "10px",
-                alignItems: "center",
-                flexDirection: " column",
-                marginBottom: "10px",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                width: "100%",
+                justifyContent: "center",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  width: "100%",
-                  gap: "15px",
-                }}
+              <Link
+                style={{ textDecoration: "none", cursor: "pointer" }}
+                to={"/" + props.streamer}
               >
-                <Link
-                  style={{ textDecoration: "none", cursor: "pointer" }}
-                  to={"/" + props.streamer}
-                >
-                  <div className="videocard-streamer-image">
-                    <img
-                      src={
-                        props.streamerImage
-                          ? props.streamerImage
-                          : "/images/pinkker-stream.png"
-                      }
-                      alt=""
-                    />
-                    {dropdownSettings && (
-                      <DropdownSettings
-                        closeNavbar={() => toggleDropdownSettings()}
-                      />
-                    )}
-                  </div>
-                </Link>
-                <div
+                <span
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    width: "100%",
+                    color: "white",
+                    fontWeight: "800",
+                    fontSize: "24px",
                   }}
                 >
-                  <span
-                    style={{
-                      color: "white",
-                      fontWeight: "800",
-                      fontSize: "24px",
-                    }}
-                  >
-                    {props.streamer}
-                  </span>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      width: "100%",
-                    }}
-                  >
-                    <Link
-                      style={{ textDecoration: "none", cursor: "pointer" }}
-                      to={"/" + props.streamer}
-                    >
-                      <h3
-                        style={{
-                          fontSize: "16px",
-                          letterSpacing: "0.4px",
-                          color: "white",
-                        }}
-                      >
-                        {ellipsis(props.title, 25)}
-                      </h3>
-                    </Link>
-                    <i
-                      class="fa fa-ellipsis-h"
-                      aria-hidden="true"
-                      style={{
-                        backgroundColor: "#f36196",
-                        color: "white",
-                        padding: 5,
-                        fontSize: "14px",
-                        borderRadius: "15%",
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
+                  {props.streamer}
+                </span>
+              </Link>
               <div
                 style={{
-                  width: "100%",
                   display: "flex",
-                  flexDirection: "column",
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <Link
-                  style={{ textDecoration: "none", cursor: "pointer" }}
-                  to={"/" + props.streamer}
+                <h3
+                  style={{
+                    color: "white",
+                    width: "-webkit-fill-available",
+                  }}
+                >
+                  {ellipsis(props.title, 25)}
+                </h3>
+
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
                 >
                   <div
                     style={{
@@ -216,27 +178,40 @@ export default function VideoCard(props) {
                       <p
                         style={{
                           fontSize: "14px",
-                          backgroundColor: "#f36196",
+                          // backgroundColor: "#f36196",
                           borderRadius: "15%",
                           paddingLeft: 15,
                           paddingRight: 15,
-                          color: "white",
+                          color: "#f36196",
                         }}
                       >
                         {tags}
                       </p>
                     ))}
                   </div>
-                </Link>
+                </div>
               </div>
             </div>
+            <div className="fa-ellipsis-h-cont">
+              <span class="fafa-ellipsis-h" aria-hidden="true">
+                seguir
+              </span>
+            </div>
+          </div>
+          <div style={props.style} className="videocard-body">
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                alignItems: "center",
+                flexDirection: " column",
+                marginBottom: "10px",
+              }}
+            ></div>
 
             <div className="videocard-container">
               <h4 className="videocard-online">EN DIRECTO</h4>
               <h3 className="videocard-entrar">ENTRAR</h3>
-              <p style={{ color: "#ededed" }} className="videocard-spectator">
-                {props.viewers} espectadores
-              </p>
 
               <Link
                 style={{ textDecoration: "none", cursor: "default" }}
@@ -244,10 +219,10 @@ export default function VideoCard(props) {
               >
                 <div className="home-categories-container-card-contain">
                   <img
-                    style={{
-                      width: props.isMobile ? "100%" : "290px",
-                      borderRadius: "5px",
-                    }}
+                    // style={{
+                    //   width: props.isMobile ? "102%" : "290px",
+                    //   borderRadius: "5px",
+                    // }}
                     src={
                       props.image ? props.image : "/images/pinkker-stream.png"
                     }
@@ -257,7 +232,14 @@ export default function VideoCard(props) {
               </Link>
             </div>
           </div>
-          <Chat
+          <div className="conteiner-info-viewers">
+            <p style={{ color: "#ededed" }} className="videocard-spectator">
+              espectadores {props.viewers}
+            </p>
+            <i style={{ color: "white" }} className="fas fa-retweet" />
+            <i style={{ color: "white" }} className="fas fa-retweet" />
+          </div>
+          {/* <Chat
             external={true}
             isMobile={props.isMobile}
             socket={socket}
@@ -269,7 +251,7 @@ export default function VideoCard(props) {
             handleAnnounce={() => handleAnnounce()}
             setUserSuscripted={setUserSuscripted}
             setSuscribers={setSuscribers}
-          />
+          /> */}
         </>
       );
     } else {

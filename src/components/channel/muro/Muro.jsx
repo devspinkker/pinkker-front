@@ -1,30 +1,28 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react";
 
-import "./Muro.css"
+import "./Muro.css";
 
-import { useSelector } from "react-redux"
-import { ScaleLoader } from "react-spinners"
+import { useSelector } from "react-redux";
+import { ScaleLoader } from "react-spinners";
 
-import TweetCard from "../../muro/tweet/TweetCard"
-import { getTweetUser, getUserFollow } from "../../../services/tweet"
+import TweetCard from "../../muro/tweet/TweetCard";
+import { getTweetUser, getUserFollow } from "../../../services/tweet";
 
-import FollowCard from "../../muro/FollowCard"
+import FollowCard from "../../muro/FollowCard";
 
-export default function Muro({streamer}) {
+export default function Muro({ streamer }) {
+  const auth = useSelector((state) => state.auth);
+  const { user, isLogged } = auth;
+  const token = useSelector((state) => state.token);
 
-    const auth = useSelector(state => state.auth)
-    const {user, isLogged} = auth
-    const token = useSelector(state => state.token)
+  const [tweets, setTweets] = useState([]);
 
-    const [tweets, setTweets] = useState([])
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
+  const [userFollows, setUserFollows] = useState(false);
 
-    const [page, setPage] = useState(1)
-    const [loading, setLoading] = useState(true);
-    const [hasMore, setHasMore] = useState(false)
-    const [userFollows, setUserFollows] = useState(false);
-
-
-    /*useEffect(() => {
+  /*useEffect(() => {
         const fetchData = async () => {
             const data = await getTweetUser(streamer, page, 4)
             if(data != null && data != undefined) {
@@ -58,25 +56,24 @@ export default function Muro({streamer}) {
         }
     }, [token])*/
 
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [tweets]);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [tweets]);
 
-    const handleScroll = async () => {
-        if (
-            window.innerHeight + document.documentElement.scrollTop + 1 >=
-            document.documentElement.scrollHeight
-        ) {
-            setLoading(true);
-            setPage((prev) => prev + 1);
-        }
-        
-    };
+  const handleScroll = async () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.documentElement.scrollHeight
+    ) {
+      setLoading(true);
+      setPage((prev) => prev + 1);
+    }
+  };
 
-    return (
-        <div className="channel-muro-body">
-            {/*<div className="channel-muro-container">
+  return (
+    <div className="channel-muro-body">
+      {/*<div className="channel-muro-container">
                 <div style={{width: "90%"}} className="channel-muro-tweet-container">
                     <div style={{width: "95%", backgroundColor: "#0404048f", borderRadius: "10px"}}>
                         {tweets != null && tweets.map((tweet) => <TweetCard tweet={tweet}/>) }
@@ -100,6 +97,6 @@ export default function Muro({streamer}) {
 
                 </div>
                     </div>*/}
-        </div>
-    )
+    </div>
+  );
 }

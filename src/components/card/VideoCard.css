@@ -11,6 +11,33 @@
     flex-direction: column-reverse;
 }
 
+.content-streamer-img-follow-content {
+    display: flex;
+    width: 100%;
+    gap: 15px;
+}
+
+.fa-ellipsis-h-cont {
+    display: flex;
+    align-items: center;
+    width: 114px;
+    justify-content: flex-end;
+}
+
+.fafa-ellipsis-h {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    background-color: #f61980;
+    color: white;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 5%;
+
+}
+
+.conteiner-info-viewers {}
 
 .videocard-online {
     font-size: 14px;
@@ -44,8 +71,13 @@
     z-index: 10;
 }
 
-.videocard-spectator {
-    font-size: 14px;
+.conteiner-info-viewers {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* font-size: 14px;
     position: absolute;
     left: 10px;
     width: 15%;
@@ -54,8 +86,8 @@
     text-align: center;
     border-radius: 3px;
     padding: 2px;
-    z-index: 9999;
-}
+    z-index: 9999; 
+ } */
 
 .videocard-container {
     width: 100%;
@@ -260,9 +292,6 @@
     transition: 0.4s all;
 }
 
-
-
-
 .videocard-body-big .videocard-spectator-big {
     transition: 0.4s all;
 }
@@ -322,6 +351,10 @@
 
 
 
+.home-categories-container-card-contain>img {
+    width: 290px;
+    border-radius: 5px;
+}
 
 @media screen and (max-width: 768px) {
     .videocard-body-big {
@@ -343,5 +376,10 @@
 
     .videocard-spectator {
         top: 90%;
+    }
+
+    .home-categories-container-card-contain>img {
+        width: 102%;
+        margin-left: -10px;
     }
 }

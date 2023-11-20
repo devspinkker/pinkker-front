@@ -34,7 +34,6 @@ import GeneralChat from "../components/message/general/GeneralChat";
 import Content from "../components/dashboard/content/Content";
 import Community from "../components/dashboard/community/Community";
 
-import { io } from "socket.io-client";
 import Admin from "../components/admin/Admin";
 import Muro from "../components/muro/Muro";
 import ClipsMain from "../components/clips/main/ClipsMain";
@@ -51,9 +50,6 @@ import ResetPassword from "../components/auth/ResetPassword";
 import { getUserByIdTheToken } from "../services/backGo/user";
 
 const AppRouter = () => {
-  const token = useSelector((state) => state.token);
-  const auth = useSelector((state) => state.auth);
-
   const [expanded, setExpanded] = useState(true);
   const [socketMain, setSocketMain] = useState(null);
   const [user, setUser] = useState({});
@@ -77,10 +73,6 @@ const AppRouter = () => {
   }, []);
 
   const isMobile = width <= 768;
-
-  useEffect(() => {
-    setSocketMain(io(process.env.REACT_APP_DEV_CHATMESSAGE_URL));
-  }, []);
 
   useEffect(() => {
     if (user.name != null && user.name != undefined) {
@@ -118,7 +110,6 @@ const AppRouter = () => {
     async function getUser() {
       let token = window.localStorage.getItem("token");
       let res = await getUserByIdTheToken(token);
-      console.log(res);
       if (res.message == "ok") {
         setUser(res.data);
       }

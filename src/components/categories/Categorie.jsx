@@ -66,7 +66,6 @@ export default function Categorie() {
       if (response != null && response != undefined) {
         setCategorie(response);
       }
-      console.log(categorieName);
       const responseStreams = await getStreamsByCategory(categorieName, 1);
 
       if (responseStreams != null && responseStreams.message == "ok") {

@@ -133,7 +133,7 @@ export default function NavbarLeft({
                       }
                     : { borderRadius: "100px", width: "40px" }
                 }
-                src={user.Avatar}
+                src={user?.Avatar}
                 alt=""
               />
             </div>
@@ -151,7 +151,7 @@ export default function NavbarLeft({
               <h1
                 style={{ fontSize: "18px", marginTop: "5px", color: "#ededed" }}
               >
-                {user.Followers && user.Followers.length}
+                {user?.Followers && user?.Followers.length}
               </h1>
               <p
                 style={{
@@ -177,7 +177,7 @@ export default function NavbarLeft({
           />
 
           <Link
-            to={"/" + user.NameUser + "/dashboard/home"}
+            to={"/" + user?.NameUser + "/dashboard/home"}
             onClick={() => (activeNormal = 0)}
             className="navbarleft-link"
           >
@@ -210,7 +210,7 @@ export default function NavbarLeft({
           </Link>
 
           <Link
-            to={"/" + user.NameUser + "/dashboard/streammanager"}
+            to={"/" + user?.NameUser + "/dashboard/streammanager"}
             onClick={() => (activeNormal = 1)}
             className="navbarleft-link"
           >
@@ -278,7 +278,7 @@ export default function NavbarLeft({
                         </li>
         </Link>*/}
 
-          {user.role === 1 && (
+          {/* {user.role === 1 && (
             <Link
               to={"/admin/general"}
               onClick={() => (activeNormal = 6)}
@@ -311,7 +311,7 @@ export default function NavbarLeft({
                 </span>
               </li>
             </Link>
-          )}
+          )} */}
         </div>
       );
     } else {

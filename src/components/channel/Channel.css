@@ -45,12 +45,13 @@
 }
 
 .channel-chat {
-    width: 18.5%;
+    height: -webkit-fill-available;
     position: fixed;
     right: 0;
     background-color: #171a1f;
     transition: 0.15s;
-
+    overflow-y: auto;
+    z-index: 100000;
 }
 
 .channel-info {

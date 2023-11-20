@@ -90,7 +90,6 @@ export async function GetAllsStreamsOnline() {
 		const response = await axios.get(
 			`${baseURL}/stream/GetAllsStreamsOnline`
 		);
-		console.log(response.data);
 		return response.data;
 	} catch (error) {
 		console.error('Error en GetAllsStreamsOnline:', error.message);

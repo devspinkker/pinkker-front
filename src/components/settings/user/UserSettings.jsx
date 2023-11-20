@@ -41,16 +41,12 @@ export default function UserSettings({ isMobile }) {
 
   const changeAvatar = async (e) => {
     e.preventDefault();
-    console.log("SASA");
     try {
       const file = e.target.files[0];
       let formData = new FormData();
       formData.append("avatar", file);
       let token = window.localStorage.getItem("token");
-      console.log(token);
-      console.log(formData);
       const res = await editAvatar(token, formData);
-      console.log(res);
     } catch (err) {}
   };
 

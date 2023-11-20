@@ -22,7 +22,7 @@
     "flood-protection": "^1.0.1",
     "flv.js": "^1.6.2",
     "get-orientation": "^1.1.2",
-    "hls.js": "^1.2.0",
+    "hls.js": "^1.4.12",
     "npm": "^8.3.0",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",

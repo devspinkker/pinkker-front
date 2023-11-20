@@ -40,7 +40,6 @@ const Home = ({
   useEffect(() => {
     const fetchData = async () => {
       const response = await getCategoriesWithLimit(25);
-      console.log(response);
       if (response != null && response != undefined) {
         setStreams(response.data);
       }

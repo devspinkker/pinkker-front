@@ -117,7 +117,6 @@ export default function OAuth2callback() {
   };
 
   const handleAuthenticatedUser = (userData) => {
-    console.log("Usuario autenticado:", userData);
     window.localStorage.setItem("token", userData.data);
     window.localStorage.setItem("_id", userData._id);
     window.localStorage.setItem("avatar", userData.avatar);

@@ -46,8 +46,6 @@ import useChatMessage from "../../hooks/chatmessage/useChatMessage";
 
 import SuscriptionDropdown from "./dropdown/suscription/SuscriptionDropdown";
 
-import io from "socket.io-client";
-
 import { ScaleLoader } from "react-spinners";
 import Gallery from "./gallery/Gallery";
 
@@ -59,6 +57,7 @@ import Muro from "./muro/Muro";
 import NavbarLeft from "../navbarLeft/NavbarLeft";
 import { useHistory } from "react-router-dom";
 import { follow, unfollow } from "../../services/backGo/user";
+import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
 
 let socket;
 
@@ -171,15 +170,13 @@ export default function Channel({
   }, []);
 
   useEffect(() => {
-    const unlisten = history.listen(() => {
-      socket.emit("removeUser", { room: streamer }, () => {});
-
-      socket.disconnect();
-    });
-
-    return () => {
-      unlisten();
-    };
+    // const unlisten = history.listen(() => {
+    //   // socket.emit("removeUser", { room: streamer }, () => {});
+    //   // socket.disconnect();
+    // });
+    // return () => {
+    //   unlisten();
+    // };
   }, [history]);
 
   useEffect(() => {
@@ -196,15 +193,7 @@ export default function Channel({
     }
   }, []);
 
-  const loadDataOnlyOnce = () => {
-    const name = user.name;
-    const room = streamer;
-
-    socket = io(ENDPOINT);
-
-    setName(name);
-    setRoom(room);
-  };
+  const loadDataOnlyOnce = () => {};
 
   function togglePopupFollowers(typeDefault) {
     setTypeFollowers(typeDefault);
@@ -286,8 +275,6 @@ export default function Channel({
       if (dataStreamer.data.NameUser == streamer) {
         setStreamerData(dataStreamer.data);
       }
-      console.log(dataStreamer);
-      console.log(dataStreamer.data.Followers);
       let loggedUser = window.localStorage.getItem("_id");
       if (dataStreamer.data.Followers.includes(loggedUser)) {
         setFollowParam(true);
@@ -1255,31 +1242,11 @@ export default function Channel({
       return chatExpanded ? "100%" : "100%";
     }
 
-    return chatExpanded ? "100%" : "81.5%";
+    return chatExpanded ? "100%" : "71.5%";
   }
 
   function getChannel() {
-    if (stream != null) {
-      if (external === true) {
-        console.log("external === true");
-        return (
-          <div className="channel-body">
-            <Chat
-              external={true}
-              isMobile={isMobile}
-              socket={socket}
-              socketMain={socketMain}
-              handleSendMessage={(e) => handleMessage(e)}
-              chatExpanded={() => setChatExpanded(!chatExpanded)}
-              callback={(e) => callbackDonation(e)}
-              announce={announce}
-              handleAnnounce={() => handleAnnounce()}
-              setUserSuscripted={setUserSuscripted}
-              setSuscribers={setSuscribers}
-            />
-          </div>
-        );
-      }
+    if (stream?.streamer) {
       if (stream.online === true) {
         return (
           <div className="channel-body">
@@ -1410,19 +1377,7 @@ export default function Channel({
                           )}
                         </div>
                       )}
-
-                      <Chat
-                        isMobile={isMobile}
-                        socket={socket}
-                        socketMain={socketMain}
-                        handleSendMessage={(e) => handleMessage(e)}
-                        chatExpanded={() => setChatExpanded(!chatExpanded)}
-                        callback={(e) => callbackDonation(e)}
-                        announce={announce}
-                        handleAnnounce={() => handleAnnounce()}
-                        setUserSuscripted={setUserSuscripted}
-                        setSuscribers={setSuscribers}
-                      />
+                      <ChatStreaming OnechatId={stream.id} />
                     </div>
                   )}
                 </div>
@@ -1430,7 +1385,7 @@ export default function Channel({
 
               {!isMobile && (
                 <div
-                  style={{ width: chatExpanded ? "0" : "18.5%" }}
+                  style={{ width: chatExpanded ? "0" : "27.4%" }}
                   className="channel-chat"
                 >
                   {announce === true && (
@@ -1453,17 +1408,7 @@ export default function Channel({
                     </div>
                   )}
 
-                  <Chat
-                    socket={socket}
-                    socketMain={socketMain}
-                    handleSendMessage={(e) => handleMessage(e)}
-                    chatExpanded={() => setChatExpanded(!chatExpanded)}
-                    callback={(e) => callbackDonation(e)}
-                    announce={announce}
-                    handleAnnounce={() => handleAnnounce()}
-                    setUserSuscripted={setUserSuscripted}
-                    setSuscribers={setSuscribers}
-                  />
+                  <ChatStreaming OnechatId={stream.id} />
                 </div>
               )}
             </div>

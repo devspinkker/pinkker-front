@@ -66,7 +66,6 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
 
       let resuser = await getUserByIdTheToken(token);
       if (resuser.message == "ok") {
-        console.log(resuser.data);
         SetuserSe(resuser.data);
       }
 
@@ -79,7 +78,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
       if (res != null && res != undefined) {
         setStream(res);
 
-        const dataCategorie = await getCategorieByName(res.stream_category);
+        const dataCategorie = getCategorieByName(res.stream_category);
         if (dataCategorie != null && dataCategorie != undefined) {
           setCategorie(dataCategorie);
         }

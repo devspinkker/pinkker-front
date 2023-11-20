@@ -72,7 +72,6 @@ export default function CustomPlayer({
 
   useEffect(() => {
     if (videoRef.current != null && videoRef.current != undefined) {
-      console.log(videoRef.current);
       const videoPlayer = videoRef.current;
 
       const handlePlayerLoad = () => {
@@ -98,7 +97,6 @@ export default function CustomPlayer({
   const [preLoad, setPreLoad] = useState(false);
 
   useEffect(() => {
-    console.log("PPPPP");
     if (preLoad === false) {
       if (
         videoRef.current?.currentTime != NaN &&
@@ -109,8 +107,6 @@ export default function CustomPlayer({
         videoRef.current.currentTime = videoRef.current.duration - 20;
         setPreLoad(true);
         setCurrentTime(videoRef.current.currentTime);
-        console.log(videoRef.current?.currentTime);
-        console.log(videoRef.current?.duration);
       }
     }
   }, []);
@@ -197,52 +193,29 @@ export default function CustomPlayer({
   };
 
   function getHlsSrc() {
-    return "http://localhost:8000/live/Ao8q81gstyUCihyQajH18YeZrId7z2ATqy43OeYEHmC2X/index.m3u8";
-    // if (quality === "auto") {
-    //   return (
-    //     url +
-    //     streamerData.keyTransmission.substring(
-    //       4,
-    //       streamerData.keyTransmission.length
-    //     ) +
-    //     "/index.m3u8"
-    //   );
-    // }
+    let keyTransmission = streamerData?.keyTransmission.substring(
+      4,
+      streamerData.keyTransmission.length
+    );
+    let url = `http://localhost:8000/live/${keyTransmission}`;
 
-    // if (quality === "720") {
-    //   return (
-    //     url +
-    //     streamerData.keyTransmission.substring(
-    //       4,
-    //       streamerData.keyTransmission.length
-    //     ) +
-    //     "_720/index.m3u8"
-    //   );
-    // }
+    if (quality === "auto") {
+      return url + "/index.m3u8";
+    }
 
-    // if (quality === "480") {
-    //   return (
-    //     url +
-    //     streamerData.keyTransmission.substring(
-    //       4,
-    //       streamerData.keyTransmission.length
-    //     ) +
-    //     "_480/index.m3u8"
-    //   );
-    // }
+    if (quality === "720") {
+      return url + "_720/index.m3u8";
+    }
 
-    // if (quality === "360") {
-    //   return (
-    //     url +
-    //     streamerData.keyTransmission.substring(
-    //       4,
-    //       streamerData.keyTransmission.length
-    //     ) +
-    //     "_360/index.m3u8"
-    //   );
-    // }
+    if (quality === "480") {
+      return url + "_480/index.m3u8";
+    }
 
-    // return url;
+    if (quality === "360") {
+      return url + "_360/index.m3u8";
+    }
+
+    return url;
   }
 
   function getFlvSrc() {
@@ -261,7 +234,7 @@ export default function CustomPlayer({
     return (
       <ReactHlsPlayer
         id="pinkker-player"
-        playerRef={videoRef}
+        videoRef={videoRef}
         preload={"auto"}
         webkit-playsinline={true}
         playsInline={true}

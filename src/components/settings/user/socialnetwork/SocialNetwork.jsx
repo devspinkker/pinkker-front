@@ -40,7 +40,6 @@ export default function SocialNetwork() {
       tiktok,
       youtube,
     });
-    console.log(data);
     if (data != null && data != undefined && data.status == 200) {
       alert({ type: "SUCCESS", message: data.message });
     } else {

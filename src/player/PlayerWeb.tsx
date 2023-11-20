@@ -64,7 +64,6 @@ export const ReactFlvPlayer: FC<ReactFlvPlayerProps> = (props) => {
     //   props.errorCallback?.(err);
     // });
   }, []);
- console.log(url);
  
   return (
     <Fragment>

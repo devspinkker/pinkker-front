@@ -10,7 +10,7 @@ export const UpdateStream = (type, id, { formValues = null, handleSuccess = null
 
     let result;
 
-    switch(type) {
+    switch (type) {
         case EDIT_STREAM:
             result = dispatch(editStream(id, formValues));
             break;
@@ -20,14 +20,14 @@ export const UpdateStream = (type, id, { formValues = null, handleSuccess = null
         default:
             break;
     }
-    
+
     if (result) {
         result
-        .then(() => handleSuccess && handleSuccess())
-        .catch((error) => {
-            console.log(`ERROR CHANGING STREAM, ie: ${type}: ${error}`);
-            setErrors(({  errors: `${error}` }));
-        });
+            .then(() => handleSuccess && handleSuccess())
+            .catch((error) => {
+                console.log(`ERROR CHANGING STREAM, ie: ${type}: ${error}`);
+                setErrors(({ errors: `${error}` }));
+            });
     }
 
     return errors;

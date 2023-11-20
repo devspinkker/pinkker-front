@@ -127,7 +127,6 @@ export async function editAvatar(token, avatarData) {
                 },
             }
         );
-        console.log(response);
         return response.data;
     } catch (error) {
         console.error('Error en editAvatar:', error.message);
