@@ -132,3 +132,36 @@ export async function editAvatar(token, avatarData) {
 }
 
 
+export async function suscribirse(token, ToUser) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/suscribirse`,
+            { ToUser: ToUser },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error en unfollow:', error.message);
+        throw error;
+    }
+}
+export async function compradePixeles(token) {
+    try {
+        const response = await axios.post(
+            `http://localhost:3002/create-order`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}

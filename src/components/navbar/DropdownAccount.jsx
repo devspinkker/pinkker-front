@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import Switch from "@mui/material/Switch";
 
 import { styled } from "@mui/material/styles";
+import { compradePixeles } from "../../services/backGo/user";
 
 function useOnClickOutside(ref, handler) {
   useEffect(() => {
@@ -30,6 +31,17 @@ function useOnClickOutside(ref, handler) {
     };
   }, [ref, handler]);
 }
+const comprarPixeles = async () => {
+  try {
+    let token = window.localStorage.getItem("token");
+    const res = await compradePixeles(token);
+    if (res?.init_point) {
+      window.location.href = res?.init_point;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 function DropdownAccount({ closeNavbar, callback, toggleLang, user }) {
   const [click, setClick] = useState(false);
@@ -215,9 +227,10 @@ function DropdownAccount({ closeNavbar, callback, toggleLang, user }) {
             </Link>
           </li>
 
-          <li>
+          <li onClick={comprarPixeles}>
             <a
               className="dropdownaccount-link"
+              oncl
               /*to="/plataform/subscriptions"*/ onClick={closeNavbar}
             >
               <i style={{ marginRight: "15px" }} class="fas fa-dollar-sign"></i>

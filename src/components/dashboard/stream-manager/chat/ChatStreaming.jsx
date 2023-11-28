@@ -9,32 +9,35 @@ export function ChatStreaming({ OnechatId }) {
   useEffect(() => {
     const connectWebSocket = () => {
       const newSocket = new WebSocket(
-        `ws://https://pinkker-chat-czpr.4.us-1.fl0.io/ws/chatStreaming/${OnechatId}/bruno2`
+        `ws://localhost:8081/ws/chatStreaming/${OnechatId}/bruno2`
       );
-
+      newSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
       newSocket.onmessage = (event) => {
         const receivedMessage = JSON.parse(event.data);
         newSocket.send("onmessage");
-
         setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       };
 
       newSocket.onclose = () => {
         console.log("WebSocket connection closed");
+        console.log("closed");
         newSocket.send("closing");
       };
 
       newSocket.onopen = () => {
         console.log("WebSocket connection opened");
-        const newMessage = {
-          message: message,
-          userId: "randomString",
-        };
-        if (newMessage.message === "") newMessage.message = "presentación";
-        newSocket.send(JSON.stringify(newMessage));
       };
       setSocket(newSocket);
+
+      window.addEventListener("beforeunload", () => {
+        console.log("closed");
+        newSocket.send("closing");
+        newSocket.close();
+      });
     };
+
     if (!socket || socket.readyState !== WebSocket.OPEN) {
       console.log("Establecer la conexión WebSocket");
       connectWebSocket();
@@ -65,7 +68,7 @@ export function ChatStreaming({ OnechatId }) {
         },
       };
       const res = await axios.post(
-        `http://localhost:8080/chatStreaming/${OnechatId}`,
+        `http://localhost:8081/chatStreaming/${OnechatId}`,
         { message },
         config
       );
@@ -73,7 +76,6 @@ export function ChatStreaming({ OnechatId }) {
       setMessage("");
     } catch (error) {
       setMessage("");
-
       console.log(error);
     }
   };

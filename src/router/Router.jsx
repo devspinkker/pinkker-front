@@ -326,7 +326,7 @@ const AppRouter = () => {
                 tyExpanded={expanded}
                 tyDashboard={false}
               />
-              <Cartera />
+              <Cartera user={user} />
             </Route>
 
             <Route exact path="/plataform/subscriptions">

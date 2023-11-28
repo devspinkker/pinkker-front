@@ -199,43 +199,28 @@ export default function CustomPlayer({
       4,
       streamerData.keyTransmission.length
     );
-    let url = `http://localhost:8000/live/${keyTransmission}`;
-
-    if (quality === "auto") {
-      return url + "/index.m3u8";
-    }
-
-    if (quality === "720") {
-      return url + "_720/index.m3u8";
-    }
-
-    if (quality === "480") {
-      return url + "_480/index.m3u8";
-    }
-
-    if (quality === "360") {
-      return url + "_360/index.m3u8";
-    }
+    let url = `http://localhost:8000/live/${keyTransmission}/index.m3u8`;
 
     return url;
   }
 
-  function getFlvSrc() {
-    const url = process.env.REACT_APP_DEV_RMTP_URL + "/live/";
-    return (
-      url +
-      streamerData.keyTransmission.substring(
-        4,
-        streamerData.keyTransmission.length
-      ) +
-      ".flv"
-    );
-  }
-
   function getHlsPlayer() {
+    // console.log(getHlsSrc());
     // if (isMobile) {
-    //   return <video style={{position: "relative", top: "60px"}} id="pinkker-player" playerRef={videoRef} src={video} autoPlay={true} muted controls={false} width="100%" height="729px"/>
+    //   alert("mobile es true");
+    //   return (
+    //     <video
+    //       id="pinkker-player"
+    //       style={{ position: "relative", top: "60px" }}
+    //       controls={isMobile}
+    //       autoPlay={true}
+    //       onPlaying={true}
+    //     >
+    //       <source src={getHlsSrc()} type="application/x-mpegURL" />
+    //     </video>
+    //   );
     // }
+
     return (
       <ReactHlsPlayer
         id="pinkker-player"
