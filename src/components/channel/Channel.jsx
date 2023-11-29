@@ -702,7 +702,7 @@ export default function Channel({
                     class="fas fa-user"
                   />
                   <p style={{ color: "darkgray", fontSize: "15px" }}>
-                    {viewers}{" "}
+                    {stream.ViewerCount}{" "}
                     <a style={{ color: "darkgray" }}> personas mirando ahora</a>
                   </p>
                 </div>

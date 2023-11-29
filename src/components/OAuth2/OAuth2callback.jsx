@@ -104,19 +104,19 @@ export default function OAuth2callback() {
 
   const handleProfileCompletionResponse = (response) => {
     if (response.data.message === "token") {
+      alert("Ñ");
       window.localStorage.setItem("token", response.data.data);
       window.localStorage.setItem("_id", response.data._id);
       window.localStorage.setItem("avatar", response.data.avatar);
-
-      setToken(response.data.data);
-      toast.success("Ingresó a la aplicación correctamente.");
       window.location.href = "/";
     } else {
-      console.log("Otro tipo de respuesta:", response.data);
+      alert("Otro tipo de respuesta2");
     }
   };
 
   const handleAuthenticatedUser = (userData) => {
+    alert("otra ñ");
+
     window.localStorage.setItem("token", userData.data);
     window.localStorage.setItem("_id", userData._id);
     window.localStorage.setItem("avatar", userData.avatar);

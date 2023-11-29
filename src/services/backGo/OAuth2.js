@@ -8,7 +8,6 @@ export const GoogleLoginURL = async () => {
     const res = await axios.get(
         `${url}/user/google_login`, {}
     )
-    console.log(res);
 
     return res
 }
@@ -26,7 +25,6 @@ export const Google_callback_Complete_Profile_And_Username = async (data) => {
         data
 
     );
-    console.log(res);
     return res;
 };
 const exportedObject = {

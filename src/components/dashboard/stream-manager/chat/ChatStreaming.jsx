@@ -56,7 +56,7 @@ export function ChatStreaming({ OnechatId }) {
   };
 
   const sendMessage = async () => {
-    let token = window.localStorage.getItem("token");
+    const token = window.localStorage.getItem("token");
     if (!token) {
       alert("no logueado");
       return;
