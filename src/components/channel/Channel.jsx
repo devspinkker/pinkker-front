@@ -3,7 +3,6 @@ import React, { useState, useEffect, Component } from "react";
 import "./Channel.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserByNameUser } from "../../services/backGo/user";
-import Chat from "./chat/Chat";
 
 import { useParams } from "react-router-dom";
 
@@ -36,10 +35,6 @@ import { useNotification } from "../Notifications/NotificationProvider";
 
 import { useLastLocation } from "react-router-last-location";
 
-import {
-  fetchUsersOnline,
-  dispatchGetAllStreamers,
-} from "../../redux/actions/streamersAction";
 import About from "./about/About";
 
 import useChatMessage from "../../hooks/chatmessage/useChatMessage";
@@ -62,15 +57,11 @@ import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
 let socket;
 
 export default function Channel({
-  external,
   isMobile,
-  socketMain,
   tyExpanded,
   expanded,
   handleMessage,
 }) {
-  const chatMessage = useChatMessage();
-
   const [chatExpanded, setChatExpanded] = useState(false);
 
   const auth = useSelector((state) => state.auth);
@@ -78,8 +69,6 @@ export default function Channel({
   const token = useSelector((state) => state.token);
   const { streamer } = useParams();
   const usersOnline = useSelector((state) => state.streamers);
-
-  const dispatch = useDispatch();
 
   const [followParam, setFollowParam] = useState(false);
   const [streamerFollowers, setStreamerFollowers] = useState(0);
@@ -1097,7 +1086,7 @@ export default function Channel({
     }
 
     if (type === 1) {
-      return <Muro streamer={streamerData?.id} limit={4} sort={1} />;
+      return <Muro streamer={streamerData} limit={4} sort={1} />;
     }
 
     if (type === 2) {

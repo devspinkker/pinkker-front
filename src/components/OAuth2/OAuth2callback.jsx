@@ -104,7 +104,6 @@ export default function OAuth2callback() {
 
   const handleProfileCompletionResponse = (response) => {
     if (response.data.message === "token") {
-      alert("Ñ");
       window.localStorage.setItem("token", response.data.data);
       window.localStorage.setItem("_id", response.data._id);
       window.localStorage.setItem("avatar", response.data.avatar);
@@ -127,7 +126,10 @@ export default function OAuth2callback() {
     <div>
       {showUsernameForm && (
         <div className="form-container">
-          <form onSubmit={handleUsernameFormSubmit}>
+          <form
+            className="form-containerOAuth2Callback"
+            onSubmit={handleUsernameFormSubmit}
+          >
             <label>
               nombre de usuario
               <input

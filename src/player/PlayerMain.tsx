@@ -4,12 +4,11 @@ import { Alert } from '@mui/material';
 
 interface ReactHlsPlayerProps {
   src: string;
-  autoPlay?: boolean;
   muted?: boolean;
   videoRef: React.RefObject<HTMLVideoElement>;
 }
 
-function ReactHlsPlayer({ src, autoPlay = false, muted = false, videoRef }: ReactHlsPlayerProps) {
+function ReactHlsPlayer({ src, muted = false, videoRef }: ReactHlsPlayerProps) {
   const hlsRef = useRef<Hls | null>(null);
   const [usedHLS, setUsedHLS] = useState(false);
 
@@ -27,8 +26,7 @@ function ReactHlsPlayer({ src, autoPlay = false, muted = false, videoRef }: Reac
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             setUsedHLS(true);
 
-            if (autoPlay && videoRef.current) {
-              // Iniciar reproducción en respuesta a un evento de usuario (clic)
+            if (videoRef.current) {
               const playPromise = videoRef.current.play();
               if (playPromise !== undefined) {
                 playPromise.catch((error) => {
@@ -43,26 +41,14 @@ function ReactHlsPlayer({ src, autoPlay = false, muted = false, videoRef }: Reac
           });
         }
       } else {
-        alert('Tu navegador no es compatible con Hls.js. Se usará el reproductor de video estándar.');
-      }
-      if (!usedHLS && videoRef.current) {
 
-        videoRef.current.src = src;
-        videoRef.current.load();
-
-        if (autoPlay) {
-          // Iniciar reproducción en respuesta a un evento de usuario (clic)
-          document.addEventListener('click', () => {
-            const playPromise = videoRef.current?.play();
-            if (playPromise !== undefined) {
-              playPromise.catch((error) => {
-              });
-            }
-          });
-        }
         if (videoRef.current) {
-          videoRef.current.muted = muted ?? false;
+          videoRef.current.src = src
+          videoRef.current.load();
+          videoRef.current.play();
         }
+
+        
       }
     }
 
@@ -73,9 +59,9 @@ function ReactHlsPlayer({ src, autoPlay = false, muted = false, videoRef }: Reac
         hls.destroy();
       }
     };
-  }, [src, autoPlay, muted, videoRef, usedHLS]);
+  }, [src, muted, videoRef, usedHLS]);
 
-  return <video autoPlay={true} controls playsInline ref={videoRef} />;
+  return <video id='pinkker-player' controls playsInline ref={videoRef} />;
 }
 
 export default ReactHlsPlayer;

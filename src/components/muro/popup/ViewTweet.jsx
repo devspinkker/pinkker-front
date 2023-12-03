@@ -25,6 +25,7 @@ export default function ViewTweet({ closePopup, tweet, isLiked, isRetweet }) {
   const alert = useNotification();
 
   const [comments, setComments] = useState(null);
+  const [commentsFind, setCommentsFind] = useState(null);
   const [comment, setComment] = useState(null);
 
   const [likes, setLikes] = useState(null);
@@ -378,18 +379,22 @@ export default function ViewTweet({ closePopup, tweet, isLiked, isRetweet }) {
       setToken(token);
 
       const res = await GetCommentPost({ IdPost: tweet._id });
-      setComments(res.data.data);
+      if (res.data?.message == "ok") {
+        setComments(res.data.data);
+        setCommentsFind(true);
+        return;
+      }
+      setCommentsFind(false);
     } catch (error) {
       console.error("Error fetching comments:", error);
+      setCommentsFind(false);
     }
   }
-
-  // Resto del código...
 
   function renderComments() {
     return (
       <div className="viewtweet-comments-container">
-        {!comments ? (
+        {!commentsFind ? (
           <div
             style={{
               minHeight: "150px",
@@ -405,7 +410,7 @@ export default function ViewTweet({ closePopup, tweet, isLiked, isRetweet }) {
             <TweetCard key={comment._id} tweet={comment} />
           ))
         ) : (
-          <p>No hay comentarios</p>
+          <p></p>
         )}
       </div>
     );

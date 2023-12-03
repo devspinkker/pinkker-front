@@ -19,7 +19,6 @@ export const Google_callback = async (code) => {
     return res;
 };
 export const Google_callback_Complete_Profile_And_Username = async (data) => {
-    console.log(data);
     const res = await axios.post(
         `${url}/user/Google_callback_Complete_Profile_And_Username`,
         data

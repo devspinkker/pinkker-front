@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./ChatStreaming.css";
 export function ChatStreaming({ OnechatId }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
+  const conversationRef = useRef(null);
+
   const [socket, setSocket] = useState(null);
   useEffect(() => {
     const connectWebSocket = () => {
       const newSocket = new WebSocket(
-        `ws://localhost:8081/ws/chatStreaming/${OnechatId}/bruno2`
+        `wss://pinkker-chat-czpr.4.us-1.fl0.io/ws/chatStreaming/${OnechatId}/bruno2`
       );
       newSocket.onerror = (error) => {
         console.error("WebSocket error:", error);
@@ -18,6 +20,7 @@ export function ChatStreaming({ OnechatId }) {
         const receivedMessage = JSON.parse(event.data);
         newSocket.send("onmessage");
         setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+        scrollToBottom();
       };
 
       newSocket.onclose = () => {
@@ -49,7 +52,11 @@ export function ChatStreaming({ OnechatId }) {
       }
     };
   }, []);
-
+  const scrollToBottom = () => {
+    if (conversationRef.current) {
+      conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     sendMessage();
@@ -68,14 +75,13 @@ export function ChatStreaming({ OnechatId }) {
         },
       };
       const res = await axios.post(
-        `http://localhost:8081/chatStreaming/${OnechatId}`,
+        `https://pinkker-chat-czpr.4.us-1.fl0.io/chatStreaming/${OnechatId}`,
         { message },
         config
       );
 
       setMessage("");
     } catch (error) {
-      setMessage("");
       console.log(error);
     }
   };
@@ -86,7 +92,7 @@ export function ChatStreaming({ OnechatId }) {
 
   return (
     <div className="ChatStreaming">
-      <div className="Conversation">
+      <div className="Conversation" ref={conversationRef}>
         {messages.map((message, index) => (
           <div key={index} className="Message">
             <div className="MessagesChat">

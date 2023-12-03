@@ -21,7 +21,7 @@ export default function Muro({ streamer }) {
   useEffect(() => {
     const fetchData = async () => {
       console.log(streamer);
-      const data = await getTweetUser(streamer, page, 1);
+      const data = await getTweetUser(streamer?.id, page, 1);
       console.log(data);
       if (data?.message == "ok") {
         if (data.data == null) {
@@ -50,13 +50,13 @@ export default function Muro({ streamer }) {
   }, [tweets]);
 
   const handleScroll = async () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop + 1 >=
-      document.documentElement.scrollHeight
-    ) {
-      setLoading(true);
-      setPage((prev) => prev + 1);
-    }
+    // if (
+    //   window.innerHeight + document.documentElement.scrollTop + 1 >=
+    //   document.documentElement.scrollHeight
+    // ) {
+    //   setLoading(true);
+    //   setPage((prev) => prev + 1);
+    // }
   };
 
   return (
@@ -72,7 +72,7 @@ export default function Muro({ streamer }) {
           >
             {tweets != null &&
               tweets.map((tweet) => <TweetCard tweet={tweet} />)}
-            {loading && (
+            {/* {loading && (
               <div
                 style={{
                   minHeight: "150px",
@@ -83,7 +83,7 @@ export default function Muro({ streamer }) {
               >
                 <ScaleLoader width={4} height={20} color="#f36197d7" />
               </div>
-            )}
+            )} */}
             {loading === false && tweets === null && (
               <div
                 style={{
@@ -97,7 +97,7 @@ export default function Muro({ streamer }) {
                   src="https://res.cloudinary.com/pinkker/image/upload/v1679518811/pinkker-ups_iqucmd.png"
                 />
                 <h2 style={{ color: "white" }}>
-                  UPS! {streamer} no tiene contenido que mostrar
+                  UPS! {streamer.NameUser} no tiene contenido que mostrar
                 </h2>
               </div>
             )}

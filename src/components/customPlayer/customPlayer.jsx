@@ -44,7 +44,7 @@ export default function CustomPlayer({
   const videoRef = useRef();
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(false);
-  const [volumePlayer, setVolumePlayer] = useState(0);
+  const [volumePlayer, setVolumePlayer] = useState(0.5);
 
   const [dropdownSettings, setDropdownSettings] = useState(false);
 
@@ -132,18 +132,13 @@ export default function CustomPlayer({
     }
   };
   const videoHandler = () => {
-    if (videoRef.current && isFinite(videoRef.current.duration)) {
-      try {
-        if (videoRef.current.paused) {
-          videoRef.current.play();
-          setPlaying(true);
-        } else {
-          videoRef.current.pause();
-          setPlaying(false);
-        }
-      } catch (error) {
-        console.error("Error during video handling:", error);
-      }
+    if (playing === false) {
+      videoRef.current.currentTime = videoRef.current.duration - 5;
+      videoRef.current.play();
+      setPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setPlaying(false);
     }
   };
 
@@ -181,7 +176,11 @@ export default function CustomPlayer({
 
   const toggleFullScreen = () => {
     var el = document.getElementById("pinkker-player");
+    console.log(el);
+    console.log("A");
     if (el) {
+      console.log("b");
+
       if (el.requestFullscreen) {
         el.requestFullscreen();
       } else if (el.msRequestFullscreen) {
@@ -223,12 +222,15 @@ export default function CustomPlayer({
 
     return (
       <ReactHlsPlayer
+        allowFullScreen
         id="pinkker-player"
         videoRef={videoRef}
         preload={"auto"}
         webkit-playsinline={true}
         playsInline={true}
-        src={getHlsSrc()}
+        src={
+          "https://529d-186-125-140-9.ngrok.io/live/nwaz4yhrxVjhpHxsk6ER430eIDsuExf645GDDcWYJlYhq/index.m3u8"
+        }
         autoPlay={true}
         muted={false}
         controls={false}
@@ -659,6 +661,7 @@ export default function CustomPlayer({
       {getTopButtom()}
       {popup === false && <div className="customPlayer-shadow-1"></div>}
       {getHlsPlayer()}
+
       {dashboard === false && videoLoading === true && (
         <div className="pinkker-player-loading">
           <ScaleLoader color="#f36197d7" />

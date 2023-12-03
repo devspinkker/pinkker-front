@@ -15,7 +15,7 @@
 }
 
 
-form {
+.form-containerOAuth2Callback {
     display: flex;
     background: #18181b;
     border-bottom-left-radius: 5px;
