@@ -13,11 +13,18 @@
 }
 
 .create_clip_video>video {
+    width: 76%;
+}
+
+.create_clip_video>video {
     width: 100%;
 }
 
 #create_clip_videoUrl {
+    display: flex;
     margin: 20px;
+    flex-direction: column;
+    align-items: center;
 }
 
 .create-clip-video {

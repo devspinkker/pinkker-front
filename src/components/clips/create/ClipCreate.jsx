@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Clip.css";
-import axios from "axios";
+
+import { Create_Clip, GetBuffer } from "../../../services/backGo/clip";
 
 export function CreateClip() {
   const [videoUrl, setVideoUrl] = useState("");
@@ -9,6 +10,8 @@ export function CreateClip() {
   const [endTime, setEndTime] = useState(0);
   const [video, setVideo] = useState(null);
   const videoRef = useRef(null);
+  const [clipTitle, setclipTitle] = useState("un titulo para el clip");
+
   const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
@@ -17,9 +20,7 @@ export function CreateClip() {
         const queryParams = new URLSearchParams(window.location.search);
         const totalKey = queryParams.get("totalKey");
 
-        const response = await fetch(
-          `http://localhost:8002/getBuffer/${totalKey}`
-        );
+        const response = await GetBuffer(totalKey);
         const data = await response.arrayBuffer();
         const blob = new Blob([data], { type: "video/mp4" });
         const videoURL = URL.createObjectURL(blob);
@@ -41,6 +42,7 @@ export function CreateClip() {
 
     fetchVideoData();
   }, []);
+
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.addEventListener("timeupdate", () => {
@@ -57,50 +59,54 @@ export function CreateClip() {
 
   const handleSetDuration = async () => {
     try {
+      let token = window.localStorage.getItem("token");
       let config = {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NThiNzMwNjQ2YjdkOWViYTQ2NTdhMzIiLCJleHAiOjE3MTI0MTM2ODgsIm5hbWV1c2VyIjoiYnJ1bm8yIiwicGlua2tlclByaW1lIjpmYWxzZX0.o59kG9fbhF0-y2cANkliP0B76Up4grCNV1XMH8_HBxs`,
+          Authorization: `Bearer ${token}`,
         },
       };
+
       const videoBytes = video
         ? Array.from(new Uint8Array(video.arrayBuffer))
         : null;
-      const response = await axios.post(
-        "http://localhost:8080/create-clips",
-        {
-          video: videoBytes,
-          start: 1,
-          end: 60,
-          clipName: "este es un nombre",
-          streamer: "bruno2",
-        },
-        config
-      );
-      let videoUrl = response.data.data;
+      let totalKey = window.localStorage.getItem("keyTransmission");
+      if (!token || !totalKey) {
+        alert("logueate");
+        return;
+      } else {
+        const response = await Create_Clip(
+          videoBytes,
+          startTime,
+          endTime,
+          totalKey,
+          clipTitle,
+          config
+        );
+        let videoUrl = response.data.data;
 
-      window.location.href = `/clips/getId/?videoUrl=${videoUrl}`;
-      console.log("Respuesta del servidor:", response.data);
+        window.location.href = `/clips/getId/?videoUrl=${videoUrl}`;
+      }
     } catch (error) {
+      console.log(error);
       console.error("Error al enviar la solicitud de recorte:", error);
     }
   };
 
   const handleSetStartTime = async () => {
     if (videoRef.current) {
-      console.log(videoRef.current.currentTime);
-
       videoRef.current.currentTime = 30;
-
       await new Promise((resolve) => setTimeout(resolve, 100));
-      console.log(videoRef.current.currentTime);
+      setCurrentTime(videoRef.current.currentTime);
     }
   };
 
   const handleSetEndTime = () => {
     if (videoRef.current) {
       videoRef.current.currentTime = 120;
+      setCurrentTime(videoRef.current.currentTime);
     }
   };
+
   return (
     <div id="create_clip_container">
       {videoUrl && (

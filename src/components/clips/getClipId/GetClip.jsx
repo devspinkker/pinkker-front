@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "./Clip.css";
+import { GetClipId } from "../../../services/backGo/clip";
 
 export function GetClip() {
-  const [clipData, setClipData] = useState({});
   const [videoElement, setVideoElement] = useState(null);
 
   useEffect(() => {
@@ -11,13 +10,9 @@ export function GetClip() {
     const videoUrlParam = urlParams.get("videoUrl");
 
     if (videoUrlParam) {
-      axios
-        .get(`http://localhost:8080/GetClipId?clipId=${videoUrlParam}`)
+      GetClipId(videoUrlParam)
         .then((response) => {
           const data = response.data;
-          console.log("Video URL:", data.dataClip.url);
-          console.log("Video URL status:", data.videoURL);
-
           if (data.videoURL) {
             setVideoElement(
               <video controls width="500" height="300">
@@ -26,7 +21,7 @@ export function GetClip() {
               </video>
             );
           } else if (!data.videoURL) {
-            // ...
+            alert("no disponible");
           }
         })
         .catch((error) => {
@@ -35,10 +30,5 @@ export function GetClip() {
     }
   }, []);
 
-  return (
-    <div className="container">
-      <h1>Video</h1>
-      {videoElement}
-    </div>
-  );
+  return <div className="container">{videoElement}</div>;
 }

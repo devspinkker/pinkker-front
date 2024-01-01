@@ -107,6 +107,11 @@ export default function OAuth2callback() {
       window.localStorage.setItem("token", String(response.data.data));
       window.localStorage.setItem("_id", response.data._id);
       window.localStorage.setItem("avatar", response.data.avatar);
+      window.localStorage.setItem(
+        "keyTransmission",
+        response.data.keyTransmission
+      );
+
       window.location.href = "/";
     } else {
       alert("Otro tipo de respuesta2");
@@ -117,6 +122,7 @@ export default function OAuth2callback() {
     window.localStorage.setItem("token", userData.data);
     window.localStorage.setItem("_id", userData._id);
     window.localStorage.setItem("avatar", userData.avatar);
+    window.localStorage.setItem("keyTransmission", userData.keyTransmission);
     window.location.href = "/";
   };
 
