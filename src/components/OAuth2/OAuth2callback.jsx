@@ -104,7 +104,7 @@ export default function OAuth2callback() {
 
   const handleProfileCompletionResponse = (response) => {
     if (response.data.message === "token") {
-      window.localStorage.setItem("token", response.data.data);
+      window.localStorage.setItem("token", String(response.data.data));
       window.localStorage.setItem("_id", response.data._id);
       window.localStorage.setItem("avatar", response.data.avatar);
       window.location.href = "/";
@@ -114,8 +114,6 @@ export default function OAuth2callback() {
   };
 
   const handleAuthenticatedUser = (userData) => {
-    alert("otra ñ");
-
     window.localStorage.setItem("token", userData.data);
     window.localStorage.setItem("_id", userData._id);
     window.localStorage.setItem("avatar", userData.avatar);
@@ -123,7 +121,7 @@ export default function OAuth2callback() {
   };
 
   return (
-    <div>
+    <div className="conteiner-containerOAuth2Callback">
       {showUsernameForm && (
         <div className="form-container">
           <form
@@ -140,7 +138,7 @@ export default function OAuth2callback() {
                 onChange={(e) => setUsername(e.target.value)}
               />
             </label>
-            <label>
+            {/* <label>
               País:
               <Select
                 className="auth-contentOAuth2callback"
@@ -150,8 +148,8 @@ export default function OAuth2callback() {
                   setSelectedCountry(selectedOption)
                 }
               />
-            </label>
-            <label>
+            </label> */}
+            {/* <label>
               Provincia:
               <Select
                 className="auth-contentOAuth2callback"
@@ -161,7 +159,7 @@ export default function OAuth2callback() {
                   setSelectedProvince(selectedOption)
                 }
               />
-            </label>
+            </label> */}
             <label>
               Biografía:
               <textarea

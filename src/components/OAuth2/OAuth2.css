@@ -1,39 +1,17 @@
-.form-container {
-    display: flex;
-    background: #18181b;
-    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, .651);
-    left: 0;
-    margin: auto;
-    position: absolute;
-    right: 15%;
-    text-align: center;
-    top: 25%;
-    width: 20%;
-    z-index: 9999;
-    flex-direction: column;
-    align-items: flex-start;
+.conteiner-containerOAuth2Callback {
+    position: relative;
+    top: 200px;
 }
 
+.form-container {
+    display: flex;
+    justify-content: center;
+}
 
 .form-containerOAuth2Callback {
     display: flex;
-    background: #18181b;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 5px;
-    bottom: 25%;
-    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, .651);
-    left: 0;
-    /* margin: auto; */
-    padding: 30px;
-    position: absolute;
-    right: 15%;
-    text-align: center;
-    top: 25%;
-    width: 100%;
-    height: fit-content;
     flex-direction: column;
-    align-items: center;
-
+    width: fit-content;
 }
 
 label {

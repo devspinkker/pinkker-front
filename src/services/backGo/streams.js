@@ -79,8 +79,8 @@ export async function updateStreamInfo(token, streamInfo) {
 		);
 		return response.data;
 	} catch (error) {
-		console.error('Error en updateStreamInfo:', error.message);
-		throw error;
+		console.log(error);
+		// return error
 	}
 }
 

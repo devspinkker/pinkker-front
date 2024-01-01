@@ -7,7 +7,7 @@
 
 }
 
-.layout-expanded{
+.layout-expanded {
     width: 98%;
     margin-left: 2%;
     background-color: #0e0e10;
@@ -17,6 +17,4 @@
 }
 
 
-@media screen and (max-width: 1000px) {
-    
-}
+@media screen and (max-width: 1000px) {}

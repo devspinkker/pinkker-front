@@ -34,9 +34,11 @@ export default function ExploreCategories({ isMobile }) {
 
       if (data.data != null || data != undefined) {
         setStreams(data.data);
+        console.log(data.data);
       }
       const getCategoriesWithLimitData = await getCategoriesWithLimit();
       if (getCategoriesWithLimitData?.message == "ok") {
+        console.log(getCategoriesWithLimitData);
         setCategories(getCategoriesWithLimitData.data);
       }
     };

@@ -668,6 +668,10 @@
     filter: brightness(69%);
 }
 
+.elapsedTime {
+    display: flex;
+}
+
 /* Media Screen for 1366x768 */
 @media screen and (max-width: 1366px) {
 

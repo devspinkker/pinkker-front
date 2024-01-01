@@ -228,9 +228,7 @@ export default function CustomPlayer({
         preload={"auto"}
         webkit-playsinline={true}
         playsInline={true}
-        src={
-          "https://529d-186-125-140-9.ngrok.io/live/nwaz4yhrxVjhpHxsk6ER430eIDsuExf645GDDcWYJlYhq/index.m3u8"
-        }
+        src={getHlsSrc()}
         autoPlay={true}
         muted={false}
         controls={false}
@@ -352,12 +350,8 @@ export default function CustomPlayer({
   }
 
   const handleClip = async () => {
-    togglePopupClipCreator(video);
-
-    const data = await createClip(streamer, time, 30, getRandomString());
-    if (data != null) {
-      setVideo(data.data.video);
-    }
+    const totalKey = streamerData?.keyTransmission.substring(4);
+    window.open(`/clips/create/?totalKey=${totalKey}`, "_blank");
   };
 
   function getTopButtom() {

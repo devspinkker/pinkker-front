@@ -157,16 +157,32 @@ export default function Channel({
       return () => (document.body.style.overflow = "unset");
     }
   }, []);
+  const [elapsedTime, setElapsedTime] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+  const formatNumber = (number) => (number < 10 ? `0${number}` : number);
 
   useEffect(() => {
-    // const unlisten = history.listen(() => {
-    //   // socket.emit("removeUser", { room: streamer }, () => {});
-    //   // socket.disconnect();
-    // });
-    // return () => {
-    //   unlisten();
-    // };
-  }, [history]);
+    const calculateElapsedTime = () => {
+      const startDateTime = new Date(stream?.start_date);
+      const now = new Date();
+
+      const timeDifference = now - startDateTime;
+      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+      const minutes = Math.floor(
+        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+
+      setElapsedTime({ hours, minutes, seconds });
+    };
+
+    const interval = setInterval(calculateElapsedTime, 1000);
+
+    return () => clearInterval(interval);
+  }, [stream?.start_date]);
 
   useEffect(() => {
     if (announce) {
@@ -582,15 +598,10 @@ export default function Channel({
                     style={{ marginRight: "8px", fontSize: "12px" }}
                     class="fas fa-clock"
                   />
-                  <p style={{ fontSize: "15px" }}>
-                    {hours}:
-                    {minutes.toString().length === 1
-                      ? "0" + minutes.toString()
-                      : minutes}
-                    :
-                    {seconds.toString().length === 1
-                      ? "0" + seconds.toString()
-                      : seconds}
+                  <p className="elapsedTime">
+                    <p>{`${formatNumber(elapsedTime.hours)}`}</p>
+                    <p>{`: ${formatNumber(elapsedTime.minutes)}`}</p>
+                    <p>{`: ${formatNumber(elapsedTime.seconds)}`}</p>
                   </p>
                 </div>
               </div>

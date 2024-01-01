@@ -15,14 +15,12 @@ export const Google_callback = async (code) => {
     const res = await axios.get(
         `${url}/user/google_callback?code=${code}`
     );
-
     return res;
 };
 export const Google_callback_Complete_Profile_And_Username = async (data) => {
     const res = await axios.post(
         `${url}/user/Google_callback_Complete_Profile_And_Username`,
         data
-
     );
     return res;
 };

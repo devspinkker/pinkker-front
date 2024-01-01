@@ -25,7 +25,8 @@ import UserSettings from "../components/settings/user/UserSettings";
 import Explore from "../components/explore/Explore";
 import Vod from "../components/vod/Vod";
 import Categorie from "../components/categories/Categorie";
-import ClipCreate from "../components/clips/create/ClipCreate";
+import { CreateClip } from "../components/clips/create/ClipCreate";
+import { GetClip } from "../components/clips/getClipId/GetClip";
 import ClipView from "../components/clips/view/ClipView";
 import { LastLocationProvider } from "react-router-last-location";
 
@@ -462,7 +463,14 @@ const AppRouter = () => {
             </Route>
           </Switch>
         </Layout>
+        <Switch></Switch>
       </LastLocationProvider>
+      <Route exact path="/clips/create">
+        <CreateClip />
+      </Route>
+      <Route exact path="/clips/getId">
+        <GetClip />
+      </Route>
     </Router>
   );
 };

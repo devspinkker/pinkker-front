@@ -10,8 +10,9 @@ export function ChatStreaming({ OnechatId }) {
   const [socket, setSocket] = useState(null);
   useEffect(() => {
     const connectWebSocket = () => {
+      const token = window.localStorage.getItem("token");
       const newSocket = new WebSocket(
-        `wss://pinkker-chat-czpr.4.us-1.fl0.io/ws/chatStreaming/${OnechatId}/bruno2`
+        `wss://pinkker-chat-czpr.4.us-1.fl0.io/ws/chatStreaming/${OnechatId}/${token}`
       );
       newSocket.onerror = (error) => {
         console.error("WebSocket error:", error);
@@ -63,17 +64,18 @@ export function ChatStreaming({ OnechatId }) {
   };
 
   const sendMessage = async () => {
-    const token = window.localStorage.getItem("token");
-    if (!token) {
-      alert("no logueado");
-      return;
-    }
     try {
+      const token = window.localStorage.getItem("token");
+      if (!token) {
+        alert("no logueado");
+        return;
+      }
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
+      console.log(config);
       const res = await axios.post(
         `https://pinkker-chat-czpr.4.us-1.fl0.io/chatStreaming/${OnechatId}`,
         { message },
@@ -123,7 +125,12 @@ export function ChatStreaming({ OnechatId }) {
         ))}
       </div>
       <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-        <input type="text" value={message} onChange={handleChange} />
+        <input
+          type="text"
+          value={message}
+          placeholder="Enviar un mensaje"
+          onChange={handleChange}
+        />
         <button type="submit">Enviar</button>
       </form>
     </div>
