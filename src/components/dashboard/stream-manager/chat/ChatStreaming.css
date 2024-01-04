@@ -20,6 +20,7 @@
     width: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    padding: 5px 10px;
 }
 
 .content-info-message-2 {
@@ -27,14 +28,18 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    flex-wrap: wrap;
     overflow-wrap: anywhere;
+    word-break: break-all;
+    font-weight: 700;
 }
 
-.imgs {
+.content-info-message-2-nameUser {}
+
+.badges {
     display: flex;
     height: 30px;
-    width: 30px;
+    /* width: 30px; */
+    flex-direction: row;
 }
 
 .sas {
@@ -78,32 +83,32 @@
 
 .ChatStreaming_form {
     display: flex;
-    width: 100%;
-    justify-content: center;
-    flex-direction: column;
-    align-items: flex-end;
-
+    width: 93%;
+    flex-direction: row;
+    align-items: center;
 }
 
 .ChatStreaming_form>input {
     width: 95%;
     height: 38px;
-    border: burlywood 1px solid;
+    border-radius: 5px 0px 0px 5px;
+    border: #545658 1px solid;
     background: #171a1f;
-    text-align: center;
+    text-align: left;
+    padding: 0px 0px 0px 15px;
+
 }
 
 .ChatStreaming_form>button {
-    height: 51px;
+    height: 100%;
     background-color: #007bff;
     color: #fff;
     padding: 10px;
     cursor: pointer;
     border: none;
-    border-radius: 5px;
+    border-radius: 0px 5px 5px 0px;
     font-size: 16px;
     transition: background-color 0.3s;
-    margin: 5px 0px 0px 0px;
 }
 
 @media screen and (max-width: 768px) {

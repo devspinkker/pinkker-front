@@ -1116,9 +1116,8 @@ export default function Channel({
     }
 
     if (type === 4) {
-      return (
-        <Clips unlocked={unlocked} gallerys={gallerys} streamer={streamer} />
-      );
+      console.log(streamer);
+      return <Clips streamer={streamer} />;
     }
   }
 
@@ -1340,10 +1339,10 @@ export default function Channel({
                         <h3>Acerca de</h3>
                       </div>
 
-                      <div
+                      {/* <div
                         style={{ left: getLeftForType() }}
                         className="type-line"
-                      ></div>
+                      ></div> */}
                     </div>
                   )}
 
@@ -1385,7 +1384,7 @@ export default function Channel({
 
               {!isMobile && (
                 <div
-                  style={{ width: chatExpanded ? "0" : "27.4%" }}
+                  style={{ width: chatExpanded ? "0" : "26.4%" }}
                   className="channel-chat"
                 >
                   {announce === true && (

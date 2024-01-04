@@ -1,17 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Clip.css";
+import Slider from "rc-slider"; // Importa el control deslizante
+import "rc-slider/assets/index.css"; // Importa los estilos básicos del control deslizante
 
 import { Create_Clip, GetBuffer } from "../../../services/backGo/clip";
+import ReactPlayer from "react-player";
 
 export function CreateClip() {
   const [videoUrl, setVideoUrl] = useState("");
   const [duration, setDuration] = useState(0);
-  const [startTime, setStartTime] = useState(0);
-  const [endTime, setEndTime] = useState(0);
+  const [startTime, setStartTime] = useState(30);
+  const [endTime, setEndTime] = useState(40);
   const [video, setVideo] = useState(null);
   const videoRef = useRef(null);
   const [clipTitle, setclipTitle] = useState("un titulo para el clip");
-
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playerKey, setPlayerKey] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
@@ -44,18 +48,22 @@ export function CreateClip() {
   }, []);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.addEventListener("timeupdate", () => {
-        setCurrentTime(videoRef.current.currentTime);
-      });
+    if (videoRef.current && videoRef.current.currentTime !== undefined) {
+      videoRef.current.currentTime = startTime;
+      setCurrentTime(startTime);
+      videoRef.current.play();
+      setIsPlaying(true);
     }
+  }, [startTime]);
 
-    return () => {
-      if (videoRef.current) {
-        videoRef.current.removeEventListener("timeupdate", () => {});
-      }
-    };
-  }, [videoRef.current]);
+  useEffect(() => {
+    if (videoRef.current && videoRef.current.currentTime !== undefined) {
+      videoRef.current.currentTime = endTime;
+      setCurrentTime(endTime);
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [endTime]);
 
   const handleSetDuration = async () => {
     try {
@@ -87,24 +95,62 @@ export function CreateClip() {
         window.location.href = `/clips/getId/?videoUrl=${videoUrl}`;
       }
     } catch (error) {
-      console.log(error);
       console.error("Error al enviar la solicitud de recorte:", error);
     }
   };
 
-  const handleSetStartTime = async () => {
+  const playVideo = () => {
     if (videoRef.current) {
-      videoRef.current.currentTime = 30;
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      setCurrentTime(videoRef.current.currentTime);
+      videoRef.current.play();
+      setIsPlaying(true);
     }
   };
 
-  const handleSetEndTime = () => {
+  const pauseVideo = () => {
     if (videoRef.current) {
-      videoRef.current.currentTime = 120;
-      setCurrentTime(videoRef.current.currentTime);
+      videoRef.current.pause();
+      setIsPlaying(false);
     }
+  };
+
+  const handleSliderChange = (values) => {
+    const newStart = values[0];
+    const newEnd = values[1];
+
+    if (
+      newStart >= 0 &&
+      newEnd <= duration &&
+      newEnd > newStart &&
+      newEnd - newStart >= 20 &&
+      newEnd - newStart <= 60
+    ) {
+      if (newStart === 0) {
+        newStart = newStart + 1;
+      }
+      setStartTime(newStart);
+      setEndTime(newEnd);
+    }
+  };
+  useEffect(() => {
+    const checkEndTime = () => {
+      if (videoRef.current && videoRef.current.currentTime >= endTime) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    if (videoRef.current) {
+      videoRef.current.addEventListener("timeupdate", checkEndTime);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        videoRef.current.removeEventListener("timeupdate", checkEndTime);
+      }
+    };
+  }, [videoRef.current, endTime]);
+  const handleTitleChange = (e) => {
+    setclipTitle(e.target.value);
   };
 
   return (
@@ -112,20 +158,36 @@ export function CreateClip() {
       {videoUrl && (
         <div id="create_clip_videoUrl">
           <div className="create_clip_video">
-            <video ref={videoRef} controls>
-              <source src={videoUrl} type="video/mp4" />
-            </video>
+            <ReactPlayer
+              url={videoUrl}
+              ref={videoRef}
+              controls={true}
+              onClick={isPlaying ? pauseVideo : playVideo}
+              playing={isPlaying}
+              progressInterval={1000}
+              onProgress={(progress) => setCurrentTime(progress.playedSeconds)}
+            />
+            <div className="slider-container">
+              <Slider
+                min={0}
+                max={duration}
+                range
+                value={[startTime, endTime]}
+                onChange={handleSliderChange}
+              />
+            </div>
           </div>
 
           <div className="edit-clip">
-            <button onClick={handleSetStartTime}>
-              Adelantar al segundo 30
-            </button>
-            <button onClick={handleSetEndTime}>
-              Establecer final en segundo 120
-            </button>
             <button onClick={handleSetDuration}>Recortar Video</button>
           </div>
+          <input
+            id="clipTitle"
+            placeholder="Añade un titulo"
+            type="text"
+            value={clipTitle}
+            onChange={handleTitleChange}
+          />
         </div>
       )}
     </div>

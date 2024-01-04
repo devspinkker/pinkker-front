@@ -98,7 +98,7 @@ export function ChatStreaming({ OnechatId }) {
         {messages.map((message, index) => (
           <div key={index} className="Message">
             <div className="MessagesChat">
-              <div className="imgs">
+              <div className="badges">
                 {message.EmotesChat.Moderator && (
                   <img src={message.EmotesChat.Moderator} alt="" />
                 )}
@@ -111,13 +111,17 @@ export function ChatStreaming({ OnechatId }) {
               </div>
               <div className="content-info-message">
                 <div className="content-info-message-2">
-                  <p style={{ color: message.Color, margin: "10px" }}>
+                  <p
+                    className="content-info-message-2-nameUser"
+                    style={{
+                      color: message.Color,
+                    }}
+                  >
                     {message.nameUser}:
+                    <span style={{ color: "#ffff" }}>
+                      {" " + message.message}
+                    </span>
                   </p>
-
-                  <span style={{ color: message.Color }}>
-                    {message.message}
-                  </span>
                 </div>
               </div>
             </div>
