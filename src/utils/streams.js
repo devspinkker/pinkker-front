@@ -25,7 +25,6 @@ export const UpdateStream = (type, id, { formValues = null, handleSuccess = null
         result
             .then(() => handleSuccess && handleSuccess())
             .catch((error) => {
-                console.log(`ERROR CHANGING STREAM, ie: ${type}: ${error}`);
                 setErrors(({ errors: `${error}` }));
             });
     }

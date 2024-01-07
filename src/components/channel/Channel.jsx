@@ -1014,20 +1014,24 @@ export default function Channel({
               />
             </div>
 
-            <h5
-              className="channel-avatar-text"
-              style={{
-                color: "#ededed",
-                padding: "2px",
-                borderRadius: "5px",
-                position: "relative",
-                left: "-10px",
-                top: imageHovered ? "-20px" : "-27px",
-                width: "85px",
-              }}
-            >
-              EN DIRECTO
-            </h5>
+            {stream.online ? (
+              <h5
+                className="channel-avatar-text"
+                style={{
+                  color: "#ededed",
+                  padding: "2px",
+                  borderRadius: "5px",
+                  position: "relative",
+                  left: "-10px",
+                  top: imageHovered ? "-20px" : "-27px",
+                  width: "85px",
+                }}
+              >
+                EN DIRECTO
+              </h5>
+            ) : (
+              <div></div>
+            )}
           </div>
 
           <div
@@ -1116,7 +1120,6 @@ export default function Channel({
     }
 
     if (type === 4) {
-      console.log(streamer);
       return <Clips streamer={streamer} />;
     }
   }
@@ -1246,33 +1249,35 @@ export default function Channel({
 
   function getChannel() {
     if (stream?.streamer) {
-      if (stream.online === true) {
-        return (
-          <div className="channel-body">
-            <div className="channel-content-video">
-              <div
-                style={{ width: getWithChannelVideo() }}
-                className="channel-video"
-              >
-                {chatExpanded === true && (
-                  <img
-                    onClick={() => setChatExpanded(!chatExpanded)}
-                    style={{
-                      width: "12px",
-                      cursor: "pointer",
-                      textAlign: "center",
-                      color: "white",
-                      position: "fixed",
-                      right: "10px",
-                      top: "60px",
-                      transform: "rotate(180deg)",
-                      zIndex: "99999",
-                    }}
-                    className="chat-button-more"
-                    src="/images/iconos/contraer.png"
-                  />
-                )}
-
+      return (
+        <div className="channel-body">
+          <div className="channel-content-video">
+            <div
+              style={{
+                width: getWithChannelVideo(),
+                margin: stream.online ? "0%" : "4% 0% 0% 2%",
+              }}
+              className="channel-video"
+            >
+              {chatExpanded === true && (
+                <img
+                  onClick={() => setChatExpanded(!chatExpanded)}
+                  style={{
+                    width: "12px",
+                    cursor: "pointer",
+                    textAlign: "center",
+                    color: "white",
+                    position: "fixed",
+                    right: "10px",
+                    top: "60px",
+                    transform: "rotate(180deg)",
+                    zIndex: "99999",
+                  }}
+                  className="chat-button-more"
+                  src="/images/iconos/contraer.png"
+                />
+              )}
+              {stream.online ? (
                 <div
                   onMouseEnter={() => setViewInfoStream(true)}
                   onMouseLeave={() => setViewInfoStream(false)}
@@ -1280,148 +1285,132 @@ export default function Channel({
                 >
                   {streamerData && announce === false && renderPlayer()}
                 </div>
+              ) : (
+                <></>
+              )}
 
-                {renderAnnoucement()}
+              {renderAnnoucement()}
 
-                <div
-                  style={{ width: "100%", margin: "0 auto", zIndex: "1000" }}
-                >
-                  {tyExpanded ? getNotExpandedStream() : getStream()}
-                  {getBottomStream()}
+              <div style={{ width: "100%", margin: "0 auto", zIndex: "1000" }}>
+                {tyExpanded && stream.online
+                  ? getNotExpandedStream()
+                  : getStream()}
+                {getBottomStream()}
 
-                  {!isMobile && (
+                {!isMobile && (
+                  <div
+                    style={{
+                      width: "95%",
+                      margin: "0 auto",
+                      borderTop: "0.01em solid #2b2b2b3f",
+                    }}
+                    className="type-set"
+                  >
                     <div
-                      style={{
-                        width: "95%",
-                        margin: "0 auto",
-                        borderTop: "0.01em solid #2b2b2b3f",
-                      }}
-                      className="type-set"
+                      onClick={() => changeType(1)}
+                      className={type === 1 ? "type-card active" : "type-card"}
                     >
-                      <div
-                        onClick={() => changeType(1)}
-                        className={
-                          type === 1 ? "type-card active" : "type-card"
-                        }
-                      >
-                        <h3>Muro</h3>
-                      </div>
-                      <div
-                        onClick={() => changeType(3)}
-                        className={
-                          type === 3 ? "type-card active" : "type-card"
-                        }
-                      >
-                        <h3>Galeria</h3>
-                      </div>
-                      <div
-                        onClick={() => changeType(0)}
-                        className={
-                          type === 0 ? "type-card active" : "type-card"
-                        }
-                      >
-                        <h3>Vods</h3>
-                      </div>
-                      <div
-                        onClick={() => changeType(4)}
-                        className={
-                          type === 4 ? "type-card active" : "type-card"
-                        }
-                      >
-                        <h3>Clips</h3>
-                      </div>
-                      <div
-                        onClick={() => changeType(2)}
-                        className={
-                          type === 2 ? "type-card active" : "type-card"
-                        }
-                      >
-                        <h3>Acerca de</h3>
-                      </div>
+                      <h3>Muro</h3>
+                    </div>
+                    <div
+                      onClick={() => changeType(3)}
+                      className={type === 3 ? "type-card active" : "type-card"}
+                    >
+                      <h3>Galeria</h3>
+                    </div>
+                    <div
+                      onClick={() => changeType(0)}
+                      className={type === 0 ? "type-card active" : "type-card"}
+                    >
+                      <h3>Vods</h3>
+                    </div>
+                    <div
+                      onClick={() => changeType(4)}
+                      className={type === 4 ? "type-card active" : "type-card"}
+                    >
+                      <h3>Clips</h3>
+                    </div>
+                    <div
+                      onClick={() => changeType(2)}
+                      className={type === 2 ? "type-card active" : "type-card"}
+                    >
+                      <h3>Acerca de</h3>
+                    </div>
 
-                      {/* <div
+                    {/* <div
                         style={{ left: getLeftForType() }}
                         className="type-line"
                       ></div> */}
-                    </div>
-                  )}
+                  </div>
+                )}
 
-                  {!isMobile && (
-                    <div style={{ width: "100%", margin: "0 auto" }}>
-                      {streamerData && getType()}
-                    </div>
-                  )}
+                {!isMobile && (
+                  <div style={{ width: "100%", margin: "0 auto" }}>
+                    {streamerData && getType()}
+                  </div>
+                )}
 
-                  {isMobile && (
-                    <div
-                      style={{ width: chatExpanded ? "100%" : "100%" }}
-                      className="channel-chat"
-                    >
-                      {announce === true && (
-                        <div
-                          style={{
-                            width: "100%",
-                            height: "200px",
-                            backgroundColor: "black",
-                          }}
-                        >
-                          {streamerData && (
-                            <CustomPlayer
-                              isMobile={isMobile}
-                              height={"200px"}
-                              vod={false}
-                              streamerName={streamer}
-                              time={stream && stream.start_date}
-                            ></CustomPlayer>
-                          )}
-                        </div>
-                      )}
-                      <ChatStreaming OnechatId={stream.id} />
-                    </div>
-                  )}
-                </div>
+                {isMobile && (
+                  <div
+                    style={{ width: chatExpanded ? "100%" : "100%" }}
+                    className="channel-chat"
+                  >
+                    {announce === true && (
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "200px",
+                          backgroundColor: "black",
+                        }}
+                      >
+                        {streamerData && (
+                          <CustomPlayer
+                            isMobile={isMobile}
+                            height={"200px"}
+                            vod={false}
+                            streamerName={streamer}
+                            time={stream && stream.start_date}
+                          ></CustomPlayer>
+                        )}
+                      </div>
+                    )}
+                    <ChatStreaming OnechatId={stream.id} />
+                  </div>
+                )}
               </div>
-
-              {!isMobile && (
-                <div
-                  style={{ width: chatExpanded ? "0" : "26.4%" }}
-                  className="channel-chat"
-                >
-                  {announce === true && (
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "200px",
-                        backgroundColor: "black",
-                      }}
-                    >
-                      {streamerData && (
-                        <CustomPlayer
-                          isMobile={isMobile}
-                          height={"200px"}
-                          vod={false}
-                          streamerName={streamer}
-                          time={stream && stream.start_date}
-                        ></CustomPlayer>
-                      )}
-                    </div>
-                  )}
-
-                  <ChatStreaming OnechatId={stream.id} />
-                </div>
-              )}
             </div>
+
+            {!isMobile && (
+              <div
+                style={{ width: chatExpanded ? "0" : "26.4%" }}
+                className="channel-chat"
+              >
+                {announce === true && (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "200px",
+                      backgroundColor: "black",
+                    }}
+                  >
+                    {streamerData && (
+                      <CustomPlayer
+                        isMobile={isMobile}
+                        height={"200px"}
+                        vod={false}
+                        streamerName={streamer}
+                        time={stream && stream.start_date}
+                      ></CustomPlayer>
+                    )}
+                  </div>
+                )}
+
+                <ChatStreaming OnechatId={stream.id} />
+              </div>
+            )}
           </div>
-        );
-      }
-      if (stream.online === false) {
-        return (
-          <div>
-            {isMobile && <NavbarLeft isMobile={isMobile} tyDashboard={false} />}
-            <Disconnected isMobile={isMobile} />
-          </div>
-        );
-      }
+        </div>
+      );
     } else {
       setTimeout(() => {
         setTimeError(true);

@@ -142,7 +142,6 @@ export default function Analytics() {
     };
     await fetchData();
     setStatsData([["", ""], ...data]);
-    console.log([["", ""], ...data]);
   }, [type]);
 
   function getStats() {

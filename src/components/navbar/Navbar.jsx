@@ -56,7 +56,6 @@ function Navbar({
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => {
-    console.log("closeMobileMenu");
     setClick(false);
   };
   const [showPopupAuth, setShowPopupAuth] = useState(false);
@@ -126,7 +125,6 @@ function Navbar({
     } else {
       SetisLogged(false);
     }
-    console.log(user);
   }, []);
 
   const addEllipsis = (str, limit) => {

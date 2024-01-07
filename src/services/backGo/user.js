@@ -16,8 +16,7 @@ export async function signUp(token, userData) {
         });
         return response.data;
     } catch (error) {
-        console.error('Error en signUp:', error.message);
-        throw error;
+        return error
     }
 }
 
@@ -27,7 +26,7 @@ export async function login(userData) {
         return response.data;
     } catch (error) {
         console.error('Error en login:', error.message);
-        throw error;
+        return error
     }
 }
 
@@ -45,7 +44,7 @@ export async function follow(token, userId) {
         return response.data;
     } catch (error) {
         console.error('Error en follow:', error.message);
-        throw error;
+        return error
     }
 }
 
@@ -67,11 +66,10 @@ export async function getUserByIdTheToken(token) {
 export async function getUserByNameUser(nameUser) {
     try {
         const response = await axios.get(`${baseURL}/user/getUserByNameUser?nameUser=${nameUser}`);
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Error en getUserById:', error.message);
-        throw error;
+        return error
     }
 }
 
@@ -89,13 +87,12 @@ export async function unfollow(token, userId) {
         return response.data;
     } catch (error) {
         console.error('Error en unfollow:', error.message);
-        throw error;
+        return error
     }
 }
 
 export async function editProfile(token, profileData) {
     try {
-        console.log("A");
         const response = await axios.post(
             `${baseURL}/user/EditProfile`,
             profileData,
@@ -127,7 +124,7 @@ export async function editAvatar(token, avatarData) {
         return response.data;
     } catch (error) {
         console.error('Error en editAvatar:', error.message);
-        throw error;
+        return error
     }
 }
 
@@ -146,7 +143,7 @@ export async function suscribirse(token, ToUser) {
         return response.data;
     } catch (error) {
         console.error('Error en unfollow:', error.message);
-        throw error;
+        return error
     }
 }
 export async function compradePixeles(token) {

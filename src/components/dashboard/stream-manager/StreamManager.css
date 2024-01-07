@@ -1,6 +1,10 @@
+.container-streammanager {
+    margin: 4% 0% 0% 2%;
+}
+
 .streammanager-body {
     width: 100%;
-    background-color:#0a0b0d;
+    background-color: #0a0b0d;
     display: flex;
     height: 917px;
     align-items: "center";
@@ -11,8 +15,9 @@
 .streammanager-content-1 {
     width: 25%;
     height: 917px;
-    background-color:#040404;
+    background-color: #040404;
 }
+
 .streammanager-content-2 {
     width: 54%;
     background-color: #040404;
@@ -33,7 +38,7 @@
     .streammanager-content-1 {
         width: 100%;
         height: 250px;
-        background-color:#040404;
+        background-color: #040404;
     }
 
     .streammanager-content-2 {
@@ -42,13 +47,13 @@
         height: 914px;
         border: 1px solid #2b2b2b8f;
     }
-    
-    
+
+
     .streammanager-content-3 {
         width: 100%;
         height: 914px;
         overflow: hidden;
         border: 1px solid #2b2b2b8f;
     }
-    
+
 }

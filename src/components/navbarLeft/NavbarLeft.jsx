@@ -95,7 +95,6 @@ export default function NavbarLeft({
     const fetchData = async () => {
       const result = await GetAllsStreamsOnline();
       if (result.message === "ok") {
-        console.log("A");
         setRecommended(result.data);
       }
     };

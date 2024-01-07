@@ -35,3 +35,8 @@ export const GetClipsNameUser = async (nameUserCeator, page) => {
 
     return response
 }
+export const GetClipsCategory = async (Category, page) => {
+    const response = await axios.get(`https://pinkker-backend-2-xw7b.fl0.io/GetClipsCategory?page=${page}&Category=${Category}`)
+
+    return response
+}

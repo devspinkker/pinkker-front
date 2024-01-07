@@ -14,7 +14,6 @@ export const PostCreate = async (FormData) => {
       "Content-Type": "multipart/form-data",
     },
   };
-  console.log(token);
   const res = await axios.post(`${url}/post/postCreate`, FormData, config);
   return res;
 };
@@ -42,10 +41,7 @@ export const LikePost = async (object) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log(token);
-  console.log(object.idTweet);
   const res = await axios.post(`${url}/post/posttLike`, object, config);
-  console.log(res);
   return res;
 };
 export const DislikePost = async (object) => {
@@ -78,7 +74,7 @@ export const getTweetFollowing = async (token, page, limit) => {
     );
     return response.data;
   } catch (error) {
-    console.log("Error while calling getAllEmotes", error);
+    return error
   }
 };
 
@@ -91,7 +87,7 @@ export const getTweetUser = async (id, page, limit) => {
     return response.data;
   } catch (error) {
     return error.response;
-    console.log("Error while calling getAllEmotes", error);
+
   }
 };
 export const createTweet = async (token, text, image, citeTweet) => {
@@ -109,7 +105,8 @@ export const createTweet = async (token, text, image, citeTweet) => {
     );
     return res;
   } catch (error) {
-    console.log("Error while calling handleSuscription", error);
+    return error;
+
   }
 };
 
@@ -126,7 +123,7 @@ export const like = async (token, tweetId) => {
     );
     return res;
   } catch (error) {
-    console.log("Error while calling like", error);
+    return error
   }
 };
 
@@ -143,7 +140,8 @@ export const retweet = async (token, tweetId) => {
     );
     return res;
   } catch (error) {
-    console.log("Error while calling like", error);
+    return error
+
   }
 };
 
@@ -160,7 +158,8 @@ export const userLikeTweet = async (token, tweetId) => {
     );
     return res;
   } catch (error) {
-    console.log("Error while calling userLikeTweet", error);
+    return error
+
   }
 };
 
@@ -171,6 +170,7 @@ export const getUserFollow = async (token) => {
     });
     return response.data;
   } catch (error) {
-    console.log("Error while calling getAllEmotes", error);
+    return error
+
   }
 };

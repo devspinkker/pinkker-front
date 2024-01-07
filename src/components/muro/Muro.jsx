@@ -61,9 +61,7 @@ export default function Muro({ isMobile }) {
   }, []);
 
   async function PostGetsf() {
-    console.log("data");
     const data = await PostGets();
-    console.log(data);
     if (data.data == null) {
       setTweets([]);
     } else {

@@ -10,6 +10,7 @@ import { getClips, getClipsWithAuth } from "../../../services/vods";
 import ClipCard from "./card/ClipCard";
 
 import Auth from "../../auth/Auth";
+import { GetClipsCategory } from "../../../services/backGo/clip";
 
 export default function ClipsMain() {
   const auth = useSelector((state) => state.auth);
@@ -26,33 +27,37 @@ export default function ClipsMain() {
     window.scrollTo(0, 0);
   }, []);
 
-  /*useEffect(() => {
-        if(token != null && token != undefined && token != "") {
+  //  useEffect(() => {
+  //         if(token != null && token != undefined && token != "") {
 
-            const fetchData = async () => {
-                const data = await getClipsWithAuth(token, 5);
-                if(data != null && data != undefined) {
-                    setClips(data);
-                }
-            }
-            fetchData()
+  //             const fetchData = async () => {
+  //                 const data = await getClipsWithAuth(token, 5);
+  //                 if(data != null && data != undefined) {
+  //                     setClips(data);
+  //                 }
+  //             }
+  //             fetchData()
 
-            window.onscroll = function(e) {myFunction(e)};
+  //             window.onscroll = function(e) {myFunction(e)};
+  //         }
+  //     }, [token])
+
+  useEffect(() => {
+    if (!isLogged) {
+      const fetchData = async () => {
+        try {
+          const res = await GetClipsCategory("Charlando", 1);
+          if (res.data.message == "ok") {
+            setClips(res.data.data);
+          }
+        } catch (error) {
+          console.log(error);
         }
-    }, [token]) 
-
-    useEffect(() => {
-        if(!isLogged) {
-            const fetchData = async () => {
-                const data = await getClips(5);
-                if(data != null && data != undefined) {
-                    setClips(data);
-                }
-            }
-            fetchData()
-            //window.onscroll = function(e) {myFunction(e)};
-        }
-    }, [])*/
+      };
+      fetchData();
+      //window.onscroll = function(e) {myFunction(e)};
+    }
+  }, []);
 
   let isScrolling = false;
 
@@ -129,23 +134,73 @@ export default function ClipsMain() {
 
   return (
     <div className="clipsmain-body">
-      {/*<div>
-                {clips && clips.map((clip, index) => index <= 0 ? <ClipCard type={0} clip={clip}/> : <ClipCard type={1} clip={clip}/>)}
-            </div>
-            
+      <div>
+        {clips &&
+          clips.map((clip, index) =>
+            index <= 0 ? (
+              <ClipCard type={0} clip={clip} />
+            ) : (
+              <ClipCard type={1} clip={clip} />
+            )
+          )}
+      </div>
 
-            <div style={{top: "80px"}} className="clipsmain-right-buttons">
-                <div style={{height: "400px", display: "flex", alignItems: "start", justifyContent: "center"}}>
-                    <i onClick={previewClip} style={{backgroundColor: "#303030", width: "40px", height: "40px", borderRadius: "50px", color: "darkgray", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px"}} class="fas fa-arrow-up"/>
-                </div>
-                <div style={{height: "400px", display: "flex", alignItems: "end", justifyContent: "center"}}>
-                    <i onClick={nextClip} style={{backgroundColor: "#303030", width: "40px", height: "40px", borderRadius: "50px", color: "darkgray", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px"}} class="fas fa-arrow-down"/>
-                </div>
-            </div>
+      <div style={{ top: "80px" }} className="clipsmain-right-buttons">
+        <div
+          style={{
+            height: "400px",
+            display: "flex",
+            alignItems: "start",
+            justifyContent: "center",
+          }}
+        >
+          <i
+            onClick={previewClip}
+            style={{
+              backgroundColor: "#303030",
+              width: "40px",
+              height: "40px",
+              borderRadius: "50px",
+              color: "darkgray",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "22px",
+            }}
+            class="fas fa-arrow-up"
+          />
+        </div>
+        <div
+          style={{
+            height: "400px",
+            display: "flex",
+            alignItems: "end",
+            justifyContent: "center",
+          }}
+        >
+          <i
+            onClick={nextClip}
+            style={{
+              backgroundColor: "#303030",
+              width: "40px",
+              height: "40px",
+              borderRadius: "50px",
+              color: "darkgray",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "22px",
+            }}
+            class="fas fa-arrow-down"
+          />
+        </div>
+      </div>
 
-    {viewAuth && <Auth typeDefault={0} closePopup={() => setViewAuth(false)}/>}*/}
+      {viewAuth && (
+        <Auth typeDefault={0} closePopup={() => setViewAuth(false)} />
+      )}
 
-      <div
+      {/* <div
         style={{
           height: "800px",
           display: "flex",
@@ -162,7 +217,7 @@ export default function ClipsMain() {
             Estamos trabajando en esto... estará pronto!
           </h1>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

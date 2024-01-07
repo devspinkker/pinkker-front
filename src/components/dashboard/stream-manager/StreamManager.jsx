@@ -36,7 +36,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
   const { streamer } = useParams();
 
   const auth = useSelector((state) => state.auth);
-  const [userSe, SetuserSe] = useState(null);
+  const [userData, SetUserData] = useState(null);
   const token = useSelector((state) => state.token);
 
   const [showPopupEditInfo, setShowPopupEditInfo] = useState(false);
@@ -66,7 +66,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
 
       let resuser = await getUserByIdTheToken(token);
       if (resuser.message == "ok") {
-        SetuserSe(resuser.data);
+        SetUserData(resuser.data);
       }
 
       const dataStreamer = await getStreamById(id);
@@ -93,7 +93,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
   }, [token]);
 
   const loadDataOnlyOnce = () => {
-    // const name = userSe.name;
+    // const name = userData.name;
     // const room = streamer;
     // socket = io(ENDPOINT);
     // setName(name);
@@ -112,7 +112,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
   async function handleRestoreKey() {
     const data = await restoreKey(token);
     if (data != null && data != undefined) {
-      userSe.keyTransmission = data.data.key;
+      userData.keyTransmission = data.data.key;
       alert({ type: "SUCCESS", message: data.data.msg });
     }
   }
@@ -155,13 +155,13 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                     />
                     {/* <input
                       value={
-                        userSe.keyTransmission &&
-                        userSe.keyTransmission.substring(
+                        userData.keyTransmission &&
+                        userData.keyTransmission.substring(
                           4,
-                          userSe.keyTransmission.length
+                          userData.keyTransmission.length
                         ) +
                           "?token=" +
-                          userSe.cmt
+                          userData.cmt
                       }
                       className="settingstream-input"
                       style={{ width: "90%", fontSize: "15px" }}
@@ -195,10 +195,10 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                         <button
                           onClick={() =>
                             copyToClipboard(
-                              userSe.keyTransmission &&
-                                userSe.keyTransmission.substring(
+                              userData.keyTransmission &&
+                                userData.keyTransmission.substring(
                                   4,
-                                  userSe.keyTransmission.length
+                                  userData.keyTransmission.length
                                 )
                             )
                           }
@@ -273,6 +273,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
           <div style={{ height: "500px" }}>
             {streamerData && (
               <CustomPlayer
+                streamerData={userData}
                 dashboard={true}
                 isMobile={isMobile}
                 vod={false}
@@ -297,7 +298,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
           >
             <img
               style={{ marginRight: "20px", width: "45px" }}
-              src={categorie && categorie.image}
+              src={userData?.Avatar}
               alt=""
             />
             <div>
@@ -419,13 +420,13 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                         style={{ width: "90%", fontSize: "13px" }}
                         type="text"
                       />
-                      {userSe != null ? (
+                      {userData != null ? (
                         <input
                           value={
-                            userSe.keyTransmission &&
-                            userSe.keyTransmission.substring(
+                            userData.keyTransmission &&
+                            userData.keyTransmission.substring(
                               4,
-                              userSe.keyTransmission.length
+                              userData.keyTransmission.length
                             )
                           }
                           className="settingstream-input"
@@ -463,10 +464,10 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                           <button
                             onClick={() =>
                               copyToClipboard(
-                                userSe.keyTransmission &&
-                                  userSe.keyTransmission.substring(
+                                userData.keyTransmission &&
+                                  userData.keyTransmission.substring(
                                     4,
-                                    userSe.keyTransmission.length
+                                    userData.keyTransmission.length
                                   )
                               )
                             }
@@ -517,6 +518,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                   width="100%"
                   height="500px"
                   left="0px"
+                  streamerData={userData}
                 />
               )}
             </div>
@@ -534,7 +536,8 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
             >
               <img
                 style={{ marginRight: "20px", width: "45px" }}
-                src={categorie && categorie.image}
+                // src={categorie && categorie.image}
+                src={userData?.Avatar}
                 alt=""
               />
               <div>
@@ -574,14 +577,14 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
   }
 
   return (
-    <div>
+    <div className="container-streammanager">
       {renderStreamManager()}
 
       {showPopupEditInfo === true && (
         <PopupEditInfo
           closePopup={() => togglePopupEditInfo()}
           stream={streamerData}
-          user={userSe}
+          user={userData}
         />
       )}
       {showPopupMostrar === true && (

@@ -130,7 +130,6 @@ const Input = ({
   }
 
   function toggleReply(e) {
-    console.log("Input reply user " + replyUser);
     document.getElementById("chat-input").textContent =
       "@" + replyUser + " " + message;
     setMessage("@" + replyUser + " " + message);

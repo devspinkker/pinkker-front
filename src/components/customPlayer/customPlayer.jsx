@@ -2,27 +2,19 @@ import React, { useState, useRef, useEffect } from "react";
 
 import "./customPlayer.css";
 import ReactHlsPlayer from "../../player/PlayerMain";
-import ReactFlvPlayer from "../../player/PlayerWeb.tsx";
 
 import DropdownSettings from "./DropdownSettings";
 
-import { getUser } from "../../services/follow";
-import { useSelector } from "react-redux";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
 
 import PopupClipCreator from "../popup/PopupClipCreator/PopupClipCreator";
-import ClipCreator from "../popup/ClipCreator/ClipCreator";
-
-import { createClip } from "../../services/vods";
 
 import Slider from "@mui/material/Slider";
 import { Link } from "react-router-dom";
 
 import { useParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
-import ReactPlayer from "react-player";
-
 export default function CustomPlayer({
   isMobile,
   expanded,
@@ -75,12 +67,10 @@ export default function CustomPlayer({
       const videoPlayer = videoRef.current;
 
       const handlePlayerLoad = () => {
-        console.log("loaded");
         setVideoLoading(false);
       };
 
       const handlePlayerError = () => {
-        console.log("error loading");
         setVideoLoading(false);
       };
 
@@ -176,11 +166,7 @@ export default function CustomPlayer({
 
   const toggleFullScreen = () => {
     var el = document.getElementById("pinkker-player");
-    console.log(el);
-    console.log("A");
     if (el) {
-      console.log("b");
-
       if (el.requestFullscreen) {
         el.requestFullscreen();
       } else if (el.msRequestFullscreen) {
@@ -664,7 +650,7 @@ export default function CustomPlayer({
       )}
       {/* {dashboard ===  && showScreenMute === true && ( */}
       {/* )} */}
-      {/*<div className="customPlayer-shadow-1"></div>*/}
+      {/* <div className="customPlayer-shadow-1"></div> */}
       {getBottomButtons()}
       {dropdownSettings && (
         <DropdownSettings

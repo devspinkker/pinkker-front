@@ -20,9 +20,7 @@ export default function Muro({ streamer }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(streamer);
       const data = await getTweetUser(streamer?.id, page, 1);
-      console.log(data);
       if (data?.message == "ok") {
         if (data.data == null) {
           setTweets(null);

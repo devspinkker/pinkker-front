@@ -55,7 +55,6 @@ export default function PopupClipCreator({ closePopup, video, streamer }) {
           thumbnails.push(URL.createObjectURL(image.blob))
         );
         setCovers(thumbnails);
-        //console.log(thumbnails)
       }
     };
     fetchData();
@@ -63,10 +62,8 @@ export default function PopupClipCreator({ closePopup, video, streamer }) {
 
   function setBlobImages(photo) {
     if (photo === undefined) {
-      console.log("undefined");
       return undefined;
     } else {
-      console.log("value");
       var binaryData = [];
       binaryData.push(photo);
       return URL.createObjectURL(new Blob(binaryData));
@@ -263,7 +260,6 @@ export default function PopupClipCreator({ closePopup, video, streamer }) {
       }
 
       const duration = parseInt(cutEndTime - cutStartTime);
-      console.log(selectedCover);
       setLoading(true);
 
       const data = await createUserClip(
@@ -291,11 +287,9 @@ export default function PopupClipCreator({ closePopup, video, streamer }) {
           "image.png",
           { lastModified: 1534584790000, type: "image/png" }
         );
-        console.log(wavefilefromblob);
 
         let formData = new FormData();
         formData.append("file", wavefilefromblob);
-        console.log(formData);
 
         const res = await axios.post(
           process.env.REACT_APP_DEV_API_URL +

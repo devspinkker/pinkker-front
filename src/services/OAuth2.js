@@ -5,7 +5,6 @@ const GoogleLoginURL = async () => {
     const res = await axios.get(
         `${url}/user/google_login`, {}
     )
-    console.log(res);
 
     return res
 }

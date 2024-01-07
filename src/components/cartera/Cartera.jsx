@@ -34,7 +34,6 @@ export default function Cartera({ user }) {
   };
 
   useEffect(() => {
-    console.log(user);
     if (token != null && token != undefined && token != "") {
       const fetchData = async () => {
         const data = await getMyWithdraw(token);

@@ -85,7 +85,6 @@ const AppRouter = () => {
     const name = user.name;
 
     if (name != undefined && name != null) {
-      console.log("[PINKKER] [CHAT MESSAGE] User name: " + user.name);
       socketMain.emit(
         "join",
         { _id: user._id, name, room: "general" },
@@ -166,7 +165,7 @@ const AppRouter = () => {
           <Switch>
             <Route exact path="/:streamer/dashboard/home">
               <NavbarLeft
-                use={user}
+                user={user}
                 setExpanded={setExpanded}
                 tyExpanded={expanded}
                 tyDashboard={true}
@@ -176,7 +175,7 @@ const AppRouter = () => {
 
             <Route exact path="/:streamer/dashboard/analytics">
               <NavbarLeft
-                use={user}
+                user={user}
                 setExpanded={setExpanded}
                 tyExpanded={expanded}
                 tyDashboard={true}
@@ -186,7 +185,7 @@ const AppRouter = () => {
 
             <Route exact path="/:streamer/dashboard/streammanager">
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 setExpanded={setExpanded}
                 tyExpanded={expanded}
@@ -201,7 +200,7 @@ const AppRouter = () => {
 
             <Route exact path="/:streamer/dashboard/settings/stream">
               <NavbarLeft
-                use={user}
+                user={user}
                 setExpanded={setExpanded}
                 tyExpanded={expanded}
                 tyDashboard={true}
@@ -211,7 +210,7 @@ const AppRouter = () => {
 
             <Route exact path="/:streamer/dashboard/content">
               <NavbarLeft
-                use={user}
+                user={user}
                 setExpanded={setExpanded}
                 tyExpanded={expanded}
                 tyDashboard={true}
@@ -221,7 +220,7 @@ const AppRouter = () => {
 
             <Route exact path="/:streamer/dashboard/community">
               <NavbarLeft
-                use={user}
+                user={user}
                 setExpanded={setExpanded}
                 tyExpanded={expanded}
                 tyDashboard={true}
@@ -232,7 +231,7 @@ const AppRouter = () => {
             <Route exact path="/:streamer">
               {!isMobile && (
                 <NavbarLeft
-                  use={user}
+                  user={user}
                   setExpanded={setExpanded}
                   tyExpanded={expanded}
                   tyDashboard={false}
@@ -249,7 +248,7 @@ const AppRouter = () => {
 
             <Route exact path="/:streamer/settings">
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -265,7 +264,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/tendency">
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -275,7 +274,7 @@ const AppRouter = () => {
 
             <Route exact path="/admin/general">
               <NavbarLeft
-                use={user}
+                user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
               />
@@ -284,7 +283,7 @@ const AppRouter = () => {
 
             <Route exact path="/admin/pagos">
               <NavbarLeft
-                use={user}
+                user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
               />
@@ -293,7 +292,7 @@ const AppRouter = () => {
 
             <Route exact path="/admin/statistics">
               <NavbarLeft
-                use={user}
+                user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
               />
@@ -302,7 +301,7 @@ const AppRouter = () => {
 
             <Route exact path="/user/reset/:token">
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -312,7 +311,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/explore">
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -322,7 +321,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/cartera">
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -332,7 +331,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/subscriptions">
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -342,7 +341,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/achievement">
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -352,7 +351,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/clips">
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -362,7 +361,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/muro">
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -372,7 +371,7 @@ const AppRouter = () => {
 
             <Route exact path="/vod/:vodId">
               <NavbarLeft
-                use={user}
+                user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
               />
@@ -381,7 +380,7 @@ const AppRouter = () => {
 
             <Route path="/categorie/:categorieName" exact>
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -391,7 +390,7 @@ const AppRouter = () => {
 
             <Route path="/clip/:clipId" exact>
               <NavbarLeft
-                use={user}
+                user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
               />
@@ -400,7 +399,7 @@ const AppRouter = () => {
 
             <Route exact path="/" component={Home}>
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -423,7 +422,7 @@ const AppRouter = () => {
 
             <Route exact path={"/direct/inbox"}>
               <NavbarLeft
-                use={user}
+                user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
               />
@@ -432,7 +431,7 @@ const AppRouter = () => {
 
             <Route exact path={"/plataform/search"}>
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -442,7 +441,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/terms">
               <NavbarLeft
-                use={user}
+                user={user}
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
@@ -452,7 +451,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/privacy">
               <NavbarLeft
-                use={user}
+                user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
               />

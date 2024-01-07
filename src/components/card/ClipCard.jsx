@@ -5,10 +5,6 @@ import "./ClipCard.css";
 export default function ClipCard({ video, ...props }) {
   const [mouseEnter, setMouseEnter] = useState(false);
   const [viewVideo, setViewVideo] = useState(false);
-  const [timeHover, setTimeHover] = useState(false);
-  useEffect(() => {
-    console.log(video.Avatar);
-  }, []);
 
   const handleEnter = () => {
     setMouseEnter(true);
@@ -27,7 +23,7 @@ export default function ClipCard({ video, ...props }) {
       <div className="clipcard-video-preview">
         {viewVideo ? (
           <video
-            src={props.url}
+            src={video.url}
             muted={true}
             autoPlay={true}
             style={{
@@ -45,9 +41,7 @@ export default function ClipCard({ video, ...props }) {
               height: props.height,
               objectFit: "cover",
             }}
-            src={
-              "https://static-cdn.jtvnw.net/previews-ttv/live_user_markitonavaja-440x248.jpg"
-            }
+            src={video.streamThumbnail}
             alt=""
           />
         )}
@@ -78,9 +72,7 @@ export default function ClipCard({ video, ...props }) {
             height: props.height,
             objectFit: "cover",
           }}
-          src={
-            "https://static-cdn.jtvnw.net/previews-ttv/live_user_markitonavaja-440x248.jpg"
-          }
+          src={video.streamThumbnail}
           alt=""
         />
         <div

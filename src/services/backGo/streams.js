@@ -15,7 +15,7 @@ export async function getStreamById(streamId) {
 		return response.data;
 	} catch (error) {
 		console.error('Error en getStreamById:', error.message);
-		throw error;
+		return error
 	}
 }
 
@@ -42,7 +42,7 @@ export async function getStreamByUserName(userName) {
 		return response.data
 	} catch (error) {
 		console.error('Error en getStreamByUserName:', error.message);
-		throw error;
+		return error
 	}
 }
 
@@ -61,7 +61,7 @@ async function getStreamsIFollow(followingIds) {
 		return response.data;
 	} catch (error) {
 		console.error('Error en getStreamsIFollow:', error.message);
-		throw error;
+		return error
 	}
 }
 
@@ -78,9 +78,9 @@ export async function updateStreamInfo(token, streamInfo) {
 			}
 		);
 		return response.data;
+
 	} catch (error) {
 		console.log(error);
-		// return error
 	}
 }
 
@@ -93,7 +93,7 @@ export async function GetAllsStreamsOnline() {
 		return response.data;
 	} catch (error) {
 		console.error('Error en GetAllsStreamsOnline:', error.message);
-		throw error;
+		return error
 	}
 }
 
@@ -112,7 +112,7 @@ async function updateStartDate(streamInfo) {
 		return response.data;
 	} catch (error) {
 		console.error('Error en updateStartDate:', error.message);
-		throw error;
+		return error
 	}
 }
 async function updateOnlineStatus(updateInfo) {
@@ -129,7 +129,7 @@ async function updateOnlineStatus(updateInfo) {
 		return response.data;
 	} catch (error) {
 		console.error('Error en updateOnlineStatus:', error.message);
-		throw error;
+		return error
 	}
 }
 async function closeStream() {
@@ -146,7 +146,7 @@ async function closeStream() {
 		return response.data;
 	} catch (error) {
 		console.error('Error en closeStream:', error.message);
-		throw error;
+		return error
 	}
 }
 
@@ -159,7 +159,7 @@ async function getStreamingsOnline() {
 		return response.data;
 	} catch (error) {
 		console.error('Error en getStreamingsOnline:', error.message);
-		throw error;
+		return error
 	}
 }
 export async function getCategoriesWithLimit(param) {
@@ -168,6 +168,6 @@ export async function getCategoriesWithLimit(param) {
 		return response.data
 	} catch (error) {
 		console.error('Error en getStreamByUserName:', error.message);
-		throw error;
+		return error
 	}
 }

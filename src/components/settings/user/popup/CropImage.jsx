@@ -43,7 +43,6 @@ export default function CropImage({ closePopup, image }) {
 
       let token = window.localStorage.getItem("token");
       const res = await editAvatar(token, formData);
-      console.log(res);
       if (res.message == "StatusOK") {
         window.localStorage.setItem("avatar", res.avatar);
         alert({ type: "SUCCESS", message: res.message });

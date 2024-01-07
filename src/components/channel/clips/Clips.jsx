@@ -77,6 +77,7 @@ export default function Clips(props) {
                 to={`/clips/getId/?videoUrl=${video.id}`}
               >
                 <ClipCard
+                  key={video.id}
                   width="312px"
                   height="230px"
                   views={video.views}

@@ -25,25 +25,19 @@ export function ChatStreaming({ OnechatId }) {
       };
 
       newSocket.onclose = () => {
-        console.log("WebSocket connection closed");
-        console.log("closed");
         newSocket.send("closing");
       };
 
-      newSocket.onopen = () => {
-        console.log("WebSocket connection opened");
-      };
+      newSocket.onopen = () => {};
       setSocket(newSocket);
 
       window.addEventListener("beforeunload", () => {
-        console.log("closed");
         newSocket.send("closing");
         newSocket.close();
       });
     };
 
     if (!socket || socket.readyState !== WebSocket.OPEN) {
-      console.log("Establecer la conexión WebSocket");
       connectWebSocket();
     }
 
@@ -75,7 +69,6 @@ export function ChatStreaming({ OnechatId }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      console.log(config);
       const res = await axios.post(
         `https://pinkker-chat-czpr.4.us-1.fl0.io/chatStreaming/${OnechatId}`,
         { message },

@@ -39,7 +39,6 @@ export const ReactFlvPlayer: FC<ReactFlvPlayerProps> = (props) => {
   
 
   useEffect(() => {
-    console.log("ASKOAP");
     
     const player = flv.createPlayer(
       {
