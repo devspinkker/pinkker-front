@@ -64,7 +64,7 @@ export default function ClipsMain() {
   const nextClip = () => {
     setViewedClip(viewedClip + 1);
     var pos = window.pageYOffset;
-    window.scrollTo(0, pos + 975);
+    window.scrollTo(0, pos + 905);
     isScrolling = true;
     if (clips != null) {
       if (!isLogged) {
@@ -148,7 +148,7 @@ export default function ClipsMain() {
       <div style={{ top: "80px" }} className="clipsmain-right-buttons">
         <div
           style={{
-            height: "400px",
+            height: "47%",
             display: "flex",
             alignItems: "start",
             justifyContent: "center",
@@ -172,7 +172,7 @@ export default function ClipsMain() {
         </div>
         <div
           style={{
-            height: "400px",
+            height: "47%",
             display: "flex",
             alignItems: "end",
             justifyContent: "center",

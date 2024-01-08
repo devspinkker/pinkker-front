@@ -6,17 +6,24 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import CommentCard from "../../../clips/view/card/CommentCard";
 
 import "./ClipCard.css";
+import { DislikeClip, likeClip } from "../../../../services/backGo/clip";
 
 export default function ClipCard({ type, clip }) {
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [isLiked, setIsLiked] = useState(clip.likedByMe);
+  const [isLiked, setIsLiked] = useState(false);
   const playerRef = useRef();
   const [videoHover, setVideoHover] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const [comments, setComments] = useState(null);
   const [comment, setComment] = useState("");
+  useEffect(() => {
+    const id = window.localStorage.getItem("_id");
+    if (id && clip.likes.includes(id)) {
+      setIsLiked(true);
+    }
+  }, [clip]);
 
   const handlePlay = () => {
     if (playing) {
@@ -77,12 +84,24 @@ export default function ClipCard({ type, clip }) {
   }
 
   const handleLike = async () => {
-    if (isLiked) {
-      setIsLiked(false);
-      clip.totalLikes = clip.totalLikes - 1;
-    } else {
-      setIsLiked(true);
-      clip.totalLikes = clip.totalLikes + 1;
+    try {
+      if (isLiked) {
+        setIsLiked(false);
+        let token = window.localStorage.getItem("token");
+        if (token) {
+          const res = await DislikeClip(clip.id, token);
+          clip.totalLikes = clip.totalLikes - 1;
+        }
+      } else {
+        setIsLiked(true);
+        let token = window.localStorage.getItem("token");
+        if (token) {
+          const res = await likeClip(clip.id, token);
+          clip.totalLikes = clip.totalLikes + 1;
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
