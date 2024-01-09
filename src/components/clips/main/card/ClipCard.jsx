@@ -15,6 +15,7 @@ export default function ClipCard({ type, clip }) {
   const [isLiked, setIsLiked] = useState(false);
   const playerRef = useRef();
   const [videoHover, setVideoHover] = useState(false);
+
   const [showComment, setShowComment] = useState(false);
   const [comments, setComments] = useState(null);
   const [comment, setComment] = useState("");

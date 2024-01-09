@@ -22,6 +22,7 @@ export default function Clips() {
   const [clips, setClips] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [videoHover, setVideoHover] = useState(false);
 
   const scrollContainerRef = useRef(null);
 
@@ -66,6 +67,12 @@ export default function Clips() {
       const days = Math.floor(diffInSeconds / 86400);
       return `${days} ${days === 1 ? "day" : "days"} ago`;
     }
+  };
+  const [progress, setProgress] = useState(0);
+
+  const handleProgress = (e) => {
+    const { duration, currentTime } = e.target;
+    setProgress((currentTime / duration) * 100);
   };
   return (
     <div className="home-clips">
@@ -171,13 +178,30 @@ export default function Clips() {
           }}
         >
           <div className="container_clip_data">
-            <ReactPlayer
-              url={selectedVideo.video.url}
-              className="reactPlayer"
-              controls
-              width="70%"
-              height="100%"
-            />
+            <div>
+              <ReactPlayer
+                url={selectedVideo.video.url}
+                className="reactPlayer"
+                controls={true}
+                playing={true}
+                width="100%"
+                height="100%"
+                onTimeUpdate={handleProgress}
+              />
+              <div
+                style={{
+                  width: "100%",
+                  borderRadius: "0",
+                  height: videoHover ? "5px" : "2px",
+                }}
+                className="time_progressbarContainer"
+              >
+                <div
+                  style={{ width: `${progress}%` }}
+                  className="time_progressBar"
+                ></div>
+              </div>
+            </div>
             <div className="container_data">
               <div style={{ width: "100%", borderBottom: "1px solid #ccc" }}>
                 <div className="container_data_user">
@@ -201,7 +225,15 @@ export default function Clips() {
                     }}
                     onClick={() => setSelectedVideo(null)}
                   >
-                    x
+                    <img
+                      style={{
+                        width: "26px",
+                        height: "30px",
+                        cursor: "pointer",
+                      }}
+                      className="chat-button-more"
+                      src="/images/iconos/contraer.png"
+                    />
                   </div>
                 </div>
               </div>
