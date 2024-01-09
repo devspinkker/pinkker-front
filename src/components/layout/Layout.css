@@ -9,7 +9,7 @@
 
 .layout-expanded {
     width: 98%;
-    margin-left: 2%;
+    padding-left: 3%;
     background-color: #0e0e10;
     position: relative;
     transition: 0.15s;

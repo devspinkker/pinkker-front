@@ -7,9 +7,10 @@
 .channel-clips-container {
     width: 95%;
     min-height: 500px;
-    margin: 0 auto;
+    padding: 0% 0% 0% 4%;
     display: flex;
     flex-wrap: wrap;
+    /* justify-content: center; */
 }
 
 @media screen and (max-width: 758px) {

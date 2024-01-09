@@ -1,6 +1,6 @@
 .clipcard-body {
     position: relative;
-    margin-right: 45px;
+    margin-right: 25px;
     margin-top: 10px;
     background-color: transparent;
     transition: 1s;
@@ -73,10 +73,8 @@
 
 .clipcard-video-preview {
     transition: 0.7s;
-    padding-bottom: 20px;
     background-color: #202020;
     border-radius: 5px;
-    transform: scale(1.1);
 }
 
 .clipcard-video-preview video {

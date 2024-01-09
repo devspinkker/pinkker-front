@@ -586,7 +586,7 @@ export default function CustomPlayer({
                   </Tippy>
                 </div>
 
-                <div className="customPlayer-card">
+                {/* <div className="customPlayer-card">
                   <Tippy
                     theme="pinkker"
                     content={
@@ -603,7 +603,7 @@ export default function CustomPlayer({
                       class="fas fa-cog pinkker-button-more button-more-player"
                     />
                   </Tippy>
-                </div>
+                </div> */}
 
                 <div className="customPlayer-card">
                   <Tippy

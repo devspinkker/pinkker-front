@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./ChatStreaming.css";
-export function ChatStreaming({ OnechatId }) {
+export function ChatStreaming({ OnechatId, chatExpandeds, ToggleChat }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -87,6 +87,40 @@ export function ChatStreaming({ OnechatId }) {
 
   return (
     <div className="ChatStreaming">
+      {chatExpandeds == true ? (
+        <img
+          onClick={ToggleChat}
+          style={{
+            width: "12px",
+            cursor: "pointer",
+            textAlign: "center",
+            color: "white",
+            position: "fixed",
+            right: "10px",
+            top: "60px",
+            transform: "rotate(180deg)",
+            zIndex: "99999",
+          }}
+          className="chat-button-more"
+          src="/images/iconos/contraer.png"
+        />
+      ) : (
+        <img
+          onClick={ToggleChat}
+          style={{
+            width: "12px",
+            cursor: "pointer",
+            textAlign: "center",
+            color: "white",
+            position: "fixed",
+            right: "27%",
+            top: "60px",
+            zIndex: "99999",
+          }}
+          className="chat-button-more"
+          src="/images/iconos/contraer.png"
+        />
+      )}
       <div className="Conversation" ref={conversationRef}>
         {messages.map((message, index) => (
           <div key={index} className="Message">

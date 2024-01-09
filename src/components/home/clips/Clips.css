@@ -1,3 +1,4 @@
+/* Clips.css */
 .home-clips {
     width: 95%;
     margin: 0 auto;
@@ -5,28 +6,44 @@
     margin-top: 30px;
     margin-bottom: 50px;
 }
+
 .home-clips-card-container {
     width: 100%;
     margin: 0 auto;
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
     color: #8a8a8ab9;
     margin-top: 40px;
 }
 
+.arrow-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+}
 
+.arrow-buttons i {
+    background-color: #303030;
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    color: darkgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    color: #f36196;
 
+}
 
-@media only screen 
-  and (min-device-width: 375px) 
-  and (max-device-width: 812px) 
-  and (-webkit-min-device-pixel-ratio: 3) { 
+.arrow-buttons i:hover {
+    color: #f36196;
+}
 
-    .home-clips {
-        width: 90%;
-        margin: 0 auto;
-    }
-
-
+.fa-arrow-div {
+    height: 200px;
+    align-items: center;
+    padding: 10px;
 }

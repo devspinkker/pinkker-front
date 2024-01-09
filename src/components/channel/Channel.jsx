@@ -62,8 +62,6 @@ export default function Channel({
   expanded,
   handleMessage,
 }) {
-  const [chatExpanded, setChatExpanded] = useState(false);
-
   const auth = useSelector((state) => state.auth);
   const { user, isLogged } = auth;
   const token = useSelector((state) => state.token);
@@ -1239,14 +1237,15 @@ export default function Channel({
     setType(typeD);
   }
 
-  function getWithChannelVideo() {
-    if (isMobile) {
-      return chatExpanded ? "100%" : "100%";
-    }
+  const [chatExpanded, setChatExpanded] = useState(true);
 
+  const handleToggleChat = () => {
+    setChatExpanded(!chatExpanded);
+  };
+
+  function getWithChannelVideo() {
     return chatExpanded ? "100%" : "71.5%";
   }
-
   function getChannel() {
     if (stream?.streamer) {
       return (
@@ -1259,24 +1258,6 @@ export default function Channel({
               }}
               className="channel-video"
             >
-              {chatExpanded === true && (
-                <img
-                  onClick={() => setChatExpanded(!chatExpanded)}
-                  style={{
-                    width: "12px",
-                    cursor: "pointer",
-                    textAlign: "center",
-                    color: "white",
-                    position: "fixed",
-                    right: "10px",
-                    top: "60px",
-                    transform: "rotate(180deg)",
-                    zIndex: "99999",
-                  }}
-                  className="chat-button-more"
-                  src="/images/iconos/contraer.png"
-                />
-              )}
               {stream.online ? (
                 <div
                   onMouseEnter={() => setViewInfoStream(true)}
@@ -1374,7 +1355,11 @@ export default function Channel({
                         )}
                       </div>
                     )}
-                    <ChatStreaming OnechatId={stream.id} />
+                    <ChatStreaming
+                      OnechatId={stream.id}
+                      chatExpandeds={chatExpanded}
+                      ToggleChat={handleToggleChat}
+                    />
                   </div>
                 )}
               </div>
@@ -1405,7 +1390,11 @@ export default function Channel({
                   </div>
                 )}
 
-                <ChatStreaming OnechatId={stream.id} />
+                <ChatStreaming
+                  OnechatId={stream.id}
+                  chatExpandeds={chatExpanded}
+                  ToggleChat={handleToggleChat}
+                />
               </div>
             )}
           </div>

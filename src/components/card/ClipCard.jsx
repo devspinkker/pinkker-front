@@ -54,7 +54,7 @@ export default function ClipCard({ video, ...props }) {
             src={video.Avatar}
           />
           <div style={{ marginTop: "10px", marginLeft: "5px" }}>
-            <h4 style={{ color: "white", fontSize: "14px" }}>{props.title}</h4>
+            <h4 style={{ color: "white", fontSize: "14px" }}>{props?.title}</h4>
             <p style={{ fontSize: "13px" }}>{props.views} vistas · hace 2m </p>
           </div>
         </div>
@@ -83,8 +83,10 @@ export default function ClipCard({ video, ...props }) {
             src={video.Avatar}
           />
           <div style={{ marginTop: "10px", marginLeft: "5px" }}>
-            <h4 style={{ color: "white", fontSize: "14px" }}>{props.title}</h4>
-            <p style={{ fontSize: "12px" }}>{video?.nameUserCreator}</p>
+            <h4 style={{ color: "white", fontSize: "14px" }}>{props?.title}</h4>
+            <p style={{ fontSize: "15px", fontWeight: "bold" }}>
+              {video?.nameUserCreator}
+            </p>
           </div>
         </div>
       </div>

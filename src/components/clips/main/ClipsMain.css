@@ -2,37 +2,40 @@
     width: 100%;
     min-height: 1500px;
     scroll-behavior: smooth;
+    margin-top: 6%;
     transition: 5s all;
 
 }
 
 .clipmain-card-main {
     display: flex;
-    height: 930px;
+    min-height: 852px;
     transition: 5s all;
 
 }
 
 .clipsmain-container {
     width: 75%;
-    height: 800px;
+    height: max-content;
     margin: 0 auto;
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     transition: 5s all;
     scroll-behavior: smooth;
+    justify-content: flex-start;
 }
 
 .clipsmain-video {
     margin: 0 auto;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     scroll-behavior: smooth;
     transition: 5s all;
+    flex-direction: column;
 
-    
+
 }
 
 .clipsmain-video video {
@@ -55,16 +58,13 @@
 
 .clipsmain-bottom-buttons {
     color: white;
-    width: 96%;
+    width: 100%;
     margin: 0 auto;
-    position: absolute;
-    bottom: -30px;
-   
 }
 
 .clipsmain-right-buttons {
     width: 75px;
-    height: 800px;
+    height: 100%;
     position: fixed;
     right: 0;
     top: 0;

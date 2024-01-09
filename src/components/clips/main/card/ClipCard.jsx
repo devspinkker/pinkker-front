@@ -18,13 +18,13 @@ export default function ClipCard({ type, clip }) {
   const [showComment, setShowComment] = useState(false);
   const [comments, setComments] = useState(null);
   const [comment, setComment] = useState("");
+
   useEffect(() => {
     const id = window.localStorage.getItem("_id");
     if (id && clip.likes.includes(id)) {
       setIsLiked(true);
     }
   }, [clip]);
-
   const handlePlay = () => {
     if (playing) {
       playerRef.current.pause();
@@ -67,7 +67,7 @@ export default function ClipCard({ type, clip }) {
           </p>
           <div
             style={{
-              width: "95%",
+              width: "100%",
               borderRadius: "0",
               height: videoHover ? "5px" : "2px",
             }}
@@ -88,16 +88,23 @@ export default function ClipCard({ type, clip }) {
       if (isLiked) {
         setIsLiked(false);
         let token = window.localStorage.getItem("token");
-        if (token) {
-          const res = await DislikeClip(clip.id, token);
-          clip.totalLikes = clip.totalLikes - 1;
+        let id = window.localStorage.getItem("_id");
+        if (token && id) {
+          const res = await DislikeClip(token, clip.id);
+          if (res?.data?.message === "Dislike") {
+            clip.likes = clip.likes.filter((userId) => userId !== id);
+          }
         }
       } else {
         setIsLiked(true);
         let token = window.localStorage.getItem("token");
-        if (token) {
-          const res = await likeClip(clip.id, token);
-          clip.totalLikes = clip.totalLikes + 1;
+        let id = window.localStorage.getItem("_id");
+
+        if (token && id) {
+          const res = await likeClip(token, clip.id);
+          if (res?.data?.message === "Like") {
+            clip.likes.push(id);
+          }
         }
       }
     } catch (error) {
@@ -146,16 +153,25 @@ export default function ClipCard({ type, clip }) {
               />
             </Tippy>
           </div>
-          <video
-            onTimeUpdate={handleProgress}
-            onClick={handlePlay}
-            ref={playerRef}
-            loop={true}
-            autoPlay={true}
-            muted={muted}
-            controls={true}
-            src={clip.url}
-          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <video
+              onTimeUpdate={handleProgress}
+              onClick={handlePlay}
+              ref={playerRef}
+              loop={true}
+              autoPlay={true}
+              muted={muted}
+              controls={true}
+              src={clip.url}
+            />
+            {getButtonDuration()}
+          </div>
+
           {playing === false && (
             <div className="clipcard-muted">
               <i
@@ -169,16 +185,7 @@ export default function ClipCard({ type, clip }) {
               />
             </div>
           )}
-          <div
-            style={{
-              width: "100%",
-              position: "absolute",
-              bottom: "55px",
-              textAlign: "right",
-            }}
-          >
-            {getButtonDuration()}
-          </div>
+
           <div className="clipsmain-bottom-buttons">
             <div
               style={{
@@ -258,7 +265,6 @@ export default function ClipCard({ type, clip }) {
           className="clipsmain-right-buttons"
         >
           <div>
-            <div style={{ height: "410px" }} />
             <div
               onClick={() => handleLike()}
               style={{ color: isLiked && "#f36196" }}
@@ -294,7 +300,7 @@ export default function ClipCard({ type, clip }) {
                 />
               )}
               <h3 style={{ fontSize: "15px", marginTop: "5px" }}>
-                {clip.totalLikes}
+                {clip.likes.length}
               </h3>
             </div>
 

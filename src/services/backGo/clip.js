@@ -26,23 +26,26 @@ export const GetBuffer = async (totalKey) => {
     return response
 }
 export const GetClipId = async (videoUrlParam) => {
-    const response = await axios.get(`https://pinkker-backend-2-xw7b.fl0.io/clips/GetClipId?clipId=${videoUrlParam}`)
+    const response = await axios.get(`${url}/clips/GetClipId?clipId=${videoUrlParam}`)
 
     return response
 }
 export const GetClipsNameUser = async (nameUserCeator, page) => {
-    const response = await axios.get(`https://pinkker-backend-2-xw7b.fl0.io/clips/GetClipsNameUser?page=${page}&NameUser=${nameUserCeator}`)
+    const response = await axios.get(`${url}/clips/GetClipsNameUser?page=${page}&NameUser=${nameUserCeator}`)
 
     return response
 }
-export const GetClipsCategory = async (Category, page) => {
-    const response = await axios.get(`https://pinkker-backend-2-xw7b.fl0.io/clips/GetClipsCategory?page=${page}&Category=${Category}`)
+export const GetClipsCategory = async (Category, page, lastClip) => {
+    const response = await axios.get(`${url}/clips/GetClipsCategory?page=${page}&Category=${Category}&lastClip=${lastClip}`)
 
+    return response
+}
+export const GetClipsMostViewed = async (page) => {
+    const response = await axios.get(`${url}/clips/GetClipsMostViewed?page=${page}`)
     return response
 }
 export const DislikeClip = async (token, ClipId) => {
     try {
-        console.log(token, ClipId);
         const res = await axios.post(
             `${url}/clips/DisLike`,
             {
@@ -60,7 +63,6 @@ export const DislikeClip = async (token, ClipId) => {
 };
 export const likeClip = async (token, ClipId) => {
     try {
-        console.log(token, ClipId);
 
         const res = await axios.post(
             `${url}/clips/ClipLike`,

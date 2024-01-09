@@ -46,7 +46,7 @@ export default function ClipsMain() {
     if (!isLogged) {
       const fetchData = async () => {
         try {
-          const res = await GetClipsCategory("Charlando", 1);
+          const res = await GetClipsCategory("Charlando", 1, "");
           if (res.data.message == "ok") {
             setClips(res.data.data);
           }
@@ -64,7 +64,7 @@ export default function ClipsMain() {
   const nextClip = () => {
     setViewedClip(viewedClip + 1);
     var pos = window.pageYOffset;
-    window.scrollTo(0, pos + 905);
+    window.scrollTo(0, pos + 855);
     isScrolling = true;
     if (clips != null) {
       if (!isLogged) {
@@ -81,7 +81,7 @@ export default function ClipsMain() {
   const previewClip = () => {
     setViewedClip(viewedClip - 1);
     var pos = window.pageYOffset;
-    window.scrollTo(0, pos - 975);
+    window.scrollTo(0, pos - 855);
     isScrolling = true;
     setTimeout(() => {
       isScrolling = false;
@@ -148,7 +148,7 @@ export default function ClipsMain() {
       <div style={{ top: "80px" }} className="clipsmain-right-buttons">
         <div
           style={{
-            height: "47%",
+            height: "40%",
             display: "flex",
             alignItems: "start",
             justifyContent: "center",
@@ -172,7 +172,7 @@ export default function ClipsMain() {
         </div>
         <div
           style={{
-            height: "47%",
+            height: "40%",
             display: "flex",
             alignItems: "end",
             justifyContent: "center",
