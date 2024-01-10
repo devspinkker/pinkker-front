@@ -78,3 +78,16 @@ export const likeClip = async (token, ClipId) => {
         return error
     }
 };
+export const MoreViewOfTheClip = async (ClipId) => {
+    try {
+
+        const res = await axios.post(
+            `${url}/clips/MoreViewOfTheClip`,
+            {
+                ClipId: ClipId,
+            });
+        return res;
+    } catch (error) {
+        return error
+    }
+};

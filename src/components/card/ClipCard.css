@@ -5,6 +5,7 @@
     background-color: transparent;
     transition: 1s;
     border-radius: 5px;
+    height: max-content;
 }
 
 .clipcard-online {

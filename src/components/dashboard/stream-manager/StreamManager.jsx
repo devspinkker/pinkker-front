@@ -29,6 +29,7 @@ import { restoreKey } from "../../../services/user";
 import MostrarPopup from "./popup/MostrarPopup";
 import { getStreamById } from "../../../services/backGo/streams";
 import { getUserByIdTheToken } from "../../../services/backGo/user";
+import { ChatStreaming } from "./chat/ChatStreaming";
 
 let socket;
 export default function StreamManager({ isMobile, socketMain, handleMessage }) {
@@ -38,9 +39,13 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
   const auth = useSelector((state) => state.auth);
   const [userData, SetUserData] = useState(null);
   const token = useSelector((state) => state.token);
-
   const [showPopupEditInfo, setShowPopupEditInfo] = useState(false);
   const [stream, setStream] = useState(null);
+
+  const [chatExpanded, setChatExpanded] = useState(true);
+  const handleToggleChat = () => {
+    setChatExpanded(!chatExpanded);
+  };
 
   const [categorie, setCategorie] = useState(null);
 
@@ -507,8 +512,11 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
               </div>
             </div>
           </div>
-          <div className="streammanager-content-2">
-            <div style={{ height: "500px" }}>
+          <div
+            style={{ width: chatExpanded ? "70%" : "55%" }}
+            className="streammanager-content-2"
+          >
+            <div style={{ height: "55%" }}>
               {streamerData && (
                 <CustomPlayer
                   dashboard={true}
@@ -556,19 +564,20 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
 
             <Activity />
           </div>
-          {stream && (
-            <div className="streammanager-content-3">
-              <div>
-                <Chat
-                  socket={socket}
-                  socketMain={socketMain}
-                  handleSendMessage={(e) => handleMessage(e)}
-                  setUserSuscripted={(e) => console.log("setUserSuscripted")}
-                  setSuscribers={(e) => console.log("setSuscribers")}
-                />
-              </div>
-            </div>
-          )}
+          <div
+            className="channel-chat"
+            style={{ top: "7px", width: chatExpanded ? "0px" : "18.3%" }}
+          >
+            {streamerData ? (
+              <ChatStreaming
+                OnechatId={streamerData?.id}
+                chatExpandeds={chatExpanded}
+                ToggleChat={handleToggleChat}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       );
     } else {

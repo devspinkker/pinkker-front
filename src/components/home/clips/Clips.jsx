@@ -2,9 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import "./Clips.css";
 import ClipCard from "../../card/ClipCard";
 import Skeleton from "@mui/material/Skeleton";
-import { GetClipsMostViewed } from "../../../services/backGo/clip";
+import {
+  GetClipsMostViewed,
+  MoreViewOfTheClip,
+} from "../../../services/backGo/clip";
 import { Link } from "react-router-dom";
 import ReactPlayer from "react-player";
+
 function CardSkeleto() {
   return (
     <div style={{ marginRight: "13px", marginTop: "10px" }}>
@@ -23,14 +27,15 @@ export default function Clips() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [videoHover, setVideoHover] = useState(false);
+  const hasCalledFunctionRef = useRef(false);
 
   const scrollContainerRef = useRef(null);
+  const progressRef = useRef(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await GetClipsMostViewed(1);
-        console.log(response.data.data);
         if (response.data?.message === "ok" && response.data?.data.length > 1) {
           setClips(response.data.data);
         }
@@ -50,6 +55,7 @@ export default function Clips() {
       container.scrollLeft += amount;
     }
   };
+
   const formatTimestamp = (timestamp) => {
     const currentDate = new Date();
     const clipDate = new Date(timestamp);
@@ -68,12 +74,16 @@ export default function Clips() {
       return `${days} ${days === 1 ? "day" : "days"} ago`;
     }
   };
-  const [progress, setProgress] = useState(0);
 
-  const handleProgress = (e) => {
+  const handleProgress = async (e) => {
     const { duration, currentTime } = e.target;
-    setProgress((currentTime / duration) * 100);
+    const newProgress = (currentTime / duration) * 100;
+    progressRef.current = newProgress;
+    if (newProgress > 50.0 && newProgress < 50.5) {
+      await MoreViewOfTheClip(selectedVideo.video.id);
+    }
   };
+
   return (
     <div className="home-clips">
       <h3 style={{ color: "#ededed" }}>
@@ -94,7 +104,6 @@ export default function Clips() {
             onClick={() => handleScroll(-300)}
             className="fas fa-arrow-left arrow-buttons aa"
             style={{
-              backgroundColor: "#303030",
               width: "40px",
               height: "100%",
               borderRadius: "50px",
@@ -149,7 +158,6 @@ export default function Clips() {
             onClick={() => handleScroll(300)}
             className={`fas fa-arrow-right arrow-buttons`}
             style={{
-              backgroundColor: "#303030",
               width: "40px",
               height: "100%",
               borderRadius: "50px",
@@ -197,7 +205,7 @@ export default function Clips() {
                 className="time_progressbarContainer"
               >
                 <div
-                  style={{ width: `${progress}%` }}
+                  style={{ width: `${progressRef.current}%` }}
                   className="time_progressBar"
                 ></div>
               </div>

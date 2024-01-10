@@ -1,136 +1,107 @@
 import React, { useEffect, useState } from "react";
-
 import "./ClipsMain.css";
-
 import { useSelector } from "react-redux";
-import ReactDOM from "react-dom";
-
-import { getClips, getClipsWithAuth } from "../../../services/vods";
-
 import ClipCard from "./card/ClipCard";
-
 import Auth from "../../auth/Auth";
 import { GetClipsCategory } from "../../../services/backGo/clip";
 
 export default function ClipsMain() {
   const auth = useSelector((state) => state.auth);
-  const { user, isLogged } = auth;
-  const token = useSelector((state) => state.token);
+  const { isLogged } = auth;
 
   const [clips, setClips] = useState(null);
-
   const [viewedClip, setViewedClip] = useState(0);
-
   const [viewAuth, setViewAuth] = useState(false);
+  const [loadingMoreClips, setLoadingMoreClips] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    loadClips();
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
-  //  useEffect(() => {
-  //         if(token != null && token != undefined && token != "") {
-
-  //             const fetchData = async () => {
-  //                 const data = await getClipsWithAuth(token, 5);
-  //                 if(data != null && data != undefined) {
-  //                     setClips(data);
-  //                 }
-  //             }
-  //             fetchData()
-
-  //             window.onscroll = function(e) {myFunction(e)};
-  //         }
-  //     }, [token])
-
-  useEffect(() => {
-    if (!isLogged) {
-      const fetchData = async () => {
-        try {
-          const res = await GetClipsCategory("Charlando", 1, "");
-          if (res.data.message == "ok") {
-            setClips(res.data.data);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchData();
-      //window.onscroll = function(e) {myFunction(e)};
+  const loadClips = async () => {
+    try {
+      const res = await GetClipsCategory("Charlando", 1, "");
+      if (res.data.message === "ok") {
+        setClips(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }, []);
+  };
 
-  let isScrolling = false;
+  const loadMoreClips = async () => {
+    if (!isLogged && clips) {
+      try {
+        const res = await GetClipsCategory(
+          "Charlando",
+          1,
+          clips[clips.length - 1].id
+        );
 
-  const nextClip = () => {
-    setViewedClip(viewedClip + 1);
-    var pos = window.pageYOffset;
-    window.scrollTo(0, pos + 855);
-    isScrolling = true;
-    if (clips != null) {
-      if (!isLogged) {
-        if (viewedClip >= clips.length) {
-          setViewAuth(true);
+        if (res.data.message === "ok" && res.data.data.length > 0) {
+          setClips((prevClips) => [...prevClips, ...res.data.data]);
         }
+      } catch (error) {
+        console.log(error);
       }
     }
-    setTimeout(() => {
-      isScrolling = false;
-    }, 1000);
+
+    setLoadingMoreClips(false);
+  };
+
+  const handleScroll = async () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const windowHeight =
+      "innerHeight" in window
+        ? window.innerHeight
+        : document.documentElement.offsetHeight;
+
+    const body = document.body;
+    const html = document.documentElement;
+    const documentHeight = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+
+    const offset = 100;
+
+    if (
+      scrollTop + windowHeight + offset >= documentHeight &&
+      !loadingMoreClips
+    ) {
+      setLoadingMoreClips((prevLoading) => {
+        if (!prevLoading) {
+          loadMoreClips().then(() => {
+            // Restablecer el estado de loadingMoreClips después de cargar los clips
+            setLoadingMoreClips(false);
+          });
+        }
+        return true; // Establecer loadingMoreClips en true independientemente de su valor anterior
+      });
+    }
+  };
+
+  const nextClip = () => {
+    setViewedClip((prevViewedClip) => prevViewedClip + 1);
+    var pos = window.pageYOffset;
+    window.scrollTo(0, pos + 855);
   };
 
   const previewClip = () => {
-    setViewedClip(viewedClip - 1);
+    setViewedClip((prevViewedClip) => prevViewedClip - 1);
     var pos = window.pageYOffset;
     window.scrollTo(0, pos - 855);
-    isScrolling = true;
-    setTimeout(() => {
-      isScrolling = false;
-    }, 1000);
   };
-
-  var lastScrollTop = 0;
-
-  function myFunction(e) {
-    var st = window.pageYOffset || document.documentElement.scrollTop;
-    e.preventDefault();
-    document.documentElement.style.overflow = "hidden";
-
-    if (clips != null) {
-      if (!isLogged) {
-        if (viewedClip >= clips.length) {
-          setViewAuth(true);
-        }
-      }
-    }
-    if (st > lastScrollTop) {
-      if (isScrolling === false) {
-        isScrolling = true;
-        setViewedClip(viewedClip + 1);
-        var pos = window.pageYOffset;
-        window.scrollTo(0, pos + 975);
-
-        setTimeout(() => {
-          isScrolling = false;
-          document.documentElement.style.overflow = "scroll";
-          document.documentElement.style.overflowX = "hidden";
-        }, 500);
-      }
-    } else {
-      if (isScrolling === false) {
-        isScrolling = true;
-        setViewedClip(viewedClip - 1);
-
-        var pos = window.pageYOffset;
-        window.scrollTo(0, pos - 975);
-        setTimeout(() => {
-          isScrolling = false;
-          document.documentElement.style.overflow = "scroll";
-          document.documentElement.style.overflowX = "hidden";
-        }, 500);
-      }
-    }
-    lastScrollTop = st <= 0 ? 0 : st;
-  }
 
   return (
     <div className="clipsmain-body">
@@ -138,9 +109,9 @@ export default function ClipsMain() {
         {clips &&
           clips.map((clip, index) =>
             index <= 0 ? (
-              <ClipCard type={0} clip={clip} />
+              <ClipCard key={clip.id} type={0} clip={clip} />
             ) : (
-              <ClipCard type={1} clip={clip} />
+              <ClipCard key={clip.id} type={1} clip={clip} />
             )
           )}
       </div>
@@ -167,7 +138,7 @@ export default function ClipsMain() {
               justifyContent: "center",
               fontSize: "22px",
             }}
-            class="fas fa-arrow-up"
+            className="fas fa-arrow-up"
           />
         </div>
         <div
@@ -191,7 +162,7 @@ export default function ClipsMain() {
               justifyContent: "center",
               fontSize: "22px",
             }}
-            class="fas fa-arrow-down"
+            className="fas fa-arrow-down"
           />
         </div>
       </div>
@@ -199,25 +170,6 @@ export default function ClipsMain() {
       {viewAuth && (
         <Auth typeDefault={0} closePopup={() => setViewAuth(false)} />
       )}
-
-      {/* <div
-        style={{
-          height: "800px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img
-            style={{ width: "200px" }}
-            src="https://res.cloudinary.com/pinkker/image/upload/v1679518300/pinkker-trabajando_ky0e2t.png"
-          />
-          <h1 style={{ color: "white" }}>
-            Estamos trabajando en esto... estará pronto!
-          </h1>
-        </div>
-      </div> */}
     </div>
   );
 }

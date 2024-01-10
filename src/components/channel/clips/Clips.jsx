@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
-
 import "./Clips.css";
-
-import { getStreamerClips } from "../../../services/vods";
+import {
+  GetClipsNameUser,
+  MoreViewOfTheClip,
+} from "../../../services/backGo/clip";
 import ClipCard from "../../card/ClipCard";
 import Skeleton from "@mui/material/Skeleton";
-
 import { Link } from "react-router-dom";
-import { GetClipId, GetClipsNameUser } from "../../../services/backGo/clip";
 
 export default function Clips(props) {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,15 +15,23 @@ export default function Clips(props) {
   const [videoHover, setVideoHover] = useState(false);
   const [progress, setProgress] = useState(0);
   const [videos, setVideos] = useState();
+  const [hasCalledFunction, setHasCalledFunction] = useState(false);
 
   setTimeout(() => {
     setIsLoading(false);
   }, 1500);
 
-  const handleProgress = (e) => {
+  const handleProgress = async (e) => {
     const { duration, currentTime } = e.target;
-    setProgress((currentTime / duration) * 100);
+    const newProgress = (currentTime / duration) * 100;
+    setProgress(newProgress);
+
+    if (newProgress > 50.0 && newProgress < 50.5) {
+      setHasCalledFunction(true);
+      await MoreViewOfTheClip(selectedVideo.video.id);
+    }
   };
+
   const formatTimestamp = (timestamp) => {
     const currentDate = new Date();
     const clipDate = new Date(timestamp);
@@ -43,6 +50,7 @@ export default function Clips(props) {
       return `${days} ${days === 1 ? "day" : "days"} ago`;
     }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await GetClipsNameUser(props.streamer, "1");
@@ -85,6 +93,10 @@ export default function Clips(props) {
     );
   }
 
+  useEffect(() => {
+    setHasCalledFunction(false);
+  }, [selectedVideo]);
+
   return (
     <div className="channel-clips-body">
       <div className="channel-clips-container">
@@ -93,11 +105,15 @@ export default function Clips(props) {
           videos.length > 0 &&
           videos.map((video) =>
             isLoading ? (
-              <CardSkeleto />
+              <CardSkeleto key={video.id} />
             ) : (
               <div
-                style={{ cursor: "pointer" }}
-                onClick={() => setSelectedVideo({ video })}
+                key={video.id}
+                style={{ cursor: "pointer", margin: "0px" }}
+                onClick={() => {
+                  setSelectedVideo({ video });
+                  setHasCalledFunction(false);
+                }}
               >
                 <ClipCard
                   key={video.id}

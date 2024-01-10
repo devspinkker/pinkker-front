@@ -19,7 +19,7 @@ import { fuzzySearch } from "react-select-search";
 
 import { useNotification } from "../../../Notifications/NotificationProvider";
 
-import { getAllCategories } from "../../../../services/categories";
+import { getCategoriesWithLimit } from "../../../../services/backGo/streams";
 import { getUserByIdTheToken } from "../../../../services/backGo/user";
 
 export default function PopupEditInfo({ closePopup, stream, user }) {
@@ -41,17 +41,19 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
     setCategory(stream?.stream_category);
     setTag(stream?.stream_tag);
     setIdiom(stream?.stream_idiom);
-    // async function fetchData() {
-    //   const res2 = await getAllCategories(token);
-    //   if (res2 != null && res2 != undefined) {
-    //     const s = [];
-    //     await res2.map((categorie) =>
-    //       s.push({ name: categorie.name, value: categorie.name })
-    //     );
-    //     setCategories(s);
-    //   }
-    // }
-    // fetchData();
+    async function fetchData() {
+      const res = await getCategoriesWithLimit();
+      if (res.data != null && res.message == "ok") {
+        const s = [];
+        console.log(res);
+        const categorie = res.data;
+        await categorie.map((categorie) =>
+          s.push({ name: categorie.nombre, value: categorie.nombre })
+        );
+        setCategories(s);
+      }
+    }
+    fetchData();
   }, []);
 
   async function handleSubmit() {

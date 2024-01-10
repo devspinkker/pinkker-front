@@ -100,7 +100,7 @@ export default function ClipCard({ video, ...props }) {
       style={{
         maxWidth: props.width,
         minWidth: props.width,
-        height: props.height,
+        height: "maxContent",
         display: props.dashboard ? "flex" : "block",
       }}
       className="clipcard-body"

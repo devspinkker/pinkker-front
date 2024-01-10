@@ -333,11 +333,11 @@ const Home = ({
   ];
 
   return (
-    <div className={"home-body-" + theme.theme}>
-      <div className="home-img">
+    <div style={{ marginTop: "3%" }} className={"home-body-" + theme.theme}>
+      {/* <div className="home-img">
         {!isMobile && (
           <div className="home-img-content">
-            {/* <h1
+            <h1
               style={{
                 fontWeight: "800",
                 fontFamily: "Poppins",
@@ -348,7 +348,7 @@ const Home = ({
             </h1>
             <p style={{ fontSize: "20px", marginBottom: "10px" }}>
               Descubre las mejores transmisiones en directo allá donde estés.
-            </p> */}
+            </p>
           </div>
         )}
 
@@ -776,7 +776,7 @@ const Home = ({
             </Link>
           </div>
         )}
-      </div>
+      </div> */}
       <div style={{ width: "100%", height: "1px", backgroundColor: "a" }} />
       {!isMobile && <Categories isMobile={isMobile} />}
 

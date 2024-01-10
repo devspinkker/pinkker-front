@@ -681,7 +681,7 @@ export default function ExploreCategories({ isMobile }) {
               width={isMobile ? "160px" : "160px"}
               isLoading={isLoading}
               name={categorie.nombre}
-              image={categorie.img}
+              image={categorie.img ?? "/images/pinkker-stream.png"}
               spectators={categorie.spectators}
               tags={categorie.tags}
             />

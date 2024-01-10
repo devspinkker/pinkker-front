@@ -2,6 +2,16 @@
     margin: 4% 0% 0% 2%;
 }
 
+.channel-chat {
+    height: -webkit-fill-available;
+    position: fixed;
+    right: 0;
+    background-color: #171a1f;
+    transition: 0.15s;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
 .streammanager-body {
     width: 100%;
     background-color: #0a0b0d;
