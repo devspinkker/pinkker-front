@@ -184,7 +184,13 @@ export default function CustomPlayer({
       4,
       streamerData.keyTransmission.length
     );
-    let url = `http://localhost:8000/live/${keyTransmission}/index.m3u8`;
+    const rtmp = process.env.RTMP;
+    var url;
+    if (!rtmp) {
+      url = `http://localhost:8000/live/${keyTransmission}/index.m3u8`;
+    } else {
+      url = `${rtmp}/${keyTransmission}/index.m3u8`;
+    }
 
     return url;
   }

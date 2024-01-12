@@ -1,27 +1,39 @@
 import axios from "axios"
-const url = "https://pinkker-backend-2-xw7b.fl0.io";
+const url = process.env.BACKGOFLO;
 var token = null;
 export const setToken = (newObject) => {
     token = newObject;
 };
 export const Create_Clip = async (videoBytes, start, end, totalKey, clipTitle, config) => {
+    const BACKGO = process.env.BACKGO;
+    var url;
+    if (!BACKGO) {
+        url = "http://localhost:8080/clips/create-clips"
+    } else {
+        url = `${BACKGO}/clips/create-clips`;
+    }
     const response = await axios.post(
-        "http://localhost:8080/clips/create-clips",
-        {
-            video: videoBytes,
-            start: 1,
-            end: 60,
-            clipTitle: clipTitle,
-            totalKey: totalKey,
-        },
+        url, {
+        video: videoBytes,
+        start: 1,
+        end: 60,
+        clipTitle: clipTitle,
+        totalKey: totalKey,
+    },
         config
     );
     return response
 }
 export const GetBuffer = async (totalKey) => {
-
+    const BACKRTMP = process.env.BACKRTMP;
+    var url;
+    if (!BACKRTMP) {
+        url = `http://localhost:8002/getBuffer/${totalKey}`
+    } else {
+        url = `${BACKRTMP}/getBuffer/${totalKey}`;
+    }
     const response = await fetch(
-        `http://localhost:8002/getBuffer/${totalKey}`
+        url
     );
     return response
 }

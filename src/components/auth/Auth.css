@@ -65,7 +65,7 @@
     display: flex;
     justify-content: right;
     position: absolute;
-    right: -490px;
+    left: 113%;
     top: 0px;
 }
 

@@ -269,7 +269,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
     if (type === 0) {
       return (
         <div className="auth-content">
-          <div className="auth-content-input">
+          {/* <div className="auth-content-input">
             <p>Nombre de usuario</p>
             <input
               id="identifierId"
@@ -298,7 +298,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               {" "}
               <span>¿Tienes problemas para iniciar sesión?</span>
             </p>
-          </a>
+          </a> */}
 
           {/*<div style={{marginTop: "5px", marginBottom: "10px"}}>
                         <ReCAPTCHA
@@ -313,9 +313,9 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
             style={{ marginTop: "5px", marginBottom: "10px" }}
           ></OAuth2Login>
 
-          <button onClick={() => handleSubmit()} className="auth-button-login">
+          {/* <button onClick={() => handleSubmit()} className="auth-button-login">
             Iniciar Sesión
-          </button>
+          </button> */}
         </div>
       );
     }
@@ -669,14 +669,14 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
             >
               <h6 style={{ color: "#ededed" }}>Login</h6>
             </div>
-            <div
-              onClick={() => setType(1)}
+            {/* <div
+              onClick={() => setType(0)}
               className={
                 type === 1 ? "auth-title-card active" : "auth-title-card"
               }
             >
-              <h6 style={{ color: "#ededed" }}>Register</h6>
-            </div>
+              <h6 style={{ color: "#ededed" }}>Register</h6>  
+            </div> */}
           </div>
 
           {getType()}
