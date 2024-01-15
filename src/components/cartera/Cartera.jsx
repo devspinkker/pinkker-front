@@ -167,11 +167,11 @@ export default function Cartera({ user }) {
 
   function getLeftForType() {
     if (type === 0) {
-      return "365px";
+      return "22%";
     }
 
     if (type === 1) {
-      return "460px";
+      return "28%";
     }
   }
 
@@ -213,28 +213,44 @@ export default function Cartera({ user }) {
               <p style={{ width: "10%" }}>Estado</p>
               <p style={{ width: "20%" }}>Fecha</p>
             </div>
+
+            {user?.Subscribers?.map((subscription, index) => (
+              <div className="cartera-history-card" key={index}>
+                <div
+                  style={{ marginLeft: "10px" }}
+                  className="cartera-history-card-name"
+                >
+                  <h4>{subscription.SubscriberNameUser}</h4>
+                </div>
+
+                <div className="cartera-history-card-destino">
+                  <h4>Suscripción</h4>
+                </div>
+                <div
+                  style={{ width: "20%" }}
+                  className="cartera-history-card-amount"
+                >
+                  <h4 style={{ display: "flex", alignItems: "center" }}>
+                    1000{" "}
+                    <img
+                      style={{ width: "20px", marginLeft: "5px" }}
+                      src="/images/pixel.png"
+                    />
+                  </h4>
+                </div>
+
+                <div
+                  style={{ textAlign: "center" }}
+                  className="cartera-history-card-status"
+                >
+                  {getStatus(1)}
+                </div>
+                <div className="cartera-history-card-date">
+                  <h4>{formatDate(subscription.SubscriptionStart)}</h4>
+                </div>
+              </div>
+            ))}
           </div>
-
-          {/*<div className="cartera-history-card">
-                        <div style={{marginLeft: "10px"}} className="cartera-history-card-name">
-                            <h4>asd123</h4>
-                        </div>
-
-                        <div className="cartera-history-card-destino">
-                            <h4>Suscripción</h4>
-                        </div>
-                        <div style={{width: "20%"}} className="cartera-history-card-amount">
-                            <h4 style={{display: "flex", alignItems: "center"}}>400 <img style={{width: "20px", marginLeft: "5px"}} src="/images/pixel.png" /></h4>
-                        </div>
-
-                        <div style={{textAlign: "center"}} className="cartera-history-card-status">
-                            {getStatus(2)}
-                        </div>
-                        <div className="cartera-history-card-date">
-                            <h4>13/03/2023</h4>
-                        </div>
-
-            </div>*/}
         </div>
       );
     }
@@ -252,85 +268,13 @@ export default function Cartera({ user }) {
               marginBottom: "10px",
             }}
           />
-          {/* 
-          <div className="cartera-history-card-container">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                color: "#ededed",
-                fontWeight: "600",
-              }}
-            >
-              <p style={{ width: "20%", marginLeft: "10px" }}>Nombre</p>
-              <p style={{ width: "30%" }}>Destino</p>
-              <p style={{ width: "10%" }}>Monto</p>
-              <p style={{ width: "10%" }}>Metodo</p>
-              <p style={{ width: "20%" }}>Fecha</p>
-              <p style={{ width: "10%" }}>Estado</p>
-            </div>
-            {withdraws != null ? (
-              withdraws.map((withdraw, index) => (
-                <div className="cartera-history-card">
-                  <div
-                    style={{ marginLeft: "10px" }}
-                    className="cartera-history-card-name"
-                  >
-                    <h4>{withdraw.name}</h4>
-                  </div>
-
-                  <div className="cartera-history-card-destino">
-                    <h4>
-                      {withdraw.method === 0 ? withdraw.cbu : withdraw.email}
-                    </h4>
-                  </div>
-                  <div className="cartera-history-card-amount">
-                    <h4 style={{ display: "flex", alignItems: "center" }}>
-                      {formatNumbersWithCommas(withdraw.amount)}{" "}
-                      <img
-                        style={{ width: "20px", marginLeft: "5px" }}
-                        src="/images/pixel.png"
-                      />
-                    </h4>
-                  </div>
-
-                  <div className="cartera-history-card-status">
-                    <h4>
-                      {withdraw.method === 0 ? (
-                        <img style={{ width: "30px" }} src="/images/mp.png" />
-                      ) : (
-                        <img
-                          style={{ width: "30px" }}
-                          src="/images/paypal.png"
-                        />
-                      )}
-                    </h4>
-                  </div>
-                  <div className="cartera-history-card-date">
-                    <h4>{formatDate(withdraw.createdAt)}</h4>
-                  </div>
-                  <div className="cartera-history-card-method">
-                    {getStatus(withdraw.status)}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginTop: "20px",
-                }}
-              >
-                <ScaleLoader color="#f36197d7" />
-              </div>
-            )}
-          </div> */}
+          {/* ... (Código para la sección de retiros) */}
         </div>
       );
     }
   }
+
+  // ... (Código posterior)
 
   return (
     <div className="cartera-body">
@@ -379,7 +323,9 @@ export default function Cartera({ user }) {
 
         <div
           style={{
-            width: "95%",
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: "flex-start",
             margin: "0 auto",
             borderTop: "0.01em solid #2b2b2b3f",
             marginTop: "20px",
@@ -387,19 +333,21 @@ export default function Cartera({ user }) {
           }}
           className="type-set"
         >
-          <div
-            onClick={() => setType(0)}
-            className={type === 0 ? "type-card active" : "type-card"}
-          >
-            <h3>INGRESOS</h3>
+          <div style={{ display: "flex" }}>
+            <div
+              onClick={() => setType(0)}
+              className={type === 0 ? "type-card active" : "type-card"}
+            >
+              <h3>INGRESOS</h3>
+            </div>
+            <div
+              onClick={() => setType(1)}
+              className={type === 1 ? "type-card active" : "type-card"}
+            >
+              <h3>RETIROS</h3>
+            </div>
+            {/* <div style={{ left: getLeftForType() }} className="type-line"></div> */}
           </div>
-          <div
-            onClick={() => setType(1)}
-            className={type === 1 ? "type-card active" : "type-card"}
-          >
-            <h3>RETIROS</h3>
-          </div>
-          <div style={{ left: getLeftForType() }} className="type-line"></div>
         </div>
 
         {getType()}

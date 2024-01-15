@@ -278,15 +278,17 @@ function Navbar({
           <ul className={"nav-menu"}>
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                position: "relative",
                 left: isLogged ? "20px" : "0px",
               }}
             >
               {isLogged && (
                 <div
-                  style={{ display: "flex", alignItems: "center", gap: "15px" }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "15px",
+                    marginRight: "10px",
+                  }}
                 >
                   {/* {isMobile && searchMobile === false && 
                   <li onClick={() => setSearchMobile(true)} style={{marginRight: "5px", marginLeft: "3px", position: "relative", top: "-5px", left: "5px"}} className={'nav-item-' + theme.theme + " pinkker-button-more"}>
@@ -377,9 +379,21 @@ function Navbar({
                       </li>
                     </Tippy>
                   )}
+                  <button
+                    className="button-purchase-pixels"
+                    onClick={onMouseEnterPurchase}
+                  >
+                    <img
+                      style={{
+                        width: isMobile ? "25px" : "17px",
+                        marginRight: "5px",
+                      }}
+                      src="/images/pixel.png"
+                      alt=""
+                    />{" "}
+                    Pixeles
+                  </button>
                   {isLogged && userLink()}
-
-                  {/* {searchMobile === false && <button className='button-purchase-pixels' onClick={onMouseEnterPurchase}><img style={{width: isMobile ? "25px" : "17px", marginRight: "5px"}} src="/images/pixel.png" alt="" /> Comprar Pixeles</button>} */}
                 </div>
               )}
 

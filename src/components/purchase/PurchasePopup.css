@@ -1,13 +1,13 @@
 .purchase-popup-body {
     position: fixed;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	margin: auto;
-	background-color: rgba(0,0,0, 0.5);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 2000;
     display: flex;
     align-items: center;
@@ -17,8 +17,8 @@
 .purchase-popup-container {
     width: 45%;
     height: 500px;
-	margin: auto;
-	background: #18181b;
+    margin: auto;
+    background: #18181b;
     border-radius: 5px;
     box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
 }
@@ -47,7 +47,7 @@
 }
 
 .purchase-popup-primary-resume {
-    width: 50%;
+    /* width: 50%; */
     text-align: left;
     color: #ededed;
 }
@@ -103,7 +103,7 @@
 }
 
 .purchase-popup-secondary-button-mp {
-    width: 40%;
+    /* width: 40%; */
     display: flex;
     align-items: center;
     justify-content: center;

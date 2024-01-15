@@ -146,19 +146,17 @@ export async function suscribirse(token, ToUser) {
         return error
     }
 }
-export async function compradePixeles(token) {
+export async function compradePixeles(id, amount) {
     try {
         const response = await axios.post(
-            `http://localhost:3002/create-order`,
-            {},
+            `http://localhost:3006/create-order`,
             {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
+                idUser: id,
+                amount: amount
+            },
         );
         return response.data;
     } catch (error) {
-        return error
+        return error;
     }
 }

@@ -90,11 +90,11 @@
 
 
 .nav-menu {
-  display: inline-flex;
+  display: flex;
   grid-template-columns: repeat(5, auto);
   grid-gap: 10px;
   list-style: none;
-  width: 20%;
+  width: 316px;
   display: flex;
   align-items: center;
   justify-content: center;
