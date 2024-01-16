@@ -5,7 +5,7 @@ export const setToken = (newObject) => {
 	token = newObject;
 };
 
-const baseURL = "https://pinkker-backend-2-xw7b.fl0.io";
+const baseURL = process.env.REACT_APP_BACKGO;
 
 export async function getStreamById(streamId) {
 	try {

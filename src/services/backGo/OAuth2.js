@@ -1,5 +1,5 @@
 import axios from "axios"
-const url = "https://pinkker-backend-2-xw7b.fl0.io";
+const url = process.env.REACT_APP_BACKGO;
 var token = null;
 export const setToken = (newObject) => {
     token = newObject;

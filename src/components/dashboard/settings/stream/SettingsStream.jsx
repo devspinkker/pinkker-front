@@ -31,7 +31,7 @@ export default function SettingsStream() {
             <div style={{ marginLeft: "50px" }}>
               <div>
                 <input
-                  value={"rtmp://pinkker.tv/live"}
+                  value={process.env.REACT_APP_RTMP}
                   className="settingstream-input"
                   style={{ width: "70%" }}
                   type="text"

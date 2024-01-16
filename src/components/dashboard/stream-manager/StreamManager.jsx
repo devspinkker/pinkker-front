@@ -153,7 +153,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                 <div>
                   <div>
                     <input
-                      value={"rtmp://pinkker.tv/live"}
+                      value={process.env.REACT_APP_RTMP}
                       className="settingstream-input"
                       style={{ width: "90%", fontSize: "16px" }}
                       type="text"
@@ -420,7 +420,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                   <div>
                     <div>
                       <input
-                        value={"rtmp://pinkker.tv/live"}
+                        value={process.env.REACT_APP_RTMP}
                         className="settingstream-input"
                         style={{ width: "90%", fontSize: "13px" }}
                         type="text"
