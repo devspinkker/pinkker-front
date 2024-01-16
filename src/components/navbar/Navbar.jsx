@@ -398,21 +398,24 @@ function Navbar({
               )}
 
               {!isLogged && (
-                <h6
-                  onClick={() => togglePopupAuth(0)}
-                  className="button-navbar-login"
+                <div
+                  style={{
+                    display: "flex",
+                  }}
                 >
-                  Iniciar Sesión
-                </h6>
-              )}
-
-              {!isLogged && (
-                <h6
-                  onClick={() => togglePopupAuth(1)}
-                  className="button-navbar-register"
-                >
-                  Registrarse
-                </h6>
+                  <h6
+                    onClick={() => togglePopupAuth(0)}
+                    className="button-navbar-login"
+                  >
+                    Iniciar Sesión
+                  </h6>
+                  <h6
+                    onClick={() => togglePopupAuth(1)}
+                    className="button-navbar-register"
+                  >
+                    Registrarse
+                  </h6>
+                </div>
               )}
             </div>
 
