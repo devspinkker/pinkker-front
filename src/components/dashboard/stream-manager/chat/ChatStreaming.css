@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 57px;
     height: 100%;
     width: 100%;
 }
@@ -67,12 +66,24 @@
 .Conversation {
     display: flex;
     width: 100%;
-    z-index: 1000;
     align-items: flex-start;
     flex-direction: column;
     flex: 1 1;
-    max-height: 81%;
+    max-height: 71%;
     overflow-y: auto;
+}
+
+.Conversation::-webkit-scrollbar {
+    display: none;
+}
+
+.Conversation {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+.Conversation:hover {
+    scrollbar-color: transparent transparent;
 }
 
 .ChatApp {
@@ -83,7 +94,7 @@
 
 .ChatStreaming_form {
     display: flex;
-    width: 93%;
+    width: 100%;
     flex-direction: row;
     align-items: center;
 }
@@ -117,7 +128,6 @@
         flex-direction: column;
         align-items: center;
         position: absolute;
-        /* top: 57px; */
         height: 100%;
         width: 100%;
     }
@@ -146,4 +156,42 @@
         flex-direction: row;
     }
 
+}
+
+.info_chat_extra {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.actions-chat-conteiner {
+    width: 100%;
+}
+
+.actions-chat {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.marquee {
+    animation: marquee 20s linear infinite;
+}
+
+.marquee:hover {
+    animation-play-state: paused;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
 }

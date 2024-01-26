@@ -73,9 +73,9 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
       if (resuser.message == "ok") {
         SetUserData(resuser.data);
       }
-
       const dataStreamer = await getStreamById(id);
       if (dataStreamer != null && dataStreamer != undefined) {
+        console.log(dataStreamer);
         setStreamerData(dataStreamer.data);
       }
 
@@ -179,7 +179,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                         alignItems: "center",
                         justifyContent: "right",
                         position: "relative",
-                        top: "-40px",
+                        top: "-28px",
                         left: "-55px",
                       }}
                     >
@@ -566,13 +566,15 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
           </div>
           <div
             className="channel-chat"
-            style={{ top: "7px", width: chatExpanded ? "0px" : "18.3%" }}
+            style={{ width: chatExpanded ? "0px" : "28.3%" }}
           >
-            {streamerData ? (
+            {streamerData && userData ? (
               <ChatStreaming
                 OnechatId={streamerData?.id}
                 chatExpandeds={chatExpanded}
                 ToggleChat={handleToggleChat}
+                streamerData={streamerData}
+                user={userData}
               />
             ) : (
               <></>

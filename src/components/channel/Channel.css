@@ -50,7 +50,7 @@
     right: 0;
     background-color: #171a1f;
     transition: 0.15s;
-    overflow-y: auto;
+    overflow-y: unset;
     z-index: 1000;
 }
 
@@ -552,7 +552,7 @@
 
 
 .channel-bottom-v2-info {
-    /* width: 95%; */
+    width: 95%;
     min-height: 100px;
     margin-left: 3%;
     margin-top: -67px;
@@ -648,6 +648,7 @@
     margin-right: 5px;
     border-radius: 3px;
     margin-top: 20px;
+    margin-left: initial;
 }
 
 .channel-bottom-v2-button-icon:hover {
@@ -682,6 +683,17 @@
         overflow-x: hidden;
     }
 
+
+
+    .channel-bottom-v2-info {
+        width: 95%;
+        min-height: 100px;
+        margin-left: 3%;
+        /* margin-top: 23px; */
+        display: flex;
+
+    }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -692,7 +704,5 @@
         overflow: hidden;
     }
 
-    .channel-chat {
-        position: relative;
-    }
+
 }

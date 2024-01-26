@@ -2,7 +2,10 @@ import React, { useState, useEffect, Component } from "react";
 
 import "./Channel.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserByNameUser } from "../../services/backGo/user";
+import {
+  getUserByIdTheToken,
+  getUserByNameUser,
+} from "../../services/backGo/user";
 
 import { useParams } from "react-router-dom";
 
@@ -63,7 +66,7 @@ export default function Channel({
   handleMessage,
 }) {
   const auth = useSelector((state) => state.auth);
-  const { user, isLogged } = auth;
+  const [user, setUser] = useState(null);
   const token = useSelector((state) => state.token);
   const { streamer } = useParams();
   const usersOnline = useSelector((state) => state.streamers);
@@ -140,9 +143,25 @@ export default function Channel({
   const location = useLastLocation();
 
   useEffect(() => {
+    async function getUserToken() {
+      let token = window.localStorage.getItem("token");
+
+      if (token) {
+        try {
+          const res = await getUserByIdTheToken(token);
+          if (res?.message === "ok" && res?.data?.id) {
+            console.log(res.data);
+            setUser(res.data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
     let loggedUser = window.localStorage.getItem("_id");
     if (loggedUser) {
       setusuarioID(loggedUser);
+      getUserToken();
     } else {
       setusuarioID("no _id");
     }
@@ -293,7 +312,7 @@ export default function Channel({
           expanded();
         }
 
-        // if (dataStream.stream_likes.includes(user.name)) {
+        // if (dataStream.stream_likes.includes(name)) {
         //   setLikeAnimation(true);
         // }
 
@@ -338,7 +357,7 @@ export default function Channel({
     };
 
     fetchData();
-  }, [user, token, streamer]);
+  }, [token, streamer]);
 
   useEffect(() => {
     if (stream != null && stream != undefined) {
@@ -768,7 +787,7 @@ export default function Channel({
   }
 
   function getButtonsFromChannel() {
-    if (streamer === user.name) {
+    if (streamer === user?.name) {
       return (
         <div
           style={{ marginLeft: tyExpanded && "-50px" }}
@@ -1254,7 +1273,7 @@ export default function Channel({
             <div
               style={{
                 width: getWithChannelVideo(),
-                margin: stream.online ? "0%" : "4% 0% 0% 2%",
+                margin: stream.online ? "4% 0% 0% 0%" : "4% 0% 0% 0%",
               }}
               className="channel-video"
             >
@@ -1359,6 +1378,8 @@ export default function Channel({
                       OnechatId={stream.id}
                       chatExpandeds={chatExpanded}
                       ToggleChat={handleToggleChat}
+                      streamerData={streamerData}
+                      user={user}
                     />
                   </div>
                 )}
@@ -1394,6 +1415,8 @@ export default function Channel({
                   OnechatId={stream.id}
                   chatExpandeds={chatExpanded}
                   ToggleChat={handleToggleChat}
+                  streamerData={streamerData}
+                  user={user}
                 />
               </div>
             )}

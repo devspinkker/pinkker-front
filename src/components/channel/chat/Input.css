@@ -20,14 +20,14 @@
   padding: 5px;
 }
 
-.chat-body-input i{
+.chat-body-input i {
   padding: 3px;
   background-color: transparent;
   border-radius: 3px;
   cursor: pointer;
 }
 
-.chat-body-input i:hover{
+.chat-body-input i:hover {
   padding: 3px;
   background-color: #303030;
   border-radius: 5px;
@@ -37,7 +37,7 @@
   border: none;
   min-width: 98%;
   max-width: 98%;
-  font-family: Inter,Roobert,Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-family: Inter, Roobert, Helvetica Neue, Helvetica, Arial, sans-serif;
   background-color: transparent;
   font-weight: 400;
   color: darkgray;
@@ -52,7 +52,7 @@
   overflow-y: scroll;
 }
 
-.chat-send-input::placeholder { 
+.chat-send-input::placeholder {
   color: rgb(202, 202, 202);
 }
 
@@ -68,7 +68,7 @@
 
 .config-button:hover {
   background-color: #303030;
-  
+
 }
 
 .send-button {
@@ -123,8 +123,8 @@
 
 .chat-delay-error-title {
   display: flex;
-   align-items: center;
-   justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .button-none {
@@ -145,6 +145,7 @@
   font-family: 'Poppins';
   padding: 3px;
   border-radius: 3px;
+  margin: 0px 0px 0px 0px
 }
 
 .text-points-increment {
@@ -161,8 +162,9 @@
 
 @keyframes points-increment {
   0% {
-   transform: translateY(0px);
+    transform: translateY(0px);
   }
+
   100% {
     filter: opacity(0.5);
     transform: translateY(-10px);
@@ -283,5 +285,5 @@
     position: relative;
     top: 5px;
   }
-  
+
 }

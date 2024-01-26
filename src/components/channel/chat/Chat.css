@@ -43,10 +43,14 @@
 .chat-donation-container {
     display: flex;
     align-items: center;
+    flex-direction: column;
+    position: fixed;
+    width: 26%;
 }
-.chat-donation-card-container:hover {
+
+/* .chat-donation-card-container:hover {
     background-color: #151515;
-}
+} */
 
 .chat-donation-card {
     width: 95px;
@@ -55,43 +59,37 @@
     font-size: 14px;
     display: flex;
     position: relative;
+    justify-content: space-between;
     align-items: center;
     cursor: pointer;
     overflow: hidden;
-    animation: slideToLeft 2s;
     margin-right: 5px;
 }
 
-@keyframes closeCardDonation {
+/* @keyframes closeCardDonation {
     0% {
-      transform: translateY(0px);
+        transform: translateY(0px);
     }
+
     100% {
         transform: translateY(50px);
         display: none;
     }
-  }
+} */
 
-@keyframes slideToLeft {
-    0% {
-        transform: translateX(300%);
-    }
-    100% {
-        transform: translateX(0%);
-    }
-}
+
 
 
 
 .chat-donation-card-image {
     background-color: transparent;
-    width: 33px;
     margin-right: 10px;
     text-align: center;
     display: flex;
     justify-content: center;
-    z-index: 1000;
-    
+    align-content: center;
+    align-items: center;
+
 }
 
 .chat-donation-card-image img {
@@ -117,14 +115,14 @@
     display: flex;
     position: relative;
     left: -5px;
-    
+
 }
 
-.chat-donation-card-triangulo{
+.chat-donation-card-triangulo {
     width: 1px;
     height: 1px;
     border-bottom: 5px solid #DBDBDB;
-    border-left: 5px solid transparent; 
+    border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     position: relative;
     left: -8px;

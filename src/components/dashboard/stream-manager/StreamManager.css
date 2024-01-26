@@ -6,10 +6,11 @@
     height: -webkit-fill-available;
     position: fixed;
     right: 0;
-    background-color: #171a1f;
+    top: 57px;
+    background-color: #0c0c0c;
     transition: 0.15s;
-    overflow-y: auto;
-    z-index: 1000;
+    overflow-y: unset;
+    z-index: 10000000;
 }
 
 .streammanager-body {
@@ -66,4 +67,8 @@
         border: 1px solid #2b2b2b8f;
     }
 
+}
+
+.button-copy {
+    margin: initial;
 }

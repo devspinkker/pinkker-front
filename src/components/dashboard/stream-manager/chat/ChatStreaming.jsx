@@ -1,18 +1,38 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./ChatStreaming.css";
-export function ChatStreaming({ OnechatId, chatExpandeds, ToggleChat }) {
+import DonationCard from "../../../channel/chat/donation/card/DonationCard";
+import { GetPixelesDonationsChat } from "../../../../services/backGo/donation";
+import Donation from "../../../channel/chat/donation/card/Donation";
+import { GetSubssChat } from "../../../../services/backGo/subs";
+import Tippy from "@tippyjs/react";
+import DropdownPoints from "../../../channel/chat/dropdown/points/DropdownPoints";
+
+export function ChatStreaming({
+  OnechatId,
+  chatExpandeds,
+  ToggleChat,
+  streamerData,
+  user,
+}) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-
   const conversationRef = useRef(null);
-
   const [socket, setSocket] = useState(null);
+  const [donations, setDonations] = useState([]);
+  const [donationsSubscriptions, setDonationsSubscriptions] = useState(null);
+  const [donationCard, setDonationCard] = useState(false);
+  const [incrementPoints, setIncrementPoints] = useState(false);
+  const [points, setPoints] = useState(0);
+  const [incrementPoints2, setIncrementPoints2] = useState(false);
+  const [dropdownPoints, setDropdownPoints] = useState(false);
+  const [selectedDonation, setSelectedDonation] = useState(null);
+
   useEffect(() => {
     const connectWebSocket = () => {
       const token = window.localStorage.getItem("token");
       const newSocket = new WebSocket(
-        `wss://pinkker-chat-czpr.4.us-1.fl0.io/ws/chatStreaming/${OnechatId}/${token}`
+        `ws://localhost:8081/ws/chatStreaming/${OnechatId}/${token}`
       );
       newSocket.onerror = (error) => {
         console.error("WebSocket error:", error);
@@ -47,11 +67,194 @@ export function ChatStreaming({ OnechatId, chatExpandeds, ToggleChat }) {
       }
     };
   }, []);
+
   const scrollToBottom = () => {
     if (conversationRef.current) {
       conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
     }
   };
+
+  const gets = async () => {
+    try {
+      const resDonations = await GetPixelesDonationsChat(streamerData.id);
+      if (resDonations.message === "ok" && resDonations.data.length > 0) {
+        console.log(resDonations);
+        setDonations(resDonations.data);
+      } else {
+        setDonations([]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
+      const resSubs = await GetSubssChat(streamerData.id);
+      if (resSubs.message === "ok" && resSubs.data.length > 0) {
+        setDonationsSubscriptions(resSubs.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    gets();
+
+    const intervalId = setInterval(() => {
+      gets();
+    }, 10000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  const onMouseEnterPoints = () => {
+    if (dropdownPoints === true) {
+      setDropdownPoints(false);
+    } else {
+      setDropdownPoints(true);
+    }
+  };
+
+  function getDonationSubscriptionCard(donation) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "#534bb3",
+          padding: "5px",
+          borderRadius: "10px",
+        }}
+      >
+        <img
+          style={{ width: "15px" }}
+          src="https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png"
+        />
+        <div
+          style={{ marginLeft: "5px", display: "flex", alignItems: "center" }}
+        >
+          <p
+            style={{ lineHeight: "10px", fontSize: "14px", fontWeight: "800" }}
+          >
+            {donation.FromUserInfo.NameUser}
+          </p>
+          <p
+            style={{
+              fontSize: "14px",
+              fontWeight: "800",
+              color: "violet",
+              marginLeft: "5px",
+            }}
+          >
+            1{/* {donation.amount} */}
+          </p>
+        </div>
+      </div>
+    );
+  }
+  const [donationAmount, setDonationAmount] = useState(0);
+  const [donationName, setDonationName] = useState(null);
+  const [donationAvatar, setDonationAvatar] = useState(null);
+  const [donationText, setDonationText] = useState(null);
+  const [donationLook, setDonationLook] = useState(null);
+  const [donationColor, setDonationColor] = useState(null);
+  const [donationCardVisible, setDonationCardVisible] = useState(false);
+
+  function toggleDonationCard(amount, name, avatar, text, look, color) {
+    setDonationCard((prevDonationCard) => !prevDonationCard);
+    setDonationAmount(amount);
+    setDonationName(name);
+    setDonationAvatar(avatar);
+    setDonationText(text);
+    setDonationLook(look);
+    setDonationColor(color);
+  }
+
+  const [showAllDonations, setShowAllDonations] = useState(false);
+  const [showAllSubs, setShowAllSubs] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+  const [allDonationsExpanded, setAllDonationsExpanded] = useState(false);
+
+  function getDonation() {
+    const displayDonations = showAllDonations
+      ? donations
+      : [donations[donations.length - 1]];
+
+    const displaySubs = showAllSubs
+      ? donationsSubscriptions
+      : donationsSubscriptions.length > 0
+      ? [donationsSubscriptions[donationsSubscriptions.length - 1]]
+      : [];
+
+    // Si todos los subs y donaciones están desplegados, muestra el DonationCard
+    const allVisible = showAllSubs && showAllDonations;
+
+    return (
+      <div className="chat-donation-body">
+        <div className="chat-donation-container">
+          <div
+            className="chat-donation-card-container"
+            style={{
+              width: "100%",
+              margin: "0 auto",
+              display: "flex",
+              flexDirection: "column-reverse",
+              alignItems: "center",
+            }}
+          >
+            {[...displaySubs, ...displayDonations].map((donation, index) => (
+              <Donation
+                key={index}
+                donation={donation}
+                index={index}
+                callback={() => {
+                  toggleDonationCard(
+                    donation.Pixeles,
+                    donation.FromUserInfo.NameUser,
+                    donation.FromUserInfo.Avatar,
+                    donation.Text,
+                    donation.userLook,
+                    donation.userColor
+                  );
+                  setShowAllDonations(true);
+                  setShowAllSubs(!showAllSubs);
+                  setDonationCardVisible(donationCardVisible);
+                  setSelectedDonation(donation);
+
+                  setClickCount((prevCount) => prevCount + 1);
+
+                  if (clickCount >= 1) {
+                    setFirstClick(true);
+                  }
+
+                  setAllDonationsExpanded(true);
+                }}
+                ShowAllDonations={setShowAllDonations}
+              />
+            ))}
+          </div>
+          <button
+            style={{ display: !allDonationsExpanded && "none" }}
+            onClick={() => {
+              setShowAllDonations(false);
+              setShowAllSubs(!showAllSubs);
+              setDonationCardVisible(donationCardVisible);
+              setClickCount(0);
+              setAllDonationsExpanded(false);
+              setFirstClick(false);
+            }}
+          >
+            ^
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const [firstClick, setFirstClick] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     sendMessage();
@@ -70,7 +273,7 @@ export function ChatStreaming({ OnechatId, chatExpandeds, ToggleChat }) {
         },
       };
       const res = await axios.post(
-        `https://pinkker-chat-czpr.4.us-1.fl0.io/chatStreaming/${OnechatId}`,
+        `http://localhost:8081/chatStreaming/${OnechatId}`,
         { message },
         config
       );
@@ -113,7 +316,7 @@ export function ChatStreaming({ OnechatId, chatExpandeds, ToggleChat }) {
             textAlign: "center",
             color: "white",
             position: "fixed",
-            right: "27%",
+            right: "25%",
             top: "60px",
             zIndex: "99999",
           }}
@@ -121,6 +324,63 @@ export function ChatStreaming({ OnechatId, chatExpandeds, ToggleChat }) {
           src="/images/iconos/contraer.png"
         />
       )}
+      <div className="info_chat_extra">
+        <div style={{ height: "40px", display: "flex", alignItems: "center" }}>
+          <h4
+            style={{
+              fontSize: "12px",
+              width: "290px",
+              textAlign: "center",
+              letterSpacing: "0.5px",
+              color: "#ffff",
+              position: "relative",
+              right: chatExpandeds ? "-20%" : "",
+            }}
+          >
+            CHAT DEL DIRECTO
+          </h4>
+        </div>
+
+        <div
+          style={{
+            width: "100%",
+            height: "1px",
+            backgroundColor: "#2b2b2b3f",
+            marginTop: "19px auto",
+          }}
+        />
+
+        <div
+          style={{
+            width: "100%",
+            height: "1px",
+            backgroundColor: "#2b2b2b3f",
+            marginTop: "19px auto",
+          }}
+        />
+        {donations && donationsSubscriptions && getDonation()}
+        {showAllDonations && firstClick && donationCard && (
+          <DonationCard
+            donationColor={donationColor}
+            donationAmount={donationAmount}
+            donationName={donationName}
+            donationAvatar={donationAvatar}
+            donationText={donationText}
+            donationLook={donationLook}
+            close={() => setDonationCard(false)}
+            donationCard={donationCard}
+          />
+        )}
+
+        <div
+          style={{
+            width: "100%",
+            height: "1px",
+            backgroundColor: "#2b2b2b3f",
+            marginTop: "19px auto",
+          }}
+        />
+      </div>
       <div className="Conversation" ref={conversationRef}>
         {messages.map((message, index) => (
           <div key={index} className="Message">
@@ -155,15 +415,65 @@ export function ChatStreaming({ OnechatId, chatExpandeds, ToggleChat }) {
           </div>
         ))}
       </div>
-      <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={message}
-          placeholder="Enviar un mensaje"
-          onChange={handleChange}
-        />
-        <button type="submit">Enviar</button>
-      </form>
+      <div className="actions-chat-conteiner">
+        <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={message}
+            placeholder="Enviar un mensaje"
+            onChange={handleChange}
+          />
+        </form>
+        <div className="actions-chat">
+          <button
+            onClick={() => onMouseEnterPoints()}
+            className="button-points gray-button"
+          >
+            <img
+              style={{ width: false ? "30px" : "16px" }}
+              src="/images/pixel.png"
+              alt=""
+            />
+            <h3
+              style={{
+                fontFamily: "Poppins",
+                minWidth: "15px",
+                marginLeft: "3px",
+                fontSize: false ? "24px" : "13px",
+              }}
+            >
+              {user?.Pixeles}
+            </h3>
+            {incrementPoints === true && (
+              <p className="text-points-increment">+{points}</p>
+            )}
+            {incrementPoints2 === true && (
+              <Tippy
+                placement="bottom"
+                theme="pinkker"
+                content={
+                  <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                    Has ganado {points} pixels
+                  </h1>
+                }
+              >
+                <p className="text-points-increment2">+{points}</p>
+              </Tippy>
+            )}
+          </button>
+          <button onClick={handleSubmit} type="submit">
+            Enviar
+          </button>
+          <div style={{ zIndex: "100000000000" }}>
+            {dropdownPoints && (
+              <DropdownPoints
+                streamer={streamerData}
+                closeNavbar={() => setDropdownPoints(false)}
+              />
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

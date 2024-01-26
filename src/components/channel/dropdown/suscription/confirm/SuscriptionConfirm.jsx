@@ -11,7 +11,7 @@ import "tippy.js/dist/tippy.css";
 import { useNotification } from "../../../../Notifications/NotificationProvider";
 
 import { handleSuscription } from "../../../../../services/suscribers";
-import { suscribirse } from "../../../../../services/backGo/user";
+import { suscribirse } from "../../../../../services/backGo/subs";
 
 function SuscriptionConfirm({
   socket,

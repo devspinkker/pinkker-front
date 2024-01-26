@@ -18,7 +18,7 @@ export const PostCreate = async (formData) => {
     return res.data;
   } catch (error) {
     console.error("Error in PostCreate:", error);
-    throw error;
+    return error;
   }
 };
 

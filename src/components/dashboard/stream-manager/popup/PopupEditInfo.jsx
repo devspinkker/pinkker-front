@@ -23,8 +23,6 @@ import { getCategoriesWithLimit } from "../../../../services/backGo/streams";
 import { getUserByIdTheToken } from "../../../../services/backGo/user";
 
 export default function PopupEditInfo({ closePopup, stream, user }) {
-  const auth = useSelector((state) => state.auth);
-  const token = useSelector((state) => state.token);
   const alert = useNotification();
 
   const [title, setTitle] = useState("");
@@ -36,6 +34,8 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    console.log(stream);
+    console.log(user);
     setTitle(stream?.stream_title);
     setNotification(stream?.stream_notification);
     setCategory(stream?.stream_category);
