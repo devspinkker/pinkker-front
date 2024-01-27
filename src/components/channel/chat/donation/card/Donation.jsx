@@ -2,13 +2,7 @@ import React, { useState } from "react";
 
 import "./Donation.css";
 
-export default function Donation({
-  onClick,
-  donation,
-  callback,
-  index,
-  setShowAllDonations,
-}) {
+export default function Donation({ donation, callback, index }) {
   const [width, setWidth] = useState(100);
   const [clearAnimation, setClearAnimation] = useState(false);
   const [intervalID, setIntervalID] = useState(null);
@@ -96,7 +90,7 @@ export default function Donation({
       onClick={() => {
         callback();
         if (index === 0) {
-          setShowAllDonations(false);
+          // ShowAllDonations(false);
         }
       }}
     >

@@ -34,6 +34,13 @@
 
 .content-info-message-2-nameUser {}
 
+.getDonationSubscriptionCard {
+    height: max-content;
+    /* position: fixed; */
+    width: 100%;
+    z-index: 1000000000000000000;
+}
+
 .badges {
     display: flex;
     height: 30px;

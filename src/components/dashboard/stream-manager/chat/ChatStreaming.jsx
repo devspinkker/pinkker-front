@@ -117,43 +117,6 @@ export function ChatStreaming({
     }
   };
 
-  function getDonationSubscriptionCard(donation) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          backgroundColor: "#534bb3",
-          padding: "5px",
-          borderRadius: "10px",
-        }}
-      >
-        <img
-          style={{ width: "15px" }}
-          src="https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png"
-        />
-        <div
-          style={{ marginLeft: "5px", display: "flex", alignItems: "center" }}
-        >
-          <p
-            style={{ lineHeight: "10px", fontSize: "14px", fontWeight: "800" }}
-          >
-            {donation.FromUserInfo.NameUser}
-          </p>
-          <p
-            style={{
-              fontSize: "14px",
-              fontWeight: "800",
-              color: "violet",
-              marginLeft: "5px",
-            }}
-          >
-            1{/* {donation.amount} */}
-          </p>
-        </div>
-      </div>
-    );
-  }
   const [donationAmount, setDonationAmount] = useState(0);
   const [donationName, setDonationName] = useState(null);
   const [donationAvatar, setDonationAvatar] = useState(null);
@@ -176,23 +139,83 @@ export function ChatStreaming({
   const [showAllSubs, setShowAllSubs] = useState(false);
   const [clickCount, setClickCount] = useState(0);
   const [allDonationsExpanded, setAllDonationsExpanded] = useState(false);
+  const getDonationSubscriptionCard = (donationsSubscriptions) => {
+    return (
+      <div>
+        {donationsSubscriptions
+          .slice(0, showAllSubs ? undefined : 1)
+          .map((subscription, index) => (
+            <div
+              key={index}
+              onClick={() => setShowAllSubs(!showAllSubs)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#534bb3",
+                padding: "5px",
+                margin: "6px",
 
+                borderRadius: "10px",
+                height: "20px",
+                cursor: index === 0 ? "pointer" : "default", // Hacer el primer elemento clickeable
+              }}
+            >
+              <img
+                style={{ width: "15px" }}
+                src="https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png"
+              />
+              <div
+                style={{
+                  marginLeft: "5px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <p
+                  style={{
+                    lineHeight: "10px",
+                    fontSize: "14px",
+                    fontWeight: "800",
+                  }}
+                >
+                  {subscription.FromUserInfo.NameUser}
+                </p>
+                <p
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "800",
+                    color: "violet",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {subscription.amount}
+                </p>
+              </div>
+            </div>
+          ))}
+
+        {showAllSubs && donationsSubscriptions.length > 1 && (
+          <button
+            style={{ width: "100%" }}
+            onClick={() => setShowAllSubs(false)}
+          ></button>
+        )}
+      </div>
+    );
+  };
   function getDonation() {
     const displayDonations = showAllDonations
       ? donations
       : [donations[donations.length - 1]];
 
-    const displaySubs = showAllSubs
-      ? donationsSubscriptions
-      : donationsSubscriptions.length > 0
-      ? [donationsSubscriptions[donationsSubscriptions.length - 1]]
-      : [];
-
-    // Si todos los subs y donaciones están desplegados, muestra el DonationCard
-    const allVisible = showAllSubs && showAllDonations;
-
     return (
       <div className="chat-donation-body">
+        <div
+          className="getDonationSubscriptionCard"
+          style={{ position: showAllSubs && "fixed" }}
+        >
+          {getDonationSubscriptionCard(donationsSubscriptions)}
+        </div>
         <div className="chat-donation-container">
           <div
             className="chat-donation-card-container"
@@ -202,9 +225,10 @@ export function ChatStreaming({
               display: "flex",
               flexDirection: "column-reverse",
               alignItems: "center",
+              display: showAllSubs && "none",
             }}
           >
-            {[...displaySubs, ...displayDonations].map((donation, index) => (
+            {[...displayDonations].map((donation, index) => (
               <Donation
                 key={index}
                 donation={donation}
@@ -219,7 +243,6 @@ export function ChatStreaming({
                     donation.userColor
                   );
                   setShowAllDonations(true);
-                  setShowAllSubs(!showAllSubs);
                   setDonationCardVisible(donationCardVisible);
                   setSelectedDonation(donation);
 
@@ -236,18 +259,15 @@ export function ChatStreaming({
             ))}
           </div>
           <button
-            style={{ display: !allDonationsExpanded && "none" }}
+            style={{ display: !allDonationsExpanded && "none", width: "100%" }}
             onClick={() => {
               setShowAllDonations(false);
-              setShowAllSubs(!showAllSubs);
               setDonationCardVisible(donationCardVisible);
               setClickCount(0);
               setAllDonationsExpanded(false);
               setFirstClick(false);
             }}
-          >
-            ^
-          </button>
+          ></button>
         </div>
       </div>
     );
