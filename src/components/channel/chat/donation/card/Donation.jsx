@@ -79,7 +79,7 @@ export default function Donation({ donation, callback, index }) {
   return (
     <div
       style={{
-        marginLeft: "5px",
+        marginLeft: "15px",
         marginBottom: "5px",
         backgroundColor: getColorFromAmount(donation?.Pixeles)?.colorPrimary,
         animation:

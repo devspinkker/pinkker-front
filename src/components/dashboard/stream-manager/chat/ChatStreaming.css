@@ -32,12 +32,18 @@
     font-weight: 700;
 }
 
-.content-info-message-2-nameUser {}
+.chat-donation-card-container {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
 
 .getDonationSubscriptionCard {
     height: max-content;
     /* position: fixed; */
-    width: 100%;
+    width: 98%;
     z-index: 1000000000000000000;
 }
 
@@ -201,4 +207,13 @@
     100% {
         transform: translateX(-100%);
     }
+}
+
+@media screen and (max-width: 768px) {
+
+
+
+    /* .getDonationSubscriptionCard {
+        width: 100%;
+    } */
 }

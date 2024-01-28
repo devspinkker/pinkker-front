@@ -1,18 +1,16 @@
 import ACTIONS from './index'
 import axios from 'axios'
 
-const url = process.env.REACT_APP_DEV_API_URL + '/api';
+const url = process.env.REACT_APP_BACKGO
 
 export const fetchSearch = async (search) => {
-    const res = await axios.get(`${url}/search?search=${search}`, {
-       
-    })
+    const res = await axios.get(`${url}/user/getUserByNameUserIndex?nameUser=${search}`)
     return res
 }
 
 export const fetchSearchPage = async (search) => {
-    const res = await axios.get(`${url}/searchPage?search=${search}`, {
-        
+    const res = await axios.get(`${url}/user/getUserByNameUserIndex?nameUser=${search}`, {
+
     })
     return res
 }

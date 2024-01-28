@@ -72,3 +72,17 @@
 .button-copy {
     margin: initial;
 }
+
+@media screen and (max-width: 768px) {
+
+    .channel-chat {
+        height: -webkit-fill-available;
+        position: fixed;
+        right: 0;
+        top: auto;
+        background-color: #0c0c0c;
+        transition: 0.15s;
+        overflow-y: unset;
+        z-index: 10000000;
+    }
+}

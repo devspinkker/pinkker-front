@@ -139,6 +139,14 @@ export function ChatStreaming({
   const [showAllSubs, setShowAllSubs] = useState(false);
   const [clickCount, setClickCount] = useState(0);
   const [allDonationsExpanded, setAllDonationsExpanded] = useState(false);
+  const [movil, setMovil] = useState(false);
+  useEffect(() => {
+    if (window.innerWidth <= 768) {
+      setMovil(true);
+    } else {
+      setMovil(false);
+    }
+  }, []);
   const getDonationSubscriptionCard = (donationsSubscriptions) => {
     return (
       <div>
@@ -154,6 +162,8 @@ export function ChatStreaming({
                 backgroundColor: "#534bb3",
                 padding: "5px",
                 margin: "6px",
+                paddingLeft: "5px",
+                // paddingRight: "2px",
 
                 borderRadius: "10px",
                 height: "20px",
@@ -161,7 +171,7 @@ export function ChatStreaming({
               }}
             >
               <img
-                style={{ width: "15px" }}
+                style={{ width: "19px", paddingLeft: "2px" }}
                 src="https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png"
               />
               <div
@@ -196,7 +206,7 @@ export function ChatStreaming({
 
         {showAllSubs && donationsSubscriptions.length > 1 && (
           <button
-            style={{ width: "100%" }}
+            style={{ width: "97%", marginLeft: "5px" }}
             onClick={() => setShowAllSubs(false)}
           ></button>
         )}
@@ -212,7 +222,10 @@ export function ChatStreaming({
       <div className="chat-donation-body">
         <div
           className="getDonationSubscriptionCard"
-          style={{ position: showAllSubs && "fixed" }}
+          style={{
+            position: showAllSubs && "fixed",
+            width: showAllSubs && "25.9%",
+          }}
         >
           {getDonationSubscriptionCard(donationsSubscriptions)}
         </div>
@@ -259,7 +272,11 @@ export function ChatStreaming({
             ))}
           </div>
           <button
-            style={{ display: !allDonationsExpanded && "none", width: "100%" }}
+            style={{
+              width: "100%",
+              marginLeft: "9px",
+              display: !allDonationsExpanded && "none",
+            }}
             onClick={() => {
               setShowAllDonations(false);
               setDonationCardVisible(donationCardVisible);

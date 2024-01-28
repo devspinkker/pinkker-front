@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Clip.css";
-import Slider from "rc-slider"; // Importa el control deslizante
-import "rc-slider/assets/index.css"; // Importa los estilos básicos del control deslizante
-
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 import { Create_Clip, GetBuffer } from "../../../services/backGo/clip";
 import ReactPlayer from "react-player";
 
@@ -15,8 +14,12 @@ export function CreateClip() {
   const videoRef = useRef(null);
   const [clipTitle, setclipTitle] = useState("un titulo para el clip");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(1);
   const [playerKey, setPlayerKey] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [videoHover, setVideoHover] = useState(false);
 
   useEffect(() => {
     const fetchVideoData = async () => {
@@ -112,6 +115,11 @@ export function CreateClip() {
       setIsPlaying(false);
     }
   };
+  const handleProgress = (e) => {
+    const percentage = (e / 30) * 100;
+    console.log(e);
+    setProgress(percentage);
+  };
 
   const handleSliderChange = (values) => {
     const newStart = values[0];
@@ -131,6 +139,21 @@ export function CreateClip() {
       setEndTime(newEnd);
     }
   };
+
+  const handleVolumeChange = (value) => {
+    setVolume(value);
+    if (videoRef.current) {
+      videoRef.current.volume = value;
+    }
+  };
+
+  const handleMuteToggle = () => {
+    setIsMuted(!isMuted);
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+    }
+  };
+
   useEffect(() => {
     const checkEndTime = () => {
       if (videoRef.current && videoRef.current.currentTime >= endTime) {
@@ -149,6 +172,7 @@ export function CreateClip() {
       }
     };
   }, [videoRef.current, endTime]);
+
   const handleTitleChange = (e) => {
     setclipTitle(e.target.value);
   };
@@ -161,26 +185,75 @@ export function CreateClip() {
             <ReactPlayer
               url={videoUrl}
               ref={videoRef}
-              controls={true}
-              onClick={isPlaying ? pauseVideo : playVideo}
+              controls={false}
               playing={isPlaying}
               progressInterval={1000}
-              onProgress={(progress) => setCurrentTime(progress.playedSeconds)}
+              // onProgress={(progress) => setCurrentTime(progress.playedSeconds)}
+              onProgress={(progress) => handleProgress(progress.playedSeconds)}
             />
-            <div className="slider-container">
-              <Slider
+            {isPlaying === false && (
+              <div
+                className="clipcard-muted"
+                style={{ left: "50%", top: "227px" }}
+              >
+                <i
+                  onClick={playVideo}
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "44px",
+                    color: "lightgray",
+                  }}
+                  className="fas fa-play button-more-player"
+                />
+              </div>
+            )}
+            {isPlaying === true && (
+              <div
+                onClick={pauseVideo}
+                className="clipcard-muted"
+                style={{
+                  left: "41%",
+                  top: "152px",
+                  width: "200px",
+                  height: "200px",
+                }}
+              ></div>
+            )}
+            <div
+              style={{
+                width: "100%",
+                borderRadius: "0",
+                height: videoHover ? "5px" : "2px",
+                margin: "9px  0px",
+              }}
+              className="time_progressbarContainer"
+            >
+              <div
+                style={{ width: `${progress}%` }}
+                className="time_progressBar"
+              ></div>
+            </div>
+            <div className="controls-container">
+              <div className="edit-clip">
+                <button style={{ width: "100%" }} onClick={handleSetDuration}>
+                  Recortar Video
+                </button>
+              </div>
+
+              {/* <button onClick={handleMuteToggle}>
+                {isMuted ? "Unmute" : "Mute"}
+              </button> */}
+
+              {/* <Slider
                 min={0}
-                max={duration}
-                range
-                value={[startTime, endTime]}
-                onChange={handleSliderChange}
-              />
+                max={1}
+                step={0.1}
+                value={volume}
+                onChange={handleVolumeChange}
+              /> */}
             </div>
           </div>
 
-          <div className="edit-clip">
-            <button onClick={handleSetDuration}>Recortar Video</button>
-          </div>
           <input
             id="clipTitle"
             placeholder="Añade un titulo"

@@ -24,7 +24,7 @@
 .chat-donation-body {
     width: 100%;
     height: 60px;
-    background-color: #0404048f;
+    background-color: #000000;
     overflow: hidden;
 }
 
@@ -45,7 +45,7 @@
     align-items: center;
     flex-direction: column;
     position: fixed;
-    width: 26%;
+    width: 25.3%;
 }
 
 /* .chat-donation-card-container:hover {
@@ -133,5 +133,14 @@
     .page-wrapper {
         min-height: 670px;
         height: 670px;
+    }
+
+    .chat-donation-container {
+        width: 96%;
+        z-index: 100000;
+    }
+
+    .getDonationSubscriptionCard {
+        width: 98% !important;
     }
 }

@@ -186,7 +186,7 @@ export default function CustomPlayer({
     );
     const rtmp = process.env.REACT_APP_RTMP;
     var url = `${rtmp}/${keyTransmission}/index.m3u8`;
-
+    console.log(url);
     return url;
   }
 

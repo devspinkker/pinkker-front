@@ -531,7 +531,10 @@ export default function Channel({
       <div
         onMouseEnter={() => setViewInfoStream(true)}
         onMouseLeave={() => setViewInfoStream(false)}
-        style={{ opacity: viewInfoStream === true ? "1" : "0" }}
+        style={{
+          opacity: viewInfoStream === true ? "1" : "0",
+          display: stream?.online ? "" : "none",
+        }}
         className="channel-v2-info"
       >
         <div className="channel-v2-primary">
@@ -1291,8 +1294,15 @@ export default function Channel({
 
               {renderAnnoucement()}
 
-              <div style={{ width: "100%", margin: "0 auto", zIndex: "1000" }}>
-                {tyExpanded && stream.online
+              <div
+                style={{
+                  width: "100%",
+                  margin: "0 auto",
+                  zIndex: "1000",
+                  marginTop: stream?.Online ? "" : "74px",
+                }}
+              >
+                {tyExpanded && stream?.online
                   ? getNotExpandedStream()
                   : getStream()}
                 {getBottomStream()}

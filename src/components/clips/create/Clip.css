@@ -89,3 +89,11 @@
     align-items: center;
     height: 100px;
 }
+
+.controls-container {
+    display: flex;
+}
+
+.edit-clip {
+    width: 100%;
+}
