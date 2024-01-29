@@ -14,9 +14,6 @@ import {
 } from "../../../services/backGo/tweet";
 
 export default function TweetCard({ tweet }) {
-  const auth = useSelector((state) => state.auth);
-  const token = useSelector((state) => state.token);
-
   const [popupTweetView, setPopupTweetView] = useState(false);
   const [popupCiteTweet, setPopupCiteTweet] = useState(false);
   const [showDropdownRetweet, setShowDropdownRetweet] = useState(false);

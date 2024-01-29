@@ -4,9 +4,15 @@ import "./ChatStreaming.css";
 import DonationCard from "../../../channel/chat/donation/card/DonationCard";
 import { GetPixelesDonationsChat } from "../../../../services/backGo/donation";
 import Donation from "../../../channel/chat/donation/card/Donation";
-import { GetSubssChat } from "../../../../services/backGo/subs";
+import { GetSubssChat, suscribirse } from "../../../../services/backGo/subs";
 import Tippy from "@tippyjs/react";
 import DropdownPoints from "../../../channel/chat/dropdown/points/DropdownPoints";
+import {
+  follow,
+  getUserByNameUser,
+  unfollow,
+} from "../../../../services/backGo/user";
+import { getStreamerDonationSubscription } from "../../../../services/donationSubscription";
 
 export function ChatStreaming({
   OnechatId,
@@ -27,6 +33,8 @@ export function ChatStreaming({
   const [incrementPoints2, setIncrementPoints2] = useState(false);
   const [dropdownPoints, setDropdownPoints] = useState(false);
   const [selectedDonation, setSelectedDonation] = useState(null);
+  const [GetUserTheChat, setGetUserTheChat] = useState(null);
+  const [ShowGetUserTheChat, setShowGetUserTheChat] = useState(false);
 
   useEffect(() => {
     const connectWebSocket = () => {
@@ -41,6 +49,7 @@ export function ChatStreaming({
         const receivedMessage = JSON.parse(event.data);
         newSocket.send("onmessage");
         setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+        console.log(receivedMessage);
         scrollToBottom();
       };
 
@@ -324,7 +333,39 @@ export function ChatStreaming({
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
+  const [GetUserTheChatFollowing, setGetUserTheChatFollowing] = useState(false);
+  const GetUserTheChatFunc = async (NameUser) => {
+    const res = await getUserByNameUser(NameUser);
+    if (res.message == "ok") {
+      setGetUserTheChat(res.data);
+      setShowGetUserTheChat(true);
+      if (user?.Following.includes(res?.data.id)) {
+        setGetUserTheChatFollowing(true);
+      }
+    }
+  };
 
+  const GetUserTheChatFuncfollow = async () => {
+    const token = window.localStorage.getItem("token");
+    console.log(GetUserTheChat);
+    console.log("!");
+    if (token) {
+      if (GetUserTheChatFollowing) {
+        await unfollow(token, GetUserTheChat?.id);
+        setGetUserTheChatFollowing(false);
+      } else {
+        await follow(token, GetUserTheChat?.id);
+        setGetUserTheChatFollowing(true);
+      }
+    }
+  };
+  const GiftsubscriptionTheChat = async () => {
+    const token = window.localStorage.getItem("token");
+    console.log(token, GetUserTheChat);
+    if (token) {
+      const res = await suscribirse(token, GetUserTheChat?.id);
+    }
+  };
   return (
     <div className="ChatStreaming">
       {chatExpandeds == true ? (
@@ -419,8 +460,50 @@ export function ChatStreaming({
         />
       </div>
       <div className="Conversation" ref={conversationRef}>
+        {ShowGetUserTheChat && GetUserTheChat && (
+          <div className="ShowGetUserTheChat">
+            <div className="ShowGetUserTheChat-InfoUser">
+              <img src={GetUserTheChat?.Avatar} alt="" />
+              <div className="ShowGetUserTheChat-InfoUser-gsd">
+                <span>{GetUserTheChat?.NameUser}</span>
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setShowGetUserTheChat(false)}
+                >
+                  x
+                </span>
+              </div>
+            </div>
+            <div className="ShowGetUserTheChat-actions">
+              <span
+                className="ShowGetUserTheChat-actions-seguir"
+                onClick={() => {
+                  GetUserTheChatFuncfollow();
+                }}
+              >
+                {GetUserTheChatFollowing ? "dejar de seguir" : "seguir"}
+              </span>
+              <span>hace algo</span>
+              <div
+                onClick={() => GiftsubscriptionTheChat()}
+                className="ShowGetUserTheChat-actions-suscripción"
+              >
+                <img
+                  style={{ width: "19px", paddingLeft: "2px" }}
+                  src="https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png"
+                />
+                <span>Regalar una suscripción</span>
+              </div>
+            </div>
+          </div>
+        )}
         {messages.map((message, index) => (
-          <div key={index} className="Message">
+          <div
+            key={index}
+            className="Message"
+            onClick={() => GetUserTheChatFunc(message.nameUser)}
+            style={{ cursor: "pointer" }}
+          >
             <div className="MessagesChat">
               <div className="badges">
                 {message.EmotesChat.Moderator && (

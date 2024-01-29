@@ -496,7 +496,7 @@ export default function CustomPlayer({
         return (
           <div className="customPlayer-container">
             <div
-              style={{ marginTop: expanded ? "-130px" : "-130px" }}
+              style={{ position: "relative", top: "-44px" }}
               className="customPlayer-primary"
             >
               <div className="customPlayer-secundary-div">

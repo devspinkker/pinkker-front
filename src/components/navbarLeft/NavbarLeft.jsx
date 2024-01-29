@@ -11,7 +11,10 @@ import { useSelector } from "react-redux";
 
 import useTheme from "../../theme/useTheme";
 
-import { GetAllsStreamsOnline } from "../../services/backGo/streams";
+import {
+  GetAllsStreamsOnline,
+  GetAllsStreamsOnlineThatUserFollows,
+} from "../../services/backGo/streams";
 import NavbarLeftMobile from "./navbarLeftMobile";
 import { getUserByIdTheToken } from "../../services/backGo/user";
 
@@ -28,9 +31,11 @@ export default function NavbarLeft({
   const token = useSelector((state) => state.token);
   const usersOnline = useSelector((state) => state.streamers);
 
-  const [followers, setFollowers] = useState([]);
   const [recommended, setRecommended] = useState([]);
-
+  const [
+    AllsStreamsOnlineThatUserFollows,
+    setAllsStreamsOnlineThatUserFollows,
+  ] = useState([]);
   const [dashboard, setDashboard] = useState(tyDashboard);
 
   const [dropdownSettings, setDropdownSettings] = useState(false);
@@ -83,21 +88,36 @@ export default function NavbarLeft({
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getAllFollowers(token);
-      if (result != undefined && result != null) {
-        setFollowers(result);
-      }
-    };
-    fetchData();
-  }, [token, usersOnline]);
+      let token = window.localStorage.getItem("token");
 
-  useEffect(() => {
-    const fetchData = async () => {
+      // Si hay token, realiza la primera petición
+      let resGetAllsStreamsOnlineThatUserFollows;
+      if (token) {
+        resGetAllsStreamsOnlineThatUserFollows =
+          await GetAllsStreamsOnlineThatUserFollows(token);
+        if (resGetAllsStreamsOnlineThatUserFollows.message === "ok") {
+          setAllsStreamsOnlineThatUserFollows(
+            resGetAllsStreamsOnlineThatUserFollows.data
+          );
+        }
+      }
+
       const result = await GetAllsStreamsOnline();
       if (result.message === "ok") {
-        setRecommended(result.data);
+        const usersOnlineAndFollowed = AllsStreamsOnlineThatUserFollows
+          ? resGetAllsStreamsOnlineThatUserFollows.data.map(
+              (stream) => stream.StreamerID
+            )
+          : [];
+
+        const recommendedFiltered = result.data.filter(
+          (user) => !usersOnlineAndFollowed.includes(user._id)
+        );
+
+        setRecommended(recommendedFiltered);
       }
     };
+
     fetchData();
   }, [user]);
 
@@ -458,26 +478,41 @@ export default function NavbarLeft({
             }}
           />
 
-          {usersOnline && usersOnline.length > 0 && (
-            <div className="navbarleft-title">
-              {tyExpanded ? (
-                <h5 className={tyExpanded === false && "notvisible"}>
-                  CANALES QUE SIGO
-                </h5>
-              ) : (
-                <i
-                  style={{
-                    color: "#ededed",
-                    position: "relative",
-                    left: "-10px",
-                  }}
-                  class="fas fa-video"
-                ></i>
-              )}
+          {AllsStreamsOnlineThatUserFollows &&
+            AllsStreamsOnlineThatUserFollows.length > 0 && (
+              <div className="navbarleft-title">
+                {tyExpanded ? (
+                  <h5 className={tyExpanded === false && "notvisible"}>
+                    CANALES QUE SIGO
+                  </h5>
+                ) : (
+                  <i
+                    style={{
+                      color: "#ededed",
+                      position: "relative",
+                      left: "-10px",
+                    }}
+                    class="fas fa-video"
+                  ></i>
+                )}
+              </div>
+            )}
+          {AllsStreamsOnlineThatUserFollows.map((streamer) => (
+            <div>
+              <UserOnline
+                tyExpanded={tyExpanded}
+                thumb={streamer.stream_thumbnail}
+                viewers={streamer.viewers}
+                image={streamer.streamer_avatar}
+                streamer={streamer.streamer}
+                title={streamer.stream_title}
+                category={streamer.stream_category}
+                thum={streamer.stream_thumbnail}
+              />
             </div>
-          )}
+          ))}
 
-          {usersOnline &&
+          {/* {usersOnline &&
             usersOnline.map(
               (streamer) =>
                 user.following &&
@@ -511,7 +546,7 @@ export default function NavbarLeft({
                     thum={you.stream_thumbnail}
                   />
                 )
-            )}
+            )} */}
 
           <div className="navbarleft-title">
             {tyExpanded ? (
@@ -530,21 +565,18 @@ export default function NavbarLeft({
             )}
           </div>
 
-          {recommended.map(
-            // console.log(recommended)
-            (streamer) => (
-              <UserOnline
-                tyExpanded={tyExpanded}
-                thumb={streamer.stream_thumbnail}
-                viewers={streamer.viewers}
-                image={streamer.streamer_avatar}
-                streamer={streamer.streamer}
-                title={streamer.stream_title}
-                category={streamer.stream_category}
-                thum={streamer.stream_thumbnail}
-              />
-            )
-          )}
+          {recommended.map((streamer) => (
+            <UserOnline
+              tyExpanded={tyExpanded}
+              thumb={streamer.stream_thumbnail}
+              viewers={streamer.viewers}
+              image={streamer.streamer_avatar}
+              streamer={streamer.streamer}
+              title={streamer.stream_title}
+              category={streamer.stream_category}
+              thum={streamer.stream_thumbnail}
+            />
+          ))}
         </div>
       );
     }

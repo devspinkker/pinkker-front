@@ -117,7 +117,6 @@ export function CreateClip() {
   };
   const handleProgress = (e) => {
     const percentage = (e / 30) * 100;
-    console.log(e);
     setProgress(percentage);
   };
 

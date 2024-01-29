@@ -30,6 +30,7 @@ export default function Muro({ streamer }) {
         setTweets((prev) => {
           return [...prev, ...data.data];
         });
+
         setHasMore(data.hasMore);
         setLoading(true);
         return;

@@ -474,7 +474,6 @@ export default function Muro({ isMobile }) {
           <ScaleLoader width={4} height={20} color="#f36197d7" />
         </div>
       )}
-
       {/*<div style={{height: "800px", display: "flex", alignItems: "center", justifyContent: "center"}}>
                 <div style={{display: "flex", alignItems: "center"}}>
                     <img style={{width: "200px"}} src="https://res.cloudinary.com/pinkker/image/upload/v1679518300/pinkker-trabajando_ky0e2t.png"/>

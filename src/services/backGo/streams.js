@@ -96,6 +96,23 @@ export async function GetAllsStreamsOnline() {
 		return error
 	}
 }
+export async function GetAllsStreamsOnlineThatUserFollows(token) {
+	try {
+		const response = await axios.get(
+			`${baseURL}/stream/GetAllsStreamsOnlineThatUserFollows`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Error en GetAllsStreamsOnline:', error.message);
+		return error
+	}
+}
+
 
 // Función para actualizar la fecha de inicio de un stream
 async function updateStartDate(streamInfo) {
