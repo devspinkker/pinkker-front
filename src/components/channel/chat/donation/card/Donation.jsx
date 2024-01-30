@@ -81,7 +81,7 @@ export default function Donation({ donation, callback, index }) {
       style={{
         marginLeft: "15px",
         marginBottom: "5px",
-        backgroundColor: getColorFromAmount(donation?.Pixeles)?.colorPrimary,
+        backgroundColor: "black",
         animation:
           width > 0 && index === 0 ? "slideToTop 2s" : "closeCardDonation 6s",
         width: "100%",
@@ -113,7 +113,7 @@ export default function Donation({ donation, callback, index }) {
           src={donation?.FromUserInfo.Avatar}
           alt=""
         />
-        <span>{donation?.FromUserInfo.NameUser}</span>
+        <span style={{ color: "#fff" }}>{donation?.FromUserInfo.NameUser}</span>
       </div>
       {/*<div className="chat-donation-card-triangulo"></div>*/}
       <div className="chat-donation-card-text">

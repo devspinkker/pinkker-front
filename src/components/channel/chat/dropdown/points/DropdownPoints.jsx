@@ -112,9 +112,9 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
 
           <div className="dropdownpoints-card-container">
             <div
-              onClick={() => handleClickPixel(350)}
+              onClick={() => handleClickPixel(500)}
               className={
-                user?.Pixeles >= 350
+                user?.Pixeles >= 500
                   ? "dropdownpoints-card"
                   : "dropdownpoints-card-disabled"
               }
@@ -125,7 +125,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
                   src="/images/donaciones/1.png"
                   alt=""
                 />
-                <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>1</p>
+                <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>500</p>
               </div>
             </div>
             <div
@@ -142,58 +142,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
                   src="/images/donaciones/100.png"
                   alt=""
                 />
-                <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>100</p>
-              </div>
-            </div>
-            <div
-              onClick={() => handleClickPixel(1500)}
-              className={
-                user?.Pixeles >= 1500
-                  ? "dropdownpoints-card"
-                  : "dropdownpoints-card-disabled"
-              }
-            >
-              <div>
-                <img
-                  style={{ width: "40px" }}
-                  src="/images/donaciones/1000.png"
-                  alt=""
-                />
                 <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>1000</p>
-              </div>
-            </div>
-            <div
-              onClick={() => handleClickPixel(2500)}
-              className={
-                user?.Pixeles >= 2500
-                  ? "dropdownpoints-card"
-                  : "dropdownpoints-card-disabled"
-              }
-            >
-              <div>
-                <img
-                  style={{ width: "42px" }}
-                  src="/images/donaciones/5000.png"
-                  alt=""
-                />
-                <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>5000</p>
-              </div>
-            </div>
-            <div
-              onClick={() => handleClickPixel(3000)}
-              className={
-                user?.Pixeles >= 3000
-                  ? "dropdownpoints-card"
-                  : "dropdownpoints-card-disabled"
-              }
-            >
-              <div>
-                <img
-                  style={{ width: "45px" }}
-                  src="/images/donaciones/10000.png"
-                  alt=""
-                />
-                <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>10000</p>
               </div>
             </div>
             <div
@@ -206,11 +155,62 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
             >
               <div>
                 <img
+                  style={{ width: "40px" }}
+                  src="/images/donaciones/1000.png"
+                  alt=""
+                />
+                <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>3500</p>
+              </div>
+            </div>
+            <div
+              onClick={() => handleClickPixel(5500)}
+              className={
+                user?.Pixeles >= 5500
+                  ? "dropdownpoints-card"
+                  : "dropdownpoints-card-disabled"
+              }
+            >
+              <div>
+                <img
+                  style={{ width: "42px" }}
+                  src="/images/donaciones/5000.png"
+                  alt=""
+                />
+                <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>5500</p>
+              </div>
+            </div>
+            <div
+              onClick={() => handleClickPixel(7000)}
+              className={
+                user?.Pixeles >= 7000
+                  ? "dropdownpoints-card"
+                  : "dropdownpoints-card-disabled"
+              }
+            >
+              <div>
+                <img
+                  style={{ width: "45px" }}
+                  src="/images/donaciones/10000.png"
+                  alt=""
+                />
+                <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>7000</p>
+              </div>
+            </div>
+            <div
+              onClick={() => handleClickPixel(8500)}
+              className={
+                user?.Pixeles >= 8500
+                  ? "dropdownpoints-card"
+                  : "dropdownpoints-card-disabled"
+              }
+            >
+              <div>
+                <img
                   style={{ width: "50px" }}
                   src="/images/donaciones/50000.png"
                   alt=""
                 />
-                <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>50000</p>
+                <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>8500</p>
               </div>
             </div>
           </div>

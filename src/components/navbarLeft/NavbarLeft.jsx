@@ -90,7 +90,6 @@ export default function NavbarLeft({
     const fetchData = async () => {
       let token = window.localStorage.getItem("token");
 
-      // Si hay token, realiza la primera petición
       let resGetAllsStreamsOnlineThatUserFollows;
       if (token) {
         resGetAllsStreamsOnlineThatUserFollows =
@@ -103,9 +102,10 @@ export default function NavbarLeft({
       }
 
       const result = await GetAllsStreamsOnline();
+
       if (result.message === "ok") {
-        console.log(AllsStreamsOnlineThatUserFollows);
-        if (AllsStreamsOnlineThatUserFollows == []) {
+        if (resGetAllsStreamsOnlineThatUserFollows?.data?.length > 0) {
+          console.log("!ASA");
           const usersOnlineAndFollowed = AllsStreamsOnlineThatUserFollows
             ? resGetAllsStreamsOnlineThatUserFollows?.data.map(
                 (stream) => stream.StreamerID
@@ -117,6 +117,7 @@ export default function NavbarLeft({
 
           setRecommended(recommendedFiltered);
         } else {
+          console.log("!ASA 2");
           setRecommended(result.data);
         }
       }

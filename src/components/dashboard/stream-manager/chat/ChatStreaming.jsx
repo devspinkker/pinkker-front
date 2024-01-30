@@ -510,13 +510,16 @@ export function ChatStreaming({
               <img src={GetUserTheChat?.Avatar} alt="" />
               <div className="ShowGetUserTheChat-InfoUser-gsd">
                 <span>{GetUserTheChat?.NameUser}</span>
-                <span
-                  style={{ cursor: "pointer" }}
-                  onClick={() => setShowGetUserTheChat(false)}
-                >
-                  x
-                </span>
               </div>
+              <span
+                className="ShowGetUserTheChat-InfoUser-gsd-x"
+                onClick={() => setShowGetUserTheChat(false)}
+              >
+                <i
+                  style={{ cursor: "pointer", color: "#ffff" }}
+                  class="fas fa-times"
+                />
+              </span>
             </div>
             <div className="ShowGetUserTheChat-actions">
               <span

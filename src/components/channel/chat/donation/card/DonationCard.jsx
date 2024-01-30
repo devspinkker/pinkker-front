@@ -38,21 +38,22 @@ export default function DonationCard({
       return { colorPrimary: "#A16E1B", colorSecondary: "#86590F" };
     }
   }
-  useEffect(() => {
-    console.log("S");
-  });
+
   return (
     donationCard && (
       <div className="donationcard-body-container">
         <div
           style={{
-            backgroundColor: getColorFromAmount(donationAmount).colorPrimary,
+            backgroundColor: "black",
           }}
           className="donationcard-body"
         >
           <div style={{ width: "100%", margin: "0 auto" }}>
             <div onClick={() => close()} className="donationcard-close">
-              <i style={{ cursor: "pointer" }} class="fas fa-times" />
+              <i
+                style={{ cursor: "pointer", color: "#ffff" }}
+                class="fas fa-times"
+              />
             </div>
 
             <div className="donationcard-container">

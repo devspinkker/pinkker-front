@@ -158,6 +158,7 @@ export default function ClipCard({ type, clip }) {
             style={{
               display: "flex",
               flexDirection: "column",
+              width: "100%",
             }}
           >
             <video
