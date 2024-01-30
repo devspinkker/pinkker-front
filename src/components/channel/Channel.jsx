@@ -1385,7 +1385,7 @@ export default function Channel({
                       </div>
                     )}
                     <ChatStreaming
-                      OnechatId={stream.id}
+                      streamerChat={stream}
                       chatExpandeds={chatExpanded}
                       ToggleChat={handleToggleChat}
                       streamerData={streamerData}
@@ -1422,7 +1422,7 @@ export default function Channel({
                 )}
 
                 <ChatStreaming
-                  OnechatId={stream.id}
+                  streamerChat={stream}
                   chatExpandeds={chatExpanded}
                   ToggleChat={handleToggleChat}
                   streamerData={streamerData}

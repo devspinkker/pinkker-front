@@ -4,18 +4,19 @@ var token = null;
 export const setToken = (newObject) => {
     token = newObject;
 };
-const baseURL = "https://pinkker-backend-2-xw7b.fl0.io";
+const baseURL = "http://localhost:8081";
 
 
-async function actionsModeratorChatStream(action, actionAgainst, timeOut, room) {
+export async function actionsModeratorChatStream(action, actionAgainst, timeOut, room, token) {
     try {
+        console.log(action, actionAgainst, timeOut, room, token,);
         const response = await axios.post(
-            `${baseURL}/actionsChatStream`,
+            `${baseURL}/actionsModeratorChatStream`,
             {
-                action,
-                actionAgainst,
-                timeOut,
-                room,
+                action: action,
+                actionAgainst: actionAgainst,
+                timeOut: timeOut,
+                room: room,
             },
             {
                 headers: {
@@ -26,13 +27,48 @@ async function actionsModeratorChatStream(action, actionAgainst, timeOut, room) 
         return response.data;
     } catch (error) {
         console.error('Error en actionsModeratorChatStream:', error.message);
-        throw error;
+        return error
     }
 }
-
-async function actionsChatStream() {
+export async function actionsChatStream(action, actionAgainst, timeOut, token) {
     try {
-        const response = await axios.get(`${baseURL}/getCommands`, {
+        const response = await axios.post(
+            `${baseURL}/actionsChatStream`,
+            {
+                action,
+                actionAgainst,
+                timeOut,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error en actionsModeratorChatStream:', error.message);
+        return error
+
+    }
+}
+// async function actionsChatStream() {
+//     try {
+//         const response = await axios.get(`${baseURL}/getCommands`, {
+//             headers: {
+//                 Authorization: `Bearer ${token}`,
+//             },
+//         });
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error en actionsChatStream:', error.message);
+//     }
+// }
+export async function GetInfoUserInRoomFunc(GetInfoUserInRoom, token) {
+    try {
+        const response = await axios.post(`${baseURL}/GetInfoUserInRoom`, {
+            GetInfoUserInRoom
+        }, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -40,7 +76,6 @@ async function actionsChatStream() {
         return response.data;
     } catch (error) {
         console.error('Error en actionsChatStream:', error.message);
-        throw error;
     }
 }
 async function updataCommands(commands) {
@@ -59,7 +94,6 @@ async function updataCommands(commands) {
         return response.data;
     } catch (error) {
         console.error('Error en updataCommands:', error.message);
-        throw error;
     }
 }
 

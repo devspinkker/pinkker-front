@@ -13,9 +13,14 @@ import {
   unfollow,
 } from "../../../../services/backGo/user";
 import { getStreamerDonationSubscription } from "../../../../services/donationSubscription";
+import {
+  GetInfoUserInRoomFunc,
+  actionsChatStream,
+  actionsModeratorChatStream,
+} from "../../../../services/backGo/chat";
 
 export function ChatStreaming({
-  OnechatId,
+  streamerChat,
   chatExpandeds,
   ToggleChat,
   streamerData,
@@ -35,12 +40,13 @@ export function ChatStreaming({
   const [selectedDonation, setSelectedDonation] = useState(null);
   const [GetUserTheChat, setGetUserTheChat] = useState(null);
   const [ShowGetUserTheChat, setShowGetUserTheChat] = useState(false);
+  const [GetInfoUserInRoom, setGetInfoUserInRoom] = useState(null);
 
   useEffect(() => {
     const connectWebSocket = () => {
       const token = window.localStorage.getItem("token");
       const newSocket = new WebSocket(
-        `ws://localhost:8081/ws/chatStreaming/${OnechatId}/${token}`
+        `ws://localhost:8081/ws/chatStreaming/${streamerChat.id}/${token}`
       );
       newSocket.onerror = (error) => {
         console.error("WebSocket error:", error);
@@ -84,6 +90,8 @@ export function ChatStreaming({
   };
 
   const gets = async () => {
+    console.log(streamerData);
+    console.log(streamerChat);
     try {
       const resDonations = await GetPixelesDonationsChat(streamerData.id);
       if (resDonations.message === "ok" && resDonations.data.length > 0) {
@@ -107,6 +115,19 @@ export function ChatStreaming({
   };
 
   useEffect(() => {
+    const setGetInfoUserInRoomAsync = async () => {
+      const token = window.localStorage.getItem("token");
+      if (token) {
+        const res = await GetInfoUserInRoomFunc(streamerChat.id, token);
+        if (res?.message == "ok") {
+          const roomWithId = res?.data.Rooms.find(
+            (room) => room.Room === streamerChat.id
+          );
+          setGetInfoUserInRoom(roomWithId);
+        }
+      }
+    };
+    setGetInfoUserInRoomAsync();
     gets();
 
     const intervalId = setInterval(() => {
@@ -319,7 +340,7 @@ export function ChatStreaming({
         },
       };
       const res = await axios.post(
-        `http://localhost:8081/chatStreaming/${OnechatId}`,
+        `http://localhost:8081/chatStreaming/${streamerChat.id}`,
         { message },
         config
       );
@@ -364,6 +385,29 @@ export function ChatStreaming({
     console.log(token, GetUserTheChat);
     if (token) {
       const res = await suscribirse(token, GetUserTheChat?.id);
+    }
+  };
+  const ModeratorUserChat = async (action, actionAgainst, timeOut, room) => {
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      const res = await actionsModeratorChatStream(
+        action,
+        actionAgainst,
+        timeOut,
+        room,
+        token
+      );
+    }
+  };
+  const ModeratorUserChatStreamer = async (action, actionAgainst, timeOut) => {
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      const res = await actionsChatStream(
+        action,
+        actionAgainst,
+        timeOut,
+        token
+      );
     }
   };
   return (
@@ -495,6 +539,91 @@ export function ChatStreaming({
                 <span>Regalar una suscripción</span>
               </div>
             </div>
+            {GetInfoUserInRoom &&
+            GetInfoUserInRoom.Moderator &&
+            streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
+              <div className="ShowGetUserTheChat-actions-Moderator">
+                <div
+                  onClick={() =>
+                    ModeratorUserChat(
+                      "baneado",
+                      GetUserTheChat.NameUser,
+                      0,
+                      streamerChat.id
+                    )
+                  }
+                  className="ShowGetUserTheChat-actions-Moderator-banear"
+                >
+                  <span>banear</span>
+                </div>
+                <div
+                  onClick={() =>
+                    ModeratorUserChat(
+                      "timeOut",
+                      GetUserTheChat.NameUser,
+                      10,
+                      streamerChat.id
+                    )
+                  }
+                  className="ShowGetUserTheChat-actions-Moderator-TimeOut"
+                >
+                  <span>TimeOut</span>
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
+            {streamerChat.streamerId === window.localStorage.getItem("_id") ? (
+              <div className="ShowGetUserTheChat-actions-Moderator">
+                <div
+                  onClick={() =>
+                    ModeratorUserChatStreamer(
+                      "baneado",
+                      GetUserTheChat.NameUser,
+                      0
+                    )
+                  }
+                  className="ShowGetUserTheChat-actions-Moderator-banear"
+                >
+                  <span>banear</span>
+                </div>
+                <div
+                  onClick={() =>
+                    ModeratorUserChatStreamer(
+                      "timeOut",
+                      GetUserTheChat.NameUser,
+                      10
+                    )
+                  }
+                  className="ShowGetUserTheChat-actions-Moderator-TimeOut"
+                >
+                  <span>TimeOut</span>
+                </div>
+
+                <div
+                  onClick={() =>
+                    ModeratorUserChatStreamer("vip", GetUserTheChat.NameUser, 0)
+                  }
+                  className="ShowGetUserTheChat-actions-Moderator-vip"
+                >
+                  <span>vip</span>
+                </div>
+                <div
+                  onClick={() =>
+                    ModeratorUserChatStreamer(
+                      "moderator",
+                      GetUserTheChat.NameUser,
+                      0
+                    )
+                  }
+                  className="ShowGetUserTheChat-actions-Moderator-vip"
+                >
+                  <span>moderator</span>
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         )}
         {messages.map((message, index) => (

@@ -264,6 +264,8 @@
     margin: 0px 13px;
 }
 
+
+
 .ShowGetUserTheChat-actions>span {
     padding: 10px;
     margin: 5px;
@@ -284,4 +286,43 @@
     background: #f36196;
     border-radius: 5px;
 
+}
+
+.ShowGetUserTheChat-actions-Moderator {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 27%;
+    justify-content: flex-start;
+    margin: 0px 13px;
+}
+
+.ShowGetUserTheChat-actions-Moderator-banear {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    padding: 10px;
+    background: #f36196;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.ShowGetUserTheChat-actions-Moderator-TimeOut {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    padding: 10px;
+    background: #f36196;
+    border-radius: 5px;
+}
+
+.ShowGetUserTheChat-actions-Moderator-vip {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    padding: 10px;
+    background: #f36196;
+    border-radius: 5px;
+    margin: 5px;
 }

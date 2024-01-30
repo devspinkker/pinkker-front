@@ -570,7 +570,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
           >
             {streamerData && userData ? (
               <ChatStreaming
-                OnechatId={streamerData?.id}
+                streamerChat={streamerData}
                 chatExpandeds={chatExpanded}
                 ToggleChat={handleToggleChat}
                 streamerData={streamerData}

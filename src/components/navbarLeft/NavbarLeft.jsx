@@ -104,17 +104,21 @@ export default function NavbarLeft({
 
       const result = await GetAllsStreamsOnline();
       if (result.message === "ok") {
-        const usersOnlineAndFollowed = AllsStreamsOnlineThatUserFollows
-          ? resGetAllsStreamsOnlineThatUserFollows.data.map(
-              (stream) => stream.StreamerID
-            )
-          : [];
+        console.log(AllsStreamsOnlineThatUserFollows);
+        if (AllsStreamsOnlineThatUserFollows == []) {
+          const usersOnlineAndFollowed = AllsStreamsOnlineThatUserFollows
+            ? resGetAllsStreamsOnlineThatUserFollows?.data.map(
+                (stream) => stream.StreamerID
+              )
+            : [];
+          const recommendedFiltered = result.data.filter(
+            (user) => !usersOnlineAndFollowed.includes(user._id)
+          );
 
-        const recommendedFiltered = result.data.filter(
-          (user) => !usersOnlineAndFollowed.includes(user._id)
-        );
-
-        setRecommended(recommendedFiltered);
+          setRecommended(recommendedFiltered);
+        } else {
+          setRecommended(result.data);
+        }
       }
     };
 
