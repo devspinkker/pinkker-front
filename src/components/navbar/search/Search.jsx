@@ -150,6 +150,7 @@ export default function Search({ isMobile }) {
           ? "navbar-search-" + theme.theme + " navbar-search-margin"
           : "navbar-search-" + theme.theme
       }
+      style={{ padding: "2px" }}
     >
       <div
         style={{
@@ -158,14 +159,17 @@ export default function Search({ isMobile }) {
           height: isMobile ? "50px" : "",
         }}
       >
-        <i style={{ fontSize: "16px" }} class="fas fa-search navbar-search-i" />
+        <i
+          style={{ fontSize: "16px", color: "rgb(89 89 89)" }}
+          class="fas fa-search navbar-search-i"
+        />
         <input
           style={{ fontSize: "16px" }}
           value={text}
           onClickCapture={handleMouseEnter}
           onKeyDown={handleKey}
           onChange={handleChange}
-          placeholder="Buscar"
+          placeholder="Search"
           type="search"
         />
       </div>

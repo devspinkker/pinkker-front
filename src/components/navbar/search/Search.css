@@ -1,86 +1,107 @@
 .navbar-search-dark {
-    width: 30%;
-    position: relative;
-    left: 80px;
-    text-align: center;
-    background-color: #0404048f;
-    margin-left: 50px;
-    margin: 0px auto;
-    margin-top: 5px;
-    height: 35px;
-    border: 2px solid #3f3f3f;
-    border-radius: 17px;
-  }
+  width: 88%;
+  position: relative;
+  text-align: center;
+  background-color: #080808;
+  margin: 0 auto;
+  height: 35px;
+  border: 1px solid #3f3f3f;
+  border-radius: 6px;
+  overflow: hidden;
+  /* Oculta el contenido que se desborda */
+}
 
-  .navbar-search-dark:hover {
-    border: 2px solid #616161;
-  }
-  .navbar-search-dark:focus-within {
-    border: 2px solid #f36196;
+.navbar-search-dark:hover {
+  border: 2px solid #616161;
+}
+
+.navbar-search-dark:focus-within {
+  border: 2px solid #f36196;
+}
+
+.navbar-search-margin {
+  /* margin-bottom: 280px; */
+}
+
+.navbar-search-dark input {
+  background-color: transparent;
+  width: 100%;
+  /* Cambiado a 100% para llenar el contenedor */
+  /* padding: 7.5px; */
+  height: 35px;
+  font-family: 'Montserrat';
+  outline: none;
+  color: rgb(89 89 89);
+
+  border: none;
+  overflow: hidden;
+  /* Oculta el contenido que se desborda */
+}
+
+.navbar-search-dark input::placeholder {
+  color: rgb(89 89 89);
+}
+
+.navbar-search-i {
+  width: 35px;
+  height: 16px;
+  padding: 5px;
+  margin-left: 2px;
+  outline: none;
+  border: none;
+  color: rgb(255, 255, 255);
+  border-radius: 50px;
+}
+
+.navbar-search-i {
+  width: 35px;
+  height: 16px;
+  padding: 5px;
+  margin-left: 2px;
+  outline: none;
+  border: none;
+  color: rgb(255, 255, 255);
+  border-radius: 50px;
+
+}
+
+.navbar-search-i:hover {
+  cursor: pointer;
+}
+
+input::placeholder {
+  color: rgb(219, 219, 219);
+}
+
+.navbar-search-dark input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 1em;
+  width: 1em;
+  border-radius: 50em;
+  background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg) no-repeat 50% 50%;
+  background-size: contain;
+  opacity: 0;
+  pointer-events: none;
+  filter: invert(1);
+
+}
+
+.navbar-search-dark input:focus::-webkit-search-cancel-button {
+  opacity: .3;
+  pointer-events: all;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-search-dark {
+    width: 100% !important;
+    left: 0px !important;
+    margin-left: 0px;
   }
 
   .navbar-search-margin {
-    margin-bottom: 280px;
+    margin-bottom: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+    height: 50px !important;
   }
-  
-  .navbar-search-dark input{
-      background-color: transparent;
-      width: 100%;
-      padding: 7.5px;
-      height: 35px;
-      font-family: 'Montserrat';
-      outline: none;
-      border: none;
-      color: rgb(255, 255, 255);
-    }
-  
-  .navbar-search-i {
-      width: 35px;
-      height: 16px;
-      padding: 5px;
-      margin-left: 2px;
-      outline: none;
-      border: none;
-      color: rgb(255, 255, 255);
-      border-radius: 50px;
-
-    }
-
-  .navbar-search-i:hover {
-      cursor: pointer;
-  }
-  
-  .navbar-search-dark input::placeholder {
-      color: rgb(219, 219, 219);
-  }
-
-  .navbar-search-dark input::-webkit-search-cancel-button {
-    -webkit-appearance: none;
-    height: 1em;
-    width: 1em;
-    border-radius: 50em;
-    background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg) no-repeat 50% 50%;
-    background-size: contain;
-    opacity: 0;
-    pointer-events: none;
-    filter: invert(1);
-
-  }
-  
-  .navbar-search-dark input:focus::-webkit-search-cancel-button {
-    opacity: .3;
-    pointer-events: all;
-  }
-  @media screen and (max-width: 768px) {
-    .navbar-search-dark {
-      width: 100% !important;
-      left: 0px !important;
-      margin-left: 0px;
-    }
-    .navbar-search-margin{
-      margin-bottom: 0px  !important;
-      left: 0px !important;
-      width: 100% !important;
-      height: 50px !important;
-    }
-  }
+}

@@ -230,46 +230,6 @@ function Navbar({
     if (dashboard === false && isLoadingMain === false) {
       return (
         <nav className={"navbar-" + theme.theme}>
-          {!isMobile && (
-            <a
-              className={"navbar-logo-" + theme.theme}
-              onClick={closeMobileMenu}
-            >
-              <i
-                onClick={() => clickPulsedButton()}
-                style={{
-                  fontSize: "18px",
-                  zIndex: "1000",
-                  marginLeft: "5px",
-                  transform: expanded === false && "rotate(90deg)",
-                  transition: "0.2s",
-                  color: "#ededed",
-                }}
-                class="fas fa-bars"
-              />
-            </a>
-          )}
-          <Link
-            to="/"
-            className={"navbar-logo-" + theme.theme}
-            onClick={closeMobileMenu}
-          >
-            <img src="/images/logo.png" style={{ width: "145px" }} alt="" />
-          </Link>
-
-          {!isMobile && (
-            <div
-              style={{
-                width: isMobile ? "50%" : "100%",
-                alignItems: "center",
-                height: "50px",
-                marginRight: "5px",
-              }}
-            >
-              <Search isMobile={isMobile} />
-            </div>
-          )}
-
           {/* {isMobile && searchMobile === true && 
         <div style={{width: isMobile ? "100%" : "100%", alignItems: "center", height: "50px"}}>
           <Search isMobile={isMobile} />
@@ -279,6 +239,7 @@ function Navbar({
             <div
               style={{
                 left: isLogged ? "20px" : "0px",
+                width: "100%",
               }}
             >
               {isLogged && (
@@ -286,11 +247,49 @@ function Navbar({
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "15px",
-                    marginRight: "10px",
+                    justifyContent: "space-around",
+                    position: "relative",
+                    width: "100%",
+                    paddingLeft: "6rem",
                   }}
                 >
-                  {/* {isMobile && searchMobile === false && 
+                  <div style={{ width: "200px" }}></div>
+                  <div
+                    style={{
+                      // width: "500px",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                    className="button-purchase-pixels"
+                    onClick={onMouseEnterPurchase}
+                  >
+                    <button>
+                      <img
+                        style={{
+                          width: isMobile ? "25px" : "17px",
+                          marginRight: "5px",
+                        }}
+                        src="/images/pixel.png"
+                        alt=""
+                      />{" "}
+                      {user.Pixeles}
+                    </button>
+                    <i
+                      className="fas fa-chevron-right"
+                      style={{
+                        transform: !dropdownPurchase && "rotate(90deg)",
+                      }}
+                    ></i>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "15px",
+                      marginRight: "10px",
+                    }}
+                  >
+                    {/* {isMobile && searchMobile === false && 
                   <li onClick={() => setSearchMobile(true)} style={{marginRight: "5px", marginLeft: "3px", position: "relative", top: "-5px", left: "5px"}} className={'nav-item-' + theme.theme + " pinkker-button-more"}>
                       <a className={"nav-links-" + theme.theme} onClick={closeMobileMenu}>
                         <i style={{fontSize: "24px"}} class="fas fa-search navbar-search-i"/>
@@ -298,7 +297,7 @@ function Navbar({
                   </li>
                } */}
 
-                  {/* {searchMobile === false && <Tippy placement="bottom" theme="pinkker" content={<h1 style={{fontSize: "12px", fontFamily: "Montserrat"}}>Amigos</h1>}>
+                    {/* {searchMobile === false && <Tippy placement="bottom" theme="pinkker" content={<h1 style={{fontSize: "12px", fontFamily: "Montserrat"}}>Amigos</h1>}>
                   <li onClick={onMouseEnterFriends} style={{marginRight: "5px", marginLeft: "3px"}} className={'nav-item-' + theme.theme + " pinkker-button-more"}>
                       <a className={"nav-links-" + theme.theme} onClick={closeMobileMenu}>
                         {user && user.userFriendsNotifications != 0 && <div className='navbar-numbers'>{user.userFriendsNotifications}</div>}
@@ -308,92 +307,86 @@ function Navbar({
       </Tippy>}
                  */}
 
-                  {searchMobile === true && (
-                    <Tippy
-                      placement="bottom"
-                      theme="pinkker"
-                      content={
-                        <h1
-                          style={{ fontSize: "12px", fontFamily: "Montserrat" }}
-                        >
-                          Notificaciones
-                        </h1>
-                      }
-                    >
-                      <li
-                        onClick={onMouseEnterNotifications}
-                        className={
-                          "nav-item-" + theme.theme + " pinkker-button-more"
+                    {searchMobile === true && (
+                      <Tippy
+                        placement="bottom"
+                        theme="pinkker"
+                        content={
+                          <h1
+                            style={{
+                              fontSize: "12px",
+                              fontFamily: "Montserrat",
+                            }}
+                          >
+                            Notificaciones
+                          </h1>
                         }
                       >
-                        <a
-                          className={"nav-links-" + theme.theme}
-                          onClick={closeMobileMenu}
+                        <li
+                          onClick={onMouseEnterNotifications}
+                          className={
+                            "nav-item-" + theme.theme + " pinkker-button-more"
+                          }
                         >
-                          {donations && donations.length != 0 && (
-                            <div className="navbar-numbers">
-                              {donations.length}
-                            </div>
-                          )}
-                          <img
-                            style={{ width: isMobile ? "30px" : "17px" }}
-                            src="/images/iconos/notificacion.png"
-                          />
-                        </a>
-                      </li>
-                    </Tippy>
-                  )}
+                          <a
+                            className={"nav-links-" + theme.theme}
+                            onClick={closeMobileMenu}
+                          >
+                            {donations && donations.length != 0 && (
+                              <div className="navbar-numbers">
+                                {donations.length}
+                              </div>
+                            )}
+                            <img
+                              style={{ width: isMobile ? "30px" : "17px" }}
+                              src="/images/iconos/notificacion.png"
+                            />
+                          </a>
+                        </li>
+                      </Tippy>
+                    )}
 
-                  {searchMobile === true && (
-                    <Tippy
-                      placement="bottom"
-                      theme="pinkker"
-                      content={
-                        <h1
-                          style={{ fontSize: "12px", fontFamily: "Montserrat" }}
-                        >
-                          Mensajes
-                        </h1>
-                      }
-                    >
-                      <li
-                        onClick={onMouseEnterMessage}
-                        className={
-                          "nav-item-" + theme.theme + " pinkker-button-more"
+                    {searchMobile === true && (
+                      <Tippy
+                        placement="bottom"
+                        theme="pinkker"
+                        content={
+                          <h1
+                            style={{
+                              fontSize: "12px",
+                              fontFamily: "Montserrat",
+                            }}
+                          >
+                            Mensajes
+                          </h1>
                         }
                       >
-                        <a
-                          className={"nav-links-" + theme.theme}
-                          onClick={closeMobileMenu}
+                        <li
+                          onClick={onMouseEnterMessage}
+                          className={
+                            "nav-item-" + theme.theme + " pinkker-button-more"
+                          }
                         >
-                          {messages && messages.length != 0 && (
-                            <div className="navbar-numbers">
-                              {messages.length}
-                            </div>
-                          )}
-                          <img
-                            style={{ width: isMobile ? "30px" : "17px" }}
-                            src="/images/iconos/mensaje.png"
-                          />
-                        </a>
-                      </li>
-                    </Tippy>
-                  )}
-                  <button
-                    className="button-purchase-pixels"
-                    onClick={onMouseEnterPurchase}
-                  >
-                    <img
-                      style={{
-                        width: isMobile ? "25px" : "17px",
-                        marginRight: "5px",
-                      }}
-                      src="/images/pixel.png"
-                      alt=""
-                    />{" "}
-                    Pixeles
-                  </button>
-                  {isLogged && userLink()}
+                          <a
+                            className={"nav-links-" + theme.theme}
+                            onClick={closeMobileMenu}
+                          >
+                            {messages && messages.length != 0 && (
+                              <div className="navbar-numbers">
+                                {messages.length}
+                              </div>
+                            )}
+                            <img
+                              style={{ width: isMobile ? "30px" : "17px" }}
+                              src="/images/iconos/mensaje.png"
+                            />
+                          </a>
+                        </li>
+                      </Tippy>
+                    )}
+
+                    {isLogged && userLink()}
+                  </div>
                 </div>
               )}
 
@@ -495,6 +488,7 @@ function Navbar({
 
   // return <>{location?.pathname == "/" ? getNavbar() : null}</>;
   return <>{getNavbar()}</>;
+  return <></>;
 }
 
 export default Navbar;

@@ -2,6 +2,18 @@
     opacity: 1;
 }
 
+
+.home-body-dark {
+    margin: 0 auto;
+    padding: 4rem 3rem;
+    position: relative;
+    background-color: transparent;
+    min-height: 2000px;
+    overflow: hidden;
+    overflow-y: scroll;
+    background: #080808;
+}
+
 .pinkker-scrollbar {
     opacity: 0;
     border-bottom: 1px #2b2b2b8f;
@@ -73,13 +85,15 @@
     }
 
     .home-body-dark {
-        width: 100%;
         margin: 0 auto;
+        padding: 4rem 3rem;
         position: relative;
         background-color: transparent;
         min-height: 2000px;
         overflow: hidden;
         overflow-y: scroll;
+        background: #080808;
+
     }
 }
 

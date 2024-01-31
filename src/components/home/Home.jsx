@@ -777,19 +777,16 @@ const Home = ({
           </div>
         )}
       </div> */}
-      <div style={{ width: "100%", height: "1px", backgroundColor: "a" }} />
-      {!isMobile && <Categories isMobile={isMobile} />}
+      {/* {!isMobile && <Categories isMobile={isMobile} />} */}
 
       <div
         style={{ width: "100%", height: "1px", backgroundColor: "#ffffff1a" }}
       />
-      {isMobile && (
-        <Recommended
-          isMobile={isMobile}
-          socketMain={socketMain}
-          handleMessage={handleMessage}
-        />
-      )}
+      <Recommended
+        isMobile={isMobile}
+        socketMain={socketMain}
+        handleMessage={handleMessage}
+      />
       {!isMobile && <Clips isMobile={isMobile} />}
 
       <div

@@ -37,13 +37,13 @@ export default function Search() {
   }, [token, location]);
 
   const handleChange = async (value) => {
-    if (value.length <= 0) {
+    if (value?.length <= 0) {
       setSearch(null);
     } else {
       const getUser = () => {
         return fetchSearchPage(value).then((res) => {
           setLoading(false);
-          if (res.data.message == "ok") {
+          if (res?.data?.message == "ok") {
             console.log(res.data.data);
             setSearch(res.data.data);
           }
@@ -54,7 +54,7 @@ export default function Search() {
   };
 
   function getSearch() {
-    if (loading === false && term.length <= 2) {
+    if (loading === false && term?.length <= 2) {
       return (
         <div
           style={{
@@ -76,7 +76,7 @@ export default function Search() {
         </div>
       );
     }
-    if (loading === false && term.length > 2) {
+    if (loading === false && term?.length > 2) {
       return (
         <div className="search-container">
           {search && search.length > 0 && (

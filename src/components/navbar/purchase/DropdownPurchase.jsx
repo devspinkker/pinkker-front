@@ -74,7 +74,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
               <h3 style={{ width: "100%", position: "relative", left: "10px" }}>
                 Comprar Pixeles
               </h3>
-              <i
+              {/* <i
                 onClick={handleClick}
                 style={{
                   marginTop: "3px",
@@ -82,7 +82,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                   fontSize: "15px",
                 }}
                 class="fas fa-times pinkker-button-more"
-              ></i>
+              ></i> */}
             </div>
           </div>
 

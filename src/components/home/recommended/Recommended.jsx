@@ -205,91 +205,114 @@ export default function Recommended({ isMobile, socketMain, handleMessage }) {
     },
   ];
   const [dataSource, setDataSource] = useState(Array.from({ length: 4 }));
-  const fetchMoreData = () => {
-    setTimeout(() => {
-      setDataSource(dataSource.concat(Array.from({ length: 20 })));
-    }, 500);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const fetchMoreData = (direction) => {
+    const increment = direction === "right" ? 1 : -1;
+    const newIndex = currentIndex + increment;
+
+    if (newIndex >= 0 && newIndex < streams.length) {
+      setCurrentIndex(newIndex);
+    }
   };
+
   return (
     <div className="home-recommended">
-      {/* {streams == null ? <Skeleton variant="text" width={"20%"} height={30} style={{ backgroundColor: "rgb(32, 32, 31)" }} /> : <h3 style={{ color: "#ededed", marginLeft: '10px' }}> <a className="text-remarcado" style={{ color: "#f36196" }}>Directos</a> recomendados</h3>} */}
-
-      <div style={{ display: isMobile ? "block" : "flex", marginTop: "20px" }}>
-        {streams === null && streams === undefined ? (
-          <CardSkeletoBig />
-        ) : (
-          <div style={{ marginLeft: "20px", marginRight: "14px" }}>
+      <div className="manager-recommended">
+        <h2>Directos Recomendados</h2>
+        <div className="manager-recommended-actions">
+          <div className="manager-recommended-actions-ver-todos">
+            <span>Ver todos</span>
+          </div>
+          <div className="manager-recommended-actions-arrow">
+            <i
+              style={{ margin: "0px 10px", cursor: "pointer" }}
+              className="fas fa-chevron-left"
+              onClick={() => fetchMoreData("left")}
+            ></i>
+            <i
+              style={{ cursor: "pointer" }}
+              className="fas fa-chevron-right"
+              onClick={() => fetchMoreData("right")}
+            ></i>
+          </div>
+        </div>
+      </div>
+      {isMobile && (
+        <div style={{ display: "flex", marginTop: "20px" }}>
+          <div className="home-recommended-card-container">
             {streams &&
               streams.map(
                 (stream, index) =>
-                  index < 1 && (
-                    <VideoCard
-                      big={true}
-                      isMobile={isMobile}
-                      tags={stream.stream_tag}
-                      streamerImage={stream.streamer_avatar}
-                      streamer={stream.streamer}
-                      categorie={stream.stream_category}
-                      title={stream.stream_title}
-                      viewers={stream.ViewerCount}
-                      image={stream.stream_thumbnail}
-                    />
+                  index > 0 && (
+                    <>
+                      <VideoCard
+                        tags={stream.stream_tag}
+                        isMobile={isMobile}
+                        streamerImage={stream.streamer_avatar}
+                        streamer={stream.streamer}
+                        categorie={stream.stream_category}
+                        title={stream.stream_title}
+                        viewers={stream.viewers}
+                        image={stream.stream_thumbnail}
+                      />
+                    </>
                   )
               )}
-            {/* {
-                            chatStream &&
-
-                            <Chat
-                                socket={socket}
-                                socketMain={socketMain}
-                                handleSendMessage={(e) => handleMessage(e)}
-                                chatExpanded={() => setChatExpanded(!chatExpanded)}
-                                callback={(e) => callbackDonation(e)}                        
-                                setUserSuscripted={setUserSuscripted}
-                                setSuscribers={setSuscribers}
-                            />
-                        } */}
           </div>
-        )}
-
-        <div className="home-recommended-card-container">
-          {streams == null || !streams.length ? (
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              {streamsData?.map((streams, index) => {
-                return (
-                  <VideoCard
-                    tags={streams?.tags}
-                    isMobile={isMobile}
-                    streamer={streams?.streamer}
-                    categorie={"test"}
-                    title={streams?.title}
-                    viewers={streams?.viewers}
-                  />
-                );
-              })}
-            </div>
-          ) : (
-            streams &&
-            streams.map(
-              (stream, index) =>
-                index > 0 && (
-                  <>
-                    <VideoCard
-                      tags={stream.stream_tag}
-                      isMobile={isMobile}
-                      streamerImage={stream.streamer_avatar}
-                      streamer={stream.streamer}
-                      categorie={stream.stream_category}
-                      title={stream.stream_title}
-                      viewers={stream.viewers}
-                      image={stream.stream_thumbnail}
-                    />
-                  </>
-                )
-            )
-          )}
         </div>
-      </div>
+      )}
+      {!isMobile && (
+        <div style={{ display: "flex", overflow: "hidden" }}>
+          <div
+            className="home-recommended-card-container"
+            style={{
+              transition: "transform 0.5s ease",
+              transform: `translateX(${currentIndex * -10}%)`,
+            }}
+          >
+            {streams == null || !streams.length ? (
+              <div
+                className="home-recommended-card-container-streams"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {streamsData?.map((streams, index) => {
+                  return (
+                    <VideoCard
+                      tags={streams?.tags}
+                      isMobile={isMobile}
+                      streamer={streams?.streamer}
+                      categorie={"test"}
+                      title={streams?.title}
+                      viewers={streams?.ViewerCount}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              streams &&
+              streams.map((stream, index) => (
+                <div className="home-recommended-card-container-streams">
+                  <VideoCard
+                    tags={stream.stream_tag}
+                    isMobile={isMobile}
+                    streamerImage={stream.streamer_avatar}
+                    streamer={stream.streamer}
+                    categorie={stream.stream_category}
+                    title={stream.stream_title}
+                    viewers={stream.ViewerCount}
+                    image={stream.stream_thumbnail}
+                  />
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

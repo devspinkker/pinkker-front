@@ -23,13 +23,20 @@ function UserOnline(props) {
     return str.slice(0, num) + "...";
   };
 
+  const formatViewers = (viewers) => {
+    if (viewers >= 1000) {
+      return (viewers / 1000).toFixed(1) + "k";
+    } else {
+      return viewers;
+    }
+  };
   return (
     <div
       style={{
-        marginLeft: "-5px",
+        marginLeft: "5px",
         marginTop: "15px",
         width: "100%",
-        borderLeft: "5px solid #f960b3",
+        // borderLeft: "5px solid #f960b3",
       }}
     >
       <Tippy
@@ -130,7 +137,7 @@ function UserOnline(props) {
                   >
                     <div className="navbarleft-point"></div>
                     <p style={{ color: "#ededed", marginLeft: "5px" }}>
-                      {props.viewers}
+                      {formatViewers(props?.viewers)}
                     </p>
                   </div>
                 ) : (
@@ -146,7 +153,7 @@ function UserOnline(props) {
                   >
                     <div className="navbarleft-point"></div>
                     <p style={{ color: "#ededed", marginLeft: "5px" }}>
-                      {props.viewers}
+                      {formatViewers(props?.viewers)}
                     </p>
                   </div>
                 )}

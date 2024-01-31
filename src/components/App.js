@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import "./App.css"
 
 import axios from 'axios';
-import {useDispatch, useSelector} from 'react-redux'
-import {dispatchLogin, fetchUser, dispatchGetUser} from '../redux/actions/authAction'
+import { useDispatch, useSelector } from 'react-redux'
+import { dispatchLogin, fetchUser, dispatchGetUser } from '../redux/actions/authAction'
 
 import { fetchUsersOnline, dispatchGetAllStreamers } from "../redux/actions/streamersAction";
 
@@ -32,10 +32,10 @@ const App = () => {
 
 
   useEffect(() => {
-      window.addEventListener('resize', handleWindowSizeChange);
-      return () => {
-          window.removeEventListener('resize', handleWindowSizeChange);
-      }
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    }
   }, []);
 
   const isMobile = width <= 768;
@@ -54,17 +54,17 @@ const App = () => {
     const firstLogin = localStorage.getItem('firstLogin')
     const token = localStorage.getItem('token')
 
-    if(firstLogin){
+    if (firstLogin) {
       const getToken = async () => {
         const res = await axios.post(process.env.REACT_APP_DEV_API_URL + '/user/refresh_token?rf_token=' + token, null)
-        dispatch({type: 'GET_TOKEN', payload: res.data.access_token})
+        dispatch({ type: 'GET_TOKEN', payload: res.data.access_token })
       }
       getToken()
     }
-  },[auth.isLogged, dispatch])
+  }, [auth.isLogged, dispatch])
 
   useEffect(() => {
-    if(token){
+    if (token) {
       const getUser = () => {
         dispatch(dispatchLogin())
 
@@ -74,10 +74,10 @@ const App = () => {
       }
       getUser()
     }
-  },[token, dispatch])
+  }, [token, dispatch])
 
   useEffect(() => {
-    if(token){
+    if (token) {
       const getUser = () => {
         return fetchUsersOnline(token).then(res => {
           dispatch(dispatchGetAllStreamers(res))
@@ -85,10 +85,10 @@ const App = () => {
       }
       getUser()
     }
-  },[token, dispatch])
+  }, [token, dispatch])
 
   useEffect(() => {
-    if(token){
+    if (token) {
       const getUser = () => {
         return fetchServerInfo(token).then(res => {
           dispatch(dispatchGetServerInfo(res))
@@ -96,19 +96,19 @@ const App = () => {
       }
       getUser()
     }
-  },[token, dispatch])
+  }, [token, dispatch])
 
- /* useEffect(() => {
-    if(token){
-      const checkSubs = async () => {
-        const data =  await checkSubscriptions(token);
-        if(data != null && data != undefined) {
-          console.log(data)
-        }
-      }
-      checkSubs()
-    }
-  }, [token])*/
+  /* useEffect(() => {
+     if(token){
+       const checkSubs = async () => {
+         const data =  await checkSubscriptions(token);
+         if(data != null && data != undefined) {
+           console.log(data)
+         }
+       }
+       checkSubs()
+     }
+   }, [token])*/
 
 
 
@@ -116,14 +116,14 @@ const App = () => {
     setExpanded(!expanded)
   }
 
-  
+
 
   return (
-    <div className="App">
-        <ExternalRouter/>
-        <AppRouter/>
+    <div className="App" style={{ background: "#080808" }}>
+      <ExternalRouter />
+      <AppRouter />
     </div>
-    
+
 
   );
 }

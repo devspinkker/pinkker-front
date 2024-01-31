@@ -17,6 +17,7 @@ import {
 } from "../../services/backGo/streams";
 import NavbarLeftMobile from "./navbarLeftMobile";
 import { getUserByIdTheToken } from "../../services/backGo/user";
+import Search from "../../components/navbar/search/Search";
 
 var activeNormal = 0;
 
@@ -45,8 +46,14 @@ export default function NavbarLeft({
   const [active, setActive] = useState(null);
 
   const [click, setClick] = useState(false);
-
-  const handleClick = () => setClick(!click);
+  const [tyExpandedFollowStreams, setTyExpandedFollowStreams] = useState(false);
+  const [tyExpandedRecomStreams, settyExpandedRecomStreams] = useState(false);
+  const handleToggleExpandFollowStreams = () => {
+    setTyExpandedFollowStreams(!tyExpandedFollowStreams);
+  };
+  const handleToggleExpandRecomStreams = () => {
+    settyExpandedRecomStreams(!tyExpandedRecomStreams);
+  };
   const closeMobileMenu = () => {
     setClick(false);
   };
@@ -55,7 +62,7 @@ export default function NavbarLeft({
 
   function clickPulsedButton() {
     setPulse(!pulse);
-    tyExpand();
+    setExpanded();
   }
 
   //UseEffect execute with the route change
@@ -103,21 +110,22 @@ export default function NavbarLeft({
 
       const result = await GetAllsStreamsOnline();
 
-      if (result.message === "ok") {
-        if (resGetAllsStreamsOnlineThatUserFollows?.data?.length > 0) {
-          console.log("!ASA");
+      if (result.message === "ok" && result.data) {
+        if (AllsStreamsOnlineThatUserFollows?.length > 0) {
           const usersOnlineAndFollowed = AllsStreamsOnlineThatUserFollows
-            ? resGetAllsStreamsOnlineThatUserFollows?.data.map(
-                (stream) => stream.StreamerID
+            ? AllsStreamsOnlineThatUserFollows?.map(
+                (stream) => stream.streamerId
               )
             : [];
+
           const recommendedFiltered = result.data.filter(
-            (user) => !usersOnlineAndFollowed.includes(user._id)
+            (user) => !usersOnlineAndFollowed.includes(user.streamerId)
           );
 
+          console.log(recommendedFiltered);
           setRecommended(recommendedFiltered);
         } else {
-          console.log("!ASA 2");
+          console.log("sas");
           setRecommended(result.data);
         }
       }
@@ -340,7 +348,40 @@ export default function NavbarLeft({
       );
     } else {
       return (
-        <div>
+        <div className="conteiner-navbar-dashboardfalse">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: "17px",
+            }}
+          >
+            <i
+              onClick={() => clickPulsedButton()}
+              style={{
+                cursor: "pointer",
+                fontSize: "18px",
+                zIndex: "1000",
+                marginLeft: "5px",
+                // transform: expanded === false && "rotate(90deg)",
+                transition: "0.2s",
+                color: "#ededed",
+              }}
+              class="fas fa-bars"
+            />
+            <Link
+              to="/"
+              className={"navbar-logo-" + theme.theme}
+              onClick={closeMobileMenu}
+              style={{ margin: "0px" }}
+            >
+              <img src="/images/logo.png" style={{ width: "145px" }} alt="" />
+            </Link>
+          </div>
+          <div className="container-search-navbarleft">
+            <Search isMobile={isMobile} />
+          </div>
           <Link
             onClick={() => (activeNormal = 2)}
             className="navbarleft-link"
@@ -472,50 +513,56 @@ export default function NavbarLeft({
             </li>
           </Link>
 
-          <div
-            style={{
-              width: "88%",
-              margin: "10px auto",
-              height: "1px",
-              backgroundColor: "#ffffff1a",
-              marginTop: "10px",
-              marginBottom: "10px",
-            }}
-          />
-
+          <div />
           {AllsStreamsOnlineThatUserFollows &&
             AllsStreamsOnlineThatUserFollows.length > 0 && (
-              <div className="navbarleft-title">
-                {tyExpanded ? (
-                  <h5 className={tyExpanded === false && "notvisible"}>
-                    CANALES QUE SIGO
-                  </h5>
-                ) : (
-                  <i
-                    style={{
-                      color: "#ededed",
-                      position: "relative",
-                      left: "-10px",
-                    }}
-                    class="fas fa-video"
-                  ></i>
-                )}
+              <div
+                className={
+                  tyExpandedFollowStreams
+                    ? "container-AllsStreamsOnlineThatUserFollows"
+                    : "container-AllsStreamsOnlineThatUserFollows_expand"
+                }
+              >
+                <div className="navbarleft-title">
+                  <div className="navbarleft-title-sigo">
+                    <h5 className={tyExpanded === false && "notvisible"}>
+                      Canales que sigo
+                    </h5>
+                    <i
+                      onClick={() => handleToggleExpandFollowStreams()}
+                      className="fas fa-chevron-right "
+                      style={{
+                        transform: tyExpandedFollowStreams
+                          ? "rotate(-90deg)"
+                          : "rotate(90deg)",
+                      }}
+                    ></i>
+                  </div>
+                </div>
+                {AllsStreamsOnlineThatUserFollows.slice(
+                  0,
+                  tyExpandedFollowStreams ? undefined : 1
+                ).map((streamer) => (
+                  <div
+                    key={streamer.id}
+                    className={`container-userOnline${
+                      tyExpanded ? " fade-in" : " fade-out"
+                    }`}
+                  >
+                    <UserOnline
+                      tyExpanded={tyExpanded}
+                      thumb={streamer.stream_thumbnail}
+                      viewers={streamer.ViewerCount}
+                      image={streamer.streamer_avatar}
+                      streamer={streamer.streamer}
+                      title={streamer.stream_title}
+                      category={streamer.stream_category}
+                      thum={streamer.stream_thumbnail}
+                    />
+                  </div>
+                ))}
               </div>
             )}
-          {AllsStreamsOnlineThatUserFollows.map((streamer) => (
-            <div>
-              <UserOnline
-                tyExpanded={tyExpanded}
-                thumb={streamer.stream_thumbnail}
-                viewers={streamer.viewers}
-                image={streamer.streamer_avatar}
-                streamer={streamer.streamer}
-                title={streamer.stream_title}
-                category={streamer.stream_category}
-                thum={streamer.stream_thumbnail}
-              />
-            </div>
-          ))}
 
           {/* {usersOnline &&
             usersOnline.map(
@@ -553,35 +600,53 @@ export default function NavbarLeft({
                 )
             )} */}
 
-          <div className="navbarleft-title">
-            {tyExpanded ? (
-              <h5 className={tyExpanded === false && "notvisible"}>
-                CANALES RECOMENDADOS
-              </h5>
-            ) : (
-              <i
-                style={{
-                  color: "#ededed",
-                  position: "relative",
-                  left: "-10px",
-                }}
-                class="fas fa-video"
-              ></i>
-            )}
-          </div>
-
-          {recommended.map((streamer) => (
-            <UserOnline
-              tyExpanded={tyExpanded}
-              thumb={streamer.stream_thumbnail}
-              viewers={streamer.viewers}
-              image={streamer.streamer_avatar}
-              streamer={streamer.streamer}
-              title={streamer.stream_title}
-              category={streamer.stream_category}
-              thum={streamer.stream_thumbnail}
-            />
-          ))}
+          {recommended && recommended.length > 0 && (
+            <div
+              className={
+                tyExpandedFollowStreams
+                  ? "container-AllsStreamsOnlineThatUserFollows"
+                  : "container-AllsStreamsOnlineThatUserFollows_expand"
+              }
+            >
+              <div className="navbarleft-title">
+                <div className="navbarleft-title-sigo">
+                  <h5 className={tyExpanded === false && "notvisible"}>
+                    Recomendados
+                  </h5>
+                  <i
+                    onClick={() => handleToggleExpandRecomStreams()}
+                    className="fas fa-chevron-right "
+                    style={{
+                      transform: tyExpandedFollowStreams
+                        ? "rotate(-90deg)"
+                        : "rotate(90deg)",
+                    }}
+                  ></i>
+                </div>
+              </div>
+              {recommended
+                .slice(0, tyExpandedRecomStreams ? undefined : 1)
+                .map((streamer) => (
+                  <div
+                    key={streamer.id}
+                    className={`container-userOnline${
+                      tyExpanded ? " fade-in" : " fade-out"
+                    }`}
+                  >
+                    <UserOnline
+                      tyExpanded={tyExpanded}
+                      thumb={streamer.stream_thumbnail}
+                      viewers={streamer.ViewerCount}
+                      image={streamer.streamer_avatar}
+                      streamer={streamer.streamer}
+                      title={streamer.stream_title}
+                      category={streamer.stream_category}
+                      thum={streamer.stream_thumbnail}
+                    />
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
       );
     }

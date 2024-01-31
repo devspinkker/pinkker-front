@@ -1,14 +1,39 @@
 .videocard-body {
-    min-width: 290px;
-    max-width: 290px;
+    /* min-width: 290px;
+    max-width: 290px; */
     position: relative;
     top: 0px;
-    margin-top: 25px;
-    margin-right: 15px;
-    margin-left: 10px;
+    margin: 10px;
     cursor: pointer;
     display: flex;
     flex-direction: column-reverse;
+    width: 100%;
+}
+
+.videocard-container-info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    position: relative;
+    top: 30px;
+    padding: 0px 10px;
+    align-items: center;
+}
+
+.videocard-spectator {
+    background: #040404;
+    padding: 5px;
+    border-radius: 10px;
+    font-weight: bold;
+
+}
+
+.videocard-VIVO {
+    background: #040404;
+    padding: 5px;
+    border-radius: 10px;
+    font-weight: bold;
+    color: #f36196 !important;
 }
 
 .content-streamer-img-follow-content {
