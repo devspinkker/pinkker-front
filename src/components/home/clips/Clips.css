@@ -1,10 +1,9 @@
 /* Clips.css */
 .home-clips {
     width: 95%;
-    margin: 0 auto;
     min-height: 300px;
-    margin-top: 30px;
-    margin-bottom: 50px;
+
+    overflow: hidden;
 }
 
 .home-clips-card-container {
@@ -46,4 +45,15 @@
     height: 200px;
     align-items: center;
     padding: 10px;
+}
+
+.home-clips-card-container-clips {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.home-clips-card-container-clips-children {
+    display: flex;
+
 }

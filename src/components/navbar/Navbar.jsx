@@ -394,19 +394,20 @@ function Navbar({
                 <div
                   style={{
                     display: "flex",
+                    justifyContent: "flex-end",
                   }}
                 >
                   <h6
                     onClick={() => togglePopupAuth(0)}
                     className="button-navbar-login"
                   >
-                    Iniciar Sesión
+                    Login
                   </h6>
                   <h6
                     onClick={() => togglePopupAuth(1)}
                     className="button-navbar-register"
                   >
-                    Registrarse
+                    Register
                   </h6>
                 </div>
               )}

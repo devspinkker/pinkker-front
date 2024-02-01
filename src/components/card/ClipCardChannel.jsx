@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import "./ClipCard.css";
 
-export default function ClipCard({ video, ...props }) {
+export default function ClipCardChannel({ video, ...props }) {
   const [mouseEnter, setMouseEnter] = useState(false);
   const [viewVideo, setViewVideo] = useState(false);
 
@@ -68,7 +68,7 @@ export default function ClipCard({ video, ...props }) {
         <img
           style={{
             borderRadius: "5px",
-            width: "430px",
+            width: "400px",
             height: props.height,
             objectFit: "cover",
           }}

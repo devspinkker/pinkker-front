@@ -5,9 +5,9 @@ import {
   GetClipsNameUser,
   MoreViewOfTheClip,
 } from "../../../services/backGo/clip";
-import ClipCard from "../../card/ClipCard";
 import Skeleton from "@mui/material/Skeleton";
 import { Link } from "react-router-dom";
+import ClipCardChannel from "../../card/ClipCardChannel";
 
 export default function Clips(props) {
   const [isLoading, setIsLoading] = useState(true);
@@ -109,13 +109,13 @@ export default function Clips(props) {
             ) : (
               <div
                 key={video.id}
-                style={{ cursor: "pointer", margin: "0px" }}
+                style={{ cursor: "pointer", margin: "10px", width: "400px" }}
                 onClick={() => {
                   setSelectedVideo({ video });
                   setHasCalledFunction(false);
                 }}
               >
-                <ClipCard
+                <ClipCardChannel
                   key={video.id}
                   width="312px"
                   height="230px"
@@ -141,10 +141,40 @@ export default function Clips(props) {
             width: "100%",
             height: "100%",
             background: "rgba(0, 0, 0, 0.8)",
-            zIndex: 999,
+            zIndex: 999000000,
           }}
         >
           <div className="container_clip_data">
+            <div
+              style={{ width: "100%", display: "flex", alignItems: "center" }}
+            >
+              <div className="container_data_user">
+                <Link to={"/" + selectedVideo.video.streamerId}>
+                  <img src={selectedVideo.video.Avatar} alt="" />
+                </Link>
+                <div>
+                  <Link to={"/" + selectedVideo.video.streamerId}>
+                    <h1>{selectedVideo.video.streamerId}</h1>
+                  </Link>
+                  <Link to={"/" + selectedVideo.video.nameUserCreator}>
+                    <p>Clip by: {selectedVideo.video.nameUserCreator}</p>
+                  </Link>
+                </div>
+              </div>
+              <div
+                style={{
+                  fontSize: "42px",
+                  position: "relative",
+                  left: "50%",
+                  cursor: "pointer",
+                  color: "#fff",
+                }}
+                onClick={() => setSelectedVideo(null)}
+              >
+                x
+              </div>
+            </div>
+
             <div>
               <ReactPlayer
                 url={selectedVideo.video.url}
@@ -170,40 +200,6 @@ export default function Clips(props) {
               </div>
             </div>
             <div className="container_data">
-              <div style={{ width: "100%", borderBottom: "1px solid #ccc" }}>
-                <div className="container_data_user">
-                  <Link to={"/" + selectedVideo.video.streamerId}>
-                    <img src={selectedVideo.video.Avatar} alt="" />
-                  </Link>
-                  <div>
-                    <Link to={"/" + selectedVideo.video.streamerId}>
-                      <h1>{selectedVideo.video.streamerId}</h1>
-                    </Link>
-                    <Link to={"/" + selectedVideo.video.nameUserCreator}>
-                      <p>Clip by: {selectedVideo.video.nameUserCreator}</p>
-                    </Link>
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "42px",
-                      position: "relative",
-                      left: "50%",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => setSelectedVideo(null)}
-                  >
-                    <img
-                      style={{
-                        width: "26px",
-                        height: "30px",
-                        cursor: "pointer",
-                      }}
-                      className="chat-button-more"
-                      src="/images/iconos/contraer.png"
-                    />
-                  </div>
-                </div>
-              </div>
               <div style={{ width: "100%", height: "100%" }}>
                 <div className="container_data_clip">
                   <span>

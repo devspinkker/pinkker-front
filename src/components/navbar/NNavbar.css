@@ -182,17 +182,18 @@
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  border: 1px solid #262626;
+  border: 1px solid rgb(42, 46, 56);
+  background: rgb(42, 46, 56);
   padding: 6.5px;
   height: 18px;
   border-radius: 3px;
-  width: 140px;
+  width: 100px;
   color: #EFEFF1;
   text-transform: capitalize;
   cursor: pointer;
   letter-spacing: 0.5px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .button-navbar-login:hover {
@@ -258,7 +259,7 @@
 }
 
 .button-navbar-register {
-  background-color: transparent;
+  background-color: #f36196;
   border: 1px solid #f36196;
   display: flex;
   align-items: center;
