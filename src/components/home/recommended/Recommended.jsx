@@ -6,7 +6,6 @@ import VideoCard from "../../card/VideoCard";
 import Skeleton from "@mui/material/Skeleton";
 
 import { useSelector } from "react-redux";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { GetAllsStreamsOnline } from "../../../services/backGo/streams";
 
 function CardSkeleto() {
@@ -85,9 +84,11 @@ function CardSkeletoBig() {
   );
 }
 
-export default function Recommended({ isMobile, socketMain, handleMessage }) {
-  //   const [chatExpanded, setChatExpanded] = useState(false);
-
+export default function DirectosRecommended({
+  isMobile,
+  socketMain,
+  handleMessage,
+}) {
   const [streams, setStreams] = useState(null);
   const [userMod, setUserMod] = useState(false);
   const [userVip, setUserVip] = useState(false);
@@ -108,39 +109,6 @@ export default function Recommended({ isMobile, socketMain, handleMessage }) {
     };
     fetchData();
   }, []);
-  // const [pointGoal, setPointGoal] = useState(0);
-  // const [goal, setGoal] = useState(false);
-
-  // const callbackDonation = (e) => {
-  //     setPointGoal(pointGoal + e);
-  //     if (pointGoal < 9999) {
-
-  //         setGoal(true);
-  //         setPointGoal(0);
-  //         setTimeout(() => {
-  //             setGoal(false);
-  //         }, 4000);
-
-  //     }
-  // }
-  // const [chatStream, setChatStream] = useState()
-  // const [userSuscripted, setUserSuscripted] = useState(false);
-  // const [suscribers, setSuscribers] = useState(null);
-
-  // useEffect(() => {
-
-  //     const fetchData = async () => {
-  //         if (streams?.length) {
-  //             console.log('dataSret', streams[0]?.streamer)
-  //             const data = await getChatRoom(streams[0]?.streamer)
-  //             setChatStream(data)
-  //             console.log('dataSt', data)
-  //         } else {
-  //             console.log('NO HAY STREAMS EN VIVO')
-  //         }
-  //     }
-  //     fetchData()
-  // }, [streams]);
 
   const streamsData = [
     {
@@ -282,14 +250,16 @@ export default function Recommended({ isMobile, socketMain, handleMessage }) {
               >
                 {streamsData?.map((streams, index) => {
                   return (
-                    <VideoCard
-                      tags={streams?.tags}
-                      isMobile={isMobile}
-                      streamer={streams?.streamer}
-                      categorie={"test"}
-                      title={streams?.title}
-                      viewers={streams?.ViewerCount}
-                    />
+                    <div className="home-recommended-card-container-streams">
+                      <VideoCard
+                        tags={streams?.tags}
+                        isMobile={isMobile}
+                        streamer={streams?.streamer}
+                        categorie={"test"}
+                        title={streams?.title}
+                        viewers={streams?.ViewerCount}
+                      />
+                    </div>
                   );
                 })}
               </div>

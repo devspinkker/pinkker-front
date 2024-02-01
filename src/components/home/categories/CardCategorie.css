@@ -17,10 +17,10 @@
 }
 
 .custom-categories-card {
-    width: 25% !important;
+    width: 250px !important;
     margin-top: 8px !important;
-    max-width: 700px;
-    min-width: 343px;
+    /* max-width: 700px;
+    min-width: 343px; */
     height: auto;
     border-radius: 5px;
     cursor: pointer;
@@ -30,6 +30,10 @@
     transition: 0.3s all;
     border-radius: 5px;
     object-fit: cover;
+}
+
+.custom-categories-card-contain {
+    width: 300px;
 }
 
 .custom-categories-card-contain:hover img {
@@ -58,7 +62,11 @@
 }
 
 .custom-categories-p-2 {
+    display: flex;
     color: darkgray;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
 }
 
 .custom-categories-p-2 p:hover {
@@ -129,10 +137,12 @@
 
 .user_data_contain {
     display: flex;
+    margin: 10px 0px;
 }
 
 .img-categorie-card {
-    width: 100%;
+    width: 73%;
+    height: 353px;
 }
 
 .custom-categories-p-1-name {
@@ -142,4 +152,39 @@
     font-weight: 300;
     letter-spacing: 0.6px;
     margin-top: 3px;
+}
+
+@keyframes shadowPulseAnimation {
+    0% {
+        box-shadow: 0 0 2px 2px rgba(0, 255, 0, 0.8);
+    }
+
+    50% {
+        box-shadow: 0 0 5px 5px rgba(0, 255, 0, 0.9);
+    }
+
+    100% {
+        box-shadow: 0 0 2px 2px rgba(0, 255, 0, 0.8);
+    }
+}
+
+#pulsatingDot {
+    width: 5px;
+    height: 5px;
+    background-color: rgb(0, 255, 0);
+    border-radius: 50%;
+    margin-left: 5px;
+    margin-right: 7px;
+    animation: shadowPulseAnimation 2s infinite;
+}
+
+.custom-categories-p-2-spectators {
+    text-align: center;
+    font-weight: bold;
+}
+
+.custom-categories-p-2-spectators>span {
+    padding: 5px;
+    font-weight: 900;
+    color: #ffff;
 }

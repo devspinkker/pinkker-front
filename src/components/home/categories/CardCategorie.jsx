@@ -4,6 +4,16 @@ import Skeleton from "@mui/material/Skeleton";
 import "./CardCategorie.css";
 
 export default function CustomCard(props) {
+  const formatViewers = (viewers) => {
+    if (viewers >= 1000) {
+      return (viewers / 1000).toFixed(1) + "k";
+    } else {
+      if (!viewers) {
+        return 0;
+      }
+      return viewers;
+    }
+  };
   const tags = [];
 
   // Pre render image from props
@@ -34,7 +44,6 @@ export default function CustomCard(props) {
           style={{
             position: props.isLoading && "absolute",
             opacity: props.isLoading && "0",
-            width: props.width ? props.width : "140px",
             margin: "3px",
             height: props?.height,
           }}
@@ -51,28 +60,12 @@ export default function CustomCard(props) {
             </Link>
           </div>
           <div className="user_data_contain">
-            <div>
-              <div className="custom-categories-p-1">
-                <Link
-                  className="custom-categories-link-hover"
-                  style={{ textDecoration: "none" }}
-                  to={"/categorie/" + props.name}
-                >
-                  <p className="custom-categories-p-1-name">{props.name}</p>
-                </Link>
-              </div>
-              <div className="custom-categories-p-2">
-                <p style={{ fontSize: "15px", cursor: "pointer" }}>
-                  {props.spectators} espectadores
-                </p>
-              </div>
-              <div className="categories-card-tag-container">
-                {tags.map((tag, index) => (
-                  <a key={index} className="custom-card-tag">
-                    {tag}
-                  </a>
-                ))}
-              </div>
+            <div className="custom-categories-p-2">
+              <span id="pulsatingDot" />
+              <p className="custom-categories-p-2-spectators">
+                <span>{formatViewers(props.spectators)}</span>espectadores
+                {/* {props.spectators} espectadores */}
+              </p>
             </div>
           </div>
         </div>

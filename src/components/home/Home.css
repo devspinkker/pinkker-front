@@ -58,6 +58,26 @@
     min-height: 2000px;
 }
 
+.categories-home-container {
+    margin: 0px 31px;
+    overflow: hidden;
+
+}
+
+.categories-home-manager {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.categories-home-container h2 {
+    color: #fff;
+}
+
+.categories-home {
+    display: flex;
+}
 
 @media screen and (max-width: 758px) {
     .home-img {

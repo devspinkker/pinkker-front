@@ -379,192 +379,193 @@ export default function NavbarLeft({
               <img src="/images/logo.png" style={{ width: "145px" }} alt="" />
             </Link>
           </div>
-          <div className="container-search-navbarleft">
-            <Search isMobile={isMobile} />
-          </div>
-          <Link
-            onClick={() => (activeNormal = 2)}
-            className="navbarleft-link"
-            to="/plataform/explore"
-          >
-            <li
-              style={{
-                backgroundColor: activeNormal === 2 && "#3b3b3b",
-                borderLeft: activeNormal === 2 && "3px solid #f36196",
-              }}
-              class={
-                activeNormal === 2
-                  ? "navbaraccount-li has-subnav nav-active"
-                  : "navbaraccount-li has-subnav"
-              }
+          <div style={{ height: "91vh", overflow: "auto" }}>
+            <div className="container-search-navbarleft">
+              <Search isMobile={isMobile} />
+            </div>
+            <Link
+              onClick={() => (activeNormal = 2)}
+              className="navbarleft-link"
+              to="/plataform/explore"
             >
-              <div
-                style={{ width: "30%", textAlign: "center", color: "white" }}
-              >
-                <i class="fab fa-google-play" />
-              </div>
-              <span class="nav-text">Explorar</span>
-            </li>
-          </Link>
-
-          <Link
-            onClick={() => (activeNormal = 1)}
-            className="navbarleft-link"
-            to="/plataform/tendency"
-          >
-            <li
-              style={{
-                backgroundColor: activeNormal === 1 && "#3b3b3b",
-                borderLeft: activeNormal === 1 && "3px solid #f36196",
-              }}
-              class={
-                activeNormal === 1
-                  ? "navbaraccount-li has-subnav nav-active"
-                  : "navbaraccount-li has-subnav"
-              }
-            >
-              <div style={{ width: "30%", textAlign: "center" }}>
-                <img
-                  style={{ width: "18px" }}
-                  src="/images/iconos/navbar/tendencia.png"
-                />
-              </div>
-              <span class="nav-text">Tendencias</span>
-            </li>
-          </Link>
-
-          <Link
-            onClick={() => (activeNormal = 5)}
-            className="navbarleft-link"
-            to="/plataform/tendency"
-          >
-            <li
-              style={{
-                backgroundColor: activeNormal === 5 && "#3b3b3b",
-                borderLeft: activeNormal === 5 && "3px solid #f36196",
-              }}
-              class={
-                activeNormal === 5
-                  ? "navbaraccount-li has-subnav nav-active"
-                  : "navbaraccount-li has-subnav"
-              }
-            >
-              <div
-                style={{ width: "30%", textAlign: "center", color: "white" }}
-              >
-                <i
-                  style={{ position: "relative", left: "5px" }}
-                  class="fas fa-images"
-                />
-              </div>
-              <span class="nav-text">Galeria</span>
-            </li>
-          </Link>
-
-          <Link
-            onClick={() => (activeNormal = 3)}
-            className="navbarleft-link"
-            to="/plataform/clips"
-          >
-            <li
-              style={{
-                backgroundColor: activeNormal === 3 && "#3b3b3b",
-                borderLeft: activeNormal === 3 && "3px solid #f36196",
-              }}
-              class={
-                activeNormal === 3
-                  ? "navbaraccount-li has-subnav nav-active"
-                  : "navbaraccount-li has-subnav"
-              }
-            >
-              <div style={{ width: "30%", textAlign: "center" }}>
-                <img
-                  style={{ width: "18px" }}
-                  src="/images/iconos/navbar/clips.png"
-                />
-              </div>
-              <span class="nav-text">Clips</span>
-            </li>
-          </Link>
-
-          <Link
-            onClick={() => (activeNormal = 4)}
-            className="navbarleft-link"
-            to="/plataform/muro"
-          >
-            <li
-              style={{
-                backgroundColor: activeNormal === 4 && "#3b3b3b",
-                borderLeft: activeNormal === 4 && "3px solid #f36196",
-              }}
-              class={
-                activeNormal === 4
-                  ? "navbaraccount-li has-subnav nav-active"
-                  : "navbaraccount-li has-subnav"
-              }
-            >
-              <div style={{ width: "30%", textAlign: "center" }}>
-                <img
-                  style={{ width: "18px" }}
-                  src="/images/iconos/navbar/muro.png"
-                />
-              </div>
-              <span class="nav-text">Muro</span>
-            </li>
-          </Link>
-
-          <div />
-          {AllsStreamsOnlineThatUserFollows &&
-            AllsStreamsOnlineThatUserFollows.length > 0 && (
-              <div
-                className={
-                  tyExpandedFollowStreams
-                    ? "container-AllsStreamsOnlineThatUserFollows"
-                    : "container-AllsStreamsOnlineThatUserFollows_expand"
+              <li
+                style={{
+                  backgroundColor: activeNormal === 2 && "#3b3b3b",
+                  borderLeft: activeNormal === 2 && "3px solid #f36196",
+                }}
+                class={
+                  activeNormal === 2
+                    ? "navbaraccount-li has-subnav nav-active"
+                    : "navbaraccount-li has-subnav"
                 }
               >
-                <div className="navbarleft-title">
-                  <div className="navbarleft-title-sigo">
-                    <h5 className={tyExpanded === false && "notvisible"}>
-                      Canales que sigo
-                    </h5>
-                    <i
-                      onClick={() => handleToggleExpandFollowStreams()}
-                      className="fas fa-chevron-right "
-                      style={{
-                        transform: tyExpandedFollowStreams
-                          ? "rotate(-90deg)"
-                          : "rotate(90deg)",
-                      }}
-                    ></i>
-                  </div>
+                <div
+                  style={{ width: "30%", textAlign: "center", color: "white" }}
+                >
+                  <i class="fab fa-google-play" />
                 </div>
-                {AllsStreamsOnlineThatUserFollows.slice(
-                  0,
-                  tyExpandedFollowStreams ? undefined : 1
-                ).map((streamer) => (
-                  <div
-                    key={streamer.id}
-                    className={`container-userOnline${
-                      tyExpanded ? " fade-in" : " fade-out"
-                    }`}
-                  >
-                    <UserOnline
-                      tyExpanded={tyExpanded}
-                      thumb={streamer.stream_thumbnail}
-                      viewers={streamer.ViewerCount}
-                      image={streamer.streamer_avatar}
-                      streamer={streamer.streamer}
-                      title={streamer.stream_title}
-                      category={streamer.stream_category}
-                      thum={streamer.stream_thumbnail}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+                <span class="nav-text">Explorar</span>
+              </li>
+            </Link>
 
-          {/* {usersOnline &&
+            <Link
+              onClick={() => (activeNormal = 1)}
+              className="navbarleft-link"
+              to="/plataform/tendency"
+            >
+              <li
+                style={{
+                  backgroundColor: activeNormal === 1 && "#3b3b3b",
+                  borderLeft: activeNormal === 1 && "3px solid #f36196",
+                }}
+                class={
+                  activeNormal === 1
+                    ? "navbaraccount-li has-subnav nav-active"
+                    : "navbaraccount-li has-subnav"
+                }
+              >
+                <div style={{ width: "30%", textAlign: "center" }}>
+                  <img
+                    style={{ width: "18px" }}
+                    src="/images/iconos/navbar/tendencia.png"
+                  />
+                </div>
+                <span class="nav-text">Tendencias</span>
+              </li>
+            </Link>
+
+            <Link
+              onClick={() => (activeNormal = 5)}
+              className="navbarleft-link"
+              to="/plataform/tendency"
+            >
+              <li
+                style={{
+                  backgroundColor: activeNormal === 5 && "#3b3b3b",
+                  borderLeft: activeNormal === 5 && "3px solid #f36196",
+                }}
+                class={
+                  activeNormal === 5
+                    ? "navbaraccount-li has-subnav nav-active"
+                    : "navbaraccount-li has-subnav"
+                }
+              >
+                <div
+                  style={{ width: "30%", textAlign: "center", color: "white" }}
+                >
+                  <i
+                    style={{ position: "relative", left: "5px" }}
+                    class="fas fa-images"
+                  />
+                </div>
+                <span class="nav-text">Galeria</span>
+              </li>
+            </Link>
+
+            <Link
+              onClick={() => (activeNormal = 3)}
+              className="navbarleft-link"
+              to="/plataform/clips"
+            >
+              <li
+                style={{
+                  backgroundColor: activeNormal === 3 && "#3b3b3b",
+                  borderLeft: activeNormal === 3 && "3px solid #f36196",
+                }}
+                class={
+                  activeNormal === 3
+                    ? "navbaraccount-li has-subnav nav-active"
+                    : "navbaraccount-li has-subnav"
+                }
+              >
+                <div style={{ width: "30%", textAlign: "center" }}>
+                  <img
+                    style={{ width: "18px" }}
+                    src="/images/iconos/navbar/clips.png"
+                  />
+                </div>
+                <span class="nav-text">Clips</span>
+              </li>
+            </Link>
+
+            <Link
+              onClick={() => (activeNormal = 4)}
+              className="navbarleft-link"
+              to="/plataform/muro"
+            >
+              <li
+                style={{
+                  backgroundColor: activeNormal === 4 && "#3b3b3b",
+                  borderLeft: activeNormal === 4 && "3px solid #f36196",
+                }}
+                class={
+                  activeNormal === 4
+                    ? "navbaraccount-li has-subnav nav-active"
+                    : "navbaraccount-li has-subnav"
+                }
+              >
+                <div style={{ width: "30%", textAlign: "center" }}>
+                  <img
+                    style={{ width: "18px" }}
+                    src="/images/iconos/navbar/muro.png"
+                  />
+                </div>
+                <span class="nav-text">Muro</span>
+              </li>
+            </Link>
+
+            <div />
+            {AllsStreamsOnlineThatUserFollows &&
+              AllsStreamsOnlineThatUserFollows.length > 0 && (
+                <div
+                  className={
+                    tyExpandedFollowStreams
+                      ? "container-AllsStreamsOnlineThatUserFollows"
+                      : "container-AllsStreamsOnlineThatUserFollows_expand"
+                  }
+                >
+                  <div className="navbarleft-title">
+                    <div className="navbarleft-title-sigo">
+                      <h5 className={tyExpanded === false && "notvisible"}>
+                        Canales que sigo
+                      </h5>
+                      <i
+                        onClick={() => handleToggleExpandFollowStreams()}
+                        className="fas fa-chevron-right "
+                        style={{
+                          transform: tyExpandedFollowStreams
+                            ? "rotate(-90deg)"
+                            : "rotate(90deg)",
+                        }}
+                      ></i>
+                    </div>
+                  </div>
+                  {AllsStreamsOnlineThatUserFollows.slice(
+                    0,
+                    tyExpandedFollowStreams ? undefined : 1
+                  ).map((streamer) => (
+                    <div
+                      key={streamer.id}
+                      className={`container-userOnline${
+                        tyExpanded ? " fade-in" : " fade-out"
+                      }`}
+                    >
+                      <UserOnline
+                        tyExpanded={tyExpanded}
+                        thumb={streamer.stream_thumbnail}
+                        viewers={streamer.ViewerCount}
+                        image={streamer.streamer_avatar}
+                        streamer={streamer.streamer}
+                        title={streamer.stream_title}
+                        category={streamer.stream_category}
+                        thum={streamer.stream_thumbnail}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+            {/* {usersOnline &&
             usersOnline.map(
               (streamer) =>
                 user.following &&
@@ -600,78 +601,53 @@ export default function NavbarLeft({
                 )
             )} */}
 
-          {recommended && recommended.length > 0 && (
-            <div
-              className={
-                tyExpandedFollowStreams
-                  ? "container-AllsStreamsOnlineThatUserFollows"
-                  : "container-AllsStreamsOnlineThatUserFollows_expand"
-              }
-            >
-              <div className="navbarleft-title">
-                <div className="navbarleft-title-sigo">
-                  <h5 className={tyExpanded === false && "notvisible"}>
-                    Recomendados
-                  </h5>
-                  <i
-                    onClick={() => handleToggleExpandRecomStreams()}
-                    className="fas fa-chevron-right "
-                    style={{
-                      transform: tyExpandedFollowStreams
-                        ? "rotate(-90deg)"
-                        : "rotate(90deg)",
-                    }}
-                  ></i>
-                </div>
-              </div>
-              {recommended
-                .slice(0, tyExpandedRecomStreams ? undefined : 1)
-                .map((streamer) => (
-                  <div
-                    key={streamer.id}
-                    className={`container-userOnline${
-                      tyExpanded ? " fade-in" : " fade-out"
-                    }`}
-                  >
-                    <UserOnline
-                      tyExpanded={tyExpanded}
-                      thumb={streamer.stream_thumbnail}
-                      viewers={streamer.ViewerCount}
-                      image={streamer.streamer_avatar}
-                      streamer={streamer.streamer}
-                      title={streamer.stream_title}
-                      category={streamer.stream_category}
-                      thum={streamer.stream_thumbnail}
-                    />
+            {recommended && recommended.length > 0 && (
+              <div
+                className={
+                  tyExpandedFollowStreams
+                    ? "container-AllsStreamsOnlineThatUserFollows"
+                    : "container-AllsStreamsOnlineThatUserFollows_expand"
+                }
+              >
+                <div className="navbarleft-title">
+                  <div className="navbarleft-title-sigo">
+                    <h5 className={tyExpanded === false && "notvisible"}>
+                      Recomendados
+                    </h5>
+                    <i
+                      onClick={() => handleToggleExpandRecomStreams()}
+                      className="fas fa-chevron-right "
+                      style={{
+                        transform: tyExpandedFollowStreams
+                          ? "rotate(-90deg)"
+                          : "rotate(90deg)",
+                      }}
+                    ></i>
                   </div>
-                ))}
-            </div>
-          )}
-        </div>
-      );
-    }
-  }
-
-  function getNavbarLeft() {
-    if (isMobile) {
-      return <NavbarLeftMobile streamer={"user.NameUser"} />;
-    } else {
-      return (
-        <aside
-          class={
-            tyExpanded
-              ? "main-menu-" + theme.theme + " expanded"
-              : "main-menu-" + theme.theme
-          }
-        >
-          <ul
-            className={
-              tyExpanded ? "navbaraccount-ul" : "navbaraccount-ul-expanded"
-            }
-          >
-            {getNormalNavbar()}
-          </ul>
-          {
+                </div>
+                {recommended
+                  .slice(0, tyExpandedRecomStreams ? undefined : 1)
+                  .map((streamer) => (
+                    <div
+                      key={streamer.id}
+                      className={`container-userOnline${
+                        tyExpanded ? " fade-in" : " fade-out"
+                      }`}
+                    >
+                      <UserOnline
+                        tyExpanded={tyExpanded}
+                        thumb={streamer.stream_thumbnail}
+                        viewers={streamer.ViewerCount}
+                        image={streamer.streamer_avatar}
+                        streamer={streamer.streamer}
+                        title={streamer.stream_title}
+                        category={streamer.stream_category}
+                        thum={streamer.stream_thumbnail}
+                      />
+                    </div>
+                  ))}
+              </div>
+            )}
             <div className={tyExpanded ? "navbarleft-footer" : "notvisible"}>
               <div
                 style={{
@@ -705,7 +681,32 @@ export default function NavbarLeft({
                 <p>Pinkker 2022 ©️ All rights reserved</p>
               </div>
             </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  function getNavbarLeft() {
+    if (isMobile) {
+      return <NavbarLeftMobile streamer={"user.NameUser"} />;
+    } else {
+      return (
+        <aside
+          class={
+            tyExpanded
+              ? "main-menu-" + theme.theme + " expanded"
+              : "main-menu-" + theme.theme
           }
+        >
+          <ul
+            className={
+              tyExpanded ? "navbaraccount-ul" : "navbaraccount-ul-expanded"
+            }
+          >
+            {getNormalNavbar()}
+          </ul>
+          {}
         </aside>
       );
     }

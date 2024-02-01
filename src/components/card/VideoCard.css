@@ -15,21 +15,22 @@
     justify-content: space-between;
     flex-direction: row-reverse;
     position: relative;
-    top: 30px;
+    top: 35px;
     padding: 0px 10px;
     align-items: center;
 }
 
 .videocard-spectator {
-    background: #040404;
+    background: #04040475;
     padding: 5px;
+    top: 2px;
     border-radius: 10px;
     font-weight: bold;
 
 }
 
 .videocard-VIVO {
-    background: #040404;
+    background: #04040475;
     padding: 5px;
     border-radius: 10px;
     font-weight: bold;
