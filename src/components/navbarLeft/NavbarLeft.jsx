@@ -354,7 +354,8 @@ export default function NavbarLeft({
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              marginTop: "17px",
+              // marginTop: "17px",
+              padding: "10px 8px",
             }}
           >
             <i
@@ -383,6 +384,27 @@ export default function NavbarLeft({
             <div className="container-search-navbarleft">
               <Search isMobile={isMobile} />
             </div>
+            <div className="pixel-coming-soon-navbarLeft">
+              <div className="pixel-coming-soon-navbarLeft-img-pixel-container">
+                <img
+                  className="pixel-coming-soon-navbarLeft-img-pixel"
+                  style={{
+                    width: "38px",
+                  }}
+                  src="/images/pixel.png"
+                />
+              </div>
+              <div className="pixel-coming-soon-text-container">
+                <div className="pixel-coming-soon-text">
+                  <span className="pixel-coming-soon-text-pixel">Pixel</span>
+                  <span className="pixel-coming-soon-text-pxl">(PXL)</span>
+                </div>
+                <span className="pixel-coming-soon-navbarLeft-Comming-soon">
+                  Comming soon
+                </span>
+              </div>
+            </div>
+
             <Link
               onClick={() => (activeNormal = 2)}
               className="navbarleft-link"

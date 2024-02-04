@@ -49,7 +49,7 @@
     height: -webkit-fill-available;
     position: fixed;
     right: 0;
-    background-color: #171a1f;
+    background-color: #080808;
     transition: 0.15s;
     overflow-y: unset;
     z-index: 1000;

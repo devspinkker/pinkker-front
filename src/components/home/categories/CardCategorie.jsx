@@ -44,7 +44,6 @@ export default function CustomCard(props) {
           style={{
             position: props.isLoading && "absolute",
             opacity: props.isLoading && "0",
-            margin: "3px",
             height: props?.height,
           }}
           className="custom-categories-card"

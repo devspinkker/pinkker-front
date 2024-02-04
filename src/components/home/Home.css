@@ -5,7 +5,7 @@
 
 .home-body-dark {
     margin: 0 auto;
-    padding: 1rem 0rem 0rem 5rem;
+    padding: 4.8rem 0rem 0rem 7rem;
     position: relative;
     background-color: transparent;
     min-height: 2000px;
@@ -60,7 +60,7 @@
 
 .categories-home-container {
     overflow: hidden;
-
+    width: 95%;
 }
 
 .categories-home-manager {
@@ -105,7 +105,7 @@
 
     .home-body-dark {
         margin: 0 auto;
-        padding: 1rem 0rem 0rem 5rem;
+        padding: 4.8rem 0rem 0rem 7rem;
         position: relative;
         background-color: transparent;
         min-height: 2000px;

@@ -168,7 +168,8 @@ export default function Clips() {
                     marginRight: "13px",
                     marginTop: "10px",
                     scrollSnapAlign: "start",
-                    width: "430px",
+                    width: "350px",
+                    height: "196px",
                   }}
                 >
                   {isLoading ? (

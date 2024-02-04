@@ -198,7 +198,7 @@ const Home = ({
     }
   };
   return (
-    <div style={{ marginTop: "3%" }} className={"home-body-" + theme.theme}>
+    <div className={"home-body-" + theme.theme}>
       {/* <div className="home-img">
         {!isMobile && (
           <div className="home-img-content">

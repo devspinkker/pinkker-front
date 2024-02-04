@@ -943,7 +943,6 @@ const Chat = ({
               style={{
                 width: "90%",
                 margin: "0 auto",
-                display: "flex",
                 alignItems: "center",
                 height: "60px",
               }}

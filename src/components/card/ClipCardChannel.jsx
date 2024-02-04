@@ -64,7 +64,7 @@ export default function ClipCardChannel({ video, ...props }) {
 
   function getImagePreview() {
     return (
-      <div className="clipcard-image-preview">
+      <div className="">
         <img
           style={{
             borderRadius: "5px",

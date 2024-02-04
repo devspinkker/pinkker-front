@@ -79,8 +79,8 @@ export default function Donation({ donation, callback, index }) {
   return (
     <div
       style={{
-        marginLeft: "15px",
-        marginBottom: "5px",
+        // marginLeft: "15px",
+        // marginBottom: "5px",
         backgroundColor: "black",
         animation:
           width > 0 && index === 0 ? "slideToTop 2s" : "closeCardDonation 6s",
@@ -107,8 +107,8 @@ export default function Donation({ donation, callback, index }) {
           style={{
             width: "25px",
             borderRadius: "50px",
-            marginLeft: "5px",
-            paddingRight: "5px",
+            margin: "5px",
+            // paddingRight: "5px",
           }}
           src={donation?.FromUserInfo.Avatar}
           alt=""

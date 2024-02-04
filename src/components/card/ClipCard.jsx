@@ -68,7 +68,7 @@ export default function ClipCard({ video, ...props }) {
         <img
           style={{
             borderRadius: "5px",
-            width: "430px",
+            width: "350px",
             height: props.height,
             objectFit: "cover",
           }}

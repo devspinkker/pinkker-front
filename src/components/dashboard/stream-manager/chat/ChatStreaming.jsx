@@ -30,7 +30,7 @@ export function ChatStreaming({
   const [message, setMessage] = useState("");
   const conversationRef = useRef(null);
   const [socket, setSocket] = useState(null);
-  const [donations, setDonations] = useState([]);
+  const [donations, setDonations] = useState(null);
   const [donationsSubscriptions, setDonationsSubscriptions] = useState(null);
   const [donationCard, setDonationCard] = useState(false);
   const [incrementPoints, setIncrementPoints] = useState(false);
@@ -41,6 +41,7 @@ export function ChatStreaming({
   const [GetUserTheChat, setGetUserTheChat] = useState(null);
   const [ShowGetUserTheChat, setShowGetUserTheChat] = useState(false);
   const [GetInfoUserInRoom, setGetInfoUserInRoom] = useState(null);
+  const [StateDonations, setStateDonations] = useState(false);
 
   useEffect(() => {
     const connectWebSocket = () => {
@@ -90,8 +91,6 @@ export function ChatStreaming({
   };
 
   const gets = async () => {
-    console.log(streamerData);
-    console.log(streamerChat);
     try {
       const resDonations = await GetPixelesDonationsChat(streamerData.id);
       if (resDonations.message === "ok" && resDonations.data.length > 0) {
@@ -179,7 +178,11 @@ export function ChatStreaming({
   }, []);
   const getDonationSubscriptionCard = (donationsSubscriptions) => {
     return (
-      <div>
+      <div
+        style={{
+          width: "100%",
+        }}
+      >
         {donationsSubscriptions
           .slice(0, showAllSubs ? undefined : 1)
           .map((subscription, index) => (
@@ -194,7 +197,6 @@ export function ChatStreaming({
                 margin: "6px",
                 paddingLeft: "5px",
                 // paddingRight: "2px",
-
                 borderRadius: "10px",
                 height: "20px",
                 cursor: index === 0 ? "pointer" : "default", // Hacer el primer elemento clickeable
@@ -247,19 +249,42 @@ export function ChatStreaming({
     const displayDonations = showAllDonations
       ? donations
       : [donations[donations.length - 1]];
-
+    console.log(displayDonations[0]);
     return (
       <div className="chat-donation-body">
-        <div
-          className="getDonationSubscriptionCard"
+        <i
           style={{
-            position: showAllSubs && "fixed",
-            width: showAllSubs && "25.9%",
+            color: "#ffff",
+            cursor: "pointer",
+            margin: "0",
+            display: chatExpandeds ? "none" : "",
+          }}
+          className="fas fa-chevron-left"
+          onClick={() => setStateDonations(!StateDonations)}
+        ></i>
+        <div
+          className={
+            !showAllSubs
+              ? "getDonationSubscriptionCard"
+              : "getDonationSubscriptionCardshowAllSubs"
+          }
+          style={{
+            display: StateDonations === false ? "flex" : "none ",
+            justifyContent: "center",
           }}
         >
           {getDonationSubscriptionCard(donationsSubscriptions)}
         </div>
-        <div className="chat-donation-container">
+        <div
+          className={
+            allDonationsExpanded
+              ? "chat-donation-containerStateDonations"
+              : "chat-donation-container"
+          }
+          style={{
+            display: StateDonations === true ? "flex" : "none ",
+          }}
+        >
           <div
             className="chat-donation-card-container"
             style={{
@@ -271,40 +296,44 @@ export function ChatStreaming({
               display: showAllSubs && "none",
             }}
           >
-            {[...displayDonations].map((donation, index) => (
-              <Donation
-                key={index}
-                donation={donation}
-                index={index}
-                callback={() => {
-                  toggleDonationCard(
-                    donation.Pixeles,
-                    donation.FromUserInfo.NameUser,
-                    donation.FromUserInfo.Avatar,
-                    donation.Text,
-                    donation.userLook,
-                    donation.userColor
-                  );
-                  setShowAllDonations(true);
-                  setDonationCardVisible(donationCardVisible);
-                  setSelectedDonation(donation);
+            {displayDonations[0] !== undefined ? (
+              [...displayDonations].map((donation, index) => (
+                <Donation
+                  key={index}
+                  donation={donation}
+                  index={index}
+                  callback={() => {
+                    toggleDonationCard(
+                      donation?.Pixeles,
+                      donation?.FromUserInfo.NameUser,
+                      donation?.FromUserInfo.Avatar,
+                      donation?.Text,
+                      donation?.userLook,
+                      donation?.userColor
+                    );
+                    setShowAllDonations(true);
+                    setDonationCardVisible(donationCardVisible);
+                    setSelectedDonation(donation);
 
-                  setClickCount((prevCount) => prevCount + 1);
+                    setClickCount((prevCount) => prevCount + 1);
 
-                  if (clickCount >= 1) {
-                    setFirstClick(true);
-                  }
+                    if (clickCount >= 1) {
+                      setFirstClick(true);
+                    }
 
-                  setAllDonationsExpanded(true);
-                }}
-                ShowAllDonations={setShowAllDonations}
-              />
-            ))}
+                    setAllDonationsExpanded(true);
+                  }}
+                  ShowAllDonations={setShowAllDonations}
+                />
+              ))
+            ) : (
+              <></>
+            )}
           </div>
           <button
             style={{
               width: "100%",
-              marginLeft: "9px",
+              marginLeft: "",
               display: !allDonationsExpanded && "none",
             }}
             onClick={() => {
@@ -316,6 +345,16 @@ export function ChatStreaming({
             }}
           ></button>
         </div>
+        <i
+          style={{
+            color: "#ffff",
+            cursor: "pointer",
+            margin: "0",
+            display: chatExpandeds ? "none" : "",
+          }}
+          className="fas fa-chevron-right"
+          onClick={() => setStateDonations(!StateDonations)}
+        ></i>
       </div>
     );
   }

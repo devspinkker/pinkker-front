@@ -49,9 +49,20 @@
 
 .getDonationSubscriptionCard {
     height: max-content;
-    /* position: fixed; */
-    width: 98%;
+    width: 88%;
     z-index: 1000000000000000000;
+}
+
+.getDonationSubscriptionCardshowAllSubs {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 107px;
+    width: 100%;
+    justify-content: center;
+    z-index: 100;
+    background: black;
 }
 
 .badges {
