@@ -29,8 +29,7 @@ export default function NavbarLeft({
   tyDashboard,
   user,
 }) {
-  const token = useSelector((state) => state.token);
-  const usersOnline = useSelector((state) => state.streamers);
+  const [activeNormal, setactiveNormal] = useState(0);
 
   const [recommended, setRecommended] = useState([]);
   const [
@@ -210,7 +209,7 @@ export default function NavbarLeft({
 
           <Link
             to={"/" + user?.NameUser + "/dashboard/home"}
-            onClick={() => (activeNormal = 0)}
+            onClick={() => setactiveNormal(0)}
             className="navbarleft-link"
           >
             <li
@@ -243,7 +242,7 @@ export default function NavbarLeft({
 
           <Link
             to={"/" + user?.NameUser + "/dashboard/streammanager"}
-            onClick={() => (activeNormal = 1)}
+            onClick={() => setactiveNormal(1)}
             className="navbarleft-link"
           >
             <li
@@ -292,14 +291,34 @@ export default function NavbarLeft({
                         </li>
             </Link>*/}
 
-          {/*<Link onClick={() => activeNormal = 4} className="navbarleft-link">
-                        <li style={{backgroundColor: activeNormal === 4 && "#3b3b3b", borderLeft: activeNormal === 4 && "3px solid #f36196"}} class={active === 4 ? "navbaraccount-li has-subnav nav-active" : "navbaraccount-li has-subnav"}>
-                            <i style={{fontSize: "14px", marginTop: "13px", color: "#ededed"}} class="fa fa-dollar-sign fa-2x"/>
-                            <span style={{color: activeNormal === 4 && "#f36196"}} class="nav-text">
-                                Monetización
-                            </span>
-                        </li>
-            </Link>*/}
+          {/* <Link onClick={() => (activeNormal = 4)} className="navbarleft-link">
+            <li
+              style={{
+                backgroundColor: activeNormal === 4 && "#3b3b3b",
+                borderLeft: activeNormal === 4 && "3px solid #f36196",
+              }}
+              class={
+                active === 4
+                  ? "navbaraccount-li has-subnav nav-active"
+                  : "navbaraccount-li has-subnav"
+              }
+            >
+              <i
+                style={{
+                  fontSize: "14px",
+                  marginTop: "13px",
+                  color: "#ededed",
+                }}
+                class="fa fa-dollar-sign fa-2x"
+              />
+              <span
+                style={{ color: activeNormal === 4 && "#f36196" }}
+                class="nav-text"
+              >
+                Monetización
+              </span>
+            </li>
+          </Link> */}
 
           {/*<Link to={"/" + user.name + "/dashboard/community"} onClick={() => activeNormal = 5} className="navbarleft-link">
                         <li style={{backgroundColor: activeNormal === 5 && "#3b3b3b", borderLeft: activeNormal === 5 && "3px solid #f36196"}} class={active === 5 ? "navbaraccount-li has-subnav nav-active" : "navbaraccount-li has-subnav"}>
@@ -406,13 +425,13 @@ export default function NavbarLeft({
             </div>
 
             <Link
-              onClick={() => (activeNormal = 2)}
+              onClick={() => setactiveNormal(2)}
               className="navbarleft-link"
               to="/plataform/explore"
             >
               <li
                 style={{
-                  backgroundColor: activeNormal === 2 && "#3b3b3b",
+                  // backgroundColor: activeNormal === 2 && "#3b3b3b",
                   borderLeft: activeNormal === 2 && "3px solid #f36196",
                 }}
                 class={
@@ -431,13 +450,13 @@ export default function NavbarLeft({
             </Link>
 
             <Link
-              onClick={() => (activeNormal = 1)}
+              onClick={() => setactiveNormal(1)}
               className="navbarleft-link"
               to="/plataform/tendency"
             >
               <li
                 style={{
-                  backgroundColor: activeNormal === 1 && "#3b3b3b",
+                  // backgroundColor: activeNormal === 1 && "#3b3b3b",
                   borderLeft: activeNormal === 1 && "3px solid #f36196",
                 }}
                 class={
@@ -456,8 +475,8 @@ export default function NavbarLeft({
               </li>
             </Link>
 
-            <Link
-              onClick={() => (activeNormal = 5)}
+            {/* <Link
+              onClick={() => setactiveNormal(5)}
               className="navbarleft-link"
               to="/plataform/tendency"
             >
@@ -482,16 +501,16 @@ export default function NavbarLeft({
                 </div>
                 <span class="nav-text">Galeria</span>
               </li>
-            </Link>
+            </Link> */}
 
             <Link
-              onClick={() => (activeNormal = 3)}
+              onClick={() => setactiveNormal(3)}
               className="navbarleft-link"
               to="/plataform/clips"
             >
               <li
                 style={{
-                  backgroundColor: activeNormal === 3 && "#3b3b3b",
+                  // backgroundColor: activeNormal === 3 && "#3b3b3b",
                   borderLeft: activeNormal === 3 && "3px solid #f36196",
                 }}
                 class={
@@ -511,13 +530,13 @@ export default function NavbarLeft({
             </Link>
 
             <Link
-              onClick={() => (activeNormal = 4)}
+              onClick={() => setactiveNormal(4)}
               className="navbarleft-link"
               to="/plataform/muro"
             >
               <li
                 style={{
-                  backgroundColor: activeNormal === 4 && "#3b3b3b",
+                  // backgroundColor: activeNormal === 4 && "#3b3b3b",
                   borderLeft: activeNormal === 4 && "3px solid #f36196",
                 }}
                 class={

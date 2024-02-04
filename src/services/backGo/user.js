@@ -7,25 +7,27 @@ export const setToken = (newObject) => {
 
 const baseURL = process.env.REACT_APP_BACKGO
 
-export async function signUp(token, userData) {
+export async function signupNotConfirmed(userData) {
     try {
-        const response = await axios.post(`${baseURL}/user/signup`, userData, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const response = await axios.post(`${baseURL}/user/signupNotConfirmed`, userData);
         return response.data;
     } catch (error) {
         return error
     }
 }
-
+export async function SaveUserCodeConfirm(code) {
+    try {
+        const response = await axios.post(`${baseURL}/user/SaveUserCodeConfirm`, { code });
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
 export async function login(userData) {
     try {
         const response = await axios.post(`${baseURL}/user/login`, userData);
         return response.data;
     } catch (error) {
-        console.error('Error en login:', error.message);
         return error
     }
 }

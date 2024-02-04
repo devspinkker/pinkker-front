@@ -27,6 +27,11 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import OAuth2Login from "../OAuth2/OAuth2Login";
+import {
+  SaveUserCodeConfirm,
+  login,
+  signupNotConfirmed,
+} from "../../services/backGo/user";
 
 export default function Auth({ isMobile, closePopup, typeDefault }) {
   const auth = useSelector((state) => state.auth);
@@ -48,8 +53,9 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
   const [rDay, setrDay] = useState(null);
   const [rMonth, setrMonth] = useState(null);
   const [rYear, setrYear] = useState(null);
-
+  const [CodeConfirm, setCodeConfirm] = useState(false);
   const [lUsername, setlUsername] = useState(null);
+  const [FullName, setFullName] = useState(null);
   const [lPassword, setlPassword] = useState(null);
 
   const [step, setStep] = useState(0);
@@ -90,22 +96,21 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                 return;
             }*/
       try {
-        const res = await axios.post(
-          process.env.REACT_APP_DEV_API_URL + `/user/login`,
-          { username: lUsername, password: lPassword }
-        );
-        if (res.data != null && res.data.msg != null) {
-          localStorage.setItem("firstLogin", true);
-          localStorage.setItem("token", res.data.token);
+        const res = await login({ NameUser: lUsername, password: lPassword });
+        console.log(res);
+        console.log("DS");
+        if (res && res.message === "token") {
+          window.localStorage.setItem("token", String(res.data));
+          window.localStorage.setItem("_id", res._id);
+          window.localStorage.setItem("avatar", res.avatar);
+          window.localStorage.setItem("keyTransmission", res.keyTransmission);
+          window.location.href = "/";
 
-          dispatch(dispatchLogin());
-          history.push("/");
           closePopup();
         }
       } catch (err) {
-        if (err.response != null && err.response != undefined) {
-          alert({ type: "ERROR", message: err.response.data.msg });
-        }
+        console.log(err);
+        alert({ type: "ERROR", message: err });
       }
     }
 
@@ -135,24 +140,19 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
         return alert({ type: "ERROR", message: "Completa el año" });
 
       try {
-        const res = await axios.post(
-          process.env.REACT_APP_DEV_API_URL + `/user/register`,
-          {
-            name: rUsername,
-            email: rEmail,
-            password: rPassword,
-            userIp,
-            countryInfo,
-            day: rDay,
-            month: rMonth,
-            year: rYear,
-            gender: gender,
-          }
-        );
-        if (res.data != null && res.data.msg != null) {
-          alert({ type: "SUCCESS", message: res.data.msg });
-          localStorage.setItem("firstLogin", true);
-          setStep(1);
+        console.log(rYear + "-" + rMonth + "-" + rDay);
+        const res = await signupNotConfirmed({
+          nameUser: rUsername,
+          fullName: FullName,
+          Email: rEmail,
+          password: rPassword,
+          BirthDate: rYear + "-" + rMonth + "-" + rDay,
+        });
+        console.log(res);
+        if (res && res.message == "email to confirm") {
+          setCodeConfirm(true);
+          // localStorage.setItem("firstLogin", true);
+          // setStep(1);
         }
       } catch (err) {
         alert({ type: "ERROR", message: err.response.data.msg });
@@ -179,7 +179,19 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
       }
     }
   }
+  async function handleSubmitCode() {
+    console.log(CodeConfirmInput);
+    const response = await SaveUserCodeConfirm(CodeConfirmInput);
+    console.log(response);
+    if (response && response.message === "token") {
+      window.localStorage.setItem("token", String(response.data));
+      window.localStorage.setItem("_id", response._id);
+      window.localStorage.setItem("avatar", response.avatar);
+      window.localStorage.setItem("keyTransmission", response.keyTransmission);
 
+      window.location.href = "/";
+    }
+  }
   const onKeyPressInput = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -192,6 +204,8 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
   const [errorPassword, setErrorPassword] = useState(null);
   const [errorConfirmPassword, setErrorConfirmPassword] = useState(null);
   const [errorEmail, setErrorEmail] = useState(null);
+
+  const [CodeConfirmInput, setCodeConfirmInput] = useState(0);
 
   function onChangeUserName(e) {
     if (isEmpty(e)) {
@@ -213,6 +227,10 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
     }
     setErrorUsername("");
     setrUsername(e);
+  }
+
+  function onChangeCodeConfirm(e) {
+    setCodeConfirmInput(e);
   }
 
   function onChangePassword(e) {
@@ -269,7 +287,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
     if (type === 0) {
       return (
         <div className="auth-content">
-          {/* <div className="auth-content-input">
+          <div className="auth-content-input">
             <p>Nombre de usuario</p>
             <input
               id="identifierId"
@@ -277,6 +295,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               type="text"
             />
           </div>
+
           <div className="auth-content-input">
             <p>Contraseña</p>
             <input
@@ -298,7 +317,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               {" "}
               <span>¿Tienes problemas para iniciar sesión?</span>
             </p>
-          </a> */}
+          </a>
 
           {/*<div style={{marginTop: "5px", marginBottom: "10px"}}>
                         <ReCAPTCHA
@@ -308,213 +327,251 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                         />
             </div>*/}
 
+          <button onClick={() => handleSubmit()} className="auth-button-login">
+            Iniciar Sesión
+          </button>
           <OAuth2Login
             className="OAuth2Login"
             style={{ marginTop: "5px", marginBottom: "10px" }}
           ></OAuth2Login>
-
-          {/* <button onClick={() => handleSubmit()} className="auth-button-login">
-            Iniciar Sesión
-          </button> */}
         </div>
       );
     }
     if (type === 1 && step === 0) {
       return (
-        <div className="auth-content">
-          <div className="auth-content-input">
-            <p>
-              Nombre de usuario{" "}
-              {errorUserName != null && errorUserName != "" && (
-                <i
-                  style={{ color: "#EB0400", marginLeft: "109px" }}
-                  class="fas fa-exclamation-circle"
+        <div>
+          {!CodeConfirm ? (
+            <div className="auth-content">
+              <div className="auth-content-input">
+                <p>
+                  Nombre de usuario{" "}
+                  {errorUserName != null && errorUserName != "" && (
+                    <i
+                      style={{ color: "#EB0400", marginLeft: "109px" }}
+                      class="fas fa-exclamation-circle"
+                    />
+                  )}{" "}
+                  {errorUserName === "" && (
+                    <i
+                      style={{ color: "lightgreen", marginLeft: "109px" }}
+                      class="fas fa-check-circle"
+                    />
+                  )}
+                </p>
+                <input
+                  className={
+                    errorUserName != null &&
+                    errorUserName != "" &&
+                    "input-error"
+                  }
+                  onChange={(e) => onChangeUserName(e.target.value)}
+                  type="text"
                 />
-              )}{" "}
-              {errorUserName === "" && (
-                <i
-                  style={{ color: "lightgreen", marginLeft: "109px" }}
-                  class="fas fa-check-circle"
+                <p
+                  style={{
+                    fontSize: "10px",
+                    color: "rgb(228, 122, 122)",
+                    marginTop: "5px",
+                  }}
+                >
+                  {errorUserName}
+                </p>
+              </div>
+              <div className="auth-content-input">
+                <p>Nombre completo</p>
+                <input
+                  id="identifierId"
+                  onChange={(e) => setFullName(e.target.value)}
+                  type="text"
                 />
-              )}
-            </p>
-            <input
-              className={
-                errorUserName != null && errorUserName != "" && "input-error"
-              }
-              onChange={(e) => onChangeUserName(e.target.value)}
-              type="text"
-            />
-            <p
-              style={{
-                fontSize: "10px",
-                color: "rgb(228, 122, 122)",
-                marginTop: "5px",
-              }}
-            >
-              {errorUserName}
-            </p>
-          </div>
-          <div className="auth-content-input">
-            <p>
-              Contraseña{" "}
-              {errorPassword != null && errorPassword != "" && (
-                <i
-                  style={{ color: "#EB0400", marginLeft: "159px" }}
-                  class="fas fa-exclamation-circle"
+              </div>
+              <div className="auth-content-input">
+                <p>
+                  Contraseña{" "}
+                  {errorPassword != null && errorPassword != "" && (
+                    <i
+                      style={{ color: "#EB0400", marginLeft: "159px" }}
+                      class="fas fa-exclamation-circle"
+                    />
+                  )}{" "}
+                  {errorPassword === "" && (
+                    <i
+                      style={{ color: "lightgreen", marginLeft: "159px" }}
+                      class="fas fa-check-circle"
+                    />
+                  )}
+                </p>
+                <input
+                  className={
+                    errorPassword != null &&
+                    errorPassword != "" &&
+                    "input-error"
+                  }
+                  onChange={(e) => onChangePassword(e.target.value)}
+                  type="password"
                 />
-              )}{" "}
-              {errorPassword === "" && (
-                <i
-                  style={{ color: "lightgreen", marginLeft: "159px" }}
-                  class="fas fa-check-circle"
+                <p
+                  style={{
+                    fontSize: "10px",
+                    color: "rgb(228, 122, 122)",
+                    marginTop: "5px",
+                  }}
+                >
+                  {errorPassword}
+                </p>
+              </div>
+              <div className="auth-content-input">
+                <p>
+                  Confirmar contraseña{" "}
+                  {errorConfirmPassword != null &&
+                    errorConfirmPassword != "" && (
+                      <i
+                        style={{ color: "#EB0400", marginLeft: "83px" }}
+                        class="fas fa-exclamation-circle"
+                      />
+                    )}{" "}
+                  {errorConfirmPassword === "" && (
+                    <i
+                      style={{ color: "lightgreen", marginLeft: "83px" }}
+                      class="fas fa-check-circle"
+                    />
+                  )}
+                </p>
+                <input
+                  className={
+                    errorConfirmPassword != null &&
+                    errorConfirmPassword != "" &&
+                    "input-error"
+                  }
+                  onChange={(e) => onChangeConfirmPassword(e.target.value)}
+                  type="password"
                 />
-              )}
-            </p>
-            <input
-              className={
-                errorPassword != null && errorPassword != "" && "input-error"
-              }
-              onChange={(e) => onChangePassword(e.target.value)}
-              type="password"
-            />
-            <p
-              style={{
-                fontSize: "10px",
-                color: "rgb(228, 122, 122)",
-                marginTop: "5px",
-              }}
-            >
-              {errorPassword}
-            </p>
-          </div>
-          <div className="auth-content-input">
-            <p>
-              Confirmar contraseña{" "}
-              {errorConfirmPassword != null && errorConfirmPassword != "" && (
-                <i
-                  style={{ color: "#EB0400", marginLeft: "83px" }}
-                  class="fas fa-exclamation-circle"
+                <p
+                  style={{
+                    fontSize: "10px",
+                    color: "rgb(228, 122, 122)",
+                    marginTop: "5px",
+                  }}
+                >
+                  {errorConfirmPassword}
+                </p>
+              </div>
+              <div className="auth-content-input">
+                <p>
+                  Correo electrónico{" "}
+                  {errorEmail != null && errorEmail != "" && (
+                    <i
+                      style={{ color: "#EB0400", marginLeft: "109px" }}
+                      class="fas fa-exclamation-circle"
+                    />
+                  )}{" "}
+                  {errorEmail === "" && (
+                    <i
+                      style={{ color: "lightgreen", marginLeft: "109px" }}
+                      class="fas fa-check-circle"
+                    />
+                  )}
+                </p>
+                <input
+                  className={
+                    errorEmail != null && errorEmail != "" && "input-error"
+                  }
+                  onChange={(e) => onChangeEmail(e.target.value)}
+                  type="text"
                 />
-              )}{" "}
-              {errorConfirmPassword === "" && (
-                <i
-                  style={{ color: "lightgreen", marginLeft: "83px" }}
-                  class="fas fa-check-circle"
-                />
-              )}
-            </p>
-            <input
-              className={
-                errorConfirmPassword != null &&
-                errorConfirmPassword != "" &&
-                "input-error"
-              }
-              onChange={(e) => onChangeConfirmPassword(e.target.value)}
-              type="password"
-            />
-            <p
-              style={{
-                fontSize: "10px",
-                color: "rgb(228, 122, 122)",
-                marginTop: "5px",
-              }}
-            >
-              {errorConfirmPassword}
-            </p>
-          </div>
-          <div className="auth-content-input">
-            <p>
-              Correo electrónico{" "}
-              {errorEmail != null && errorEmail != "" && (
-                <i
-                  style={{ color: "#EB0400", marginLeft: "109px" }}
-                  class="fas fa-exclamation-circle"
-                />
-              )}{" "}
-              {errorEmail === "" && (
-                <i
-                  style={{ color: "lightgreen", marginLeft: "109px" }}
-                  class="fas fa-check-circle"
-                />
-              )}
-            </p>
-            <input
-              className={
-                errorEmail != null && errorEmail != "" && "input-error"
-              }
-              onChange={(e) => onChangeEmail(e.target.value)}
-              type="text"
-            />
-            <p
-              style={{
-                fontSize: "10px",
-                color: "rgb(228, 122, 122)",
-                marginTop: "5px",
-              }}
-            >
-              {errorEmail}
-            </p>
-          </div>
-          <div className="auth-content-input">
-            <p>Fecha de nacimiento</p>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <input
-                onChange={(e) => setrDay(e.target.value)}
-                style={{ marginRight: "2px" }}
-                placeholder="Día"
-                type="number"
-              />
-              <select
-                onChange={(e) => setrMonth(e.target.value)}
-                defaultValue="0"
-              >
-                <option value="null">Mes</option>
-                <option value="0">Enero</option>
-                <option value="1">Febrero</option>
-                <option value="2">Marzo</option>
-                <option value="3">Abril</option>
-                <option value="4">Mayo</option>
-                <option value="5">Junio</option>
-                <option value="6">Julio</option>
-                <option value="7">Agosto</option>
-                <option value="8">Septiembre</option>
-                <option value="9">Octubre</option>
-                <option value="10">Noviembre</option>
-                <option value="11">Diciembre</option>
-              </select>
-              <input
-                onChange={(e) => setrYear(e.target.value)}
-                style={{ marginLeft: "2px" }}
-                placeholder="Año"
-                type="number"
-              />
-            </div>
-          </div>
-          <div className="auth-text">
-            <p className="" style={{ fontSize: "11px", margin: "10px auto" }}>
-              Al hacer clic en Registrarse, indicas que has leído y aceptas los{" "}
-              <br />{" "}
-              <a style={{ color: "#ff64b0", cursor: "pointer" }}>
-                Términos del servicio
-              </a>{" "}
-              y el{" "}
-              <a style={{ color: "#ff64b0", cursor: "pointer" }}>
-                Aviso de privacidad.
-              </a>
-            </p>
-          </div>
-          {/*<div style={{marginTop: "5px", marginBottom: "10px"}}>
+                <p
+                  style={{
+                    fontSize: "10px",
+                    color: "rgb(228, 122, 122)",
+                    marginTop: "5px",
+                  }}
+                >
+                  {errorEmail}
+                </p>
+              </div>
+              <div className="auth-content-input">
+                <p>Fecha de nacimiento</p>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <input
+                    onChange={(e) => setrDay(e.target.value)}
+                    style={{ marginRight: "2px" }}
+                    placeholder="Día"
+                    type="number"
+                  />
+                  <select
+                    onChange={(e) => setrMonth(e.target.value)}
+                    defaultValue="0"
+                  >
+                    <option value="null">Mes</option>
+                    <option value="01">Enero</option>
+                    <option value="02">Febrero</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Mayo</option>
+                    <option value="06">Junio</option>
+                    <option value="07">Julio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="10">Noviembre</option>
+                    <option value="11">Diciembre</option>
+                  </select>
+                  <input
+                    onChange={(e) => setrYear(e.target.value)}
+                    style={{ marginLeft: "2px" }}
+                    placeholder="Año"
+                    type="number"
+                  />
+                </div>
+              </div>
+              <div className="auth-text">
+                <p
+                  className=""
+                  style={{ fontSize: "11px", margin: "10px auto" }}
+                >
+                  Al hacer clic en Registrarse, indicas que has leído y aceptas
+                  los <br />{" "}
+                  <a style={{ color: "#ff64b0", cursor: "pointer" }}>
+                    Términos del servicio
+                  </a>{" "}
+                  y el{" "}
+                  <a style={{ color: "#ff64b0", cursor: "pointer" }}>
+                    Aviso de privacidad.
+                  </a>
+                </p>
+              </div>
+              {/*<div style={{marginTop: "5px", marginBottom: "10px"}}>
                         <ReCAPTCHA
                             size="normal"
                             sitekey={process.env.REACT_APP_GOOGLE_CAPTCHA_SITE_KEY}
                             onChange={onChange}
                         />
             </div>*/}
-          <button onClick={() => handleSubmit()} className="auth-button-login">
-            Registrarse
-          </button>
-          {/*<button onClick={() => setStep(1)} className="auth-button-login">Siguiente paso</button>*/}
+              <button
+                onClick={() => handleSubmit()}
+                className="auth-button-login"
+              >
+                Registrarse
+              </button>
+              {/*<button onClick={() => setStep(1)} className="auth-button-login">Siguiente paso</button>*/}
+            </div>
+          ) : (
+            <div className="auth-content">
+              <div className="auth-content-input">
+                <p>Codigo </p>
+                <input
+                  onChange={(e) => onChangeCodeConfirm(e.target.value)}
+                  type="number"
+                />
+                <button
+                  onClick={() => handleSubmitCode()}
+                  className="auth-button-login"
+                >
+                  enviar codigo
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       );
     }
@@ -661,14 +718,14 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           )}
 
           <div className="auth-title">
-            <div
+            {/* <div
               onClick={() => setType(0)}
               className={
                 type === 0 ? "auth-title-card active" : "auth-title-card"
               }
             >
               <h6 style={{ color: "#ededed" }}>Login</h6>
-            </div>
+            </div> */}
             {/* <div
               onClick={() => setType(0)}
               className={
