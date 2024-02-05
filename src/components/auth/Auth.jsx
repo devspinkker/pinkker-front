@@ -28,6 +28,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import OAuth2Login from "../OAuth2/OAuth2Login";
 import {
+  Get_Recover_lost_password,
   SaveUserCodeConfirm,
   login,
   signupNotConfirmed,
@@ -166,10 +167,8 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
         return alert({ type: "ERROR", message: "Invalid emails." });
 
       try {
-        const res = await axios.post(
-          process.env.REACT_APP_DEV_API_URL + `/user/forgot`,
-          { email: recuperyMail }
-        );
+        const res = await Get_Recover_lost_password(recuperyMail);
+        console.log(res);
         if (res.data != null && res.data.msg != null) {
           alert({ type: "SUCCESS", message: res.data.msg });
           setStep(2);
@@ -330,10 +329,10 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           <button onClick={() => handleSubmit()} className="auth-button-login">
             Iniciar Sesión
           </button>
-          <OAuth2Login
+          {/* <OAuth2Login
             className="OAuth2Login"
             style={{ marginTop: "5px", marginBottom: "10px" }}
-          ></OAuth2Login>
+          ></OAuth2Login> */}
         </div>
       );
     }
@@ -675,50 +674,50 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
   }
 
   return (
-    <div className="auth-body">
-      <div
-        onKeyPress={(event) => onKeyPressInput(event)}
-        className={type === 0 ? "auth-container" : "auth-container-type1"}
-      >
-        <div className="auth-close">
-          <button className="pinkker-button-more" onClick={closePopup}>
-            <i style={{ fontSize: isMobile && "20px" }} class="fas fa-times" />
-          </button>
-        </div>
-        <div style={{ width: "100%" }}>
-          {type === 0 ? (
-            <h3
-              style={{
-                color: "#ededed",
-                marginBottom: "30px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              {" "}
-              <img
-                style={{ width: "50px" }}
-                src="/images/pinkker.png"
-                alt=""
-              />{" "}
-              Iniciar sesión en Pinkker
-            </h3>
-          ) : (
-            <h3
-              style={{
-                color: "#ededed",
-                marginBottom: "30px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <img style={{ width: "50px" }} src="/images/pinkker.png" alt="" />{" "}
-              Registrarse en Pinkker
-            </h3>
-          )}
+    <div className="auth-body-container">
+      <div className={type === 0 ? "auth-body" : "auth-body-type1"}>
+        <div
+          onKeyPress={(event) => onKeyPressInput(event)}
+          className={type === 0 ? "auth-container" : "auth-container-type1"}
+        >
+          <div style={{ width: "100%" }}>
+            {type === 0 ? (
+              <h3
+                style={{
+                  color: "#ededed",
+                  marginBottom: "30px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {" "}
+                <img
+                  style={{ width: "50px" }}
+                  src="/images/pinkker.png"
+                  alt=""
+                />{" "}
+                Iniciar sesión en Pinkker
+              </h3>
+            ) : (
+              <h3
+                style={{
+                  color: "#ededed",
+                  marginBottom: "30px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  style={{ width: "50px" }}
+                  src="/images/pinkker.png"
+                  alt=""
+                />{" "}
+                Registrarse en Pinkker
+              </h3>
+            )}
 
-          <div className="auth-title">
-            {/* <div
+            <div className="auth-title">
+              {/* <div
               onClick={() => setType(0)}
               className={
                 type === 0 ? "auth-title-card active" : "auth-title-card"
@@ -726,7 +725,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
             >
               <h6 style={{ color: "#ededed" }}>Login</h6>
             </div> */}
-            {/* <div
+              {/* <div
               onClick={() => setType(0)}
               className={
                 type === 1 ? "auth-title-card active" : "auth-title-card"
@@ -734,45 +733,54 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
             >
               <h6 style={{ color: "#ededed" }}>Register</h6>  
             </div> */}
-          </div>
-
-          {getType()}
-        </div>
-      </div>
-
-      <div className={type === 0 ? "auth-info" : "auth-info-type1"}>
-        <div style={{ width: "100%", height: "50%" }}>
-          <div
-            style={{
-              color: "#ededed",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: type === 0 ? "300px" : "500px",
-            }}
-          >
-            <div>
-              <h5>Tu billete a Memelandia</h5>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "darkgray",
-                  marginTop: "20px",
-                }}
-              >
-                Ya sabes lo que dicen... <br /> Los amigos que hacen memes
-                juntos, transmiten juntos.
-              </p>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "darkgray",
-                  marginTop: "20px",
-                }}
-              >
-                👈👈👈 <br /> ¡Cree una cuenta para unirte a la conversación!
-              </p>
             </div>
+
+            {getType()}
+          </div>
+        </div>
+
+        <div className={type === 0 ? "auth-info" : "auth-info-type1"}>
+          <div style={{ width: "100%", height: "50%" }}>
+            <div
+              style={{
+                color: "#ededed",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: type === 0 ? "300px" : "500px",
+              }}
+            >
+              <div>
+                <h5>Tu billete a Memelandia</h5>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    color: "darkgray",
+                    marginTop: "20px",
+                  }}
+                >
+                  Ya sabes lo que dicen... <br /> Los amigos que hacen memes
+                  juntos, transmiten juntos.
+                </p>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    color: "darkgray",
+                    marginTop: "20px",
+                  }}
+                >
+                  👈👈👈 <br /> ¡Cree una cuenta para unirte a la conversación!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="auth-close">
+            <button className="pinkker-button-more" onClick={closePopup}>
+              <i
+                style={{ fontSize: isMobile && "20px" }}
+                class="fas fa-times"
+              />
+            </button>
           </div>
         </div>
       </div>

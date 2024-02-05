@@ -15,6 +15,7 @@ export async function signupNotConfirmed(userData) {
         return error
     }
 }
+
 export async function SaveUserCodeConfirm(code) {
     try {
         const response = await axios.post(`${baseURL}/user/SaveUserCodeConfirm`, { code });
@@ -31,7 +32,14 @@ export async function login(userData) {
         return error
     }
 }
-
+export async function Get_Recover_lost_password(mail) {
+    try {
+        const response = await axios.post(`${baseURL}/user/Get_Recover_lost_password`, { mail });
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
 export async function follow(token, userId) {
     try {
         const response = await axios.post(

@@ -653,7 +653,9 @@ const Home = ({
           <h2>Categorias</h2>
           <div className="manager-recommended-actions">
             <div className="manager-recommended-actions-ver-todos">
-              <span>Ver todos</span>
+              <Link to="/plataform/explore?tipo=categories">
+                <span>Ver todos</span>
+              </Link>
             </div>
             <div className="manager-recommended-actions-arrow">
               <i

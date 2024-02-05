@@ -129,7 +129,9 @@ export default function Clips() {
         <h2>Clips más vistos </h2>
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
-            <span>Ver todos</span>
+            <Link to="/plataform/explore?tipo=clips">
+              <span>Ver todos</span>
+            </Link>
           </div>
           <div className="manager-recommended-actions-arrow">
             <i

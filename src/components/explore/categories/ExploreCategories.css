@@ -1,9 +1,8 @@
 .explorecategories-card-container {
     display: flex;
-    align-items: center;
+    width: 92%;
+    flex-direction: row;
     flex-wrap: wrap;
-    margin-top: 10px;
-    width: 100%;
 }
 
 .filtros:hover {

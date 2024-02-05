@@ -49,6 +49,11 @@
     font-weight: bold;
 }
 
+.manager-recommended-actions-ver-todos>a {
+    color: inherit;
+    text-decoration: none;
+}
+
 .manager-recommended-actions-arrow {
     display: flex;
     align-items: center;

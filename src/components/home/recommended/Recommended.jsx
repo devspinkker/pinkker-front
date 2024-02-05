@@ -4,6 +4,7 @@ import "./Recommended.css";
 
 import VideoCard from "../../card/VideoCard";
 import Skeleton from "@mui/material/Skeleton";
+import { Link } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import { GetAllsStreamsOnline } from "../../../services/backGo/streams";
@@ -191,7 +192,9 @@ export default function DirectosRecommended({
         <h2>Directos Recomendados</h2>
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
-            <span>Ver todos</span>
+            <Link to="/plataform/explore?tipo=streams">
+              <span>Ver todos</span>
+            </Link>
           </div>
           <div className="manager-recommended-actions-arrow">
             <i
@@ -237,7 +240,7 @@ export default function DirectosRecommended({
             className="home-recommended-card-container"
             style={{
               transition: "transform 0.5s ease",
-              transform: `translateX(${currentIndex * -10}%)`,
+              transform: `translateX(${currentIndex * -20}%)`,
             }}
           >
             {streams == null || !streams.length ? (

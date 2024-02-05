@@ -1,4 +1,4 @@
-.auth-body {
+.auth-body-container {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -11,14 +11,36 @@
     z-index: 9999;
 }
 
+.auth-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    position: absolute;
+    top: 21%;
+    left: 31%;
+}
+
+.auth-body-type1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    position: absolute;
+    top: 2%;
+    left: 24%;
+}
+
 .auth-container {
     width: 20%;
-    position: absolute;
-    left: 0%;
-    right: 15%;
-    top: 25%;
-    bottom: 25%;
+    /* position: absolute; */
+    /* left: 0%; */
+    /* right: 15%; */
+    /* top: 25%; */
+    /* bottom: 25%; */
     margin: auto;
+    width: 200px;
+    height: max-content;
     padding: 30px;
     text-align: center;
     background: #18181b;
@@ -31,13 +53,6 @@
 }
 
 .auth-container-type1 {
-    width: 20%;
-    height: 650px;
-    position: absolute;
-    left: 0%;
-    right: 15%;
-    top: 25%;
-    bottom: 25%;
     margin: auto;
     padding: 30px;
     text-align: center;
@@ -46,6 +61,7 @@
     border-bottom-left-radius: 5px;
     box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
     z-index: 9999;
+    overflow: auto;
 
 }
 
@@ -60,13 +76,9 @@
 }
 
 .auth-close {
-    width: 100%;
     height: 20px;
     display: flex;
     justify-content: right;
-    position: absolute;
-    left: 113%;
-    top: 0px;
 }
 
 .auth-close button {
@@ -240,11 +252,7 @@ select:focus {
 
 .auth-info {
     width: 400px;
-    position: absolute;
-    left: 31%;
-    right: 0%;
-    top: 25%;
-    bottom: 25%;
+    height: 367px;
     margin: auto;
     padding: 30px;
     text-align: center;
@@ -259,12 +267,8 @@ select:focus {
 
 
 .auth-info-type1 {
-    width: 20%;
-    position: absolute;
-    left: 31%;
-    right: 0%;
-    top: 25%;
-    min-height: 650px;
+    display: flex;
+    min-height: 640px;
     bottom: 25%;
     margin: auto;
     padding: 30px;
