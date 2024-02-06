@@ -36,15 +36,14 @@ import {
 
 export default function Auth({ isMobile, closePopup, typeDefault }) {
   const auth = useSelector((state) => state.auth);
-  const { user, isAdmin } = auth;
-
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
 
   const [type, setType] = useState(typeDefault);
   const [catcha, setCatcha] = useState(false);
   const [userIp, setUserIp] = useState(null);
+
+  const [signupNotConfirmedErr, setsignupNotConfirmedErr] = useState(false);
+  const [signupNotConfirmedCodeErr, setsignupNotConfirmedCodeErr] =
+    useState(false);
 
   const [rUsername, setrUsername] = useState(null);
   const [rPassword, setrPassword] = useState(null);
@@ -97,9 +96,10 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
             }*/
       try {
         const res = await login({ NameUser: lUsername, password: lPassword });
-        console.log(res);
-        console.log("DS");
         if (res && res.message === "token") {
+          alert({
+            type: "SUCCESS",
+          });
           window.localStorage.setItem("token", String(res.data));
           window.localStorage.setItem("_id", res._id);
           window.localStorage.setItem("avatar", res.avatar);
@@ -107,9 +107,13 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           window.location.href = "/";
 
           closePopup();
+        } else {
+          alert({
+            type: "ERROR",
+            message: "incorrect password or user does not exist",
+          });
         }
       } catch (err) {
-        console.log(err);
         alert({ type: "ERROR", message: err });
       }
     }
@@ -140,7 +144,6 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
         return alert({ type: "ERROR", message: "Completa el año" });
 
       try {
-        console.log(rYear + "-" + rMonth + "-" + rDay);
         const res = await signupNotConfirmed({
           nameUser: rUsername,
           fullName: FullName,
@@ -148,11 +151,12 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           password: rPassword,
           BirthDate: rYear + "-" + rMonth + "-" + rDay,
         });
-        console.log(res);
         if (res && res.message == "email to confirm") {
           setCodeConfirm(true);
           // localStorage.setItem("firstLogin", true);
           // setStep(1);
+        } else {
+          setsignupNotConfirmedErr(true);
         }
       } catch (err) {
         alert({ type: "ERROR", message: err.response.data.msg });
@@ -185,8 +189,9 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
       window.localStorage.setItem("_id", response._id);
       window.localStorage.setItem("avatar", response.avatar);
       window.localStorage.setItem("keyTransmission", response.keyTransmission);
-
       window.location.href = "/";
+    } else {
+      setsignupNotConfirmedCodeErr(true);
     }
   }
   const onKeyPressInput = (e) => {
@@ -544,6 +549,20 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                             onChange={onChange}
                         />
             </div>*/}
+              {signupNotConfirmedErr && (
+                <div>
+                  <p style={{ color: "rgb(228, 122, 122)" }}>
+                    Mail or name user exist{" "}
+                    {errorConfirmPassword != null &&
+                      errorConfirmPassword != "" && (
+                        <i
+                          style={{ color: "#EB0400", marginLeft: "83px" }}
+                          class="fas fa-exclamation-circle"
+                        />
+                      )}{" "}
+                  </p>
+                </div>
+              )}
               <button
                 onClick={() => handleSubmit()}
                 className="auth-button-login"
@@ -555,17 +574,31 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           ) : (
             <div className="auth-content">
               <div className="auth-content-input">
-                <p>Codigo </p>
+                <p>Revisa tu correo</p>
                 <input
                   onChange={(e) => onChangeCodeConfirm(e.target.value)}
                   type="number"
                 />
                 <button
+                  style={{
+                    width: "100%",
+                  }}
                   onClick={() => handleSubmitCode()}
                   className="auth-button-login"
                 >
                   enviar codigo
                 </button>
+                {signupNotConfirmedCodeErr && (
+                  <div>
+                    <p style={{ color: "rgb(228, 122, 122)" }}>
+                      code not found
+                      <i
+                        style={{ color: "#EB0400", marginLeft: "83px" }}
+                        class="fas fa-exclamation-circle"
+                      />
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           )}

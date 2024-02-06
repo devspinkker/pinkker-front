@@ -11,9 +11,8 @@
     display: block;
     justify-content: left;
     position: relative;
-    margin-left: 6%;
-    margin-top: 2%;
-
+    padding: 2rem 7rem;
+    background: #080808;
 }
 
 .tendency-title {

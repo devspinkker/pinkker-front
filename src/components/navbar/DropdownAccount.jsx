@@ -2,9 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./DropdownAccount.css";
 import { Link } from "react-router-dom";
 
-import axios from "axios";
-import { useSelector } from "react-redux";
-
 import Switch from "@mui/material/Switch";
 
 import { styled } from "@mui/material/styles";
@@ -45,10 +42,6 @@ const comprarPixeles = async () => {
 
 function DropdownAccount({ closeNavbar, callback, toggleLang, user }) {
   const [click, setClick] = useState(false);
-
-  const handleClick = () => setClick(!click);
-
-  const auth = useSelector((state) => state.auth);
 
   const divRef = useRef();
   const handler = useCallback(() => {

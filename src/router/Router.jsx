@@ -49,6 +49,7 @@ import Terms from "../components/pinkker/terms/Terms";
 import Privacy from "../components/pinkker/privacity/Privacity";
 import ResetPassword from "../components/auth/ResetPassword";
 import { getUserByIdTheToken } from "../services/backGo/user";
+import RecoverPassword from "../components/userRecuperacion/PasswordReset";
 
 const AppRouter = () => {
   const [expanded, setExpanded] = useState(true);
@@ -387,7 +388,9 @@ const AppRouter = () => {
               />
               <Categorie />
             </Route>
-
+            <Route path="/user/password-reset">
+              <RecoverPassword />
+            </Route>
             <Route path="/clip/:clipId" exact>
               <NavbarLeft
                 user={user}

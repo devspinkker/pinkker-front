@@ -24,6 +24,17 @@ export async function SaveUserCodeConfirm(code) {
         return error
     }
 }
+export async function AccountRecovery(code, password) {
+    try {
+        const response = await axios.post(`${baseURL}/user/account-recovery`, {
+            code: code,
+            password: password
+        });
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
 export async function login(userData) {
     try {
         const response = await axios.post(`${baseURL}/user/login`, userData);
@@ -37,6 +48,8 @@ export async function Get_Recover_lost_password(mail) {
         const response = await axios.post(`${baseURL}/user/Get_Recover_lost_password`, { mail });
         return response.data;
     } catch (error) {
+        console.log("sdpojksopdjops 1a");
+
         return error
     }
 }

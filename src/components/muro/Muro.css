@@ -11,6 +11,7 @@
     position: relative;
     top: 72px;
     display: flex;
+    padding: 2rem 0rem;
 }
 
 .muro-new-messages {

@@ -54,7 +54,7 @@ export default function Muro({ isMobile }) {
   const [isLoading, setIsLoading] = useState(true);
   setTimeout(() => {
     setIsLoading(false);
-  }, 1500);
+  }, 200);
 
   useEffect(() => {
     window.scrollTo(0, 0);

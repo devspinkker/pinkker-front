@@ -35,8 +35,10 @@ export default function ExploreCategories({ isMobile }) {
     if (tipo === "clips") {
       setFiltros({ clips: true, streams: false, categories: false });
     } else if (tipo === "streams") {
+      setBarPosition(0);
       setFiltros({ clips: false, streams: true, categories: false });
     } else if (tipo === "categories") {
+      setBarPosition(2);
       setFiltros({ clips: false, streams: false, categories: true });
     } else {
       setFiltros({ clips: false, streams: true, categories: false });

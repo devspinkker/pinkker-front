@@ -66,31 +66,34 @@ export default function NavbarLeft({
 
   //UseEffect execute with the route change
   useEffect(() => {
-    if (window.location.pathname === "/") {
+    if (window.location?.pathname === "/") {
       setDashboard(false);
     }
 
-    if (window.location.pathname.split("/")[1] === user?.NameUser) {
+    if (window.location?.pathname.split("/")[1] === user?.NameUser) {
       setDashboard(false);
     }
 
     if (
-      window.location.pathname ===
+      window.location?.pathname ===
       "/" + user?.NameUser + "/dashboard/streammanager"
     ) {
       setDashboard(true);
     }
-    if (window.location.pathname === "/" + user?.NameUser + "/dashboard/home") {
+    if (
+      window.location?.pathname ===
+      "/" + user?.NameUser + "/dashboard/home"
+    ) {
       setDashboard(true);
     }
 
-    if (window.location.pathname != "/plataform/clips") {
+    if (window.location?.pathname != "/plataform/clips") {
       //Cancel window scroll event
       window.onscroll = function (e) {
         console.log("");
       };
     }
-  }, [window.location.pathname]);
+  }, [window.location?.pathname]);
 
   useEffect(() => {
     const fetchData = async () => {

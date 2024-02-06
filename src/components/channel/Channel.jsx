@@ -298,7 +298,7 @@ export default function Channel({
         setStreamerData(dataStreamer.data);
       }
       let loggedUser = window.localStorage.getItem("_id");
-      if (dataStreamer.data.Followers.includes(loggedUser)) {
+      if (dataStreamer.data?.Followers.includes(loggedUser)) {
         setFollowParam(true);
       } else {
         setFollowParam(false);
