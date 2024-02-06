@@ -1,12 +1,13 @@
 .container-streammanager {
-    margin: 4% 0% 0% 2%;
+    padding: 5rem 5rem;
+    background: #080808;
 }
 
 .channel-chat {
     height: -webkit-fill-available;
     position: fixed;
     right: 0;
-    top: 57px;
+    top: 75px;
     background-color: #0c0c0c;
     transition: 0.15s;
     overflow-y: unset;

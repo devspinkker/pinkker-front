@@ -44,7 +44,7 @@ export default function ExploreCategories({ isMobile }) {
   }, [location.search]);
   useEffect(() => {
     const fetchData = async () => {
-      const data = await GetAllsStreamsOnline(30);
+      const data = await GetAllsStreamsOnline(1);
 
       if (data.data != null || data != undefined) {
         setStreams(data.data);
@@ -86,7 +86,7 @@ export default function ExploreCategories({ isMobile }) {
 
         <div
           className="type-line"
-          style={{ left: `calc(${barPosition} * 4.2%)` }}
+          style={{ left: `calc(${barPosition} * 48px)` }}
         ></div>
       </div>
 

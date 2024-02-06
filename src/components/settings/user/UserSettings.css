@@ -1,8 +1,9 @@
 .usersettings-body-dark {
     width: 100%;
     min-height: 150%;
-    background-color: transparent;
+    background-color: #080808;
     color: #ededed;
+    padding: 3rem 5rem;
 }
 
 .usersettings-body-light {
@@ -47,7 +48,7 @@
 
 .usersettings-title-card.active {
     color: #ff60b2;
-   border-top: 1px solid #ff60b2;
+    border-top: 1px solid #ff60b2;
 }
 
 

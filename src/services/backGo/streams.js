@@ -85,10 +85,14 @@ export async function updateStreamInfo(token, streamInfo) {
 }
 
 // Función para obtener streams en línea
-export async function GetAllsStreamsOnline() {
+export async function GetAllsStreamsOnline(page) {
 	try {
 		const response = await axios.get(
-			`${baseURL}/stream/GetAllsStreamsOnline`
+			`${baseURL}/stream/GetAllsStreamsOnline`, {
+			params: {
+				page: page,
+			},
+		}
 		);
 		return response.data;
 	} catch (error) {

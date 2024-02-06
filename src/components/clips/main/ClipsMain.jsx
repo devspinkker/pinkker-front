@@ -27,7 +27,7 @@ export default function ClipsMain() {
 
   const loadClips = async () => {
     try {
-      const res = await GetClipsCategory("Charlando", 1, "");
+      const res = await GetClipsCategory("", 1, "");
       if (res.data.message === "ok") {
         setClips(res.data.data);
       }
@@ -39,11 +39,7 @@ export default function ClipsMain() {
   const loadMoreClips = async () => {
     if (!isLogged && clips) {
       try {
-        const res = await GetClipsCategory(
-          "Charlando",
-          1,
-          clips[clips.length - 1].id
-        );
+        const res = await GetClipsCategory("", 1, clips[clips.length - 1].id);
 
         if (res.data.message === "ok" && res.data.data.length > 0) {
           setClips((prevClips) => [...prevClips, ...res.data.data]);
