@@ -2,17 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import "./VideoCard.css";
 
-import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
 import { Link } from "react-router-dom";
 
 import DropdownSettings from "../home/dropdown/DropdownSettings";
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
-
-let socket;
 
 export default function VideoCard(props) {
   const formatViewers = (viewers) => {
@@ -22,10 +16,7 @@ export default function VideoCard(props) {
       return viewers;
     }
   };
-  const { streamer } = useParams();
-  useEffect(() => {
-    console.log(props);
-  });
+
   const [dropdownSettings, setDropdownSettings] = useState(false);
 
   function toggleDropdownSettings() {
@@ -38,68 +29,6 @@ export default function VideoCard(props) {
     }
     return text;
   }
-  const [chatExpanded, setChatExpanded] = useState(false);
-  const [pointGoal, setPointGoal] = useState(0);
-  const [goal, setGoal] = useState(false);
-  const [topGoal, setTopGoal] = useState(10000);
-  const [announce, setAnnounce] = useState(false);
-
-  const [userSuscripted, setUserSuscripted] = useState(false);
-  const [suscribers, setSuscribers] = useState(null);
-  const [time, setTime] = useState(0);
-  const auth = useSelector((state) => state.auth);
-  const { user, isLogged } = auth;
-  let currentTime = 0;
-  const history = useHistory();
-  const ENDPOINT = process.env.REACT_APP_DEV_CHAT_URL;
-
-  useEffect(() => {
-    // const unlisten = history.listen(() => {
-    //   socket.emit("removeUser", { room: streamer }, () => {});
-    //   socket.disconnect();
-    // });
-    // return () => {
-    //   unlisten();
-    // };
-  }, [history]);
-  const [name, setName] = useState("");
-  const [room, setRoom] = useState("");
-  const loadDataOnlyOnce = () => {
-    const name = user.name;
-    const room = streamer;
-
-    // socket = io(ENDPOINT);
-
-    setName(name);
-    setRoom(room);
-  };
-  const callbackDonation = (e) => {
-    setPointGoal(pointGoal + e);
-    if (pointGoal < 9999) {
-      setGoal(true);
-      setPointGoal(0);
-      setTimeout(() => {
-        setGoal(false);
-      }, 4000);
-    }
-  };
-  function handleAnnounce() {
-    setAnnounce(true);
-  }
-
-  useEffect(() => {
-    if (announce) {
-      setInterval(() => {
-        let duration = 45;
-        currentTime = currentTime + 1;
-        setTime(parseInt(duration - currentTime));
-
-        if (duration === currentTime) {
-          setAnnounce(false);
-        }
-      }, 1000);
-    }
-  }, [announce]);
 
   function getCard() {
     if (props.big === true) {

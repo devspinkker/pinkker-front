@@ -31,6 +31,18 @@
     left: 24%;
 }
 
+@media screen and (max-hight: 458px) {
+    .auth-body-type1 {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+        position: absolute;
+        top: 2%;
+        left: 24%;
+    }
+}
+
 .auth-container {
     width: 20%;
     /* position: absolute; */
@@ -39,7 +51,7 @@
     /* top: 25%; */
     /* bottom: 25%; */
     margin: auto;
-    width: 200px;
+    width: 290px;
     height: max-content;
     padding: 30px;
     text-align: center;
@@ -62,7 +74,7 @@
     box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
     z-index: 9999;
     overflow: auto;
-
+    height: 510px;
 }
 
 .auth-title {
@@ -268,7 +280,7 @@ select:focus {
 
 .auth-info-type1 {
     display: flex;
-    min-height: 640px;
+    min-height: 510px;
     bottom: 25%;
     margin: auto;
     padding: 30px;

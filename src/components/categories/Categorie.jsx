@@ -3,31 +3,17 @@ import React, { useState, useEffect } from "react";
 import "./Categorie.css";
 
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 
-import {
-  getCategorieByName,
-  followCategorie,
-  unfollowCategorie,
-  userFollowCategorie,
-} from "../../services/categories";
-import { getStreamsByCategorie } from "../../services/stream";
+import { getCategorieByName } from "../../services/categories";
 
 import useTheme from "../../theme/useTheme";
-
-import VideoCard from "../card/VideoCard";
-
-import { Link } from "react-router-dom";
 
 import { useNotification } from "../Notifications/NotificationProvider";
 
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { ScaleLoader } from "react-spinners";
-import {
-  getCategoriesWithLimit,
-  getStreamsByCategory,
-} from "../../services/backGo/streams";
+import { getStreamsByCategory } from "../../services/backGo/streams";
 import Card from "../home/categories/CardStream";
 
 export default function Categorie() {
@@ -48,24 +34,20 @@ export default function Categorie() {
     window.scrollTo(0, 0);
   }, []);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     // const data = await userFollowCategorie(token, categorieName);
+  //     const data = await getCategoriesWithLimit();
+
+  //     if (data != null && data != undefined && data.status == 200) {
+  //       setFollow(data.data);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
     const fetchData = async () => {
-      // const data = await userFollowCategorie(token, categorieName);
-      const data = await getCategoriesWithLimit();
-
-      if (data != null && data != undefined && data.status == 200) {
-        setFollow(data.data);
-      }
-    };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getCategorieByName(categorieName);
-      if (response != null && response != undefined) {
-        setCategorie(response);
-      }
       const responseStreams = await getStreamsByCategory(categorieName, 1);
 
       if (responseStreams != null && responseStreams.message == "ok") {
@@ -248,34 +230,6 @@ export default function Categorie() {
       return (
         <div className="categorie-container">
           {getCategorie()}
-
-          <div style={{ width: "95%" }} className="type-set">
-            <div
-              onClick={() => setType(0)}
-              className={type === 0 ? "type-card active" : "type-card"}
-            >
-              <h3
-                style={{ display: "flex", alignItems: "center" }}
-                onClick={() => setType(0)}
-              >
-                STREAMS
-              </h3>
-            </div>
-            <div
-              onClick={() => setType(1)}
-              className={type === 1 ? "type-card active" : "type-card"}
-            >
-              <h3 onClick={() => setType(1)}>CLIPS</h3>
-            </div>
-            <div
-              onClick={() => setType(2)}
-              className={type === 2 ? "type-card active" : "type-card"}
-            >
-              <h3>VODS</h3>
-            </div>
-
-            <div style={{ left: getLeftForType() }} className="type-line"></div>
-          </div>
 
           <div className="card-stream-map">
             {streams != null &&

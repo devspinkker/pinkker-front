@@ -104,15 +104,16 @@ export default function NavbarLeft({
           setAllsStreamsOnlineThatUserFollows(
             resGetAllsStreamsOnlineThatUserFollows.data
           );
+          resGetAllsStreamsOnlineThatUserFollows =
+            resGetAllsStreamsOnlineThatUserFollows.data;
         }
       }
 
       const result = await GetAllsStreamsOnline();
-
       if (result.message === "ok" && result.data) {
-        if (AllsStreamsOnlineThatUserFollows?.length > 0) {
-          const usersOnlineAndFollowed = AllsStreamsOnlineThatUserFollows
-            ? AllsStreamsOnlineThatUserFollows?.map(
+        if (resGetAllsStreamsOnlineThatUserFollows?.length > 0) {
+          const usersOnlineAndFollowed = resGetAllsStreamsOnlineThatUserFollows
+            ? resGetAllsStreamsOnlineThatUserFollows?.map(
                 (stream) => stream.streamerId
               )
             : [];
@@ -121,10 +122,8 @@ export default function NavbarLeft({
             (user) => !usersOnlineAndFollowed.includes(user.streamerId)
           );
 
-          console.log(recommendedFiltered);
           setRecommended(recommendedFiltered);
         } else {
-          console.log("sas");
           setRecommended(result.data);
         }
       }

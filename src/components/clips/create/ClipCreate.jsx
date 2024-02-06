@@ -8,8 +8,8 @@ import ReactPlayer from "react-player";
 export function CreateClip() {
   const [videoUrl, setVideoUrl] = useState("");
   const [duration, setDuration] = useState(0);
-  const [startTime, setStartTime] = useState(30);
-  const [endTime, setEndTime] = useState(40);
+  const [startTime, setStartTime] = useState(0);
+  const [endTime, setEndTime] = useState(60);
   const [video, setVideo] = useState(null);
   const videoRef = useRef(null);
   const [clipTitle, setclipTitle] = useState("un titulo para el clip");
@@ -95,7 +95,7 @@ export function CreateClip() {
         );
         let videoUrl = response.data.data;
 
-        window.location.href = `/clips/getId/?videoUrl=${videoUrl}`;
+        // window.location.href = `/clips/getId/?videoUrl=${videoUrl}`;
       }
     } catch (error) {
       console.error("Error al enviar la solicitud de recorte:", error);

@@ -6,7 +6,6 @@ import VideoCard from "../../card/VideoCard";
 import Skeleton from "@mui/material/Skeleton";
 import { Link } from "react-router-dom";
 
-import { useSelector } from "react-redux";
 import { GetAllsStreamsOnline } from "../../../services/backGo/streams";
 
 function CardSkeleto() {
@@ -91,15 +90,8 @@ export default function DirectosRecommended({
   handleMessage,
 }) {
   const [streams, setStreams] = useState(null);
-  const [userMod, setUserMod] = useState(false);
-  const [userVip, setUserVip] = useState(false);
-  const [userBan, setUserBan] = useState(false);
-  const token = useSelector((state) => state.token);
 
   const [isLoading, setIsLoading] = useState(true);
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 1500);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,61 +111,36 @@ export default function DirectosRecommended({
       tags: ["lol", "league of legends"],
     },
     {
-      streamer: "Lucas luna",
-      title: "Programando Pinkker",
+      streamer: "eldenguee",
+      title: "Jugando league of legends",
       viewers: "50000",
-      tags: ["charlando"],
+      tags: ["lol", "league of legends"],
     },
     {
-      streamer: "Alexis Ibarra",
-      title: "Programando..",
+      streamer: "eldenguee",
+      title: "Jugando league of legends",
       viewers: "50000",
-      tags: ["charlando", "programming"],
+      tags: ["lol", "league of legends"],
     },
     {
-      streamer: "Alexis Ibarra",
-      title: "Programando..",
+      streamer: "eldenguee",
+      title: "Jugando league of legends",
       viewers: "50000",
-      tags: ["charlando", "programming"],
+      tags: ["lol", "league of legends"],
     },
     {
-      streamer: "Alexis Ibarra",
-      title: "Programando..",
+      streamer: "eldenguee",
+      title: "Jugando league of legends",
       viewers: "50000",
-      tags: ["charlando", "programming"],
+      tags: ["lol", "league of legends"],
     },
     {
-      streamer: "Alexis Ibarra",
-      title: "Programando..",
+      streamer: "eldenguee",
+      title: "Jugando league of legends",
       viewers: "50000",
-      tags: ["charlando", "programming"],
-    },
-    {
-      streamer: "Alexis Ibarra",
-      title: "Programando..",
-      viewers: "50000",
-      tags: ["charlando", "programming"],
-    },
-    {
-      streamer: "Alexis Ibarra",
-      title: "Programando..",
-      viewers: "50000",
-      tags: ["charlando", "programming"],
-    },
-    {
-      streamer: "Alexis Ibarra",
-      title: "Programando..",
-      viewers: "50000",
-      tags: ["charlando", "programming"],
-    },
-    {
-      streamer: "Alexis Ibarra",
-      title: "Programando..",
-      viewers: "50000",
-      tags: ["charlando", "programming"],
+      tags: ["lol", "league of legends"],
     },
   ];
-  const [dataSource, setDataSource] = useState(Array.from({ length: 4 }));
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -181,7 +148,7 @@ export default function DirectosRecommended({
     const increment = direction === "right" ? 1 : -1;
     const newIndex = currentIndex + increment;
 
-    if (newIndex >= 0 && newIndex < streams.length) {
+    if (newIndex >= 0 && newIndex < streams?.length) {
       setCurrentIndex(newIndex);
     }
   };
@@ -212,26 +179,24 @@ export default function DirectosRecommended({
       </div>
       {isMobile && (
         <div style={{ display: "flex", marginTop: "20px" }}>
-          <div className="home-recommended-card-container">
-            {streams &&
-              streams.map(
-                (stream, index) =>
-                  index > 0 && (
-                    <>
-                      <VideoCard
-                        tags={stream.stream_tag}
-                        isMobile={isMobile}
-                        streamerImage={stream.streamer_avatar}
-                        streamer={stream.streamer}
-                        categorie={stream.stream_category}
-                        title={stream.stream_title}
-                        viewers={stream.viewers}
-                        image={stream.stream_thumbnail}
-                      />
-                    </>
-                  )
-              )}
-          </div>
+          {streams &&
+            streams.map(
+              (stream, index) =>
+                index > 0 && (
+                  <div className="home-recommended-card-container">
+                    <VideoCard
+                      tags={stream.stream_tag}
+                      isMobile={isMobile}
+                      streamerImage={stream.streamer_avatar}
+                      streamer={stream.streamer}
+                      categorie={stream.stream_category}
+                      title={stream.stream_title}
+                      viewers={stream.viewers}
+                      image={stream.stream_thumbnail}
+                    />
+                  </div>
+                )
+            )}
         </div>
       )}
       {!isMobile && (
@@ -243,15 +208,8 @@ export default function DirectosRecommended({
               transform: `translateX(${currentIndex * -20}%)`,
             }}
           >
-            {streams == null || !streams.length ? (
-              <div
-                className="home-recommended-card-container-streams"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                {streamsData?.map((streams, index) => {
+            {streams == null || !streams.length
+              ? streamsData?.map((streams, index) => {
                   return (
                     <div className="home-recommended-card-container-streams">
                       <VideoCard
@@ -264,25 +222,22 @@ export default function DirectosRecommended({
                       />
                     </div>
                   );
-                })}
-              </div>
-            ) : (
-              streams &&
-              streams.map((stream, index) => (
-                <div className="home-recommended-card-container-streams">
-                  <VideoCard
-                    tags={stream.stream_tag}
-                    isMobile={isMobile}
-                    streamerImage={stream.streamer_avatar}
-                    streamer={stream.streamer}
-                    categorie={stream.stream_category}
-                    title={stream.stream_title}
-                    viewers={stream.ViewerCount}
-                    image={stream.stream_thumbnail}
-                  />
-                </div>
-              ))
-            )}
+                })
+              : streams &&
+                streams.map((stream, index) => (
+                  <div className="home-recommended-card-container-streams">
+                    <VideoCard
+                      tags={stream.stream_tag}
+                      isMobile={isMobile}
+                      streamerImage={stream.streamer_avatar}
+                      streamer={stream.streamer}
+                      categorie={stream.stream_category}
+                      title={stream.stream_title}
+                      viewers={stream.ViewerCount}
+                      image={stream.stream_thumbnail}
+                    />
+                  </div>
+                ))}
           </div>
         </div>
       )}

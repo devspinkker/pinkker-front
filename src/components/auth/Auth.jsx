@@ -37,7 +37,6 @@ import {
 export default function Auth({ isMobile, closePopup, typeDefault }) {
   const auth = useSelector((state) => state.auth);
   const { user, isAdmin } = auth;
-  const token = useSelector((state) => state.token);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -179,7 +178,6 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
     }
   }
   async function handleSubmitCode() {
-    console.log(CodeConfirmInput);
     const response = await SaveUserCodeConfirm(CodeConfirmInput);
     console.log(response);
     if (response && response.message === "token") {
