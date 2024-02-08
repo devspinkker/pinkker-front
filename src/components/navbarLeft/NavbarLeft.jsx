@@ -61,7 +61,7 @@ export default function NavbarLeft({
 
   function clickPulsedButton() {
     setPulse(!pulse);
-    setExpanded();
+    setExpanded(!tyExpanded);
   }
 
   //UseEffect execute with the route change
@@ -375,7 +375,8 @@ export default function NavbarLeft({
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              // marginTop: "17px",
+              justifyContent: !tyExpanded ? "center" : "",
+              marginTop: !tyExpanded ? "14px" : "",
               padding: "10px 8px",
             }}
           >
@@ -383,14 +384,14 @@ export default function NavbarLeft({
               onClick={() => clickPulsedButton()}
               style={{
                 cursor: "pointer",
-                fontSize: "18px",
+                fontSize: tyExpanded ? "18px" : "22px",
                 zIndex: "1000",
                 marginLeft: "5px",
                 // transform: expanded === false && "rotate(90deg)",
                 transition: "0.2s",
                 color: "#ededed",
               }}
-              class="fas fa-bars"
+              className="fas fa-bars"
             />
             <Link
               to="/"
@@ -398,14 +399,28 @@ export default function NavbarLeft({
               onClick={closeMobileMenu}
               style={{ margin: "0px" }}
             >
-              <img src="/images/logo.png" style={{ width: "145px" }} alt="" />
+              {tyExpanded && (
+                <img src="/images/logo.png" style={{ width: "145px" }} alt="" />
+              )}
             </Link>
           </div>
           <div style={{ height: "91vh", overflow: "auto" }}>
-            <div className="container-search-navbarleft">
-              <Search isMobile={isMobile} />
+            <div
+              className="container-search-navbarleft"
+              style={{
+                borderBottom: tyExpanded ? "" : "none",
+                padding: tyExpanded ? "" : "0px",
+              }}
+            >
+              {tyExpanded && <Search isMobile={isMobile} />}
             </div>
-            <div className="pixel-coming-soon-navbarLeft">
+            <div
+              className={
+                tyExpanded
+                  ? "pixel-coming-soon-navbarLeft"
+                  : "pixel-coming-soon-navbarLeft-noexpand"
+              }
+            >
               <div className="pixel-coming-soon-navbarLeft-img-pixel-container">
                 <img
                   className="pixel-coming-soon-navbarLeft-img-pixel"
@@ -435,6 +450,8 @@ export default function NavbarLeft({
                 style={{
                   // backgroundColor: activeNormal === 2 && "#3b3b3b",
                   borderLeft: activeNormal === 2 && "3px solid #f36196",
+
+                  width: tyExpanded ? "" : "126px",
                 }}
                 class={
                   activeNormal === 2
@@ -447,7 +464,7 @@ export default function NavbarLeft({
                 >
                   <i class="fab fa-google-play" />
                 </div>
-                <span class="nav-text">Explorar</span>
+                {tyExpanded && <span class="nav-text">Explorar</span>}
               </li>
             </Link>
 
@@ -460,6 +477,7 @@ export default function NavbarLeft({
                 style={{
                   // backgroundColor: activeNormal === 1 && "#3b3b3b",
                   borderLeft: activeNormal === 1 && "3px solid #f36196",
+                  width: tyExpanded ? "" : "126px",
                 }}
                 class={
                   activeNormal === 1
@@ -473,7 +491,7 @@ export default function NavbarLeft({
                     src="/images/iconos/navbar/tendencia.png"
                   />
                 </div>
-                <span class="nav-text">Tendencias</span>
+                {tyExpanded && <span class="nav-text">Tendencias</span>}
               </li>
             </Link>
 
@@ -514,6 +532,7 @@ export default function NavbarLeft({
                 style={{
                   // backgroundColor: activeNormal === 3 && "#3b3b3b",
                   borderLeft: activeNormal === 3 && "3px solid #f36196",
+                  width: tyExpanded ? "" : "126px",
                 }}
                 class={
                   activeNormal === 3
@@ -527,7 +546,7 @@ export default function NavbarLeft({
                     src="/images/iconos/navbar/clips.png"
                   />
                 </div>
-                <span class="nav-text">Clips</span>
+                {tyExpanded && <span class="nav-text">Clips</span>}
               </li>
             </Link>
 
@@ -540,6 +559,7 @@ export default function NavbarLeft({
                 style={{
                   // backgroundColor: activeNormal === 4 && "#3b3b3b",
                   borderLeft: activeNormal === 4 && "3px solid #f36196",
+                  width: tyExpanded ? "" : "126px",
                 }}
                 class={
                   activeNormal === 4
@@ -553,13 +573,14 @@ export default function NavbarLeft({
                     src="/images/iconos/navbar/muro.png"
                   />
                 </div>
-                <span class="nav-text">Muro</span>
+                {tyExpanded && <span class="nav-text">Muro</span>}
               </li>
             </Link>
 
             <div />
             {AllsStreamsOnlineThatUserFollows &&
-              AllsStreamsOnlineThatUserFollows.length > 0 && (
+              AllsStreamsOnlineThatUserFollows.length > 0 &&
+              tyExpanded && (
                 <div
                   className={
                     tyExpandedFollowStreams
@@ -644,7 +665,7 @@ export default function NavbarLeft({
                 )
             )} */}
 
-            {recommended && recommended.length > 0 && (
+            {recommended && recommended.length > 0 && tyExpanded && (
               <div
                 className={
                   tyExpandedFollowStreams

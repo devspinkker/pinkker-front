@@ -100,6 +100,21 @@ export async function GetAllsStreamsOnline(page) {
 		return error
 	}
 }
+export async function GetStreamsMostViewed(page) {
+	try {
+		const response = await axios.get(
+			`${baseURL}/stream/GetStreamsMostViewed`, {
+			params: {
+				page: page,
+			},
+		}
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Error en GetStreamsMostViewed:', error.message);
+		return error
+	}
+}
 export async function GetAllsStreamsOnlineThatUserFollows(token) {
 	try {
 		const response = await axios.get(

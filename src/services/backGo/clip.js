@@ -45,6 +45,16 @@ export const GetClipsMostViewed = async (page) => {
     const response = await axios.get(`${url}/clips/GetClipsMostViewed?page=${page}`)
     return response
 }
+export const GetClipsMostViewedLast48Hours = async (page) => {
+
+    try {
+
+        const response = await axios.get(`${url}/clips/GetClipsMostViewedLast48Hours?page=${page}`)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
 export const DislikeClip = async (token, ClipId) => {
     try {
         const res = await axios.post(

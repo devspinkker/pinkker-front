@@ -6,7 +6,6 @@ import Skeleton from "@mui/material/Skeleton";
 export default function CardStream(props) {
   const tags = [];
 
-  //Pre render image from props
   const [image, setImage] = useState(false);
 
   useEffect(() => {

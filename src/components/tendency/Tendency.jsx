@@ -4,34 +4,71 @@ import "./Tendency.css";
 
 import TendencyCard from "./card/TendencyCard";
 import { useSelector } from "react-redux";
-
-import { getClipTrending, getVodTrending } from "../../services/vods";
+import ReactPlayer from "react-player";
 import ClipTendencyCard from "./card/ClipTendencyCard";
 
 import { Link } from "react-router-dom";
+import {
+  GetClipsMostViewedLast48Hours,
+  MoreViewOfTheClip,
+} from "../../services/backGo/clip";
+import { GetStreamsMostViewed } from "../../services/backGo/streams";
+import CardStream from "../home/categories/CardStream";
 
-export default function Tendency() {
-  const auth = useSelector((state) => state.auth);
-  const { user, isLogged } = auth;
+export default function Tendency({ isMobile }) {
   const token = useSelector((state) => state.token);
 
   const [type, setType] = useState(0);
-
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [hasCalledFunction, setHasCalledFunction] = useState(false);
   const [vodTendency, setVodTendency] = useState(null);
   const [clipTendency, setClipTendency] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [videoHover, setVideoHover] = useState(false);
+  const handleProgress = async (e) => {
+    const { duration, currentTime } = e.target;
+    const newProgress = (currentTime / duration) * 100;
+    setProgress(newProgress);
 
+    if (newProgress > 50.0 && newProgress < 50.5) {
+      setHasCalledFunction(true);
+      await MoreViewOfTheClip(selectedVideo.video.id);
+    }
+  };
+  const formatTimestamp = (timestamp) => {
+    const currentDate = new Date();
+    const clipDate = new Date(timestamp);
+    const diffInSeconds = Math.floor((currentDate - clipDate) / 1000);
+
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds} seconds ago`;
+    } else if (diffInSeconds < 3600) {
+      const minutes = Math.floor(diffInSeconds / 60);
+      return `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
+    } else if (diffInSeconds < 86400) {
+      const hours = Math.floor(diffInSeconds / 3600);
+      return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
+    } else {
+      const days = Math.floor(diffInSeconds / 86400);
+      return `${days} ${days === 1 ? "day" : "days"} ago`;
+    }
+  };
   useEffect(() => {
     document.title = "Tendency - Pinkker";
 
     const fetchData = async () => {
-      const data = await getVodTrending(10);
-      if (data != null && data != undefined) {
-        setVodTendency(data);
+      const data = await GetStreamsMostViewed(1);
+      if (data && data.message === "ok") {
+        setVodTendency(data.data);
+      } else {
+        setVodTendency(null);
       }
 
-      const dataClip = await getClipTrending(10);
-      if (dataClip != null && dataClip != undefined) {
-        setClipTendency(dataClip);
+      const dataClip = await GetClipsMostViewedLast48Hours(1);
+      if (dataClip.data && dataClip.message === "ok") {
+        setClipTendency(dataClip.data);
+      } else {
+        setClipTendency(null);
       }
     };
     fetchData();
@@ -39,37 +76,56 @@ export default function Tendency() {
 
   function getType() {
     if (type === 0) {
-      return vodTendency.map((vod, index) => (
-        <Link style={{ textDecoration: "none" }} to={"/vod/" + vod._id}>
-          <TendencyCard
-            tendency={index + 1}
-            title={vod.stream_title}
-            streamer={vod.streamer}
-            views={vod.views}
-            createdAt={vod.createdAt}
-            categorie={vod.stream_category}
-            tags={vod.stream_tag}
-            image={vod.stream_thumbnail}
-          />
-        </Link>
-      ));
+      return (
+        <div className="explorecategories-card-container">
+          {vodTendency?.map((vod, index) => (
+            <CardStream
+              width={
+                vod?.streamer && isMobile
+                  ? "100%"
+                  : vod?.streamer && !isMobile
+                  ? "30%"
+                  : "160px"
+              }
+              isLoading={false}
+              name={vod.streamer}
+              avatarStreamer={vod.streamer_avatar}
+              image={vod.stream_thumbnail ?? "/images/pinkker-stream.png"}
+              ViewerCount={vod.ViewerCount}
+              tags={vod.stream_tag}
+              title={vod.stream_title}
+            />
+          ))}
+        </div>
+      );
     }
 
-    if (type === 1) {
-      return clipTendency.map((vod, index) => (
-        <Link style={{ textDecoration: "none" }} to={"/clip/" + vod._id}>
-          <ClipTendencyCard
-            tendency={index + 1}
-            title={vod.clipName}
-            streamer={vod.name}
-            views={vod.views}
-            createdAt={vod.createdAt}
-            categorie={vod.stream.stream_category}
-            tags={vod.stream_tag}
-            image={vod.cover}
-          />
-        </Link>
-      ));
+    if (type === 1 && clipTendency) {
+      return (
+        <div className="tendency-card-container-clips">
+          {clipTendency?.map((vod, index) => (
+            <div
+              onClick={() => {
+                setSelectedVideo({ clips: vod });
+                setHasCalledFunction(false);
+              }}
+            >
+              <ClipTendencyCard
+                tendencyRequired={true}
+                tendency={index + 1}
+                title={vod.clipTitle}
+                streamer={vod.nameUserCreator}
+                views={vod.views}
+                createdAt={vod.timestamps.createdAt}
+                stream_category={vod.stream_category}
+                tags={vod.stream_tag}
+                image={vod.streamThumbnail}
+                Avatar={vod.Avatar}
+              />
+            </div>
+          ))}
+        </div>
+      );
     }
   }
 
@@ -113,9 +169,94 @@ export default function Tendency() {
           <div class="pinkker-tab-line"></div>
         </div>
 
-        <div className="tendency-card-container">
-          {vodTendency && clipTendency && getType()}
-        </div>
+        {getType()}
+        {selectedVideo && (
+          <div
+            id="container_clip"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: "rgba(0, 0, 0, 0.8)",
+              zIndex: 999000000,
+            }}
+          >
+            <div className="container_clip_data">
+              <div
+                style={{ width: "100%", display: "flex", alignItems: "center" }}
+              >
+                <div className="container_data_user">
+                  <Link to={"/" + selectedVideo.clips.streamerId}>
+                    <img src={selectedVideo.clips.Avatar} alt="" />
+                  </Link>
+                  <div>
+                    <Link to={"/" + selectedVideo.clips.streamerId}>
+                      <h1>{selectedVideo.clips.streamerId}</h1>
+                    </Link>
+                    <Link to={"/" + selectedVideo.clips.nameUserCreator}>
+                      <p>Clip by: {selectedVideo.clips.nameUserCreator}</p>
+                    </Link>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    fontSize: "42px",
+                    position: "relative",
+                    left: "50%",
+                    cursor: "pointer",
+                    color: "#fff",
+                  }}
+                  onClick={() => setSelectedVideo(null)}
+                >
+                  x
+                </div>
+              </div>
+
+              <div>
+                <ReactPlayer
+                  url={selectedVideo.clips.url}
+                  className="reactPlayer"
+                  controls={true}
+                  playing={true}
+                  width="100%"
+                  height="100%"
+                  onTimeUpdate={handleProgress}
+                />
+                <div
+                  style={{
+                    width: "100%",
+                    borderRadius: "0",
+                    height: videoHover ? "5px" : "2px",
+                  }}
+                  className="time_progressbarContainer"
+                >
+                  <div
+                    style={{ width: `${progress}%` }}
+                    className="time_progressBar"
+                  ></div>
+                </div>
+              </div>
+              <div className="container_data">
+                <div style={{ width: "100%", height: "100%" }}>
+                  <div className="container_data_clip">
+                    <span>
+                      <i class="fas fa-eye" style={{ marginRight: "10px" }} />
+                      {selectedVideo.clips.views} views
+                    </span>
+                    <span>{selectedVideo.clips.clipTitle}</span>
+                    <span>
+                      {formatTimestamp(
+                        selectedVideo.clips.timestamps.createdAt
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

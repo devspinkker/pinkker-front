@@ -50,3 +50,15 @@
     align-items: center;
     flex-wrap: wrap;
 }
+
+@media screen and (max-width: 758px) {
+
+    .explore-body {
+        position: relative;
+        background-color: #080808;
+        width: 100%;
+        padding: 2rem 2rem;
+        top: 27px;
+        left: 0;
+    }
+}

@@ -26,6 +26,12 @@
     margin-top: 100px;
 }
 
+.tendency-card-container-clips {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 @media screen and (max-width: 758px) {
     .tendency-body {
         min-height: 1500px;

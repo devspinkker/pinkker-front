@@ -121,6 +121,7 @@
         display: flex;
         align-items: center;
         padding: 5px 0px;
+        flex-direction: column;
     }
 
     .user_data_contain {

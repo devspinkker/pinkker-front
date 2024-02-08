@@ -17,7 +17,8 @@
 .home-categories-card {
     max-width: 30%;
     min-width: 400px;
-    padding: 4px;
+    padding: 6px;
+    background: #303030
 }
 
 .explorecategories-body-filtros {

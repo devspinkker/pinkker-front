@@ -1,11 +1,13 @@
 .cliptendencycard-body {
-    width: 70%;
+    width: 380px;
+    height: 320px;
     display: flex;
-    margin-top: 10px;
-    background-color: #151515;
+    margin: 10px;
+    background-color: #303030;
     padding: 20px;
     border-radius: 5px;
     cursor: pointer;
+    flex-direction: column;
 }
 
 .cliptendencycard-image {

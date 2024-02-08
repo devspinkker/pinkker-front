@@ -198,7 +198,12 @@ const Home = ({
     }
   };
   return (
-    <div className={"home-body-" + theme.theme}>
+    <div
+      style={{
+        padding: isMobile ? "0rem 0rem 0rem 4rem" : "",
+      }}
+      className={"home-body-" + theme.theme}
+    >
       {/* <div className="home-img">
         {!isMobile && (
           <div className="home-img-content">

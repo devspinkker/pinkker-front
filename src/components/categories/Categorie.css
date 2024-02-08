@@ -78,6 +78,13 @@
 }
 
 @media screen and (max-width: 768px) {
+    .categorie-body-dark {
+        width: 100%;
+        min-height: 1500px;
+        background-color: #0A0B0D;
+        margin-top: 50px;
+        padding: 3rem;
+    }
 
     .card-stream-map {
         display: flex;

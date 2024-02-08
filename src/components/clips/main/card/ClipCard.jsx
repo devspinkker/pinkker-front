@@ -8,7 +8,7 @@ import CommentCard from "../../../clips/view/card/CommentCard";
 import "./ClipCard.css";
 import { DislikeClip, likeClip } from "../../../../services/backGo/clip";
 
-export default function ClipCard({ type, clip }) {
+export default function ClipCard({ clip }) {
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -196,45 +196,48 @@ export default function ClipCard({ type, clip }) {
                 justifyContent: "space-between",
               }}
             >
-              <Link
-                style={{ textDecoration: "none", color: "white" }}
-                to={`/${clip.streamerId}`}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "20px",
+                }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "20px",
-                  }}
-                >
-                  <div>
-                    <Link to={`/${clip.streamerId}`}>
-                      <img
-                        style={{
-                          width: "30px",
-                          borderRadius: "50px",
-                          marginRight: "5px",
-                        }}
-                        src={clip.Avatar}
-                        alt=""
-                      />
-                    </Link>
-                  </div>
-                  <h3>{clip.streamerId}</h3>
-                  <button
-                    style={{
-                      marginTop: "0px",
-                      marginLeft: "10px",
-                      padding: "3px",
-                      fontSize: "11px",
-                      width: "55px",
-                    }}
-                    className="channel-bottom-v2-button-follow"
-                  >
-                    Seguir
-                  </button>
+                <div>
+                  <Link to={`/${clip.streamerId}`}>
+                    <img
+                      style={{
+                        width: "30px",
+                        borderRadius: "50px",
+                        marginRight: "5px",
+                      }}
+                      src={clip.Avatar}
+                      alt=""
+                    />
+                  </Link>
                 </div>
-              </Link>
+                <Link to={`/${clip.streamerId}`}>
+                  <h3
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    {clip.streamerId}
+                  </h3>
+                </Link>
+                {/* <button
+                  style={{
+                    marginTop: "0px",
+                    marginLeft: "10px",
+                    padding: "3px",
+                    fontSize: "11px",
+                    width: "55px",
+                  }}
+                  className="channel-bottom-v2-button-follow"
+                >
+                  Seguir
+                </button> */}
+              </div>
             </div>
             <div style={{ position: "relative", top: "10px" }}>
               <p style={{ fontWeight: "400", color: "#ededed" }}>

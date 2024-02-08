@@ -253,6 +253,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <UserSettings isMobile={isMobile} />
             </Route>
@@ -269,8 +270,9 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
-              <Tendency />
+              <Tendency isMobile={isMobile} />
             </Route>
 
             <Route exact path="/admin/general">
@@ -278,6 +280,7 @@ const AppRouter = () => {
                 user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Admin />
             </Route>
@@ -287,6 +290,7 @@ const AppRouter = () => {
                 user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Pagos />
             </Route>
@@ -296,6 +300,7 @@ const AppRouter = () => {
                 user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Statistics />
             </Route>
@@ -306,6 +311,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <ResetPassword isMobile={isMobile} />
             </Route>
@@ -316,6 +322,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Explore isMobile={isMobile} />
             </Route>
@@ -326,6 +333,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Cartera user={user} />
             </Route>
@@ -336,6 +344,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Suscriptions />
             </Route>
@@ -346,6 +355,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Achievement />
             </Route>
@@ -356,6 +366,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <ClipsMain />
             </Route>
@@ -366,6 +377,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Muro isMobile={isMobile} />
             </Route>
@@ -375,6 +387,7 @@ const AppRouter = () => {
                 user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Vod />
             </Route>
@@ -385,6 +398,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Categorie />
             </Route>
@@ -396,6 +410,7 @@ const AppRouter = () => {
                 user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <ClipView />
             </Route>
@@ -406,6 +421,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Home
                 isMobile={isMobile}
@@ -428,6 +444,7 @@ const AppRouter = () => {
                 user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <GeneralChat />
             </Route>
@@ -438,6 +455,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Search />
             </Route>
@@ -448,6 +466,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Terms />
             </Route>
@@ -457,6 +476,7 @@ const AppRouter = () => {
                 user={user}
                 tyExpanded={expanded}
                 tyDashboard={false}
+                setExpanded={setExpanded}
               />
               <Privacy />
             </Route>
@@ -471,6 +491,13 @@ const AppRouter = () => {
         <CreateClip />
       </Route>
       <Route exact path="/clips/getId">
+        <NavbarLeft
+          user={user}
+          isMobile={isMobile}
+          tyExpanded={expanded}
+          tyDashboard={false}
+          setExpanded={setExpanded}
+        />
         <GetClip />
       </Route>
     </Router>

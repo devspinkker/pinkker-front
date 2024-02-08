@@ -177,7 +177,7 @@ export default function DirectosRecommended({
           </div>
         </div>
       </div>
-      {isMobile && (
+      {/* {isMobile && (
         <div style={{ display: "flex", marginTop: "20px" }}>
           {streams &&
             streams.map(
@@ -198,49 +198,47 @@ export default function DirectosRecommended({
                 )
             )}
         </div>
-      )}
-      {!isMobile && (
-        <div style={{ display: "flex", overflow: "hidden" }}>
-          <div
-            className="home-recommended-card-container"
-            style={{
-              transition: "transform 0.5s ease",
-              transform: `translateX(${currentIndex * -20}%)`,
-            }}
-          >
-            {streams == null || !streams.length
-              ? streamsData?.map((streams, index) => {
-                  return (
-                    <div className="home-recommended-card-container-streams">
-                      <VideoCard
-                        tags={streams?.tags}
-                        isMobile={isMobile}
-                        streamer={streams?.streamer}
-                        categorie={"test"}
-                        title={streams?.title}
-                        viewers={streams?.ViewerCount}
-                      />
-                    </div>
-                  );
-                })
-              : streams &&
-                streams.map((stream, index) => (
+      )} */}
+      <div style={{ display: "flex", overflow: "hidden" }}>
+        <div
+          className="home-recommended-card-container"
+          style={{
+            transition: "transform 0.5s ease",
+            transform: `translateX(${currentIndex * -20}%)`,
+          }}
+        >
+          {streams == null || !streams.length
+            ? streamsData?.map((streams, index) => {
+                return (
                   <div className="home-recommended-card-container-streams">
                     <VideoCard
-                      tags={stream.stream_tag}
+                      tags={streams?.tags}
                       isMobile={isMobile}
-                      streamerImage={stream.streamer_avatar}
-                      streamer={stream.streamer}
-                      categorie={stream.stream_category}
-                      title={stream.stream_title}
-                      viewers={stream.ViewerCount}
-                      image={stream.stream_thumbnail}
+                      streamer={streams?.streamer}
+                      categorie={"test"}
+                      title={streams?.title}
+                      viewers={streams?.ViewerCount}
                     />
                   </div>
-                ))}
-          </div>
+                );
+              })
+            : streams &&
+              streams.map((stream, index) => (
+                <div className="home-recommended-card-container-streams">
+                  <VideoCard
+                    tags={stream.stream_tag}
+                    isMobile={isMobile}
+                    streamerImage={stream.streamer_avatar}
+                    streamer={stream.streamer}
+                    categorie={stream.stream_category}
+                    title={stream.stream_title}
+                    viewers={stream.ViewerCount}
+                    image={stream.stream_thumbnail}
+                  />
+                </div>
+              ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }

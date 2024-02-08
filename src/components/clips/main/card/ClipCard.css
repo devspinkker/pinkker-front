@@ -14,6 +14,10 @@
     margin-top: -15px;
 }
 
+a {
+    text-decoration: none;
+}
+
 .clipcard-muted {
     position: absolute;
     animation: opacityAnimation 0.4s;
