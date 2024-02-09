@@ -1,16 +1,18 @@
 .search-body {
+    display: flex;
     background-color: #080808;
     width: 100%;
-    min-height: max-content;
+    min-height: 1000px !important;
     padding: 1rem 4rem;
+    flex-wrap: wrap;
 }
 
 .search-container {
-    width: 95%;
-    margin: 0 auto;
+    margin: 17px;
     position: relative;
     top: 69px;
     left: 20px;
+    width: 71%;
 }
 
 .search-info-canales {
@@ -48,4 +50,15 @@
 
 .search-info-canales-card:hover {
     background-color: #303030;
+}
+
+.search-info-canales>a {
+    margin: 10px;
+}
+
+@media screen and (max-width: 758px) {
+    .search-container {
+        margin: 17px !important;
+        width: 100% !important;
+    }
 }

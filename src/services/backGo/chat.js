@@ -4,8 +4,7 @@ var token = null;
 export const setToken = (newObject) => {
     token = newObject;
 };
-const baseURL = "http://localhost:8081";
-
+const baseURL = process.env.REACT_APP_BACKCHAT;
 
 export async function actionsModeratorChatStream(action, actionAgainst, timeOut, room, token) {
     try {

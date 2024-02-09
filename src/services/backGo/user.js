@@ -5,6 +5,7 @@ export const setToken = (newObject) => {
     token = newObject;
 };
 
+const mercadopago = process.env.REACT_APP_MERCADO_PAGO
 const baseURL = process.env.REACT_APP_BACKGO
 
 export async function signupNotConfirmed(userData) {
@@ -156,7 +157,7 @@ export async function editAvatar(token, avatarData) {
 export async function compradePixeles(id, amount) {
     try {
         const response = await axios.post(
-            `http://localhost:3006/create-order`,
+            `${mercadopago}/create-order`,
             {
                 idUser: id,
                 amount: amount

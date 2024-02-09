@@ -46,8 +46,9 @@ export function ChatStreaming({
   useEffect(() => {
     const connectWebSocket = () => {
       const token = window.localStorage.getItem("token");
+      const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
       const newSocket = new WebSocket(
-        `ws://localhost:8081/ws/chatStreaming/${streamerChat.id}/${token}`
+        `${REACT_APP_BACKCHATWS}/ws/chatStreaming/${streamerChat.id}/${token}`
       );
       newSocket.onerror = (error) => {
         console.error("WebSocket error:", error);
@@ -378,8 +379,9 @@ export function ChatStreaming({
           Authorization: `Bearer ${token}`,
         },
       };
+      const REACT_APP_BACKCHAT = process.env.REACT_APP_BACKCHAT;
       const res = await axios.post(
-        `http://localhost:8081/chatStreaming/${streamerChat.id}`,
+        `${REACT_APP_BACKCHAT}/chatStreaming/${streamerChat.id}`,
         { message },
         config
       );

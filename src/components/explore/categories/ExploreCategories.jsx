@@ -604,26 +604,7 @@ export default function ExploreCategories({ isMobile }) {
               title={stream.stream_title}
             />
           ))}
-        {filtros?.streams &&
-          streams &&
-          streams.map((stream) => (
-            <CardStream
-              width={
-                stream?.streamer && isMobile
-                  ? "100%"
-                  : stream?.streamer && !isMobile
-                  ? "30%"
-                  : "160px"
-              }
-              isLoading={isLoading}
-              name={stream.streamer}
-              avatarStreamer={stream.streamer_avatar}
-              image={stream.stream_thumbnail ?? "/images/pinkker-stream.png"}
-              ViewerCount={stream.ViewerCount}
-              tags={stream.stream_tag}
-              title={stream.stream_title}
-            />
-          ))}
+
         {filtros?.clips &&
           clips &&
           clips.map((clips, index) => (

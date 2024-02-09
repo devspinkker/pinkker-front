@@ -88,7 +88,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
 
           <li>
             <div
-              onClick={() => togglePopupPurchase(100)}
+              onClick={() => togglePopupPurchase(500)}
               className="dropdownpurchase-news-card"
             >
               <div>
@@ -96,7 +96,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                   style={{ width: "35px" }}
                   src="/images/donaciones/100.png"
                 />
-                <h3>1000 PXL</h3>
+                <h3>500 PXL</h3>
                 <h4
                   style={{
                     marginTop: "10px",
@@ -109,7 +109,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
               </div>
             </div>
             <div
-              onClick={() => togglePopupPurchase(500)}
+              onClick={() => togglePopupPurchase(1000)}
               className="dropdownpurchase-news-card"
             >
               <div>
@@ -117,7 +117,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                   style={{ width: "35px" }}
                   src="/images/donaciones/1000.png"
                 />
-                <h3>500 PXL</h3>
+                <h3>1000 PXL</h3>
                 <h4
                   style={{
                     marginTop: "10px",
