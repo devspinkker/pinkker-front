@@ -31,7 +31,7 @@ export default function SettingsStream() {
             <div style={{ marginLeft: "50px" }}>
               <div>
                 <input
-                  value={process.env.REACT_APP_RTMP}
+                  value={process.env.REACT_APP_RTMPSTARTSTREAM}
                   className="settingstream-input"
                   style={{ width: "70%" }}
                   type="text"
