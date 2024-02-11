@@ -201,6 +201,7 @@ async function getStreamingsOnline() {
 export async function getCategoriesWithLimit(param) {
 	try {
 		const response = await axios.get(`${baseURL}/categorie/GetCategories`)
+		console.log(response);
 		return response.data
 	} catch (error) {
 		console.error('Error en getStreamByUserName:', error.message);

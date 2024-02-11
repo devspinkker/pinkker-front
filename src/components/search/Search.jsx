@@ -61,7 +61,8 @@ export default function Search() {
             height: "800px",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "start",
+            padding: "3rem",
           }}
         >
           <div style={{ textAlign: "center" }}>

@@ -1276,7 +1276,6 @@ export default function Channel({
             <div
               style={{
                 width: getWithChannelVideo(),
-                margin: stream.online ? "4% 0% 0% 0%" : "4% 0% 0% 0%",
               }}
               className="channel-video"
             >

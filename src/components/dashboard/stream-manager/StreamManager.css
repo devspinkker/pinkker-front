@@ -8,10 +8,12 @@
     position: fixed;
     right: 0;
     top: 75px;
-    background-color: #0c0c0c;
+    background-color: #131418;
     transition: 0.15s;
     overflow-y: unset;
     z-index: 10000000;
+    padding: 0rem;
+    ;
 }
 
 .streammanager-body {

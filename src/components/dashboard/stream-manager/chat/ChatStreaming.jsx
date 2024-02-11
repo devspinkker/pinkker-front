@@ -18,7 +18,7 @@ import {
   actionsChatStream,
   actionsModeratorChatStream,
 } from "../../../../services/backGo/chat";
-
+import { useNotification } from "../../../Notifications/NotificationProvider";
 export function ChatStreaming({
   streamerChat,
   chatExpandeds,
@@ -42,6 +42,7 @@ export function ChatStreaming({
   const [ShowGetUserTheChat, setShowGetUserTheChat] = useState(false);
   const [GetInfoUserInRoom, setGetInfoUserInRoom] = useState(null);
   const [StateDonations, setStateDonations] = useState(false);
+  const alert = useNotification();
 
   useEffect(() => {
     const connectWebSocket = () => {
@@ -409,15 +410,15 @@ export function ChatStreaming({
 
   const GetUserTheChatFuncfollow = async () => {
     const token = window.localStorage.getItem("token");
-    console.log(GetUserTheChat);
-    console.log("!");
     if (token) {
       if (GetUserTheChatFollowing) {
         await unfollow(token, GetUserTheChat?.id);
         setGetUserTheChatFollowing(false);
+        alert({ type: "SUCCESS", message: "unfollow" });
       } else {
         await follow(token, GetUserTheChat?.id);
         setGetUserTheChatFollowing(true);
+        alert({ type: "SUCCESS", message: "follow" });
       }
     }
   };
@@ -426,29 +427,43 @@ export function ChatStreaming({
     console.log(token, GetUserTheChat);
     if (token) {
       const res = await suscribirse(token, GetUserTheChat?.id);
+      console.log(res);
+      alert({ type: "SUCCESS" });
+      // alert({ type: "ERROR" });
     }
   };
   const ModeratorUserChat = async (action, actionAgainst, timeOut, room) => {
     const token = window.localStorage.getItem("token");
     if (token) {
-      const res = await actionsModeratorChatStream(
-        action,
-        actionAgainst,
-        timeOut,
-        room,
-        token
-      );
+      try {
+        const res = await actionsModeratorChatStream(
+          action,
+          actionAgainst,
+          timeOut,
+          room,
+          token
+        );
+        console.log(res);
+        alert({ type: "SUCCESS" });
+      } catch (error) {
+        alert({ type: "ERROR" });
+      }
     }
   };
   const ModeratorUserChatStreamer = async (action, actionAgainst, timeOut) => {
     const token = window.localStorage.getItem("token");
-    if (token) {
-      const res = await actionsChatStream(
-        action,
-        actionAgainst,
-        timeOut,
-        token
-      );
+    try {
+      if (token) {
+        const res = await actionsChatStream(
+          action,
+          actionAgainst,
+          timeOut,
+          token
+        );
+      }
+      alert({ type: "SUCCESS" });
+    } catch (error) {
+      alert({ type: "ERROR" });
     }
   };
   return (
@@ -479,7 +494,7 @@ export function ChatStreaming({
             textAlign: "center",
             color: "white",
             position: "fixed",
-            right: "25%",
+            right: "24%",
             top: "84px",
             zIndex: "99999",
           }}
@@ -564,6 +579,9 @@ export function ChatStreaming({
             </div>
             <div className="ShowGetUserTheChat-actions">
               <span
+                style={{
+                  marginLeft: "0px",
+                }}
                 className="ShowGetUserTheChat-actions-seguir"
                 onClick={() => {
                   GetUserTheChatFuncfollow();
@@ -571,7 +589,6 @@ export function ChatStreaming({
               >
                 {GetUserTheChatFollowing ? "dejar de seguir" : "seguir"}
               </span>
-              <span>hace algo</span>
               <div
                 onClick={() => GiftsubscriptionTheChat()}
                 className="ShowGetUserTheChat-actions-suscripción"
