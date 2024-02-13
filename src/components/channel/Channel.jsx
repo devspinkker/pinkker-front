@@ -748,15 +748,10 @@ export default function Channel({
                     style={{ marginRight: "8px", fontSize: "12px" }}
                     class="fas fa-clock"
                   />
-                  <p style={{ fontSize: "15px" }}>
-                    {hours}:
-                    {minutes.toString().length === 1
-                      ? "0" + minutes.toString()
-                      : minutes}
-                    :
-                    {seconds.toString().length === 1
-                      ? "0" + seconds.toString()
-                      : seconds}
+                  <p style={{ fontSize: "15px", display: "flex" }}>
+                    <p>{`${formatNumber(elapsedTime.hours)}`}</p>
+                    <p>{`: ${formatNumber(elapsedTime.minutes)}`}</p>
+                    <p>{`: ${formatNumber(elapsedTime.seconds)}`}</p>
                   </p>
                 </div>
               </div>

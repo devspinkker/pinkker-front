@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./ChatStreaming.css";
 import DonationCard from "../../../channel/chat/donation/card/DonationCard";
@@ -43,14 +45,14 @@ export function ChatStreaming({
   const [GetInfoUserInRoom, setGetInfoUserInRoom] = useState(null);
   const [StateDonations, setStateDonations] = useState(false);
   const alert = useNotification();
-
+  const history = useHistory();
   useEffect(() => {
+    const token = window.localStorage.getItem("token");
+    const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
+    const newSocket = new WebSocket(
+      `${REACT_APP_BACKCHATWS}/ws/chatStreaming/${streamerChat.id}/${token}`
+    );
     const connectWebSocket = () => {
-      const token = window.localStorage.getItem("token");
-      const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
-      const newSocket = new WebSocket(
-        `${REACT_APP_BACKCHATWS}/ws/chatStreaming/${streamerChat.id}/${token}`
-      );
       newSocket.onerror = (error) => {
         console.error("WebSocket error:", error);
       };
@@ -70,6 +72,7 @@ export function ChatStreaming({
       setSocket(newSocket);
 
       window.addEventListener("beforeunload", () => {
+        console.log("*******");
         newSocket.send("closing");
         newSocket.close();
       });
@@ -78,13 +81,17 @@ export function ChatStreaming({
     if (!socket || socket.readyState !== WebSocket.OPEN) {
       connectWebSocket();
     }
-
     return () => {
-      if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.close();
+      // window.addEventListener("beforeunload", () => {
+      //   console.log("*******");
+      //   newSocket.send("closing");
+      //   newSocket.close();
+      // });
+      if (newSocket && newSocket.readyState === WebSocket.OPEN) {
+        newSocket.close();
       }
     };
-  }, []);
+  }, [history]);
 
   const scrollToBottom = () => {
     if (conversationRef.current) {
@@ -563,9 +570,13 @@ export function ChatStreaming({
         {ShowGetUserTheChat && GetUserTheChat && (
           <div className="ShowGetUserTheChat">
             <div className="ShowGetUserTheChat-InfoUser">
-              <img src={GetUserTheChat?.Avatar} alt="" />
+              <Link to={"/" + GetUserTheChat?.NameUser}>
+                <img src={GetUserTheChat?.Avatar} alt="" />
+              </Link>
               <div className="ShowGetUserTheChat-InfoUser-gsd">
-                <span>{GetUserTheChat?.NameUser}</span>
+                <Link to={"/" + GetUserTheChat?.NameUser}>
+                  <span>{GetUserTheChat?.NameUser}</span>
+                </Link>
               </div>
               <span
                 className="ShowGetUserTheChat-InfoUser-gsd-x"
