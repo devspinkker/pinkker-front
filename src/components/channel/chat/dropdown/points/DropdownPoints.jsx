@@ -67,7 +67,6 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
   }
 
   function handleClickPixel(amount) {
-    console.log(user?.Pixeles);
     if (user?.Pixeles >= amount) {
       // clickDonation("pixels" + amount);
       setSelectedAmount(amount);

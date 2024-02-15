@@ -171,7 +171,6 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
 
       try {
         const res = await Get_Recover_lost_password(recuperyMail);
-        console.log(res);
         if (res.data != null && res.data.msg != null) {
           alert({ type: "SUCCESS", message: res.data.msg });
           setStep(2);
@@ -183,7 +182,6 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
   }
   async function handleSubmitCode() {
     const response = await SaveUserCodeConfirm(CodeConfirmInput);
-    console.log(response);
     if (response && response.message === "token") {
       window.localStorage.setItem("token", String(response.data));
       window.localStorage.setItem("_id", response._id);

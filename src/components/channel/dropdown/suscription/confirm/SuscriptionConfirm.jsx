@@ -41,7 +41,6 @@ function SuscriptionConfirm({
     }
     try {
       const res = await suscribirse(token, streamerData.id);
-      console.log(res);
       if (res?.message == "ok") {
         alert({ type: "SUCCESS", message: "te suscribiste" });
         closeNavbar();

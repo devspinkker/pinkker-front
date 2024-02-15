@@ -54,13 +54,11 @@ export default function Categorie() {
         setStreams(responseStreams.data);
         return;
       }
-      console.log("algo salio mal");
     };
     fetchData();
   }, []);
 
   async function followUser() {
-    console.log("followUser func");
     // const data = await followCategorie(token, categorieName);
     // if (data != null && data != undefined && data.status == 200) {
     //   alert({ type: "SUCCESS", message: data.data.msg });
@@ -69,8 +67,6 @@ export default function Categorie() {
   }
 
   async function unfollowUser() {
-    console.log("unfollowUser func");
-
     // const data = await unfollowCategorie(token, categorieName);
     // if (data != null && data != undefined && data.status == 200) {
     //   alert({ type: "SUCCESS", message: data.data.msg });

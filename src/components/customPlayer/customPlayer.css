@@ -1,6 +1,6 @@
 .custom-player {
   width: 100%;
-  height: 845px;
+  height: 497px;
   border-bottom: 1px solid #4646463f;
   background-color: transparent;
   margin-top: 20px;
@@ -24,12 +24,13 @@
 
 
 .customPlayer-primary {
-  width: 95%;
-  margin: 0 auto;
+  width: 84%;
+  padding: 1rem 5rem;
   display: flex;
   align-items: center;
   color: #ededed;
   height: 50px;
+  justify-content: center;
 }
 
 
@@ -156,9 +157,10 @@
   position: relative;
   background-color: transparent;
   z-index: 10;
+  top: 11px;
   left: 6px;
-  width: 100%;
-  height: -webkit-fill-available;
+  width: 94%;
+  height: 481px;
 }
 
 .customPlayer-sound {

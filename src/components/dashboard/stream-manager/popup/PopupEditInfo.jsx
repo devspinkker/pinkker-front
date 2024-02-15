@@ -34,8 +34,6 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    console.log(stream);
-    console.log(user);
     setTitle(stream?.stream_title);
     setNotification(stream?.stream_notification);
     setCategory(stream?.stream_category);
@@ -45,7 +43,6 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
       const res = await getCategoriesWithLimit();
       if (res.data != null && res.message == "ok") {
         const s = [];
-        console.log(res);
         const categorie = res.data;
         await categorie.map((categorie) =>
           s.push({ name: categorie.nombre, value: categorie.nombre })

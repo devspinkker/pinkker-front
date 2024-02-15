@@ -60,7 +60,6 @@ export function ChatStreaming({
         const receivedMessage = JSON.parse(event.data);
         newSocket.send("onmessage");
         setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-        console.log(receivedMessage);
         scrollToBottom();
       };
 
@@ -72,7 +71,6 @@ export function ChatStreaming({
       setSocket(newSocket);
 
       window.addEventListener("beforeunload", () => {
-        console.log("*******");
         newSocket.send("closing");
         newSocket.close();
       });
@@ -83,7 +81,6 @@ export function ChatStreaming({
     }
     return () => {
       // window.addEventListener("beforeunload", () => {
-      //   console.log("*******");
       //   newSocket.send("closing");
       //   newSocket.close();
       // });
@@ -103,7 +100,6 @@ export function ChatStreaming({
     try {
       const resDonations = await GetPixelesDonationsChat(streamerData.id);
       if (resDonations.message === "ok" && resDonations.data.length > 0) {
-        console.log(resDonations);
         setDonations(resDonations.data);
       } else {
         setDonations([]);
@@ -258,7 +254,6 @@ export function ChatStreaming({
     const displayDonations = showAllDonations
       ? donations
       : [donations[donations.length - 1]];
-    console.log(displayDonations[0]);
     return (
       <div className="chat-donation-body">
         <i
@@ -403,6 +398,23 @@ export function ChatStreaming({
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
+  const isSubscriptor = (message) => {
+    const currentTimestamp = Date.now();
+    const subscriptionEndTimestamp = Date.parse(
+      message.SubscriptionInfo.SubscriptionEnd
+    );
+
+    if (subscriptionEndTimestamp <= 0 || isNaN(subscriptionEndTimestamp)) {
+      return null;
+    }
+
+    if (subscriptionEndTimestamp < currentTimestamp) {
+      return null;
+    } else {
+      return "https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png";
+    }
+  };
+
   const [GetUserTheChatFollowing, setGetUserTheChatFollowing] = useState(false);
   const GetUserTheChatFunc = async (NameUser) => {
     const res = await getUserByNameUser(NameUser);
@@ -431,10 +443,8 @@ export function ChatStreaming({
   };
   const GiftsubscriptionTheChat = async () => {
     const token = window.localStorage.getItem("token");
-    console.log(token, GetUserTheChat);
     if (token) {
       const res = await suscribirse(token, GetUserTheChat?.id);
-      console.log(res);
       alert({ type: "SUCCESS" });
       // alert({ type: "ERROR" });
     }
@@ -715,6 +725,9 @@ export function ChatStreaming({
                 )}
                 {message.EmotesChat.Vip && (
                   <img src={message.EmotesChat.Vip} alt="" />
+                )}
+                {isSubscriptor(message) && (
+                  <img src={isSubscriptor(message)} alt="" />
                 )}
               </div>
               <div className="content-info-message">

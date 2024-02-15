@@ -49,7 +49,6 @@ export async function Get_Recover_lost_password(mail) {
         const response = await axios.post(`${baseURL}/user/Get_Recover_lost_password`, { mail });
         return response.data;
     } catch (error) {
-        console.log("sdpojksopdjops 1a");
 
         return error
     }

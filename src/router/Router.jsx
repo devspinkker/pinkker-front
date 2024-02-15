@@ -100,7 +100,6 @@ const AppRouter = () => {
     if (socketMain != null) {
       socketMain.on("newMessage", (name) => {
         addOpenMessage(name, true);
-        console.log("Nuevo mensaje de " + name);
         let audio = new Audio("/noti.mp3");
         audio.play();
       });

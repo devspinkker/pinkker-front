@@ -184,9 +184,9 @@ export default function CustomPlayer({
       4,
       streamerData.keyTransmission.length
     );
-    const rtmp = process.env.REACT_APP_RTMP;
+    // const rtmp = process.env.REACT_APP_RTMP;
+    const rtmp = "http://localhost:8000/live";
     var url = `${rtmp}/${keyTransmission}/index.m3u8`;
-    console.log(url);
     return url;
   }
 
@@ -636,7 +636,6 @@ export default function CustomPlayer({
     <div
       style={{
         left: expanded === true ? "225px" : "70px",
-        height: height ? height : "845px",
       }}
       className={popup === true ? "custom-player-popup" : "custom-player"}
     >

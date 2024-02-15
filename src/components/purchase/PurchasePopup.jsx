@@ -35,7 +35,6 @@ export default function PurchasePopup({ amountt, closePopup }) {
     try {
       const data = await compradePixeles(iduser, amount);
       if (data?.init_point) {
-        console.log(data.init_point);
         window.location.href = data.init_point;
       }
     } catch (error) {

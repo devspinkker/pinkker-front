@@ -44,7 +44,6 @@ export default function Search() {
         return fetchSearchPage(value).then((res) => {
           setLoading(false);
           if (res?.data?.message == "ok") {
-            console.log(res.data.data);
             setSearch(res.data.data);
           }
         });

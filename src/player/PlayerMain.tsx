@@ -23,6 +23,7 @@ function ReactHlsPlayer({ src, muted = false, videoRef }: ReactHlsPlayerProps) {
         if (videoRef.current) {
           hls.loadSource(src);
           hls.attachMedia(videoRef.current);
+
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             setUsedHLS(true);
 
@@ -33,27 +34,20 @@ function ReactHlsPlayer({ src, muted = false, videoRef }: ReactHlsPlayerProps) {
                   console.error('Error during video playback:', error);
                 });
               }
-            }
-
-            if (videoRef.current) {
               videoRef.current.muted = muted ?? false;
             }
           });
         }
       } else {
-
         if (videoRef.current) {
           videoRef.current.src = src
           videoRef.current.load();
           videoRef.current.play();
         }
-
-        
       }
     }
 
     initPlayer();
-
     return () => {
       if (hls) {
         hls.destroy();

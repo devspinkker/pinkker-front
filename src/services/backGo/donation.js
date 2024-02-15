@@ -11,7 +11,6 @@ export async function GetPixelesDonationsChat(Toid) {
     }
 }
 export async function CreateDonation(token, ToUser, Pixeles, Text) {
-    console.log(token, ToUser, Pixeles, Text);
 
     try {
         const response = await axios.post(`${baseURL}/pixel/DonatePixel`, {

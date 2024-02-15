@@ -29,7 +29,6 @@ export default function RecoverPassword() {
   const HandleSubmit = async () => {
     if (password1 == password2 && password1.length >= 8) {
       const res = await AccountRecovery(resetToken, password1);
-      console.log(res);
       if (res?.message === "StatusOK") {
         alert({ type: "SUCCESS", message: "contraseña restablecida" });
       } else {

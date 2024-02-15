@@ -37,7 +37,6 @@ export const GetClipsNameUser = async (nameUserCeator, page) => {
 export const GetClipsCategory = async (Category, page, lastClip) => {
 
     const response = await axios.get(`${url}/clips/GetClipsCategory?page=${page}&Category=${Category}&lastClip=${lastClip}`)
-    console.log(response);
     return response
 }
 export const GetClipsMostViewed = async (page) => {

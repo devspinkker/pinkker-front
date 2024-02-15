@@ -75,7 +75,6 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
       }
       const dataStreamer = await getStreamById(id);
       if (dataStreamer != null && dataStreamer != undefined) {
-        console.log(dataStreamer);
         setStreamerData(dataStreamer.data);
       }
 

@@ -150,7 +150,6 @@ export default function Channel({
         try {
           const res = await getUserByIdTheToken(token);
           if (res?.message === "ok" && res?.data?.id) {
-            console.log(res.data);
             setUser(res.data);
           }
         } catch (error) {
