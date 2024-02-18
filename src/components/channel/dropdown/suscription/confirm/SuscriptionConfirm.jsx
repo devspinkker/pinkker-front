@@ -41,9 +41,16 @@ function SuscriptionConfirm({
     }
     try {
       const res = await suscribirse(token, streamerData.id);
-      if (res?.message == "ok") {
+      if (res?.message !== "ok") {
         alert({ type: "SUCCESS", message: "te suscribiste" });
         closeNavbar();
+        return;
+      } else {
+        alert({
+          type: "ERROR",
+          message: "No tienes los suficientes pixeles para suscribirte!",
+        });
+        return;
       }
     } catch (error) {
       alert({

@@ -78,18 +78,7 @@ export const getTweetFollowing = async (token, page, limit) => {
   }
 };
 
-export const getTweetUser = async (id, page, limit) => {
-  try {
-    let response = await axios.get(
-      `${url}/post/get_tweets_user?id=${id}&page=${page}&limit=${limit}`,
-      {}
-    );
-    return response.data;
-  } catch (error) {
-    return error.response;
 
-  }
-};
 export const createTweet = async (token, text, image, citeTweet) => {
   try {
     const res = await axios.post(

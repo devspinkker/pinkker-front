@@ -144,12 +144,14 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
         return alert({ type: "ERROR", message: "Completa el año" });
 
       try {
+        const birthDate = `${rYear}-${rMonth}-${String(rDay).padStart(2, "0")}`;
+        console.log(birthDate);
         const res = await signupNotConfirmed({
           nameUser: rUsername,
           fullName: FullName,
           Email: rEmail,
           password: rPassword,
-          BirthDate: rYear + "-" + rMonth + "-" + rDay,
+          BirthDate: birthDate,
         });
         if (res && res.message == "email to confirm") {
           setCodeConfirm(true);
@@ -550,7 +552,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               {signupNotConfirmedErr && (
                 <div>
                   <p style={{ color: "rgb(228, 122, 122)" }}>
-                    Mail or name user exist{" "}
+                    {/* {errorUserName} */}
                     {errorConfirmPassword != null &&
                       errorConfirmPassword != "" && (
                         <i

@@ -179,13 +179,13 @@
 
 .pinkker-player-loading {
   position: absolute;
-  top: 0;
-  left: 20px;
+  top: 83px;
+  left: 74px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 850px;
-  width: 80%;
+  height: 521px;
+  width: 67%;
   background-color: transparent;
   z-index: 999;
 }

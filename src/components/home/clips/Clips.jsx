@@ -73,6 +73,7 @@ export default function Clips() {
     const fetchData = async () => {
       try {
         const response = await GetClipsMostViewed(1);
+        console.log(response.data.data);
         if (response.data?.message === "ok" && response.data?.data.length > 1) {
           setClips(response.data.data);
         }

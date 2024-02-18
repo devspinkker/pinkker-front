@@ -37,7 +37,7 @@ export default function Biography() {
 
   async function handleSubmit() {
     let token = window.localStorage.getItem("token");
-    const birthDate = `${rYear}-${rMonth}-${rDay}`;
+    const birthDate = `${rYear}-${rMonth}-${String(rDay).padStart(2, "0")}`;
     const data = await editProfile(token, {
       biography,
       country,

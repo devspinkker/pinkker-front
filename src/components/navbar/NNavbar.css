@@ -6,7 +6,7 @@
 .navbar-dark {
   background-color: #080808;
   background-size: cover;
-  height: 4.6rem;
+  height: 3.6rem;
   display: flex;
   justify-content: flex-end;
   position: fixed;
@@ -207,7 +207,7 @@
   background-color: transparent;
   border: 1px solid #262626;
   padding: 6.5px;
-  height: 35px;
+  height: 23px;
   border-radius: 3px;
   width: 250px;
   margin: 0px;

@@ -1,187 +1,188 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 .dropdownsuscription-menu {
-    position: absolute;
-    left: 54%;
-    top: 180px;
-    width: 420px;
-    height: 650px;
-    display: flex;
-    background: #18181bf8;
-    box-shadow: 0px 5px 20px 5px black;
-    border-radius: 5px;
-    z-index: 2000;
-    }
-    
-    .dropdownsuscription-menu li {
-      cursor: pointer;
-      display: flex;
-      text-align: center;
-      font-size: 12px;
-      border-radius: 5px;
-    }
-    
-    .dropdownsuscription-menu i {
-      transition: 0.3s all;
+  position: absolute;
+  left: 54%;
+  top: 180px;
+  width: 420px;
+  height: 650px;
+  display: flex;
+  background: #18181bf8;
+  box-shadow: 0px 5px 20px 5px black;
+  border-radius: 5px;
+  z-index: 10000000000000000;
+}
 
-    }
+.dropdownsuscription-menu li {
+  cursor: pointer;
+  display: flex;
+  text-align: center;
+  font-size: 12px;
+  border-radius: 5px;
+}
 
-    .dropdownsuscription-menu li:hover .dropdownsuscription-content i{
-      transform: translateY(-3px);
-    }
+.dropdownsuscription-menu i {
+  transition: 0.3s all;
 
-    .dropdownsuscription-menu li:hover {
-      background: #0e0e0e;
-    }
-    
-    .dropdownsuscription-menu.clicked {
-      display: none;
-    }
-    
-    .dropdownsuscription-link {
-      display: flex;
-      height: 100%;
-      width: 100%;
-      text-decoration: none;
-      color: #fff;
-      padding: 12px;
-    }
+}
 
-    .dropdownsuscription-button {
-      background: none;
-      border: none;
-      width: 80%;
-      font-family: 'Montserrat';
-      font-weight: 800;
-      height: 100%;
-      padding: 16px;
-      color: #ededed;
-      cursor: pointer;
+.dropdownsuscription-menu li:hover .dropdownsuscription-content i {
+  transform: translateY(-3px);
+}
 
-    }
+.dropdownsuscription-menu li:hover {
+  background: #0e0e0e;
+}
 
-    .dropdownsuscription-content {
-      width: 100%;
-      padding: 10px;
-      border-radius: 5px;
-      justify-content: space-between;
-      color: #ededed;
-      font-family: 'Montserrat';
-      font-weight: 800;
-    }
+.dropdownsuscription-menu.clicked {
+  display: none;
+}
 
+.dropdownsuscription-link {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: #fff;
+  padding: 12px;
+}
 
+.dropdownsuscription-button {
+  background: none;
+  border: none;
+  width: 80%;
+  font-family: 'Montserrat';
+  font-weight: 800;
+  height: 100%;
+  padding: 16px;
+  color: #ededed;
+  cursor: pointer;
+
+}
+
+.dropdownsuscription-content {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  justify-content: space-between;
+  color: #ededed;
+  font-family: 'Montserrat';
+  font-weight: 800;
+}
 
 
-    .dropdownsuscription-radio input[type="radio"] {
-      background-color: rgb(105, 105, 105);
-      border-radius: 10px;
-      cursor: pointer;
-      display: inline-block;
-      height: 15px;
-      margin-right: 5px;
-      position: relative;
-      width: 15px;
-      -webkit-appearance: none;
+
+
+.dropdownsuscription-radio input[type="radio"] {
+  background-color: rgb(105, 105, 105);
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-block;
+  height: 15px;
+  margin-right: 5px;
+  position: relative;
+  width: 15px;
+  -webkit-appearance: none;
+}
+
+.dropdownsuscription-radio input[type="radio"]:after {
+  border-radius: 25px;
+  background-color: rgb(71, 71, 71);
+  content: '';
+  display: block;
+  height: 9px;
+  left: 3px;
+  position: relative;
+  top: 3px;
+  width: 9px;
+}
+
+.dropdownsuscription-radio input[type="radio"]:checked:after {
+  background-color: #ff60b2;
+}
+
+
+.dropdownsuscription-streamer {
+  display: flex;
+}
+
+.dropdownsuscription-button-sub {
+  margin-top: 20px;
+  width: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  background-color: #9147ff;
+  border: none;
+  color: #ededed;
+  border-top-left-radius: 5px;
+  border-end-start-radius: 5px;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.suscriptiondropdown-price-buttons-container:hover .dropdownsuscription-button-sub {
+  background-color: #803ee3;
+}
+
+.dropdownsuscription-button-sub-price {
+  margin-top: 20px;
+  width: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  background-color: #5f25b5;
+  border: none;
+  color: #ededed;
+  border-end-end-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.suscriptiondropdown-price-buttons-container:hover .dropdownsuscription-button-sub-price {
+  background-color: #6632b4;
+}
+
+.dropdownsuscription-button-gift {
+  margin-top: 20px;
+  width: 185px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  background-color: #202020;
+  border: none;
+  color: #ededed;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dropdownsuscription-button-gift:hover {
+  background-color: #303030;
+}
+
+
+
+@media screen and (max-width: 960px) {
+
+  .dropdownsuscription-menu {
+    width: 220%;
+    top: 60px;
+    z-index: 200;
+
   }
-  .dropdownsuscription-radio input[type="radio"]:after {
-      border-radius: 25px;
-      background-color: rgb(71, 71, 71);
-      content: '';
-      display: block;
-      height: 9px;
-      left: 3px;
-      position: relative;
-      top: 3px;
-      width: 9px;
+
+  .fa-caret-down {
+    display: none;
   }
-  .dropdownsuscription-radio input[type="radio"]:checked:after {
-      background-color: #ff60b2;
-  }
-
-
-  .dropdownsuscription-streamer {
-    display: flex;
-  }
-
-  .dropdownsuscription-button-sub {
-    margin-top: 20px;
-    width: 110px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
-    background-color: #9147ff;
-    border: none;
-    color: #ededed;
-    border-top-left-radius: 5px;
-    border-end-start-radius: 5px;
-    cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .suscriptiondropdown-price-buttons-container:hover .dropdownsuscription-button-sub {
-    background-color: #803ee3;
-  }
-
-  .dropdownsuscription-button-sub-price {
-    margin-top: 20px;
-    width: 75px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
-    background-color: #5f25b5;
-    border: none;
-    color: #ededed;
-    border-end-end-radius: 5px;
-    border-top-right-radius: 5px;
-    cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .suscriptiondropdown-price-buttons-container:hover .dropdownsuscription-button-sub-price{
-    background-color: #6632b4;
-  }
-
-  .dropdownsuscription-button-gift {
-    margin-top: 20px;
-    width: 185px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
-    background-color: #202020;
-    border: none;
-    color: #ededed;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .dropdownsuscription-button-gift:hover {
-    background-color: #303030;
-  }
-
-
-    
-    @media screen and (max-width: 960px) {
-  
-      .dropdownsuscription-menu {
-        width: 220%;
-        top: 60px;
-        z-index: 200;
-  
-      }
-  
-      .fa-caret-down {
-        display: none;
-      }
-    }
+}

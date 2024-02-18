@@ -120,21 +120,15 @@ export const getTweetFollowing = async (page, limit) => {
   }
 };
 
-export const getTweetUser = async (name, page, limit) => {
+export const getTweetUser = async (id, page, limit) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+
     const res = await axios.get(
-      `${url}/get_tweets_user?name=${name}&page=${page}&limit=${limit}`,
-      config
+      `${url}/post/get_tweets_user?id=${id}&page=${page}&limit=${limit}`,
     );
     return res.data;
   } catch (error) {
     console.error("Error in getTweetUser:", error);
-    throw error;
   }
 };
 

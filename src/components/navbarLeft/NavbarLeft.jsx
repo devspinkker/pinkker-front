@@ -184,7 +184,7 @@ export default function NavbarLeft({
               <h1
                 style={{ fontSize: "18px", marginTop: "5px", color: "#ededed" }}
               >
-                {user?.Followers && user?.Followers.length}
+                {user?.Followers && Object.keys(user.Followers).length}
               </h1>
               <p
                 style={{
@@ -377,7 +377,7 @@ export default function NavbarLeft({
               alignItems: "center",
               justifyContent: !tyExpanded ? "center" : "",
               marginTop: !tyExpanded ? "14px" : "",
-              padding: "10px 8px",
+              padding: "2px 9px",
             }}
           >
             <i

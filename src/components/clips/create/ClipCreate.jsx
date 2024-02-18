@@ -20,14 +20,17 @@ export function CreateClip() {
   const [currentTime, setCurrentTime] = useState(0);
   const [progress, setProgress] = useState(0);
   const [videoHover, setVideoHover] = useState(false);
+  const [isVideoEnded, setIsVideoEnded] = useState(false);
 
   useEffect(() => {
     const fetchVideoData = async () => {
       try {
         const queryParams = new URLSearchParams(window.location.search);
         const totalKey = queryParams.get("totalKey");
-
+        console.log("una vez");
         const response = await GetBuffer(totalKey);
+        console.log("ya llego");
+
         const data = await response.arrayBuffer();
         const blob = new Blob([data], { type: "video/mp4" });
         const videoURL = URL.createObjectURL(blob);
@@ -42,6 +45,7 @@ export function CreateClip() {
         setVideoUrl(videoURL);
         setVideo({ blob, arrayBuffer: data });
         videoRef.current = video;
+        console.log("ya llego 2");
       } catch (error) {
         console.error(error);
       }
@@ -56,6 +60,7 @@ export function CreateClip() {
       setCurrentTime(startTime);
       videoRef.current.play();
       setIsPlaying(true);
+      setIsVideoEnded(false);
     }
   }, [startTime]);
 
@@ -65,6 +70,7 @@ export function CreateClip() {
       setCurrentTime(endTime);
       videoRef.current.play();
       setIsPlaying(true);
+      setIsVideoEnded(false);
     }
   }, [endTime]);
 
@@ -76,7 +82,6 @@ export function CreateClip() {
           Authorization: `Bearer ${token}`,
         },
       };
-
       const videoBytes = video
         ? Array.from(new Uint8Array(video.arrayBuffer))
         : null;
@@ -106,6 +111,7 @@ export function CreateClip() {
     if (videoRef.current) {
       videoRef.current.play();
       setIsPlaying(true);
+      setIsVideoEnded(false);
     }
   };
 
@@ -115,6 +121,7 @@ export function CreateClip() {
       setIsPlaying(false);
     }
   };
+
   const handleProgress = (e) => {
     const percentage = (e / 30) * 100;
     setProgress(percentage);
@@ -155,9 +162,14 @@ export function CreateClip() {
 
   useEffect(() => {
     const checkEndTime = () => {
-      if (videoRef.current && videoRef.current.currentTime >= endTime) {
+      if (
+        videoRef.current &&
+        videoRef.current.currentTime >= endTime &&
+        !isVideoEnded
+      ) {
         videoRef.current.pause();
         setIsPlaying(false);
+        setIsVideoEnded(true);
       }
     };
 
@@ -170,7 +182,7 @@ export function CreateClip() {
         videoRef.current.removeEventListener("timeupdate", checkEndTime);
       }
     };
-  }, [videoRef.current, endTime]);
+  }, [endTime, isVideoEnded]);
 
   const handleTitleChange = (e) => {
     setclipTitle(e.target.value);
@@ -187,7 +199,6 @@ export function CreateClip() {
               controls={false}
               playing={isPlaying}
               progressInterval={1000}
-              // onProgress={(progress) => setCurrentTime(progress.playedSeconds)}
               onProgress={(progress) => handleProgress(progress.playedSeconds)}
             />
             {isPlaying === false && (
@@ -238,21 +249,8 @@ export function CreateClip() {
                   Recortar Video
                 </button>
               </div>
-
-              {/* <button onClick={handleMuteToggle}>
-                {isMuted ? "Unmute" : "Mute"}
-              </button> */}
-
-              {/* <Slider
-                min={0}
-                max={1}
-                step={0.1}
-                value={volume}
-                onChange={handleVolumeChange}
-              /> */}
             </div>
           </div>
-
           <input
             id="clipTitle"
             placeholder="Añade un titulo"

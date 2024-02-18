@@ -110,8 +110,11 @@ export function ChatStreaming({
 
     try {
       const resSubs = await GetSubssChat(streamerData.id);
-      if (resSubs.message === "ok" && resSubs.data.length > 0) {
+      console.log(resSubs);
+      if (resSubs.message == "ok" && resSubs.data.length > 0) {
         setDonationsSubscriptions(resSubs.data);
+      } else {
+        setDonationsSubscriptions([]);
       }
     } catch (error) {
       console.error(error);
@@ -241,7 +244,7 @@ export function ChatStreaming({
             </div>
           ))}
 
-        {showAllSubs && donationsSubscriptions.length > 1 && (
+        {showAllSubs && donationsSubscriptions.length >= 1 && (
           <button
             style={{ width: "97%", marginLeft: "5px" }}
             onClick={() => setShowAllSubs(false)}
@@ -277,7 +280,22 @@ export function ChatStreaming({
             justifyContent: "center",
           }}
         >
-          {getDonationSubscriptionCard(donationsSubscriptions)}
+          {donationsSubscriptions.length >= 1
+            ? getDonationSubscriptionCard(donationsSubscriptions)
+            : !chatExpandeds && (
+                <h3
+                  style={{
+                    color: "#f36196",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                  }}
+                  // onClick={() => {
+                  //   onMouseEnterPoints();
+                  // }}
+                >
+                  Regalá una suscripción
+                </h3>
+              )}
         </div>
         <div
           className={
@@ -300,39 +318,50 @@ export function ChatStreaming({
               display: showAllSubs && "none",
             }}
           >
-            {displayDonations[0] !== undefined ? (
-              [...displayDonations].map((donation, index) => (
-                <Donation
-                  key={index}
-                  donation={donation}
-                  index={index}
-                  callback={() => {
-                    toggleDonationCard(
-                      donation?.Pixeles,
-                      donation?.FromUserInfo.NameUser,
-                      donation?.FromUserInfo.Avatar,
-                      donation?.Text,
-                      donation?.userLook,
-                      donation?.userColor
-                    );
-                    setShowAllDonations(true);
-                    setDonationCardVisible(donationCardVisible);
-                    setSelectedDonation(donation);
+            {displayDonations[0] !== undefined
+              ? [...displayDonations].map((donation, index) => (
+                  <Donation
+                    key={index}
+                    donation={donation}
+                    index={index}
+                    callback={() => {
+                      toggleDonationCard(
+                        donation?.Pixeles,
+                        donation?.FromUserInfo.NameUser,
+                        donation?.FromUserInfo.Avatar,
+                        donation?.Text,
+                        donation?.userLook,
+                        donation?.userColor
+                      );
+                      setShowAllDonations(true);
+                      setDonationCardVisible(donationCardVisible);
+                      setSelectedDonation(donation);
 
-                    setClickCount((prevCount) => prevCount + 1);
+                      setClickCount((prevCount) => prevCount + 1);
 
-                    if (clickCount >= 1) {
-                      setFirstClick(true);
-                    }
+                      if (clickCount >= 1) {
+                        setFirstClick(true);
+                      }
 
-                    setAllDonationsExpanded(true);
-                  }}
-                  ShowAllDonations={setShowAllDonations}
-                />
-              ))
-            ) : (
-              <></>
-            )}
+                      setAllDonationsExpanded(true);
+                    }}
+                    ShowAllDonations={setShowAllDonations}
+                  />
+                ))
+              : !chatExpandeds && (
+                  <h3
+                    style={{
+                      color: "#f36196",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                    }}
+                    onClick={() => {
+                      onMouseEnterPoints();
+                    }}
+                  >
+                    Envia pixeles
+                  </h3>
+                )}
           </div>
           <button
             style={{
@@ -421,7 +450,7 @@ export function ChatStreaming({
     if (res.message == "ok") {
       setGetUserTheChat(res.data);
       setShowGetUserTheChat(true);
-      if (user?.Following.includes(res?.data.id)) {
+      if (user?.Following.hasOwnProperty(res?.data.id)) {
         setGetUserTheChatFollowing(true);
       }
     }
@@ -445,8 +474,15 @@ export function ChatStreaming({
     const token = window.localStorage.getItem("token");
     if (token) {
       const res = await suscribirse(token, GetUserTheChat?.id);
-      alert({ type: "SUCCESS" });
-      // alert({ type: "ERROR" });
+      if (res?.data?.message === "ok") {
+        console.log("JIOM");
+        alert({ type: "SUCCESS" });
+      } else {
+        alert({
+          type: "ERROR",
+          message: res?.data?.message,
+        });
+      }
     }
   };
   const ModeratorUserChat = async (action, actionAgainst, timeOut, room) => {
@@ -495,7 +531,7 @@ export function ChatStreaming({
             color: "white",
             position: "fixed",
             right: "10px",
-            top: "84px",
+            top: "66px",
             transform: "rotate(180deg)",
             zIndex: "99999",
           }}
@@ -512,7 +548,7 @@ export function ChatStreaming({
             color: "white",
             position: "fixed",
             right: "24%",
-            top: "84px",
+            top: "66px",
             zIndex: "99999",
           }}
           className="chat-button-more"

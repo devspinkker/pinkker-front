@@ -1,7 +1,7 @@
 .channel-body {
     width: 99.9%;
     min-height: 1500px;
-    background-color: #0e0e10;
+    background-color: #080808;
     scrollbar-width: none;
     z-index: 10000;
     overflow-x: hidden;

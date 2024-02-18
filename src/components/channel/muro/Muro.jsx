@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { ScaleLoader } from "react-spinners";
 
 import TweetCard from "../../muro/tweet/TweetCard";
-import { getTweetUser, getUserFollow } from "../../../services/tweet";
+import { getTweetUser, getUserFollow } from "../../../services/backGo/tweet";
 
 import FollowCard from "../../muro/FollowCard";
 

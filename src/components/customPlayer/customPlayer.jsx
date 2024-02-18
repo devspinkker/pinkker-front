@@ -94,7 +94,7 @@ export default function CustomPlayer({
         videoRef.current?.currentTime != null &&
         videoRef.current?.currentTime != 0
       ) {
-        videoRef.current.currentTime = videoRef.current.duration - 20;
+        videoRef.current.currentTime = videoRef.current.duration;
         setPreLoad(true);
         setCurrentTime(videoRef.current.currentTime);
       }
@@ -122,25 +122,29 @@ export default function CustomPlayer({
     }
   };
   const videoHandler = () => {
-    if (playing === false) {
-      videoRef.current.currentTime = videoRef.current.duration - 5;
-      videoRef.current.play();
-      setPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setPlaying(false);
+    if (!videoLoading) {
+      if (playing === false) {
+        videoRef.current.currentTime = videoRef.current.duration - 5;
+        videoRef.current.play();
+        setPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setPlaying(false);
+      }
     }
   };
 
   const mutedPlayer = () => {
-    if (muted === true) {
-      videoRef.current.muted = false;
-      setMuted(false);
-      setVolumePlayer(0.2);
-    } else if (muted === false) {
-      videoRef.current.muted = true;
-      setMuted(true);
-      setVolumePlayer(0);
+    if (!videoLoading) {
+      if (muted === true) {
+        videoRef.current.muted = false;
+        setMuted(false);
+        setVolumePlayer(0.2);
+      } else if (muted === false) {
+        videoRef.current.muted = true;
+        setMuted(true);
+        setVolumePlayer(0);
+      }
     }
   };
 
@@ -385,8 +389,8 @@ export default function CustomPlayer({
             style={{ marginLeft: expanded && "-50px" }}
             className="customPlayer-top"
           >
-            <div className="channel-custom-player-online">
-              <h4>EN DIRECTO</h4>
+            <div className="channel--player-online">
+              {/* <h4>EN DIRECTO</h4> */}
             </div>
           </div>
         );

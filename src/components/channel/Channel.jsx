@@ -297,7 +297,7 @@ export default function Channel({
         setStreamerData(dataStreamer.data);
       }
       let loggedUser = window.localStorage.getItem("_id");
-      if (dataStreamer.data?.Followers.includes(loggedUser)) {
+      if (dataStreamer.data?.Followers.hasOwnProperty(loggedUser)) {
         setFollowParam(true);
       } else {
         setFollowParam(false);
@@ -460,7 +460,10 @@ export default function Channel({
     setFollowParam(true);
     let res = await follow(loggedUser, streamerData.id);
     setStreamerData((prevData) => {
-      const updatedFollowers = [...prevData.Followers, usuarioID];
+      const updatedFollowers = {
+        ...prevData.Followers,
+        [usuarioID]: { Since: new Date(), Notifications: true },
+      };
       return { ...prevData, Followers: updatedFollowers };
     });
   };
@@ -472,9 +475,8 @@ export default function Channel({
     setFollowParam(false);
 
     setStreamerData((prevData) => {
-      const updatedFollowers = prevData.Followers.filter(
-        (follower) => follower !== usuarioID
-      );
+      const updatedFollowers = { ...prevData.Followers };
+      delete updatedFollowers[usuarioID];
       return { ...prevData, Followers: updatedFollowers };
     });
   };
@@ -666,7 +668,7 @@ export default function Channel({
             margin: "0 auto",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "space-start",
           }}
         >
           <div style={{ marginLeft: "0px" }} className="channel-v2-primary">
@@ -1085,11 +1087,13 @@ export default function Channel({
               >
                 {" "}
                 <a onClick={() => togglePopupFollowers(0)}>
-                  {streamerData && streamerData.Followers.length} seguidores
+                  {streamerData && Object.keys(streamerData.Followers).length}{" "}
+                  seguidores
                 </a>{" "}
                 <a style={{ marginLeft: "10px", marginRight: "10px" }}>•</a>{" "}
                 <a onClick={() => togglePopupFollowers(1)}>
-                  {streamerData && streamerData.Following.length} seguidos
+                  {streamerData && Object.keys(streamerData.Followers).length}{" "}
+                  seguidos
                 </a>{" "}
                 <a style={{ marginLeft: "10px", marginRight: "10px" }}>•</a>{" "}
                 <a onClick={() => togglePopupFollowers(2)}>
@@ -1253,7 +1257,7 @@ export default function Channel({
     setType(typeD);
   }
 
-  const [chatExpanded, setChatExpanded] = useState(true);
+  const [chatExpanded, setChatExpanded] = useState(false);
 
   const handleToggleChat = () => {
     setChatExpanded(!chatExpanded);

@@ -22,9 +22,9 @@
     width: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    padding: 5px 10px;
-
-
+    padding: 2px 5px;
+    margin: 5px 7px;
+    border-radius: 7px;
 }
 
 .Message:hover {
@@ -147,7 +147,7 @@
     background: #171a1f;
     text-align: left;
     padding: 0px 0px 0px 15px;
-
+    font-weight: bold;
 }
 
 .ChatStreaming_form>button {
