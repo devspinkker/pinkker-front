@@ -144,14 +144,13 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
         return alert({ type: "ERROR", message: "Completa el año" });
 
       try {
-        const birthDate = `${rYear}-${rMonth}-${String(rDay).padStart(2, "0")}`;
-        console.log(birthDate);
+        // const birthDate = `${rYear}-${rMonth}-${String(rDay).padStart(2, "0")}`;
         const res = await signupNotConfirmed({
           nameUser: rUsername,
           fullName: FullName,
           Email: rEmail,
           password: rPassword,
-          BirthDate: birthDate,
+          // BirthDate: birthDate,
         });
         if (res && res.message == "email to confirm") {
           setCodeConfirm(true);
@@ -214,9 +213,10 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
       setErrorUsername("*Selecciona un nombre de usuario");
       return;
     }
-    if (isUsernameLength(e)) {
+    if (e.length <= 5) {
+      console.log(e);
       setErrorUsername(
-        "*Los nombres de usuario deben tener entre 3 y 15 caracteres."
+        "*Los nombres de usuario deben tener entre 5 y 15 caracteres."
       );
       return;
     }
@@ -491,7 +491,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                   {errorEmail}
                 </p>
               </div>
-              <div className="auth-content-input">
+              {/* <div className="auth-content-input">
                 <p>Fecha de nacimiento</p>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <input
@@ -525,7 +525,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                     type="number"
                   />
                 </div>
-              </div>
+              </div> */}
               <div className="auth-text">
                 <p
                   className=""
