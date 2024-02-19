@@ -110,7 +110,6 @@ export function ChatStreaming({
 
     try {
       const resSubs = await GetSubssChat(streamerData.id);
-      console.log(resSubs);
       if (resSubs.message == "ok" && resSubs.data.length > 0) {
         setDonationsSubscriptions(resSubs.data);
       } else {
@@ -475,7 +474,6 @@ export function ChatStreaming({
     if (token) {
       const res = await suscribirse(token, GetUserTheChat?.id);
       if (res?.data?.message === "ok") {
-        console.log("JIOM");
         alert({ type: "SUCCESS" });
       } else {
         alert({
@@ -496,7 +494,6 @@ export function ChatStreaming({
           room,
           token
         );
-        console.log(res);
         alert({ type: "SUCCESS" });
       } catch (error) {
         alert({ type: "ERROR" });

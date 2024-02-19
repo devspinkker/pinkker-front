@@ -27,9 +27,7 @@ export function CreateClip() {
       try {
         const queryParams = new URLSearchParams(window.location.search);
         const totalKey = queryParams.get("totalKey");
-        console.log("una vez");
         const response = await GetBuffer(totalKey);
-        console.log("ya llego");
 
         const data = await response.arrayBuffer();
         const blob = new Blob([data], { type: "video/mp4" });
@@ -45,7 +43,6 @@ export function CreateClip() {
         setVideoUrl(videoURL);
         setVideo({ blob, arrayBuffer: data });
         videoRef.current = video;
-        console.log("ya llego 2");
       } catch (error) {
         console.error(error);
       }

@@ -8,7 +8,6 @@ const baseURL = process.env.REACT_APP_BACKCHAT;
 
 export async function actionsModeratorChatStream(action, actionAgainst, timeOut, room, token) {
     try {
-        console.log(action, actionAgainst, timeOut, room, token,);
         const response = await axios.post(
             `${baseURL}/actionsModeratorChatStream`,
             {
