@@ -28,7 +28,7 @@ export async function actionsModeratorChatStream(action, actionAgainst, timeOut,
         return error
     }
 }
-export async function actionsChatStream(action, actionAgainst, timeOut, token) {
+export async function actionsChatStream(action, actionAgainst, timeOut, token, room) {
     try {
         const response = await axios.post(
             `${baseURL}/actionsChatStream`,
@@ -36,6 +36,7 @@ export async function actionsChatStream(action, actionAgainst, timeOut, token) {
                 action,
                 actionAgainst,
                 timeOut,
+                room
             },
             {
                 headers: {

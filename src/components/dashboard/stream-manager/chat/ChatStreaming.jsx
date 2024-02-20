@@ -57,10 +57,14 @@ export function ChatStreaming({
         console.error("WebSocket error:", error);
       };
       newSocket.onmessage = (event) => {
-        const receivedMessage = JSON.parse(event.data);
-        newSocket.send("onmessage");
-        setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-        scrollToBottom();
+        try {
+          const receivedMessage = JSON.parse(event.data);
+          newSocket.send("onmessage");
+          setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+          scrollToBottom();
+        } catch (error) {
+          console.error("Error al analizar el mensaje JSON:", error);
+        }
       };
 
       newSocket.onclose = () => {
@@ -89,6 +93,17 @@ export function ChatStreaming({
       }
     };
   }, [history]);
+  useEffect(() => {
+    const pingInterval = setInterval(() => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send("ping");
+      }
+    }, 30000);
+
+    return () => {
+      clearInterval(pingInterval);
+    };
+  }, [socket]);
 
   const scrollToBottom = () => {
     if (conversationRef.current) {
@@ -206,7 +221,7 @@ export function ChatStreaming({
                 // paddingRight: "2px",
                 borderRadius: "10px",
                 height: "20px",
-                cursor: index === 0 ? "pointer" : "default", // Hacer el primer elemento clickeable
+                cursor: index === 0 ? "pointer" : "default",
               }}
             >
               <img
@@ -399,6 +414,8 @@ export function ChatStreaming({
   };
 
   const sendMessage = async () => {
+    setMessage("");
+
     try {
       const token = window.localStorage.getItem("token");
       if (!token) {
@@ -416,8 +433,6 @@ export function ChatStreaming({
         { message },
         config
       );
-
-      setMessage("");
     } catch (error) {
       console.log(error);
     }
@@ -444,8 +459,11 @@ export function ChatStreaming({
   };
 
   const [GetUserTheChatFollowing, setGetUserTheChatFollowing] = useState(false);
-  const GetUserTheChatFunc = async (NameUser) => {
-    const res = await getUserByNameUser(NameUser);
+  const [InfoUserChatSelect, setInfoUserChatSelect] = useState({});
+  const GetUserTheChatFunc = async (message) => {
+    setInfoUserChatSelect(message);
+    console.log(message);
+    const res = await getUserByNameUser(message.nameUser);
     if (res.message == "ok") {
       setGetUserTheChat(res.data);
       setShowGetUserTheChat(true);
@@ -500,7 +518,12 @@ export function ChatStreaming({
       }
     }
   };
-  const ModeratorUserChatStreamer = async (action, actionAgainst, timeOut) => {
+  const ModeratorUserChatStreamer = async (
+    room,
+    action,
+    actionAgainst,
+    timeOut
+  ) => {
     const token = window.localStorage.getItem("token");
     try {
       if (token) {
@@ -508,7 +531,8 @@ export function ChatStreaming({
           action,
           actionAgainst,
           timeOut,
-          token
+          token,
+          room
         );
       }
       alert({ type: "SUCCESS" });
@@ -643,16 +667,18 @@ export function ChatStreaming({
               >
                 {GetUserTheChatFollowing ? "dejar de seguir" : "seguir"}
               </span>
-              <div
-                onClick={() => GiftsubscriptionTheChat()}
-                className="ShowGetUserTheChat-actions-suscripción"
-              >
-                <img
-                  style={{ width: "19px", paddingLeft: "2px" }}
-                  src="https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png"
-                />
-                <span>Regalar una suscripción</span>
-              </div>
+              {GetUserTheChat.id !== window.localStorage.getItem("_id") && (
+                <div
+                  onClick={() => GiftsubscriptionTheChat()}
+                  className="ShowGetUserTheChat-actions-suscripción"
+                >
+                  <img
+                    style={{ width: "19px", paddingLeft: "2px" }}
+                    src="https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png"
+                  />
+                  <span>Regalar una suscripción</span>
+                </div>
+              )}
             </div>
             {GetInfoUserInRoom &&
             GetInfoUserInRoom.Moderator &&
@@ -693,6 +719,7 @@ export function ChatStreaming({
                 <div
                   onClick={() =>
                     ModeratorUserChatStreamer(
+                      streamerChat.id,
                       "baneado",
                       GetUserTheChat.NameUser,
                       0
@@ -705,6 +732,7 @@ export function ChatStreaming({
                 <div
                   onClick={() =>
                     ModeratorUserChatStreamer(
+                      streamerChat.id,
                       "timeOut",
                       GetUserTheChat.NameUser,
                       10
@@ -714,27 +742,65 @@ export function ChatStreaming({
                 >
                   <span>TimeOut</span>
                 </div>
+                {!InfoUserChatSelect?.vip ? (
+                  <div
+                    onClick={() =>
+                      ModeratorUserChatStreamer(
+                        streamerChat.id,
+                        "vip",
+                        GetUserTheChat.NameUser,
+                        0
+                      )
+                    }
+                    className="ShowGetUserTheChat-actions-Moderator-vip"
+                  >
+                    <span>vip</span>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() =>
+                      ModeratorUserChatStreamer(
+                        streamerChat.id,
+                        "rVip",
+                        GetUserTheChat.NameUser,
+                        0
+                      )
+                    }
+                    className="ShowGetUserTheChat-actions-Moderator-vip"
+                  >
+                    <span>sacar vip</span>
+                  </div>
+                )}
 
-                <div
-                  onClick={() =>
-                    ModeratorUserChatStreamer("vip", GetUserTheChat.NameUser, 0)
-                  }
-                  className="ShowGetUserTheChat-actions-Moderator-vip"
-                >
-                  <span>vip</span>
-                </div>
-                <div
-                  onClick={() =>
-                    ModeratorUserChatStreamer(
-                      "moderator",
-                      GetUserTheChat.NameUser,
-                      0
-                    )
-                  }
-                  className="ShowGetUserTheChat-actions-Moderator-vip"
-                >
-                  <span>moderator</span>
-                </div>
+                {!InfoUserChatSelect?.moderator ? (
+                  <div
+                    onClick={() =>
+                      ModeratorUserChatStreamer(
+                        streamerChat.id,
+                        "moderator",
+                        GetUserTheChat.NameUser,
+                        0
+                      )
+                    }
+                    className="ShowGetUserTheChat-actions-Moderator-vip"
+                  >
+                    <span>moderator</span>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() =>
+                      ModeratorUserChatStreamer(
+                        streamerChat.id,
+                        "rModerator",
+                        GetUserTheChat.NameUser,
+                        0
+                      )
+                    }
+                    className="ShowGetUserTheChat-actions-Moderator-vip"
+                  >
+                    <span>quitar Moderator</span>
+                  </div>
+                )}
               </div>
             ) : (
               <></>
@@ -745,7 +811,7 @@ export function ChatStreaming({
           <div
             key={index}
             className="Message"
-            onClick={() => GetUserTheChatFunc(message.nameUser)}
+            onClick={() => GetUserTheChatFunc(message)}
             style={{ cursor: "pointer" }}
           >
             <div className="MessagesChat">
