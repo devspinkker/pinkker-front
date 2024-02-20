@@ -71,6 +71,8 @@
 }
 
 .categories-home-container h2 {
+    font-weight: bold;
+    font-size: 20px;
     color: #fff;
 }
 

@@ -21,6 +21,7 @@ import {
   GetClipsMostViewedLast48Hours,
   MoreViewOfTheClip,
 } from "../../../services/backGo/clip";
+import CustomSelect from "./CustomSelect";
 
 export default function ExploreCategories({ isMobile }) {
   const history = useHistory();
@@ -112,477 +113,118 @@ export default function ExploreCategories({ isMobile }) {
     history.push(`/plataform/explore?tipo=${e}`);
     setBarPosition(position);
   };
+  const [filterValue, setFilterValue] = useState("");
+  const [sortBy, setSortBy] = useState("Most Viewed");
+
+  const handleSortByChange = (e) => {
+    setSortBy(e);
+  };
+
+  const sortedCategories = () => {
+    let sorted = categories.slice();
+    if (filterValue.trim() !== "") {
+      sorted = sorted.filter((category) =>
+        category.nombre.toLowerCase().includes(filterValue.toLowerCase())
+      );
+    }
+    if (sortBy === "Most Viewed") {
+      return sorted.slice().sort((a, b) => b.spectators - a.spectators);
+    } else if (sortBy === "Least Viewed") {
+      return sorted.slice().sort((a, b) => a.spectators - b.spectators);
+    } else {
+      return sorted.slice().sort(() => Math.random() - 0.5);
+    }
+  };
+
   return (
     <div className="explorecategories-body">
       <div>{isMobile && <Search isMobile={isMobile} />}</div>
-      <div style={{ width: "95%" }} className="type-set">
-        <div onClick={() => filter("streams", 0)} className={"type-card"}>
+      <div className="type-set">
+        <div
+          style={{
+            background: barPosition == 0 ? "#343843" : "",
+          }}
+          onClick={() => filter("streams", 0)}
+          className={"type-card"}
+        >
           <h3 style={{ display: "flex", alignItems: "center" }}>STREAMS</h3>
         </div>
-        <div onClick={() => filter("categories", 2)} className={"type-card"}>
+        <div
+          style={{
+            background: barPosition == 2 ? "#343843" : "",
+          }}
+          onClick={() => filter("categories", 2)}
+          className={"type-card"}
+        >
           <h3>Categorias</h3>
         </div>
-        <div onClick={() => filter("clips", 4)} className={"type-card"}>
+        <div
+          style={{
+            background: barPosition == 4 ? "#343843" : "",
+          }}
+          onClick={() => filter("clips", 4)}
+          className={"type-card"}
+        >
           <h3>Clips</h3>
         </div>
 
-        <div
+        {/* <div
           className="type-line"
           style={{ left: `calc(${barPosition} * 48px)` }}
-        ></div>
+        ></div> */}
       </div>
 
       <div className="explorecategories-card-container">
-        {isLoading && (
-          <div
-            style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}
-          >
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
+        {filtros?.categories && (
+          <>
+            <div
+              style={{
+                width: "100%",
+              }}
+            >
+              <div className="explorecategories-card-container-filters">
+                <div className="explorecategories-card-container-filter-input">
+                  <i
+                    style={{ fontSize: "16px", color: "rgb(89 89 89)" }}
+                    class="fas fa-search navbar-search-i"
+                  />
+                  <input
+                    type="text"
+                    value={filterValue}
+                    onChange={(e) => setFilterValue(e.target.value)}
+                    placeholder="Search"
+                  />
+                </div>
+                <div>
+                  <CustomSelect
+                    options={["Random", "Most Viewed", "Least Viewed"]}
+                    defaultValue="Most Viewed"
+                    onChange={(value) => handleSortByChange(value)}
+                  />
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                }}
+              >
+                {categories &&
+                  sortedCategories()?.map((categorie) => (
+                    <CardCategorie
+                      key={categorie.nombre}
+                      width={isMobile ? "160px" : "160px"}
+                      isLoading={isLoading}
+                      name={categorie.nombre}
+                      image={categorie.img ?? "/images/pinkker-stream.png"}
+                      spectators={categorie.spectators}
+                      tags={categorie.tags}
+                    />
+                  ))}
+              </div>
             </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-            <div style={{ marginRight: "9px", marginTop: "30px" }}>
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={75}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={100}
-                style={{ backgroundColor: "rgb(32, 32, 31)" }}
-              />
-            </div>
-          </div>
+          </>
         )}
-
-        {filtros?.categories &&
-          categories?.map((categorie) => (
-            <CardCategorie
-              width={isMobile ? "160px" : "160px"}
-              isLoading={isLoading}
-              name={categorie.nombre}
-              image={categorie.img ?? "/images/pinkker-stream.png"}
-              spectators={categorie.spectators}
-              tags={categorie.tags}
-            />
-          ))}
 
         {filtros?.streams &&
           streams &&

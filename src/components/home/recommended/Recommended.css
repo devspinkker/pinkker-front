@@ -28,6 +28,8 @@
 }
 
 .manager-recommended>h2 {
+    font-weight: bolder;
+    font-size: 20px;
     color: #fff;
 }
 

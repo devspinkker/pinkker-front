@@ -1,12 +1,114 @@
+.type-card {
+    margin: 7px;
+    border-radius: 7px;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    width: 200px;
+}
+
+.type-card>h3 {
+    text-align: center;
+}
+
 .explorecategories-body {
     padding: 2rem 0rem;
 }
 
 .explorecategories-card-container {
     display: flex;
-    width: 92%;
+    width: 77%;
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+.explorecategories-card-container-filters {
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.explorecategories-card-container-filter-input {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    width: 42%;
+    background: #121418;
+    border-radius: 7px;
+    padding: 0px 10px;
+}
+
+
+
+.explorecategories-card-container-filter-input>i {
+    position: relative;
+    top: 2px;
+}
+
+input {
+    background-color: transparent;
+    width: 100%;
+    height: 35px;
+    font-family: 'Montserrat';
+    outline: none;
+    color: #ffff;
+    border: none;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+
+.custom-select-container {
+    display: flex;
+    align-items: center;
+    height: 14px;
+    width: 200px;
+    background: #202329;
+    color: #fff;
+    border-radius: 7px;
+    padding: 13px 10px;
+    border: none;
+    justify-content: center;
+}
+
+.custom-select-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    padding: 0px 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.custom-select-options {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    background: #121418;
+    color: #fff;
+    width: 201px;
+    top: 137px;
+    z-index: 100000000;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+
+}
+
+.custom-select-option {
+    cursor: pointer;
+    padding: 7px;
+    width: 93%;
+    border-radius: 7px;
+}
+
+.custom-select-option:hover {
+    background: #1b212c;
+
 }
 
 .filtros:hover {

@@ -109,5 +109,13 @@
 }
 
 .type-set {
-    width: 95%;
+    background: #121418;
+    width: 339px;
+    margin-left: 10px;
+    border-radius: 10px;
+
 }
+
+/* .type-set :hover {
+    background: #f36196;
+} */
