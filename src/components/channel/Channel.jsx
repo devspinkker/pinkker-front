@@ -1307,8 +1307,11 @@ export default function Channel({
                 {!isMobile && (
                   <div
                     style={{
-                      width: "95%",
-                      margin: "0 auto",
+                      display: "flex",
+                      justifyContent: "space-around",
+                      width: "92.5%",
+                      marginLeft: "3rem",
+                      // margin: "0 auto",
                       borderTop: "0.01em solid #2b2b2b3f",
                     }}
                     className="type-set"

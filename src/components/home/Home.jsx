@@ -28,6 +28,7 @@ import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
 import { getUserByIdTheToken } from "../../services/backGo/user";
 import CardCategorie from "../home/categories/CardCategorie";
+import { Skeleton } from "@mui/material";
 
 const Home = ({
   socketMain,
@@ -683,6 +684,39 @@ const Home = ({
             transform: `translateX(${currentIndex * -10}%)`,
           }}
         >
+          {!Categories[1] && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              {[...Array(5)].map((_, index) => (
+                <div
+                  style={{ marginRight: "9px", marginTop: "30px" }}
+                  key={index}
+                >
+                  <Skeleton
+                    variant="rectangular"
+                    width={150}
+                    height={226}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width={75}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width={100}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
           {Categories &&
             Categories.map((categorie) => (
               <CardCategorie

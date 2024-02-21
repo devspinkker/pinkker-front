@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Skeleton from "@mui/material/Skeleton";
+// import { Palette, getPalette } from "react-palette";
 import "./CardCategorie.css";
 
 export default function CustomCard(props) {
@@ -14,32 +14,24 @@ export default function CustomCard(props) {
       return viewers;
     }
   };
-  const tags = [];
 
   // Pre render image from props
   const [image, setImage] = useState(false);
+  const [dominantColor, setDominantColor] = useState("#FFFFFF"); // Color predeterminado
 
   useEffect(() => {
     const img = new Image();
     img.src = props.image;
-    img.onload = () => {
+    img.onload = async () => {
       setImage(true);
+      // const { data } = await getPalette(img); // Obtiene el color predominante
+      // setDominantColor(data.vibrant || "#FFFFFF"); // Establece el color predominante o uno predeterminado si no se encuentra
     };
   }, [props.image]);
 
-  getTagsWithLimit(props.tags, 2);
-
-  async function getTagsWithLimit(tag, limit) {
-    for (let i = 0; i < tag?.length; i++) {
-      if (i < limit) {
-        tags.push(tag[i]);
-      }
-    }
-  }
-
-  function getCard() {
-    if (image) {
-      return (
+  return (
+    <>
+      {image && (
         <div
           style={{
             position: props.isLoading && "absolute",
@@ -50,7 +42,13 @@ export default function CustomCard(props) {
         >
           <div className="custom-categories-card-contain">
             <Link to={"/categorie/" + props.name}>
+              <div className="custom-categories-card-contain-pinkker">
+                <span>PINKKER</span>
+              </div>
               <img
+                style={{
+                  border: "3px solid black",
+                }}
                 className="img-categorie-card"
                 src={props.image}
                 loading={"lazy"}
@@ -63,14 +61,11 @@ export default function CustomCard(props) {
               <span id="pulsatingDot" />
               <p className="custom-categories-p-2-spectators">
                 <span>{formatViewers(props.spectators)}</span>espectadores
-                {/* {props.spectators} espectadores */}
               </p>
             </div>
           </div>
         </div>
-      );
-    }
-  }
-
-  return <>{getCard()}</>;
+      )}
+    </>
+  );
 }

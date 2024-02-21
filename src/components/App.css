@@ -207,9 +207,7 @@ code {
 .type-card:hover {}
 
 .type-card.active {
-  color: #f36196;
-  transition: 0.5s;
-
+  background: #343843;
 }
 
 .type-line {

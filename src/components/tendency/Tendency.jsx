@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import "./Tendency.css";
-
-import TendencyCard from "./card/TendencyCard";
 import { useSelector } from "react-redux";
 import ReactPlayer from "react-player";
 import ClipTendencyCard from "./card/ClipTendencyCard";
@@ -14,6 +12,7 @@ import {
 } from "../../services/backGo/clip";
 import { GetStreamsMostViewed } from "../../services/backGo/streams";
 import CardStream from "../home/categories/CardStream";
+import { Skeleton } from "@mui/material";
 
 export default function Tendency({ isMobile }) {
   const token = useSelector((state) => state.token);
@@ -78,6 +77,39 @@ export default function Tendency({ isMobile }) {
     if (type === 0) {
       return (
         <div className="explorecategories-card-container">
+          {!vodTendency && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              {[...Array(15)].map((_, index) => (
+                <div
+                  style={{ marginRight: "9px", marginTop: "30px" }}
+                  key={index}
+                >
+                  <Skeleton
+                    variant="rectangular"
+                    width={150}
+                    height={226}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width={75}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width={100}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
           {vodTendency?.map((vod, index) => (
             <CardStream
               width={
@@ -100,9 +132,42 @@ export default function Tendency({ isMobile }) {
       );
     }
 
-    if (type === 1 && clipTendency) {
+    if (type === 1) {
       return (
         <div className="tendency-card-container-clips">
+          {!clipTendency && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              {[...Array(15)].map((_, index) => (
+                <div
+                  style={{ marginRight: "9px", marginTop: "30px" }}
+                  key={index}
+                >
+                  <Skeleton
+                    variant="rectangular"
+                    width={150}
+                    height={226}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width={75}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width={100}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
           {clipTendency?.map((vod, index) => (
             <div
               onClick={() => {
@@ -157,13 +222,18 @@ export default function Tendency({ isMobile }) {
             style={{ margin: "0", justifyContent: "left", marginTop: "15px" }}
             className="type-set"
           >
-            <div className={type === 0 ? "type-card active" : "type-card"}>
-              <h3 onClick={() => setType(0)}>Streams</h3>
+            <div
+              onClick={() => setType(0)}
+              className={type === 0 ? "type-card active" : "type-card"}
+            >
+              <h3>Streams</h3>
             </div>
-            <div className={type === 1 ? "type-card active" : "type-card"}>
+            <div
+              onClick={() => setType(1)}
+              className={type === 1 ? "type-card active" : "type-card"}
+            >
               <h3 onClick={() => setType(1)}>Clips</h3>
             </div>
-            <div style={{ left: getLeftForType() }} className="type-line"></div>
           </div>
 
           <div class="pinkker-tab-line"></div>

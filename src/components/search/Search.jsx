@@ -121,7 +121,7 @@ export default function Search() {
                               marginLeft: "10px",
                             }}
                           >
-                            {user.FullName}
+                            {user.NameUser}
                           </h3>
                           <h3
                             style={{

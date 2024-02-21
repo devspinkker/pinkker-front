@@ -207,36 +207,54 @@ export default function DirectosRecommended({
             transform: `translateX(${currentIndex * -20}%)`,
           }}
         >
-          {streams == null || !streams.length
-            ? streamsData?.map((streams, index) => {
-                return (
-                  <div className="home-recommended-card-container-streams">
-                    <VideoCard
-                      tags={streams?.tags}
-                      isMobile={isMobile}
-                      streamer={streams?.streamer}
-                      categorie={"test"}
-                      title={streams?.title}
-                      viewers={streams?.ViewerCount}
-                    />
-                  </div>
-                );
-              })
-            : streams &&
-              streams.map((stream, index) => (
-                <div className="home-recommended-card-container-streams">
-                  <VideoCard
-                    tags={stream.stream_tag}
-                    isMobile={isMobile}
-                    streamerImage={stream.streamer_avatar}
-                    streamer={stream.streamer}
-                    categorie={stream.stream_category}
-                    title={stream.stream_title}
-                    viewers={stream.ViewerCount}
-                    image={stream.stream_thumbnail}
+          {streams == null ? (
+            <div
+              className="home-recommended-card-container-streams"
+              style={{
+                width: "100%",
+                height: "298px",
+              }}
+            >
+              {[...Array(5)].map((_, index) => (
+                <div
+                  style={{ marginRight: "9px", marginTop: "30px" }}
+                  key={index}
+                >
+                  <Skeleton
+                    variant="rectangular"
+                    width={150}
+                    height={226}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width={75}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width={100}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
                   />
                 </div>
               ))}
+            </div>
+          ) : (
+            streams.map((stream, index) => (
+              <div className="home-recommended-card-container-streams">
+                <VideoCard
+                  tags={stream.stream_tag}
+                  isMobile={isMobile}
+                  streamerImage={stream.streamer_avatar}
+                  streamer={stream.streamer}
+                  categorie={stream.stream_category}
+                  title={stream.stream_title}
+                  viewers={stream.ViewerCount}
+                  image={stream.stream_thumbnail}
+                />
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
