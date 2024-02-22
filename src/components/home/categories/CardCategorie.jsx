@@ -1,7 +1,54 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import { Palette, getPalette } from "react-palette";
 import "./CardCategorie.css";
+
+function getDominantColor(imageSrc) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.onload = function () {
+      const canvas = document.createElement("canvas");
+      canvas.width = this.width;
+      canvas.height = this.height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(this, 0, 0);
+
+      const imageData = ctx.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      ).data;
+
+      const colorMap = new Map();
+      for (let i = 0; i < imageData.length; i += 4) {
+        const r = imageData[i];
+        const g = imageData[i + 1];
+        const b = imageData[i + 2];
+        const color = `${r},${g},${b}`;
+        colorMap.set(color, (colorMap.get(color) || 0) + 1);
+      }
+
+      let maxCount = 0;
+      let dominantColor = "0,0,0";
+      colorMap.forEach((count, color) => {
+        if (count > maxCount) {
+          maxCount = count;
+          dominantColor = color;
+        }
+      });
+
+      resolve(dominantColor);
+    };
+
+    img.onerror = function () {
+      reject(new Error("No se pudo cargar la imagen"));
+    };
+
+    img.src = imageSrc;
+  });
+}
 
 export default function CustomCard(props) {
   const formatViewers = (viewers) => {
@@ -15,17 +62,21 @@ export default function CustomCard(props) {
     }
   };
 
-  // Pre render image from props
   const [image, setImage] = useState(false);
-  const [dominantColor, setDominantColor] = useState("#FFFFFF"); // Color predeterminado
+  const [dominantColor, setDominantColor] = useState("#8f54a0");
 
   useEffect(() => {
     const img = new Image();
     img.src = props.image;
     img.onload = async () => {
       setImage(true);
-      // const { data } = await getPalette(img); // Obtiene el color predominante
-      // setDominantColor(data.vibrant || "#FFFFFF"); // Establece el color predominante o uno predeterminado si no se encuentra
+      // try {
+      //   const color = await getDominantColor(img.src);
+      //   console.log(color);
+      //   setDominantColor(`rgb(${color})`);
+      // } catch (error) {
+      //   console.error("Error al obtener el color más fuerte:", error);
+      // }
     };
   }, [props.image]);
 
@@ -42,12 +93,17 @@ export default function CustomCard(props) {
         >
           <div className="custom-categories-card-contain">
             <Link to={"/categorie/" + props.name}>
-              <div className="custom-categories-card-contain-pinkker">
+              <div
+                style={{
+                  background: ` ${dominantColor}`,
+                }}
+                className="custom-categories-card-contain-pinkker"
+              >
                 <span>PINKKER</span>
               </div>
               <img
                 style={{
-                  border: "3px solid black",
+                  border: `3px solid ${dominantColor}`,
                 }}
                 className="img-categorie-card"
                 src={props.image}
