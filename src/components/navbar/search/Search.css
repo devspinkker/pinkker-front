@@ -99,7 +99,7 @@ input::placeholder {
   }
 
   .navbar-search-margin {
-    margin-bottom: 0px !important;
+    margin: 11px !important;
     left: 0px !important;
     width: 100% !important;
     height: 50px !important;

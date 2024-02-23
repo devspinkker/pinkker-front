@@ -726,6 +726,7 @@ const Home = ({
                 image={categorie.img ?? "/images/pinkker-stream.png"}
                 spectators={categorie.spectators}
                 tags={categorie.tags}
+                TopColor={categorie.TopColor}
               />
             ))}
         </div>

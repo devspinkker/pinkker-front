@@ -148,11 +148,12 @@
 }
 
 .custom-categories-card-contain-pinkker>span {
-    color: #ffff;
+    color: #8f54a0;
     letter-spacing: 1px;
 }
 
 @media screen and (max-width: 768px) {
+
     .custom-categories {
         width: 90%;
     }

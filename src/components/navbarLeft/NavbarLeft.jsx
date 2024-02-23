@@ -432,11 +432,11 @@ export default function NavbarLeft({
               </div>
               <div className="pixel-coming-soon-text-container">
                 <div className="pixel-coming-soon-text">
-                  <span className="pixel-coming-soon-text-pixel">Pixel</span>
-                  <span className="pixel-coming-soon-text-pxl">(PXL)</span>
+                  <span className="pixel-coming-soon-text-pixel">Pinkker</span>
+                  <span className="pixel-coming-soon-text-pxl">(Prime)</span>
                 </div>
                 <span className="pixel-coming-soon-navbarLeft-Comming-soon">
-                  Comming soon
+                  Ver beneficios!
                 </span>
               </div>
             </div>

@@ -238,12 +238,7 @@ export default function ExploreCategories({ isMobile }) {
                   />
                 </div>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                }}
-              >
+              <div className="explorecategories-card-container-sorted-content">
                 {categories &&
                   sortedCategories()?.map((categorie) => (
                     <CardCategorie
@@ -254,6 +249,7 @@ export default function ExploreCategories({ isMobile }) {
                       image={categorie.img ?? "/images/pinkker-stream.png"}
                       spectators={categorie.spectators}
                       tags={categorie.tags}
+                      TopColor={categorie.TopColor}
                     />
                   ))}
               </div>
