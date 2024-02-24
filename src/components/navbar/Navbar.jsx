@@ -250,7 +250,7 @@ function Navbar({
                     justifyContent: "space-around",
                     position: "relative",
                     width: "100%",
-                    paddingLeft: "6rem",
+                    paddingLeft: "0%",
                   }}
                 >
                   <div style={{ width: "200px" }}></div>

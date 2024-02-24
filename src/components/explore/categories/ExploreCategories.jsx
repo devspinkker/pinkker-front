@@ -114,7 +114,7 @@ export default function ExploreCategories({ isMobile }) {
     setBarPosition(position);
   };
   const [filterValue, setFilterValue] = useState("");
-  const [sortBy, setSortBy] = useState("Most Viewed");
+  const [sortBy, setSortBy] = useState("Mas visto");
 
   const handleSortByChange = (e) => {
     setSortBy(e);
@@ -127,9 +127,17 @@ export default function ExploreCategories({ isMobile }) {
         category.nombre.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
-    if (sortBy === "Most Viewed") {
+
+    sorted.forEach((item) => {
+      if (!item.hasOwnProperty("spectators")) {
+        item.spectators = 0;
+      }
+    });
+
+    // Luego, puedes realizar tu clasificación normalmente
+    if (sortBy === "Mas visto") {
       return sorted.slice().sort((a, b) => b.spectators - a.spectators);
-    } else if (sortBy === "Least Viewed") {
+    } else if (sortBy === "Menos visto") {
       return sorted.slice().sort((a, b) => a.spectators - b.spectators);
     } else {
       return sorted.slice().sort(() => Math.random() - 0.5);
@@ -232,8 +240,8 @@ export default function ExploreCategories({ isMobile }) {
                 </div>
                 <div>
                   <CustomSelect
-                    options={["Random", "Most Viewed", "Least Viewed"]}
-                    defaultValue="Most Viewed"
+                    options={["Random", "Mas visto", "Menos visto"]}
+                    defaultValue="Mas visto"
                     onChange={(value) => handleSortByChange(value)}
                   />
                 </div>

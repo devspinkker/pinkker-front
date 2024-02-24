@@ -76,7 +76,7 @@ export default function Tendency({ isMobile }) {
   function getType() {
     if (type === 0) {
       return (
-        <div className="explorecategories-card-container">
+        <div className="tendency-card-container-streams">
           {!vodTendency && (
             <div
               style={{

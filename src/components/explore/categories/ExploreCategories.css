@@ -17,7 +17,7 @@
 
 .explorecategories-card-container {
     display: flex;
-    width: 77%;
+    width: 94%;
     flex-direction: row;
     flex-wrap: wrap;
     /* .explorecategories-card-container-sorted-content {
@@ -81,6 +81,7 @@ input {
     padding: 13px 10px;
     border: none;
     justify-content: center;
+    cursor: pointer;
 }
 
 .custom-select-header {
@@ -129,9 +130,9 @@ input {
 
 .home-categories-card {
     max-width: 30%;
-    min-width: 400px;
+    min-width: 350px;
     padding: 6px;
-    background: #303030
+    /* background: #303030 */
 }
 
 .explorecategories-body-filtros {

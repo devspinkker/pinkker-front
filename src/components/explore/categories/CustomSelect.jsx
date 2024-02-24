@@ -12,11 +12,11 @@ export default function CustomSelect({ options, defaultValue, onChange }) {
 
   return (
     <div>
-      <div className="custom-select-container">
-        <div
-          className="custom-select-header"
-          onClick={() => setIsOpen(!isOpen)}
-        >
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="custom-select-container"
+      >
+        <div className="custom-select-header">
           <span>{selectedValue}</span>
           <i
             className={`fas fa-chevron-${isOpen ? "up" : "down"}`}

@@ -153,18 +153,17 @@
 .videocard-container:hover .videocard-image {
     color: #ff693d;
     font-weight: bold;
-    box-shadow: #f36196 -6px 6px;
-    transform: translate3d(6px, -6px, 0);
+    /* box-shadow: #f36196 -6px 6px; */
+    transform: translate3d(0px, -6px, 0);
     cursor: pointer;
 }
 
 .videocard-container:hover img {
     color: #ff693d;
     font-weight: bold;
-    box-shadow: #f36196 -6px 6px;
-    transform: translate3d(6px, -6px, 0);
+    transform: translate3d(0px, -6px, 0);
     cursor: pointer;
-    transition: 0.4s all;
+    transition: 0.2s all;
 }
 
 
