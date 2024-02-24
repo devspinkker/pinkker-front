@@ -88,6 +88,7 @@ export default function DirectosRecommended({
   isMobile,
   socketMain,
   handleMessage,
+  expanded,
 }) {
   const [streams, setStreams] = useState(null);
 
@@ -101,7 +102,7 @@ export default function DirectosRecommended({
       }
     };
     fetchData();
-  }, []);
+  }, [expanded]);
 
   const streamsData = [
     {
@@ -241,7 +242,13 @@ export default function DirectosRecommended({
             </div>
           ) : (
             streams.map((stream, index) => (
-              <div className="home-recommended-card-container-streams">
+              <div
+                style={{
+                  width: expanded ? "55vh" : "62vh",
+                  height: expanded ? "33vh" : "35vh",
+                }}
+                className="home-recommended-card-container-streams"
+              >
                 <VideoCard
                   tags={stream.stream_tag}
                   isMobile={isMobile}

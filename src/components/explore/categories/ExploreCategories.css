@@ -129,8 +129,8 @@ input {
 }
 
 .home-categories-card {
-    max-width: 30%;
-    min-width: 350px;
+    width: 44vh !important;
+    /* height: 41vh; */
     padding: 6px;
     /* background: #303030 */
 }

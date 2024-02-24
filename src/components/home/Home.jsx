@@ -653,6 +653,7 @@ const Home = ({
         isMobile={isMobile}
         socketMain={socketMain}
         handleMessage={handleMessage}
+        expanded={expanded}
       />
       <div className="categories-home-container">
         <div className="categories-home-manager">

@@ -165,7 +165,7 @@
   flex-direction: column;
   background-color: #080808;
   border-top: 1px solid #222328;
-  padding: 20px 7px;
+  padding: 20px 0px;
   overflow: hidden;
   transition: height 0.5s ease-in-out;
   height: auto;
