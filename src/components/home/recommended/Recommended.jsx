@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 
 import "./Recommended.css";
 
-import VideoCard from "../../card/VideoCard";
 import Skeleton from "@mui/material/Skeleton";
 import { Link } from "react-router-dom";
 
 import { GetAllsStreamsOnline } from "../../../services/backGo/streams";
+import CardStreamRecomendado from "../categories/CardStreamRecomendado";
 
 function CardSkeleto() {
   return (
@@ -243,13 +243,31 @@ export default function DirectosRecommended({
           ) : (
             streams.map((stream, index) => (
               <div
-                style={{
-                  width: expanded ? "55vh" : "62vh",
-                  height: expanded ? "33vh" : "35vh",
-                }}
+                style={
+                  {
+                    // width: expanded ? "55vh" : "62vh",
+                    // height: expanded ? "33vh" : "35vh",
+                  }
+                }
                 className="home-recommended-card-container-streams"
               >
-                <VideoCard
+                <CardStreamRecomendado
+                  tags={stream.stream_tag}
+                  isMobile={isMobile}
+                  streamer={stream.streamer}
+                  categorie={stream.stream_category}
+                  title={stream.stream_title}
+                  viewers={stream.ViewerCount}
+                  name={stream.streamer}
+                  isLoading={false}
+                  avatarStreamer={stream.streamer_avatar}
+                  image={
+                    stream.stream_thumbnail ?? "/images/pinkker-stream.png"
+                  }
+                  ViewerCount={stream.ViewerCount}
+                />
+
+                {/* <VideoCard
                   tags={stream.stream_tag}
                   isMobile={isMobile}
                   streamerImage={stream.streamer_avatar}
@@ -258,7 +276,7 @@ export default function DirectosRecommended({
                   title={stream.stream_title}
                   viewers={stream.ViewerCount}
                   image={stream.stream_thumbnail}
-                />
+                /> */}
               </div>
             ))
           )}

@@ -330,10 +330,17 @@ export default function Cartera({ user }) {
             borderTop: "0.01em solid #2b2b2b3f",
             marginTop: "20px",
             marginBottom: "20px",
+            padding: "0px 25px",
           }}
           className="type-set"
         >
-          <div style={{ display: "flex" }}>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-evenly",
+            }}
+          >
             <div
               onClick={() => setType(0)}
               className={type === 0 ? "type-card active" : "type-card"}

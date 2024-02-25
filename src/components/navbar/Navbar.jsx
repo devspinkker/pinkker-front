@@ -256,30 +256,50 @@ function Navbar({
                   <div style={{ width: "200px" }}></div>
                   <div
                     style={{
-                      // width: "500px",
                       display: "flex",
-                      justifyContent: "flex-end",
                     }}
-                    className="button-purchase-pixels"
-                    onClick={onMouseEnterPurchase}
                   >
-                    <button>
-                      <img
+                    <Link to="/plataform/cartera">
+                      <div
                         style={{
-                          width: isMobile ? "25px" : "17px",
-                          marginRight: "5px",
+                          // width: "500px",
+                          display: "flex",
+                          justifyContent: "flex-end",
                         }}
-                        src="/images/pixel.png"
-                        alt=""
-                      />{" "}
-                      {user.Pixeles}
-                    </button>
-                    <i
-                      className="fas fa-chevron-right"
-                      style={{
-                        transform: !dropdownPurchase && "rotate(90deg)",
-                      }}
-                    ></i>
+                        className="button-purchase-pixels"
+                      >
+                        <button>
+                          {user.Pixeles}
+                          <img
+                            style={{
+                              width: isMobile ? "25px" : "17px",
+                              marginRight: "-5px",
+                              marginTop: "3px",
+                              padding: "10px",
+                            }}
+                            src="/images/pixel.png"
+                            alt=""
+                          />{" "}
+                        </button>
+                      </div>
+                    </Link>
+
+                    <div onClick={onMouseEnterPurchase}>
+                      <button
+                        style={{
+                          borderRadius: "0px 5px 5px 0px",
+                          fontFamily: "inter",
+                        }}
+                      >
+                        Comprar
+                        {/* <i
+                          className="fas fa-chevron-right"
+                          style={{
+                            transform: !dropdownPurchase && "rotate(90deg)",
+                          }}
+                        ></i> */}
+                      </button>
+                    </div>
                   </div>
                   <div
                     style={{

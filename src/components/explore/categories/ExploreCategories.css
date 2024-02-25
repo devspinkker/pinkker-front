@@ -135,6 +135,31 @@ input {
     /* background: #303030 */
 }
 
+.home-recommended-card-container-streams {
+    margin: 10px;
+    margin-top: 0px;
+    margin-left: -10px;
+    transition: 200ms all;
+
+}
+
+.home-categories-car-recomendado {
+    width: 48vh !important;
+    padding: 10px;
+    transition: 200ms all;
+}
+
+.home-recommended-card-container-streams:hover {
+    transform: translate3d(0px, -6px, 0);
+    background-color: #131418;
+}
+
+/* .home-categories-car-recomendado:hover {
+    transform: translate3d(0px, -6px, 0);
+    background-color: #131418;
+
+} */
+
 .explorecategories-body-filtros {
     display: flex;
     gap: 10px;

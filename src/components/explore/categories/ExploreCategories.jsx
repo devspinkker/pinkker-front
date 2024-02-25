@@ -283,6 +283,7 @@ export default function ExploreCategories({ isMobile }) {
               ViewerCount={stream.ViewerCount}
               tags={stream.stream_tag}
               title={stream.stream_title}
+              categorie={stream.stream_category}
             />
           ))}
 

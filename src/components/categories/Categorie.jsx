@@ -243,6 +243,7 @@ export default function Categorie() {
                   title={stream.stream_title}
                   viewers={stream.ViewerCount}
                   image={stream.stream_thumbnail}
+                  ViewerCount={stream.ViewerCount}
                 />
               ))}
           </div>

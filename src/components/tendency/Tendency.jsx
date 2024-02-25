@@ -126,6 +126,7 @@ export default function Tendency({ isMobile }) {
               ViewerCount={vod.ViewerCount}
               tags={vod.stream_tag}
               title={vod.stream_title}
+              categorie={vod.stream_category}
             />
           ))}
         </div>

@@ -250,7 +250,7 @@ export default function NavbarLeft({
             <li
               style={{
                 backgroundColor: activeNormal === 1 && "#3b3b3b",
-                borderLeft: activeNormal === 1 && "3px solid #f36196",
+                borderLeft: activeNormal === 1 && "3px solid #2a2e38",
               }}
               class={
                 active === 1
@@ -444,12 +444,12 @@ export default function NavbarLeft({
             <Link
               onClick={() => setactiveNormal(2)}
               className="navbarleft-link"
-              to="/plataform/explore"
+              to="/plataform/explore?tipo=categories"
             >
               <li
                 style={{
                   // backgroundColor: activeNormal === 2 && "#3b3b3b",
-                  borderLeft: activeNormal === 2 && "3px solid #f36196",
+                  borderLeft: activeNormal === 2 && "3px solid #2a2e38",
 
                   width: tyExpanded ? "" : "126px",
                 }}

@@ -11,7 +11,7 @@
     display: block;
     justify-content: left;
     position: relative;
-    padding: 2rem 7rem;
+    padding: 2rem 8rem;
     background: #080808;
 }
 
@@ -43,7 +43,7 @@
 
 .home-categories-p-1-name {
     font-size: 15px;
-    font-family: "Inter, sans-serif";
+    font-family: "Inter";
     font-weight: "300";
     letter-spacing: "0.6px";
     margin-top: "3px";

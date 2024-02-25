@@ -5,7 +5,7 @@
 
 .home-body-dark {
     margin: 0 auto;
-    padding: 3.8rem 0rem 0rem 7rem;
+    padding: 3.8rem 0rem 0rem 8rem;
     position: relative;
     background-color: transparent;
     min-height: 2000px;
@@ -61,6 +61,7 @@
 .categories-home-container {
     overflow: hidden;
     width: 95%;
+    margin: 21px 0px;
 }
 
 .categories-home-manager {
@@ -73,11 +74,13 @@
 .categories-home-container h2 {
     font-weight: bold;
     font-size: 20px;
+    font-family: inter;
     color: #fff;
 }
 
 .categories-home {
     display: flex;
+    margin: 10px -10px;
 }
 
 @media screen and (max-width: 758px) {

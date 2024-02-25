@@ -9,7 +9,6 @@ export default function Layout(props) {
       style={{
         marginLeft: props.isMobile && "0px",
         width: props.isMobile && "80%",
-        padding: props.isMobile && "0px",
       }}
       className={props.tyExpanded ? "layout" : "layout-expanded"}
     >

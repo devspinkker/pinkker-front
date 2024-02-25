@@ -93,6 +93,8 @@
 
 .home-categories-p-2>p {
     position: relative;
+    font-family: inter;
+    color: #ffff;
     font-size: 15px;
 }
 
@@ -143,7 +145,7 @@
 }
 
 .home-categories-card-contain {
-    height: 62%;
+    height: 69%;
 }
 
 .home-categories-card-contain-img {

@@ -54,7 +54,7 @@ export default function NavbarLeftMobile({ streamer }) {
               textDecoration: "none",
               color: active === 2 ? "#ff60b2" : "white",
             }}
-            to="/plataform/explore"
+            to="/plataform/explore?tipo=categories"
           >
             <i
               style={{ position: "relative", fontSize: "28px" }}

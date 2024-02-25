@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 
-export default function CardStream(props) {
+export default function CardStreamRecomendado(props) {
   const tags = [];
 
   getTagsWithLimit(props.tags, 2);
@@ -22,11 +22,9 @@ export default function CardStream(props) {
         style={{
           position: props.isLoading && "absolute",
           opacity: props.isLoading && "0",
-          width: props.width ? props.width : "140px",
           margin: "3px",
-          height: props?.height,
         }}
-        className="home-categories-card"
+        className="home-categories-car-recomendado"
       >
         <div className="home-categories-card-contain">
           <Link to={"/" + props.name}>
