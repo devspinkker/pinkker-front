@@ -581,6 +581,24 @@ export function ChatStreaming({
           src="/images/iconos/contraer.png"
         />
       )}
+      {isMobile && (
+        <img
+          onClick={ToggleChat}
+          style={{
+            width: "12px",
+            cursor: "pointer",
+            textAlign: "center",
+            color: "white",
+            position: "fixed",
+            // right: "24%",
+            top: "80px",
+            right: "20px",
+            zIndex: "99999",
+          }}
+          className="chat-button-more"
+          src="/images/iconos/contraer.png"
+        />
+      )}
       <div className="info_chat_extra">
         <div style={{ height: "40px", display: "flex", alignItems: "center" }}>
           <h4

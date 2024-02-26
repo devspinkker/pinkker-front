@@ -168,8 +168,8 @@
         flex-direction: column;
         align-items: center;
         position: absolute;
-        height: 100%;
         width: 100%;
+        padding: 10px 0px;
     }
 
     .channel-chat {
@@ -184,7 +184,7 @@
         align-items: flex-start;
         flex-direction: column;
         flex: 1;
-        max-height: 72%;
+        /* max-height: 45%; */
         overflow-y: auto;
     }
 

@@ -707,7 +707,7 @@
 
 
     .channel-bottom-v2-info {
-        width: 95%;
+        width: 100%;
         min-height: 100px;
         margin-left: 3%;
         /* margin-top: 23px; */
@@ -715,6 +715,12 @@
 
     }
 
+    .channel-v2-secondary {
+        width: 43%;
+        display: flex;
+        /* justify-content: right; */
+        margin-left: 10px;
+    }
 }
 
 @media screen and (max-width: 768px) {

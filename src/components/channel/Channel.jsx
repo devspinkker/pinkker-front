@@ -736,25 +736,27 @@ export default function Channel({
                 >
                   •
                 </a>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    height: "25px",
-                    color: "darkgray",
-                    marginLeft: "10px",
-                  }}
-                >
-                  <i
-                    style={{ marginRight: "8px", fontSize: "12px" }}
-                    class="fas fa-clock"
-                  />
-                  <p style={{ fontSize: "15px", display: "flex" }}>
-                    <p>{`${formatNumber(elapsedTime.hours)}`}</p>
-                    <p>{`: ${formatNumber(elapsedTime.minutes)}`}</p>
-                    <p>{`: ${formatNumber(elapsedTime.seconds)}`}</p>
-                  </p>
-                </div>
+                {!isMobile && (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      height: "25px",
+                      color: "darkgray",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    <i
+                      style={{ marginRight: "8px", fontSize: "12px" }}
+                      class="fas fa-clock"
+                    />
+                    <p style={{ fontSize: "15px", display: "flex" }}>
+                      <p>{`${formatNumber(elapsedTime.hours)}`}</p>
+                      <p>{`: ${formatNumber(elapsedTime.minutes)}`}</p>
+                      <p>{`: ${formatNumber(elapsedTime.seconds)}`}</p>
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -792,7 +794,7 @@ export default function Channel({
           style={{ marginLeft: tyExpanded && "-50px" }}
           className="channel-bottom-v2-secondary"
         >
-          <Tippy
+          {/* <Tippy
             placement="bottom"
             theme="pinkker"
             content={
@@ -814,7 +816,7 @@ export default function Channel({
               />{" "}
               Regalar suscripciones
             </button>
-          </Tippy>
+          </Tippy> */}
 
           {dropdownShare && (
             <ShareDropdown title={stream.stream_title} streamer={streamer} />
@@ -914,30 +916,31 @@ export default function Channel({
             </button>
           </Tippy>
         )}
-
-        <Tippy
-          placement="bottom"
-          theme="pinkker"
-          content={
-            <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-              Regalar suscripciones a tu canal
-            </h1>
-          }
-        >
-          <button
-            onClick={() => onMouseEnterGiftSub()}
-            onMouseEnter={() => setHoverSubscriber(true)}
-            onMouseLeave={() => setHoverSubscriber(false)}
-            style={{ width: "155px", marginLeft: "5px" }}
-            className="channel-bottom-v2-button-sub"
+        {!isMobile && (
+          <Tippy
+            placement="bottom"
+            theme="pinkker"
+            content={
+              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                Regalar suscripciones a tu canal
+              </h1>
+            }
           >
-            <i
-              style={{ marginRight: "5px" }}
-              class={hoverSubscriber ? "fas fa-star" : "far fa-star"}
-            />{" "}
-            Regalar suscripciones
-          </button>
-        </Tippy>
+            <button
+              onClick={() => onMouseEnterGiftSub()}
+              onMouseEnter={() => setHoverSubscriber(true)}
+              onMouseLeave={() => setHoverSubscriber(false)}
+              style={{ width: "155px", marginLeft: "5px" }}
+              className="channel-bottom-v2-button-sub"
+            >
+              <i
+                style={{ marginRight: "5px" }}
+                class={hoverSubscriber ? "fas fa-star" : "far fa-star"}
+              />{" "}
+              Regalar suscripciones
+            </button>
+          </Tippy>
+        )}
 
         {getFollowButton()}
 
@@ -1253,8 +1256,13 @@ export default function Channel({
       return "415px";
     }
   }
-
+  const [chatExpandedMobile, setchatExpandedMobile] = useState(false);
   function changeType(typeD) {
+    if (typeD == 9) {
+      setchatExpandedMobile(true);
+    } else {
+      setchatExpandedMobile(false);
+    }
     localStorage.setItem("channelType", typeD);
     setType(typeD);
   }
@@ -1264,8 +1272,14 @@ export default function Channel({
   const handleToggleChat = () => {
     setChatExpanded(!chatExpanded);
   };
+  const handleToggleChatMobile = () => {
+    setchatExpandedMobile(false);
+  };
 
   function getWithChannelVideo() {
+    if (isMobile) {
+      return "100%";
+    }
     return chatExpanded ? "100%" : "72.5%";
   }
   function getChannel() {
@@ -1313,96 +1327,77 @@ export default function Channel({
                   : getStream()}
                 {getBottomStream()}
 
-                {!isMobile && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    width: !tyExpanded ? "95.5%" : "91.5%",
+                    marginLeft: !isMobile ? "2rem" : "1rem",
+                    // margin: "0 auto",
+                    borderTop: "1px solid #2a2e38",
+                  }}
+                  className="type-set"
+                >
                   <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                      width: !tyExpanded ? "95.5%" : "91.5%",
-                      marginLeft: "2rem",
-                      // margin: "0 auto",
-                      borderTop: "1px solid #2a2e38",
-                    }}
-                    className="type-set"
+                    onClick={() => changeType(1)}
+                    className={type === 1 ? "type-card active" : "type-card"}
                   >
-                    <div
-                      onClick={() => changeType(1)}
-                      className={type === 1 ? "type-card active" : "type-card"}
-                    >
-                      <h3>Muro</h3>
-                    </div>
-                    <div
-                      onClick={() => changeType(3)}
-                      className={type === 3 ? "type-card active" : "type-card"}
-                    >
-                      <h3>Galeria</h3>
-                    </div>
-                    <div
-                      onClick={() => changeType(0)}
-                      className={type === 0 ? "type-card active" : "type-card"}
-                    >
-                      <h3>Vods</h3>
-                    </div>
-                    <div
-                      onClick={() => changeType(4)}
-                      className={type === 4 ? "type-card active" : "type-card"}
-                    >
-                      <h3>Clips</h3>
-                    </div>
-                    <div
-                      onClick={() => changeType(2)}
-                      className={type === 2 ? "type-card active" : "type-card"}
-                    >
-                      <h3>Acerca de</h3>
-                    </div>
-
-                    {/* <div
-                        style={{ left: getLeftForType() }}
-                        className="type-line"
-                      ></div> */}
+                    <h3>Muro</h3>
                   </div>
-                )}
-
-                {!isMobile && (
-                  <div style={{ width: "100%", margin: "0 auto" }}>
-                    {streamerData && getType()}
-                  </div>
-                )}
-
-                {isMobile && (
                   <div
-                    style={{ width: chatExpanded ? "100%" : "100%" }}
-                    className="channel-chat"
+                    onClick={() => changeType(3)}
+                    className={type === 3 ? "type-card active" : "type-card"}
                   >
-                    {announce === true && (
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "200px",
-                          backgroundColor: "black",
-                        }}
-                      >
-                        {streamerData && (
-                          <CustomPlayer
-                            isMobile={isMobile}
-                            height={"200px"}
-                            vod={false}
-                            streamerName={streamer}
-                            time={stream && stream.start_date}
-                          ></CustomPlayer>
-                        )}
-                      </div>
-                    )}
-                    <ChatStreaming
-                      streamerChat={stream}
-                      chatExpandeds={chatExpanded}
-                      ToggleChat={handleToggleChat}
-                      streamerData={streamerData}
-                      user={user}
-                      isMobile={isMobile}
-                    />
+                    <h3>Galeria</h3>
                   </div>
-                )}
+                  <div
+                    onClick={() => changeType(0)}
+                    className={type === 0 ? "type-card active" : "type-card"}
+                  >
+                    <h3>Vods</h3>
+                  </div>
+                  <div
+                    onClick={() => changeType(4)}
+                    className={type === 4 ? "type-card active" : "type-card"}
+                  >
+                    <h3>Clips</h3>
+                  </div>
+                  <div
+                    onClick={() => changeType(2)}
+                    className={type === 2 ? "type-card active" : "type-card"}
+                  >
+                    <h3>Acerca de</h3>
+                  </div>
+                  {isMobile && (
+                    <div
+                      onClick={() => changeType(9)}
+                      className={type === 9 ? "type-card active" : "type-card"}
+                    >
+                      <h3>chat</h3>
+                    </div>
+                  )}
+                </div>
+
+                <div style={{ width: "100%", margin: "0 auto" }}>
+                  {streamerData && getType()}
+                </div>
+
+                <div
+                  style={{
+                    width: chatExpanded ? "100%" : "100%",
+                    display: chatExpandedMobile ? "" : "none",
+                  }}
+                  className="channel-chat"
+                >
+                  <ChatStreaming
+                    streamerChat={stream}
+                    chatExpandeds={chatExpanded}
+                    ToggleChat={handleToggleChatMobile}
+                    streamerData={streamerData}
+                    user={user}
+                    isMobile={isMobile}
+                  />
+                </div>
               </div>
             </div>
 
