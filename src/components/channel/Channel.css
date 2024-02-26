@@ -1,11 +1,30 @@
+.container-channel {
+    width: 95.6% !important;
+    padding-left: 4rem;
+    background-color: #080808;
+    position: relative;
+    transition: 0.15s
+}
+
+.container-channel-expand {
+    width: 84.6% !important;
+    padding-left: 15rem;
+    background-color: #080808;
+    position: relative;
+    transition: 0.15s
+}
+
+.container-channel-isMobile {
+    background-color: #080808;
+}
+
 .channel-body {
-    width: 99.9%;
+    width: 98.9%;
     min-height: 1500px;
     background-color: #080808;
     scrollbar-width: none;
     z-index: 10000;
     overflow-x: hidden;
-    padding: 0rem 3rem;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
@@ -475,7 +494,7 @@
 .channel-v2-info {
     width: 99%;
     height: 65px;
-    background-color: #040404c8;
+    /* background-color: #040404c8; */
     position: relative;
     margin: 0 auto;
     padding: 2px;
@@ -679,7 +698,7 @@
 @media screen and (max-width: 1366px) {
 
     .channel-body {
-        width: 100%;
+        /* width: 100%; */
         height: 1200px;
         min-height: 1200px;
         overflow-x: hidden;

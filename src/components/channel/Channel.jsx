@@ -1074,32 +1074,34 @@ export default function Channel({
                   />
                 )}{" "}
               </h2>
-              <h2
-                style={{
-                  marginRight: "15px",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  fontSize: "12px",
-                  width: "320px",
-                  marginTop: "5px",
-                }}
-              >
-                {" "}
-                <a onClick={() => togglePopupFollowers(0)}>
-                  {streamerData && Object.keys(streamerData.Followers).length}{" "}
-                  seguidores
-                </a>{" "}
-                <a style={{ marginLeft: "10px", marginRight: "10px" }}>•</a>{" "}
-                <a onClick={() => togglePopupFollowers(1)}>
-                  {streamerData && Object.keys(streamerData.Followers).length}{" "}
-                  seguidos
-                </a>{" "}
-                <a style={{ marginLeft: "10px", marginRight: "10px" }}>•</a>{" "}
-                <a onClick={() => togglePopupFollowers(2)}>
-                  {suscribers && suscribers.length} suscriptores
-                </a>
-              </h2>
+              {!isMobile && (
+                <h2
+                  style={{
+                    marginRight: "15px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "12px",
+                    width: "320px",
+                    marginTop: "5px",
+                  }}
+                >
+                  {" "}
+                  <a onClick={() => togglePopupFollowers(0)}>
+                    {streamerData && Object.keys(streamerData.Followers).length}{" "}
+                    seguidores
+                  </a>{" "}
+                  <a style={{ marginLeft: "10px", marginRight: "10px" }}>•</a>{" "}
+                  <a onClick={() => togglePopupFollowers(1)}>
+                    {streamerData && Object.keys(streamerData.Followers).length}{" "}
+                    seguidos
+                  </a>{" "}
+                  <a style={{ marginLeft: "10px", marginRight: "10px" }}>•</a>{" "}
+                  <a onClick={() => togglePopupFollowers(2)}>
+                    {suscribers && suscribers.length} suscriptores
+                  </a>
+                </h2>
+              )}
               <h2
                 style={{ color: "gold", fontSize: "12px", marginTop: "10px" }}
               >
@@ -1264,12 +1266,19 @@ export default function Channel({
   };
 
   function getWithChannelVideo() {
-    return chatExpanded ? "100%" : "71.5%";
+    return chatExpanded ? "100%" : "72.5%";
   }
   function getChannel() {
     if (stream?.streamer) {
       return (
-        <div className="channel-body">
+        <div
+          className="channel-body"
+          style={
+            {
+              // padding: expanded ? "0rem 0rem " : "0rem 10rem",
+            }
+          }
+        >
           <div className="channel-content-video">
             <div
               style={{
@@ -1309,10 +1318,10 @@ export default function Channel({
                     style={{
                       display: "flex",
                       justifyContent: "space-around",
-                      width: "92.5%",
-                      marginLeft: "3rem",
+                      width: !tyExpanded ? "95.5%" : "91.5%",
+                      marginLeft: "2rem",
                       // margin: "0 auto",
-                      borderTop: "0.01em solid #2b2b2b3f",
+                      borderTop: "1px solid #2a2e38",
                     }}
                     className="type-set"
                   >
@@ -1390,6 +1399,7 @@ export default function Channel({
                       ToggleChat={handleToggleChat}
                       streamerData={streamerData}
                       user={user}
+                      isMobile={isMobile}
                     />
                   </div>
                 )}
@@ -1427,6 +1437,7 @@ export default function Channel({
                   ToggleChat={handleToggleChat}
                   streamerData={streamerData}
                   user={user}
+                  isMobile={isMobile}
                 />
               </div>
             )}
@@ -1457,7 +1468,14 @@ export default function Channel({
   }
 
   return (
-    <div style={{ backgroundColor: "#0a0b0d", width: "100%" }}>
+    <div
+      className={
+        (!tyExpanded && !isMobile && "container-channel") ||
+        (tyExpanded && !isMobile && "container-channel-expand") ||
+        (isMobile && "container-channel-isMobile") ||
+        ""
+      }
+    >
       {getChannel()}
 
       {showPopupFollowers === true && (

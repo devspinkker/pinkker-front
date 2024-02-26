@@ -574,6 +574,7 @@ export default function StreamManager({ isMobile, socketMain, handleMessage }) {
                 ToggleChat={handleToggleChat}
                 streamerData={streamerData}
                 user={userData}
+                isMobile={isMobile}
               />
             ) : (
               <></>

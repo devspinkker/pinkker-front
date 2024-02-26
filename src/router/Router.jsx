@@ -228,24 +228,6 @@ const AppRouter = () => {
               <Community />
             </Route>
 
-            <Route exact path="/:streamer">
-              {!isMobile && (
-                <NavbarLeft
-                  user={user}
-                  setExpanded={setExpanded}
-                  tyExpanded={expanded}
-                  tyDashboard={false}
-                />
-              )}
-              <Channel
-                isMobile={isMobile}
-                socketMain={socketMain}
-                handleMessage={(e) => addOpenMessage(e)}
-                expanded={() => setExpanded(false)}
-                tyExpanded={expanded}
-              />
-            </Route>
-
             <Route exact path="/:streamer/settings">
               <NavbarLeft
                 user={user}
@@ -486,6 +468,23 @@ const AppRouter = () => {
         </Layout>
         <Switch></Switch>
       </LastLocationProvider>
+      <Route exact path="/:streamer">
+        {!isMobile && (
+          <NavbarLeft
+            user={user}
+            setExpanded={setExpanded}
+            tyExpanded={expanded}
+            tyDashboard={false}
+          />
+        )}
+        <Channel
+          isMobile={isMobile}
+          socketMain={socketMain}
+          handleMessage={(e) => addOpenMessage(e)}
+          expanded={() => setExpanded(false)}
+          tyExpanded={expanded}
+        />
+      </Route>
       <Route exact path="/clips/create">
         <CreateClip />
       </Route>

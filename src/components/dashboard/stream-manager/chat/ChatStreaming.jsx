@@ -27,6 +27,7 @@ export function ChatStreaming({
   ToggleChat,
   streamerData,
   user,
+  isMobile,
 }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -47,6 +48,9 @@ export function ChatStreaming({
   const alert = useNotification();
   const history = useHistory();
   useEffect(() => {
+    if (isMobile) {
+      ToggleChat(false);
+    }
     const token = window.localStorage.getItem("token");
     const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
     const newSocket = new WebSocket(
@@ -542,7 +546,7 @@ export function ChatStreaming({
   };
   return (
     <div className="ChatStreaming">
-      {chatExpandeds == true ? (
+      {chatExpandeds == true && !isMobile && (
         <img
           onClick={ToggleChat}
           style={{
@@ -559,7 +563,8 @@ export function ChatStreaming({
           className="chat-button-more"
           src="/images/iconos/contraer.png"
         />
-      ) : (
+      )}
+      {chatExpandeds == false && !isMobile && (
         <img
           onClick={ToggleChat}
           style={{
