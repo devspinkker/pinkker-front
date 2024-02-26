@@ -93,7 +93,7 @@ function BetDropdown({
         >
           <div
             className="dropdowns-title-container"
-            style={{ borderBottom: "1px solid #4b4b4b8f" }}
+            style={{ borderBottom: "1px solid #2a2e38" }}
           >
             <div
               style={{ display: "flex", alignItems: "center", height: "15px" }}

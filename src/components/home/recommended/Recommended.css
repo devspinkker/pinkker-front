@@ -2,6 +2,7 @@
     width: 95%;
     min-height: 257px;
     margin-top: 20px;
+    border-bottom: 1px solid #2a2e38;
 }
 
 .home-recommended-card-container {

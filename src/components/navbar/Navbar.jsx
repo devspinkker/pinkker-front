@@ -289,6 +289,7 @@ function Navbar({
                         style={{
                           borderRadius: "0px 5px 5px 0px",
                           fontFamily: "inter",
+                          fontWeight: "bolder",
                         }}
                       >
                         Comprar

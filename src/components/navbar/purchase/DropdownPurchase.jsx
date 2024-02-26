@@ -71,7 +71,15 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
               className="dropdownchatconfig-link"
               onClick={closeNavbar}
             >
-              <h3 style={{ width: "100%", position: "relative", left: "10px" }}>
+              <h3
+                style={{
+                  width: "100%",
+                  position: "relative",
+                  left: "10px",
+                  fontWeight: "bold",
+                  fontFamily: "inter",
+                }}
+              >
                 Comprar Pixeles
               </h3>
               {/* <i
@@ -131,7 +139,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
             </div>
           </li>
 
-          <li style={{ borderTop: "1px solid #ffffff1a" }}>
+          <li style={{ borderTop: "1px solid #2a2e38" }}>
             <div
               onClick={() => togglePopupPurchase(1500)}
               style={{ width: "40%" }}
@@ -197,7 +205,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
             </div>
           </li>
 
-          <li style={{ borderTop: "1px solid #ffffff1a" }}>
+          <li style={{ borderTop: "1px solid #2a2e38" }}>
             <div
               onClick={() => togglePopupPurchase(10000)}
               style={{ width: "40%" }}

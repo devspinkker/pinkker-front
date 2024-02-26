@@ -440,62 +440,71 @@ export default function NavbarLeft({
                 </span>
               </div>
             </div>
-
-            <Link
-              onClick={() => setactiveNormal(2)}
-              className="navbarleft-link"
-              to="/plataform/explore?tipo=categories"
+            <div
+              style={{
+                padding: "10px 0px",
+              }}
+              className="conteiner-navbarLeft-custom"
             >
-              <li
-                style={{
-                  // backgroundColor: activeNormal === 2 && "#3b3b3b",
-                  borderLeft: activeNormal === 2 && "3px solid #2a2e38",
-
-                  width: tyExpanded ? "" : "126px",
-                }}
-                class={
-                  activeNormal === 2
-                    ? "navbaraccount-li has-subnav nav-active"
-                    : "navbaraccount-li has-subnav"
-                }
+              <Link
+                onClick={() => setactiveNormal(2)}
+                className="navbarleft-link"
+                to="/plataform/explore?tipo=categories"
               >
-                <div
-                  style={{ width: "30%", textAlign: "center", color: "white" }}
+                <li
+                  style={{
+                    // backgroundColor: activeNormal === 2 && "#3b3b3b",
+                    borderLeft: activeNormal === 2 && "3px solid #2a2e38",
+
+                    width: tyExpanded ? "" : "126px",
+                  }}
+                  class={
+                    activeNormal === 2
+                      ? "navbaraccount-li has-subnav nav-active"
+                      : "navbaraccount-li has-subnav"
+                  }
                 >
-                  <i class="fab fa-google-play" />
-                </div>
-                {tyExpanded && <span class="nav-text">Explorar</span>}
-              </li>
-            </Link>
+                  <div
+                    style={{
+                      width: "30%",
+                      textAlign: "center",
+                      color: "white",
+                    }}
+                  >
+                    <i class="fab fa-google-play" />
+                  </div>
+                  {tyExpanded && <span class="nav-text">Explorar</span>}
+                </li>
+              </Link>
 
-            <Link
-              onClick={() => setactiveNormal(1)}
-              className="navbarleft-link"
-              to="/plataform/tendency"
-            >
-              <li
-                style={{
-                  // backgroundColor: activeNormal === 1 && "#3b3b3b",
-                  borderLeft: activeNormal === 1 && "3px solid #f36196",
-                  width: tyExpanded ? "" : "126px",
-                }}
-                class={
-                  activeNormal === 1
-                    ? "navbaraccount-li has-subnav nav-active"
-                    : "navbaraccount-li has-subnav"
-                }
+              <Link
+                onClick={() => setactiveNormal(1)}
+                className="navbarleft-link"
+                to="/plataform/tendency"
               >
-                <div style={{ width: "30%", textAlign: "center" }}>
-                  <img
-                    style={{ width: "18px" }}
-                    src="/images/iconos/navbar/tendencia.png"
-                  />
-                </div>
-                {tyExpanded && <span class="nav-text">Tendencias</span>}
-              </li>
-            </Link>
+                <li
+                  style={{
+                    // backgroundColor: activeNormal === 1 && "#3b3b3b",
+                    borderLeft: activeNormal === 1 && "3px solid #f36196",
+                    width: tyExpanded ? "" : "126px",
+                  }}
+                  class={
+                    activeNormal === 1
+                      ? "navbaraccount-li has-subnav nav-active"
+                      : "navbaraccount-li has-subnav"
+                  }
+                >
+                  <div style={{ width: "30%", textAlign: "center" }}>
+                    <img
+                      style={{ width: "18px" }}
+                      src="/images/iconos/navbar/tendencia.png"
+                    />
+                  </div>
+                  {tyExpanded && <span class="nav-text">Tendencias</span>}
+                </li>
+              </Link>
 
-            {/* <Link
+              {/* <Link
               onClick={() => setactiveNormal(5)}
               className="navbarleft-link"
               to="/plataform/tendency"
@@ -523,60 +532,60 @@ export default function NavbarLeft({
               </li>
             </Link> */}
 
-            <Link
-              onClick={() => setactiveNormal(3)}
-              className="navbarleft-link"
-              to="/plataform/clips"
-            >
-              <li
-                style={{
-                  // backgroundColor: activeNormal === 3 && "#3b3b3b",
-                  borderLeft: activeNormal === 3 && "3px solid #f36196",
-                  width: tyExpanded ? "" : "126px",
-                }}
-                class={
-                  activeNormal === 3
-                    ? "navbaraccount-li has-subnav nav-active"
-                    : "navbaraccount-li has-subnav"
-                }
+              <Link
+                onClick={() => setactiveNormal(3)}
+                className="navbarleft-link"
+                to="/plataform/clips"
               >
-                <div style={{ width: "30%", textAlign: "center" }}>
-                  <img
-                    style={{ width: "18px" }}
-                    src="/images/iconos/navbar/clips.png"
-                  />
-                </div>
-                {tyExpanded && <span class="nav-text">Clips</span>}
-              </li>
-            </Link>
+                <li
+                  style={{
+                    // backgroundColor: activeNormal === 3 && "#3b3b3b",
+                    borderLeft: activeNormal === 3 && "3px solid #f36196",
+                    width: tyExpanded ? "" : "126px",
+                  }}
+                  class={
+                    activeNormal === 3
+                      ? "navbaraccount-li has-subnav nav-active"
+                      : "navbaraccount-li has-subnav"
+                  }
+                >
+                  <div style={{ width: "30%", textAlign: "center" }}>
+                    <img
+                      style={{ width: "18px" }}
+                      src="/images/iconos/navbar/clips.png"
+                    />
+                  </div>
+                  {tyExpanded && <span class="nav-text">Clips</span>}
+                </li>
+              </Link>
 
-            <Link
-              onClick={() => setactiveNormal(4)}
-              className="navbarleft-link"
-              to="/plataform/muro"
-            >
-              <li
-                style={{
-                  // backgroundColor: activeNormal === 4 && "#3b3b3b",
-                  borderLeft: activeNormal === 4 && "3px solid #f36196",
-                  width: tyExpanded ? "" : "126px",
-                }}
-                class={
-                  activeNormal === 4
-                    ? "navbaraccount-li has-subnav nav-active"
-                    : "navbaraccount-li has-subnav"
-                }
+              <Link
+                onClick={() => setactiveNormal(4)}
+                className="navbarleft-link"
+                to="/plataform/muro"
               >
-                <div style={{ width: "30%", textAlign: "center" }}>
-                  <img
-                    style={{ width: "18px" }}
-                    src="/images/iconos/navbar/muro.png"
-                  />
-                </div>
-                {tyExpanded && <span class="nav-text">Muro</span>}
-              </li>
-            </Link>
-
+                <li
+                  style={{
+                    // backgroundColor: activeNormal === 4 && "#3b3b3b",
+                    borderLeft: activeNormal === 4 && "3px solid #f36196",
+                    width: tyExpanded ? "" : "126px",
+                  }}
+                  class={
+                    activeNormal === 4
+                      ? "navbaraccount-li has-subnav nav-active"
+                      : "navbaraccount-li has-subnav"
+                  }
+                >
+                  <div style={{ width: "30%", textAlign: "center" }}>
+                    <img
+                      style={{ width: "18px" }}
+                      src="/images/iconos/navbar/muro.png"
+                    />
+                  </div>
+                  {tyExpanded && <span class="nav-text">Muro</span>}
+                </li>
+              </Link>
+            </div>
             <div />
             {AllsStreamsOnlineThatUserFollows &&
               AllsStreamsOnlineThatUserFollows.length > 0 &&
