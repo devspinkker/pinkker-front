@@ -1073,7 +1073,9 @@ export default function Channel({
                 {streamerData && streamerData.verified && (
                   <Emblem
                     name={"Verificado"}
-                    img={"/images/emblem/verificado.jpg"}
+                    img={
+                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                    }
                   />
                 )}{" "}
               </h2>
