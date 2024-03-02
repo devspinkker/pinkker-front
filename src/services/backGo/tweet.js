@@ -17,7 +17,6 @@ export const PostCreate = async (formData) => {
     const res = await axios.post(`${url}/post/postCreate`, formData, config);
     return res.data;
   } catch (error) {
-    console.error("Error in PostCreate:", error);
     return error;
   }
 };
@@ -32,7 +31,6 @@ export const PostGetFollow25h = async () => {
     const res = await axios.get(`${url}/post/postGetFollow`, config);
     return res.data;
   } catch (error) {
-    console.error("Error in PostGetFollow25h:", error);
     throw error;
   }
 };
@@ -42,7 +40,6 @@ export const PostGets = async () => {
     const res = await axios.get(`${url}/post/PostGets`);
     return res.data;
   } catch (error) {
-    console.error("Error in PostGets:", error);
     throw error;
   }
 };
@@ -67,7 +64,6 @@ export const LikePost = async (object) => {
     const res = await axios.post(`${url}/post/posttLike`, object, config);
     return res.data;
   } catch (error) {
-    console.error("Error in LikePost:", error);
     throw error;
   }
 };
@@ -82,7 +78,6 @@ export const DislikePost = async (object) => {
     const res = await axios.post(`${url}/post/postDislike`, object, config);
     return res.data;
   } catch (error) {
-    console.error("Error in DislikePost:", error);
     throw error;
   }
 };
@@ -97,7 +92,6 @@ export const CommentPost = async (object) => {
     const res = await axios.post(`${url}/post/CommentPost`, object, config);
     return res.data;
   } catch (error) {
-    console.error("Error in CommentPost:", error);
     throw error;
   }
 };
@@ -115,7 +109,6 @@ export const getTweetFollowing = async (page, limit) => {
     );
     return res.data;
   } catch (error) {
-    console.error("Error in getTweetFollowing:", error);
     throw error;
   }
 };
@@ -128,7 +121,6 @@ export const getTweetUser = async (id, page, limit) => {
     );
     return res.data;
   } catch (error) {
-    console.error("Error in getTweetUser:", error);
   }
 };
 

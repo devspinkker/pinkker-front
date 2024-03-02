@@ -28,7 +28,6 @@ export async function GetSubssChat(Toid) {
         );
         return response.data;
     } catch (error) {
-        console.error('Error en unfollow:', error.message);
         return error
     }
 }

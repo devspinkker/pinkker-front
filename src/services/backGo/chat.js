@@ -24,7 +24,6 @@ export async function actionsModeratorChatStream(action, actionAgainst, timeOut,
         );
         return response.data;
     } catch (error) {
-        console.error('Error en actionsModeratorChatStream:', error.message);
         return error
     }
 }
@@ -46,7 +45,6 @@ export async function actionsChatStream(action, actionAgainst, timeOut, token, r
         );
         return response.data;
     } catch (error) {
-        console.error('Error en actionsModeratorChatStream:', error.message);
         return error
 
     }
@@ -60,7 +58,6 @@ export async function actionsChatStream(action, actionAgainst, timeOut, token, r
 //         });
 //         return response.data;
 //     } catch (error) {
-//         console.error('Error en actionsChatStream:', error.message);
 //     }
 // }
 export async function GetInfoUserInRoomFunc(GetInfoUserInRoom, token) {
@@ -74,7 +71,6 @@ export async function GetInfoUserInRoomFunc(GetInfoUserInRoom, token) {
         });
         return response.data;
     } catch (error) {
-        console.error('Error en actionsChatStream:', error.message);
     }
 }
 async function updataCommands(commands) {
@@ -92,7 +88,6 @@ async function updataCommands(commands) {
         );
         return response.data;
     } catch (error) {
-        console.error('Error en updataCommands:', error.message);
     }
 }
 

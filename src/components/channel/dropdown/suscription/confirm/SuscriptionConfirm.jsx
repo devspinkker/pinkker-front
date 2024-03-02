@@ -41,7 +41,7 @@ function SuscriptionConfirm({
     }
     try {
       const res = await suscribirse(token, streamerData.id);
-      if (res?.message !== "ok") {
+      if (res?.message === "ok") {
         alert({ type: "SUCCESS", message: "te suscribiste" });
         closeNavbar();
         return;
@@ -209,7 +209,7 @@ function SuscriptionConfirm({
                     margin: "0 auto",
                   }}
                 >
-                  Total:{" "}
+                  Total:{"1000"}
                   <a style={{ display: "flex", alignItems: "center" }}>
                     {streamerData.suscriptionPrice}{" "}
                     <img

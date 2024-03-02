@@ -14,7 +14,6 @@ export async function getStreamById(streamId) {
 		});
 		return response.data;
 	} catch (error) {
-		console.error('Error en getStreamById:', error.message);
 		return error
 	}
 }
@@ -30,7 +29,6 @@ export async function getStreamsByCategory(category, page) {
 		});
 		return response.data;
 	} catch (error) {
-		console.error(error);
 		return (error)
 	}
 }
@@ -41,7 +39,6 @@ export async function getStreamByUserName(userName) {
 		const response = await axios.get(`${baseURL}/stream/getStreamByNameUser?Streamer=${userName}`)
 		return response.data
 	} catch (error) {
-		console.error('Error en getStreamByUserName:', error.message);
 		return error
 	}
 }
@@ -60,7 +57,6 @@ async function getStreamsIFollow(followingIds) {
 		);
 		return response.data;
 	} catch (error) {
-		console.error('Error en getStreamsIFollow:', error.message);
 		return error
 	}
 }
@@ -96,7 +92,6 @@ export async function GetAllsStreamsOnline(page) {
 		);
 		return response.data;
 	} catch (error) {
-		console.error('Error en GetAllsStreamsOnline:', error.message);
 		return error
 	}
 }
@@ -111,7 +106,6 @@ export async function GetStreamsMostViewed(page) {
 		);
 		return response.data;
 	} catch (error) {
-		console.error('Error en GetStreamsMostViewed:', error.message);
 		return error
 	}
 }
@@ -127,7 +121,6 @@ export async function GetAllsStreamsOnlineThatUserFollows(token) {
 		);
 		return response.data;
 	} catch (error) {
-		console.error('Error en GetAllsStreamsOnline:', error.message);
 		return error
 	}
 }
@@ -147,7 +140,6 @@ async function updateStartDate(streamInfo) {
 		);
 		return response.data;
 	} catch (error) {
-		console.error('Error en updateStartDate:', error.message);
 		return error
 	}
 }
@@ -164,7 +156,6 @@ async function updateOnlineStatus(updateInfo) {
 		);
 		return response.data;
 	} catch (error) {
-		console.error('Error en updateOnlineStatus:', error.message);
 		return error
 	}
 }
@@ -181,7 +172,6 @@ async function closeStream() {
 		);
 		return response.data;
 	} catch (error) {
-		console.error('Error en closeStream:', error.message);
 		return error
 	}
 }
@@ -194,7 +184,6 @@ async function getStreamingsOnline() {
 		);
 		return response.data;
 	} catch (error) {
-		console.error('Error en getStreamingsOnline:', error.message);
 		return error
 	}
 }
@@ -203,7 +192,6 @@ export async function getCategoriesWithLimit(param) {
 		const response = await axios.get(`${baseURL}/categorie/GetCategories`)
 		return response.data
 	} catch (error) {
-		console.error('Error en getStreamByUserName:', error.message);
 		return error
 	}
 }

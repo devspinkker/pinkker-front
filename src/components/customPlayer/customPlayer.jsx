@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import "./customPlayer.css";
-import ReactHlsPlayer from "../../player/PlayerMain";
+import ReactFlvPlayer from "../../player/PlayerMain";
 
 import DropdownSettings from "./DropdownSettings";
 
@@ -124,7 +124,6 @@ export default function CustomPlayer({
   const videoHandler = () => {
     if (!videoLoading) {
       if (playing === false) {
-        videoRef.current.currentTime = videoRef.current.duration - 5;
         videoRef.current.play();
         setPlaying(true);
       } else {
@@ -190,7 +189,7 @@ export default function CustomPlayer({
     );
     const rtmp = process.env.REACT_APP_RTMP;
     // const rtmp = "http://localhost:8000/live";
-    var url = `${rtmp}/${keyTransmission}/index.m3u8`;
+    var url = `${rtmp}/${keyTransmission}.flv`;
     return url;
   }
 
@@ -212,7 +211,7 @@ export default function CustomPlayer({
     // }
 
     return (
-      <ReactHlsPlayer
+      <ReactFlvPlayer
         allowFullScreen
         id="pinkker-player"
         videoRef={videoRef}
@@ -220,8 +219,8 @@ export default function CustomPlayer({
         webkit-playsinline={true}
         playsInline={true}
         src={getHlsSrc()}
-        autoPlay={true}
-        muted={false}
+        autoPlay={playing}
+        muted={muted}
         controls={false}
         style={{
           position: "relative",

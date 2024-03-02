@@ -230,7 +230,7 @@ export function ChatStreaming({
             >
               <img
                 style={{ width: "19px", paddingLeft: "2px" }}
-                src="https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png"
+                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/REGALO-DE-SUBS_jfomvu.jpg"
               />
               <div
                 style={{
@@ -458,7 +458,7 @@ export function ChatStreaming({
     if (subscriptionEndTimestamp < currentTimestamp) {
       return null;
     } else {
-      return "https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png";
+      return "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/SUBSCRIPTOR.jpg_pxzloq.png";
     }
   };
 

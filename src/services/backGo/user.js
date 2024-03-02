@@ -66,7 +66,6 @@ export async function follow(token, userId) {
         );
         return response.data;
     } catch (error) {
-        console.error('Error en follow:', error.message);
         return error
     }
 }
@@ -80,7 +79,6 @@ export async function getUserByIdTheToken(token) {
         });
         return response.data;
     } catch (error) {
-        console.error('Error en getUserById:', error.message);
         return {
             error
         }
@@ -91,7 +89,6 @@ export async function getUserByNameUser(nameUser) {
         const response = await axios.get(`${baseURL}/user/getUserByNameUser?nameUser=${nameUser}`);
         return response.data;
     } catch (error) {
-        console.error('Error en getUserById:', error.message);
         return error
     }
 }
@@ -109,7 +106,6 @@ export async function unfollow(token, userId) {
         );
         return response.data;
     } catch (error) {
-        console.error('Error en unfollow:', error.message);
         return error
     }
 }
@@ -146,7 +142,6 @@ export async function editAvatar(token, avatarData) {
         );
         return response.data;
     } catch (error) {
-        console.error('Error en editAvatar:', error.message);
         return error
     }
 }
