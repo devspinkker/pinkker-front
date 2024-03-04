@@ -49,11 +49,10 @@ function DropdownAccount({ closeNavbar, callback, toggleLang, user }) {
   }, []);
   useOnClickOutside(divRef, handler, closeNavbar);
   const handleLogout = async () => {
+    // window.location.href = "/";
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("_id");
     window.localStorage.removeItem("avatar");
-
-    window.location.href = "/";
   };
 
   const Android12Switch = styled(Switch)(({ theme }) => ({
@@ -180,7 +179,7 @@ function DropdownAccount({ closeNavbar, callback, toggleLang, user }) {
           <li>
             <a
               className="dropdownaccount-link"
-              href={"/" + user.NameUser + "/dashboard/home"}
+              href={"/" + user.NameUser + "/dashboard/stream"}
               onClick={closeNavbar}
             >
               <i style={{ marginRight: "10px" }} class="fas fa-sliders-h"></i>

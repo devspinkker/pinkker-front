@@ -507,10 +507,14 @@ function Navbar({
       );
     }
   }
+  const [Deshboard, setDeshboard] = useState(false);
+  useEffect(() => {
+    if (window.location?.pathname === "/" + user?.NameUser + "/dashboard") {
+      setDeshboard(true);
+    }
+  }, []);
 
-  // return <>{location?.pathname == "/" ? getNavbar() : null}</>;
-  return <>{getNavbar()}</>;
-  return <></>;
+  return <>{Deshboard && getNavbar()}</>;
 }
 
 export default Navbar;

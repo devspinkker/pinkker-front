@@ -28,6 +28,7 @@ export function ChatStreaming({
   streamerData,
   user,
   isMobile,
+  DashboardStream = false,
 }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -545,8 +546,14 @@ export function ChatStreaming({
     }
   };
   return (
-    <div className="ChatStreaming">
-      {chatExpandeds == true && !isMobile && (
+    <div
+      className="ChatStreaming"
+      style={{
+        width: DashboardStream ? "31%" : "",
+        height: DashboardStream ? "90%" : "",
+      }}
+    >
+      {chatExpandeds == true && !isMobile && !DashboardStream && (
         <img
           onClick={ToggleChat}
           style={{
@@ -610,6 +617,7 @@ export function ChatStreaming({
               color: "#ffff",
               position: "relative",
               right: chatExpandeds ? "-20%" : "",
+              right: chatExpandeds ? "0%" : "",
             }}
           >
             CHAT DEL DIRECTO

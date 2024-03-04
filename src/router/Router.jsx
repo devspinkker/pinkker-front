@@ -50,6 +50,7 @@ import Privacy from "../components/pinkker/privacity/Privacity";
 import ResetPassword from "../components/auth/ResetPassword";
 import { getUserByIdTheToken } from "../services/backGo/user";
 import RecoverPassword from "../components/userRecuperacion/PasswordReset";
+import DashboardStream from "../components/dashboard/stream-manager/DashboardStream";
 
 const AppRouter = () => {
   const [expanded, setExpanded] = useState(true);
@@ -497,6 +498,15 @@ const AppRouter = () => {
           setExpanded={setExpanded}
         />
         <GetClip />
+      </Route>
+      <Route exact path="/:streamer/dashboard/stream">
+        <NavbarLeft
+          user={user}
+          setExpanded={setExpanded}
+          tyExpanded={expanded}
+          tyDashboard={true}
+        />
+        <DashboardStream isMobile={isMobile} />
       </Route>
     </Router>
   );
