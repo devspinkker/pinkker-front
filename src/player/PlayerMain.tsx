@@ -4,9 +4,11 @@ import flvjs from 'flv.js';
 interface ReactFlvPlayerProps {
   src: string;
   videoRef: React.RefObject<HTMLVideoElement>;
+  height:string;
+  width:string
 }
 
-function ReactFlvPlayer({ src, videoRef }: ReactFlvPlayerProps) {
+function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
   useEffect(() => {
     let flvPlayer: flvjs.Player | null = null;
 
@@ -48,7 +50,12 @@ function ReactFlvPlayer({ src, videoRef }: ReactFlvPlayerProps) {
     };
   }, [src, videoRef]);
 
-  return <video id='pinkker-player' controls playsInline ref={videoRef} />;
+  return <video 
+  style={{
+    width:width,
+    height:height
+  }}
+  id='pinkker-player' controls playsInline ref={videoRef} />;
 }
 
 export default ReactFlvPlayer;

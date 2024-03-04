@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./DashboardStream.css";
 import { ChatStreaming } from "./chat/ChatStreaming";
 import { getUserByIdTheToken } from "../../../services/backGo/user";
 import { getStreamById } from "../../../services/backGo/streams";
 import { getCategorieByName } from "../../../services/categories";
 import { getStream } from "../../../services/stream";
+import ReactFlvPlayer from "../../../player/PlayerMain";
 
 export default function DashboardStream({ isMobile }) {
   const [streamerData, setStreamerData] = useState(null);
   const [userData, SetUserData] = useState(null);
   const [categorie, setCategorie] = useState(null);
   const [stream, setStream] = useState(null);
+  const videoRef = useRef();
+  const [videoLoading, setVideoLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       let id = window.localStorage.getItem("_id");
@@ -65,6 +69,40 @@ export default function DashboardStream({ isMobile }) {
 
     return () => clearInterval(interval);
   }, [streamerData?.start_date]);
+
+  function getHlsSrc() {
+    let keyTransmission = userData?.keyTransmission.substring(
+      4,
+      userData?.keyTransmission.length
+    );
+    const rtmp = process.env.REACT_APP_RTMP;
+    // const rtmp = "http://localhost:8000/live";
+    var url = `${rtmp}/${keyTransmission}.flv`;
+    return url;
+  }
+
+  useEffect(() => {
+    if (videoRef.current != null && videoRef.current != undefined) {
+      const videoPlayer = videoRef.current;
+
+      const handlePlayerLoad = () => {
+        setVideoLoading(false);
+      };
+
+      const handlePlayerError = () => {
+        setVideoLoading(false);
+      };
+
+      videoPlayer.addEventListener("loadeddata", handlePlayerLoad);
+      videoPlayer.addEventListener("error", handlePlayerError);
+
+      return () => {
+        videoPlayer.removeEventListener("loadeddata", handlePlayerLoad);
+        videoPlayer.removeEventListener("error", handlePlayerError);
+      };
+    }
+  }, []);
+
   return (
     <div id="DashboardStream-container">
       {/* Primera sección */}
@@ -383,7 +421,69 @@ export default function DashboardStream({ isMobile }) {
                   </div>
                 </section>
               </div>
-              <div>Elemento 2</div>
+              <div className="Broadcast-preview-dashboard">
+                <div
+                  title="Información de sesión"
+                  className="vista-previa-stream-p1"
+                >
+                  <div style={{ width: "20px", height: "20px" }}>
+                    <svg
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                      width="20"
+                      height="20"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M2.00501 2.94L3.435 2.94V1.94L1.005 1.94L1.005 4.28H2.00501L2.00501 2.94Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M2.00501 11.72H1.005L1.005 14.055H3.435V13.055H2.00501V11.72Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M12.565 1.94V2.94H13.995V4.28H14.995V1.94L12.565 1.94Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M13.995 13.055H12.565V14.055H14.995V11.72H13.995V13.055Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M10.63 3.865L5.37001 3.865C4.04501 3.865 2.97501 4.94 2.97501 6.26L2.97501 9.735C2.97501 11.06 4.05 12.13 5.37001 12.13L10.63 12.13C11.955 12.13 13.025 11.055 13.025 9.735L13.025 6.26C13.025 4.935 11.95 3.865 10.63 3.865ZM6.73501 10.3L6.73501 5.7L9.99001 8L6.73501 10.3Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </div>
+                  <span
+                    style={{
+                      padding: "0px 10px",
+                    }}
+                    className="max-w-full shrink truncate text-base font-bold text-white"
+                  >
+                    Vista previa del stream
+                  </span>
+                </div>
+                <ReactFlvPlayer
+                  allowFullScreen
+                  id="pinkker-player"
+                  videoRef={videoRef}
+                  preload={"auto"}
+                  webkit-playsinline={true}
+                  playsInline={true}
+                  src={getHlsSrc()}
+                  autoPlay={true}
+                  muted={true}
+                  controls={false}
+                  width={"100%"}
+                  height={"85%"}
+                />
+              </div>
               <div>Elemento 3</div>
             </div>
           </div>

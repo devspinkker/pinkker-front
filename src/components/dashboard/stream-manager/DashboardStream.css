@@ -194,6 +194,13 @@
     color: #ffff;
 }
 
+.vista-previa-stream-p1 {
+    display: flex;
+    padding: 10px;
+    background-color: #232628;
+    color: #ffff;
+}
+
 .base-card {
     padding: 0 !important;
     display: flex;
@@ -345,4 +352,11 @@
 
 .label {
     /* padding: 10px 0px; */
+}
+
+.Broadcast-preview-dashboard {
+    display: flex !important;
+    /* justify-content: center; */
+    height: 400px !important;
+    flex-direction: column;
 }
