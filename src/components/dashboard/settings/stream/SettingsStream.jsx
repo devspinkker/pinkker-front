@@ -4,11 +4,7 @@ import { useSelector } from "react-redux";
 
 import { useNotification } from "../../../Notifications/NotificationProvider";
 
-export default function SettingsStream() {
-  const token = useSelector((state) => state.token);
-  const auth = useSelector((state) => state.auth);
-  const { user, isLogged } = auth;
-
+export default function SettingsStream({ user }) {
   const alert = useNotification();
 
   const copyToClipboard = (text) => {
@@ -28,7 +24,7 @@ export default function SettingsStream() {
         <div className="settingstream-content">
           <div className="settingstream-camp">
             <p>Clave de la transmisión principal</p>
-            <div style={{ marginLeft: "50px" }}>
+            <div>
               <div>
                 <input
                   value={process.env.REACT_APP_RTMPSTARTSTREAM}
@@ -38,10 +34,10 @@ export default function SettingsStream() {
                 />
                 <input
                   value={
-                    user.keyTransmission &&
-                    user.keyTransmission.substring(
+                    user?.keyTransmission &&
+                    user?.keyTransmission.substring(
                       4,
-                      user.keyTransmission.length
+                      user?.keyTransmission.length
                     )
                   }
                   className="settingstream-input"
@@ -52,10 +48,10 @@ export default function SettingsStream() {
                 <button
                   onClick={() =>
                     copyToClipboard(
-                      user.keyTransmission &&
-                        user.keyTransmission.substring(
+                      user?.keyTransmission &&
+                        user?.keyTransmission.substring(
                           4,
-                          user.keyTransmission.length
+                          user?.keyTransmission.length
                         )
                     )
                   }
@@ -65,12 +61,6 @@ export default function SettingsStream() {
                 </button>
                 <button className="button-copy">Restablecer</button>
               </div>
-              <p style={{ width: "80%" }}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-                porro, quos nesciunt neque cupiditate maiores, repudiandae
-                asperiores ut amet expedita repellat beatae rerum ipsam debitis
-                odit libero, velit doloribus voluptates.
-              </p>
             </div>
           </div>
         </div>

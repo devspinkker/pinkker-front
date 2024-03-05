@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./MainDeshboard.css";
 
-export default function MainDeshboard({ user, tyExpanded }) {
+export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
   const [expandedMenus, setExpandedMenus] = useState({
     Monetizacion: false,
     Logros: false,
@@ -10,6 +10,9 @@ export default function MainDeshboard({ user, tyExpanded }) {
     Comunidad: false,
     Ajustes: false,
   });
+  const toggleexpandedMenu = () => {
+    setExpanded(!tyExpanded);
+  };
 
   const handleItemClick = (title) => {
     if (title !== "Stream") {
@@ -26,7 +29,7 @@ export default function MainDeshboard({ user, tyExpanded }) {
     Logros: ["Logro 1", "Logro 2", "Logro 3"],
     Studio: ["Proyectos", "Diseños", "Bocetos"],
     Comunidad: ["Foro", "Grupos", "Eventos"],
-    Ajustes: ["Configuración", "Preferencias", "Seguridad"],
+    Ajustes: ["Configuración"],
   };
 
   const menuItems = [
@@ -41,11 +44,25 @@ export default function MainDeshboard({ user, tyExpanded }) {
   return (
     <div>
       <aside className="MainDeshboard min-w-[256px] max-w-[256px] px-1 !hidden md:!flex">
-        <div className="dashboard-left-menu-header">
-          <div className="menu-title max-w-full opacity-100">
+        <div
+          style={{
+            position: !tyExpanded && "relative",
+            left: !tyExpanded && "20px",
+          }}
+          className="dashboard-left-menu-header"
+        >
+          <div
+            style={{
+              display: tyExpanded ? "" : "none",
+            }}
+            className="menu-title max-w-full opacity-100"
+          >
             Panel de control del creador
           </div>
-          <button className="menu-activator-icon right-1 variant-text size-md base-icon-button menu-activator-icon right-1">
+          <button
+            onClick={() => toggleexpandedMenu()}
+            className="menu-activator-icon right-1 variant-text size-md base-icon-button menu-activator-icon right-1"
+          >
             <div
               className="base-icon icon"
               style={{ width: "20px", height: "20px" }}
@@ -103,7 +120,21 @@ export default function MainDeshboard({ user, tyExpanded }) {
                     }}
                   ></i>
                 </div>
-                <div className="item-title">{item.title}</div>
+                <div
+                  style={{
+                    display: tyExpanded ? "" : "none",
+                    color: "#fff",
+                  }}
+                  className="item-title"
+                >
+                  {item?.title == "Stream" ? (
+                    <Link to={"/" + user?.NameUser + "/dashboard/stream"}>
+                      {item.title}
+                    </Link>
+                  ) : (
+                    item.title
+                  )}
+                </div>
               </div>
               {item.title !== "Stream" && (
                 <div
@@ -133,9 +164,11 @@ export default function MainDeshboard({ user, tyExpanded }) {
               {expandedMenus[item.title] &&
                 menuElements[item.title].map((element, elementIndex) => {
                   return (
-                    <div key={elementIndex} className="menu-item-sublink">
-                      {element}
-                    </div>
+                    <Link to={"/" + user?.NameUser + "/dashboard/ajustes"}>
+                      <div key={elementIndex} className="menu-item-sublink">
+                        {element}
+                      </div>
+                    </Link>
                   );
                 })}
             </div>

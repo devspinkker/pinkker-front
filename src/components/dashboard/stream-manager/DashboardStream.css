@@ -2,28 +2,27 @@
     display: flex;
     flex-direction: row;
     height: 100vh;
-    width: 75%;
-    padding: 0vh 18rem
+    width: 83%;
+    padding: 0vh 0rem 0rem 15rem;
 }
 
 .first-section {
-    flex: 74%;
+    flex: 55%;
     display: flex;
     flex-direction: column;
 }
 
 .second-section {
     flex: 0%;
-    background-color: rgb(14, 80, 102);
+    background-color: #131418;
 
 }
 
 .navigation {
     background-color: #131418;
-    margin: 10px;
-
     margin-top: 0px;
     color: #fff;
+    padding: 4px 12px;
 }
 
 .navigation-container-stream-deshboard {
@@ -161,21 +160,24 @@
 }
 
 .part-one-chat {
-    flex: 1;
-    max-width: 100%;
-    /* Ajusta este valor según tus necesidades */
+    flex: 1 1;
+    max-width: 545px;
+    min-width: 354px;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
 }
 
 .part-two {
-    flex: 1;
-    margin: 10px;
+    flex: 1 1;
+    margin: -3px 0px 0px 23px;
 }
 
 .column {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    /* width: 100%; */
+    max-width: 53rem;
     height: 100%;
     justify-content: space-evenly;
 }
@@ -359,4 +361,120 @@
     /* justify-content: center; */
     height: 400px !important;
     flex-direction: column;
+}
+
+.sin-conexion-s3 {
+    padding: 6px;
+    background: #0f1214;
+    color: #fff;
+    position: relative;
+}
+
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    background-color: #171C1E;
+    flex-grow: 1;
+}
+
+.right-panel__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background-color: #131418;
+}
+
+.right-panel__header span {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.right-panel__content {
+    color: #ffff;
+    font-weight: bold;
+    background: #131418;
+}
+
+.divider {
+    border-top: 1px solid #3C454D;
+    margin: 0.5rem 0;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.channel-actions-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
+.channel-actions-item span {
+    font-size: 1rem;
+    color: #FFFFFF;
+}
+
+.base-toggle {
+    width: 36px;
+    height: 20px;
+    background-color: #3C454D;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+.base-toggle-indicator {
+    width: 16px;
+    height: 16px;
+    background-color: #1F2937;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease;
+}
+
+.toggle-size-sm {
+    width: 36px;
+    height: 20px;
+}
+
+.channel-actions-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.channel-actions-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+.shrinkS2 {
+    padding: 1rem;
+}
+
+.creator-actions-item {
+    display: flex;
+    padding: 5px 10px;
+    border-radius: 5px;
+    animation: 200ms all;
+
+}
+
+.creator-actions-item:hover {
+    background: #313538;
+}
+
+.creator-actions-item>span {
+    padding: 10px;
 }

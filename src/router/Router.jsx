@@ -51,6 +51,8 @@ import ResetPassword from "../components/auth/ResetPassword";
 import { getUserByIdTheToken } from "../services/backGo/user";
 import RecoverPassword from "../components/userRecuperacion/PasswordReset";
 import DashboardStream from "../components/dashboard/stream-manager/DashboardStream";
+import DashboardAjustes from "../components/dashboard/stream-manager/DeshboardAjustes";
+import DashboardServerTransmision from "../components/dashboard/stream-manager/DashboardServerTransmision";
 
 const AppRouter = () => {
   const [expanded, setExpanded] = useState(true);
@@ -197,16 +199,6 @@ const AppRouter = () => {
                 socketMain={socketMain}
                 handleMessage={(e) => addOpenMessage(e)}
               />
-            </Route>
-
-            <Route exact path="/:streamer/dashboard/settings/stream">
-              <NavbarLeft
-                user={user}
-                setExpanded={setExpanded}
-                tyExpanded={expanded}
-                tyDashboard={true}
-              />
-              <SettingsStream />
             </Route>
 
             <Route exact path="/:streamer/dashboard/content">
@@ -506,7 +498,29 @@ const AppRouter = () => {
           tyExpanded={expanded}
           tyDashboard={true}
         />
-        <DashboardStream isMobile={isMobile} />
+        <DashboardStream tyExpanded={expanded} isMobile={isMobile} />
+      </Route>
+      <Route exact path="/:streamer/dashboard/ajustes">
+        <NavbarLeft
+          user={user}
+          setExpanded={setExpanded}
+          tyExpanded={expanded}
+          tyDashboard={true}
+        />
+        <DashboardAjustes tyExpanded={expanded} isMobile={isMobile} />
+      </Route>
+      <Route exact path="/:streamer/dashboard/clave">
+        <NavbarLeft
+          user={user}
+          setExpanded={setExpanded}
+          tyExpanded={expanded}
+          tyDashboard={true}
+        />
+        <DashboardServerTransmision
+          tyExpanded={expanded}
+          isMobile={isMobile}
+          user={user}
+        />
       </Route>
     </Router>
   );

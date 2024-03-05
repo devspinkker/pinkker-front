@@ -146,7 +146,13 @@ export default function NavbarLeft({
 
   function getNormalNavbar() {
     if (dashboard === true) {
-      return <MainDeshboard user={user} tyExpanded={tyExpanded} />;
+      return (
+        <MainDeshboard
+          user={user}
+          tyExpanded={tyExpanded}
+          setExpanded={setExpanded}
+        />
+      );
     } else {
       return (
         <div className="conteiner-navbar-dashboardfalse">

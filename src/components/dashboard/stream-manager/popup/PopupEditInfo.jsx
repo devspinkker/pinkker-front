@@ -175,7 +175,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
               alignItems: "center",
               justifyContent: "center",
               color: "#ededed",
-              margin: "20px auto",
+              margin: "10px auto",
               fontSize: "14px",
             }}
           >
@@ -239,7 +239,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
               alignItems: "center",
               justifyContent: "center",
               color: "#ededed",
-              margin: "40px auto",
+              margin: "20px auto",
               fontSize: "14px",
             }}
           >

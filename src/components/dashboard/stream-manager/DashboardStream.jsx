@@ -6,15 +6,28 @@ import { getStreamById } from "../../../services/backGo/streams";
 import { getCategorieByName } from "../../../services/categories";
 import { getStream } from "../../../services/stream";
 import ReactFlvPlayer from "../../../player/PlayerMain";
+import PopupEditInfo from "./popup/PopupEditInfo";
 
-export default function DashboardStream({ isMobile }) {
+export default function DashboardStream({ isMobile, tyExpanded }) {
   const [streamerData, setStreamerData] = useState(null);
   const [userData, SetUserData] = useState(null);
   const [categorie, setCategorie] = useState(null);
   const [stream, setStream] = useState(null);
   const videoRef = useRef();
   const [videoLoading, setVideoLoading] = useState(true);
+  const [mostrarditInfoStream, setditInfoStreamN] = useState(false);
+  const [QuickActionShow, setQuickActionSHow] = useState(true);
+  const toggleEditInfoStream = () => {
+    setditInfoStreamN(!mostrarditInfoStream);
+  };
+  const toggleEQuickActionShow = () => {
+    setQuickActionSHow(!QuickActionShow);
+  };
+  const [Channelshares, setChannelshares] = useState(true);
 
+  const toggleChannelshares = () => {
+    setChannelshares(!Channelshares);
+  };
   useEffect(() => {
     const fetchData = async () => {
       let id = window.localStorage.getItem("_id");
@@ -104,7 +117,20 @@ export default function DashboardStream({ isMobile }) {
   }, []);
 
   return (
-    <div id="DashboardStream-container">
+    <div
+      id="DashboardStream-container"
+      style={{
+        padding: !tyExpanded && "0rem 4rem",
+        width: !tyExpanded && "96%",
+      }}
+    >
+      {mostrarditInfoStream && (
+        <PopupEditInfo
+          closePopup={toggleEditInfoStream}
+          stream={streamerData}
+          user={userData}
+        />
+      )}
       {/* Primera sección */}
       <div className="first-section">
         {/* Navegación */}
@@ -342,12 +368,12 @@ export default function DashboardStream({ isMobile }) {
                         style={{
                           padding: "0px 10px",
                         }}
-                        className="max-w-full shrink truncate text-base font-bold text-white"
+                        className="shrinkS2"
                       >
                         Información de sesión
                       </span>
                     </div>
-                    <div className="ml-auto flex shrink-0 flex-row items-center gap-1">
+                    <div className="shrinkS2">
                       <div data-headlessui-state="" className="relative">
                         <button
                           id="headlessui-menu-button-25"
@@ -390,15 +416,17 @@ export default function DashboardStream({ isMobile }) {
                     </div>
                   </div>
                   <div className="session-info">
-                    {/* <div className="stats-container">
-                      <span className="w-fit grow-0 rounded-[2px] px-[0.375rem] py-1 text-center text-[0.625rem] font-bold uppercase bg-[#F4F5F6] text-[#070809]">
-                        Sin conexión
-                      </span>
-                      <span className="label">Sesión</span>
-                    </div> */}
+                    {!streamerData?.Online && (
+                      <div className="stats-container">
+                        <span className="w-fit grow-0 rounded-[2px] px-[0.375rem] py-1 text-center text-[0.625rem] font-bold uppercase bg-[#F4F5F6] text-[#070809]">
+                          Sin conexión
+                        </span>
+                        <span className="label">Sesión</span>
+                      </div>
+                    )}
                     <div className="stats-container">
                       <span className="data">
-                        - {streamerData?.ViewerCount}
+                        - {streamerData?.Online && streamerData?.ViewerCount}
                       </span>
                       <span className="label"> espectadores</span>
                     </div>
@@ -410,11 +438,15 @@ export default function DashboardStream({ isMobile }) {
                     </div>
                     <div className="stats-container">
                       <span className="data">
-                        <p className="elapsedTime">
-                          <p>{`${formatNumber(elapsedTime.hours)}`}</p>
-                          <p>{`: ${formatNumber(elapsedTime.minutes)}`}</p>
-                          <p>{`: ${formatNumber(elapsedTime.seconds)}`}</p>
-                        </p>
+                        {streamerData?.Online ? (
+                          <p className="elapsedTime">
+                            <p>{`${formatNumber(elapsedTime.hours)}`}</p>
+                            <p>{`: ${formatNumber(elapsedTime.minutes)}`}</p>
+                            <p>{`: ${formatNumber(elapsedTime.seconds)}`}</p>
+                          </p>
+                        ) : (
+                          "-"
+                        )}
                       </span>
                       <span className="label">Tiempo en vivo</span>
                     </div>
@@ -469,20 +501,46 @@ export default function DashboardStream({ isMobile }) {
                     Vista previa del stream
                   </span>
                 </div>
-                <ReactFlvPlayer
-                  allowFullScreen
-                  id="pinkker-player"
-                  videoRef={videoRef}
-                  preload={"auto"}
-                  webkit-playsinline={true}
-                  playsInline={true}
-                  src={getHlsSrc()}
-                  autoPlay={true}
-                  muted={true}
-                  controls={false}
-                  width={"100%"}
-                  height={"85%"}
-                />
+                {streamerData?.Online ? (
+                  <ReactFlvPlayer
+                    allowFullScreen
+                    id="pinkker-player"
+                    videoRef={videoRef}
+                    preload={"auto"}
+                    webkit-playsinline={true}
+                    playsInline={true}
+                    src={getHlsSrc()}
+                    autoPlay={true}
+                    muted={true}
+                    controls={false}
+                    width={"100%"}
+                    height={"85%"}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      minWidth: "400px",
+                      height: "80%",
+                    }}
+                  >
+                    <img
+                      style={{
+                        minWidth: "428px",
+                        maxHeight: "277px",
+                      }}
+                      src={streamerData?.stream_thumbnail}
+                      alt=""
+                    />
+                  </div>
+                )}
+                <span
+                  style={{
+                    display: streamerData?.Online ? "none" : "",
+                  }}
+                  className="sin-conexion-s3"
+                >
+                  SIN CONEXIÓN
+                </span>
               </div>
               <div>Elemento 3</div>
             </div>
@@ -503,7 +561,286 @@ export default function DashboardStream({ isMobile }) {
         </div>
       </div>
       {/* Segunda sección */}
-      <div className="second-section">Segunda sección</div>
+      <div className="second-section">
+        <div className="right-panel flex flex-col bg-[#171C1E] grow">
+          <div className="right-panel__header flex flex-row items-center justify-between gap-2 px-6">
+            <div className="flex flex-row items-center">
+              <span className="text-base font-bold">Herramientas de canal</span>
+            </div>
+            <button className="variant-text size-md base-icon-button">
+              <div
+                className="base-icon icon"
+                style={{ width: "20px", height: "20px" }}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 11.75H6.25V13.5H15V11.75Z"
+                    fill="currentColor"
+                  ></path>
+                  <path d="M15 3H6.25V4.75H15V3Z" fill="currentColor"></path>
+                  <path
+                    d="M15 7.375H8V9.125H15V7.375Z"
+                    fill="currentColor"
+                  ></path>
+                  <path
+                    d="M2.75 3.875L6.6875 7.63125C6.6875 8.11226 6.6875 8.38337 6.6875 8.86875L2.75 12.625H1V3.875H2.75Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+          </div>
+          <div className="right-panel__content">
+            <div className="flex shrinkS2 flex-col gap-0.5 overflow-y-hidden p-2.5">
+              <div
+                onClick={() => toggleEQuickActionShow()}
+                className="flex flex-row items-center justify-between px-2"
+              >
+                <span className="text-base font-bold">Acciones rápidas</span>
+                <button className="variant-text size-md base-icon-button">
+                  <div
+                    className="base-icon icon"
+                    style={{ width: "20px", height: "20px" }}
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      style={{
+                        transform: QuickActionShow
+                          ? "rotate(-180deg)"
+                          : "rotate(0deg)",
+                      }}
+                    >
+                      <path
+                        d="M14.7136 11.6L8.99463 6.70318L3.27562 11.6L1.99463 10.4984L8.99463 4.5L15.9946 10.4984L14.7136 11.6Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </div>
+                </button>
+              </div>
+              <div
+                className={`flex flex-col gap-0 transition-all`}
+                style={{
+                  animation: "200ms all",
+                  height: QuickActionShow ? "auto" : "0",
+                  display: QuickActionShow ? "" : "none",
+                }}
+              >
+                <div className="creator-actions-item !h-11 items-center !py-0 !pr-1.5">
+                  <div
+                    onClick={toggleEditInfoStream}
+                    className="base-icon"
+                    style={{ width: "16px", height: "16px", cursor: "pointer" }}
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9.99981 3.34058L2.66622 10.6742L5.33298 13.3409L12.6666 6.00734L9.99981 3.34058Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M12.3362 1L11.0028 2.33338L13.6696 5.00014L15.003 3.66676L12.3362 1Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M1 14.3353C1.25457 14.5899 1.41014 14.7454 1.6647 15L4.33295 14.3353L1.6647 11.6718L1 14.34V14.3353Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </div>
+                  <span>Editar información del stream</span>
+                  {/* <button className="ml-auto hover:!bg-[#555c62] variant-text size-sm base-icon-button ml-auto hover:!bg-[#555c62]">
+                    <div
+                      className="base-icon icon"
+                      style={{ width: "16px", height: "16px" }}
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3.51501 12.485H12.485V10.8H14.485V14.485H1.51501V1.51501H5.20501V3.51501H3.51501V12.485Z"
+                          fill="currentColor"
+                        ></path>
+                        <path
+                          d="M7.755 3.50001V1.51501H14.485V8.24501H12.5V4.91001L6.99 10.415L5.59 9.01002L11.09 3.50001H7.755Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </div>
+                  </button> */}
+                </div>
+                {/* <div className="creator-actions-item disabled">
+                  <div
+                    className="base-icon"
+                    style={{ width: "16px", height: "16px" }}
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M13.555 2.39C12.965 1.805 12.15 1.44 11.255 1.44C9.45499 1.44 7.99999 2.895 7.99999 4.695C7.99999 2.895 6.54499 1.44 4.74499 1.44C2.94499 1.44 1.48999 2.895 1.48999 4.695V11.305C1.48999 13.1 2.94999 14.56 4.74499 14.56C5.64499 14.56 6.45999 14.195 7.04999 13.605C7.63499 13.015 7.99999 12.2 7.99999 11.305C7.99999 13.1 9.45499 14.56 11.255 14.56C13.055 14.56 14.51 13.1 14.51 11.305V4.695C14.51 3.795 14.145 2.98 13.555 2.39ZM9.45499 10.505V9.34H6.49999V11.305C6.49999 12.27 5.71499 13.06 4.74499 13.06C3.77499 13.06 2.98999 12.27 2.98999 11.305V4.695C2.98999 3.725 3.77999 2.94 4.74499 2.94C5.70999 2.94 6.49999 3.725 6.49999 4.695V6.66H9.45499V5.495L13.015 8L9.45499 10.505Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </div>
+                  <span>Alojar canal</span>
+                </div> */}
+              </div>
+            </div>
+            <div className="flex shrinkS2 grow flex-col gap-2 overflow-y-hidden p-2.5">
+              <div
+                onClick={() => toggleChannelshares()}
+                className="flex flex-row items-center justify-between px-2 py-[2.5px]"
+              >
+                <span className="text-base font-bold">Acciones de canal</span>
+                <button className="variant-text size-md base-icon-button">
+                  <div
+                    className="base-icon icon"
+                    style={{ width: "20px", height: "20px" }}
+                  >
+                    <svg
+                      style={{
+                        transform: Channelshares
+                          ? "rotate(-180deg)"
+                          : "rotate(0deg)",
+                      }}
+                      width="20"
+                      height="20"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M14.7136 11.6L8.99463 6.70318L3.27562 11.6L1.99463 10.4984L8.99463 4.5L15.9946 10.4984L14.7136 11.6Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </div>
+                </button>
+              </div>
+              <div
+                style={{
+                  animation: "200ms all",
+                  height: Channelshares ? "auto" : "0",
+                  display: Channelshares ? "" : "none",
+                }}
+              >
+                <div className="channel-actions-item">
+                  <span>Chat sólo para seguidores</span>
+                  <div className="flex flex-row items-center gap-2">
+                    <div id="base-toggle-wrapper" className="toggle-size-sm">
+                      <div className="base-toggle">
+                        <div className="base-toggle-indicator"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="channel-actions-item">
+                  <span>Modo lento</span>
+                  <div className="flex flex-row items-center gap-2">
+                    <div id="base-toggle-wrapper" className="toggle-size-sm">
+                      <div className="base-toggle">
+                        <div className="base-toggle-indicator"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="channel-actions-item">
+                  <span>Chat de solo-emotes</span>
+                  <div id="base-toggle-wrapper" className="toggle-size-sm">
+                    <div className="base-toggle">
+                      <div className="base-toggle-indicator"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  <div className="channel-actions-item !pb-0">
+                    <span>Advanced bot protection</span>
+                    <div id="base-toggle-wrapper" className="toggle-size-sm">
+                      <div className="base-toggle">
+                        <div className="base-toggle-indicator"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="channel-actions-item channel-actions-link">
+                  <span>Términos bloqueados</span>
+                  <div
+                    className="base-icon"
+                    style={{ width: "16px", height: "16px" }}
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5.49463 12.902L10.3927 8L5.49463 3.09799L6.59651 2L12.5965 8L6.59651 14L5.49463 12.902Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+                <a
+                  aria-current="page"
+                  href="/dashboard/stream"
+                  className="router-link-active router-link-exact-active"
+                >
+                  <div className="channel-actions-item channel-actions-link">
+                    <span>Panel de control del creador</span>
+                    <div
+                      className="base-icon"
+                      style={{ width: "16px", height: "16px" }}
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3.5 12.5V2H2V14H14V12.5H3.5Z"
+                          fill="currentColor"
+                        ></path>
+                        <path
+                          d="M11.4387 3.5L5.97119 8.97125V5.52875H4.47119V11.5287H10.4712V10.0287H7.02869L12.4999 4.56125L11.4387 3.5Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

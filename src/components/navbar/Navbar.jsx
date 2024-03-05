@@ -507,14 +507,29 @@ function Navbar({
       );
     }
   }
-  const [Deshboard, setDeshboard] = useState(false);
+  const [Deshboard, setDeshboard] = useState(0);
   useEffect(() => {
-    if (window.location?.pathname === "/" + user?.NameUser + "/dashboard") {
-      setDeshboard(true);
+    if (
+      window.location?.pathname ===
+      "/" + user?.NameUser + "/dashboard/stream"
+    ) {
+      setDeshboard(2);
+    } else if (
+      window.location?.pathname ===
+      "/" + user?.NameUser + "/dashboard/ajustes"
+    ) {
+      setDeshboard(4);
+    } else if (
+      window.location?.pathname ===
+      "/" + user?.NameUser + "/dashboard/clave"
+    ) {
+      setDeshboard(5);
+    } else {
+      setDeshboard(1);
     }
-  }, []);
+  }, [user]);
 
-  return <>{Deshboard && getNavbar()}</>;
+  return <>{Deshboard == 1 && getNavbar()}</>;
 }
 
 export default Navbar;
