@@ -194,6 +194,8 @@
     padding: 10px;
     background-color: #232628;
     color: #ffff;
+    justify-content: space-between;
+    font-weight: bolder;
 }
 
 .vista-previa-stream-p1 {
@@ -368,6 +370,7 @@
     background: #0f1214;
     color: #fff;
     position: relative;
+    font-weight: bolder;
 }
 
 .right-panel {

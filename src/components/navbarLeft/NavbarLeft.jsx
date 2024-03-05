@@ -87,9 +87,25 @@ export default function NavbarLeft({
     ) {
       setDashboard(true);
     }
-
+    if (
+      window.location?.pathname ===
+      "/" + user?.NameUser + "/dashboard/stream"
+    ) {
+      setDashboard(true);
+    }
+    if (
+      window.location?.pathname ===
+      "/" + user?.NameUser + "/dashboard/Configuraci%C3%B3n"
+    ) {
+      setDashboard(true);
+    }
+    if (
+      window.location?.pathname ===
+      "/" + user?.NameUser + "/dashboard/Clave"
+    ) {
+      setDashboard(true);
+    }
     if (window.location?.pathname != "/plataform/clips") {
-      //Cancel window scroll event
       window.onscroll = function (e) {
         console.log("");
       };

@@ -1,237 +1,89 @@
 import React, { useState, useEffect } from "react";
-
 import "./SocialNetwork.css";
 import { useSelector } from "react-redux";
-
-import { updateSocialnetwork } from "../../../../services/user";
-
+import {
+  EditSocialNetworks,
+  editProfile,
+} from "../../../../services/backGo/user";
 import { useNotification } from "../../../Notifications/NotificationProvider";
-import { editAvatar, editProfile } from "../../../../services/backGo/user";
 
-export default function SocialNetwork() {
-  const auth = useSelector((state) => state.auth);
-  const { user, isLogged } = auth;
-  const token = useSelector((state) => state.token);
-
-  const [instagram, setInstagram] = useState(null);
-  const [tiktok, setTiktok] = useState(null);
-  const [facebook, setFacebook] = useState(null);
-  const [twitter, setTwitter] = useState(null);
-  const [youtube, setYoutube] = useState(null);
+export default function SocialNetwork({ user }) {
+  const [socialNetworks, setSocialNetworks] = useState({
+    instagram: user?.socialnetwork?.instagram || "",
+    tiktok: user?.socialnetwork?.tiktok || "",
+    facebook: user?.socialnetwork?.facebook || "",
+    twitter: user?.socialnetwork?.twitter || "",
+    youtube: user?.socialnetwork?.youtube || "",
+  });
 
   const alert = useNotification();
 
   useEffect(() => {
-    if (user != null && user != undefined && user != []) {
-      setInstagram(user.instagram);
-      setTiktok(user.tiktok);
-      setFacebook(user.facebook);
-      setTwitter(user.twitter);
-      setYoutube(user.youtube);
+    if (user && user.socialnetwork) {
+      setSocialNetworks({
+        instagram: user.socialnetwork.instagram || "",
+        tiktok: user.socialnetwork.tiktok || "",
+        facebook: user.socialnetwork.facebook || "",
+        twitter: user.socialnetwork.twitter || "",
+        youtube: user.socialnetwork.youtube || "",
+      });
     }
   }, [user]);
 
   async function handleSubmit() {
-    let token = window.localStorage.getItem("token");
-    const data = await editProfile(token, {
-      facebook,
-      twitter,
-      instagram,
-      tiktok,
-      youtube,
-    });
-    if (data != null && data != undefined && data.status == 200) {
+    try {
+      const token = window.localStorage.getItem("token");
+      console.log(socialNetworks);
+      const data = await EditSocialNetworks(token, socialNetworks);
+
       alert({ type: "SUCCESS", message: data.message });
-    } else {
-      alert({ type: "ERROR", message: data.message });
+    } catch (error) {
+      alert({ type: "ERROR", message: error.message });
     }
   }
 
-  function getType() {
-    return (
-      <div className="socialnetwork-container">
-        <hr style={{ border: "1px solid #2b2b2b8f" }} />
-        <div className="socialnetwork-content">
-          <div
-            style={{
-              width: "145px",
-              textAlign: "center",
-              marginLeft: "20px",
-              padding: "10px",
-              backgroundColor: "#202020",
-              borderTopLeftRadius: "5px",
-              borderEndStartRadius: "5px",
-            }}
-          >
-            <h5
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "80%",
-              }}
-            >
-              <i style={{ marginRight: "5px" }} class="fab fa-instagram" />{" "}
-              instagram.com/
-            </h5>
-          </div>
-          <div className="socialnetwork-input">
-            <input
-              placeholder={user.socialnetwork.instagram}
-              type="text"
-              onChange={(e) => setInstagram(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="socialnetwork-content">
-          <div
-            style={{
-              width: "145px",
-              textAlign: "center",
-              marginLeft: "20px",
-              padding: "10px",
-              backgroundColor: "#202020",
-              borderTopLeftRadius: "5px",
-              borderEndStartRadius: "5px",
-            }}
-          >
-            <h5
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "70%",
-              }}
-            >
-              <i style={{ marginRight: "5px" }} class="fab fa-tiktok" />{" "}
-              tiktok.com/@
-            </h5>
-          </div>
-          <div className="socialnetwork-input">
-            <input
-              placeholder={user.socialnetwork.tiktok}
-              type="text"
-              onChange={(e) => setTiktok(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="socialnetwork-content">
-          <div
-            style={{
-              width: "145px",
-              textAlign: "center",
-              marginLeft: "20px",
-              padding: "10px",
-              backgroundColor: "#202020",
-              borderTopLeftRadius: "5px",
-              borderEndStartRadius: "5px",
-            }}
-          >
-            <h5
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "78%",
-              }}
-            >
-              <i style={{ marginRight: "5px" }} class="fab fa-facebook" />{" "}
-              facebook.com/
-            </h5>
-          </div>
-          <div className="socialnetwork-input">
-            <input
-              placeholder={user.socialnetwork.facebook}
-              type="text"
-              onChange={(e) => setFacebook(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="socialnetwork-content">
-          <div
-            style={{
-              width: "145px",
-              textAlign: "center",
-              marginLeft: "20px",
-              padding: "10px",
-              backgroundColor: "#202020",
-              borderTopLeftRadius: "5px",
-              borderEndStartRadius: "5px",
-            }}
-          >
-            <h5
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "67%",
-              }}
-            >
-              <i class="fab fa-twitter" /> twitter.com/
-            </h5>
-          </div>
-          <div className="socialnetwork-input">
-            <input
-              placeholder={user.socialnetwork.twitter}
-              type="text"
-              onChange={(e) => setTwitter(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="socialnetwork-content">
-          <div
-            style={{
-              width: "145px",
-              textAlign: "center",
-              marginLeft: "20px",
-              padding: "10px",
-              backgroundColor: "#202020",
-              borderTopLeftRadius: "5px",
-              borderEndStartRadius: "5px",
-            }}
-          >
-            <h5
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "77%",
-              }}
-            >
-              <i style={{ marginRight: "5px" }} class="fab fa-youtube" />{" "}
-              youtube.com/
-            </h5>
-          </div>
-          <div className="socialnetwork-input">
-            <input
-              placeholder={user.socialnetwork.youtube}
-              type="text"
-              onChange={(e) => setYoutube(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div style={{ textAlign: "right", padding: "20px" }}>
-          <button
-            style={{ width: "105px" }}
-            onClick={() => handleSubmit()}
-            className="biography-button pink-button"
-          >
-            Guardar
-          </button>
-        </div>
-      </div>
-    );
+  function handleChange(event, network) {
+    setSocialNetworks({
+      ...socialNetworks,
+      [network]: event.target.value,
+    });
   }
 
   return (
     <div className="socialnetwork-body">
-      <h2>Redes sociales</h2>
-      {user.socialnetwork && getType()}
+      <div className="socialnetwork-body-conteiner">
+        <div className="border-b-2 border-secondary-lighter px-4 py-2 font-semibold">
+          Redes sociales
+        </div>
+        <div className="p-4 pt-3.5 text-sm">
+          {Object.entries(socialNetworks).map(([network, value]) => (
+            <div className="content-redes" key={network}>
+              <label className="mb-1 font-semibold capitalize">{network}</label>
+              <div className="red-input">
+                <div className="red-config">{`${network}.com/`}</div>
+                <input
+                  value={value}
+                  onChange={(e) => handleChange(e, network)}
+                  className="user-red"
+                  spellCheck="false"
+                  type="text"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="button-content-social">
+          <button
+            onClick={handleSubmit}
+            className="variant-highlight size-md base-button w-[111px]"
+            type="button"
+          >
+            <div className="button-content">
+              <div className="inner-label">Guardar</div>
+            </div>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

@@ -29,7 +29,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
     Logros: ["Logro 1", "Logro 2", "Logro 3"],
     Studio: ["Proyectos", "Diseños", "Bocetos"],
     Comunidad: ["Foro", "Grupos", "Eventos"],
-    Ajustes: ["Configuración"],
+    Ajustes: ["Configuración", "Clave"],
   };
 
   const menuItems = [
@@ -42,8 +42,12 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
   ];
 
   return (
-    <div>
-      <aside className="MainDeshboard min-w-[256px] max-w-[256px] px-1 !hidden md:!flex">
+    <div
+      style={{
+        height: "100%",
+      }}
+    >
+      <aside className="MainDeshboard ">
         <div
           style={{
             position: !tyExpanded && "relative",
@@ -61,7 +65,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
           </div>
           <button
             onClick={() => toggleexpandedMenu()}
-            className="menu-activator-icon right-1 variant-text size-md base-icon-button menu-activator-icon right-1"
+            className="menu-activator-icon"
           >
             <div
               className="base-icon icon"
@@ -97,6 +101,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                   : item.title === "Stream"
                   ? "#53fc18"
                   : "transparent",
+                color: item.title == "Stream" ? "#0e0e10" : "",
                 cursor: "pointer",
               }}
               className="dashboard-left-menu-item"
@@ -107,9 +112,6 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                   expandedMenus[item.title] ? "menu-extended" : ""
                 }`}
                 onClick={() => handleItemClick(item.title)}
-                style={{
-                  color: item.title === "Stream" ? "#080808" : "#fff",
-                }}
               >
                 <div className="menu-item-icon-holder w-5">
                   <i
@@ -128,7 +130,12 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                   className="item-title"
                 >
                   {item?.title == "Stream" ? (
-                    <Link to={"/" + user?.NameUser + "/dashboard/stream"}>
+                    <Link
+                      style={{
+                        color: item.title === "Stream" ? "#080808" : "#fff",
+                      }}
+                      to={"/" + user?.NameUser + "/dashboard/stream"}
+                    >
                       {item.title}
                     </Link>
                   ) : (
@@ -164,7 +171,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
               {expandedMenus[item.title] &&
                 menuElements[item.title].map((element, elementIndex) => {
                   return (
-                    <Link to={"/" + user?.NameUser + "/dashboard/ajustes"}>
+                    <Link to={"/" + user?.NameUser + "/dashboard/" + element}>
                       <div key={elementIndex} className="menu-item-sublink">
                         {element}
                       </div>
@@ -175,6 +182,25 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
           </div>
         ))}
       </aside>
+      <div className="return-pinkker-main-deshboard">
+        <svg
+          style={{
+            color: "#fff",
+          }}
+          width="12"
+          height="12"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M8 1H1V15H8V1Z" fill="currentColor"></path>
+          <path
+            d="M11.3688 7.06806L12.4451 5.99181L11.2069 4.75806L7.96069 7.99993L11.2069 11.2418L12.4407 10.0081L11.2551 8.81806H15.0001V7.06806H11.3688Z"
+            fill="currentColor"
+          ></path>
+        </svg>
+        <Link to="/">Volver a Pinkker</Link>
+      </div>
     </div>
   );
 }

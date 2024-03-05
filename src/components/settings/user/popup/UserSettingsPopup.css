@@ -1,31 +1,32 @@
 .usersettings-popup-body {
     position: fixed;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	margin: auto;
-	background-color: rgba(0,0,0, 0.5);
-    z-index: 100;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000000000000000000000000;
 }
 
 .usersettings-popup-container {
     width: 20%;
     height: 425px;
-	position: absolute;
-	left: 25%;
-	right: 25%;
-	top: 25%;
-	bottom: 25%;
-	margin: auto;
+    position: absolute;
+    left: 25%;
+    right: 25%;
+    top: 25%;
+    bottom: 25%;
+    margin: auto;
     padding: 30px;
-	text-align: center;
-	background: #18181b;
+    text-align: center;
+    background: #18181b;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+    z-index: 100000000000000000;
 }
 
 
@@ -49,7 +50,7 @@
 .usersettingspopup-card:hover {
 
     background-color: rgb(107, 107, 107);
-    
+
 }
 
 .usersettings-popup-close {
@@ -58,7 +59,7 @@
     justify-content: right;
 }
 
-.usersettings-popup-close button{
+.usersettings-popup-close button {
     background-color: transparent;
     border: none;
     color: #ededed;
@@ -94,43 +95,43 @@
     justify-content: center;
 }
 
-.usersettings-crop-input-container input{
+.usersettings-crop-input-container input {
     width: 70%;
 }
 
-.usersettings-crop-input-container input[type="range"]{
-    -webkit-appearance:none;
-    width:200px;
-    height:2px;
+.usersettings-crop-input-container input[type="range"] {
+    -webkit-appearance: none;
+    width: 200px;
+    height: 2px;
     background: rgb(255, 0, 255);
-    background-position:center;
-    background-repeat:no-repeat;
-  }
-  
-  .usersettings-crop-input-container input[type="range"]::-webkit-slider-thumb{
-    -webkit-appearance:none;
-    width:20px;
-    height:20px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.usersettings-crop-input-container input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
     border-radius: 100%;
     background: #434343;
-    position:relative;
+    position: relative;
     border: 3px solid rgb(251, 127, 255);
-    z-index:3;
+    z-index: 3;
     cursor: pointer;
-  }
+}
 
 
-  .usersettings-popup-cancel {
-      width: 75px;
-      padding: 7px;
-      background-color: #333;
-      color: #ededed;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-  }
+.usersettings-popup-cancel {
+    width: 75px;
+    padding: 7px;
+    background-color: #333;
+    color: #ededed;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-  .usersettings-popup-save {
+.usersettings-popup-save {
     width: 75px;
     padding: 7px;
     background-color: #ff60b2;

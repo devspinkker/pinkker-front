@@ -19,12 +19,11 @@ import Pagos from "./pagos/Pagos";
 import SocialNetwork from "./socialnetwork/SocialNetwork";
 import { editAvatar, editProfile } from "../../../services/backGo/user";
 
-export default function UserSettings({ isMobile }) {
+export default function UserSettings({ isMobile, user }) {
   const [type, setType] = useState(0);
   const [file, setFile] = useState(null);
 
   const auth = useSelector((state) => state.auth);
-  const { user, isLogged } = auth;
   const token = useSelector((state) => state.token);
 
   const [showPopupSettings, shopPopupSettings] = useState(false);
@@ -35,7 +34,10 @@ export default function UserSettings({ isMobile }) {
     shopPopupSettings(!showPopupSettings);
   }
 
+  const [avatar, Setavatar] = useState("");
   useEffect(() => {
+    let avatar = window.localStorage.getItem("avatar");
+    Setavatar(avatar);
     window.scrollTo(0, 0);
   }, []);
 
@@ -60,7 +62,7 @@ export default function UserSettings({ isMobile }) {
               <div className="usersettings-card">
                 <div style={{ width: "20%", textAlign: "center" }}>
                   <img
-                    src={user.avatar}
+                    src={avatar}
                     style={{ borderRadius: "100px", width: "95px" }}
                     alt=""
                   />
@@ -88,7 +90,7 @@ export default function UserSettings({ isMobile }) {
 
             {/*<Banner/>*/}
             <Biography />
-            <SocialNetwork />
+            <SocialNetwork user={user} />
           </div>
           {showPopupSettings === true && (
             <UserSettingsPopup closePopup={() => togglePopupSettings()} />
@@ -124,27 +126,27 @@ export default function UserSettings({ isMobile }) {
     }
   }
 
-  function getLeftForType() {
-    if (type === 0) {
-      return isMobile ? "18px" : "42px";
-    }
+  // function getLeftForType() {
+  //   if (type === 0) {
+  //     return isMobile ? "18px" : "42px";
+  //   }
 
-    if (type === 1) {
-      return isMobile ? "137px" : "162px";
-    }
+  //   if (type === 1) {
+  //     return isMobile ? "137px" : "162px";
+  //   }
 
-    if (type === 2) {
-      return isMobile ? "255px" : "280px";
-    }
+  //   if (type === 2) {
+  //     return isMobile ? "255px" : "280px";
+  //   }
 
-    if (type === 3) {
-      return isMobile ? "255px" : "280px";
-    }
+  //   if (type === 3) {
+  //     return isMobile ? "255px" : "280px";
+  //   }
 
-    if (type === 4) {
-      return "494px";
-    }
-  }
+  //   if (type === 4) {
+  //     return "494px";
+  //   }
+  // }
 
   return (
     <div className={"usersettings-body-" + theme.theme}>
@@ -186,11 +188,6 @@ export default function UserSettings({ isMobile }) {
           >
             <h3 onClick={() => setType(4)}>Seguridad</h3>
           </div>
-
-          <div
-            style={{ left: getLeftForType(), zIndex: "1000" }}
-            className="type-line"
-          ></div>
         </div>
       </div>
 

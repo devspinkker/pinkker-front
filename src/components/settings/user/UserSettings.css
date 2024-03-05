@@ -65,11 +65,13 @@
 .usersettings-card {
     display: flex;
     align-items: center;
-    width: 50%;
-    height: 150px;
-    background-color: #040404;
+    width: 501px;
+    height: 184px;
+    background-color: #191b1f;
     border-radius: 5px;
     margin-top: 10px;
+    flex-direction: column;
+    padding: 14px;
 }
 
 

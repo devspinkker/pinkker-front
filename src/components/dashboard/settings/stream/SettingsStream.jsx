@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SettingsStream.css";
 import { useSelector } from "react-redux";
-
 import { useNotification } from "../../../Notifications/NotificationProvider";
 
 export default function SettingsStream({ user }) {
   const alert = useNotification();
+  const [showKey, setShowKey] = useState(false);
 
   const copyToClipboard = (text) => {
     var textField = document.createElement("textarea");
@@ -31,35 +31,40 @@ export default function SettingsStream({ user }) {
                   className="settingstream-input"
                   style={{ width: "70%" }}
                   type="text"
+                  readOnly
                 />
-                <input
-                  value={
-                    user?.keyTransmission &&
-                    user?.keyTransmission.substring(
-                      4,
-                      user?.keyTransmission.length
-                    )
-                  }
-                  className="settingstream-input"
-                  style={{ width: "70%" }}
-                  type="text"
-                />
-
-                <button
-                  onClick={() =>
-                    copyToClipboard(
-                      user?.keyTransmission &&
-                        user?.keyTransmission.substring(
-                          4,
-                          user?.keyTransmission.length
-                        )
-                    )
-                  }
-                  className="button-copy"
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
                 >
-                  Copiar
-                </button>
-                <button className="button-copy">Restablecer</button>
+                  <input
+                    value={showKey ? user?.keyTransmission : "**********"}
+                    className="settingstream-input"
+                    style={{ width: "70%" }}
+                    type="text"
+                  />
+                  <div
+                    style={{
+                      marginTop: "10px",
+                    }}
+                  >
+                    <button
+                      onClick={() => setShowKey(!showKey)}
+                      className="button-copy"
+                    >
+                      {showKey ? "Ocultar" : "Mostrar"}
+                    </button>
+                    <button
+                      onClick={() => copyToClipboard(user?.keyTransmission)}
+                      className="button-copy"
+                    >
+                      Copiar
+                    </button>
+                    <button className="button-copy">Restablecer</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -190,7 +190,6 @@ export default function About({ streamer }) {
               </p>
             </a>
           </div>
-
           <div className="channel-about-secondary-card">
             <a
               style={{ textDecoration: "none" }}
@@ -210,6 +209,37 @@ export default function About({ streamer }) {
                 />{" "}
                 {streamer.socialnetwork.twitter
                   ? "@" + streamer.socialnetwork.twitter
+                  : "A configurar"}
+              </p>
+            </a>
+          </div>{" "}
+          <div className="channel-about-secondary-card">
+            <a
+              style={{ textDecoration: "none" }}
+              target={"_blank"}
+              href={"https://youtube.com/" + streamer.socialnetwork.youtube}
+            >
+              <p
+                style={{
+                  color: "#ededed",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <svg
+                  width="36"
+                  height="36"
+                  viewBox="1 1 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.1601 4.905C14.0101 4.35 13.5751 3.915 13.0251 3.77C12.0201 3.5 8.00007 3.5 8.00007 3.5C8.00007 3.5 3.98007 3.5 2.97507 3.77C2.42007 3.92 1.98507 4.355 1.84007 4.905C1.57007 5.91 1.57007 8 1.57007 8C1.57007 8 1.57007 10.09 1.84007 11.095C1.99007 11.65 2.42507 12.085 2.97507 12.23C3.98007 12.5 8.00007 12.5 8.00007 12.5C8.00007 12.5 12.0201 12.5 13.0251 12.23C13.5801 12.08 14.0151 11.645 14.1601 11.095C14.4301 10.09 14.4301 8 14.4301 8C14.4301 8 14.4301 5.91 14.1601 4.905ZM6.40007 10.295V5.705L10.3701 8L6.40007 10.295Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+                {streamer.socialnetwork.youtube
+                  ? "@" + streamer.socialnetwork.youtube
                   : "A configurar"}
               </p>
             </a>

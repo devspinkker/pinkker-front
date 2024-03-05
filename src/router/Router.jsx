@@ -229,7 +229,7 @@ const AppRouter = () => {
                 tyDashboard={false}
                 setExpanded={setExpanded}
               />
-              <UserSettings isMobile={isMobile} />
+              <UserSettings user={user} isMobile={isMobile} />
             </Route>
 
             <Route
@@ -500,16 +500,20 @@ const AppRouter = () => {
         />
         <DashboardStream tyExpanded={expanded} isMobile={isMobile} />
       </Route>
-      <Route exact path="/:streamer/dashboard/ajustes">
+      <Route exact path="/:streamer/dashboard/Configuración">
         <NavbarLeft
           user={user}
           setExpanded={setExpanded}
           tyExpanded={expanded}
           tyDashboard={true}
         />
-        <DashboardAjustes tyExpanded={expanded} isMobile={isMobile} />
+        <DashboardAjustes
+          user={user}
+          tyExpanded={expanded}
+          isMobile={isMobile}
+        />
       </Route>
-      <Route exact path="/:streamer/dashboard/clave">
+      <Route exact path="/:streamer/dashboard/Clave">
         <NavbarLeft
           user={user}
           setExpanded={setExpanded}

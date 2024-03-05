@@ -57,8 +57,6 @@ import { useHistory } from "react-router-dom";
 import { follow, unfollow } from "../../services/backGo/user";
 import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
 
-let socket;
-
 export default function Channel({
   isMobile,
   tyExpanded,
@@ -823,7 +821,6 @@ export default function Channel({
           )}
           {dropdownSub && (
             <SuscriptionDropdown
-              socket={socket}
               closeNavbar={() => setDropdownSub(false)}
               title={stream.stream_title}
               streamerData={streamerData}
@@ -832,7 +829,6 @@ export default function Channel({
           )}
           {dropdownGiftSub && (
             <GiftSuscriptionDropdown
-              socket={socket}
               users={users}
               closeNavbar={() => setDropdownGiftSub(false)}
               title={stream.stream_title}
@@ -965,7 +961,6 @@ export default function Channel({
         )}
         {dropdownSub && (
           <SuscriptionDropdown
-            socket={socket}
             closeNavbar={() => setDropdownSub(false)}
             title={stream.stream_title}
             streamerData={streamerData}
@@ -974,7 +969,6 @@ export default function Channel({
         )}
         {dropdownGiftSub && (
           <GiftSuscriptionDropdown
-            socket={socket}
             users={users}
             closeNavbar={() => setDropdownGiftSub(false)}
             title={stream.stream_title}

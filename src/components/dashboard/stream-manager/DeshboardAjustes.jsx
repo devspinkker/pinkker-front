@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./DashBoardAjustes.css";
 import UserSettings from "../../settings/user/UserSettings";
 
-export default function DashboardAjustes({ isMobile, tyExpanded }) {
+export default function DashboardAjustes({ isMobile, tyExpanded, user }) {
   return (
     <div
       id="DashboardStream-container"
@@ -11,7 +11,7 @@ export default function DashboardAjustes({ isMobile, tyExpanded }) {
         width: !tyExpanded && "96%",
       }}
     >
-      <UserSettings />
+      <UserSettings user={user} />
     </div>
   );
 }

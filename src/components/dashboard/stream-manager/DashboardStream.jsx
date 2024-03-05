@@ -40,6 +40,7 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
       const dataStreamer = await getStreamById(id);
       if (dataStreamer != null && dataStreamer != undefined) {
         setStreamerData(dataStreamer.data);
+        console.log(dataStreamer.data);
       }
 
       const res = await getStream(token);
@@ -416,7 +417,7 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                     </div>
                   </div>
                   <div className="session-info">
-                    {!streamerData?.Online && (
+                    {!streamerData?.online && (
                       <div className="stats-container">
                         <span className="w-fit grow-0 rounded-[2px] px-[0.375rem] py-1 text-center text-[0.625rem] font-bold uppercase bg-[#F4F5F6] text-[#070809]">
                           Sin conexión
@@ -426,7 +427,7 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                     )}
                     <div className="stats-container">
                       <span className="data">
-                        - {streamerData?.Online && streamerData?.ViewerCount}
+                        - {streamerData?.online && streamerData?.ViewerCount}
                       </span>
                       <span className="label"> espectadores</span>
                     </div>
@@ -438,7 +439,7 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                     </div>
                     <div className="stats-container">
                       <span className="data">
-                        {streamerData?.Online ? (
+                        {streamerData?.online ? (
                           <p className="elapsedTime">
                             <p>{`${formatNumber(elapsedTime.hours)}`}</p>
                             <p>{`: ${formatNumber(elapsedTime.minutes)}`}</p>
@@ -501,7 +502,7 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                     Vista previa del stream
                   </span>
                 </div>
-                {streamerData?.Online ? (
+                {streamerData?.online ? (
                   <ReactFlvPlayer
                     allowFullScreen
                     id="pinkker-player"
@@ -535,7 +536,7 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                 )}
                 <span
                   style={{
-                    display: streamerData?.Online ? "none" : "",
+                    display: streamerData?.online ? "none" : "",
                   }}
                   className="sin-conexion-s3"
                 >

@@ -13,13 +13,7 @@ import { useNotification } from "../../../../Notifications/NotificationProvider"
 import { handleSuscription } from "../../../../../services/suscribers";
 import { suscribirse } from "../../../../../services/backGo/subs";
 
-function SuscriptionConfirm({
-  socket,
-  closeNavbar,
-  title,
-  streamer,
-  streamerData,
-}) {
+function SuscriptionConfirm({ closeNavbar, title, streamer, streamerData }) {
   const [click, setClick] = useState(false);
 
   const handleClick = () => setClick(!click);

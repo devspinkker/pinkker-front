@@ -53,7 +53,7 @@ function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
   return <video 
   style={{
     width:width,
-    height:height
+    // height:height
   }}
   id='pinkker-player' controls playsInline ref={videoRef} />;
 }

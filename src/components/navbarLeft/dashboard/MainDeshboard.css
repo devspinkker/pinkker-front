@@ -1,4 +1,7 @@
-.MainDeshboard {}
+.MainDeshboard {
+
+    height: 100%;
+}
 
 .dashboard-left-menu-header {
     position: relative;
@@ -93,4 +96,21 @@
 .items-container-expandedMenus.expanded {
     max-height: 700px;
     transition: 0.2s;
+}
+
+.return-pinkker-main-deshboard {
+    display: flex;
+    background-color: #313538;
+    padding: 4px;
+    margin: 9px;
+    justify-content: center;
+    font-weight: bolder;
+    border-radius: 5px;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: aliceblue;
+    padding-left: 4px;
 }

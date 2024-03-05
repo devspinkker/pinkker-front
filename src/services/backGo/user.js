@@ -128,7 +128,24 @@ export async function editProfile(token, profileData) {
         }
     }
 }
-
+export async function EditSocialNetworks(token, profileData) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/EditSocialNetworks`,
+            profileData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response;
+    } catch (error) {
+        return {
+            error: "error"
+        }
+    }
+}
 export async function editAvatar(token, avatarData) {
     try {
         const response = await axios.post(
