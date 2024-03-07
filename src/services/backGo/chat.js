@@ -1,9 +1,5 @@
 const axios = require('axios');
 
-var token = null;
-export const setToken = (newObject) => {
-    token = newObject;
-};
 const baseURL = process.env.REACT_APP_BACKCHAT;
 
 export async function actionsModeratorChatStream(action, actionAgainst, timeOut, room, token) {
@@ -73,7 +69,7 @@ export async function GetInfoUserInRoomFunc(GetInfoUserInRoom, token) {
     } catch (error) {
     }
 }
-async function updataCommands(commands) {
+export async function updataCommands(token, commands) {
     try {
         const response = await axios.post(
             `${baseURL}/updataCommands`,
@@ -88,7 +84,24 @@ async function updataCommands(commands) {
         );
         return response.data;
     } catch (error) {
+        return error;
+
     }
 }
 
 
+export async function getCommands(token) {
+    try {
+        const response = await axios.get(
+            `${baseURL}/getCommands`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}

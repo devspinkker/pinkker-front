@@ -40,7 +40,11 @@ export default function SettingsStream({ user }) {
                   }}
                 >
                   <input
-                    value={showKey ? user?.keyTransmission : "**********"}
+                    value={
+                      showKey
+                        ? user?.keyTransmission?.substring(4)
+                        : "******************"
+                    }
                     className="settingstream-input"
                     style={{ width: "70%" }}
                     type="text"
@@ -57,7 +61,9 @@ export default function SettingsStream({ user }) {
                       {showKey ? "Ocultar" : "Mostrar"}
                     </button>
                     <button
-                      onClick={() => copyToClipboard(user?.keyTransmission)}
+                      onClick={() =>
+                        copyToClipboard(user?.keyTransmission?.substring(4))
+                      }
                       className="button-copy"
                     >
                       Copiar

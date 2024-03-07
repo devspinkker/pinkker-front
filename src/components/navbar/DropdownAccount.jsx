@@ -49,10 +49,10 @@ function DropdownAccount({ closeNavbar, callback, toggleLang, user }) {
   }, []);
   useOnClickOutside(divRef, handler, closeNavbar);
   const handleLogout = async () => {
-    // window.location.href = "/";
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("_id");
     window.localStorage.removeItem("avatar");
+    window.location.href = "/";
   };
 
   const Android12Switch = styled(Switch)(({ theme }) => ({
@@ -275,13 +275,16 @@ function DropdownAccount({ closeNavbar, callback, toggleLang, user }) {
 
           {
             <li>
-              <Link className="dropdownaccount-link" onClick={handleLogout}>
+              <div
+                className="dropdownaccount-link"
+                onClick={() => handleLogout()}
+              >
                 <i
                   style={{ marginRight: "10px" }}
                   class="fas fa-sign-out-alt"
                 ></i>{" "}
                 Cerrar sesión
-              </Link>
+              </div>
             </li>
           }
         </div>

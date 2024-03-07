@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./SocialNetwork.css";
-import { useSelector } from "react-redux";
 import {
   EditSocialNetworks,
   editProfile,

@@ -115,10 +115,10 @@ const Home = ({
       alert({ type: "SUCCESS", message: "Contraseña cambiada correctamente" });
     }
 
-    if (location && location.pathname != "/") {
-      setStreamerPlayerPopup(location.pathname.split("/")[1]);
+    if (location && location?.pathname != "/") {
+      setStreamerPlayerPopup(location?.pathname.split("/")[1]);
 
-      streamerPlayerPop = location.pathname.split("/")[1];
+      streamerPlayerPop = location?.pathname.split("/")[1];
 
       setActivePlayerPopup(true);
     }

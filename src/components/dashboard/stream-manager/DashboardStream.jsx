@@ -7,8 +7,14 @@ import { getCategorieByName } from "../../../services/categories";
 import { getStream } from "../../../services/stream";
 import ReactFlvPlayer from "../../../player/PlayerMain";
 import PopupEditInfo from "./popup/PopupEditInfo";
+import ConfigComandosChat from "./ConfigComandosChat";
 
 export default function DashboardStream({ isMobile, tyExpanded }) {
+  const [showComandosList, setShowComandosList] = useState(false);
+  const handleToggleComandosList = () => {
+    setShowComandosList(!showComandosList);
+  };
+
   const [streamerData, setStreamerData] = useState(null);
   const [userData, SetUserData] = useState(null);
   const [categorie, setCategorie] = useState(null);
@@ -326,7 +332,12 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
           {/* Parte 2 */}
           <div className="part-two">
             <div className="column">
-              <div className="Información-sesión">
+              <div
+                className="Información-sesión"
+                style={{
+                  display: showComandosList && "none",
+                }}
+              >
                 <section className="base-card !p-0">
                   <div className="Información-sesión-p1">
                     <div
@@ -454,7 +465,12 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                   </div>
                 </section>
               </div>
-              <div className="Broadcast-preview-dashboard">
+              <div
+                style={{
+                  display: showComandosList && "none",
+                }}
+                className="Broadcast-preview-dashboard"
+              >
                 <div
                   title="Información de sesión"
                   className="vista-previa-stream-p1"
@@ -543,7 +559,17 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                   SIN CONEXIÓN
                 </span>
               </div>
-              <div>Elemento 3</div>
+              <div
+                style={{
+                  height: showComandosList && "100%",
+                }}
+                className="ConfigComandosChat"
+              >
+                <ConfigComandosChat
+                  showComandosList={showComandosList}
+                  handleToggleComandosList={handleToggleComandosList}
+                />
+              </div>
             </div>
           </div>
           {/* Parte 1 */}

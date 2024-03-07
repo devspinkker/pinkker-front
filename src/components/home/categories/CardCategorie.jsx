@@ -39,14 +39,14 @@ export default function CustomCard(props) {
         >
           <div className="custom-categories-card-contain">
             <Link to={"/categorie/" + props.name}>
-              <div
+              {/* <div
                 style={{
                   background: ` ${dominantColor}`,
                 }}
                 className="custom-categories-card-contain-pinkker"
               >
                 <span>PINKKER</span>
-              </div>
+              </div> */}
               <img
                 style={{
                   border: `3px solid ${dominantColor}`,

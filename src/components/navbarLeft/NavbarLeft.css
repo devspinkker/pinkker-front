@@ -225,7 +225,7 @@
   vertical-align: middle;
   top: -5px;
   width: 100%;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.7px;
   margin-left: 0px;
@@ -653,3 +653,14 @@
   font-weight: bold;
   color: #3dd179;
 }
+
+.conteiner-navbarLeft-custom {
+  display: flex;
+  flex-direction: column;
+}
+
+.conteiner-navbarLeft-custom>a {
+  height: 60px;
+}
+
+.navbaraccount-li has-subnav {}

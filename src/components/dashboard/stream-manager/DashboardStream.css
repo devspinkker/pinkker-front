@@ -177,7 +177,7 @@
     display: flex;
     flex-direction: column;
     /* width: 100%; */
-    max-width: 53rem;
+    max-width: 83rem;
     height: 100%;
     justify-content: space-evenly;
 }
@@ -359,7 +359,7 @@
 }
 
 .Broadcast-preview-dashboard {
-    display: flex !important;
+    display: flex;
     /* justify-content: center; */
     height: 400px !important;
     flex-direction: column;

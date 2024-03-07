@@ -284,6 +284,7 @@ export function ChatStreaming({
             cursor: "pointer",
             margin: "0",
             display: chatExpandeds ? "none" : "",
+            padding: "0px 11px",
           }}
           className="fas fa-chevron-left"
           onClick={() => setStateDonations(!StateDonations)}
@@ -403,6 +404,7 @@ export function ChatStreaming({
             cursor: "pointer",
             margin: "0",
             display: chatExpandeds ? "none" : "",
+            padding: "0px 11px",
           }}
           className="fas fa-chevron-right"
           onClick={() => setStateDonations(!StateDonations)}
@@ -563,7 +565,7 @@ export function ChatStreaming({
             color: "white",
             position: "fixed",
             right: "10px",
-            top: "66px",
+            top: "70px",
             transform: "rotate(180deg)",
             zIndex: "99999",
           }}
@@ -581,7 +583,7 @@ export function ChatStreaming({
             color: "white",
             position: "fixed",
             right: "24%",
-            top: "66px",
+            top: "70px",
             zIndex: "99999",
           }}
           className="chat-button-more"
@@ -607,10 +609,11 @@ export function ChatStreaming({
         />
       )}
       <div className="info_chat_extra">
-        <div style={{ height: "40px", display: "flex", alignItems: "center" }}>
+        <div style={{ height: "50px", display: "flex", alignItems: "center" }}>
           <h4
             style={{
-              fontSize: "12px",
+              fontSize: "17px",
+              fontWeight: "bolder",
               width: "290px",
               textAlign: "center",
               letterSpacing: "0.5px",
@@ -618,9 +621,10 @@ export function ChatStreaming({
               position: "relative",
               right: chatExpandeds ? "-20%" : "",
               right: chatExpandeds ? "0%" : "",
+              display: chatExpandeds && "none",
             }}
           >
-            CHAT DEL DIRECTO
+            Chat
           </h4>
         </div>
 
