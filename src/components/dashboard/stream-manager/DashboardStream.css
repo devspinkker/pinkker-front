@@ -157,6 +157,7 @@
     flex-direction: row;
     flex: 1;
     overflow: hidden;
+    margin-top: 10px;
 }
 
 .part-one-chat {

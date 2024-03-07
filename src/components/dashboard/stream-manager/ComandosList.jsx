@@ -11,19 +11,18 @@ export default function ConfigComandosChat({ user }) {
   const alert = useNotification();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = window.localStorage.getItem("token");
-
-      const resCommands = await getCommands(token);
-      console.log(resCommands);
-      if (resCommands?.message === "ok" && resCommands?.data?.Commands) {
-        setCommands(resCommands.data.Commands);
-      } else {
-        setCommands({});
-      }
-    };
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    const token = window.localStorage.getItem("token");
+    const resCommands = await getCommands(token);
+    if (resCommands?.message === "ok" && resCommands?.data?.Commands) {
+      setCommands(resCommands.data.Commands);
+    } else {
+      setCommands({});
+    }
+  };
 
   const handleChangeCommand = (e) => {
     setNewCommand(e.target.value);
@@ -41,30 +40,30 @@ export default function ConfigComandosChat({ user }) {
     setCommands(updatedCommands);
     const token = window.localStorage.getItem("token");
     const res = await updataCommands(token, updatedCommands);
-    console.log(res);
 
     if (res?.message !== "ok") {
       alert({ type: "ERROR" });
-    }
-    console.log(res);
-
-    alert({ type: "SUCCESS" });
-    setNewCommand("");
-    setNewMessage("");
-  };
-  const handleUpdate = async () => {
-    const token = window.localStorage.getItem("token");
-    const res = await updataCommands(token, commands);
-    if (res?.message !== "ok") {
-      console.log(res);
+    } else {
+      alert({ type: "SUCCESS" });
+      fetchData(); // Actualiza los datos después de agregar un nuevo comando
+      setNewCommand("");
+      setNewMessage("");
     }
   };
 
-  const handleDeleteCommand = (command) => {
+  const handleDeleteCommand = async (command) => {
     const updatedCommands = { ...commands };
     delete updatedCommands[command];
     setCommands(updatedCommands);
-    handleUpdate();
+    const token = window.localStorage.getItem("token");
+    const res = await updataCommands(token, updatedCommands);
+
+    if (res?.message !== "ok") {
+      alert({ type: "ERROR" });
+    } else {
+      alert({ type: "SUCCESS" });
+      fetchData(); // Actualiza los datos después de eliminar un comando
+    }
   };
 
   return (
@@ -106,17 +105,6 @@ export default function ConfigComandosChat({ user }) {
           />
           <button onClick={handleAddCommand}>Agregar</button>
         </div>
-        {/* <div className="button-content-social">
-          <button
-            onClick={handleUpdate}
-            className="variant-highlight size-md base-button w-[111px]"
-            type="button"
-          >
-            <div className="button-content">
-              <div className="inner-label">Guardar Cambios</div>
-            </div>
-          </button>
-        </div> */}
       </div>
     </div>
   );

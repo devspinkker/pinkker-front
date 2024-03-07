@@ -4,10 +4,10 @@ import "./MainDeshboard.css";
 
 export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
   const [expandedMenus, setExpandedMenus] = useState({
-    Monetizacion: false,
-    Logros: false,
-    Studio: false,
-    Comunidad: false,
+    // Monetizacion: false,
+    // Logros: false,
+    // Studio: false,
+    // Comunidad: false,
     Ajustes: false,
   });
   const toggleexpandedMenu = () => {
@@ -25,19 +25,19 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
 
   // Definir los elementos correspondientes a cada título del menú
   const menuElements = {
-    Monetizacion: ["Ingresos", "Ganancias", "Transacciones"],
-    Logros: ["Logro 1", "Logro 2", "Logro 3"],
-    Studio: ["Proyectos", "Diseños", "Bocetos"],
-    Comunidad: ["Foro", "Grupos", "Eventos"],
+    // Monetizacion: ["Ingresos", "Ganancias", "Transacciones"],
+    // Logros: ["Logro 1", "Logro 2", "Logro 3"],
+    // Studio: ["Proyectos", "Diseños", "Bocetos"],
+    // Comunidad: ["Foro", "Grupos", "Eventos"],
     Ajustes: ["Configuración", "Clave"],
   };
 
   const menuItems = [
     { title: "Stream", icon: "fas fa-tv" },
-    { title: "Monetizacion", icon: "fas fa-money-bill-wave" },
-    { title: "Logros", icon: "fas fa-trophy" },
-    { title: "Studio", icon: "fas fa-paint-brush" },
-    { title: "Comunidad", icon: "fas fa-users" },
+    // { title: "Monetizacion", icon: "fas fa-money-bill-wave" },
+    // { title: "Logros", icon: "fas fa-trophy" },
+    // { title: "Studio", icon: "fas fa-paint-brush" },
+    // { title: "Comunidad", icon: "fas fa-users" },
     { title: "Ajustes", icon: "fas fa-cog" },
   ];
 
