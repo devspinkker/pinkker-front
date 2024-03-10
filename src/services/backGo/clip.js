@@ -17,13 +17,20 @@ export const Create_Clip = async (videoBytes, start, end, totalKey, clipTitle, c
     );
     return response
 }
-export const GetBuffer = async (totalKey) => {
+export const GetBuffer = async (streamKey) => {
 
-    const response = await fetch(
-        `${process.env.REACT_APP_BACKRTMP}/getBuffer/${totalKey}`
-    );
+    const response = await fetch(`${process.env.REACT_APP_BACKRTMP}/stream/${streamKey}`)
     return response
 }
+
+
+// export const GetBuffer = async (totalKey) => {
+
+//     const response = await fetch(
+//         `${process.env.REACT_APP_BACKRTMP}/getBuffer/${totalKey}`
+//     );
+//     return response
+// }
 export const GetClipId = async (videoUrlParam) => {
     const response = await axios.get(`${url}/clips/GetClipId?clipId=${videoUrlParam}`)
 

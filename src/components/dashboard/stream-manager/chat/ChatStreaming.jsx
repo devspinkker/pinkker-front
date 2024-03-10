@@ -46,8 +46,20 @@ export function ChatStreaming({
   const [ShowGetUserTheChat, setShowGetUserTheChat] = useState(false);
   const [GetInfoUserInRoom, setGetInfoUserInRoom] = useState(null);
   const [StateDonations, setStateDonations] = useState(false);
+  const [messagesold, setMessageold] = useState([]);
+
   const alert = useNotification();
   const history = useHistory();
+
+  let stopIteration = true;
+
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      stopIteration = false;
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
   useEffect(() => {
     if (isMobile) {
       ToggleChat(false);
@@ -65,8 +77,16 @@ export function ChatStreaming({
         try {
           const receivedMessage = JSON.parse(event.data);
           newSocket.send("onmessage");
-          setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-          scrollToBottom();
+          if (stopIteration) {
+            console.log("AA");
+            setMessageold((prevMessages) => [...prevMessages, receivedMessage]);
+            scrollToBottom();
+          } else {
+            console.log("BB");
+
+            setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+            scrollToBottom();
+          }
         } catch (error) {
           console.error("Error al analizar el mensaje JSON:", error);
         }
@@ -841,6 +861,55 @@ export function ChatStreaming({
             ) : (
               <></>
             )}
+          </div>
+        )}
+
+        {messagesold.map((message, index) => (
+          <div
+            key={index}
+            className="Message"
+            onClick={() => GetUserTheChatFunc(message)}
+            style={{ cursor: "pointer" }}
+          >
+            <div className="MessagesChat">
+              <div className="badges">
+                {message.EmotesChat.Moderator && (
+                  <img src={message.EmotesChat.Moderator} alt="" />
+                )}
+                {message.EmotesChat.Verified && (
+                  <img src={message.EmotesChat.Verified} alt="" />
+                )}
+                {message.EmotesChat.Vip && (
+                  <img src={message.EmotesChat.Vip} alt="" />
+                )}
+                {isSubscriptor(message) && (
+                  <img src={isSubscriptor(message)} alt="" />
+                )}
+              </div>
+              <div className="content-info-message">
+                <div className="content-info-message-2">
+                  <p
+                    className="content-info-message-2-nameUser"
+                    style={{
+                      color: message.Color,
+                    }}
+                  >
+                    {message.nameUser}:
+                    <span style={{ color: "#ffff" }}>
+                      {" " + message.message}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {messages.length > 0 && (
+          <div className="new-messages">
+            <div />
+            <span>Nuevos mensajes</span>
+            <div />
           </div>
         )}
         {messages.map((message, index) => (

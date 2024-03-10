@@ -12,7 +12,7 @@ export function CreateClip() {
   const [endTime, setEndTime] = useState(60);
   const [video, setVideo] = useState(null);
   const videoRef = useRef(null);
-  const [clipTitle, setclipTitle] = useState("un titulo para el clip");
+  const [clipTitle, setclipTitle] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(1);
@@ -28,7 +28,7 @@ export function CreateClip() {
         const queryParams = new URLSearchParams(window.location.search);
         const totalKey = queryParams.get("totalKey");
         const response = await GetBuffer(totalKey);
-
+        console.log(response);
         const data = await response.arrayBuffer();
         const blob = new Blob([data], { type: "video/mp4" });
         const videoURL = URL.createObjectURL(blob);
@@ -55,8 +55,7 @@ export function CreateClip() {
     if (videoRef.current && videoRef.current.currentTime !== undefined) {
       videoRef.current.currentTime = startTime;
       setCurrentTime(startTime);
-      videoRef.current.play();
-      setIsPlaying(true);
+      setIsPlaying(false);
       setIsVideoEnded(false);
     }
   }, [startTime]);
@@ -65,8 +64,7 @@ export function CreateClip() {
     if (videoRef.current && videoRef.current.currentTime !== undefined) {
       videoRef.current.currentTime = endTime;
       setCurrentTime(endTime);
-      videoRef.current.play();
-      setIsPlaying(true);
+      setIsPlaying(false);
       setIsVideoEnded(false);
     }
   }, [endTime]);
@@ -108,7 +106,7 @@ export function CreateClip() {
     if (videoRef.current) {
       videoRef.current.play();
       setIsPlaying(true);
-      setIsVideoEnded(false);
+      setIsVideoEnded(true);
     }
   };
 
@@ -187,7 +185,7 @@ export function CreateClip() {
 
   return (
     <div id="create_clip_container">
-      {videoUrl && (
+      {videoUrl ? (
         <div id="create_clip_videoUrl">
           <div className="create_clip_video">
             <ReactPlayer
@@ -226,7 +224,7 @@ export function CreateClip() {
                 }}
               ></div>
             )}
-            <div
+            {/* <div
               style={{
                 width: "100%",
                 borderRadius: "0",
@@ -239,22 +237,30 @@ export function CreateClip() {
                 style={{ width: `${progress}%` }}
                 className="time_progressBar"
               ></div>
-            </div>
-            <div className="controls-container">
-              <div className="edit-clip">
-                <button style={{ width: "100%" }} onClick={handleSetDuration}>
-                  Recortar Video
-                </button>
+            </div> */}
+            <div>
+              <input
+                className="input_title_clip"
+                placeholder="El titulo es obligatorio"
+                type="text"
+                value={clipTitle}
+                onChange={handleTitleChange}
+              />
+              <div className="controls-container">
+                <div className="edit-clip">
+                  <span className="remaining_characters_clip">{`${
+                    100 - clipTitle.length
+                  } caracteres restantes`}</span>
+                </div>
+                <button onClick={handleSetDuration}>Publicar</button>
               </div>
             </div>
           </div>
-          <input
-            id="clipTitle"
-            placeholder="Añade un titulo"
-            type="text"
-            value={clipTitle}
-            onChange={handleTitleChange}
-          />
+        </div>
+      ) : (
+        <div id="create_clip_videoUrl_loading">
+          <div className="loading-spinner"></div>
+          <p>Cargando video...</p>
         </div>
       )}
     </div>
