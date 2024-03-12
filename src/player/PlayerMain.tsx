@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useRef,useState } from 'react';
 import flvjs from 'flv.js';
+import Hls from 'hls.js';
 
 interface ReactFlvPlayerProps {
   src: string;
@@ -9,32 +10,57 @@ interface ReactFlvPlayerProps {
 }
 
 function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
+  const [usedHLS, setUsedHLS] = useState(false);
+
+  const hlsRef = useRef<Hls | null>(null);
   useEffect(() => {
     let flvPlayer: flvjs.Player | null = null;
+    let hls: Hls | null = null;
 
     async function initializePlayer() {
       try {
-        if (!flvjs.isSupported()) {
-          throw new Error('FLV playback is not supported.');
-        }
-
-        flvPlayer = flvjs.createPlayer({
-          type: 'flv',
-          url: src,
-        });
-
-        if (videoRef.current) {
-          flvPlayer.attachMediaElement(videoRef.current);
-          flvPlayer.load();
-
-          // Iniciar la reproducción cuando el metadato del video esté cargado
-          videoRef.current.addEventListener('loadedmetadata', () => {
-            if (videoRef.current && flvPlayer) {
-              videoRef.current.play().catch((error) => {
-                console.error('Error playing video:', error);
-              });
-            }
-          });
+        if (flvjs.isSupported() ) {
+                  flvPlayer = flvjs.createPlayer({
+                    type: 'flv',
+                    url: src+".flv",
+                  });
+          
+                  if (videoRef.current) {
+                    flvPlayer.attachMediaElement(videoRef.current);
+                    flvPlayer.load();
+          
+                    videoRef.current.addEventListener('loadedmetadata', () => {
+                      if (videoRef.current && flvPlayer) {
+                        videoRef.current.play().catch((error) => {
+                          console.error('Error playing video:', error);
+                        });
+                      }
+                    });
+                  }
+        } else if(Hls.isSupported() ){
+          alert("hls")
+                    hls = new Hls();
+                    hlsRef.current = hls;
+            
+                    if (videoRef.current) {
+                      hls.loadSource(src + "/index.m3u8");
+                      hls.attachMedia(videoRef.current);
+            
+                      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                        setUsedHLS(true);
+            
+                        if (videoRef.current) {
+                          const playPromise = videoRef.current.play();
+                          if (playPromise !== undefined) {
+                            playPromise.catch((error) => {
+                              console.error('Error during video playback:', error);
+                            });
+                          }
+            
+                          videoRef.current.muted = false;
+                        }
+                      });
+                    }
         }
       } catch (error) {
         console.error('Error initializing FLV player:', error);

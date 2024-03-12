@@ -5,7 +5,7 @@ import ClipCard from "./card/ClipCard";
 import Auth from "../../auth/Auth";
 import { GetClipsCategory } from "../../../services/backGo/clip";
 
-export default function ClipsMain() {
+export default function ClipsMain({ tyExpanded }) {
   const auth = useSelector((state) => state.auth);
   const { isLogged } = auth;
 
@@ -100,14 +100,29 @@ export default function ClipsMain() {
   };
 
   return (
-    <div className="clipsmain-body">
+    <div
+      className="clipsmain-body"
+      style={{
+        padding: tyExpanded ? "0rem 0rem 0rem 10rem" : "0px",
+      }}
+    >
       <div>
         {clips &&
           clips.map((clip, index) =>
             index <= 0 ? (
-              <ClipCard key={clip.id} type={0} clip={clip} />
+              <ClipCard
+                tyExpanded={tyExpanded}
+                key={clip.id}
+                type={0}
+                clip={clip}
+              />
             ) : (
-              <ClipCard key={clip.id} type={1} clip={clip} />
+              <ClipCard
+                tyExpanded={tyExpanded}
+                key={clip.id}
+                type={1}
+                clip={clip}
+              />
             )
           )}
       </div>

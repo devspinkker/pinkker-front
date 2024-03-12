@@ -19,13 +19,17 @@ export default function ClipCard({ clip }) {
   const [showComment, setShowComment] = useState(false);
   const [comments, setComments] = useState(null);
   const [comment, setComment] = useState("");
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const id = window.localStorage.getItem("_id");
     if (id && clip.likes.includes(id)) {
       setIsLiked(true);
     }
   }, [clip]);
+
+  const handleLoadedData = () => {
+    setLoading(false);
+  };
   const handlePlay = () => {
     if (playing) {
       playerRef.current.pause();
@@ -161,6 +165,22 @@ export default function ClipCard({ clip }) {
               width: "100%",
             }}
           >
+            {/* {!loading ? (
+              <div className="video-placeholder"></div>
+            ) : (
+              <video
+                onTimeUpdate={handleProgress}
+                onClick={handlePlay}
+                ref={playerRef}
+                loop={true}
+                autoPlay={true}
+                muted={muted}
+                controls={true}
+                src={clip.url}
+                onLoadStart={() => setLoading(true)}
+                onLoadedData={handleLoadedData}
+              />
+            )} */}
             <video
               onTimeUpdate={handleProgress}
               onClick={handlePlay}
@@ -170,6 +190,8 @@ export default function ClipCard({ clip }) {
               muted={muted}
               controls={true}
               src={clip.url}
+              onLoadStart={() => setLoading(true)}
+              onLoadedData={handleLoadedData}
             />
             {getButtonDuration()}
           </div>
@@ -264,7 +286,6 @@ export default function ClipCard({ clip }) {
             alignItems: "center",
             justifyContent: "center",
             position: "relative",
-            left: "30px",
             opacity: showComment && "0",
           }}
           className="clipsmain-right-buttons"

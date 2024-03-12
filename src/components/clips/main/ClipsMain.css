@@ -1,5 +1,5 @@
 .clipsmain-body {
-    width: 100%;
+    max-width: 1526px;
     min-height: 1500px;
     scroll-behavior: smooth;
     margin-top: 6%;
@@ -16,9 +16,8 @@
 }
 
 .clipsmain-container {
-    width: 75%;
+    width: 85%;
     height: max-content;
-    margin: 0 auto;
     position: relative;
     display: flex;
     align-items: stretch;

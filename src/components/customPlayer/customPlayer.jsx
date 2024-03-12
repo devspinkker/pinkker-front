@@ -189,7 +189,7 @@ export default function CustomPlayer({
     );
     const rtmp = process.env.REACT_APP_RTMP;
     // const rtmp = "http://localhost:8000/live";
-    var url = `${rtmp}/${keyTransmission}.flv`;
+    var url = `${rtmp}/${keyTransmission}`;
     return url;
   }
 

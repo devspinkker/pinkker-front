@@ -342,7 +342,7 @@ const AppRouter = () => {
                 tyDashboard={false}
                 setExpanded={setExpanded}
               />
-              <ClipsMain />
+              <ClipsMain tyExpanded={expanded} />
             </Route>
 
             <Route exact path="/plataform/muro">

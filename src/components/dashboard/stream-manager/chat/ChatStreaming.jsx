@@ -641,8 +641,7 @@ export function ChatStreaming({
               position: "relative",
               right: chatExpandeds ? "-20%" : "",
               right: chatExpandeds ? "0%" : "",
-              display: chatExpandeds && "none",
-              display: DashboardStream && "",
+              display: DashboardStream ? "" : chatExpandeds && "none",
             }}
           >
             Chat
