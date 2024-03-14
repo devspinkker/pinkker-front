@@ -507,6 +507,7 @@
     transition: 0.35s all;
     justify-content: space-between;
     border-radius: 0px 0px 10px 10px;
+    border-top: 1px solid #2a2e38;
 }
 
 .channel-v2-primary {
@@ -596,7 +597,7 @@
 
 .channel-bottom-v2-secondary {
     width: 45%;
-    height: 51px;
+    height: 71px;
     display: flex;
     justify-content: right;
     align-items: center;
