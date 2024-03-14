@@ -180,6 +180,7 @@ export default function NavbarLeft({
               justifyContent: !tyExpanded ? "center" : "",
               marginTop: !tyExpanded ? "14px" : "",
               padding: "2px 9px",
+              height: "36.7px",
             }}
           >
             <i
@@ -202,7 +203,11 @@ export default function NavbarLeft({
               style={{ margin: "0px" }}
             >
               {tyExpanded && (
-                <img src="/images/logo.png" style={{ width: "145px" }} alt="" />
+                <img
+                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710372554/Emblemas/logo4fixfix_h5afxo.png"
+                  style={{ width: "245px", margin: "0px -43px" }}
+                  alt=""
+                />
               )}
             </Link>
           </div>

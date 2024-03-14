@@ -19,7 +19,7 @@ function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
 
     async function initializePlayer() {
       try {
-        if (flvjs.isSupported() ) {
+        if (flvjs.isSupported() ) { 
                   flvPlayer = flvjs.createPlayer({
                     type: 'flv',
                     url: src+".flv",
@@ -38,7 +38,6 @@ function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
                     });
                   }
         } else if(Hls.isSupported() ){
-          alert("hls")
                     hls = new Hls();
                     hlsRef.current = hls;
             

@@ -83,7 +83,7 @@ export default function Channel({
 
   const [timeError, setTimeError] = useState(false);
 
-  const [type, setType] = useState(1);
+  const [type, setType] = useState(2);
 
   const [showPopupFollowers, setShowPopupFollowers] = useState(false);
 
@@ -252,7 +252,7 @@ export default function Channel({
     if (localType) {
       setType(parseInt(localType));
     } else {
-      setType(1);
+      setType(2);
     }
 
     setFollowParam(false);
@@ -414,7 +414,12 @@ export default function Channel({
         <Tippy
           theme="pinkker"
           content={
-            <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+            <h1
+              style={{
+                fontSize: "12px",
+                fontFamily: "Montserrat",
+              }}
+            >
               Dejar de seguir
             </h1>
           }
@@ -530,80 +535,91 @@ export default function Channel({
       <div
         onMouseEnter={() => setViewInfoStream(true)}
         onMouseLeave={() => setViewInfoStream(false)}
-        style={{
-          opacity: viewInfoStream === true ? "1" : "0",
-          display: stream?.online ? "" : "none",
-        }}
         className="channel-v2-info"
       >
         <div className="channel-v2-primary">
-          {viewInfoStream && (
-            <div className="channel-v2-categorie">
-              <Link to={"/categorie/" + stream.stream_category}>
-                <Tippy
-                  theme="pinkker"
-                  content={
-                    <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-                      {stream && stream.stream_category}
-                    </h1>
-                  }
-                >
-                  <img
-                    style={{ width: "50px" }}
-                    src={categorie && categorie.image}
-                  />
-                </Tippy>
-              </Link>
-            </div>
+          <div className="channel-v2-categorie">
+            <Link to={"/categorie/" + stream.stream_category}>
+              <Tippy
+                theme="pinkker"
+                content={
+                  <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                    {stream && stream.stream_category}
+                  </h1>
+                }
+              >
+                <img
+                  style={{
+                    width: "45px",
+                    height: "45px",
+                    borderRadius: "100px",
+                  }}
+                  src={stream?.ImageCategorie}
+                />
+              </Tippy>
+            </Link>
+            <h4
+              style={{
+                color: "#ededed",
+                marginBottom: "4px",
+                marginTop: "4px",
+              }}
+            >
+              {stream.stream_title}
+            </h4>
+          </div>
+          {!isMobile && (
+            <img
+              width={"250px"}
+              src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710372554/Emblemas/logo4fixfix_h5afxo.png"
+              alt=""
+            />
           )}
+          <div className="channel-v2-content">
+            {/* <div style={{ display: "flex" }}>
+              {stream.stream_tag.map((tag) => (
+                <p className="channel-title-tag">#{tag}</p>
+              ))}
+            </div> */}
 
-          {viewInfoStream && (
-            <div className="channel-v2-content">
-              <div style={{ display: "flex" }}>
-                {stream.stream_tag.map((tag) => (
-                  <p className="channel-title-tag">#{tag}</p>
-                ))}
-              </div>
-              <h4
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div
                 style={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: "25px",
+                  marginRight: "0px",
+                }}
+                z
+              >
+                <i
+                  style={{
+                    marginRight: "7px",
+                    color: "darkgray",
+                    fontSize: "12px",
+                  }}
+                  class="fas fa-user"
+                />
+                <p
+                  style={{
+                    color: "darkgray",
+                    fontSize: "15px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {stream.ViewerCount} espectadores
+                </p>
+              </div>
+              <a
+                style={{
+                  marginLeft: "10px",
+                  marginRight: "3px",
                   color: "#ededed",
-                  marginBottom: "4px",
-                  marginTop: "4px",
                 }}
               >
-                {stream.stream_title}
-              </h4>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    height: "25px",
-                    marginRight: "0px",
-                  }}
-                >
-                  <i
-                    style={{
-                      marginRight: "7px",
-                      color: "darkgray",
-                      fontSize: "12px",
-                    }}
-                    class="fas fa-user"
-                  />
-                  <p style={{ color: "darkgray", fontSize: "15px" }}>
-                    {stream.ViewerCount}{" "}
-                    <a style={{ color: "darkgray" }}> personas mirando ahora</a>
-                  </p>
-                </div>
-                <a
-                  style={{
-                    marginLeft: "10px",
-                    marginRight: "3px",
-                    color: "#ededed",
-                  }}
-                >
-                  •
-                </a>
+                •
+              </a>
+              {!isMobile && (
                 <div
                   style={{
                     display: "flex",
@@ -618,17 +634,17 @@ export default function Channel({
                     class="fas fa-clock"
                   />
                   <p className="elapsedTime">
-                    <p>{`${formatNumber(elapsedTime.hours)}`}</p>
-                    <p>{`: ${formatNumber(elapsedTime.minutes)}`}</p>
-                    <p>{`: ${formatNumber(elapsedTime.seconds)}`}</p>
+                    {`${formatNumber(elapsedTime.hours)}`}
+                    {`: ${formatNumber(elapsedTime.minutes)}`}
+                    {`: ${formatNumber(elapsedTime.seconds)}`}
                   </p>
                 </div>
-              </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
 
-        {viewInfoStream && (
+        {/* {viewInfoStream && (
           <div className="channel-v2-secondary">
             <h3
               style={{
@@ -649,7 +665,7 @@ export default function Channel({
               />
             </h3>
           </div>
-        )}
+        )} */}
       </div>
     );
   }
@@ -657,7 +673,7 @@ export default function Channel({
   function getNotExpandedStream() {
     return (
       <div
-        style={{ opacity: "1", width: "97%", marginLeft: "0px" }}
+        style={{ opacity: "1", marginLeft: "0px" }}
         className="channel-v2-info"
       >
         <div
@@ -681,8 +697,12 @@ export default function Channel({
                   }
                 >
                   <img
-                    style={{ width: "50px" }}
-                    src={categorie && categorie.image}
+                    style={{
+                      width: "45px",
+                      height: "45px",
+                      borderRadius: "100px",
+                    }}
+                    src={stream?.ImageCategorie}
                   />
                 </Tippy>
               </Link>
@@ -722,7 +742,7 @@ export default function Channel({
                   />
                   <p style={{ color: "darkgray", fontSize: "15px" }}>
                     {stream?.ViewerCount}{" "}
-                    <a style={{ color: "darkgray" }}> personas mirando ahora</a>
+                    {/* <a style={{ color: "darkgray" }}> personas mirando ahora</a> */}
                   </p>
                 </div>
                 <a
@@ -917,7 +937,13 @@ export default function Channel({
             placement="bottom"
             theme="pinkker"
             content={
-              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+              <h1
+                style={{
+                  fontSize: "12px",
+                  fontFamily: "Montserrat",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 Regalar suscripciones a tu canal
               </h1>
             }
@@ -930,10 +956,12 @@ export default function Channel({
               className="channel-bottom-v2-button-sub"
             >
               <i
-                style={{ marginRight: "5px" }}
+                style={{ marginRight: "5px", whiteSpace: "nowrap" }}
                 class={hoverSubscriber ? "fas fa-star" : "far fa-star"}
               />{" "}
-              Regalar suscripciones
+              <span style={{ whiteSpace: "nowrap" }}>
+                Regalar suscripciones
+              </span>
             </button>
           </Tippy>
         )}
@@ -1027,7 +1055,7 @@ export default function Channel({
               />
             </div>
 
-            {stream.online ? (
+            {/* {stream.online ? (
               <h5
                 className="channel-avatar-text"
                 style={{
@@ -1044,7 +1072,7 @@ export default function Channel({
               </h5>
             ) : (
               <div></div>
-            )}
+            )} */}
           </div>
 
           <div
@@ -1082,7 +1110,6 @@ export default function Channel({
                     alignItems: "center",
                     fontSize: "12px",
                     width: "320px",
-                    marginTop: "5px",
                   }}
                 >
                   {" "}
@@ -1095,17 +1122,17 @@ export default function Channel({
                     {streamerData && Object.keys(streamerData.Followers).length}{" "}
                     seguidos
                   </a>{" "}
-                  <a style={{ marginLeft: "10px", marginRight: "10px" }}>•</a>{" "}
-                  <a onClick={() => togglePopupFollowers(2)}>
+                  {/* <a style={{ marginLeft: "10px", marginRight: "10px" }}>•</a>{" "} */}
+                  {/* <a onClick={() => togglePopupFollowers(2)}>
                     {suscribers && suscribers.length} suscriptores
-                  </a>
+                  </a> */}
                 </h2>
               )}
-              <h2
+              {/* <h2
                 style={{ color: "gold", fontSize: "12px", marginTop: "10px" }}
               >
                 DNG TEAM
-              </h2>
+              </h2> */}
             </div>
           </div>
         </div>
@@ -1296,39 +1323,38 @@ export default function Channel({
               }}
               className="channel-video"
             >
-              {stream.online ? (
-                <div
-                  onMouseEnter={() => setViewInfoStream(true)}
-                  onMouseLeave={() => setViewInfoStream(false)}
-                  className="channel-custom-player-main-div"
-                >
-                  {streamerData && announce === false && renderPlayer()}
-                </div>
-              ) : (
-                <></>
-              )}
+              <div className="conteiner-streamer-online-infoStream">
+                {getBottomStream()}
+                {stream.online ? (
+                  <div
+                    onMouseEnter={() => setViewInfoStream(true)}
+                    onMouseLeave={() => setViewInfoStream(false)}
+                    className="channel-custom-player-main-div"
+                  >
+                    {streamerData && announce === false && renderPlayer()}
+                  </div>
+                ) : (
+                  <></>
+                )}
 
-              {renderAnnoucement()}
+                {renderAnnoucement()}
+                {stream.online && getStream()}
+              </div>
 
               <div
                 style={{
-                  width: "100%",
-                  margin: "0 auto",
+                  width: "82%",
+                  margin: "0px  0px 0px 0px",
                   zIndex: "1000",
-                  marginTop: stream?.Online ? "" : "74px",
+                  marginTop: stream?.Online ? "" : "22px",
                 }}
               >
-                {tyExpanded && stream?.online
-                  ? getNotExpandedStream()
-                  : getStream()}
-                {getBottomStream()}
-
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "space-around",
-                    width: !tyExpanded ? "95.5%" : "91.5%",
-                    marginLeft: !isMobile ? "2rem" : "1rem",
+                    width: !tyExpanded ? "96.5%" : "95.5%",
+                    marginLeft: !isMobile ? "1.4rem" : "1rem",
                     // margin: "0 auto",
                     borderTop: "1px solid #2a2e38",
                   }}

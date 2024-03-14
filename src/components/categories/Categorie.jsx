@@ -81,7 +81,13 @@ export default function Categorie() {
           <Tippy
             theme="pinkker"
             content={
-              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+              <h1
+                style={{
+                  fontSize: "12px",
+                  fontFamily: "Montserrat",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 Dejar de seguir
               </h1>
             }
@@ -91,6 +97,7 @@ export default function Categorie() {
                 width: "100px",
                 marginLeft: "20px",
                 backgroundColor: nameD === "Siguiendo" && "#762543",
+                whiteSpace: "nowrap",
               }}
               onMouseEnter={() => setNameD("Dejar de seguir")}
               onMouseLeave={() => setNameD("Siguiendo")}

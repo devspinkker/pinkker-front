@@ -1,9 +1,6 @@
 .custom-player {
   width: 100%;
-  height: 497px;
-  border-bottom: 1px solid #4646463f;
   background-color: transparent;
-  margin-top: 20px;
 }
 
 .custom-player-popup {
@@ -24,7 +21,6 @@
 
 
 .customPlayer-primary {
-  width: 84%;
   padding: 1rem 5rem;
   display: flex;
   align-items: center;
@@ -157,10 +153,7 @@
   position: relative;
   background-color: transparent;
   z-index: 10;
-  top: 11px;
-  left: 6px;
-  width: 94%;
-  height: 481px;
+  width: 98%;
 }
 
 .customPlayer-sound {
