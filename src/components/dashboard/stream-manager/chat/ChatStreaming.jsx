@@ -78,12 +78,9 @@ export function ChatStreaming({
           const receivedMessage = JSON.parse(event.data);
           newSocket.send("onmessage");
           if (stopIteration) {
-            console.log("AA");
             setMessageold((prevMessages) => [...prevMessages, receivedMessage]);
             scrollToBottom();
           } else {
-            console.log("BB");
-
             setMessages((prevMessages) => [...prevMessages, receivedMessage]);
             scrollToBottom();
           }

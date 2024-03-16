@@ -11,6 +11,7 @@ interface ReactFlvPlayerProps {
 
 function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
   const [usedHLS, setUsedHLS] = useState(false);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
   const hlsRef = useRef<Hls | null>(null);
   useEffect(() => {
@@ -22,7 +23,7 @@ function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
         if (flvjs.isSupported() ) { 
                   flvPlayer = flvjs.createPlayer({
                     type: 'flv',
-                    url: src+".flv",
+                    url: src +".flv",
                   });
           
                   if (videoRef.current) {
@@ -38,28 +39,30 @@ function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
                     });
                   }
         } else if(Hls.isSupported() ){
-                    hls = new Hls();
-                    hlsRef.current = hls;
-            
-                    if (videoRef.current) {
-                      hls.loadSource(src + "/index.m3u8");
-                      hls.attachMedia(videoRef.current);
-            
-                      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                        setUsedHLS(true);
-            
-                        if (videoRef.current) {
-                          const playPromise = videoRef.current.play();
-                          if (playPromise !== undefined) {
-                            playPromise.catch((error) => {
-                              console.error('Error during video playback:', error);
-                            });
-                          }
-            
-                          videoRef.current.muted = false;
-                        }
-                      });
-                    }
+          hls = new Hls();
+          hlsRef.current = hls;
+
+          if (videoRef.current) {
+            hls.loadSource(src + '/index.m3u8');
+            hls.attachMedia(videoRef.current);
+
+            if (!isSafari) { 
+              hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                setUsedHLS(true);
+
+                if (videoRef.current) {
+                  const playPromise = videoRef.current.play();
+                  if (playPromise !== undefined) {
+                    playPromise.catch((error) => {
+                      console.error('Error during video playback:', error);
+                    });
+                  }
+
+                  videoRef.current.muted = false;
+                }
+              });
+            }
+          }
         }
       } catch (error) {
         console.error('Error initializing FLV player:', error);
@@ -80,7 +83,7 @@ function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
     width:width,
     // height:height
   }}
-  id='pinkker-player' controls playsInline ref={videoRef} />;
+  id='pinkker-player' muted controls playsInline ref={videoRef} />;
 }
 
 export default ReactFlvPlayer;
