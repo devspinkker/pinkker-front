@@ -16,11 +16,15 @@ export default function Clips(props) {
   const [progress, setProgress] = useState(0);
   const [videos, setVideos] = useState();
   const [hasCalledFunction, setHasCalledFunction] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
 
   setTimeout(() => {
     setIsLoading(false);
   }, 1500);
-
+  const closedClip = () => {
+    setShowLoader(true);
+    setSelectedVideo(null);
+  };
   const handleProgress = async (e) => {
     const { duration, currentTime } = e.target;
     const newProgress = (currentTime / duration) * 100;
@@ -169,9 +173,20 @@ export default function Clips(props) {
                   cursor: "pointer",
                   color: "#fff",
                 }}
-                onClick={() => setSelectedVideo(null)}
+                onClick={() => closedClip()}
               >
-                x
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 12 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 1.99602L10.504 0.5L6 4.99867L1.49602 0.5L0 1.99602L4.49867 6.5L0 11.004L1.49602 12.5L6 8.00133L10.504 12.5L12 11.004L7.50133 6.5L12 1.99602Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
               </div>
             </div>
 

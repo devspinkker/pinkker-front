@@ -1,4 +1,15 @@
-/* Clips.css */
+.container_clip_data {
+    display: flex;
+    justify-content: center;
+    z-index: 10000;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    background: #0f1214;
+    padding: 12px;
+    border-radius: 10px;
+}
+
 .home-clips {
     width: 95%;
     height: 324px;
@@ -56,4 +67,59 @@
 .home-clips-card-container-clips-children {
     display: flex;
 
+}
+
+.loader-container {
+    width: 400px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.closedTargetClip {
+    font-size: 42px;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    display: flex;
+    top: 10px;
+    align-items: flex-start;
+    height: 44px;
+}
+
+.loading-spinner {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.customPlayer-container-selectClips {
+    position: relative;
+    z-index: 1000000;
+    top: -61px;
+}
+
+.customPlayer-secundary-div-selectClips {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    background: #191b1fb3;
+}
+
+.customPlayer-card-selectClips {
+    margin: 10px;
 }

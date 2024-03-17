@@ -13,9 +13,11 @@ import {
 import { GetStreamsMostViewed } from "../../services/backGo/streams";
 import CardStream from "../home/categories/CardStream";
 import { Skeleton } from "@mui/material";
+import SelectVideoClip from "../home/clips/SelectVideoClip";
 
 export default function Tendency({ isMobile }) {
   const token = useSelector((state) => state.token);
+  const [showLoader, setShowLoader] = useState(true);
 
   const [type, setType] = useState(0);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -34,6 +36,17 @@ export default function Tendency({ isMobile }) {
       await MoreViewOfTheClip(selectedVideo.video.id);
     }
   };
+  const closedClip = () => {
+    setShowLoader(true);
+    setSelectedVideo(null);
+  };
+  const handleOnReady = () => {
+    setShowLoader(false);
+  };
+
+  const handleOnError = () => {
+    setShowLoader(true);
+  };
   const formatTimestamp = (timestamp) => {
     const currentDate = new Date();
     const clipDate = new Date(timestamp);
@@ -51,6 +64,9 @@ export default function Tendency({ isMobile }) {
       const days = Math.floor(diffInSeconds / 86400);
       return `${days} ${days === 1 ? "day" : "days"} ago`;
     }
+  };
+  const toggleSelect = () => {
+    setSelectedVideo(!selectedVideo);
   };
   useEffect(() => {
     document.title = "Tendency - Pinkker";
@@ -242,91 +258,10 @@ export default function Tendency({ isMobile }) {
 
         {getType()}
         {selectedVideo && (
-          <div
-            id="container_clip"
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: "rgba(0, 0, 0, 0.8)",
-              zIndex: 999000000,
-            }}
-          >
-            <div className="container_clip_data">
-              <div
-                style={{ width: "100%", display: "flex", alignItems: "center" }}
-              >
-                <div className="container_data_user">
-                  <Link to={"/" + selectedVideo.clips.streamerId}>
-                    <img src={selectedVideo.clips.Avatar} alt="" />
-                  </Link>
-                  <div>
-                    <Link to={"/" + selectedVideo.clips.streamerId}>
-                      <h1>{selectedVideo.clips.streamerId}</h1>
-                    </Link>
-                    <Link to={"/" + selectedVideo.clips.nameUserCreator}>
-                      <p>Clip by: {selectedVideo.clips.nameUserCreator}</p>
-                    </Link>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    fontSize: "42px",
-                    position: "relative",
-                    left: "50%",
-                    cursor: "pointer",
-                    color: "#fff",
-                  }}
-                  onClick={() => setSelectedVideo(null)}
-                >
-                  x
-                </div>
-              </div>
-
-              <div>
-                <ReactPlayer
-                  url={selectedVideo.clips.url}
-                  className="reactPlayer"
-                  controls={true}
-                  playing={true}
-                  width="100%"
-                  height="100%"
-                  onTimeUpdate={handleProgress}
-                />
-                <div
-                  style={{
-                    width: "100%",
-                    borderRadius: "0",
-                    height: videoHover ? "5px" : "2px",
-                  }}
-                  className="time_progressbarContainer"
-                >
-                  <div
-                    style={{ width: `${progress}%` }}
-                    className="time_progressBar"
-                  ></div>
-                </div>
-              </div>
-              <div className="container_data">
-                <div style={{ width: "100%", height: "100%" }}>
-                  <div className="container_data_clip">
-                    <span>
-                      <i class="fas fa-eye" style={{ marginRight: "10px" }} />
-                      {selectedVideo.clips.views} views
-                    </span>
-                    <span>{selectedVideo.clips.clipTitle}</span>
-                    <span>
-                      {formatTimestamp(
-                        selectedVideo.clips.timestamps.createdAt
-                      )}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <SelectVideoClip
+            clip={selectedVideo.clips}
+            toggleSelect={toggleSelect}
+          />
         )}
       </div>
     </div>
