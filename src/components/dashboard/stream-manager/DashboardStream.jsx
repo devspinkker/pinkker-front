@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./DashboardStream.css";
 import { ChatStreaming } from "./chat/ChatStreaming";
 import { getUserByIdTheToken } from "../../../services/backGo/user";
-import { getStreamById } from "../../../services/backGo/streams";
+import { getStreamById, updateModChat } from "../../../services/backGo/streams";
 import { getCategorieByName } from "../../../services/categories";
 import { getStream } from "../../../services/stream";
 import ReactFlvPlayer from "../../../player/PlayerMain";
@@ -23,6 +23,18 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
   const [videoLoading, setVideoLoading] = useState(true);
   const [mostrarditInfoStream, setditInfoStreamN] = useState(false);
   const [QuickActionShow, setQuickActionSHow] = useState(true);
+  const [ChatOnliFollowers, setChatOnliFollowers] = useState(false);
+
+  const toggleChatOnliFollowers = async () => {
+    let token = window.localStorage.getItem("token");
+    if (token && streamerData?.ModChat == "Following") {
+      await updateModChat(token, { title: "" });
+    } else {
+      await updateModChat(token, { title: "Following" });
+    }
+    setChatOnliFollowers(!ChatOnliFollowers);
+  };
+
   const toggleEditInfoStream = () => {
     setditInfoStreamN(!mostrarditInfoStream);
   };
@@ -46,7 +58,13 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
       const dataStreamer = await getStreamById(id);
       if (dataStreamer != null && dataStreamer != undefined) {
         setStreamerData(dataStreamer.data);
+
         console.log(dataStreamer.data);
+        if (dataStreamer.data?.ModChat == "Following") {
+          setChatOnliFollowers(true);
+        } else {
+          setChatOnliFollowers(false);
+        }
       }
 
       const res = await getStream(token);
@@ -779,8 +797,17 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                   <span>Chat sólo para seguidores</span>
                   <div className="flex flex-row items-center gap-2">
                     <div id="base-toggle-wrapper" className="toggle-size-sm">
-                      <div className="base-toggle">
-                        <div className="base-toggle-indicator"></div>
+                      <div
+                        className="base-toggle"
+                        onClick={() => toggleChatOnliFollowers()}
+                      >
+                        <div
+                          style={{
+                            left: ChatOnliFollowers && "16.4px",
+                            background: ChatOnliFollowers && "#53fc18",
+                          }}
+                          className="base-toggle-indicator"
+                        ></div>
                       </div>
                     </div>
                   </div>

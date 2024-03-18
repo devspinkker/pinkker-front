@@ -79,7 +79,23 @@ export async function updateStreamInfo(token, streamInfo) {
 		console.log(error);
 	}
 }
+export async function updateModChat(token, streamInfo) {
+	try {
+		const response = await axios.post(
+			`${baseURL}/stream/updateModChat`,
+			streamInfo,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		return response.data;
 
+	} catch (error) {
+		console.log(error);
+	}
+}
 // Función para obtener streams en línea
 export async function GetAllsStreamsOnline(page) {
 	try {

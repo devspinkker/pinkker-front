@@ -1418,6 +1418,7 @@ export default function Channel({
                     streamerData={streamerData}
                     user={user}
                     isMobile={isMobile}
+                    followParam={followParam}
                   />
                 </div>
               </div>
@@ -1455,6 +1456,7 @@ export default function Channel({
                   streamerData={streamerData}
                   user={user}
                   isMobile={isMobile}
+                  followParam={followParam}
                 />
               </div>
             )}

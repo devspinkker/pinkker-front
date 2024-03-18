@@ -29,6 +29,7 @@ export function ChatStreaming({
   user,
   isMobile,
   DashboardStream = false,
+  followParam,
 }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -120,7 +121,7 @@ export function ChatStreaming({
       if (socket && socket.readyState === WebSocket.OPEN) {
         socket.send("ping");
       }
-    }, 30000);
+    }, 5000);
 
     return () => {
       clearInterval(pingInterval);
@@ -439,26 +440,49 @@ export function ChatStreaming({
 
   const sendMessage = async () => {
     setMessage("");
-
-    try {
-      const token = window.localStorage.getItem("token");
-      if (!token) {
-        alert("no logueado");
-        return;
+    if (streamerChat?.ModChat == "Following" && followParam) {
+      try {
+        const token = window.localStorage.getItem("token");
+        if (!token) {
+          alert("no logueado");
+          return;
+        }
+        let config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const REACT_APP_BACKCHAT = process.env.REACT_APP_BACKCHAT;
+        const res = await axios.post(
+          `${REACT_APP_BACKCHAT}/chatStreaming/${streamerChat.id}`,
+          { message },
+          config
+        );
+      } catch (error) {
+        console.log(error);
       }
-      let config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const REACT_APP_BACKCHAT = process.env.REACT_APP_BACKCHAT;
-      const res = await axios.post(
-        `${REACT_APP_BACKCHAT}/chatStreaming/${streamerChat.id}`,
-        { message },
-        config
-      );
-    } catch (error) {
-      console.log(error);
+    } else if (streamerChat?.ModChat == "") {
+      try {
+        const token = window.localStorage.getItem("token");
+        if (!token) {
+          alert("no logueado");
+          return;
+        }
+        let config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const REACT_APP_BACKCHAT = process.env.REACT_APP_BACKCHAT;
+        const res = await axios.post(
+          `${REACT_APP_BACKCHAT}/chatStreaming/${streamerChat.id}`,
+          { message },
+          config
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
     }
   };
 
@@ -950,14 +974,57 @@ export function ChatStreaming({
         ))}
       </div>
       <div className="actions-chat-conteiner">
-        <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={message}
-            placeholder="Enviar un mensaje"
-            onChange={handleChange}
-          />
-        </form>
+        {streamerChat?.ModChat == "Following" && followParam && (
+          <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={message}
+              placeholder="Enviar un mensaje"
+              onChange={handleChange}
+            />
+          </form>
+        )}
+        {streamerChat?.ModChat == "Following" && !followParam && (
+          <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{
+                padding: "9px",
+                background: "#171a1f",
+                border: "#545658 1px solid",
+                borderRight: "none",
+              }}
+            >
+              <path
+                d="M11.75 6.25V1H4.75V6.25H3V15H13.5V6.25H11.75ZM6.5 2.75H10V6.25H6.5V2.75ZM10.4375 10.625H9.125V12.375H7.375V10.625H6.0625V8.875H10.4375V10.625Z"
+                fill="#ffff"
+              ></path>
+            </svg>
+            <input
+              style={{
+                borderRadius: "0px 5px 5px 0px",
+                borderLeft: "none",
+              }}
+              type="text"
+              // value={message}
+              placeholder="solo seguidores"
+              // onChange={handleChange}
+            />
+          </form>
+        )}
+        {streamerChat?.ModChat === "" && (
+          <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={message}
+              placeholder="Enviar un mensaje"
+              onChange={handleChange}
+            />
+          </form>
+        )}
         <div className="actions-chat">
           <button
             onClick={() => onMouseEnterPoints()}
