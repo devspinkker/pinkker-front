@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./Clips.css";
 import { Link } from "react-router-dom";
 import ReactPlayer from "react-player";
@@ -9,16 +9,20 @@ import Tippy from "@tippyjs/react";
 export default function SelectVideoClip({ clip, toggleSelect }) {
   const [progress, setProgress] = useState(0);
   const [showLoader, setShowLoader] = useState(true);
-  const [playing, setPlaying] = useState(true); // Estado para controlar la reproducción/pausa
-  const [volumePlayer, setVolumePlayer] = useState(1); // Estado para controlar el volumen
+  const [playing, setPlaying] = useState(true);
+  const [volumePlayer, setVolumePlayer] = useState(1);
   const [muted, setMuted] = useState(false);
+  const player = useRef(null);
+  const [showVolumeControls, setShowVolumeControls] = useState(false);
   const handleProgress = async (e) => {
-    const { duration, currentTime } = e.target;
-    const newProgress = (currentTime / duration) * 100;
-    setProgress(newProgress);
+    if (e.target) {
+      const { duration, currentTime } = e.target;
+      const newProgress = (currentTime / duration) * 100;
+      setProgress(newProgress);
 
-    if (newProgress > 50.0 && newProgress < 50.5) {
-      await MoreViewOfTheClip(clip.id);
+      if (newProgress > 50.0 && newProgress < 50.5) {
+        await MoreViewOfTheClip(clip.id);
+      }
     }
   };
 
@@ -71,6 +75,32 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
     const player = document.querySelector(".reactPlayer");
     player.requestFullscreen();
   };
+  const handleProgressChange = (e) => {
+    setProgress(e);
+
+    const newTime = (e / 100) * player.current.getDuration();
+    player.current.seekTo(newTime, "seconds");
+  };
+
+  const ProgressBar = () => {
+    return (
+      <input
+        type="range"
+        min={0}
+        max={100}
+        step={0.01}
+        value={progress}
+        onChange={(e) => handleProgressChange(parseFloat(e.target.value))}
+      />
+    );
+  };
+  const handleHover = () => {
+    setShowVolumeControls(true);
+  };
+
+  const handleLeave = () => {
+    setShowVolumeControls(false);
+  };
   function getBottomButtons() {
     return (
       <div className="customPlayer-container-selectClips">
@@ -112,7 +142,11 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
                 </Tippy>
               )}
             </div>
-            <div className="customPlayer-card-selectClips">
+            <div
+              className="customPlayer-card-selectClips"
+              onMouseEnter={handleHover}
+              onMouseLeave={handleLeave}
+            >
               <Tippy
                 theme="pinkker"
                 content={
@@ -134,7 +168,16 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
             </div>
 
             <div
-              style={{ marginLeft: "15px", width: "100%" }}
+              onMouseEnter={handleHover}
+              onMouseLeave={handleLeave}
+              style={{
+                position: "absolute",
+                left: "-23px",
+                top: "-88px",
+                width: "",
+                transition: "1s ",
+                opacity: !showVolumeControls && "0",
+              }}
               className="customPlayer-card-selectClips"
             >
               <input
@@ -144,7 +187,14 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
                 step={0.01}
                 value={volumePlayer}
                 onChange={handleVolumeChange}
+                style={{ transform: "rotate(270deg)" }}
               />
+            </div>
+            <div
+              style={{ width: "100%" }}
+              className="customPlayer-card-selectClips"
+            >
+              <ProgressBar />
             </div>
             <Tippy
               theme="pinkker"
@@ -230,6 +280,7 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
           }}
         >
           <ReactPlayer
+            ref={player}
             url={clip.url}
             className="reactPlayer"
             controls={true}
