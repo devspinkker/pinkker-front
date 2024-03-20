@@ -53,6 +53,7 @@ import RecoverPassword from "../components/userRecuperacion/PasswordReset";
 import DashboardStream from "../components/dashboard/stream-manager/DashboardStream";
 import DashboardAjustes from "../components/dashboard/stream-manager/DeshboardAjustes";
 import DashboardServerTransmision from "../components/dashboard/stream-manager/DashboardServerTransmision";
+import NLayout from "../components/layout/NLayout";
 
 const AppRouter = () => {
   const [expanded, setExpanded] = useState(true);
@@ -143,11 +144,12 @@ const AppRouter = () => {
       setOpenMessageStreamer(null);
     }
   }
+  console.log('expanded', expanded);
 
   return (
     <Router>
       <LastLocationProvider>
-        <Navbar
+        {/* <Navbar
           isMobile={isMobile}
           exact
           socketMain={socketMain}
@@ -155,7 +157,7 @@ const AppRouter = () => {
           expanded={expanded}
           tyExpanded={() => toggleExpanded()}
           user={user}
-        />
+        /> */}
         {/* {openMessage && (
           <Message
             socketMain={socketMain}
@@ -164,7 +166,10 @@ const AppRouter = () => {
           />
         )} */}
         {/*!isLogged && <NavbarButtom isMobile={isMobile}/>*/}
-        <Layout isMobile={isMobile} tyExpanded={expanded}>
+        <NLayout isMobile={isMobile} tyExpanded={!expanded} user={user}
+               
+                tyDashboard={false}
+                setExpanded={setExpanded}>
           <Switch>
             <Route exact path="/:streamer/dashboard/home">
               <NavbarLeft
@@ -390,13 +395,7 @@ const AppRouter = () => {
             </Route>
 
             <Route exact path="/" component={Home}>
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Home
                 isMobile={isMobile}
                 socketMain={socketMain}
@@ -414,52 +413,30 @@ const AppRouter = () => {
             </Route>
 
             <Route exact path={"/direct/inbox"}>
-              <NavbarLeft
-                user={user}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <GeneralChat />
             </Route>
 
             <Route exact path={"/plataform/search"}>
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Search />
             </Route>
 
             <Route exact path="/plataform/terms">
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Terms />
             </Route>
 
             <Route exact path="/plataform/privacy">
-              <NavbarLeft
-                user={user}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Privacy />
             </Route>
             <Route exact path="/OAuth2Login">
               <OAuth2Login />
             </Route>
           </Switch>
-        </Layout>
-        <Switch></Switch>
+        </NLayout>
+        
       </LastLocationProvider>
       <Route exact path="/:streamer">
         {!isMobile && (

@@ -657,11 +657,11 @@ const Home = ({
       />
       <div className="categories-home-container">
         <div className="categories-home-manager">
-          <h2>Categorias</h2>
+          <h2 style={{fontFamily:'Inter'}}>Categorias</h2>
           <div className="manager-recommended-actions">
             <div className="manager-recommended-actions-ver-todos">
               <Link to="/plataform/explore?tipo=categories">
-                <span>Ver todos</span>
+                <span style={{fontFamily:'Signika Negative'}}>Ver todos</span>
               </Link>
             </div>
             <div className="manager-recommended-actions-arrow">

@@ -8,11 +8,12 @@
   border: 1px solid #3f3f3f;
   border-radius: 6px;
   overflow: hidden;
+  transition: all 1s;
   /* Oculta el contenido que se desborda */
 }
 
 .navbar-search-dark:hover {
-  border: 2px solid #616161;
+  background-color: #2a2e38;
 }
 
 .navbar-search-dark:focus-within {

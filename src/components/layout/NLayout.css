@@ -1,0 +1,28 @@
+.menu-aside-option{
+    width: 100%;
+    transition: all .2s ease-in-out;
+}
+
+.menu-aside-option:hover{
+    color: #856ffc !important;
+    cursor: pointer;
+    border-left: 1px solid #856ffc;
+}
+
+.fa-bars{
+    transition: all 1s ;
+}
+.fa-bars:hover{
+    color: rgb(119, 23, 255) !important;
+}
+
+
+.button-sports:hover{
+    background: url("/public/images/mobile-tab-background-press.svg") #2a2e38;
+    cursor: pointer;
+}
+
+.button-casino:hover{
+    background: url("/public/images/mobile-tab-background-press.svg") #2a2e38 !important;
+    cursor: pointer;
+}

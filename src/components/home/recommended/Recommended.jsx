@@ -157,11 +157,11 @@ export default function DirectosRecommended({
   return (
     <div className="home-recommended">
       <div className="manager-recommended">
-        <h2>Directos Recomendados</h2>
+        <h2 style={{fontFamily:'Inter'}}>Directos Recomendados</h2>
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
             <Link to="/plataform/explore?tipo=streams">
-              <span>Ver todos</span>
+              <span style={{ fontFamily: 'Signika Negative' }} >Ver todos</span>
             </Link>
           </div>
           <div className="manager-recommended-actions-arrow">
@@ -221,7 +221,22 @@ export default function DirectosRecommended({
                   style={{ marginRight: "9px", marginTop: "30px" }}
                   key={index}
                 >
-                  <Skeleton
+                  <CardStreamRecomendado
+                    tags={'lol'}
+                    isMobile={isMobile}
+                    streamer={'eldenguee'}
+                    categorie={'Just Chatting'}
+                    title={'Pruebas'}
+                    viewers={'1234'}
+                    name={'eldenguee'}
+                    isLoading={false}
+                    avatarStreamer={'/images/pinkker-stream.png'}
+                    image={
+                       "/images/pinkker-stream.png"
+                    }
+                    ViewerCount={'1234'}
+                  />
+                  {/* <Skeleton
                     variant="rectangular"
                     width={150}
                     height={226}
@@ -236,7 +251,7 @@ export default function DirectosRecommended({
                     variant="text"
                     width={100}
                     style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                  />
+                  /> */}
                 </div>
               ))}
             </div>

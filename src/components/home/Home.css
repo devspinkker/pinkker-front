@@ -4,11 +4,9 @@
 
 
 .home-body-dark {
-    margin: 0 auto;
-    padding: 3.8rem 0rem 0rem 10rem;
-    position: relative;
+    width: 100%;
+
     background-color: transparent;
-    min-height: 2000px;
     overflow: hidden;
     overflow-y: scroll;
     background: #080808;
@@ -60,7 +58,7 @@
 
 .categories-home-container {
     overflow: hidden;
-    width: 95%;
+    width: 100%;
     margin: 21px 0px;
     border-bottom: 1px solid #2a2e38;
 }
@@ -110,11 +108,8 @@
     }
 
     .home-body-dark {
-        margin: 0 auto;
-        padding: 4.8rem 0rem 0rem 10rem;
-        position: relative;
+        width: 100%;
         background-color: transparent;
-        min-height: 2000px;
         overflow: hidden;
         overflow-y: scroll;
         background: #080808;

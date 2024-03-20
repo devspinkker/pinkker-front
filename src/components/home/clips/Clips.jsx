@@ -65,7 +65,7 @@ export default function Clips() {
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
             <Link to="/plataform/explore?tipo=clips">
-              <span>Ver todos</span>
+              <span style={{fontFamily:'Signika Negative'}}>Ver todos</span>
             </Link>
           </div>
           <div className="manager-recommended-actions-arrow">
