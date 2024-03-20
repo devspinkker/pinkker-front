@@ -36,7 +36,7 @@ export default function CardStreamRecomendado(props) {
             />
           </Link>
           <div className="home-categories-span-2">
-            <span style={{ fontSize: "15px", cursor: "pointer" }}>
+            <span style={{ fontFamily:'Inter', fontSize: "15px", cursor: "pointer" }}>
               {props.ViewerCount} espectadores
             </span>
           </div>
@@ -47,9 +47,11 @@ export default function CardStreamRecomendado(props) {
               src={props.avatarStreamer}
               alt=""
               style={{
-                width: "41px",
-                borderRadius: " 50%",
-                marginRight: " 15px",
+                width:'40px !important',
+                height:'40px !important',
+                
+                borderRadius: "50%",
+                
               }}
             />
 

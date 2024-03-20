@@ -19,7 +19,7 @@ function NLayout(props) {
             {/* GRID ASIDE */}
             <Grid style={{ transition: props.tyExpanded ? 'all 1.2s ' : 'all 1.2s ', width: props.tyExpanded ? '15%' : '4.063rem', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#080808', position: 'sticky', top: 0 }}>
 
-                <Grid style={{ padding: props.tyExpanded ? '1.7rem 5px' : '1.8rem 5px', border: '1px solid #2a2e38', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                <Grid style={{ padding: props.tyExpanded ? '1.3rem 5px' : '1.8rem 5px', border: '1px solid #2a2e38', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                     <i
                         onClick={() => clickPulsedButton()}
                         style={{
@@ -37,12 +37,12 @@ function NLayout(props) {
                     {
                         props.tyExpanded &&
                         <Grid style={{ display: 'flex', textAlign: 'center', alignItems: 'center', borderRadius: '.375rem', backgroundColor: '#2a2e38' }}>
-                            <Grid className='button-casino' style={{ height: '100%', color: 'white', display: 'flex', alignItems: 'center', background: ' url(/images/mobile-tab-background-active.svg) rgb(119, 23, 255)', padding: '.5rem', borderRadius: '.375rem' }}>
-                                <span>Casino </span>
+                            <Grid className='button-casino' style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', background: ' url(/images/mobile-tab-background-active.svg) rgb(119, 23, 255)', padding: '.5rem', borderRadius: '.375rem' }}>
+                                <span style={{fontSize:'14px'}}>Deportes </span>
                             </Grid>
 
-                            <Grid style={{ height: '100%', color: 'white', display: 'flex', alignItems: 'center', padding: '.5rem', borderRadius: '.375rem' }} className='button-sports'>
-                                <span>Sports</span>
+                            <Grid style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', padding: '.5rem', borderRadius: '.375rem' }} className='button-sports'>
+                                <span style={{fontSize:'14px'}}>Categorias</span>
                             </Grid>
                         </Grid>
 
@@ -112,13 +112,13 @@ function NLayout(props) {
 
 
                     <Grid style={{ padding: '1.3rem 5px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-                        <ul style={{ listStyle: 'none', width: '100%', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                        <ul style={{ listStyle: 'none', width: '100%', display: 'flex', flexDirection: 'column', gap: '30px' }}>
                             <Link
                                 style={{ textDecoration: 'none' }}
                                 className="menu-aside-option"
                                 to="/"
                             >
-                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', width: '100% !important', padding: '0rem 15px' }} >
+                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', width: '100% !important', padding: '0rem 15px' }} className='item-li'>
 
                                     <i
                                         style={{ position: "relative", fontSize: "20px" }}
@@ -136,7 +136,7 @@ function NLayout(props) {
                                 to="/plataform/explore?tipo=categories"
                             >
 
-                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', padding: '0rem 15px' }} >
+                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', padding: '0rem 15px' }} className='item-li'>
                                     <i
                                         style={{ position: "relative", fontSize: "20px" }}
                                         class="fa fa-search"
@@ -153,7 +153,7 @@ function NLayout(props) {
                                 className="menu-aside-option"
                                 to="/plataform/clips"
                             >
-                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', padding: '0rem 15px' }} >
+                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', padding: '0rem 15px' }} className='item-li' >
                                     <i
                                         style={{ position: "relative", fontSize: "20px" }}
                                         class="fas fa-film"
@@ -170,7 +170,7 @@ function NLayout(props) {
                                 className="menu-aside-option"
                                 to="/plataform/muro"
                             >
-                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', padding: '0rem 15px' }} >
+                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', padding: '0rem 15px' }} className='item-li'>
                                     <i
                                         style={{ position: "relative", fontSize: "20px" }}
                                         class="fas fa-edit"

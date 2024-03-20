@@ -49,9 +49,9 @@ export default function CardStream(props) {
               src={props.avatarStreamer}
               alt=""
               style={{
-                width: "41px",
+                
                 borderRadius: " 50%",
-                marginRight: " 15px",
+                
               }}
             />
 

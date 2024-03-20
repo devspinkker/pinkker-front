@@ -213,12 +213,12 @@ export default function DirectosRecommended({
               className="home-recommended-card-container-streams"
               style={{
                 width: "100%",
-                height: "298px",
+                
               }}
             >
               {[...Array(5)].map((_, index) => (
                 <div
-                  style={{ marginRight: "9px", marginTop: "30px" }}
+                  style={{ marginRight: "9px" }}
                   key={index}
                 >
                   <CardStreamRecomendado

@@ -9,6 +9,15 @@
     border-left: 1px solid #856ffc;
 }
 
+.item-li{
+    transition: all .2s ease-in-out;
+}
+
+.item-li:hover{
+    color: #856ffc !important;
+    cursor: pointer;
+}
+
 .fa-bars{
     transition: all 1s ;
 }
