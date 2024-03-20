@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import NavbarLeft from '../navbarLeft/NavbarLeft'
 import Search from '../navbar/search/Search';
 import "./NLayout.css";
+import { Link } from "react-router-dom";
 
 function NLayout(props) {
     const [pulse, setPulse] = useState(false);
@@ -27,7 +28,7 @@ function NLayout(props) {
                             zIndex: "1000",
 
                             // transform: expanded === false && "rotate(90deg)",
-                            
+
                             color: "#ededed",
                         }}
                         className="fas fa-bars"
@@ -36,7 +37,7 @@ function NLayout(props) {
                     {
                         props.tyExpanded &&
                         <Grid style={{ display: 'flex', textAlign: 'center', alignItems: 'center', borderRadius: '.375rem', backgroundColor: '#2a2e38' }}>
-                            <Grid  className='button-casino' style={{ height: '100%', color: 'white', display: 'flex', alignItems: 'center', background: ' url(/images/mobile-tab-background-active.svg) rgb(119, 23, 255)', padding: '.5rem', borderRadius: '.375rem' }}>
+                            <Grid className='button-casino' style={{ height: '100%', color: 'white', display: 'flex', alignItems: 'center', background: ' url(/images/mobile-tab-background-active.svg) rgb(119, 23, 255)', padding: '.5rem', borderRadius: '.375rem' }}>
                                 <span>Casino </span>
                             </Grid>
 
@@ -71,7 +72,7 @@ function NLayout(props) {
                 </Grid>
 
                 <Grid >
-                    <Grid style={{ padding: '1.3rem 5px', border: '1px solid #2a2e38', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around', cursor:'pointer' }}>
+                    <Grid style={{ padding: '1.3rem 5px', border: '1px solid #2a2e38', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around', cursor: 'pointer' }}>
                         <div
                             className={
                                 props.tyExpanded
@@ -112,48 +113,74 @@ function NLayout(props) {
 
                     <Grid style={{ padding: '1.3rem 5px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                         <ul style={{ listStyle: 'none', width: '100%', display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                            <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', width:'100% !important', padding:'0rem 15px' }} className="menu-aside-option">
+                            <Link
+                                style={{ textDecoration: 'none' }}
+                                className="menu-aside-option"
+                                to="/"
+                            >
+                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', width: '100% !important', padding: '0rem 15px' }} >
 
-                                <i
-                                    style={{ position: "relative", fontSize: "20px" }}
-                                    class="fa fa-home"
-                                />
-                                {
-                                    props.tyExpanded && 'Home'
-                                }
+                                    <i
+                                        style={{ position: "relative", fontSize: "20px" }}
+                                        class="fa fa-home"
+                                    />
+                                    {
+                                        props.tyExpanded && 'Home'
+                                    }
 
-                            </li>
-                            <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', padding:'0rem 15px' }} className="menu-aside-option">
-                                <i
-                                    style={{ position: "relative", fontSize: "20px" }}
-                                    class="fa fa-search"
-                                />
-                                {
-                                    props.tyExpanded && 'Explorar'
-                                }
+                                </li>
+                            </Link>
+                            <Link
+                                style={{ textDecoration: 'none' }}
+                                className="menu-aside-option"
+                                to="/plataform/explore?tipo=categories"
+                            >
 
-                            </li>
-                            <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center' , padding:'0rem 15px'}} className="menu-aside-option">
-                                <i
-                                    style={{ position: "relative", fontSize: "20px" }}
-                                    class="fas fa-film"
-                                />
-                                {
-                                    props.tyExpanded && 'Clips'
-                                }
+                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', padding: '0rem 15px' }} >
+                                    <i
+                                        style={{ position: "relative", fontSize: "20px" }}
+                                        class="fa fa-search"
+                                    />
+                                    {
+                                        props.tyExpanded && 'Explorar'
+                                    }
+                                </li>
+                            </Link>
 
-                            </li>
-                            <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center' , padding:'0rem 15px'}} className="menu-aside-option">
-                                <i
-                                    style={{ position: "relative", fontSize: "20px" }}
-                                    class="fas fa-edit"
-                                />
-                                {
-                                    props.tyExpanded && 'Muro'
-                                }
 
-                            </li>
+                            <Link
+                                style={{ textDecoration: 'none' }}
+                                className="menu-aside-option"
+                                to="/plataform/clips"
+                            >
+                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', padding: '0rem 15px' }} >
+                                    <i
+                                        style={{ position: "relative", fontSize: "20px" }}
+                                        class="fas fa-film"
+                                    />
+                                    {
+                                        props.tyExpanded && 'Clips'
+                                    }
 
+                                </li>
+                            </Link>
+
+                            <Link
+                                style={{ textDecoration: 'none' }}
+                                className="menu-aside-option"
+                                to="/plataform/muro"
+                            >
+                                <li style={{ color: 'white', display: 'flex', gap: '10px', alignItems: 'center', padding: '0rem 15px' }} >
+                                    <i
+                                        style={{ position: "relative", fontSize: "20px" }}
+                                        class="fas fa-edit"
+                                    />
+                                    {
+                                        props.tyExpanded && 'Muro'
+                                    }
+
+                                </li>
+                            </Link>
 
                         </ul>
                     </Grid>
@@ -165,7 +192,7 @@ function NLayout(props) {
             {/* GRID NAV - MAIN */}
             <Grid style={{ width: props.tyExpanded ? '85%' : '95%', display: 'flex', flexDirection: 'column', }}>
 
-                <Grid style={{ borderBottom: '1px solid #2a2e38', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.3rem 3rem', position: 'sticky', top: 0, zIndex: 9999, backgroundColor: '#080808' }}>
+                <Grid style={{ borderBottom: '1px solid #2a2e38', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.3rem 5.8rem', position: 'sticky', top: 0, zIndex: 9999, backgroundColor: '#080808' }}>
                     <img
                         src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
                         style={{ width: "15%" }}
@@ -188,7 +215,7 @@ function NLayout(props) {
 
                 </Grid>
 
-                <Grid style={{ padding: '2rem 3rem 1rem', width: '100%' }}>
+                <Grid style={{ padding: '2rem 5.8rem', width: '100%' }}>
                     {props.children}
                 </Grid>
             </Grid>

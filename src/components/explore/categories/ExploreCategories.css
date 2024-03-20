@@ -17,7 +17,7 @@
 
 .explorecategories-card-container {
     display: flex;
-    width: 94%;
+    width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
     /* .explorecategories-card-container-sorted-content {

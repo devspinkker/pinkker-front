@@ -1,17 +1,13 @@
 .muro-body {
     background-color: transparent;
     width: 100%;
-    min-height: 2500px;
 }
 
 .muro-container {
-    width: 95%;
-    min-height: 1000px;
+    width: 100%;
     margin: 0 auto;
-    position: relative;
-    top: 60px;
+
     display: flex;
-    padding: 2rem 0rem;
     background-color: #080808;
 }
 

@@ -172,33 +172,17 @@ const AppRouter = () => {
                 setExpanded={setExpanded}>
           <Switch>
             <Route exact path="/:streamer/dashboard/home">
-              <NavbarLeft
-                user={user}
-                setExpanded={setExpanded}
-                tyExpanded={expanded}
-                tyDashboard={true}
-              />
+              
               <Dashboard isMobile={isMobile} />
             </Route>
 
             <Route exact path="/:streamer/dashboard/analytics">
-              <NavbarLeft
-                user={user}
-                setExpanded={setExpanded}
-                tyExpanded={expanded}
-                tyDashboard={true}
-              />
+              
               <Analytics />
             </Route>
 
             <Route exact path="/:streamer/dashboard/streammanager">
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                setExpanded={setExpanded}
-                tyExpanded={expanded}
-                tyDashboard={true}
-              />
+              
               <StreamManager
                 isMobile={isMobile}
                 socketMain={socketMain}
@@ -207,33 +191,17 @@ const AppRouter = () => {
             </Route>
 
             <Route exact path="/:streamer/dashboard/content">
-              <NavbarLeft
-                user={user}
-                setExpanded={setExpanded}
-                tyExpanded={expanded}
-                tyDashboard={true}
-              />
+              
               <Content />
             </Route>
 
             <Route exact path="/:streamer/dashboard/community">
-              <NavbarLeft
-                user={user}
-                setExpanded={setExpanded}
-                tyExpanded={expanded}
-                tyDashboard={true}
-              />
+              
               <Community />
             </Route>
 
             <Route exact path="/:streamer/settings">
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <UserSettings user={user} isMobile={isMobile} />
             </Route>
 
@@ -244,153 +212,74 @@ const AppRouter = () => {
             />
 
             <Route exact path="/plataform/tendency">
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Tendency isMobile={isMobile} />
             </Route>
 
             <Route exact path="/admin/general">
-              <NavbarLeft
-                user={user}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Admin />
             </Route>
 
             <Route exact path="/admin/pagos">
-              <NavbarLeft
-                user={user}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+             
               <Pagos />
             </Route>
 
             <Route exact path="/admin/statistics">
-              <NavbarLeft
-                user={user}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Statistics />
             </Route>
 
             <Route exact path="/user/reset/:token">
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <ResetPassword isMobile={isMobile} />
             </Route>
 
             <Route exact path="/plataform/explore">
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Explore isMobile={isMobile} />
             </Route>
 
             <Route exact path="/plataform/cartera">
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Cartera user={user} />
             </Route>
 
             <Route exact path="/plataform/subscriptions">
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Suscriptions />
             </Route>
 
             <Route exact path="/plataform/achievement">
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Achievement />
             </Route>
 
             <Route exact path="/plataform/clips">
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <ClipsMain tyExpanded={expanded} />
             </Route>
 
             <Route exact path="/plataform/muro">
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Muro isMobile={isMobile} />
             </Route>
 
             <Route exact path="/vod/:vodId">
-              <NavbarLeft
-                user={user}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Vod />
             </Route>
 
             <Route path="/categorie/:categorieName" exact>
-              <NavbarLeft
-                user={user}
-                isMobile={isMobile}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <Categorie />
             </Route>
             <Route path="/user/password-reset">
               <RecoverPassword />
             </Route>
             <Route path="/clip/:clipId" exact>
-              <NavbarLeft
-                user={user}
-                tyExpanded={expanded}
-                tyDashboard={false}
-                setExpanded={setExpanded}
-              />
+              
               <ClipView />
             </Route>
 

@@ -1,8 +1,6 @@
 .clipsmain-body {
-    max-width: 1526px;
-    min-height: 1500px;
+    max-width: 100%;
     scroll-behavior: smooth;
-    margin-top: 6%;
     transition: 5s all;
 
 }
@@ -16,14 +14,16 @@
 }
 
 .clipsmain-container {
-    width: 85%;
+    width: 50%;
+
     height: max-content;
     position: relative;
     display: flex;
-    align-items: stretch;
+    align-items: center;
     transition: 5s all;
+    margin: 0 auto;
     scroll-behavior: smooth;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .clipsmain-video {
@@ -63,7 +63,7 @@
 }
 
 .clipsmain-right-buttons {
-    width: 75px;
+    width: 150px;
     height: 100%;
     position: fixed;
     right: 0;

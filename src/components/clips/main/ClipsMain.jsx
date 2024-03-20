@@ -103,7 +103,7 @@ export default function ClipsMain({ tyExpanded }) {
     <div
       className="clipsmain-body"
       style={{
-        padding: tyExpanded ? "0rem 0rem 0rem 10rem" : "0px",
+        padding: "0px",
       }}
     >
       <div>
@@ -127,7 +127,7 @@ export default function ClipsMain({ tyExpanded }) {
           )}
       </div>
 
-      <div style={{ top: "80px" }} className="clipsmain-right-buttons">
+      <div style={{ top: "120px" }} className="clipsmain-right-buttons">
         <div
           style={{
             height: "40%",
