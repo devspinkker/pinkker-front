@@ -44,7 +44,7 @@ function useOnClickOutside(ref, handler) {
   }, [ref, handler]);
 }
 
-export default function Search({ isMobile }) {
+export default function Search({ isMobile, tyExpanded }) {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const { user, isAdmin } = auth;
@@ -160,18 +160,24 @@ export default function Search({ isMobile }) {
         }}
       >
         <i
-          style={{ fontSize: "16px", color: "rgb(89 89 89)" }}
+          style={{ fontSize: tyExpanded ? '18px' :"16px", color: "rgb(89 89 89)", margin:'5px' }}
           class="fas fa-search navbar-search-i"
         />
-        <input
-          style={{ fontSize: "16px" }}
-          value={text}
-          onClickCapture={handleMouseEnter}
-          onKeyDown={handleKey}
-          onChange={handleChange}
-          placeholder="Search"
-          type="search"
-        />
+
+        {
+          tyExpanded &&
+          <input
+            style={{ fontSize: "16px" }}
+            value={text}
+            onClickCapture={handleMouseEnter}
+            onKeyDown={handleKey}
+            onChange={handleChange}
+            placeholder="Search"
+            type="search"
+          />
+        }
+
+
       </div>
 
       {search != null && (

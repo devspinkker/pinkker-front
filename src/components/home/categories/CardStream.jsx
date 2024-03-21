@@ -49,12 +49,18 @@ export default function CardStream(props) {
               src={props.avatarStreamer}
               alt=""
               style={{
-                
-                borderRadius: " 50%",
-                
+                width: '50px',
+                height: '50px',
+                objectFit: 'cover',
+                borderRadius: "50%",
+
               }}
             />
-
+            <div className="home-categories-p-2">
+              <p style={{ fontSize: "17px", cursor: "pointer" }}>
+                {props.title}
+              </p>
+            </div>
             <div className="home-categories-p-1">
               <Link
                 className="home-categories-link-hover"
@@ -66,11 +72,7 @@ export default function CardStream(props) {
             </div>
           </div>
           <div className="stream_data_card">
-            <div className="home-categories-p-2">
-              <p style={{ fontSize: "17px", cursor: "pointer" }}>
-                {props.title}
-              </p>
-            </div>
+
 
             <div className="categories-card-tag-container">
               {tags.map((tag) => (

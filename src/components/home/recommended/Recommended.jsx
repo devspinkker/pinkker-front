@@ -157,7 +157,7 @@ export default function DirectosRecommended({
   return (
     <div className="home-recommended">
       <div className="manager-recommended">
-        <h2 style={{fontFamily:'Inter'}}>Directos Recomendados</h2>
+        <h2 style={{ fontFamily: 'Inter' }}>Directos Recomendados</h2>
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
             <Link to="/plataform/explore?tipo=streams">
@@ -232,7 +232,7 @@ export default function DirectosRecommended({
                     isLoading={false}
                     avatarStreamer={'/images/pinkker-stream.png'}
                     image={
-                       "/images/pinkker-stream.png"
+                      "/images/pinkker-stream.png"
                     }
                     ViewerCount={'1234'}
                   />

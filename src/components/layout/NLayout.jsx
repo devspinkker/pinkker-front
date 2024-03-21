@@ -4,6 +4,8 @@ import NavbarLeft from '../navbarLeft/NavbarLeft'
 import Search from '../navbar/search/Search';
 import "./NLayout.css";
 import { Link } from "react-router-dom";
+import DropdownBalance from '../navbar/balance/DropdownBalance';
+import DropdownPurchase from '../navbar/purchase/DropdownPurchase';
 
 function NLayout(props) {
     const [pulse, setPulse] = useState(false);
@@ -14,6 +16,7 @@ function NLayout(props) {
     }
 
     console.log('props.tyExpanded', props.tyExpanded)
+    console.log('props.user', props.user)
     return (
         <Grid style={{ display: 'flex', flexDirection: 'row' }}>
             {/* GRID ASIDE */}
@@ -38,11 +41,11 @@ function NLayout(props) {
                         props.tyExpanded &&
                         <Grid style={{ display: 'flex', textAlign: 'center', alignItems: 'center', borderRadius: '.375rem', backgroundColor: '#2a2e38' }}>
                             <Grid className='button-casino' style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', background: ' url(/images/mobile-tab-background-active.svg) rgb(119, 23, 255)', padding: '.5rem', borderRadius: '.375rem' }}>
-                                <span style={{fontSize:'14px'}}>Deportes </span>
+                                <span style={{ fontSize: '14px' }}>Deportes </span>
                             </Grid>
 
                             <Grid style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', padding: '.5rem', borderRadius: '.375rem' }} className='button-sports'>
-                                <span style={{fontSize:'14px'}}>Categorias</span>
+                                <span style={{ fontSize: '14px' }}>Categorias</span>
                             </Grid>
                         </Grid>
 
@@ -68,7 +71,7 @@ function NLayout(props) {
 
 
 
-                    <Search />
+                    <Search tyExpanded={props.tyExpanded} />
                 </Grid>
 
                 <Grid >
@@ -190,30 +193,113 @@ function NLayout(props) {
             </Grid>
 
             {/* GRID NAV - MAIN */}
+
             <Grid style={{ width: props.tyExpanded ? '85%' : '95%', display: 'flex', flexDirection: 'column', }}>
+                {
+                    !props.user?.lenght ?
+                        <Grid style={{ borderBottom: '1px solid #2a2e38', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.3rem 5.8rem', position: 'sticky', top: 0, zIndex: 9999, backgroundColor: '#080808' }}>
+                            <img
+                                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
+                                style={{ width: "15%" }}
+                                alt=""
+                            />
+                            <Grid style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <h6
 
-                <Grid style={{ borderBottom: '1px solid #2a2e38', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.3rem 5.8rem', position: 'sticky', top: 0, zIndex: 9999, backgroundColor: '#080808' }}>
-                    <img
-                        src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
-                        style={{ width: "15%" }}
-                        alt=""
-                    />
-                    <Grid style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                        <h6
+                                    className="button-navbar-login"
+                                >
+                                    Login
+                                </h6>
+                                <h6
 
-                            className="button-navbar-login"
-                        >
-                            Login
-                        </h6>
-                        <h6
+                                    className="button-navbar-register"
+                                >
+                                    Register
+                                </h6>
+                            </Grid>
 
-                            className="button-navbar-register"
-                        >
-                            Register
-                        </h6>
-                    </Grid>
+                        </Grid>
 
-                </Grid>
+                        :
+
+
+                        <Grid style={{ borderBottom: '1px solid #2a2e38', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.3rem 5.8rem', position: 'sticky', top: 0, zIndex: 9999, backgroundColor: '#080808' }}>
+                            <img
+                                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
+                                style={{ width: "15%" }}
+                                alt=""
+                            />
+
+                            <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                    }}
+                                >
+                                    <Link to="/plataform/cartera">
+                                        <div
+                                            style={{
+                                                // width: "500px",
+                                                display: "flex",
+                                                justifyContent: "flex-end",
+                                            }}
+                                            className="button-purchase-pixels"
+                                        >
+                                            <button>
+                                                {props.user?.Pixeles ?? '0'}
+                                                <img
+                                                    style={{
+                                                        width: props.isMobile ? "25px" : "17px",
+                                                        marginRight: "-5px",
+                                                        marginTop: "3px",
+                                                        padding: "10px",
+                                                    }}
+                                                    src="/images/pixel.png"
+                                                    alt=""
+                                                />{" "}
+                                            </button>
+                                        </div>
+                                    </Link>
+
+                                    <div >
+                                        <button
+                                            style={{
+                                                borderRadius: "0px 5px 5px 0px",
+                                                fontFamily: "inter",
+                                                fontWeight: "bolder",
+                                            }}
+                                        >
+                                            Comprar
+
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </Grid>
+
+                            <Grid>
+                                <div className="navbar-image-avatar-container">
+                                    <div
+                                        style={{
+                                            width: "40px",
+                                            height: "40px",
+                                            backgroundColor: "#f36196",
+                                            position: "relative",
+                                            left: "  ",
+                                            top: "2px",
+                                        }}
+                                        className="navbar-image-avatar"
+                                    >
+                                        <img src={'/images/pixel.png'} alt="" />
+                                    </div>
+                                </div>
+                            </Grid>
+
+
+
+                        </Grid>
+                }
+
 
                 <Grid style={{ padding: '2rem 5.8rem', width: '100%' }}>
                     {props.children}

@@ -149,10 +149,11 @@ input {
     transition: 200ms all;
 }
 
-.home-recommended-card-container-streams:hover {
+.home-categories-car-recomendado:hover{
     transform: translate3d(0px, -6px, 0);
-    background-color: #131418;
+
 }
+
 
 /* .home-categories-car-recomendado:hover {
     transform: translate3d(0px, -6px, 0);
