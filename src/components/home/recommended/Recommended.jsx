@@ -157,7 +157,10 @@ export default function DirectosRecommended({
   return (
     <div className="home-recommended">
       <div className="manager-recommended">
-        <h2 style={{ fontFamily: 'Inter' }}>Directos Recomendados</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width:'80%' }}>
+          <img src="/images/original.svg" style={{width:'2.5%', color: '#7717ff'}} />
+          <h2 style={{ fontFamily: 'Inter', color:'white' }}>Directos Recomendados</h2>
+        </div>
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
             <Link to="/plataform/explore?tipo=streams">
@@ -213,7 +216,7 @@ export default function DirectosRecommended({
               className="home-recommended-card-container-streams"
               style={{
                 width: "100%",
-                
+
               }}
             >
               {[...Array(5)].map((_, index) => (
@@ -226,7 +229,7 @@ export default function DirectosRecommended({
                     isMobile={isMobile}
                     streamer={'eldenguee'}
                     categorie={'Just Chatting'}
-                    title={'Pruebas'}
+                    title={'tokens 1v1 min 1000 max 10000 !IG'}
                     viewers={'1234'}
                     name={'eldenguee'}
                     isLoading={false}

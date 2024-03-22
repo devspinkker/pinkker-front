@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 import { Grid } from "@mui/material";
+import './cardStreamRecomendado.css'
 
 export default function CardStreamRecomendado(props) {
   const tags = [];
@@ -17,17 +18,29 @@ export default function CardStreamRecomendado(props) {
     }
   }
 
+  function limitarCadena(cadena, limite) {
+    if (cadena.length <= limite) {
+      return cadena;
+    } else {
+      return cadena.slice(0, limite) + "...";
+    }
+  }
+
   function getCard() {
     return (
       <div
         style={{
           position: props.isLoading && "absolute",
           opacity: props.isLoading && "0",
-          
+
         }}
         className="home-categories-car-recomendado"
       >
-
+        <div>
+          <span style={{ position:'relative', top:'35px',left:'13px',fontSize: "14px", cursor: "pointer", backgroundColor: 'red', padding: '0px 0.4rem', color: 'white', fontFamily: 'Signika Negative', fontWeight: 'normal', borderRadius:'5px' }}>
+            EN DIRECTO
+          </span>
+        </div>
 
         <Link to={"/" + props.name}>
 
@@ -40,7 +53,7 @@ export default function CardStreamRecomendado(props) {
         </Link>
 
         <div className="home-categories-span-2">
-          <span style={{ fontFamily: 'Inter', fontSize: "15px", cursor: "pointer" }}>
+          <span style={{ fontSize: "14px", cursor: "pointer", backgroundColor: 'rgba(0, 0, 0, 0.6)', padding: '0px 0.4rem', color: 'white', fontFamily: 'Signika Negative', fontWeight: 'lighter' }}>
             {props.ViewerCount} espectadores
           </span>
         </div>
@@ -63,12 +76,18 @@ export default function CardStreamRecomendado(props) {
             }}
           />
 
-          <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '3px' }}>
+          <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '3px', width: '100%' }}>
 
-            <p style={{ cursor: "pointer", color: '#dedee3', fontWeight: 'bold', fontFamily: 'Inter', fontSize: '16px' }}>
-              {props.title}
-            </p>
+            <Grid style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
 
+              <p style={{ cursor: "pointer", color: '#dedee3', fontWeight: 'bold', fontFamily: 'Inter', fontSize: '16px' }}>
+                {limitarCadena(props.title, 25)}
+              </p>
+
+              <Grid className="button-elipsis-recomendado">
+                <i class="fas fa-ellipsis-v" />
+              </Grid>
+            </Grid>
 
 
             <Link

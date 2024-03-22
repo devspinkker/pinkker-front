@@ -6,6 +6,7 @@ import "./NLayout.css";
 import { Link } from "react-router-dom";
 import DropdownBalance from '../navbar/balance/DropdownBalance';
 import DropdownPurchase from '../navbar/purchase/DropdownPurchase';
+import CanalesRecomendados from './CanalesRecomendados';
 
 function NLayout(props) {
     const [pulse, setPulse] = useState(false);
@@ -15,12 +16,12 @@ function NLayout(props) {
         props.setExpanded(props.tyExpanded);
     }
 
-    console.log('props.tyExpanded', props.tyExpanded)
-    console.log('props.user', props.user)
+    let expandido = pulse;
+    
     return (
         <Grid style={{ display: 'flex', flexDirection: 'row' }}>
             {/* GRID ASIDE */}
-            <Grid style={{ transition: props.tyExpanded ? 'all 1.2s ' : 'all 1.2s ', width: props.tyExpanded ? '15%' : '4.063rem', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#080808', position: 'sticky', top: 0 }}>
+            <Grid style={{ transition: props.tyExpanded ? 'all 1.2s ' : 'all 1.2s ', width: props.tyExpanded ? '15%' : '4.063rem', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#121418', position: 'sticky', top: 0 }}>
 
                 <Grid style={{ padding: props.tyExpanded ? '1.3rem 5px' : '1.8rem 5px', border: '1px solid #2a2e38', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                     <i
@@ -41,7 +42,7 @@ function NLayout(props) {
                         props.tyExpanded &&
                         <Grid style={{ display: 'flex', textAlign: 'center', alignItems: 'center', borderRadius: '.375rem', backgroundColor: '#2a2e38' }}>
                             <Grid className='button-casino' style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', background: ' url(/images/mobile-tab-background-active.svg) rgb(119, 23, 255)', padding: '.5rem', borderRadius: '.375rem' }}>
-                                <span style={{ fontSize: '14px' }}>Deportes </span>
+                                <span style={{ fontSize: '14px' }}>Directos </span>
                             </Grid>
 
                             <Grid style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', padding: '.5rem', borderRadius: '.375rem' }} className='button-sports'>
@@ -187,8 +188,50 @@ function NLayout(props) {
 
                         </ul>
                     </Grid>
+                    <Grid style={{ backgroundColor: '#080808', padding: '0.5rem 15px', borderTop: '1px solid #2a2e38', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        {
+                            props.tyExpanded ?
+                                <>
+                                    <span style={{ color: 'white', fontFamily: 'Inter', fontWeight: 'normal' }}>Canales Recomendados</span>
+                                    {
+                                        [...Array(5)].map((_, index) => (
+                                            <CanalesRecomendados
+                                                streamer={'eldenguee'}
+                                                categorie={'Just Chatting'}
+                                                avatarStreamer={'/images/pinkker-stream.png'}
+                                                spectators={'1000'} />
 
+                                        ))
+                                    }
+                                </>
+                                :
+                                <>
+                                    <svg width="20" height="20" viewBox="0 0 20 20" style={{ margin: '0 auto' }} className='icono-recomendados'><path fill-rule="evenodd" d="M12.002 3.999a2 2 0 0 1 2 2v2L18 6v8l-3.998-2v2a2 2 0 0 1-2 1.999h-8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8zM12 6H4v8h8V6z" clip-rule="evenodd" fill="#fff"></path></svg>
+
+                                    {
+                                        [...Array(5)].map((_, index) => (
+                                            <CanalesRecomendados
+                                                expanded={expandido}
+                                                streamer={'eldenguee'}
+                                                categorie={'Just Chatting'}
+                                                avatarStreamer={'/images/pinkker-stream.png'}
+                                                spectators={'1000'}
+                                            />
+
+                                        ))
+                                    }
+
+
+                                </>
+
+
+                        }
+
+
+                    </Grid>
                 </Grid>
+
+
 
             </Grid>
 

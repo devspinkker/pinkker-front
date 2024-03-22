@@ -657,7 +657,11 @@ const Home = ({
       />
       <div className="categories-home-container">
         <div className="categories-home-manager">
-          <h2 style={{fontFamily:'Inter'}}>Categorias</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width:'80%' }}>
+          <img src="/images/original.svg" style={{width:'2.5%'}} />
+          <h2 style={{ fontFamily: 'Inter', color:'white' }}>Categorias</h2>
+        </div>
+          
           <div className="manager-recommended-actions">
             <div className="manager-recommended-actions-ver-todos">
               <Link to="/plataform/explore?tipo=categories">
