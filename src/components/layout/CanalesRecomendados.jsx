@@ -11,12 +11,16 @@ function CanalesRecomendados(props) {
                 return 0;
             }
             return viewers;
-      
+
         }
     };
 
     console.log('props.expanded', props)
     return (
+
+      
+
+
         <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <img
                 src={props.avatarStreamer}
@@ -29,41 +33,43 @@ function CanalesRecomendados(props) {
                 }}
             />
             {
-                !props.expanded ?
+                props.abrir ?
 
-                <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px', width: '100%' }}>
-                    <Grid style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-
-
-                        <Link
-
-                            style={{ textDecoration: "none", padding: 0, fontSize: '14px', fontFamily: 'Inter', color: '#dedee3', fontWeight: 'bold' }}
-                            to={"/" + props.streamer}
-                        >
-                            {props.streamer}
-                        </Link>
+                    <Grid style={{ display:  'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px', width: '100%' }}>
+                        <Grid style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
 
 
-                        <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                            <Link
 
-                            <span id="pulsatingDot" />
+                                style={{ textDecoration: "none", padding: 0, fontSize: '14px', fontFamily: 'Inter', color: '#dedee3', fontWeight: 'bold' }}
+                                to={"/" + props.streamer}
+                            >
+                                {props.streamer}
+                            </Link>
 
-                            <span style={{ color: '#dedee3', fontSize: '13px' }}>{formatViewers(props.spectators)}</span>
+
+                            <Grid style={{ display: 'flex', alignItems: 'center' }}>
+
+                                <span id="pulsatingDot" />
+
+                                <span style={{ color: '#dedee3', fontSize: '13px' }}>{formatViewers(props.spectators)}</span>
 
 
+                            </Grid>
                         </Grid>
+
+                        <Link to={"/categorie/" + props.categorie} style={{ padding: 0, fontSize: '12px', fontFamily: 'Inter', color: '#adadb8' }}>
+
+                            {props.categorie}
+
+                        </Link>
                     </Grid>
-
-                    <Link to={"/categorie/" + props.categorie} style={{ padding: 0, fontSize: '12px', fontFamily: 'Inter', color: '#adadb8' }}>
-
-                        {props.categorie}
-
-                    </Link>
-                </Grid>
-                : null
+                    : null
             }
 
         </Grid>
+
+
     )
 }
 

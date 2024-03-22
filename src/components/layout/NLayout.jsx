@@ -10,14 +10,17 @@ import CanalesRecomendados from './CanalesRecomendados';
 
 function NLayout(props) {
     const [pulse, setPulse] = useState(false);
-
+    const [abrir, setAbrir] = useState(true);
     function clickPulsedButton() {
         setPulse(!pulse);
         props.setExpanded(props.tyExpanded);
     }
 
+    function cerrarCanalesRecomendados(){
+        setAbrir(!abrir)
+    }
     let expandido = pulse;
-    
+
     return (
         <Grid style={{ display: 'flex', flexDirection: 'row' }}>
             {/* GRID ASIDE */}
@@ -192,10 +195,18 @@ function NLayout(props) {
                         {
                             props.tyExpanded ?
                                 <>
-                                    <span style={{ color: 'white', fontFamily: 'Inter', fontWeight: 'normal' }}>Canales Recomendados</span>
+                                    <Grid style={{display:'flex', width:'100%', alignItems:'center'}}>
+                                        <span style={{ color: 'white', fontFamily: 'Inter', fontWeight: 'normal' }}>Canales Recomendados</span>
+                                        <i
+                                            style={{ color: "white", marginLeft: "5px", backgroundColor:'#080808', cursor:'pointer' }}
+                                            class="fas fa-chevron-down"
+                                            onClick={() => cerrarCanalesRecomendados()}
+                                        />
+                                    </Grid>
                                     {
                                         [...Array(5)].map((_, index) => (
                                             <CanalesRecomendados
+                                                abrir ={abrir}
                                                 streamer={'eldenguee'}
                                                 categorie={'Just Chatting'}
                                                 avatarStreamer={'/images/pinkker-stream.png'}
@@ -211,11 +222,12 @@ function NLayout(props) {
                                     {
                                         [...Array(5)].map((_, index) => (
                                             <CanalesRecomendados
-                                                expanded={expandido}
+
                                                 streamer={'eldenguee'}
                                                 categorie={'Just Chatting'}
                                                 avatarStreamer={'/images/pinkker-stream.png'}
                                                 spectators={'1000'}
+                                                nombre={props.tyExpanded ? true : false}
                                             />
 
                                         ))
