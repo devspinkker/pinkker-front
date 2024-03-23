@@ -707,6 +707,44 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
   return (
     <div className="auth-body-container">
       <div className={type === 0 ? "auth-body" : "auth-body-type1"}>
+      <div className={type === 0 ? "auth-info" : "auth-info-type1"}>
+          <div style={{ width: "100%", height: "50%" }}>
+            <div
+              style={{
+                color: "#ededed",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: type === 0 ? "300px" : "500px",
+              }}
+            >
+              {/* <div>
+                <h5>Tu billete a Memelandia</h5>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    color: "darkgray",
+                    marginTop: "20px",
+                  }}
+                >
+                  Ya sabes lo que dicen... <br /> Los amigos que hacen memes
+                  juntos, transmiten juntos.
+                </p>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    color: "darkgray",
+                    marginTop: "20px",
+                  }}
+                >
+                  👈👈👈 <br /> ¡Cree una cuenta para unirte a la conversación!
+                </p>
+              </div> */}
+            </div>
+          </div>
+         
+        </div>
+        
         <div
           onKeyPress={(event) => onKeyPressInput(event)}
           className={type === 0 ? "auth-container" : "auth-container-type1"}
@@ -768,43 +806,6 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
 
             {getType()}
           </div>
-        </div>
-
-        <div className={type === 0 ? "auth-info" : "auth-info-type1"}>
-          <div style={{ width: "100%", height: "50%" }}>
-            <div
-              style={{
-                color: "#ededed",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: type === 0 ? "300px" : "500px",
-              }}
-            >
-              <div>
-                <h5>Tu billete a Memelandia</h5>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "darkgray",
-                    marginTop: "20px",
-                  }}
-                >
-                  Ya sabes lo que dicen... <br /> Los amigos que hacen memes
-                  juntos, transmiten juntos.
-                </p>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "darkgray",
-                    marginTop: "20px",
-                  }}
-                >
-                  👈👈👈 <br /> ¡Cree una cuenta para unirte a la conversación!
-                </p>
-              </div>
-            </div>
-          </div>
           <div className="auth-close">
             <button className="pinkker-button-more" onClick={closePopup}>
               <i
@@ -814,6 +815,8 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
             </button>
           </div>
         </div>
+
+        
       </div>
     </div>
   );

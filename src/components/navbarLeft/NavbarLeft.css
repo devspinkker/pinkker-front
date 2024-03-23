@@ -609,7 +609,9 @@
 .pixel-coming-soon-navbarLeft-img-pixel-container {
   display: flex;
   justify-content: center;
-  padding: 7px;
+  padding: 5px;
+  border: 1px solid #202329;
+  border-radius: 10px;
   align-items: center;
   height: 31px;
   width: 37px;
@@ -618,8 +620,6 @@
 .pixel-coming-soon-navbarLeft-noexpand {
   display: flex;
   justify-content: start;
-  padding: 6px 0px 9px 3px;
- 
   align-items: center;
 }
 

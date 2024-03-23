@@ -55,7 +55,7 @@ export default function ClipCardChannel({ video, ...props }) {
           />
           <div style={{ marginTop: "10px", marginLeft: "5px" }}>
             <h4 style={{ color: "white", fontSize: "14px" }}>{props?.title}</h4>
-            <p style={{ fontSize: "13px" }}>{props.views} vistas · hace 2m </p>
+            <p style={{ fontSize: "13px" }}>{props.views} vistas ·{props.duration} </p>
           </div>
         </div>
       </div>

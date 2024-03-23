@@ -15,10 +15,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
     position: absolute;
-    top: 21%;
-    left: 31%;
+    top: 0;
+    height: 100%;
+    width: 100%;
 }
 
 .auth-body-type1 {
@@ -44,15 +45,13 @@
 }
 
 .auth-container {
-    width: 20%;
+    width: 30%;
     /* position: absolute; */
     /* left: 0%; */
     /* right: 15%; */
     /* top: 25%; */
     /* bottom: 25%; */
-    margin: auto;
-    width: 290px;
-    height: max-content;
+    height: 75% !important;
     padding: 30px;
     text-align: center;
     background: #18181b;
@@ -263,18 +262,17 @@ select:focus {
 
 
 .auth-info {
-    width: 400px;
-    height: 367px;
-    margin: auto;
+    height: 75%;
     padding: 30px;
+    width: 32%;
     text-align: center;
-    background-image: url("../../images/auth-1.png");
+    background-image: url("/public/images/login-panel.webp");
     background-size: cover;
     background-position: center;
-    background-position-y: -60px;
+    
     display: flex;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 

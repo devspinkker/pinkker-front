@@ -190,6 +190,7 @@ const Home = ({
   }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  console.log('currentIndex', currentIndex);
   const fetchMoreData = (direction) => {
     const increment = direction === "right" ? 1 : -1;
     const newIndex = currentIndex + increment;
@@ -198,6 +199,8 @@ const Home = ({
       setCurrentIndex(newIndex);
     }
   };
+
+
   return (
     <div
       style={{
@@ -736,6 +739,7 @@ const Home = ({
             ))}
         </div>
       </div>
+      
       {!isMobile && <Clips isMobile={isMobile} />}
       <div
         style={{

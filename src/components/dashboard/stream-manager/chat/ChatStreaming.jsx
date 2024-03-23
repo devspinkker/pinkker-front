@@ -600,13 +600,13 @@ export function ChatStreaming({
         <img
           onClick={ToggleChat}
           style={{
-            width: "12px",
+            width: "16px",
             cursor: "pointer",
             textAlign: "center",
             color: "white",
             position: "fixed",
             right: "10px",
-            top: "70px",
+            top: "110px",
             transform: "rotate(180deg)",
             zIndex: "99999",
           }}
@@ -618,13 +618,13 @@ export function ChatStreaming({
         <img
           onClick={ToggleChat}
           style={{
-            width: "12px",
+            width: "16px",
             cursor: "pointer",
             textAlign: "center",
             color: "white",
             position: "fixed",
             right: "24%",
-            top: "70px",
+            top: "110px",
             zIndex: "99999",
           }}
           className="chat-button-more"
@@ -635,13 +635,13 @@ export function ChatStreaming({
         <img
           onClick={ToggleChat}
           style={{
-            width: "12px",
+            width: "16px",
             cursor: "pointer",
             textAlign: "center",
             color: "white",
             position: "fixed",
             // right: "24%",
-            top: "80px",
+            top: "110",
             right: "20px",
             zIndex: "99999",
           }}

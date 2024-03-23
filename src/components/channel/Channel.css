@@ -1,16 +1,12 @@
 .container-channel {
     width: 95.6% !important;
-    padding-left: 4rem;
     background-color: #080808;
     position: relative;
     transition: 0.15s
 }
 
 .container-channel-expand {
-    width: 84.6% !important;
-    padding-left: 15rem;
     background-color: #080808;
-    position: relative;
     transition: 0.15s
 }
 
@@ -19,8 +15,6 @@
 }
 
 .channel-body {
-    width: 98.9%;
-    min-height: 1500px;
     background-color: #080808;
     scrollbar-width: none;
     z-index: 10000;
@@ -46,9 +40,7 @@
 .channel-video {
     display: flex;
     align-items: center;
-    width: 79.2%;
     transition: 0.15s;
-    padding: 5.5rem 0rem 0rem 0rem;
     flex-direction: column;
 
 }
@@ -73,6 +65,7 @@
     height: -webkit-fill-available;
     position: fixed;
     right: 0;
+    top: 0;
     background-color: #080808;
     transition: 0.15s;
     overflow-y: unset;
@@ -744,6 +737,6 @@
 }
 
 .conteiner-streamer-online-infoStream {
-    width: 79%;
+    width: 100%;
     border-radius: 0px 0px 10px 10px;
 }

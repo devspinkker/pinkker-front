@@ -7,24 +7,37 @@ import { Link } from "react-router-dom";
 import DropdownBalance from '../navbar/balance/DropdownBalance';
 import DropdownPurchase from '../navbar/purchase/DropdownPurchase';
 import CanalesRecomendados from './CanalesRecomendados';
+import Auth from '../auth/Auth';
 
 function NLayout(props) {
     const [pulse, setPulse] = useState(false);
     const [abrir, setAbrir] = useState(true);
+    const [showPopupAuth, setShowPopupAuth] = useState(false);
+    const [type, setType] = useState(0);
     function clickPulsedButton() {
         setPulse(!pulse);
         props.setExpanded(props.tyExpanded);
     }
 
-    function cerrarCanalesRecomendados(){
+    function cerrarCanalesRecomendados() {
         setAbrir(!abrir)
     }
+
+    function togglePopupAuth(type) {
+        setShowPopupAuth(!showPopupAuth);
+        setType(type);
+    }
+    const handleToggleExpandFollowStreams = () => {
+        setTyExpandedFollowStreams(!tyExpandedFollowStreams);
+    };
+    const [tyExpandedFollowStreams, setTyExpandedFollowStreams] = useState(false);
+
     let expandido = pulse;
 
     return (
         <Grid style={{ display: 'flex', flexDirection: 'row' }}>
             {/* GRID ASIDE */}
-            <Grid style={{ transition: props.tyExpanded ? 'all 1.2s ' : 'all 1.2s ', width: props.tyExpanded ? '15%' : '4.063rem', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#121418', position: 'sticky', top: 0 }}>
+            <Grid style={{ maxWidth: props.tyExpanded ? '15%' : '4%', transition: 'all 1.2s ease-in-out', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#121418', position: 'sticky', top: 0 }}>
 
                 <Grid style={{ padding: props.tyExpanded ? '1.3rem 5px' : '1.8rem 5px', border: '1px solid #2a2e38', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                     <i
@@ -195,25 +208,33 @@ function NLayout(props) {
                         {
                             props.tyExpanded ?
                                 <>
-                                    <Grid style={{display:'flex', width:'100%', alignItems:'center'}}>
-                                        <span style={{ color: 'white', fontFamily: 'Inter', fontWeight: 'normal' }}>Canales Recomendados</span>
+                                    <Grid style={{ display: 'flex', width: '100%', alignItems: 'center', padding: '5px', justifyContent: 'space-between' }}>
+                                        <span style={{ color: 'white', fontFamily: 'Inter', fontWeight: 'normal', fontSize: '14px' }}>Canales Recomendados</span>
                                         <i
-                                            style={{ color: "white", marginLeft: "5px", backgroundColor:'#080808', cursor:'pointer' }}
-                                            class="fas fa-chevron-down"
+                                            style={{
+                                                color: "white", marginLeft: "5px", backgroundColor: '#080808', cursor: 'pointer', transform: abrir
+                                                    ? "rotate(0deg)"
+                                                    : "rotate(-180deg)", transition: 'all 1s '
+                                            }}
+                                            class={props.abrir ? "fas fa-chevron-down" : "fas fa-chevron-up"}
+
                                             onClick={() => cerrarCanalesRecomendados()}
                                         />
                                     </Grid>
-                                    {
-                                        [...Array(5)].map((_, index) => (
-                                            <CanalesRecomendados
-                                                abrir ={abrir}
-                                                streamer={'eldenguee'}
-                                                categorie={'Just Chatting'}
-                                                avatarStreamer={'/images/pinkker-stream.png'}
-                                                spectators={'1000'} />
+                                    <Grid style={{ display: abrir ? 'flex' : 'none', flexDirection: 'column', gap: '15px', maxHeight: abrir ? '100% !important' : '0px !important', transition: 'maxHeight 1s ease-out', }}>
 
-                                        ))
-                                    }
+                                        {
+                                            [...Array(5)].map((_, index) => (
+                                                <CanalesRecomendados
+                                                    abrir={true}
+                                                    streamer={'eldenguee'}
+                                                    categorie={'Just Chatting'}
+                                                    avatarStreamer={'/images/pinkker-stream.png'}
+                                                    spectators={'1000'} />
+
+                                            ))
+                                        }
+                                    </Grid>
                                 </>
                                 :
                                 <>
@@ -227,7 +248,7 @@ function NLayout(props) {
                                                 categorie={'Just Chatting'}
                                                 avatarStreamer={'/images/pinkker-stream.png'}
                                                 spectators={'1000'}
-                                                nombre={props.tyExpanded ? true : false}
+                                                abrir={false}
                                             />
 
                                         ))
@@ -249,24 +270,27 @@ function NLayout(props) {
 
             {/* GRID NAV - MAIN */}
 
-            <Grid style={{ width: props.tyExpanded ? '85%' : '95%', display: 'flex', flexDirection: 'column', }}>
+            <Grid style={{ width: props.tyExpanded ? '85%' : '95%', display: 'flex', flexDirection: 'column', zIndex: 99999 }}>
                 {
                     !props.user?.lenght ?
                         <Grid style={{ borderBottom: '1px solid #2a2e38', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.3rem 5.8rem', position: 'sticky', top: 0, zIndex: 9999, backgroundColor: '#080808' }}>
-                            <img
-                                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
-                                style={{ width: "15%" }}
-                                alt=""
-                            />
+                            <Link to='/'>
+
+
+                                <img
+                                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
+                                    style={{ width: "15%" }}
+                                    alt=""
+                                /></Link>
                             <Grid style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                                 <h6
-
+                                    onClick={() => togglePopupAuth(0)}
                                     className="button-navbar-login"
                                 >
                                     Login
                                 </h6>
                                 <h6
-
+                                    onClick={() => togglePopupAuth(1)}
                                     className="button-navbar-register"
                                 >
                                     Register
@@ -358,6 +382,14 @@ function NLayout(props) {
 
                 <Grid style={{ padding: '2rem 5.8rem', width: '100%' }}>
                     {props.children}
+
+                    {showPopupAuth === true && (
+                        <Auth
+                            isMobile={props.isMobile}
+                            typeDefault={type}
+                            closePopup={() => togglePopupAuth()}
+                        />
+                    )}
                 </Grid>
             </Grid>
         </Grid>

@@ -157,9 +157,9 @@ export default function DirectosRecommended({
   return (
     <div className="home-recommended">
       <div className="manager-recommended">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width:'80%' }}>
-          <img src="/images/original.svg" style={{width:'2.5%', color: '#7717ff'}} />
-          <h2 style={{ fontFamily: 'Inter', color:'white' }}>Directos Recomendados</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '80%' }}>
+          <img src="/images/original.svg" style={{ width: '2.5%', color: '#7717ff' }} />
+          <h2 style={{ fontFamily: 'Inter', color: 'white' }}>Directos Recomendados</h2>
         </div>
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
@@ -261,13 +261,8 @@ export default function DirectosRecommended({
           ) : (
             streams.map((stream, index) => (
               <div
-                style={
-                  {
-                    // width: expanded ? "55vh" : "62vh",
-                    // height: expanded ? "33vh" : "35vh",
-                  }
-                }
-                className="home-recommended-card-container-streams"
+                style={{ marginRight: "9px" }}
+                key={index}
               >
                 <CardStreamRecomendado
                   tags={stream.stream_tag}
@@ -300,6 +295,6 @@ export default function DirectosRecommended({
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }

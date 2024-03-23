@@ -56,6 +56,7 @@ import NavbarLeft from "../navbarLeft/NavbarLeft";
 import { useHistory } from "react-router-dom";
 import { follow, unfollow } from "../../services/backGo/user";
 import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
+import { Grid } from "@mui/material";
 
 export default function Channel({
   isMobile,
@@ -1334,7 +1335,7 @@ export default function Channel({
                     {streamerData && announce === false && renderPlayer()}
                   </div>
                 ) : (
-                  <></>
+                  <Grid className="channel-video"> <img src="/images/pinkker-stream.png" style={{width:'100%'}} /></Grid>
                 )}
 
                 {renderAnnoucement()}

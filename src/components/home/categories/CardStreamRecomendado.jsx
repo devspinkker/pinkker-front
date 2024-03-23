@@ -37,7 +37,7 @@ export default function CardStreamRecomendado(props) {
         className="home-categories-car-recomendado"
       >
         <div>
-          <span style={{ position:'relative', top:'35px',left:'13px',fontSize: "14px", cursor: "pointer", backgroundColor: 'red', padding: '0px 0.4rem', color: 'white', fontFamily: 'Signika Negative', fontWeight: 'normal', borderRadius:'5px' }}>
+          <span style={{ position: 'relative', top: '35px', left: '13px', fontSize: "14px", cursor: "pointer", backgroundColor: 'red', padding: '0px 0.4rem', color: 'white', fontFamily: 'Signika Negative', fontWeight: 'normal', borderRadius: '5px' }}>
             EN DIRECTO
           </span>
         </div>
@@ -53,7 +53,7 @@ export default function CardStreamRecomendado(props) {
         </Link>
 
         <div className="home-categories-span-2">
-          <span style={{ fontSize: "14px", cursor: "pointer", backgroundColor: 'rgba(0, 0, 0, 0.6)', padding: '0px 0.4rem', color: 'white', fontFamily: 'Signika Negative', fontWeight: 'lighter' }}>
+          <span style={{ fontSize: "14px", cursor: "pointer", backgroundColor: 'rgba(0, 0, 0, 0.6)', padding: '0px 0.4rem', color: 'white', fontFamily: 'Signika Negative', fontWeight: 'lighter',borderRadius: '5px' }}>
             {props.ViewerCount} espectadores
           </span>
         </div>
@@ -76,7 +76,7 @@ export default function CardStreamRecomendado(props) {
             }}
           />
 
-          <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '3px', width: '100%' }}>
+          <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px', width: '100%' }}>
 
             <Grid style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
 
@@ -90,20 +90,25 @@ export default function CardStreamRecomendado(props) {
             </Grid>
 
 
-            <Link
+            <Grid style={{display:'flex', flexDirection:'column', gap:'5px', alignItems:'flex-start'}}>
 
-              style={{ textDecoration: "none", padding: 0, fontSize: '13px', fontFamily: 'Inter' }}
-              to={"/" + props.name}
-            >
-              {props.name}
-            </Link>
+              <Link
+
+                style={{ textDecoration: "none", padding: 0, fontSize: '13px', fontFamily: 'Inter' }}
+                to={"/" + props.name}
+              >
+                {props.name}
+              </Link>
 
 
-            <Link to={"/categorie/" + props.categorie} style={{ padding: 0, fontSize: '13px', fontFamily: 'Inter' }}>
+              <Link to={"/categorie/" + props.categorie} style={{ padding: 0, fontSize: '13px', fontFamily: 'Inter' }}>
 
-              {props.categorie}
+                {props.categorie}
 
-            </Link>
+              </Link>
+
+            </Grid>
+
           </Grid>
 
         </div>
