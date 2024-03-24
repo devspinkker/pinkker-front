@@ -37,7 +37,6 @@ function NLayout(props) {
     const [subMenu, setSubMenu] = useState(false);
     const habilitarSubMenu = (valor) => {
 
-        console.log('setSubMenu', subMenu);
         setTimeout(() => {
             setSubMenu(valor);
 
