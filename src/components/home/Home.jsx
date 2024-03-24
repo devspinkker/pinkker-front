@@ -200,7 +200,15 @@ const Home = ({
     }
   };
 
+  const [color, setColor] = useState("")
 
+  const generateColor = () => {
+    setColor(Math.random().toString(16).substr(-6));
+  };
+ 
+  useEffect(() => {
+    generateColor()
+  },[])
   return (
     <div
       style={{
@@ -700,27 +708,19 @@ const Home = ({
                 flexWrap: "wrap",
               }}
             >
-              {[...Array(5)].map((_, index) => (
+              {[...Array(8)].map((_, index) => (
                 <div
                   style={{ marginRight: "9px", marginTop: "30px" }}
                   key={index}
+                  
                 >
                   <Skeleton
                     variant="rectangular"
                     width={150}
                     height={226}
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                    style={{ backgroundColor: "#" + color, borderRadius: '5px' }}
                   />
-                  <Skeleton
-                    variant="text"
-                    width={75}
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    width={100}
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                  />
+                  
                 </div>
               ))}
             </div>

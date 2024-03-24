@@ -11,7 +11,7 @@
     background-color: #131418;
     transition: 0.15s;
     overflow-y: unset;
-    z-index: 10000000;
+    z-index: 8888;
     padding: 0rem;
     ;
 }
@@ -85,6 +85,6 @@
         background-color: #0c0c0c;
         transition: 0.15s;
         overflow-y: unset;
-        z-index: 10000000;
+        z-index: 8888;
     }
 }

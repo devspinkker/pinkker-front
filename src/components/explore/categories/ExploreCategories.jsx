@@ -24,7 +24,7 @@ import {
 import CustomSelect from "./CustomSelect";
 import SelectVideoClip from "../../home/clips/SelectVideoClip";
 
-export default function ExploreCategories({ isMobile , tyExpanded}) {
+export default function ExploreCategories({ isMobile, tyExpanded }) {
   const history = useHistory();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
@@ -131,15 +131,26 @@ export default function ExploreCategories({ isMobile , tyExpanded}) {
     }
   };
 
+
+  const [color, setColor] = useState("")
+
+  const generateColor = () => {
+    setColor(Math.random().toString(16).substr(-6));
+  };
+ 
+  useEffect(() => {
+    generateColor()
+  },[])
+
   return (
     <div className="explorecategories-body">
-      <Grid style={{display:'flex', alignItems:'center', justifyContent:'space-between', borderBottom: '1px solid rgb(42, 46, 56)'}}>
-        <h3 style={{color:'white', fontSize:'30px'}}>Categorias</h3>
-        <img src={'/images/asd.png'} style={{width:'10%'}}/>
+      <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgb(42, 46, 56)' }}>
+        <h3 style={{ color: 'white', fontSize: '30px' }}>Categorias</h3>
+        <img src={'/images/asd.png'} style={{ width: '10%' }} />
       </Grid>
       <div>{isMobile && <Search isMobile={isMobile} />}</div>
-      
-        {/* <div
+
+      {/* <div
           style={{
             background: barPosition == 0 ? "#343843" : "",
           }}
@@ -168,46 +179,37 @@ export default function ExploreCategories({ isMobile , tyExpanded}) {
           <h3>Clips</h3>
         </div> */}
 
-        {/* <div
+      {/* <div
           className="type-line"
           style={{ left: `calc(${barPosition} * 48px)` }}
         ></div> */}
-      
+
 
       <div className="explorecategories-card-container">
         {isLoading && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            {[...Array(15)].map((_, index) => (
-              <div
-                style={{ marginRight: "9px", marginTop: "30px" }}
-                key={index}
-              >
-                <Skeleton
-                  variant="rectangular"
-                  width={150}
-                  height={226}
-                  style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                />
-                <Skeleton
-                  variant="text"
-                  width={75}
-                  style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                />
-                <Skeleton
-                  variant="text"
-                  width={100}
-                  style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                />
-              </div>
-            ))}
-          </div>
-        )}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          {[...Array(16)].map((_, index) => (
+            <div
+              style={{ marginRight: "9px", marginTop: "30px" }}
+              key={index}
+            >
+              <Skeleton
+                variant="rectangular"
+                width={150}
+                height={226}
+                style={{ backgroundColor: "#" + color, borderRadius: '5px' }}
+              />
+
+            </div>
+          ))}
+        </div>
+         )} 
 
         {filtros?.categories && (
           <>
@@ -264,8 +266,8 @@ export default function ExploreCategories({ isMobile , tyExpanded}) {
                 stream?.streamer && isMobile
                   ? "100%"
                   : stream?.streamer && !isMobile
-                  ? "30%"
-                  : "160px"
+                    ? "30%"
+                    : "160px"
               }
               isLoading={isLoading}
               name={stream.streamer}

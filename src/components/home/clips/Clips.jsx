@@ -58,6 +58,8 @@ export default function Clips() {
   const toggleSelect = () => {
     setSelectedVideo(!selectedVideo);
   };
+
+  console.log('clips', clips)
   return (
     <div className="home-clips">
       <div className="manager-recommended">

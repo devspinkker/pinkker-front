@@ -1,13 +1,13 @@
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import NavbarLeft from '../navbarLeft/NavbarLeft'
 import Search from '../navbar/search/Search';
 import "./NLayout.css";
-import { Link } from "react-router-dom";
 import DropdownBalance from '../navbar/balance/DropdownBalance';
 import DropdownPurchase from '../navbar/purchase/DropdownPurchase';
 import CanalesRecomendados from './CanalesRecomendados';
 import Auth from '../auth/Auth';
+import { Link } from "react-router-dom";
 
 function NLayout(props) {
     const [pulse, setPulse] = useState(false);
@@ -34,10 +34,25 @@ function NLayout(props) {
 
     let expandido = pulse;
 
+    const [subMenu, setSubMenu] = useState(false);
+    const habilitarSubMenu = (valor) => {
+
+        console.log('setSubMenu', subMenu);
+        setTimeout(() => {
+            setSubMenu(valor);
+
+        }, [100])
+    }
+    const handleLogout = async () => {
+        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("_id");
+        window.localStorage.removeItem("avatar");
+        window.location.href = "/";
+    };
     return (
         <Grid style={{ display: 'flex', flexDirection: 'row' }}>
             {/* GRID ASIDE */}
-            <Grid style={{ maxWidth: props.tyExpanded ? '15%' : '4%', transition: 'all 1.2s ease-in-out', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#121418', position: 'sticky', top: 0 }}>
+            <Grid style={{ maxWidth: props.tyExpanded ? '15%' : '4%', transition: 'all 1s ease-in-out', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#121418', position: 'sticky', top: 0 }}>
 
                 <Grid style={{ padding: props.tyExpanded ? '1.3rem 5px' : '1.8rem 5px', border: '1px solid #2a2e38', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                     <i
@@ -62,7 +77,13 @@ function NLayout(props) {
                             </Grid>
 
                             <Grid style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', padding: '.5rem', borderRadius: '.375rem' }} className='button-sports'>
-                                <span style={{ fontSize: '14px' }}>Categorias</span>
+                                <Link
+                                    style={{ textDecoration: 'none' }}
+                                    
+                                    to="/plataform/explore?tipo=categories"
+                                >
+                                    <span style={{ fontSize: '14px' }}>Categorias</span>
+                                </Link>
                             </Grid>
                         </Grid>
 
@@ -272,7 +293,7 @@ function NLayout(props) {
 
             <Grid style={{ width: props.tyExpanded ? '85%' : '95%', display: 'flex', flexDirection: 'column', zIndex: 99999 }}>
                 {
-                    props.user?.lenght ?
+                    !props.user.NameUser ?
                         <Grid style={{ borderBottom: '1px solid #2a2e38', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.3rem 5.8rem', position: 'sticky', top: 0, zIndex: 9999, backgroundColor: '#080808' }}>
                             <Link to='/'>
 
@@ -281,7 +302,8 @@ function NLayout(props) {
                                     src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
                                     style={{ width: "15%" }}
                                     alt=""
-                                /></Link>
+                                />
+                            </Link>
                             <Grid style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                                 <h6
                                     onClick={() => togglePopupAuth(0)}
@@ -303,11 +325,15 @@ function NLayout(props) {
 
 
                         <Grid style={{ borderBottom: '1px solid #2a2e38', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.3rem 5.8rem', position: 'sticky', top: 0, zIndex: 9999, backgroundColor: '#080808' }}>
-                            <img
-                                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
-                                style={{ width: "15%" }}
-                                alt=""
-                            />
+                            <Link to='/' style={{ width: "15%" }}>
+
+
+                                <img
+                                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
+                                    style={{ width: "100%" }}
+                                    alt=""
+                                />
+                            </Link>
 
                             <Grid style={{ display: 'flex', alignItems: 'center' }}>
                                 <div
@@ -368,10 +394,96 @@ function NLayout(props) {
                                             top: "2px",
                                         }}
                                         className="navbar-image-avatar"
+
+                                        onMouseEnter={() => habilitarSubMenu(true)}
+                                        onMouseLeave={() => habilitarSubMenu(false)}
                                     >
                                         <img src={'/images/pixel.png'} alt="" />
                                     </div>
                                 </div>
+
+                                {
+                                    subMenu && (
+                                        <Grid onMouseEnter={() => habilitarSubMenu(true)} onMouseLeave={() => habilitarSubMenu(false)} style={{ backgroundColor: '#121418', height: '50vh', position: 'absolute', padding: '1rem', width: '16.25rem', right: '105px', borderRadius: '5px', zIndex: 99999 }}>
+
+                                            <Grid style={{ backgroundColor: '#202329', borderRadius: '5px', display: 'flex', flexDirection: 'column', padding: '1rem' }}>
+
+                                                <Grid style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: 10, borderBottom: '1px solid #2a2e38' }}>
+                                                    <img src={props.user?.Avatar ?? '/images/pixel.png'} alt="" style={{ width: '20%', height: '20%', borderRadius: '50%' }} />
+                                                    <Link
+                                                        style={{ textDecoration: "none", margin: 0, padding: 0 }}
+                                                        to={"/" + props.user.NameUser}
+
+                                                    >
+                                                        <Typography style={{ color: 'white', fontSize: '1rem', fontWeight: 500 }}>{props.user?.NameUser ?? 'Usuario'}</Typography>
+
+                                                    </Link>
+                                                </Grid>
+
+                                                <Grid style={{ marginTop: '5px' }} >
+                                                    <Link
+
+                                                        style={{ textDecoration: "none" }}
+                                                        to={"/" + props.user.NameUser + "/settings"}
+                                                    >
+                                                        <Typography style={{ color: 'white', fontSize: '12px', fontWeight: 500 }}>Ajustes de tu cuenta </Typography>
+                                                    </Link>
+                                                </Grid>
+                                            </Grid>
+
+                                            <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '15px', marginTop: '15px' }}>
+                                                <Grid >
+                                                    <Link
+                                                        className="dropdownaccount-link"
+                                                        to={"/" + props.user.NameUser}
+                                                        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                                                    >
+                                                        <i style={{ marginRight: "10px" }} class="fas fa-user"></i>
+                                                        Tu canal
+                                                    </Link>
+                                                </Grid>
+                                                <Grid >
+                                                    <Link
+                                                        className="dropdownaccount-link"
+                                                        to={"/" + props.user.NameUser + "/dashboard/stream"}
+                                                        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                                                    >
+                                                        <i style={{ marginRight: "10px" }} class="fas fa-sliders-h"></i>
+                                                        Panel de control del creador
+                                                    </Link>
+                                                </Grid>
+                                                <Grid >
+                                                    <Link
+                                                        className="dropdownaccount-link"
+                                                        to="/plataform/cartera"
+                                                        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                                                    >
+                                                        <i style={{ marginRight: "10px" }} class="fas fa-wallet"></i>
+                                                        Cartera
+                                                    </Link>
+                                                </Grid>
+                                                <Grid >
+                                                    <div
+                                                        className="dropdownaccount-link"
+                                                        onClick={() => handleLogout()}
+                                                    >
+                                                        <i
+                                                            style={{ marginRight: "10px" }}
+                                                            class="fas fa-sign-out-alt"
+                                                        ></i>{" "}
+                                                        Cerrar sesión
+                                                    </div>
+                                                </Grid>
+
+
+
+
+                                            </Grid>
+
+                                        </Grid>
+
+                                    )
+                                }
                             </Grid>
 
 
@@ -382,6 +494,7 @@ function NLayout(props) {
 
                 <Grid style={{ padding: '2rem 5.8rem', width: '100%' }}>
                     {props.children}
+
 
                     {showPopupAuth === true && (
                         <Auth

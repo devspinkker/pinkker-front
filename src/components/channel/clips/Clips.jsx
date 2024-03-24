@@ -140,7 +140,7 @@ export default function Clips(props) {
           id="container_clip"
           style={{
             position: "fixed",
-            top: 0,
+            top: '10px !important',
             left: 0,
             width: "100%",
             height: "100%",

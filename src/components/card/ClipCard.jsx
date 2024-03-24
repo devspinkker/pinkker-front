@@ -69,23 +69,26 @@ export default function ClipCard({ video, ...props }) {
           style={{
             borderRadius: "5px",
             width: "350px",
-            height: props.height,
-            objectFit: "cover",
+            
+            
           }}
-          src={video.streamThumbnail}
+          src={video?.streamThumbnail ?? video?.Avatar}
           alt=""
         />
         <div
-          style={{ marginLeft: "10px", display: "flex", alignItems: "center" }}
+          style={{  display: "flex", alignItems: "center" }}
         >
           <img
-            style={{ width: "35px", borderRadius: "50px", marginTop: "10px" }}
+            style={{ width: "35px", marginTop: "10px" }}
             src={video.Avatar}
           />
-          <div style={{ marginTop: "10px", marginLeft: "5px" }}>
-            <h4 style={{ color: "white", fontSize: "14px" }}>{props?.title}</h4>
-            <p style={{ fontSize: "15px", fontWeight: "bold" }}>
-              {video?.nameUserCreator}
+          <div style={{ marginTop: "10px", marginLeft: "5px", display:'flex', gap:'2px', flexDirection:'column' }}>
+            <h4 style={{ color: "white", fontSize: "14px" }}>{video?.clipTitle}</h4>
+            <p style={{ fontSize: "12px" }}>
+             {video?.streamerId}
+            </p>
+            <p style={{ fontSize: "10px" }}>
+             Clipeado por {video?.nameUserCreator}
             </p>
           </div>
         </div>
@@ -113,8 +116,9 @@ export default function ClipCard({ video, ...props }) {
             className="clipcard-duration"
           >
             <i style={{ marginRight: "2px" }} class="fas fa-play" />{" "}
-            {props.views}
+            {video.views}
           </p>
+
         </div>
       </div>
     </div>

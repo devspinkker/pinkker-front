@@ -38,10 +38,14 @@
       width: 100%;
       text-decoration: none;
       color: #fff;
-      padding: 16px;
       font-weight: 400;
+      transition: color 1s ease;
     }
 
+    .dropdownaccount-link:hover{
+      cursor: pointer;
+      color:#cf5481;
+    }
     .dropdownaccount-button {
       background: none;
       border: none;
