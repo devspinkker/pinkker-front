@@ -190,7 +190,7 @@ const Home = ({
   }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  console.log('currentIndex', currentIndex);
+
   const fetchMoreData = (direction) => {
     const increment = direction === "right" ? 1 : -1;
     const newIndex = currentIndex + increment;

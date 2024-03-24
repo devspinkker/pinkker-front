@@ -15,8 +15,6 @@ function CanalesRecomendados(props) {
         }
     };
 
-
-    console.log('props.expanded', props)
     return (
 
 
