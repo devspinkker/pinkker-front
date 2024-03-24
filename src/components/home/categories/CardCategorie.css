@@ -211,14 +211,13 @@
 
 .custom-categories-p-2-spectators {
     text-align: center;
-    font-weight: bold;
     color: #a4aec6;
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .custom-categories-p-2-spectators>span {
     padding: 5px;
-    font-weight: 900;
     color: #ffff;
+    font-family:'proxima-nova',sans-serif;
 
 }

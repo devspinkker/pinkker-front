@@ -13,7 +13,7 @@ import {
 } from "../../../services/backGo/streams";
 
 import { useSelector } from "react-redux";
-import { Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Search from "../../navbar/search/Search";
 import Card from "../../home/categories/CardStream";
 import ClipTendencyCard from "../../tendency/card/ClipTendencyCard";
@@ -24,7 +24,7 @@ import {
 import CustomSelect from "./CustomSelect";
 import SelectVideoClip from "../../home/clips/SelectVideoClip";
 
-export default function ExploreCategories({ isMobile }) {
+export default function ExploreCategories({ isMobile , tyExpanded}) {
   const history = useHistory();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
@@ -133,9 +133,13 @@ export default function ExploreCategories({ isMobile }) {
 
   return (
     <div className="explorecategories-body">
+      <Grid style={{display:'flex', alignItems:'center', justifyContent:'space-between', borderBottom: '1px solid rgb(42, 46, 56)'}}>
+        <h3 style={{color:'white', fontSize:'30px'}}>Categorias</h3>
+        <img src={'/images/asd.png'} style={{width:'10%'}}/>
+      </Grid>
       <div>{isMobile && <Search isMobile={isMobile} />}</div>
-      <div className="type-set">
-        <div
+      
+        {/* <div
           style={{
             background: barPosition == 0 ? "#343843" : "",
           }}
@@ -162,13 +166,13 @@ export default function ExploreCategories({ isMobile }) {
           className={"type-card"}
         >
           <h3>Clips</h3>
-        </div>
+        </div> */}
 
         {/* <div
           className="type-line"
           style={{ left: `calc(${barPosition} * 48px)` }}
         ></div> */}
-      </div>
+      
 
       <div className="explorecategories-card-container">
         {isLoading && (
@@ -213,7 +217,7 @@ export default function ExploreCategories({ isMobile }) {
               }}
             >
               <div className="explorecategories-card-container-filters">
-                <div className="explorecategories-card-container-filter-input">
+                <div className="explorecategories-card-container-filter-input" >
                   <i
                     style={{ fontSize: "16px", color: "rgb(89 89 89)" }}
                     class="fas fa-search navbar-search-i"

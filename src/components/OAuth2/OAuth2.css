@@ -78,8 +78,7 @@ button {
 .OAuth2Login-button {
     cursor: pointer;
     font-weight: 700;
-    font-size: 19px;
-    line-height: 1.25;
+    font-size: 0.875rem;
     color: #fff;
     border: none;
     width: 100%;

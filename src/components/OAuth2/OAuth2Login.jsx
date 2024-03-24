@@ -15,7 +15,7 @@ export default function OAuth2Login() {
   return (
     <div className="OAuth2Login">
       <span className="OAuth2Login-button" onClick={handleGoogleLogin}>
-        Iniciar sesión con google
+        <img src={'/images/google.svg'} /> Google
       </span>
     </div>
   );

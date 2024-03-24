@@ -290,7 +290,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
       return (
         <div className="auth-content">
           <div className="auth-content-input">
-            <p>Nombre de usuario</p>
+            <p style={{ fontSize: '12px', fontFamily: 'inter' }}>Username*</p>
             <input
               id="identifierId"
               onChange={(e) => setlUsername(e.target.value)}
@@ -299,25 +299,24 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           </div>
 
           <div className="auth-content-input">
-            <p>Contraseña</p>
+            <p style={{ fontSize: '12px', fontFamily: 'inter' }}>Contraseña</p>
             <input
               onChange={(e) => setlPassword(e.target.value)}
               type="password"
             />
           </div>
 
-          <a onClick={() => setType(2)}>
+          <a onClick={() => setType(2)} style={{padding:0}}>
             <p
               className=""
               style={{
                 fontSize: "12px",
-                margin: "10px auto",
+                textAlign: "end",
                 color: "#ff64b0",
                 cursor: "pointer",
               }}
             >
-              {" "}
-              <span>¿Tienes problemas para iniciar sesión?</span>
+              ¿Tienes problemas para iniciar sesión?
             </p>
           </a>
 
@@ -332,10 +331,11 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           <button onClick={() => handleSubmit()} className="auth-button-login">
             Iniciar Sesión
           </button>
-          {/* <OAuth2Login
+          <p style={{fontSize:'12px', fontFamily:'inter', textAlign:'center', margin:'15px 0px'}}>Or continue with</p>
+          <OAuth2Login
             className="OAuth2Login"
             style={{ marginTop: "5px", marginBottom: "10px" }}
-          ></OAuth2Login> */}
+          ></OAuth2Login>
         </div>
       );
     }
@@ -345,14 +345,14 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           {!CodeConfirm ? (
             <div className="auth-content">
               <div className="auth-content-input">
-                <p>
-                  Nombre de usuario{" "}
-                  {errorUserName != null && errorUserName != "" && (
+                <p style={{ fontSize: '12px', fontFamily: 'inter' }}>
+                  Username*{" "}
+                  {/* {errorUserName != null && errorUserName != "" && (
                     <i
                       style={{ color: "#EB0400", marginLeft: "109px" }}
                       class="fas fa-exclamation-circle"
                     />
-                  )}{" "}
+                  )}{" "} */}
                   {errorUserName === "" && (
                     <i
                       style={{ color: "lightgreen", marginLeft: "109px" }}
@@ -371,31 +371,65 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                 />
                 <p
                   style={{
-                    fontSize: "10px",
+                    fontSize: "12px",
                     color: "rgb(228, 122, 122)",
                     marginTop: "5px",
+                    fontFamily: 'inter'
                   }}
                 >
                   {errorUserName}
                 </p>
               </div>
-              <div className="auth-content-input">
-                <p>Nombre completo</p>
+              {/* <div className="auth-content-input">
+                <p style={{fontSize:'12px', fontFamily:'inter'}}>Nombre completo</p>
                 <input
                   id="identifierId"
                   onChange={(e) => setFullName(e.target.value)}
                   type="text"
                 />
+              </div> */}
+              <div className="auth-content-input">
+                <p style={{ fontSize: '12px', fontFamily: 'inter' }}>
+                  Email*{" "}
+                  {/* {errorEmail != null && errorEmail != "" && (
+                    <i
+                      style={{ color: "#EB0400", marginLeft: "109px" }}
+                      class="fas fa-exclamation-circle"
+                    />
+                  )}{" "} */}
+                  {errorEmail === "" && (
+                    <i
+                      style={{ color: "lightgreen", marginLeft: "109px" }}
+                      class="fas fa-check-circle"
+                    />
+                  )}
+                </p>
+                <input
+                  className={
+                    errorEmail != null && errorEmail != "" && "input-error"
+                  }
+                  onChange={(e) => onChangeEmail(e.target.value)}
+                  type="text"
+                />
+                <p
+                  style={{
+                    fontSize: "10px",
+                    color: "rgb(228, 122, 122)",
+                    marginTop: "5px",
+                  }}
+                >
+                  {errorEmail}
+                </p>
               </div>
               <div className="auth-content-input">
-                <p>
-                  Contraseña{" "}
-                  {errorPassword != null && errorPassword != "" && (
+                <p style={{ fontSize: '12px', fontFamily: 'inter' }}>
+                  Password*{" "}
+                  {/* {errorPassword != null && errorPassword != "" && (
                     <i
                       style={{ color: "#EB0400", marginLeft: "159px" }}
                       class="fas fa-exclamation-circle"
                     />
-                  )}{" "}
+                  )}{" "} */}
                   {errorPassword === "" && (
                     <i
                       style={{ color: "lightgreen", marginLeft: "159px" }}
@@ -422,8 +456,8 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                   {errorPassword}
                 </p>
               </div>
-              <div className="auth-content-input">
-                <p>
+              {/* <div className="auth-content-input">
+                <p style={{fontSize:'12px', fontFamily:'inter'}}>
                   Confirmar contraseña{" "}
                   {errorConfirmPassword != null &&
                     errorConfirmPassword != "" && (
@@ -457,40 +491,8 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                 >
                   {errorConfirmPassword}
                 </p>
-              </div>
-              <div className="auth-content-input">
-                <p>
-                  Correo electrónico{" "}
-                  {errorEmail != null && errorEmail != "" && (
-                    <i
-                      style={{ color: "#EB0400", marginLeft: "109px" }}
-                      class="fas fa-exclamation-circle"
-                    />
-                  )}{" "}
-                  {errorEmail === "" && (
-                    <i
-                      style={{ color: "lightgreen", marginLeft: "109px" }}
-                      class="fas fa-check-circle"
-                    />
-                  )}
-                </p>
-                <input
-                  className={
-                    errorEmail != null && errorEmail != "" && "input-error"
-                  }
-                  onChange={(e) => onChangeEmail(e.target.value)}
-                  type="text"
-                />
-                <p
-                  style={{
-                    fontSize: "10px",
-                    color: "rgb(228, 122, 122)",
-                    marginTop: "5px",
-                  }}
-                >
-                  {errorEmail}
-                </p>
-              </div>
+              </div> */}
+
               {/* <div className="auth-content-input">
                 <p>Fecha de nacimiento</p>
                 <div style={{ display: "flex", alignItems: "center" }}>
@@ -527,18 +529,18 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                 </div>
               </div> */}
               <div className="auth-text">
+                <input type="checkbox" style={{ width: '5%', border: 0 }} />
                 <p
                   className=""
-                  style={{ fontSize: "11px", margin: "10px auto" }}
+                  style={{ fontSize: "11px" }}
                 >
-                  Al hacer clic en Registrarse, indicas que has leído y aceptas
-                  los <br />{" "}
+                  I agree to the
                   <a style={{ color: "#ff64b0", cursor: "pointer" }}>
-                    Términos del servicio
+                    Terms & Conditions
                   </a>{" "}
-                  y el{" "}
+                  and{" "}
                   <a style={{ color: "#ff64b0", cursor: "pointer" }}>
-                    Aviso de privacidad.
+                    Privacy Policy.
                   </a>
                 </p>
               </div>
@@ -553,13 +555,13 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                 <div>
                   <p style={{ color: "rgb(228, 122, 122)" }}>
                     {/* {errorUserName} */}
-                    {errorConfirmPassword != null &&
+                    {/* {errorConfirmPassword != null &&
                       errorConfirmPassword != "" && (
                         <i
                           style={{ color: "#EB0400", marginLeft: "83px" }}
                           class="fas fa-exclamation-circle"
                         />
-                      )}{" "}
+                      )}{" "} */}
                   </p>
                 </div>
               )}
@@ -569,6 +571,11 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               >
                 Registrarse
               </button>
+              <p style={{fontSize:'12px', fontFamily:'inter', textAlign:'center', margin:'15px 0px'}}>Or continue with</p>
+          <OAuth2Login
+            className="OAuth2Login"
+            style={{ marginTop: "5px", marginBottom: "10px" }}
+          ></OAuth2Login>
               {/*<button onClick={() => setStep(1)} className="auth-button-login">Siguiente paso</button>*/}
             </div>
           ) : (
@@ -706,8 +713,8 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
 
   return (
     <div className="auth-body-container">
-      <div className={type === 0 ? "auth-body" : "auth-body-type1"}>
-      <div className={type === 0 ? "auth-info" : "auth-info-type1"}>
+      <div className={"auth-body"}>
+        <div className={"auth-info"}>
           <div style={{ width: "100%", height: "50%" }}>
             <div
               style={{
@@ -742,15 +749,15 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               </div> */}
             </div>
           </div>
-         
+
         </div>
-        
+
         <div
           onKeyPress={(event) => onKeyPressInput(event)}
-          className={type === 0 ? "auth-container" : "auth-container-type1"}
+          className={"auth-container"}
         >
           <div style={{ width: "100%" }}>
-            {type === 0 ? (
+            {/* {type === 0 ? (
               <h3
                 style={{
                   color: "#ededed",
@@ -783,25 +790,27 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                 />{" "}
                 Registrarse en Pinkker
               </h3>
-            )}
+            )} */}
 
             <div className="auth-title">
-              {/* <div
-              onClick={() => setType(0)}
-              className={
-                type === 0 ? "auth-title-card active" : "auth-title-card"
-              }
-            >
-              <h6 style={{ color: "#ededed" }}>Login</h6>
-            </div> */}
-              {/* <div
-              onClick={() => setType(0)}
-              className={
-                type === 1 ? "auth-title-card active" : "auth-title-card"
-              }
-            >
-              <h6 style={{ color: "#ededed" }}>Register</h6>  
-            </div> */}
+
+              <div
+                onClick={() => setType(1)}
+                className={
+                  type === 1 ? "auth-title-card active" : "auth-title-card"
+                }
+              >
+                <h6 style={{ color: "#ededed", fontFamily: 'Inter', fontWeight: 'bold' }}>Register</h6>
+              </div>
+
+              <div
+                onClick={() => setType(0)}
+                className={
+                  type === 0 ? "auth-title-card active" : "auth-title-card"
+                }
+              >
+                <h6 style={{ color: "#ededed", fontFamily: 'Inter', fontWeight: 'bold' }}>Login</h6>
+              </div>
             </div>
 
             {getType()}
@@ -816,7 +825,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           </div>
         </div>
 
-        
+
       </div>
     </div>
   );

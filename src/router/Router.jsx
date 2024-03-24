@@ -238,7 +238,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/explore">
 
-              <Explore isMobile={isMobile} />
+              <Explore isMobile={isMobile} tyExpanded={!expanded} />
             </Route>
 
             <Route exact path="/plataform/cartera">

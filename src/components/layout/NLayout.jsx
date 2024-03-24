@@ -272,7 +272,7 @@ function NLayout(props) {
 
             <Grid style={{ width: props.tyExpanded ? '85%' : '95%', display: 'flex', flexDirection: 'column', zIndex: 99999 }}>
                 {
-                    !props.user?.lenght ?
+                    props.user?.lenght ?
                         <Grid style={{ borderBottom: '1px solid #2a2e38', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.3rem 5.8rem', position: 'sticky', top: 0, zIndex: 9999, backgroundColor: '#080808' }}>
                             <Link to='/'>
 
