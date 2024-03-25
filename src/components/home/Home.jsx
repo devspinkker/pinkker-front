@@ -38,16 +38,6 @@ const Home = ({
   handleMessage,
 }) => {
   const [streams, setStreams] = useState(null);
-  const [user, isLogged] = useState();
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getCategoriesWithLimit(25);
-      if (response != null && response != undefined) {
-        setStreams(response.data);
-      }
-    };
-    fetchData();
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,9 +45,6 @@ const Home = ({
       let res = await getUserByIdTheToken("token");
       if (res.error) {
         console.log("no logeado");
-      }
-      if (res != null && res != undefined) {
-        isLogged(res.data);
       }
     };
     fetchData();
@@ -131,6 +118,7 @@ const Home = ({
     const fetchData = async () => {
       const getCategoriesWithLimitData = await getCategoriesWithLimit();
       if (getCategoriesWithLimitData?.message == "ok") {
+        console.log("ns");
         setCategories(getCategoriesWithLimitData.data);
       }
     };
@@ -190,7 +178,6 @@ const Home = ({
   }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-
   const fetchMoreData = (direction) => {
     const increment = direction === "right" ? 1 : -1;
     const newIndex = currentIndex + increment;
@@ -200,15 +187,15 @@ const Home = ({
     }
   };
 
-  const [color, setColor] = useState("")
+  const [color, setColor] = useState("");
 
   const generateColor = () => {
     setColor(Math.random().toString(16).substr(-6));
   };
- 
+
   useEffect(() => {
-    generateColor()
-  },[])
+    generateColor();
+  }, []);
   return (
     <div
       style={{
@@ -668,15 +655,24 @@ const Home = ({
       />
       <div className="categories-home-container">
         <div className="categories-home-manager">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width:'80%' }}>
-          <img src="/images/original.svg" style={{width:'2.5%'}} />
-          <h2 style={{ fontFamily: 'Inter', color:'white' }}>Categorias</h2>
-        </div>
-          
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              width: "80%",
+            }}
+          >
+            <img src="/images/original.svg" style={{ width: "2.5%" }} />
+            <h2 style={{ fontFamily: "Inter", color: "white" }}>Categorias</h2>
+          </div>
+
           <div className="manager-recommended-actions">
             <div className="manager-recommended-actions-ver-todos">
               <Link to="/plataform/explore?tipo=categories">
-                <span style={{fontFamily:'Signika Negative'}}>Ver todos</span>
+                <span style={{ fontFamily: "Signika Negative" }}>
+                  Ver todos
+                </span>
               </Link>
             </div>
             <div className="manager-recommended-actions-arrow">
@@ -712,15 +708,16 @@ const Home = ({
                 <div
                   style={{ marginRight: "9px", marginTop: "30px" }}
                   key={index}
-                  
                 >
                   <Skeleton
                     variant="rectangular"
                     width={150}
                     height={226}
-                    style={{ backgroundColor: "#" + color, borderRadius: '5px' }}
+                    style={{
+                      backgroundColor: "#" + color,
+                      borderRadius: "5px",
+                    }}
                   />
-                  
                 </div>
               ))}
             </div>
@@ -739,7 +736,7 @@ const Home = ({
             ))}
         </div>
       </div>
-      
+
       {!isMobile && <Clips isMobile={isMobile} />}
       <div
         style={{
