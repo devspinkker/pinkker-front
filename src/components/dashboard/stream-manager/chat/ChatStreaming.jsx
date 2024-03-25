@@ -6,7 +6,11 @@ import "./ChatStreaming.css";
 import DonationCard from "../../../channel/chat/donation/card/DonationCard";
 import { GetPixelesDonationsChat } from "../../../../services/backGo/donation";
 import Donation from "../../../channel/chat/donation/card/Donation";
-import { GetSubssChat, suscribirse } from "../../../../services/backGo/subs";
+import {
+  GetSubsAct,
+  GetSubssChat,
+  suscribirse,
+} from "../../../../services/backGo/subs";
 import Tippy from "@tippyjs/react";
 import DropdownPoints from "../../../channel/chat/dropdown/points/DropdownPoints";
 import {
@@ -48,12 +52,12 @@ export function ChatStreaming({
   const [GetInfoUserInRoom, setGetInfoUserInRoom] = useState(null);
   const [StateDonations, setStateDonations] = useState(false);
   const [messagesold, setMessageold] = useState([]);
-
+  const [SubStateAct, SetSubStateAct] = useState(false);
+  const [FollowParamOwnner, SetFollowParamOwner] = useState(false);
   const alert = useNotification();
   const history = useHistory();
 
   let stopIteration = true;
-
   useEffect(() => {
     const timer = setTimeout(async () => {
       stopIteration = false;
@@ -65,6 +69,7 @@ export function ChatStreaming({
     if (isMobile) {
       ToggleChat(false);
     }
+
     const token = window.localStorage.getItem("token");
     const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
     const newSocket = new WebSocket(
@@ -83,6 +88,7 @@ export function ChatStreaming({
             scrollToBottom();
           } else {
             setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+            console.log(receivedMessage);
             scrollToBottom();
           }
         } catch (error) {
@@ -116,6 +122,23 @@ export function ChatStreaming({
       }
     };
   }, [history]);
+  useEffect(() => {
+    const fetchGetSubsAct = async () => {
+      const res = await GetSubsAct(user?.id, streamerData?.id);
+
+      if (res?.data && res?.message === "ok") {
+        SetSubStateAct(true);
+      } else {
+        SetSubStateAct(false);
+      }
+    };
+    if (user?.id !== streamerData?.id) {
+      fetchGetSubsAct();
+    } else {
+      SetSubStateAct(true);
+      SetFollowParamOwner(true);
+    }
+  }, []);
   useEffect(() => {
     const pingInterval = setInterval(() => {
       if (socket && socket.readyState === WebSocket.OPEN) {
@@ -215,6 +238,7 @@ export function ChatStreaming({
   const [allDonationsExpanded, setAllDonationsExpanded] = useState(false);
   const [movil, setMovil] = useState(false);
   useEffect(() => {
+    console.log(streamerChat);
     if (window.innerWidth <= 768) {
       setMovil(true);
     } else {
@@ -440,7 +464,10 @@ export function ChatStreaming({
 
   const sendMessage = async () => {
     setMessage("");
-    if (streamerChat?.ModChat == "Following" && followParam) {
+    if (
+      streamerChat?.ModChat == "Following" &&
+      (followParam || FollowParamOwnner)
+    ) {
       try {
         const token = window.localStorage.getItem("token");
         if (!token) {
@@ -514,6 +541,7 @@ export function ChatStreaming({
     const res = await getUserByNameUser(message.nameUser);
     if (res.message == "ok") {
       setGetUserTheChat(res.data);
+
       setShowGetUserTheChat(true);
       if (user?.Following.hasOwnProperty(res?.data.id)) {
         setGetUserTheChatFollowing(true);
@@ -600,13 +628,13 @@ export function ChatStreaming({
         <img
           onClick={ToggleChat}
           style={{
-            width: "16px",
+            width: "12px",
             cursor: "pointer",
             textAlign: "center",
             color: "white",
             position: "fixed",
             right: "10px",
-            top: "110px",
+            top: "70px",
             transform: "rotate(180deg)",
             zIndex: "99999",
           }}
@@ -618,13 +646,13 @@ export function ChatStreaming({
         <img
           onClick={ToggleChat}
           style={{
-            width: "16px",
+            width: "12px",
             cursor: "pointer",
             textAlign: "center",
             color: "white",
             position: "fixed",
             right: "24%",
-            top: "110px",
+            top: "70px",
             zIndex: "99999",
           }}
           className="chat-button-more"
@@ -635,13 +663,13 @@ export function ChatStreaming({
         <img
           onClick={ToggleChat}
           style={{
-            width: "16px",
+            width: "12px",
             cursor: "pointer",
             textAlign: "center",
             color: "white",
             position: "fixed",
             // right: "24%",
-            top: "110",
+            top: "80px",
             right: "20px",
             zIndex: "99999",
           }}
@@ -894,16 +922,24 @@ export function ChatStreaming({
             <div className="MessagesChat">
               <div className="badges">
                 {message.EmotesChat.Moderator && (
-                  <img src={message.EmotesChat.Moderator} alt="" />
+                  <img src={message.EmotesChat.Moderator} alt="Moderator" />
                 )}
                 {message.EmotesChat.Verified && (
-                  <img src={message.EmotesChat.Verified} alt="" />
+                  <img src={message.EmotesChat.Verified} alt="Verified" />
                 )}
                 {message.EmotesChat.Vip && (
-                  <img src={message.EmotesChat.Vip} alt="" />
+                  <img src={message.EmotesChat.Vip} alt="Vip" />
                 )}
                 {isSubscriptor(message) && (
-                  <img src={isSubscriptor(message)} alt="" />
+                  <img src={isSubscriptor(message)} alt="iubscriptor" />
+                )}
+                {message?.StreamerChannelOwner && (
+                  <img
+                    src={
+                      "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/2"
+                    }
+                    alt="StreamerChannelOwner"
+                  />
                 )}
               </div>
               <div className="content-info-message">
@@ -953,6 +989,14 @@ export function ChatStreaming({
                 {isSubscriptor(message) && (
                   <img src={isSubscriptor(message)} alt="" />
                 )}
+                {message?.StreamerChannelOwner && (
+                  <img
+                    src={
+                      "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/2"
+                    }
+                    alt="StreamerChannelOwner"
+                  />
+                )}
               </div>
               <div className="content-info-message">
                 <div className="content-info-message-2">
@@ -974,7 +1018,51 @@ export function ChatStreaming({
         ))}
       </div>
       <div className="actions-chat-conteiner">
-        {streamerChat?.ModChat == "Following" && followParam && (
+        {streamerChat?.ModChat === "Following" &&
+          (followParam || FollowParamOwnner) && (
+            <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                value={message}
+                placeholder="Enviar un mensaje"
+                onChange={handleChange}
+              />
+            </form>
+          )}
+        {streamerChat?.ModChat === "Following" &&
+          !followParam &&
+          !FollowParamOwnner && (
+            <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{
+                  padding: "9px",
+                  background: "#171a1f",
+                  border: "#545658 1px solid",
+                  borderRight: "none",
+                }}
+              >
+                <path
+                  d="M11.75 6.25V1H4.75V6.25H3V15H13.5V6.25H11.75ZM6.5 2.75H10V6.25H6.5V2.75ZM10.4375 10.625H9.125V12.375H7.375V10.625H6.0625V8.875H10.4375V10.625Z"
+                  fill="#ffff"
+                ></path>
+              </svg>
+              <input
+                style={{
+                  borderRadius: "0px 5px 5px 0px",
+                  borderLeft: "none",
+                }}
+                type="text"
+                // value={message}
+                placeholder="solo seguidores"
+                // onChange={handleChange}
+              />
+            </form>
+          )}
+        {streamerChat?.ModChat === "Subscriptions" && SubStateAct && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
             <input
               type="text"
@@ -984,7 +1072,7 @@ export function ChatStreaming({
             />
           </form>
         )}
-        {streamerChat?.ModChat == "Following" && !followParam && (
+        {streamerChat?.ModChat === "Subscriptions" && !SubStateAct && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
             <svg
               width="20"
@@ -1010,7 +1098,7 @@ export function ChatStreaming({
               }}
               type="text"
               // value={message}
-              placeholder="solo seguidores"
+              placeholder="solo suscriptores"
               // onChange={handleChange}
             />
           </form>

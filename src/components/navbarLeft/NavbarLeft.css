@@ -640,10 +640,10 @@
 .pixel-coming-soon-text-pixel {
   font-weight: bold;
   padding-right: 3px;
-  transition: all .2s ;
+  transition: all .2s;
 }
 
-.pixel-coming-soon-text-pixel:hover{
+.pixel-coming-soon-text-pixel:hover {
   color: #856ffc;
   cursor: pointer;
 }

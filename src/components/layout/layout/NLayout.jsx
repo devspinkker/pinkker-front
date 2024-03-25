@@ -52,7 +52,7 @@ function NLayout(props) {
       <Grid
         style={{
           maxWidth: props.tyExpanded ? "15%" : "4%",
-          transition: "all 0.5s ease-in-out",
+          transition: "all 1s ease-in-out",
           border: "1px solid #2a2e38",
           height: "100vh",
           backgroundColor: "#121418",
@@ -64,9 +64,7 @@ function NLayout(props) {
         <Grid
           style={{
             padding: props.tyExpanded ? "1.3rem 5px" : "1.8rem 5px",
-            // border: "1px solid #2a2e38",
-            // borderRight: "none",
-            // borderLeft: "none",
+            border: "1px solid #2a2e38",
             width: "100%",
             display: "flex",
             alignItems: "center",
@@ -139,7 +137,6 @@ function NLayout(props) {
           style={{
             padding: "1.3rem 5px",
             border: "1px solid #2a2e38",
-            borderRight: "none",
             width: "100%",
             display: "flex",
             flexDirection: props.tyExpanded ? "row" : "column",
@@ -186,14 +183,13 @@ function NLayout(props) {
             style={{
               padding: "1.3rem 5px",
               border: "1px solid #2a2e38",
-              borderRight: "none",
-              borderLeft: "none",
-              borderTop: "none",
+
               width: "100%",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-around",
               cursor: "pointer",
+              borderLeft: "none",
             }}
           >
             <div
@@ -377,7 +373,7 @@ function NLayout(props) {
                       backgroundColor: "#080808",
                       cursor: "pointer",
                       transform: abrir ? "rotate(0deg)" : "rotate(-180deg)",
-                      transition: "all 0.5s ",
+                      transition: "all 1s ",
                     }}
                     class={
                       props.abrir ? "fas fa-chevron-down" : "fas fa-chevron-up"
@@ -391,7 +387,7 @@ function NLayout(props) {
                     flexDirection: "column",
                     gap: "15px",
                     maxHeight: abrir ? "100% !important" : "0px !important",
-                    transition: "maxHeight 0.5s ease-out",
+                    transition: "maxHeight 1s ease-out",
                   }}
                 >
                   {[...Array(5)].map((_, index) => (
@@ -497,7 +493,7 @@ function NLayout(props) {
               backgroundColor: "#080808",
             }}
           >
-            <Link to="/" style={{ width: "200px" }}>
+            <Link to="/" style={{ width: "15%" }}>
               <img
                 src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
                 style={{ width: "100%" }}

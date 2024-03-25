@@ -56,7 +56,6 @@ import NavbarLeft from "../navbarLeft/NavbarLeft";
 import { useHistory } from "react-router-dom";
 import { follow, unfollow } from "../../services/backGo/user";
 import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
-import { Grid } from "@mui/material";
 
 export default function Channel({
   isMobile,
@@ -64,7 +63,6 @@ export default function Channel({
   expanded,
   handleMessage,
 }) {
-  const auth = useSelector((state) => state.auth);
   const [user, setUser] = useState(null);
   const token = useSelector((state) => state.token);
   const { streamer } = useParams();
@@ -366,6 +364,30 @@ export default function Channel({
       }
     }
   }, [stream]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const dataStream = await getStreamByUserName(streamer);
+
+        if (stream?.ModChat !== dataStream?.data?.ModChat) {
+          setStream((prevStream) => ({
+            ...prevStream,
+            ModChat: dataStream.data.ModChat,
+          }));
+        }
+        if (dataStream.data.online) {
+          expanded();
+        }
+      } catch (error) {
+        console.error("Error fetching stream data:", error);
+      }
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 6000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const [nameD, setNameD] = useState("Siguiendo");
 
@@ -1335,7 +1357,7 @@ export default function Channel({
                     {streamerData && announce === false && renderPlayer()}
                   </div>
                 ) : (
-                  <Grid className="channel-video"> <img src="/images/pinkker-stream.png" style={{width:'100%'}} /></Grid>
+                  <></>
                 )}
 
                 {renderAnnoucement()}
@@ -1412,15 +1434,17 @@ export default function Channel({
                   }}
                   className="channel-chat"
                 >
-                  <ChatStreaming
-                    streamerChat={stream}
-                    chatExpandeds={chatExpanded}
-                    ToggleChat={handleToggleChatMobile}
-                    streamerData={streamerData}
-                    user={user}
-                    isMobile={isMobile}
-                    followParam={followParam}
-                  />
+                  {isMobile && (
+                    <ChatStreaming
+                      streamerChat={stream}
+                      chatExpandeds={chatExpanded}
+                      ToggleChat={handleToggleChatMobile}
+                      streamerData={streamerData}
+                      user={user}
+                      isMobile={isMobile}
+                      followParam={followParam}
+                    />
+                  )}
                 </div>
               </div>
             </div>
