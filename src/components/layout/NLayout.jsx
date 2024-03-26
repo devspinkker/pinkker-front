@@ -51,7 +51,7 @@ function NLayout(props) {
     return (
         <Grid style={{ display: 'flex', flexDirection: 'row' }}>
             {/* GRID ASIDE */}
-            <Grid style={{ maxWidth: props.tyExpanded ? '15%' : '4%', transition: 'all 1s ease-in-out', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#121418', position: 'sticky', top: 0 }}>
+            <Grid style={{ width: props.tyExpanded ? '15%' : '4%', transition: 'width .2s ease-in-out', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#121418', position: 'sticky', top: 0 }}>
 
                 <Grid style={{ padding: props.tyExpanded ? '1.3rem 5px' : '1.8rem 5px', border: '1px solid #2a2e38', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                     <i
@@ -69,23 +69,25 @@ function NLayout(props) {
                     />
 
                     {
-                        props.tyExpanded &&
-                        <Grid style={{ display: 'flex', textAlign: 'center', alignItems: 'center', borderRadius: '.375rem', backgroundColor: '#2a2e38' }}>
-                            <Grid className='button-casino' style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', background: ' url(/images/mobile-tab-background-active.svg) rgb(119, 23, 255)', padding: '.5rem', borderRadius: '.375rem' }}>
-                                <span style={{ fontSize: '14px' }}>Directos </span>
-                            </Grid>
+                       
+                        
+                            props.tyExpanded &&
+                            <Grid style={{ display: 'flex', textAlign: 'center', alignItems: 'center', borderRadius: '.375rem', backgroundColor: '#2a2e38', transitionDelay: 'all 1s ease' }}>
+                                <Grid className='button-casino' style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', background: ' url("/images/mobile-tab-background-press.svg") #2a2e38', padding: '.5rem', borderRadius: '.375rem' }}>
+                                    <span style={{ fontSize: '14px' }}>Directos </span>
+                                </Grid>
 
-                            <Grid style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', padding: '.5rem', borderRadius: '.375rem' }} className='button-sports'>
-                                <Link
-                                    style={{ textDecoration: 'none' }}
-                                    
-                                    to="/plataform/explore?tipo=categories"
-                                >
-                                    <span style={{ fontSize: '14px' }}>Categorias</span>
-                                </Link>
-                            </Grid>
-                        </Grid>
+                                <Grid style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', padding: '.5rem', borderRadius: '.375rem' }} className='button-sports'>
+                                    <Link
+                                        style={{ textDecoration: 'none' }}
 
+                                        to="/plataform/explore?tipo=categories"
+                                    >
+                                        <span style={{ fontSize: '14px' }}>Categorias</span>
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                        
 
                     }
 

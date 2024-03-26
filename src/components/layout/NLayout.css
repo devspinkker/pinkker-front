@@ -1,25 +1,27 @@
 .menu-aside-option{
     width: 100%;
     transition: all .2s ease-in-out;
+    padding: 0;
 }
 
 .menu-aside-option:hover{
     color: #856ffc !important;
     cursor: pointer;
-    border-left: 1px solid #856ffc;
 }
 
 .item-li{
-    transition: all .2s ease-in-out;
+    width: 100%;
 }
 
 .item-li:hover{
     color: #856ffc !important;
     cursor: pointer;
+    border-left: 2px solid #856ffc;
+
 }
 
 .fa-bars{
-    transition: all 1s ;
+    transition: all .3s ease-in-out ;
 }
 .fa-bars:hover{
     color: rgb(119, 23, 255) !important;
@@ -32,6 +34,7 @@
 }
 
 .button-casino:hover{
-    background: url("/public/images/mobile-tab-background-press.svg") #2a2e38 !important;
+    background: url("/public/images/mobile-tab-background-active.svg") rgb(119, 23, 255) !important;
+    
     cursor: pointer;
 }
