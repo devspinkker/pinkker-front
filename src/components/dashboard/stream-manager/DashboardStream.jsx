@@ -24,13 +24,32 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
   const [mostrarditInfoStream, setditInfoStreamN] = useState(false);
   const [QuickActionShow, setQuickActionSHow] = useState(true);
   const [ChatOnliFollowers, setChatOnliFollowers] = useState(false);
+  const [ChatOnliSubs, setChatOnliSubs] = useState(false);
+
+  const toggleChatOnliSubs = async () => {
+    let token = window.localStorage.getItem("token");
+    if (token && ChatOnliSubs) {
+      await updateModChat(token, { title: "" });
+      setStreamerData({ ...streamerData, ModChat: "" });
+      setChatOnliFollowers(false);
+    } else {
+      await updateModChat(token, { title: "Subscriptions" });
+      setStreamerData({ ...streamerData, ModChat: "Subscriptions" });
+      setChatOnliFollowers(false);
+    }
+    setChatOnliSubs(!ChatOnliSubs);
+  };
 
   const toggleChatOnliFollowers = async () => {
     let token = window.localStorage.getItem("token");
-    if (token && streamerData?.ModChat == "Following") {
+    if (token && ChatOnliFollowers) {
       await updateModChat(token, { title: "" });
+      setStreamerData({ ...streamerData, ModChat: "" });
+      setChatOnliSubs(false);
     } else {
       await updateModChat(token, { title: "Following" });
+      setStreamerData({ ...streamerData, ModChat: "Following" });
+      setChatOnliSubs(false);
     }
     setChatOnliFollowers(!ChatOnliFollowers);
   };
@@ -59,11 +78,15 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
       if (dataStreamer != null && dataStreamer != undefined) {
         setStreamerData(dataStreamer.data);
 
-        console.log(dataStreamer.data);
         if (dataStreamer.data?.ModChat == "Following") {
           setChatOnliFollowers(true);
         } else {
           setChatOnliFollowers(false);
+        }
+        if (dataStreamer.data?.ModChat == "Subscriptions") {
+          setChatOnliSubs(true);
+        } else {
+          setChatOnliSubs(false);
         }
       }
 
@@ -812,6 +835,25 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                     </div>
                   </div>
                 </div>
+                <div className="flex flex-col gap-0.5">
+                  <div className="channel-actions-item !pb-0">
+                    <span>Chat sólo para suscriptores</span>
+                    <div id="base-toggle-wrapper" className="toggle-size-sm">
+                      <div
+                        onClick={() => toggleChatOnliSubs()}
+                        className="base-toggle"
+                      >
+                        <div
+                          style={{
+                            left: ChatOnliSubs && "16.4px",
+                            background: ChatOnliSubs && "#53fc18",
+                          }}
+                          className="base-toggle-indicator"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div className="channel-actions-item">
                   <span>Modo lento</span>
                   <div className="flex flex-row items-center gap-2">
@@ -830,16 +872,7 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col gap-0.5">
-                  <div className="channel-actions-item !pb-0">
-                    <span>Advanced bot protection</span>
-                    <div id="base-toggle-wrapper" className="toggle-size-sm">
-                      <div className="base-toggle">
-                        <div className="base-toggle-indicator"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
                 <div className="channel-actions-item channel-actions-link">
                   <span>Términos bloqueados</span>
                   <div

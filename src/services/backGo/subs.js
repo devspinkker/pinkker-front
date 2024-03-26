@@ -31,3 +31,13 @@ export async function GetSubssChat(Toid) {
         return error
     }
 }
+export async function GetSubsAct(source, Desti) {
+    try {
+        const response = await axios.get(
+            `${baseURL}/Subs/GetSubsAct?Source=${source}&Desti=${Desti}`
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}

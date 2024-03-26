@@ -34,32 +34,49 @@ function NLayout(props) {
 
   let expandido = pulse;
 
-    const [subMenu, setSubMenu] = useState(false);
-    const habilitarSubMenu = (valor) => {
+  const [subMenu, setSubMenu] = useState(false);
+  const habilitarSubMenu = (valor) => {
+    setTimeout(() => {
+      setSubMenu(valor);
+    }, [100]);
+  };
+  const handleLogout = async () => {
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("_id");
+    window.localStorage.removeItem("avatar");
+    window.location.href = "/";
+  };
+  return (
+    <Grid style={{ display: "flex", flexDirection: "row" }}>
+      {/* GRID ASIDE */}
+      <Grid
+        style={{
+          maxWidth: props.tyExpanded ? "15%" : "4%",
+          transition: "all 1s ease-in-out",
+          border: "1px solid #2a2e38",
+          height: "100vh",
+          backgroundColor: "#121418",
+          position: "sticky",
 
-        setTimeout(() => {
-            setSubMenu(valor);
-
-        }, [100])
-    }
-    const handleLogout = async () => {
-        window.localStorage.removeItem("token");
-        window.localStorage.removeItem("_id");
-        window.localStorage.removeItem("avatar");
-        window.location.href = "/";
-    };
-    return (
-        <Grid style={{ display: 'flex', flexDirection: 'row' }}>
-            {/* GRID ASIDE */}
-            <Grid style={{ width: props.tyExpanded ? '15%' : '4%', transition: 'width .2s ease-in-out', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#121418', position: 'sticky', top: 0 }}>
-
-                <Grid style={{ padding: props.tyExpanded ? '1.3rem 5px' : '1.8rem 5px', border: '1px solid #2a2e38', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-                    <i
-                        onClick={() => clickPulsedButton()}
-                        style={{
-                            cursor: "pointer",
-                            fontSize: props.tyExpanded ? "30px" : "30px",
-                            zIndex: "1000",
+          top: 0,
+        }}
+      >
+        <Grid
+          style={{
+            padding: props.tyExpanded ? "1.3rem 5px" : "1.8rem 5px",
+            border: "1px solid #2a2e38",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-around",
+          }}
+        >
+          <i
+            onClick={() => clickPulsedButton()}
+            style={{
+              cursor: "pointer",
+              fontSize: props.tyExpanded ? "30px" : "30px",
+              zIndex: "1000",
 
               // transform: expanded === false && "rotate(90deg)",
 
@@ -68,37 +85,58 @@ function NLayout(props) {
             className="fas fa-bars"
           />
 
-                    {
-                       
-                        
-                            props.tyExpanded &&
-                            <Grid style={{ display: 'flex', textAlign: 'center', alignItems: 'center', borderRadius: '.375rem', backgroundColor: '#2a2e38', transitionDelay: 'all 1s ease' }}>
-                                <Grid className='button-casino' style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', background: ' url("/images/mobile-tab-background-press.svg") #2a2e38', padding: '.5rem', borderRadius: '.375rem' }}>
-                                    <span style={{ fontSize: '14px' }}>Directos </span>
-                                </Grid>
+          {props.tyExpanded && (
+            <Grid
+              style={{
+                display: "flex",
+                textAlign: "center",
+                alignItems: "center",
+                borderRadius: ".375rem",
+                backgroundColor: "#2a2e38",
+              }}
+            >
+              <Grid
+                className="button-casino"
+                style={{
+                  height: "3rem",
+                  color: "white",
+                  display: "flex",
+                  alignItems: "center",
+                  background:
+                    " url(/images/mobile-tab-background-active.svg) rgb(119, 23, 255)",
+                  padding: ".5rem",
+                  borderRadius: ".375rem",
+                }}
+              >
+                <span style={{ fontSize: "14px" }}>Directos </span>
+              </Grid>
 
-                                <Grid style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', padding: '.5rem', borderRadius: '.375rem' }} className='button-sports'>
-                                    <Link
-                                        style={{ textDecoration: 'none' }}
-
-                                        to="/plataform/explore?tipo=categories"
-                                    >
-                                        <span style={{ fontSize: '14px' }}>Categorias</span>
-                                    </Link>
-                                </Grid>
-                            </Grid>
-                        
-
-                    }
-
-
-                </Grid>
+              <Grid
+                style={{
+                  height: "3rem",
+                  color: "white",
+                  display: "flex",
+                  alignItems: "center",
+                  padding: ".5rem",
+                  borderRadius: ".375rem",
+                }}
+                className="button-sports"
+              >
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to="/plataform/explore?tipo=categories"
+                >
+                  <span style={{ fontSize: "14px" }}>Categorias</span>
+                </Link>
+              </Grid>
+            </Grid>
+          )}
+        </Grid>
 
         <Grid
           style={{
             padding: "1.3rem 5px",
             border: "1px solid #2a2e38",
-            borderRight: "none",
             width: "100%",
             display: "flex",
             flexDirection: props.tyExpanded ? "row" : "column",
@@ -145,14 +183,13 @@ function NLayout(props) {
             style={{
               padding: "1.3rem 5px",
               border: "1px solid #2a2e38",
-              borderRight: "none",
-              borderLeft: "none",
-              borderTop: "none",
+
               width: "100%",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-around",
               cursor: "pointer",
+              borderLeft: "none",
             }}
           >
             <div
@@ -336,7 +373,7 @@ function NLayout(props) {
                       backgroundColor: "#080808",
                       cursor: "pointer",
                       transform: abrir ? "rotate(0deg)" : "rotate(-180deg)",
-                      transition: "all 0.5s ",
+                      transition: "all 1s ",
                     }}
                     class={
                       props.abrir ? "fas fa-chevron-down" : "fas fa-chevron-up"
@@ -350,7 +387,7 @@ function NLayout(props) {
                     flexDirection: "column",
                     gap: "15px",
                     maxHeight: abrir ? "100% !important" : "0px !important",
-                    transition: "maxHeight 0.5s ease-out",
+                    transition: "maxHeight 1s ease-out",
                   }}
                 >
                   {[...Array(5)].map((_, index) => (
@@ -456,7 +493,7 @@ function NLayout(props) {
               backgroundColor: "#080808",
             }}
           >
-            <Link to="/" style={{ width: "200px" }}>
+            <Link to="/" style={{ width: "15%" }}>
               <img
                 src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
                 style={{ width: "100%" }}
