@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavbarLeft from "../navbarLeft/NavbarLeft";
 import Search from "../navbar/search/Search";
 import "./NLayout.css";
@@ -8,15 +8,25 @@ import DropdownPurchase from "../navbar/purchase/DropdownPurchase";
 import CanalesRecomendados from "./CanalesRecomendados";
 import Auth from "../auth/Auth";
 import { Link } from "react-router-dom";
+import { GetAllsStreamsOnline } from "../../services/backGo/streams";
 
 function NLayout(props) {
   const [pulse, setPulse] = useState(false);
   const [abrir, setAbrir] = useState(true);
+  const [aparecer, setAparcer] = useState(false)
   const [showPopupAuth, setShowPopupAuth] = useState(false);
   const [type, setType] = useState(0);
   function clickPulsedButton() {
     setPulse(!pulse);
-    props.setExpanded(props.tyExpanded);
+    props.setExpanded(!props.tyExpanded);
+    setTimeout(() => {
+      if (pulse) {
+        setAparcer(true)
+      } else {
+        setAparcer(false)
+
+      }
+    }, 1000)
   }
 
   function cerrarCanalesRecomendados() {
@@ -33,13 +43,31 @@ function NLayout(props) {
   const [tyExpandedFollowStreams, setTyExpandedFollowStreams] = useState(false);
 
   let expandido = pulse;
+  const [streams, setStreams] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await GetAllsStreamsOnline();
+      if (response != null && response != undefined) {
+
+        setStreams(response.data);
+      }
+    };
+    fetchData();
+  }, [props.tyExpanded]);
+
+  let online = streams;
+
+  console.log('online', online);
 
   const [subMenu, setSubMenu] = useState(false);
   const habilitarSubMenu = (valor) => {
+
     setTimeout(() => {
       setSubMenu(valor);
-    }, [100]);
-  };
+
+    }, [100])
+  }
   const handleLogout = async () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("_id");
@@ -47,32 +75,11 @@ function NLayout(props) {
     window.location.href = "/";
   };
   return (
-    <Grid style={{ display: "flex", flexDirection: "row" }}>
+    <Grid style={{ display: 'flex', flexDirection: 'row', width: '105% !important' }}>
       {/* GRID ASIDE */}
-      <Grid
-        style={{
-          maxWidth: props.tyExpanded ? "15%" : "4%",
-          transition: "all 0.5s ease-in-out",
-          border: "1px solid #2a2e38",
-          height: "100vh",
-          backgroundColor: "#121418",
-          position: "sticky",
+      <Grid style={{ width: props.tyExpanded ? '13%' : '4%', transition: 'width .2s ease-in-out', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#121418', position: 'sticky', top: 0 }}>
 
-          top: 0,
-        }}
-      >
-        <Grid
-          style={{
-            padding: props.tyExpanded ? "1.3rem 5px" : "1.8rem 5px",
-            // border: "1px solid #2a2e38",
-            // borderRight: "none",
-            // borderLeft: "none",
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-around",
-          }}
-        >
+        <Grid style={{ padding: props.tyExpanded ? '1.3rem 5px' : '1.98rem 5px', border: '1px solid #2a2e38', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
           <i
             onClick={() => clickPulsedButton()}
             style={{
@@ -87,52 +94,32 @@ function NLayout(props) {
             className="fas fa-bars"
           />
 
-          {props.tyExpanded && (
-            <Grid
-              style={{
-                display: "flex",
-                textAlign: "center",
-                alignItems: "center",
-                borderRadius: ".375rem",
-                backgroundColor: "#2a2e38",
-              }}
-            >
-              <Grid
-                className="button-casino"
-                style={{
-                  height: "3rem",
-                  color: "white",
-                  display: "flex",
-                  alignItems: "center",
-                  background:
-                    " url(/images/mobile-tab-background-active.svg) rgb(119, 23, 255)",
-                  padding: ".5rem",
-                  borderRadius: ".375rem",
-                }}
-              >
-                <span style={{ fontSize: "14px" }}>Directos </span>
+          {
+
+
+            props.tyExpanded &&
+            <Grid style={{ display: 'flex', textAlign: 'center', alignItems: 'center', borderRadius: '.375rem', backgroundColor: '#2a2e38' }}>
+              <Grid className='button-casino' style={{ height: '3rem', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '70px', background: ' url("/images/mobile-tab-background-press.svg") #2a2e38', padding: '.5rem', borderRadius: '.375rem' }}>
+                <Link style={{ textDecoration: 'none', padding: 0 }}
+                  to="/">
+                  <span style={{ fontSize: '12px', fontWeight: 600 }}>Directos </span>
+                </Link>
               </Grid>
 
-              <Grid
-                style={{
-                  height: "3rem",
-                  color: "white",
-                  display: "flex",
-                  alignItems: "center",
-                  padding: ".5rem",
-                  borderRadius: ".375rem",
-                }}
-                className="button-sports"
-              >
+              <Grid style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', padding: '.5rem', borderRadius: '.375rem', width: '70px', justifyContent: 'center' }} className='button-sports'>
                 <Link
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none', padding: 0 }}
                   to="/plataform/explore?tipo=categories"
                 >
-                  <span style={{ fontSize: "14px" }}>Categorias</span>
+                  <span style={{ fontSize: '12px', fontWeight: 600 }}>Categorias</span>
                 </Link>
               </Grid>
             </Grid>
-          )}
+
+
+          }
+
+
         </Grid>
 
         <Grid
@@ -230,7 +217,7 @@ function NLayout(props) {
 
           <Grid
             style={{
-              padding: "1.3rem 5px",
+              margin: '.625rem 0',
               width: "100%",
               display: "flex",
               alignItems: "center",
@@ -243,7 +230,7 @@ function NLayout(props) {
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
-                gap: "30px",
+
               }}
             >
               <Link
@@ -349,63 +336,42 @@ function NLayout(props) {
               gap: "10px",
             }}
           >
-            {props.tyExpanded ? (
-              <>
-                <Grid
+            {props.tyExpanded ?
+              <Grid
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  alignItems: "center",
+                  padding: "5px",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span
                   style={{
-                    display: "flex",
-                    width: "100%",
-                    alignItems: "center",
-                    padding: "5px",
-                    justifyContent: "space-between",
+                    color: "white",
+                    fontFamily: "Inter",
+                    fontWeight: "normal",
+                    fontSize: "14px",
                   }}
                 >
-                  <span
-                    style={{
-                      color: "white",
-                      fontFamily: "Inter",
-                      fontWeight: "normal",
-                      fontSize: "14px",
-                    }}
-                  >
-                    Canales Recomendados
-                  </span>
-                  <i
-                    style={{
-                      color: "white",
-                      marginLeft: "5px",
-                      backgroundColor: "#080808",
-                      cursor: "pointer",
-                      transform: abrir ? "rotate(0deg)" : "rotate(-180deg)",
-                      transition: "all 0.5s ",
-                    }}
-                    class={
-                      props.abrir ? "fas fa-chevron-down" : "fas fa-chevron-up"
-                    }
-                    onClick={() => cerrarCanalesRecomendados()}
-                  />
-                </Grid>
-                <Grid
+                  Canales Recomendados
+                </span>
+                <i
                   style={{
-                    display: abrir ? "flex" : "none",
-                    flexDirection: "column",
-                    gap: "15px",
-                    maxHeight: abrir ? "100% !important" : "0px !important",
-                    transition: "maxHeight 0.5s ease-out",
+                    color: "white",
+                    marginLeft: "5px",
+                    backgroundColor: "#080808",
+                    cursor: "pointer",
+                    transform: abrir ? "rotate(0deg)" : "rotate(-180deg)",
+                    transition: "all 0.5s ",
                   }}
-                >
-                  {[...Array(5)].map((_, index) => (
-                    <CanalesRecomendados
-                      abrir={true}
-                      streamer={"eldenguee"}
-                      categorie={"Just Chatting"}
-                      avatarStreamer={"/images/pinkker-stream.png"}
-                      spectators={"1000"}
-                    />
-                  ))}
-                </Grid>
-              </>
-            ) : (
+                  class={
+                    props.abrir ? "fas fa-chevron-down" : "fas fa-chevron-up"
+                  }
+                  onClick={() => cerrarCanalesRecomendados()}
+                />
+              </Grid>
+              :
               <>
                 <svg
                   width="20"
@@ -421,14 +387,49 @@ function NLayout(props) {
                     fill="#fff"
                   ></path>
                 </svg>
+              </>
 
-                {[...Array(5)].map((_, index) => (
+            }
+
+            {props.tyExpanded && streams?.length ? (
+              <>
+
+
+
+                <Grid
+                  style={{
+                    display: abrir ? "flex" : "none",
+                    flexDirection: "column",
+                    gap: "15px",
+                    maxHeight: abrir ? "100% !important" : "0px !important",
+                    transition: "all 0.5s ease-out",
+                  }}
+                >
+                  {[...Array(streams?.length)].map((_, index) => (
+                    <CanalesRecomendados
+                      abrir={true}
+                      streamer={streams[index]?.streamer ?? 'Cargando..'}
+                      categorie={streams[index]?.stream_category ?? 'Cargando..'}
+                      avatarStreamer={streams[index]?.streamer_avatar ?? 'Cargando..'}
+                      spectators={streams[index]?.ViewerCount ?? ''}
+                      title={streams[index]?.stream_title ?? 'Cargando..'}
+                    />
+                  ))}
+                </Grid>
+              </>
+            ) : (
+              streams?.length &&
+              <>
+
+
+                {[...Array(streams?.length)].map((_, index) => (
                   <CanalesRecomendados
-                    streamer={"eldenguee"}
-                    categorie={"Just Chatting"}
-                    avatarStreamer={"/images/pinkker-stream.png"}
-                    spectators={"1000"}
                     abrir={false}
+                    streamer={streams[index]?.streamer ?? 'Cargando..'}
+                    categorie={streams[index]?.stream_category ?? 'Cargando..'}
+                    avatarStreamer={streams[index]?.streamer_avatar ?? 'Cargando..'}
+                    spectators={streams[index]?.ViewerCount ?? ''}
+                    title={streams[index]?.stream_title ?? 'Cargando..'}
                   />
                 ))}
               </>
@@ -728,7 +729,7 @@ function NLayout(props) {
           </Grid>
         )}
 
-        <Grid style={{ padding: "2rem 5.8rem", width: "100%" }}>
+        <Grid style={{ padding: "2rem 5.8rem", width: "105%" }}>
           {props.children}
 
           {showPopupAuth === true && (
@@ -739,7 +740,60 @@ function NLayout(props) {
             />
           )}
         </Grid>
+        {/* FOOTER */}
+        <Grid style={{
+           width: "105%",
+          display: "flex",
+          flexDirection: "row",
+          padding: "1.3rem 5.8rem",
+          zIndex: 99999,
+          backgroundColor: "rgb(18, 20, 24)"
+        }}>
+          {/* COLUMNA LOGO */}
+
+          <Grid style={{width:'20%'}}>
+            <Link to="/">
+              <img
+                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
+                style={{ width: "70%" }}
+                alt=""
+              />
+            </Link>
+          </Grid>
+          {/* COLUMNA SUPPORT*/}
+          <Grid style={{display:'flex', alignItems:'center', flexDirection:'column', justifyContent:'center',width:'20%', color:'white'}}>
+              <Typography style={{fontWeight:800}}>Support</Typography>
+              <Typography>Live Support</Typography>
+              <Typography>Help Center</Typography>
+              <Typography>Game Responsibly</Typography>
+          </Grid> 
+          {/* COLUMNA PLATFORM*/}
+          <Grid style={{display:'flex', alignItems:'center', flexDirection:'column', justifyContent:'center',width:'20%', color:'white'}}>
+              <Typography style={{fontWeight:800}}>Support</Typography>
+              <Typography>Live Support</Typography>
+              <Typography>Help Center</Typography>
+              <Typography>Game Responsibly</Typography>
+          </Grid> 
+          {/* COLUMNA policy*/}
+          <Grid style={{display:'flex', alignItems:'center', flexDirection:'column', justifyContent:'center',width:'20%', color:'white'}}>
+              <Typography style={{fontWeight:800}}>Support</Typography>
+              <Typography>Live Support</Typography>
+              <Typography>Help Center</Typography>
+              <Typography>Game Responsibly</Typography>
+          </Grid> 
+          {/* COLUMNA cOMMUNITY*/}
+          <Grid style={{display:'flex', alignItems:'center', flexDirection:'column', justifyContent:'center',width:'20%', color:'white'}}>
+              <Typography style={{fontWeight:800}}>Support</Typography>
+              <Typography>Live Support</Typography>
+              <Typography>Help Center</Typography>
+              <Typography>Game Responsibly</Typography>
+          </Grid> 
+
+        </Grid>
       </Grid>
+
+
+
     </Grid>
   );
 }

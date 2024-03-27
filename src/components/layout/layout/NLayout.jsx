@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavbarLeft from "../navbarLeft/NavbarLeft";
 import Search from "../navbar/search/Search";
 import "./NLayout.css";
@@ -8,6 +8,7 @@ import DropdownPurchase from "../navbar/purchase/DropdownPurchase";
 import CanalesRecomendados from "./CanalesRecomendados";
 import Auth from "../auth/Auth";
 import { Link } from "react-router-dom";
+import { GetAllsStreamsOnline } from "../../../services/backGo/streams";
 
 function NLayout(props) {
   const [pulse, setPulse] = useState(false);
@@ -33,6 +34,20 @@ function NLayout(props) {
   const [tyExpandedFollowStreams, setTyExpandedFollowStreams] = useState(false);
 
   let expandido = pulse;
+  const [streams, setStreams] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await GetAllsStreamsOnline();
+      if (response != null && response != undefined) {
+        console.log(response);
+        setStreams(response.data);
+      }
+    };
+    fetchData();
+  }, [props.tyExpanded]);
+
+  console.log('steams', streams);
 
   const [subMenu, setSubMenu] = useState(false);
   const habilitarSubMenu = (valor) => {
@@ -352,7 +367,7 @@ function NLayout(props) {
                     display: "flex",
                     width: "100%",
                     alignItems: "center",
-                    padding: "5px",
+                    
                     justifyContent: "space-between",
                   }}
                 >
@@ -362,6 +377,7 @@ function NLayout(props) {
                       fontFamily: "Inter",
                       fontWeight: "normal",
                       fontSize: "14px",
+                      padding: "3px 5px"
                     }}
                   >
                     Canales Recomendados
@@ -393,10 +409,11 @@ function NLayout(props) {
                   {[...Array(5)].map((_, index) => (
                     <CanalesRecomendados
                       abrir={true}
-                      streamer={"eldenguee"}
-                      categorie={"Just Chatting"}
-                      avatarStreamer={"/images/pinkker-stream.png"}
-                      spectators={"1000"}
+                      streamer={streams?.streamer}
+                      categorie={streams?.stream_category}
+                      avatarStreamer={streams?.streamer_avatar}
+                      spectators={streams?.ViewerCount}
+                      title= {streams?.title}
                     />
                   ))}
                 </Grid>
@@ -420,11 +437,13 @@ function NLayout(props) {
 
                 {[...Array(5)].map((_, index) => (
                   <CanalesRecomendados
-                    streamer={"eldenguee"}
-                    categorie={"Just Chatting"}
-                    avatarStreamer={"/images/pinkker-stream.png"}
-                    spectators={"1000"}
-                    abrir={false}
+                  abrir={false}
+                  streamer={streams?.streamer}
+                  categorie={streams?.stream_category}
+                  avatarStreamer={streams?.streamer_avatar}
+                  spectators={streams?.ViewerCount}
+                  title= {streams?.title}
+                />
                   />
                 ))}
               </>

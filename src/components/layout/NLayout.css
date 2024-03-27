@@ -1,16 +1,16 @@
 .menu-aside-option {
     width: 100%;
-    transition: all .5s ease-in-out;
+    transition: all .2s ease-in-out;
+    position: relative;
 }
 
-.menu-aside-option:hover {
-    color: #856ffc !important;
-    cursor: pointer;
-    border-left: 1px solid #856ffc;
-}
 
-.item-li {
-    transition: all .5s ease-in-out;
+.item-li{
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+
 }
 
 .item-li:hover {
@@ -18,8 +18,24 @@
     cursor: pointer;
 }
 
-.fa-bars {
-    transition: all 1s;
+.item-li::after{
+    background-color: #856ffc;
+    position: absolute;
+    content: '';
+    height: 3rem;
+    width: .25rem;
+    opacity: 0;
+    border-radius: 0 1.5rem 1.5rem 0;
+    transition: opacity 0.3s ease; /* Transición suave */
+    left: 0;
+    top: 0;
+}
+
+.item-li:hover::after {
+    opacity: 1; /* Mostrar el contenido al hacer hover */
+  }
+.fa-bars{
+    transition: all .3s ease-in-out ;
 }
 
 .fa-bars:hover {
@@ -32,7 +48,8 @@
     cursor: pointer;
 }
 
-.button-casino:hover {
-    background: url("/public/images/mobile-tab-background-press.svg") #2a2e38 !important;
+.button-casino:hover{
+    background: url("/public/images/mobile-tab-background-active.svg") rgb(119, 23, 255) !important;
+    
     cursor: pointer;
 }

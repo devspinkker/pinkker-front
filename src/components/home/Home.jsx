@@ -712,11 +712,8 @@ const Home = ({
                   <Skeleton
                     variant="rectangular"
                     width={150}
-                    height={226}
-                    style={{
-                      backgroundColor: "#" + color,
-                      borderRadius: "5px",
-                    }}
+                    height={199}
+                    style={{ backgroundColor: "#" + color, borderRadius: '5px' }}
                   />
                 </div>
               ))}
@@ -738,20 +735,15 @@ const Home = ({
       </div>
 
       {!isMobile && <Clips isMobile={isMobile} />}
-      <div
-        style={{
-          width: "100%",
-          height: "1px",
-          backgroundColor: "#ffffff1a",
-          marginTop: "19px",
-        }}
-      />
-      <Vods />
+      
+      {/* <Vods /> */}
+      {!isMobile && <Clips isMobile={isMobile} />}
+
       {/* {showPopupAuth === true && <Auth typeDefault={1} closePopup={() => togglePopupAuth()} />} */}
       {/*activePlayerPopup === true && <CustomPlayer expanded={expanded} width="100%" height="160px" popup={true} style={{zIndex: "99999"}} streamerName={streamerPlayerPopup} closePopup={() => setActivePlayerPopup(false)}/> */}
-      <div className="pinkker-scrollbar">
+      {/* <div className="pinkker-scrollbar">
         <div style={{ top: scroll }} className="pinkker-scrollbar-tab" />
-      </div>
+      </div> */}
     </div>
   );
 };

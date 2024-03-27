@@ -166,7 +166,7 @@ const AppRouter = () => {
           />
         )} */}
         {/*!isLogged && <NavbarButtom isMobile={isMobile}/>*/}
-        <NLayout isMobile={isMobile} tyExpanded={!expanded} user={user}
+        <NLayout isMobile={isMobile} tyExpanded={expanded} user={user}
 
           tyDashboard={false}
           setExpanded={setExpanded}>

@@ -156,13 +156,12 @@ export default function Search({ isMobile, tyExpanded }) {
         style={{
           display: "flex",
           alignItems: "center",
+          justifyContent:'center',
           height: isMobile ? "50px" : "",
         }}
       >
-        <i
-          style={{ fontSize: tyExpanded ? '18px' :"16px", color: "rgb(89 89 89)", margin:'5px' }}
-          class="fas fa-search navbar-search-i"
-        />
+        <img src="/images/search.svg" style={{ fontSize: tyExpanded ? '18px' :"16px", color: "rgb(89 89 89)", margin: tyExpanded ? '5px' :'8px' }}/>
+        
 
         {
           tyExpanded &&
