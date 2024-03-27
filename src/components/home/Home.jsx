@@ -205,10 +205,10 @@ const Home = ({
   const generateColor = () => {
     setColor(Math.random().toString(16).substr(-6));
   };
- 
+
   useEffect(() => {
     generateColor()
-  },[])
+  }, [])
   return (
     <div
       style={{
@@ -660,23 +660,27 @@ const Home = ({
         )}
       </div> */}
       {/* {!isMobile && <Categories isMobile={isMobile} />} */}
+
+
       <DirectosRecommended
         isMobile={isMobile}
         socketMain={socketMain}
         handleMessage={handleMessage}
         expanded={expanded}
+
       />
+
       <div className="categories-home-container">
         <div className="categories-home-manager">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width:'80%' }}>
-          <img src="/images/original.svg" style={{width:'2.5%'}} />
-          <h2 style={{ fontFamily: 'Inter', color:'white' }}>Categorias</h2>
-        </div>
-          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '80%' }}>
+            <img src="/images/original.svg" style={{ width: '2.5%' }} />
+            <h2 style={{ fontFamily: 'Inter', color: 'white' }}>Categorias</h2>
+          </div>
+
           <div className="manager-recommended-actions">
             <div className="manager-recommended-actions-ver-todos">
               <Link to="/plataform/explore?tipo=categories">
-                <span style={{fontFamily:'Signika Negative'}}>Ver todos</span>
+                <span style={{ fontFamily: 'Signika Negative' }}>Ver todos</span>
               </Link>
             </div>
             <div className="manager-recommended-actions-arrow">
@@ -712,7 +716,7 @@ const Home = ({
                 <div
                   style={{ marginRight: "9px", marginTop: "30px" }}
                   key={index}
-                  
+
                 >
                   <Skeleton
                     variant="rectangular"
@@ -720,7 +724,7 @@ const Home = ({
                     height={199}
                     style={{ backgroundColor: "#" + color, borderRadius: '5px' }}
                   />
-                  
+
                 </div>
               ))}
             </div>
@@ -739,9 +743,9 @@ const Home = ({
             ))}
         </div>
       </div>
-      
+
       {!isMobile && <Clips isMobile={isMobile} />}
-      
+
       {/* <Vods /> */}
       {!isMobile && <Clips isMobile={isMobile} />}
 
