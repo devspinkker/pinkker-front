@@ -329,72 +329,52 @@ function NLayout(props) {
           <Grid
             style={{
               backgroundColor: "#080808",
-              padding: "0.5rem 15px",
+              padding: streams?.length ? "0.5rem 15px" : 0,
               borderTop: "1px solid #2a2e38",
               display: "flex",
               flexDirection: "column",
               gap: "10px",
             }}
           >
-            {props.tyExpanded ?
-              <Grid
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  alignItems: "center",
-                  padding: "5px",
-                  justifyContent: "space-between",
-                }}
-              >
-                <span
-                  style={{
-                    color: "white",
-                    fontFamily: "Inter",
-                    fontWeight: "normal",
-                    fontSize: "14px",
-                  }}
-                >
-                  Canales Recomendados
-                </span>
-                <i
-                  style={{
-                    color: "white",
-                    marginLeft: "5px",
-                    backgroundColor: "#080808",
-                    cursor: "pointer",
-                    transform: abrir ? "rotate(0deg)" : "rotate(-180deg)",
-                    transition: "all 0.5s ",
-                  }}
-                  class={
-                    props.abrir ? "fas fa-chevron-down" : "fas fa-chevron-up"
-                  }
-                  onClick={() => cerrarCanalesRecomendados()}
-                />
-              </Grid>
-              :
-              <>
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  style={{ margin: "0 auto" }}
-                  className="icono-recomendados"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M12.002 3.999a2 2 0 0 1 2 2v2L18 6v8l-3.998-2v2a2 2 0 0 1-2 1.999h-8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8zM12 6H4v8h8V6z"
-                    clip-rule="evenodd"
-                    fill="#fff"
-                  ></path>
-                </svg>
-              </>
 
-            }
 
             {props.tyExpanded && streams?.length ? (
               <>
 
-
+                <Grid
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    alignItems: "center",
+                    padding: "5px",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <span
+                    style={{
+                      color: "white",
+                      fontFamily: "Inter",
+                      fontWeight: "normal",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Canales Recomendados
+                  </span>
+                  <i
+                    style={{
+                      color: "white",
+                      marginLeft: "5px",
+                      backgroundColor: "#080808",
+                      cursor: "pointer",
+                      transform: abrir ? "rotate(0deg)" : "rotate(-180deg)",
+                      transition: "all 0.5s ",
+                    }}
+                    class={
+                      props.abrir ? "fas fa-chevron-down" : "fas fa-chevron-up"
+                    }
+                    onClick={() => cerrarCanalesRecomendados()}
+                  />
+                </Grid>
 
                 <Grid
                   style={{
@@ -421,7 +401,20 @@ function NLayout(props) {
               streams?.length &&
               <>
 
-
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  style={{ margin: "0 auto" }}
+                  className="icono-recomendados"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M12.002 3.999a2 2 0 0 1 2 2v2L18 6v8l-3.998-2v2a2 2 0 0 1-2 1.999h-8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8zM12 6H4v8h8V6z"
+                    clip-rule="evenodd"
+                    fill="#fff"
+                  ></path>
+                </svg>
                 {[...Array(streams?.length)].map((_, index) => (
                   <CanalesRecomendados
                     abrir={false}
@@ -742,7 +735,7 @@ function NLayout(props) {
         </Grid>
         {/* FOOTER */}
         <Grid style={{
-           width: "105%",
+          width: "105%",
           display: "flex",
           flexDirection: "row",
           padding: "1.3rem 5.8rem",
@@ -751,7 +744,7 @@ function NLayout(props) {
         }}>
           {/* COLUMNA LOGO */}
 
-          <Grid style={{width:'20%'}}>
+          <Grid style={{ width: '20%' }}>
             <Link to="/">
               <img
                 src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
@@ -761,33 +754,33 @@ function NLayout(props) {
             </Link>
           </Grid>
           {/* COLUMNA SUPPORT*/}
-          <Grid style={{display:'flex', alignItems:'center', flexDirection:'column', justifyContent:'center',width:'20%', color:'white'}}>
-              <Typography style={{fontWeight:800}}>Support</Typography>
-              <Typography>Live Support</Typography>
-              <Typography>Help Center</Typography>
-              <Typography>Game Responsibly</Typography>
-          </Grid> 
+          <Grid style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
+            <Typography style={{ fontWeight: 800 }}>Support</Typography>
+            <Typography>Live Support</Typography>
+            <Typography>Help Center</Typography>
+            <Typography>Game Responsibly</Typography>
+          </Grid>
           {/* COLUMNA PLATFORM*/}
-          <Grid style={{display:'flex', alignItems:'center', flexDirection:'column', justifyContent:'center',width:'20%', color:'white'}}>
-              <Typography style={{fontWeight:800}}>Support</Typography>
-              <Typography>Live Support</Typography>
-              <Typography>Help Center</Typography>
-              <Typography>Game Responsibly</Typography>
-          </Grid> 
+          <Grid style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
+            <Typography style={{ fontWeight: 800 }}>Support</Typography>
+            <Typography>Live Support</Typography>
+            <Typography>Help Center</Typography>
+            <Typography>Game Responsibly</Typography>
+          </Grid>
           {/* COLUMNA policy*/}
-          <Grid style={{display:'flex', alignItems:'center', flexDirection:'column', justifyContent:'center',width:'20%', color:'white'}}>
-              <Typography style={{fontWeight:800}}>Support</Typography>
-              <Typography>Live Support</Typography>
-              <Typography>Help Center</Typography>
-              <Typography>Game Responsibly</Typography>
-          </Grid> 
+          <Grid style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
+            <Typography style={{ fontWeight: 800 }}>Support</Typography>
+            <Typography>Live Support</Typography>
+            <Typography>Help Center</Typography>
+            <Typography>Game Responsibly</Typography>
+          </Grid>
           {/* COLUMNA cOMMUNITY*/}
-          <Grid style={{display:'flex', alignItems:'center', flexDirection:'column', justifyContent:'center',width:'20%', color:'white'}}>
-              <Typography style={{fontWeight:800}}>Support</Typography>
-              <Typography>Live Support</Typography>
-              <Typography>Help Center</Typography>
-              <Typography>Game Responsibly</Typography>
-          </Grid> 
+          <Grid style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
+            <Typography style={{ fontWeight: 800 }}>Support</Typography>
+            <Typography>Live Support</Typography>
+            <Typography>Help Center</Typography>
+            <Typography>Game Responsibly</Typography>
+          </Grid>
 
         </Grid>
       </Grid>
