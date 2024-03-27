@@ -1,25 +1,39 @@
 .menu-aside-option {
     width: 100%;
     transition: all .2s ease-in-out;
-    padding: 0;
+    position: relative;
 }
 
-.menu-aside-option:hover {
-    color: #856ffc !important;
-    cursor: pointer;
-}
 
 .item-li{
     width: 100%;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+
 }
 
 .item-li:hover {
     color: #856ffc !important;
     cursor: pointer;
-    border-left: 2px solid #856ffc;
-
 }
 
+.item-li::after{
+    background-color: #856ffc;
+    position: absolute;
+    content: '';
+    height: 3rem;
+    width: .25rem;
+    opacity: 0;
+    border-radius: 0 1.5rem 1.5rem 0;
+    transition: opacity 0.3s ease; /* Transición suave */
+    left: 0;
+    top: 0;
+}
+
+.item-li:hover::after {
+    opacity: 1; /* Mostrar el contenido al hacer hover */
+  }
 .fa-bars{
     transition: all .3s ease-in-out ;
 }

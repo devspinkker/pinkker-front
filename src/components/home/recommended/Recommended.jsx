@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 import { GetAllsStreamsOnline } from "../../../services/backGo/streams";
 import CardStreamRecomendado from "../categories/CardStreamRecomendado";
+import { Grid } from "@mui/material";
 
 function CardSkeleto() {
   return (
@@ -219,12 +220,12 @@ export default function DirectosRecommended({
 
               }}
             >
-              {[...Array(5)].map((_, index) => (
+              {[...Array(3)].map((_, index) => (
                 <div
                   style={{ marginRight: "9px" }}
                   key={index}
                 >
-                  <CardStreamRecomendado
+                  {/* <CardStreamRecomendado
                     tags={'lol'}
                     isMobile={isMobile}
                     streamer={'eldenguee'}
@@ -238,23 +239,41 @@ export default function DirectosRecommended({
                       "/images/pinkker-stream.png"
                     }
                     ViewerCount={'1234'}
-                  />
-                  {/* <Skeleton
-                    variant="rectangular"
-                    width={150}
-                    height={226}
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    width={75}
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    width={100}
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
                   /> */}
+                  <Skeleton
+                    variant="rectangular"
+                    width={450}
+                    height={250}
+                    style={{ backgroundColor: "rgb(32, 32, 31)", marginBottom: '10px'}}
+                  />
+                  <Grid style={{ display: 'flex', gap: '5px', alignItems: 'flex-start' }} >
+                    <Skeleton
+                      variant="circular"
+                      width={50}
+                      height={50}
+
+                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                    />
+                    <Grid style={{display:'flex', flexDirection:'column', gap:'3px'}}>
+
+                      <Skeleton
+                        variant="text"
+                        width={120}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
+                      <Skeleton
+                        variant="text"
+                        width={100}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
+                      <Skeleton
+                        variant="text"
+                        width={100}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
+                    </Grid>
+                  </Grid>
+
                 </div>
               ))}
             </div>
