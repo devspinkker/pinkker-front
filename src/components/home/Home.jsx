@@ -38,16 +38,6 @@ const Home = ({
   handleMessage,
 }) => {
   const [streams, setStreams] = useState(null);
-  const [user, isLogged] = useState();
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getCategoriesWithLimit(25);
-      if (response != null && response != undefined) {
-        setStreams(response.data);
-      }
-    };
-    fetchData();
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,9 +45,6 @@ const Home = ({
       let res = await getUserByIdTheToken("token");
       if (res.error) {
         console.log("no logeado");
-      }
-      if (res != null && res != undefined) {
-        isLogged(res.data);
       }
     };
     fetchData();
@@ -131,6 +118,7 @@ const Home = ({
     const fetchData = async () => {
       const getCategoriesWithLimitData = await getCategoriesWithLimit();
       if (getCategoriesWithLimitData?.message == "ok") {
+        console.log("ns");
         setCategories(getCategoriesWithLimitData.data);
       }
     };
@@ -190,7 +178,6 @@ const Home = ({
   }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-
   const fetchMoreData = (direction) => {
     const increment = direction === "right" ? 1 : -1;
     const newIndex = currentIndex + increment;
@@ -200,11 +187,12 @@ const Home = ({
     }
   };
 
-  const [color, setColor] = useState("")
+  const [color, setColor] = useState("");
 
   const generateColor = () => {
     setColor(Math.random().toString(16).substr(-6));
   };
+
 
   useEffect(() => {
     generateColor()

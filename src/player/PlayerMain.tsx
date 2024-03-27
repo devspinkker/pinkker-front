@@ -46,7 +46,6 @@ function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
             hls.loadSource(src + '/index.m3u8');
             hls.attachMedia(videoRef.current);
 
-            if (!isSafari) { 
               hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 setUsedHLS(true);
 
@@ -61,7 +60,6 @@ function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
                   videoRef.current.muted = false;
                 }
               });
-            }
           }
         }
       } catch (error) {
