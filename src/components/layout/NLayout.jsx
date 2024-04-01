@@ -9,7 +9,12 @@ import CanalesRecomendados from "./CanalesRecomendados";
 import Auth from "../auth/Auth";
 import { Link } from "react-router-dom";
 import { GetAllsStreamsOnline } from "../../services/backGo/streams";
-
+import { GrHomeRounded } from "react-icons/gr";
+import { FiSearch } from "react-icons/fi";
+import { AiOutlineMenu, AiOutlinePlayCircle } from "react-icons/ai";
+import { BsChatSquareText } from "react-icons/bs";
+import { CgTennis } from "react-icons/cg";
+import { ImDice } from "react-icons/im";
 function NLayout(props) {
   const [pulse, setPulse] = useState(false);
   const [abrir, setAbrir] = useState(true);
@@ -26,7 +31,7 @@ function NLayout(props) {
         setAparcer(false)
 
       }
-    }, 1000)
+    }, 500)
   }
 
   function cerrarCanalesRecomendados() {
@@ -79,8 +84,8 @@ function NLayout(props) {
       {/* GRID ASIDE */}
       <Grid style={{ width: props.tyExpanded ? '13%' : '4%', transition: 'width .2s ease-in-out', border: '1px solid #2a2e38', height: '100vh', backgroundColor: '#121418', position: 'sticky', top: 0 }}>
 
-        <Grid style={{ padding: props.tyExpanded ? '1.3rem 5px' : '1.98rem 5px', border: '1px solid #2a2e38', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-          <i
+        <Grid style={{ padding: props.tyExpanded ? '.98rem 5px' : '1.72rem 5px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+          {/* <i
             onClick={() => clickPulsedButton()}
             style={{
               cursor: "pointer",
@@ -92,28 +97,33 @@ function NLayout(props) {
               color: "#ededed",
             }}
             className="fas fa-bars"
-          />
+          /> */}
+          {/* <img  src="/images/menu.svg" className="img-bars" /> */}
+
+
+          <AiOutlineMenu style={{ color: 'white', fontSize: '26px' }} onClick={() => clickPulsedButton()} className="img-bars" />
 
           {
 
 
             props.tyExpanded &&
-            <Grid style={{ display: 'flex', textAlign: 'center', alignItems: 'center', borderRadius: '.375rem', backgroundColor: '#2a2e38' }}>
-              <Grid className='button-casino' style={{ height: '3rem', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '70px', background: ' url("/images/mobile-tab-background-press.svg") #2a2e38', padding: '.5rem', borderRadius: '.375rem' }}>
-                <Link style={{ textDecoration: 'none', padding: 0 }}
-                  to="/">
-                  <span style={{ fontSize: '12px', fontWeight: 600 }}>Directos </span>
-                </Link>
-              </Grid>
 
-              <Grid style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', padding: '.5rem', borderRadius: '.375rem', width: '70px', justifyContent: 'center' }} className='button-sports'>
-                <Link
-                  style={{ textDecoration: 'none', padding: 0 }}
-                  to="/plataform/explore?tipo=categories"
-                >
-                  <span style={{ fontSize: '12px', fontWeight: 600 }}>Categorias</span>
-                </Link>
-              </Grid>
+            <Grid style={{ display: 'flex', textAlign: 'center', alignItems: 'center', borderRadius: '.375rem', backgroundColor: '#2a2e38', border: '1px solid #343843' }} className="contenedor-directos-cat">
+              <Link style={{ textDecoration: 'none', padding: 0 }}
+                to="/">
+                <Grid className='button-casino' style={{ height: '3rem', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '70px', background: ' url("/images/mobile-tab-background-press.svg") #2a2e38', padding: '.5rem', borderRadius: '.375rem', animation: !props.tyExpanded && "ease-in-out 1.5s linear" }}>
+                  <span style={{ fontSize: '12px', fontWeight: 600, textShadow: '0 1px 0 #000' }}>Directos </span>
+                </Grid>
+              </Link>
+
+              <Link
+                style={{ textDecoration: 'none', padding: 0 }}
+                to="/plataform/explore?tipo=categories"
+              >
+                <Grid style={{ height: '3rem', color: 'white', display: 'flex', alignItems: 'center', padding: '.5rem', borderRadius: '.375rem', width: '70px', justifyContent: 'center', animation: !props.tyExpanded && "ease-in-out 1.5s linear" }} className='button-sports'>
+                  <span style={{ fontSize: '12px', fontWeight: 600, textShadow: '0 1px 0 #000' }}>Categorias</span>
+                </Grid>
+              </Link>
             </Grid>
 
 
@@ -127,14 +137,17 @@ function NLayout(props) {
             padding: "1.3rem 5px",
             border: "1px solid #2a2e38",
             borderRight: "none",
+            borderLeft: "none",
             width: "100%",
             display: "flex",
             flexDirection: props.tyExpanded ? "row" : "column",
             alignItems: "center",
             justifyContent: "space-around",
+            gap: '15px'
           }}
         >
           {!props.tyExpanded && (
+
             <Grid style={{ display: "flex", flexDirection: "column" }}>
               <Grid
                 style={{
@@ -142,13 +155,24 @@ function NLayout(props) {
                   color: "white",
                   display: "flex",
                   alignItems: "center",
+                  justifyContent: "center",
                   backgroundColor: "rgb(119, 23, 255)",
-                  padding: ".5rem",
-                  borderRadius: ".375rem",
+                  borderTopLeftRadius: ".375rem",
+                  borderTopRightRadius: ".375rem",
+                  padding: '.4rem',
                 }}
+                className="button-casino"
               >
-                <img src="/images/dice.svg" />
+
+                {/* <img src="/images/dice.svg" /> */}
+                <Link
+                  style={{ textDecoration: 'none', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  to="/"
+                >
+                  <ImDice />
+                </Link>
               </Grid>
+
 
               <Grid
                 style={{
@@ -156,33 +180,36 @@ function NLayout(props) {
                   color: "white",
                   display: "flex",
                   alignItems: "center",
-                  padding: ".5rem",
-                  borderRadius: ".375rem",
+                  justifyContent: "center",
+                  backgroundColor: "#343843",
+                  borderBottomLeftRadius: ".375rem",
+                  borderBottomRightRadius: ".375rem",
+                  padding: '.4rem',
                 }}
+                className="button-sports"
               >
-                <img src="/images/tennis.svg" />
+
+                {/* <img src="/images/tennis.svg" /> */}
+                <Link
+                  style={{ textDecoration: 'none', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  to="/plataform/explore?tipo=categories"
+                >
+                  <CgTennis style={{ transform: 'rotate(-45deg)', fontSize: '20px' }} />
+                </Link>
               </Grid>
+
+
             </Grid>
           )}
 
-          <Search tyExpanded={props.tyExpanded} />
+          <Search tyExpanded={props.tyExpanded} setExpanded={props.setExpanded} />
         </Grid>
 
         <Grid>
           <Grid
-            style={{
-              padding: "1.3rem 5px",
-              border: "1px solid #2a2e38",
-              borderRight: "none",
-              borderLeft: "none",
-              borderTop: "none",
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-around",
-              cursor: "pointer",
-            }}
+            className="pixel-li"
           >
+
             <div
               className={
                 props.tyExpanded
@@ -196,23 +223,25 @@ function NLayout(props) {
                   style={{
                     width: "38px",
                   }}
-                  src="/images/pixel.png"
+                  src="/images/token.svg"
                 />
               </div>
               {props.tyExpanded && (
                 <div className="pixel-coming-soon-text-container">
+
                   <div className="pixel-coming-soon-text">
                     <span className="pixel-coming-soon-text-pixel">
-                      Pinkker
+                      Pixel
                     </span>
-                    <span className="pixel-coming-soon-text-pxl">(Prime)</span>
+                    <span className="pixel-coming-soon-text-pxl">(PXL)</span>
                   </div>
                   <span className="pixel-coming-soon-navbarLeft-Comming-soon">
-                    Ver beneficios!
+                    Proximamente
                   </span>
                 </div>
               )}
             </div>
+
           </Grid>
 
           <Grid
@@ -224,13 +253,15 @@ function NLayout(props) {
               justifyContent: "space-around",
             }}
           >
+
+
             <ul
               style={{
                 listStyle: "none",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
-
+                transition: 'all 1s ease'
               }}
             >
               <Link
@@ -245,15 +276,19 @@ function NLayout(props) {
                     gap: "10px",
                     alignItems: "center",
                     width: "100% !important",
-                    padding: "0rem 15px",
+                    padding: props.tyExpanded ? "0rem 15px" : "0px",
+                    justifyContent: !props.tyExpanded && "center",
+                    animation: !props.tyExpanded && "ease-in-out 1s linear"
+
                   }}
                   className="item-li"
                 >
-                  <i
+                  <GrHomeRounded />
+                  {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
-                  />
-                  {props.tyExpanded && "Home"}
+                  /> */}
+                  {props.tyExpanded && <span>Inicio</span>}
                 </li>
               </Link>
               <Link
@@ -267,15 +302,19 @@ function NLayout(props) {
                     display: "flex",
                     gap: "10px",
                     alignItems: "center",
-                    padding: "0rem 15px",
+                    padding: props.tyExpanded ? "0rem 15px" : "0px",
+                    justifyContent: !props.tyExpanded && "center",
+                    animation: !props.tyExpanded && "ease-in-out 1s linear"
+
                   }}
                   className="item-li"
                 >
-                  <i
+                  {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-search"
-                  />
-                  {props.tyExpanded && "Explorar"}
+                  /> */}
+                  <FiSearch />
+                  {props.tyExpanded && <span>Explorar</span>}
                 </li>
               </Link>
 
@@ -290,15 +329,19 @@ function NLayout(props) {
                     display: "flex",
                     gap: "10px",
                     alignItems: "center",
-                    padding: "0rem 15px",
+                    padding: props.tyExpanded ? "0rem 15px" : "0px",
+                    justifyContent: !props.tyExpanded && "center",
+                    animation: !props.tyExpanded && "ease-in-out 1s linear"
+
                   }}
                   className="item-li"
                 >
-                  <i
+                  <AiOutlinePlayCircle />
+                  {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fas fa-film"
-                  />
-                  {props.tyExpanded && "Clips"}
+                  /> */}
+                  {props.tyExpanded && <span>Clips</span>}
                 </li>
               </Link>
 
@@ -313,18 +356,26 @@ function NLayout(props) {
                     display: "flex",
                     gap: "10px",
                     alignItems: "center",
-                    padding: "0rem 15px",
+                    padding: props.tyExpanded ? "0rem 15px" : "0px",
+                    justifyContent: !props.tyExpanded && "center",
+                    animation: !props.tyExpanded && "ease-in-out 3s linear"
                   }}
                   className="item-li"
                 >
-                  <i
+                  <BsChatSquareText />
+                  {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fas fa-edit"
-                  />
-                  {props.tyExpanded && "Muro"}
+                  /> */}
+                  {props.tyExpanded && <span>Muro</span>}
                 </li>
               </Link>
             </ul>
+
+
+
+
+
           </Grid>
           <Grid
             style={{
@@ -448,17 +499,18 @@ function NLayout(props) {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              padding: "1.3rem 5.8rem",
+              padding: "1rem 5.8rem",
               position: "sticky",
               top: 0,
               zIndex: 9999,
               backgroundColor: "#080808",
+              width: "102%",
             }}
           >
             <Link to="/">
               <img
                 src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
-                style={{ width: "15%" }}
+                style={{ width: "12.5%" }}
                 alt=""
               />
             </Link>
@@ -484,17 +536,19 @@ function NLayout(props) {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              padding: "1.3rem 5.8rem",
+              padding: "1rem 5.8rem",
               position: "sticky",
               top: 0,
               zIndex: 9999,
               backgroundColor: "#080808",
+              width: "102%",
+
             }}
           >
             <Link to="/" style={{ width: "200px" }}>
               <img
                 src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
-                style={{ width: "100%" }}
+                style={{ width: "60%" }}
                 alt=""
               />
             </Link>
@@ -722,7 +776,7 @@ function NLayout(props) {
           </Grid>
         )}
 
-        <Grid style={{ padding: "2rem 5.8rem", width: "105%" }}>
+        <Grid style={{ padding: "2rem 5.8rem", width: "102%" }}>
           {props.children}
 
           {showPopupAuth === true && (
@@ -734,52 +788,86 @@ function NLayout(props) {
           )}
         </Grid>
         {/* FOOTER */}
-        <Grid style={{
-          width: "105%",
-          display: "flex",
-          flexDirection: "row",
-          padding: "1.3rem 5.8rem",
-          zIndex: 99999,
-          backgroundColor: "rgb(18, 20, 24)"
-        }}>
-          {/* COLUMNA LOGO */}
 
-          <Grid style={{ width: '20%' }}>
-            <Link to="/">
-              <img
-                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
-                style={{ width: "70%" }}
-                alt=""
-              />
-            </Link>
+        <Grid style={{
+          width: '105%',
+          display: "flex",
+          flexDirection: "column",
+          padding: "1.3rem 5rem",
+          zIndex: 99999,
+          backgroundColor: "rgb(18, 20, 24)",
+          gap: '2rem',
+          position: "relative",
+          bottom: 0
+        }}>
+          <Grid style={{ display: 'flex', alignItems: 'center' }}>
+
+
+            {/* COLUMNA LOGO */}
+
+            <Grid style={{ width: '20%' }}>
+              <Link to="/">
+                <img
+                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
+                  style={{ width: "70%" }}
+                  alt=""
+                />
+              </Link>
+            </Grid>
+            {/* COLUMNA SUPPORT*/}
+            <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
+              <Typography style={{ fontWeight: 800, fontSize: '1rem' }}>Support</Typography>
+              <Typography style={{ color: '#828998' }}>Live Support</Typography>
+              <Typography style={{ color: '#828998' }}>Help Center</Typography>
+              <Typography style={{ color: '#828998' }}>Game Responsibly</Typography>
+            </Grid>
+            {/* COLUMNA PLATFORM*/}
+            <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
+              <Typography style={{ fontWeight: 800, fontSize: '1rem' }}>Support</Typography>
+              <Typography style={{ color: '#828998' }}>Live Support</Typography>
+              <Typography style={{ color: '#828998' }}>Help Center</Typography>
+              <Typography style={{ color: '#828998' }}>Game Responsibly</Typography>
+            </Grid>
+            {/* COLUMNA policy*/}
+            <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
+              <Typography style={{ fontWeight: 800, fontSize: '1rem' }}>Support</Typography>
+              <Typography style={{ color: '#828998' }}>Live Support</Typography>
+              <Typography style={{ color: '#828998' }}>Help Center</Typography>
+              <Typography style={{ color: '#828998' }}>Game Responsibly</Typography>
+            </Grid>
+            {/* COLUMNA cOMMUNITY*/}
+            <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
+              <Typography style={{ fontWeight: 800, fontSize: '1rem' }}>Support</Typography>
+              <Typography style={{ color: '#828998' }}>Live Support</Typography>
+              <Typography style={{ color: '#828998' }}>Help Center</Typography>
+              <Typography style={{ color: '#828998' }}>Game Responsibly</Typography>
+            </Grid>
+            {/* COLUMNA cOMMUNITY*/}
+            <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '10%', color: 'white' }}>
+              <select style={{ width: '100%', height: '100%', backgroundColor: '#2a2e38', borderRadius: '5px', color: 'white', padding: '10px' }} name="cars" id="cars">
+                <option value="Publico"> Español</option>
+                <option value="Privado"> Inglés</option>
+
+              </select>
+            </Grid>
           </Grid>
-          {/* COLUMNA SUPPORT*/}
-          <Grid style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-            <Typography style={{ fontWeight: 800 }}>Support</Typography>
-            <Typography>Live Support</Typography>
-            <Typography>Help Center</Typography>
-            <Typography>Game Responsibly</Typography>
+
+          <Grid >
+            <p style={{ color: '#828998' }}>
+              Shuffle is owned and operated by Natural Nine B.V., Curaçao company registration number 160998, with its registered address at Fransche Bloemweg 4, Willemstad, Curaçao. Shuffle is authorized and regulated by the Government of Curaçao and operates under License No. 8048/JAZ issued to Antillephone. Shuffle’s payment agent company is River Card Limited, Cyprus company registration number HE 431566, with its registered address at 50 Spyrou Kyprianou Avenue, Irida Tower 3, Floor 6, 6057 Larnaca, Cyprus. Contact us at support@shuffle.com.
+
+            </p>
           </Grid>
-          {/* COLUMNA PLATFORM*/}
-          <Grid style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-            <Typography style={{ fontWeight: 800 }}>Support</Typography>
-            <Typography>Live Support</Typography>
-            <Typography>Help Center</Typography>
-            <Typography>Game Responsibly</Typography>
-          </Grid>
-          {/* COLUMNA policy*/}
-          <Grid style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-            <Typography style={{ fontWeight: 800 }}>Support</Typography>
-            <Typography>Live Support</Typography>
-            <Typography>Help Center</Typography>
-            <Typography>Game Responsibly</Typography>
-          </Grid>
-          {/* COLUMNA cOMMUNITY*/}
-          <Grid style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-            <Typography style={{ fontWeight: 800 }}>Support</Typography>
-            <Typography>Live Support</Typography>
-            <Typography>Help Center</Typography>
-            <Typography>Game Responsibly</Typography>
+
+
+          <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', borderTop: '1px solid gray', paddingTop: '20px', paddingBottom: '20px' }}>
+            <p style={{ color: '#828998' }}>
+              1 ETH = $3,561.37
+            </p>
+
+            <p style={{ color: '#828998' }}>
+              © 2024 Pinkker.tv | All Rights Reserved
+            </p>
           </Grid>
 
         </Grid>

@@ -38,7 +38,7 @@ export default function CustomCard(props) {
           className="custom-categories-card"
         >
           <div className="custom-categories-card-contain">
-            <Link to={"/categorie/" + props.name}>
+            <Link to={props.titulo ? "/plataform/explore?tipo=categories" : "/categorie/" + props.name}>
               {/* <div
                 style={{
                   background: ` ${dominantColor}`,
@@ -49,20 +49,30 @@ export default function CustomCard(props) {
               </div> */}
               <img
                 style={{
-                  border: `3px solid ${dominantColor}`,
+                  border: `1px solid ${dominantColor}`,
+                  width: '140px',
+                  height: '190px',
                 }}
                 className="img-categorie-card"
                 src={props.image}
                 loading={"lazy"}
                 alt=""
               />
+              {props?.titulo && <span style={{position:'relative', top:'-188px', left:'65px'}}>Ver Todos</span>}
+
             </Link>
           </div>
           <div className="user_data_contain">
             <div className="custom-categories-p-2">
-              <span id="pulsatingDot" />
+              
+              {!props.titulo && <span id="pulsatingDot" />}
               <p className="custom-categories-p-2-spectators">
-                <span>{formatViewers(props.spectators)}</span>espectadores
+                {!props?.titulo &&
+
+                  <>
+                    <span >{formatViewers(props.spectators)}</span>espectadores
+                  </>
+                }
               </p>
             </div>
           </div>

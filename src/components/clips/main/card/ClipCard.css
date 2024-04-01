@@ -75,11 +75,9 @@ a {
 
 .clipmain-comments-container {
     z-index: 8888;
-    margin-top: 40px;
     position: relative;
     left: -30px;
-    padding: 20px;
-    animation: 1s moveToLeft ease-in-out;
+    animation: 1s moveToRight ease-in-out;
 }
 
 /* .clipsmain-right-buttons {
@@ -95,7 +93,7 @@ a {
 
 @keyframes moveToLeft {
     0% {
-        left: 0px;
+        R: 0px;
         opacity: 0;
     }
 

@@ -263,7 +263,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/muro">
 
-              <Muro isMobile={isMobile} />
+              <Muro isMobile={isMobile} userName={user} />
             </Route>
 
             <Route exact path="/vod/:vodId">

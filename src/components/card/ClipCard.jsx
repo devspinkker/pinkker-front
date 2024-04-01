@@ -79,7 +79,7 @@ export default function ClipCard({ video, ...props }) {
           style={{  display: "flex", alignItems: "center" }}
         >
           <img
-            style={{ width: "35px", marginTop: "10px" }}
+            style={{ width: "35px", height: "35px", borderRadius:'50%'  }}
             src={video.Avatar}
           />
           <div style={{ marginTop: "10px", marginLeft: "5px", display:'flex', gap:'2px', flexDirection:'column' }}>
