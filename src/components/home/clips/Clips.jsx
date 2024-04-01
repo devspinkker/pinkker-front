@@ -9,6 +9,8 @@ import {
 import { Link } from "react-router-dom";
 import ReactPlayer from "react-player";
 import SelectVideoClip from "./SelectVideoClip";
+import { AiOutlinePlayCircle } from "react-icons/ai";
+import { Grid } from "@mui/material";
 
 // Nuevo componente para el loader
 
@@ -25,7 +27,7 @@ function CardSkeleto() {
   );
 }
 
-export default function Clips() {
+export default function Clips(props) {
   const [clips, setClips] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -51,7 +53,7 @@ export default function Clips() {
     const increment = direction === "right" ? 1 : -1;
     const newIndex = currentIndex + increment;
 
-    if (newIndex >= 0 && newIndex < clips.length) {
+    if (newIndex >= 0 && newIndex < clips?.length) {
       setCurrentIndex(newIndex);
     }
   };
@@ -63,11 +65,15 @@ export default function Clips() {
   return (
     <div className="home-clips">
       <div className="manager-recommended">
-        <h2>Clips más vistos </h2>
+        <Grid style={{display:'flex', alignItems:'center',gap:'5px', width:'30%'}}>
+
+          <AiOutlinePlayCircle style={{ color: '#856ffc', fontSize:'20px' }} />
+          <h2 style={{color:'white', fontSize:'20px'}}>{props.titulo ? 'Vods más vistos' : 'Clips más vistos'} </h2>
+        </Grid>
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
-            <Link to="/plataform/explore?tipo=clips">
-              <span style={{ fontFamily: 'Signika Negative' }}>Ver todos</span>
+            <Link to="/plataform/explore?tipo=clips" style={{ padding: 0 }}>
+              <span style={{ fontFamily: 'Signika Negative', fontSize: '14px' }}>Ver todos</span>
             </Link>
           </div>
           <div className="manager-recommended-actions-arrow">
@@ -108,8 +114,8 @@ export default function Clips() {
                     marginRight: "13px",
                     marginTop: "10px",
                     scrollSnapAlign: "start",
-                    width: "350px",
-                    height: "196px",
+                    width: "60%",
+
                   }}
                 >
                   {isLoading ? (

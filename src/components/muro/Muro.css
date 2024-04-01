@@ -6,7 +6,6 @@
 .muro-container {
     width: 100%;
     margin: 0 auto;
-
     display: flex;
     background-color: #080808;
 }
@@ -32,33 +31,38 @@
 }
 
 .muro-send-tweet {
-    width: 60%;
+    width: 65%;
     margin: 0 auto;
     min-height: 70px;
+    border: 1px solid #2a2e38;
+    border-radius: 5px;
     padding: 10px;
-    border: 1px solid #ffffff1a;
 }
 
 .muro-send-tweet-input {
-    width: 87%;
-    min-height: 45px;
+    width: 90%;
+    background-color: #3a3b3c;
+    border-radius: 20px;
+}
+
+.muro-send-tweet-input::placeholder{
+    padding: 55px;
 }
 
 .muro-send-tweet-input textarea {
     background-color: transparent;
-    width: 100%;
+    width: 99%;
     border: none;
-    height: 35px;
-    border-radius: 3px;
+    height: 20px;
+    border-radius:20px;
     color: white;
     font-size: 18px;
     outline: none;
-    margin-top: 10px;
+    padding: 5px;
     resize: none;
 }
 
 .muro-send-tweet-button {
-    margin-top: 20px;
     width: 100px;
     height: 35px;
     padding: 5px;
@@ -83,22 +87,24 @@
 .mure-send-tweet-icons-card:hover {
     background-color: #f960b44a;
 }
-
+.link-arriba:hover{
+    background-color: #343843;
+    border-radius: 5px;
+}
 .muro-send-tweet-button:hover {
     background-color: #762543;
 }
 
 .muro-tweet-container {
-    width: 61.6%;
+    width: 65%;
     margin: 0 auto;
-    min-height: 1000px;
-    border-left: 1px solid #ffffff1a;
-    border-right: 1px solid #ffffff1a;
+    border: 1px solid #2a2e38;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 .muro-tweet-secondary {
-    width: 20%;
-    height: 1000px;
+    width: 25%;
 }
 
 .muro-tweet-secondary-search input {
@@ -117,7 +123,6 @@
 
 
 .muro-tweet-secondary-tendency {
-    width: 90%;
     background-color: #131313;
     margin-top: 30px;
     border-radius: 5px;
@@ -132,15 +137,19 @@
     justify-content: space-between;
 }
 
+.muro-tweet-secondary-tendency-card h3{
+    font-size: 16px;
+}
 .muro-tweet-secondary-follow {
-    width: 90%;
     background-color: #131313;
     margin-top: 30px;
     border-radius: 5px;
     padding: 20px;
     color: #ededed;
 }
-
+.muro-tweet-secondary-follow h3{
+    font-size: 16px;
+}
 .muro-tweet-secondary-follow-card {
     margin-top: 20px;
     display: flex;

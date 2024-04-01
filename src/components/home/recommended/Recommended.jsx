@@ -165,8 +165,8 @@ export default function DirectosRecommended({
         </div>
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
-            <Link to="/plataform/explore?tipo=streams">
-              <span style={{ fontFamily: 'Signika Negative' }} >Ver todos</span>
+            <Link to="/plataform/explore?tipo=streams" style={{padding:0}}>
+              <span style={{ fontFamily: 'Signika Negative' , fontSize:'14px'}} >Ver todos</span>
             </Link>
           </div>
           <div className="manager-recommended-actions-arrow">

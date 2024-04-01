@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import "./Muro.css";
 
@@ -24,10 +25,11 @@ import { follow, unfollow } from "../../services/follow";
 import FollowCard from "./FollowCard";
 
 import EmojiPicker, { Theme } from "emoji-picker-react";
+import { FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 
-export default function Muro({ isMobile }) {
+export default function Muro({ isMobile, userName }) {
   const auth = useSelector((state) => state.auth);
-  const { user, isLogged } = auth;
+
   const token = useSelector((state) => state.token);
 
   const alert = useNotification();
@@ -80,6 +82,7 @@ export default function Muro({ isMobile }) {
     }
   };
 
+
   async function handleSubmit() {
     if (message != "") {
       const formData = new FormData();
@@ -120,180 +123,223 @@ export default function Muro({ isMobile }) {
     reader.readAsDataURL(fileT);
   };
 
+  console.log('userName',userName)
   function renderMuro() {
     if (true) {
       return (
         <div className="muro-container">
-          <div style={{ width: isMobile ? "100%" : "70%" }}>
-            <div
-              onDragEnterCapture={() => setOnDrag(true)}
+
+          <div style={{ width: "100%", display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            {
+              userName?.NameUser ?
+
+                <Grid style={{ color: 'white', width: '67%', margin: '0 auto' }}>
+                  <Grid style={{ display: 'flex', backgroundColor: '#202329', padding: '5px', width: '26%', alignItems: 'center', gap: '5px', borderRadius: '5px' }}>
+                    <Link to="/" style={{ padding: '5px', backgroundColor:'#343843', borderRadius:'5px' }} className="link-arriba">Para ti</Link>
+                    <Link to="/" style={{ padding: '5px' }} className="link-arriba">Siguiendo</Link>
+                  </Grid>
+                </Grid>
+
+                :
+                <Grid style={{ color: 'white', width: '67%', margin: '0 auto' }}>
+
+                  <h3 style={{ color: 'white' }}>Muro de Pinkker</h3>
+                </Grid>
+            }
+
+
+            {
+              userName?.NameUser &&
+
+              <div
+                onDragEnterCapture={() => setOnDrag(true)}
               /*onDragLeave={() => setOnDrag(false)}*/ className="muro-send-tweet"
-            >
-              {/*<div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+              >
+                {/*<div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                               <div onClick={() => handleNewTweets()} className="muro-new-messages">
                                   <h3 style={{fontSize: "15px"}}>Nuevos posteos</h3>
                                   <i style={{marginLeft: "5px", fontSize: "12px"}} class="fas fa-sync-alt"/>
                               </div>
               </div>*/}
 
-              <div style={{ display: "flex" }}>
-                <div className="tweetcard-avatar">
-                  <img
-                    style={{ width: "45px", borderRadius: "100px" }}
-                    src={user.avatar}
-                  />
-                </div>
-                <div className="muro-send-tweet-input">
-                  <textarea
-                    id="muro-textarea"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Qué estás pensando?"
-                    type="text"
-                  />
-                </div>
-              </div>
+                <div style={{ display: "flex", alignItems: 'center', justifyContent: 'center', padding: "10px 0px ", width: '90%', margin: '0 auto' }}>
+                  <div className="tweetcard-avatar">
+                    <img
+                      style={{ width: "35px", borderRadius: "50%" }}
+                      src={userName.avatar ?? '/images/pixel.png'}
+                    />
+                  </div>
 
-              {file != null && (
+                  <div className="muro-send-tweet-input">
+                    <textarea
+                      id="muro-textarea"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Qué estás pensando?"
+                      type="text"
+                    />
+                  </div>
+                </div>
+
+                {file != null && (
+                  <div
+                    style={{
+                      textAlign: "center",
+                      display: "flex",
+                      justifyContent: "center",
+
+                    }}
+                  >
+                    <i
+                      onClick={() => console.log("i")}
+                      style={{
+                        color: "white",
+                        cursor: "pointer",
+                        height: "20px",
+                        width: "20px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        borderRadius: "50px",
+                        position: "relative",
+                        left: "35px",
+                        top: "10px",
+                        padding: "5px",
+                        backgroundColor: "#303030",
+                      }}
+                      class="fas fa-times"
+                    />
+                    <img style={{ maxWidth: "320px" }} src={image} />
+                  </div>
+                )}
+
+                {onDrag && file === null && (
+                  <FileUploader
+                    hoverTitle="Soltar aca"
+                    label="Subir archivo a tu publicación"
+                    multiple={false}
+                    classes="muro-drag-input"
+                    handleChange={handleChange}
+                    name="file"
+                    types={fileTypes}
+                  />
+                )}
+
                 <div
                   style={{
-                    textAlign: "center",
                     display: "flex",
-                    justifyContent: "center",
+                    alignItems: 'center',
+                    justifyContent: "space-between",
+                    width: "90%",
+                    margin: '0 auto',
+                    padding: "15px 0px",
+                    borderTop: "1px solid #2a2e38"
                   }}
                 >
-                  <i
-                    onClick={() => console.log("i")}
-                    style={{
-                      color: "white",
-                      cursor: "pointer",
-                      height: "20px",
-                      width: "20px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      borderRadius: "50px",
-                      position: "relative",
-                      left: "35px",
-                      top: "10px",
-                      padding: "5px",
-                      backgroundColor: "#303030",
-                    }}
-                    class="fas fa-times"
-                  />
-                  <img style={{ maxWidth: "320px" }} src={image} />
-                </div>
-              )}
-
-              {onDrag && file === null && (
-                <FileUploader
-                  hoverTitle="Soltar aca"
-                  label="Subir archivo a tu publicación"
-                  multiple={false}
-                  classes="muro-drag-input"
-                  handleChange={handleChange}
-                  name="file"
-                  types={fileTypes}
-                />
-              )}
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "20px",
-                  width: "97%",
-                }}
-              >
-                <div style={{ display: "flex", borderRadius: "50px" }}>
-                  <div
-                    className="mure-send-tweet-icons-card"
-                    style={{
-                      width: "33px",
-                      height: "33px",
-                      borderRadius: "100px",
-                      display: "flex",
-                      marginTop: "20px",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginRight: "5px",
-                    }}
-                  >
-                    <i
-                      style={{
-                        padding: "5px",
-                        color: "#ff4aa7d2",
-                        marginRight: "5px",
-                      }}
-                      class="fas fa-photo-video"
-                    />
-                  </div>
-                  <input
-                    onChange={(e) => handleChange2(e)}
-                    style={{
-                      backgroundColor: "red",
-                      width: "30px",
-                      position: "absolute",
-                      marginTop: "25px",
-                      opacity: "0",
-                    }}
-                    type="file"
-                  />
-                  <div
-                    onClick={() => onMouseEnterEmotes()}
-                    className="mure-send-tweet-icons-card"
-                    style={{
-                      width: "33px",
-                      marginTop: "20px",
-                      height: "33px",
-                      borderRadius: "100px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginRight: "5px",
-                    }}
-                  >
-                    <i
-                      style={{
-                        padding: "5px",
-                        color: "#ff4aa7d2",
-                        marginRight: "5px",
-                      }}
-                      class="far fa-smile"
-                    />
-                  </div>
-                  {dropdownEmotes && (
+                  <div style={{ display: "flex", width: '80%', justifyContent: 'space-between' }}>
                     <div
+                      className="mure-send-tweet-icons-card"
                       style={{
-                        position: "absolute",
-                        zIndex: "1001",
-                        marginTop: "60px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: '5px',
+                        padding: '0px',
                       }}
                     >
-                      <EmojiPicker
-                        onEmojiClick={(e) => console.log("clickEmoji(e)")}
-                        autoFocusSearch={false}
-                        theme={Theme.DARK}
-                        searchDisabled
-                        height={"300px"}
-                        width="300px"
-                        lazyLoadEmojis={true}
-                        previewConfig={{
-                          showPreview: false,
+                      <i
+                        style={{
+                          padding: "5px",
+                          color: "#ff4aa7d2",
+
                         }}
+                        class="fas fa-photo-video"
                       />
+                      <input
+                        onChange={(e) => handleChange2(e)}
+                        style={{
+                          backgroundColor: "red",
+                          width: "30px",
+                          position: "absolute",
+
+                          opacity: "0",
+                        }}
+                        type="file"
+                      />
+                      <Typography style={{ color: 'white' }}>Foto/Video</Typography>
                     </div>
-                  )}
-                  {/*dropdownEmotes && <DropdownEmotes muro={true} clickEmoticon />*/}
+
+
+
+
+                    <div
+                      onClick={() => onMouseEnterEmotes()}
+                      className="mure-send-tweet-icons-card"
+                      style={{
+
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+
+                      }}
+                    >
+                      <i
+                        style={{
+                          padding: "5px",
+                          color: "#ff4aa7d2",
+                          marginRight: "5px",
+                        }}
+                        class="far fa-smile"
+                      />
+                      {dropdownEmotes && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            zIndex: "1001",
+                            marginTop: "60px",
+                          }}
+                        >
+                          <EmojiPicker
+                            onEmojiClick={(e) => console.log("clickEmoji(e)")}
+                            autoFocusSearch={false}
+                            theme={Theme.DARK}
+                            searchDisabled
+                            height={"300px"}
+                            width="300px"
+                            lazyLoadEmojis={true}
+                            previewConfig={{
+                              showPreview: false,
+                            }}
+                          />
+                        </div>
+
+                      )}
+                      <Typography style={{ color: 'white' }}>Emotes</Typography>
+
+                    </div>
+
+                    {/*dropdownEmotes && <DropdownEmotes muro={true} clickEmoticon />*/}
+
+
+
+                    <Grid style={{ backgroundColor: '#2a2e38', borderRadius: '5px', width: '25%' }}>
+                      <select style={{ width: '100%', height: '100%', backgroundColor: '#2a2e38', borderRadius: '5px', color: 'white' }} name="cars" id="cars">
+                        <option value="Publico"> Público</option>
+                        <option value="Privado"> Privado</option>
+
+                      </select>
+                    </Grid>
+
+                  </div>
+                  <button
+                    onClick={() => handleSubmit()}
+                    className="muro-send-tweet-button"
+                  >
+                    Publicar
+                  </button>
                 </div>
-                <button
-                  onClick={() => handleSubmit()}
-                  className="muro-send-tweet-button"
-                >
-                  Publicar
-                </button>
               </div>
-            </div>
+            }
             <div className="muro-tweet-container">
               {/*<div style={{height: "60px", cursor: "pointer", width: "100%", borderTop: "1px solid #ffffff1a", borderBottom: "1px solid #ffffff1a", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                   <p style={{color: "#ff60b2"}}>10 nuevos posteos</p>
@@ -331,20 +377,8 @@ export default function Muro({ isMobile }) {
             <div className="muro-tweet-secondary">
               <div className="muro-tweet-secondary-search">
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <input placeholder="Buscar en el muro.." type="search" />
-                  <i
-                    style={{
-                      backgroundColor: "#131313",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginLeft: "0px",
-                      borderLeft: "1px solid #202020",
-                      borderEndEndRadius: "5px",
-                      borderTopRightRadius: "5px",
-                    }}
-                    class="fas fa-search navbar-search-i"
-                  ></i>
+                  <input placeholder="Buscar en el muro.." type="search" style={{ backgroundColor: '#3a3b3c' }} />
+
                 </div>
               </div>
 

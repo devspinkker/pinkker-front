@@ -28,8 +28,10 @@ import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
 import { getUserByIdTheToken } from "../../services/backGo/user";
 import CardCategorie from "../home/categories/CardCategorie";
-import { Skeleton } from "@mui/material";
-
+import { Grid, Skeleton } from "@mui/material";
+import { AiOutlinePlayCircle } from "react-icons/ai";
+import { LuGamepad } from "react-icons/lu";
+import { GrGamepad } from "react-icons/gr";
 const Home = ({
   socketMain,
   expanded,
@@ -182,7 +184,7 @@ const Home = ({
     const increment = direction === "right" ? 1 : -1;
     const newIndex = currentIndex + increment;
 
-    if (newIndex >= 0 && newIndex < streams.length) {
+    if (newIndex >= 0 && newIndex < 5) {
       setCurrentIndex(newIndex);
     }
   };
@@ -197,6 +199,27 @@ const Home = ({
   useEffect(() => {
     generateColor()
   }, [])
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [offset, setOffset] = useState(0);
+
+  const handleMouseDown = (event) => {
+    setIsDragging(true);
+    setStartX(event.clientX);
+  };
+
+  const handleMouseMove = (event) => {
+    if (!isDragging) return;
+
+    const newOffset = event.clientX - startX;
+    setOffset(newOffset);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setStartX(0);
+  };
   return (
     <div
       style={{
@@ -661,14 +684,16 @@ const Home = ({
       <div className="categories-home-container">
         <div className="categories-home-manager">
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '80%' }}>
-            <img src="/images/original.svg" style={{ width: '2.5%' }} />
+            {/* <img src="/images/original.svg" style={{ width: '2%', color:'#856ffc' }} /> */}
+
+            <GrGamepad style={{ color: '#856ffc', fontSize: '20px' }} />
             <h2 style={{ fontFamily: 'Inter', color: 'white' }}>Categorias</h2>
           </div>
 
           <div className="manager-recommended-actions">
             <div className="manager-recommended-actions-ver-todos">
-              <Link to="/plataform/explore?tipo=categories">
-                <span style={{ fontFamily: 'Signika Negative' }}>Ver todos</span>
+              <Link to="/plataform/explore?tipo=categories" style={{ padding: 0 }}>
+                <span style={{ fontFamily: 'Signika Negative', fontSize: '14px' }}>Ver todos</span>
               </Link>
             </div>
             <div className="manager-recommended-actions-arrow">
@@ -687,9 +712,15 @@ const Home = ({
         </div>
         <div
           className="categories-home"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
           style={{
             transition: "transform 0.5s ease",
-            transform: `translateX(${currentIndex * -10}%)`,
+            transform: isDragging ? `translateX(${offset}px)` : `translateX(${currentIndex * -15}%)`,
+            cursor: isDragging ? 'grabbing' : 'grab', 
+            userSelect: 'none'
           }}
         >
           {!Categories[1] && (
@@ -698,11 +729,14 @@ const Home = ({
                 display: "flex",
                 alignItems: "center",
                 flexWrap: "wrap",
+                margin: '21px 0px',
+                gap: '10px',
+
               }}
             >
-              {[...Array(8)].map((_, index) => (
+              {[...Array(10)].map((_, index) => (
                 <div
-                  style={{ marginRight: "9px", marginTop: "30px" }}
+                  style={{ marginTop: "30px", display: "flex", alignItems: "center", gap: '15px' }}
                   key={index}
 
                 >
@@ -718,7 +752,7 @@ const Home = ({
             </div>
           )}
           {Categories &&
-            Categories.map((categorie) => (
+            Categories.filter((categorie, index) => index < 10).map((categorie) => (
               <CardCategorie
                 width={isMobile ? "160px" : "160px"}
                 isLoading={isLoading}
@@ -729,13 +763,27 @@ const Home = ({
                 TopColor={categorie.TopColor}
               />
             ))}
+          <CardCategorie
+            width={isMobile ? "160px" : "160px"}
+            isLoading={isLoading}
+            name={'Ver Todos'}
+            titulo={'Ver Todos'}
+            image={"/images/pinkker-stream.png"}
+            spectators={''}
+            tags={''}
+            TopColor={''}
+          />
         </div>
       </div>
 
+      <AiOutlinePlayCircle />
       {!isMobile && <Clips isMobile={isMobile} />}
 
       {/* <Vods /> */}
-      {!isMobile && <Clips isMobile={isMobile} />}
+
+
+      {!isMobile && <Clips isMobile={isMobile} titulo={'Vods'} />}
+
 
       {/* {showPopupAuth === true && <Auth typeDefault={1} closePopup={() => togglePopupAuth()} />} */}
       {/*activePlayerPopup === true && <CustomPlayer expanded={expanded} width="100%" height="160px" popup={true} style={{zIndex: "99999"}} streamerName={streamerPlayerPopup} closePopup={() => setActivePlayerPopup(false)}/> */}

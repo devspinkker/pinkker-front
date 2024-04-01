@@ -514,6 +514,7 @@
 .channel-v2-categorie {
     display: flex;
     align-items: center;
+    gap:10px;
 }
 
 .channel-v2-categorie>h4 {
