@@ -151,7 +151,7 @@ export default function Search({ isMobile, tyExpanded, setExpanded }) {
       className={
         search === null
           ? "navbar-search-dark navbar-search-margin"
-          : "nav-contraida"
+          : "navbar-search-" + theme.theme
       }
 
     >

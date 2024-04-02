@@ -17,8 +17,8 @@
     align-items: center;
     justify-content: center;
     position: fixed;
-    top: 0;
-    height: 100%;
+    top: 15%;
+    height: 768px;
     left: 50%;
     animation: fadeIn .5s ease-in-out;
     transform: translate(-50%);
@@ -68,7 +68,7 @@
     height: 85% !important;
     padding: 30px;
     text-align: center;
-    background: #18181b;
+    background: #121418;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);

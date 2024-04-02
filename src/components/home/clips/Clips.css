@@ -66,6 +66,9 @@
 
 .home-clips-card-container-clips-children {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 
 }
 
