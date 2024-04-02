@@ -5,14 +5,18 @@
     display: flex;
     background: #0a0a0afc;
     font-family: 'Roboto';
-    border-end-end-radius: 5px;
-    border-end-start-radius: 5px;
-    margin-top: 10px;
+    border-radius: 5px;
+    
+    margin-top: 2.5%;
     height: 270px;
     overflow: scroll;
     border-bottom: 1px solid #ffffff1a;
     border-left: 1px solid #ffffff1a;
     border-right: 1px solid #ffffff1a;
+    position: fixed;
+    z-index: 99999;
+    width: 11.2%;
+    left: 15px;
 }
     
     .dropdownsearch-menu li {

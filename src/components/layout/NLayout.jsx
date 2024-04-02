@@ -134,7 +134,7 @@ function NLayout(props) {
 
         <Grid
           style={{
-            padding: "1.3rem 5px",
+            padding: "1.3rem 15px",
             border: "1px solid #2a2e38",
             borderRight: "none",
             borderLeft: "none",
@@ -208,6 +208,8 @@ function NLayout(props) {
         <Grid>
           <Grid
             className="pixel-li"
+                
+                style={{transition: 'all 1s ease', animation: !props.tyExpanded && "ease-in-out 1s linear"}}
           >
 
             <div
@@ -221,9 +223,9 @@ function NLayout(props) {
                 <img
                   className="pixel-coming-soon-navbarLeft-img-pixel"
                   style={{
-                    width: "38px",
+                    width: "36px",
                   }}
-                  src="/images/token.svg"
+                  src="/images/pixel.png"
                 />
               </div>
               {props.tyExpanded && (
@@ -816,31 +818,31 @@ function NLayout(props) {
             </Grid>
             {/* COLUMNA SUPPORT*/}
             <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-              <Typography style={{ fontWeight: 800, fontSize: '1rem' }}>Support</Typography>
-              <Typography style={{ color: '#828998' }}>Live Support</Typography>
-              <Typography style={{ color: '#828998' }}>Help Center</Typography>
-              <Typography style={{ color: '#828998' }}>Game Responsibly</Typography>
+              <Typography style={{ fontWeight: 800, fontSize: '1rem', textShadow: '0 1px 0 #000' }}>Support</Typography>
+              <Typography style={{ color: '#828998', fontFamily:'Inter' }}>Live Support</Typography>
+              <Typography style={{ color: '#828998' , fontFamily:'Inter'}}>Help Center</Typography>
+              <Typography style={{ color: '#828998' , fontFamily:'Inter'}}>Game Responsibly</Typography>
             </Grid>
             {/* COLUMNA PLATFORM*/}
             <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-              <Typography style={{ fontWeight: 800, fontSize: '1rem' }}>Support</Typography>
-              <Typography style={{ color: '#828998' }}>Live Support</Typography>
-              <Typography style={{ color: '#828998' }}>Help Center</Typography>
-              <Typography style={{ color: '#828998' }}>Game Responsibly</Typography>
+              <Typography style={{ fontWeight: 800, fontSize: '1rem', textShadow: '0 1px 0 #000' }}>Support</Typography>
+              <Typography style={{ color: '#828998', fontFamily:'Inter' }}>Live Support</Typography>
+              <Typography style={{ color: '#828998', fontFamily:'Inter' }}>Help Center</Typography>
+              <Typography style={{ color: '#828998', fontFamily:'Inter' }}>Game Responsibly</Typography>
             </Grid>
             {/* COLUMNA policy*/}
             <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-              <Typography style={{ fontWeight: 800, fontSize: '1rem' }}>Support</Typography>
-              <Typography style={{ color: '#828998' }}>Live Support</Typography>
-              <Typography style={{ color: '#828998' }}>Help Center</Typography>
-              <Typography style={{ color: '#828998' }}>Game Responsibly</Typography>
+              <Typography style={{ fontWeight: 800, fontSize: '1rem', textShadow: '0 1px 0 #000' }}>Support</Typography>
+              <Typography style={{ color: '#828998', fontFamily:'Inter' }}>Live Support</Typography>
+              <Typography style={{ color: '#828998' , fontFamily:'Inter'}}>Help Center</Typography>
+              <Typography style={{ color: '#828998' , fontFamily:'Inter'}}>Game Responsibly</Typography>
             </Grid>
             {/* COLUMNA cOMMUNITY*/}
             <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-              <Typography style={{ fontWeight: 800, fontSize: '1rem' }}>Support</Typography>
-              <Typography style={{ color: '#828998' }}>Live Support</Typography>
-              <Typography style={{ color: '#828998' }}>Help Center</Typography>
-              <Typography style={{ color: '#828998' }}>Game Responsibly</Typography>
+              <Typography style={{ fontWeight: 800, fontSize: '1rem', textShadow: '0 1px 0 #000' }}>Support</Typography>
+              <Typography style={{ color: '#828998', fontFamily:'Inter' }}>Live Support</Typography>
+              <Typography style={{ color: '#828998', fontFamily:'Inter' }}>Help Center</Typography>
+              <Typography style={{ color: '#828998', fontFamily:'Inter' }}>Game Responsibly</Typography>
             </Grid>
             {/* COLUMNA cOMMUNITY*/}
             <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '10%', color: 'white' }}>
@@ -853,7 +855,7 @@ function NLayout(props) {
           </Grid>
 
           <Grid >
-            <p style={{ color: '#828998' }}>
+            <p style={{ color: '#828998', fontSize:'14px', fontFamily:'Inter' }}>
               Shuffle is owned and operated by Natural Nine B.V., Curaçao company registration number 160998, with its registered address at Fransche Bloemweg 4, Willemstad, Curaçao. Shuffle is authorized and regulated by the Government of Curaçao and operates under License No. 8048/JAZ issued to Antillephone. Shuffle’s payment agent company is River Card Limited, Cyprus company registration number HE 431566, with its registered address at 50 Spyrou Kyprianou Avenue, Irida Tower 3, Floor 6, 6057 Larnaca, Cyprus. Contact us at support@shuffle.com.
 
             </p>
@@ -861,11 +863,11 @@ function NLayout(props) {
 
 
           <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', borderTop: '1px solid gray', paddingTop: '20px', paddingBottom: '20px' }}>
-            <p style={{ color: '#828998' }}>
+            <p style={{ color: '#828998' , fontSize:'14px', fontFamily:'Inter'}}>
               1 ETH = $3,561.37
             </p>
 
-            <p style={{ color: '#828998' }}>
+            <p style={{ color: '#828998', fontSize:'14px', fontFamily:'Inter' }}>
               © 2024 Pinkker.tv | All Rights Reserved
             </p>
           </Grid>

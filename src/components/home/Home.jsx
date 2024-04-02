@@ -180,15 +180,33 @@ const Home = ({
   }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+
+  const [is1080x1920, setIs1080x1920] = useState(false);
+
+  const handleResize = () => {
+    const is1080 = window.innerWidth === 1920;
+    const is1920 = window.innerHeight === 1080;
+    setIs1080x1920(is1080 && is1920);
+  };
+  console.log('is1080x1920', is1080x1920)
+  useEffect(() => {
+    handleResize(); // Comprobar el tamaño inicial de la pantalla al montar el componente
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   const fetchMoreData = (direction) => {
     const increment = direction === "right" ? 1 : -1;
     const newIndex = currentIndex + increment;
 
-    if (newIndex >= 0 && newIndex < 5) {
+    if (newIndex >= 0 && newIndex < (is1080x1920 ? 3 : 4)) {
       setCurrentIndex(newIndex);
     }
   };
 
+  let size = is1080x1920 ? -15 : -20;
   const [color, setColor] = useState("");
 
   const generateColor = () => {
@@ -718,8 +736,8 @@ const Home = ({
           onMouseLeave={handleMouseUp}
           style={{
             transition: "transform 0.5s ease",
-            transform: isDragging ? `translateX(${offset}px)` : `translateX(${currentIndex * -15}%)`,
-            cursor: isDragging ? 'grabbing' : 'grab', 
+            transform: isDragging ? `translateX(${offset}px)` : `translateX(${currentIndex * size}%)`,
+            cursor: isDragging ? 'grabbing' : 'grab',
             userSelect: 'none'
           }}
         >
@@ -731,8 +749,8 @@ const Home = ({
                 flexWrap: "wrap",
                 margin: '21px 0px',
                 gap: '10px',
-
               }}
+
             >
               {[...Array(10)].map((_, index) => (
                 <div
@@ -776,7 +794,6 @@ const Home = ({
         </div>
       </div>
 
-      <AiOutlinePlayCircle />
       {!isMobile && <Clips isMobile={isMobile} />}
 
       {/* <Vods /> */}
@@ -790,7 +807,7 @@ const Home = ({
       {/* <div className="pinkker-scrollbar">
         <div style={{ top: scroll }} className="pinkker-scrollbar-tab" />
       </div> */}
-    </div>
+    </div >
   );
 };
 
