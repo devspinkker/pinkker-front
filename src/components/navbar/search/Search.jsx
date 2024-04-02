@@ -44,7 +44,7 @@ function useOnClickOutside(ref, handler) {
   }, [ref, handler]);
 }
 
-export default function Search({ isMobile, tyExpanded }) {
+export default function Search({ isMobile, tyExpanded, setExpanded }) {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const { user, isAdmin } = auth;
@@ -142,27 +142,29 @@ export default function Search({ isMobile, tyExpanded }) {
     }
   };
 
+
   return (
     <div
       ref={divRef}
+      style={{ padding: tyExpanded && "0 0 0 1rem", height: tyExpanded && "3rem", lineHeight: tyExpanded && 2, display: "flex", width: tyExpanded && "88% !important", cursor: "pointer" }}
+      onClick={() => setExpanded(true)}
       className={
         search === null
-          ? "navbar-search-" + theme.theme + " navbar-search-margin"
-          : "navbar-search-" + theme.theme
+          ? "navbar-search-dark navbar-search-margin"
+          : "nav-contraida"
       }
-      style={{ padding: "2px" }}
+
     >
       <div
         style={{
           display: "flex",
           alignItems: "center",
+          justifyContent: 'center',
           height: isMobile ? "50px" : "",
         }}
       >
-        <i
-          style={{ fontSize: tyExpanded ? '18px' :"16px", color: "rgb(89 89 89)", margin:'5px' }}
-          class="fas fa-search navbar-search-i"
-        />
+        <img src="/images/search.svg" style={{ fontSize: tyExpanded ? '18px' : "16px", color: "rgb(89 89 89)", margin: tyExpanded ? '5px' : '8px' }} />
+
 
         {
           tyExpanded &&
@@ -174,6 +176,7 @@ export default function Search({ isMobile, tyExpanded }) {
             onChange={handleChange}
             placeholder="Search"
             type="search"
+            className="input-searchbar"
           />
         }
 

@@ -604,17 +604,23 @@
   display: flex;
   justify-content: start;
   align-items: center;
+  gap:.62rem;
 }
+
+
+
+
+
+
+
 
 .pixel-coming-soon-navbarLeft-img-pixel-container {
   display: flex;
   justify-content: center;
-  padding: 5px;
   border: 1px solid #202329;
   border-radius: 10px;
   align-items: center;
-  height: 31px;
-  width: 37px;
+
 }
 
 .pixel-coming-soon-navbarLeft-noexpand {
@@ -627,7 +633,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10px;
 }
 
 .pixel-coming-soon-text {
@@ -635,12 +640,13 @@
   justify-content: flex-start;
   align-items: center;
   color: #fff;
+  gap: 2px;
 }
 
 .pixel-coming-soon-text-pixel {
-  font-weight: bold;
-  padding-right: 3px;
-  transition: all .2s;
+  font-size: .875rem;
+  font-weight: 400;
+  transition: all .1s;
 }
 
 .pixel-coming-soon-text-pixel:hover {
@@ -650,11 +656,13 @@
 
 .pixel-coming-soon-text-pxl {
   color: #9ba5b4;
+  font-size: .875rem;
+
 }
 
 .pixel-coming-soon-navbarLeft-Comming-soon {
-  font-weight: bold;
-  color: #3dd179;
+  font-size: .875rem;
+  color: #9ba5b4;
 }
 
 .conteiner-navbarLeft-custom {

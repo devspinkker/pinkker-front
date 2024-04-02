@@ -1,3 +1,6 @@
+
+
+
 .custom-categories {
     width: 95%;
     margin: 0 auto;
@@ -201,7 +204,7 @@
 #pulsatingDot {
     width: 7px;
     height: 7px;
-    background-color: #3dd179;
+    background-color: #1fff20;
     border-radius: 50%;
     margin-top: 2px;
     margin-left: 5px;
@@ -213,11 +216,14 @@
     text-align: center;
     color: #a4aec6;
     font-size: 12px;
+    font-family: Lato, sans-serif;
+
 }
 
 .custom-categories-p-2-spectators>span {
     padding: 5px;
+    font-weight: 600;
     color: #ffff;
-    font-family:'proxima-nova',sans-serif;
+    font-family: Lato, sans-serif;
 
 }

@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material'
 import React, { useState } from 'react'
 import { Link } from "react-router-dom";
-
+import './CanalesRecomendados.css'
 function CanalesRecomendados(props) {
     const formatViewers = (viewers) => {
         if (viewers >= 1000) {
@@ -20,7 +20,7 @@ function CanalesRecomendados(props) {
 
 
 
-        <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '3px 5px'}} className='Canalrecomendado' data-title={props.title}>
             <img
                 src={props.avatarStreamer}
                 alt=""

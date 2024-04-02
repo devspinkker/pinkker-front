@@ -166,7 +166,7 @@ const AppRouter = () => {
           />
         )} */}
         {/*!isLogged && <NavbarButtom isMobile={isMobile}/>*/}
-        <NLayout isMobile={isMobile} tyExpanded={!expanded} user={user}
+        <NLayout isMobile={isMobile} tyExpanded={expanded} user={user}
 
           tyDashboard={false}
           setExpanded={setExpanded}>
@@ -263,7 +263,7 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/muro">
 
-              <Muro isMobile={isMobile} />
+              <Muro isMobile={isMobile} userName={user} />
             </Route>
 
             <Route exact path="/vod/:vodId">

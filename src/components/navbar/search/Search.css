@@ -1,10 +1,9 @@
 .navbar-search-dark {
-  width: 88%;
+  
   position: relative;
   text-align: center;
   background-color: #080808;
   margin: 0 auto;
-  height: 35px;
   border: 1px solid #3f3f3f;
   border-radius: 6px;
   overflow: hidden;
@@ -16,9 +15,10 @@
   background-color: #2a2e38;
 }
 
-.navbar-search-dark:focus-within {
-  border: 2px solid #f36196;
+.input-searchbar::placeholder{
+  font-size: 0.875rem;
 }
+
 
 .navbar-search-margin {
   /* margin-bottom: 280px; */

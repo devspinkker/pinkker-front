@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 import { GetAllsStreamsOnline } from "../../../services/backGo/streams";
 import CardStreamRecomendado from "../categories/CardStreamRecomendado";
+import { Grid } from "@mui/material";
 
 function CardSkeleto() {
   return (
@@ -156,15 +157,16 @@ export default function DirectosRecommended({
 
   return (
     <div className="home-recommended">
-      <div className="manager-recommended">
+      {streams?.length && <div className="manager-recommended">
+
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '80%' }}>
           <img src="/images/original.svg" style={{ width: '2.5%', color: '#7717ff' }} />
           <h2 style={{ fontFamily: 'Inter', color: 'white' }}>Directos Recomendados</h2>
         </div>
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
-            <Link to="/plataform/explore?tipo=streams">
-              <span style={{ fontFamily: 'Signika Negative' }} >Ver todos</span>
+            <Link to="/plataform/explore?tipo=streams" style={{padding:0}}>
+              <span style={{ fontFamily: 'Signika Negative' , fontSize:'14px'}} >Ver todos</span>
             </Link>
           </div>
           <div className="manager-recommended-actions-arrow">
@@ -180,7 +182,9 @@ export default function DirectosRecommended({
             ></i>
           </div>
         </div>
-      </div>
+      </div>}
+
+
       {/* {isMobile && (
         <div style={{ display: "flex", marginTop: "20px" }}>
           {streams &&
@@ -212,52 +216,71 @@ export default function DirectosRecommended({
           }}
         >
           {streams == null ? (
-            <div
-              className="home-recommended-card-container-streams"
-              style={{
-                width: "100%",
+            <></>
+            // <div
+            //   className="home-recommended-card-container-streams"
+            //   style={{
+            //     width: "100%",
 
-              }}
-            >
-              {[...Array(5)].map((_, index) => (
-                <div
-                  style={{ marginRight: "9px" }}
-                  key={index}
-                >
-                  <CardStreamRecomendado
-                    tags={'lol'}
-                    isMobile={isMobile}
-                    streamer={'eldenguee'}
-                    categorie={'Just Chatting'}
-                    title={'tokens 1v1 min 1000 max 10000 !IG'}
-                    viewers={'1234'}
-                    name={'eldenguee'}
-                    isLoading={false}
-                    avatarStreamer={'/images/pinkker-stream.png'}
-                    image={
-                      "/images/pinkker-stream.png"
-                    }
-                    ViewerCount={'1234'}
-                  />
-                  {/* <Skeleton
-                    variant="rectangular"
-                    width={150}
-                    height={226}
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    width={75}
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    width={100}
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                  /> */}
-                </div>
-              ))}
-            </div>
+            //   }}
+            // >
+            //   {[...Array(3)].map((_, index) => (
+            //     <div
+            //       style={{ marginRight: "9px" }}
+            //       key={index}
+            //     >
+            //       {/* <CardStreamRecomendado
+            //         tags={'lol'}
+            //         isMobile={isMobile}
+            //         streamer={'eldenguee'}
+            //         categorie={'Just Chatting'}
+            //         title={'tokens 1v1 min 1000 max 10000 !IG'}
+            //         viewers={'1234'}
+            //         name={'eldenguee'}
+            //         isLoading={false}
+            //         avatarStreamer={'/images/pinkker-stream.png'}
+            //         image={
+            //           "/images/pinkker-stream.png"
+            //         }
+            //         ViewerCount={'1234'}
+            //       /> */}
+            //       <Skeleton
+            //         variant="rectangular"
+            //         width={450}
+            //         height={250}
+            //         style={{ backgroundColor: "rgb(32, 32, 31)", marginBottom: '10px'}}
+            //       />
+            //       <Grid style={{ display: 'flex', gap: '5px', alignItems: 'flex-start' }} >
+            //         <Skeleton
+            //           variant="circular"
+            //           width={50}
+            //           height={50}
+
+            //           style={{ backgroundColor: "rgb(32, 32, 31)" }}
+            //         />
+            //         <Grid style={{display:'flex', flexDirection:'column', gap:'3px'}}>
+
+            //           <Skeleton
+            //             variant="text"
+            //             width={120}
+            //             style={{ backgroundColor: "rgb(32, 32, 31)" }}
+            //           />
+            //           <Skeleton
+            //             variant="text"
+            //             width={100}
+            //             style={{ backgroundColor: "rgb(32, 32, 31)" }}
+            //           />
+            //           <Skeleton
+            //             variant="text"
+            //             width={100}
+            //             style={{ backgroundColor: "rgb(32, 32, 31)" }}
+            //           />
+            //         </Grid>
+            //       </Grid>
+
+            //     </div>
+            //   ))}
+            // </div>
           ) : (
             streams.map((stream, index) => (
               <div

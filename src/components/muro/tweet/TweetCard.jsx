@@ -56,7 +56,7 @@ export default function TweetCard({ tweet }) {
   }, [tweet]);
 
   return (
-    <div>
+    <div style={{borderBottom:'1px solid #3a3b3c', padding: '5px'}}>
       <div className="tweetcard-body">
         <div
           onClick={() => togglePopupTweetView()}
@@ -156,6 +156,9 @@ export default function TweetCard({ tweet }) {
                 />
               )} */}
 
+
+
+
               <Tippy
                 placement="bottom"
                 theme="pinkker"
@@ -176,6 +179,25 @@ export default function TweetCard({ tweet }) {
                   </p>
                 </div>
               </Tippy>
+
+              <Tippy
+                placement="bottom"
+                theme="pinkker"
+                content={<h1>{isLiked ? "Cancelar Me gusta" : "Me gusta"}</h1>}
+              >
+                <div
+                  style={{ color: isLiked && "red" }}
+                  className="tweetcard-icon-like"
+                  onClick={() => handleLike()}
+                >
+                  <i class="fas fa-chart-bar" />
+                  <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                    {tweet.Likes.length}
+                  </p>
+                </div>
+              </Tippy>
+
+
             </div>
           </div>
         </div>

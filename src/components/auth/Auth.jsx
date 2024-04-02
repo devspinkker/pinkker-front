@@ -129,8 +129,8 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           type: "ERROR",
           message: "Password must be at least 6 characters.",
         });
-      if (!isMatch(rPassword, rConfirmPassword))
-        return alert({ type: "ERROR", message: "Password did not match." });
+      // if (!isMatch(rPassword, rConfirmPassword))
+      //   return alert({ type: "ERROR", message: "Password did not match." });
       /*if(catcha === false) {
                 alert({type: "ERROR", message: "Completa el CAPTCHA"})
                 return;
@@ -147,7 +147,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
         // const birthDate = `${rYear}-${rMonth}-${String(rDay).padStart(2, "0")}`;
         const res = await signupNotConfirmed({
           nameUser: rUsername,
-          fullName: FullName,
+          fullName: rUsername,
           Email: rEmail,
           password: rPassword,
           // BirthDate: birthDate,
