@@ -68,11 +68,9 @@ export default function ClipCard({ video, ...props }) {
         <img
           style={{
             borderRadius: "5px",
-            width: "350px",
-            
-            
+            width: "350px",            
           }}
-          src={video?.streamThumbnail ?? video?.Avatar}
+          src={'/images/pinkker-stream.png'}
           alt=""
         />
         <div

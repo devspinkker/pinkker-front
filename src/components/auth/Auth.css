@@ -17,8 +17,8 @@
     align-items: center;
     justify-content: center;
     position: fixed;
-    top: 0;
-    height: 100%;
+    top: 15%;
+    height: 768px;
     left: 50%;
     animation: fadeIn .5s ease-in-out;
     transform: translate(-50%);
@@ -29,12 +29,13 @@
 /* Animación de entrada */
 @keyframes fadeIn {
     from {
-      opacity: 0;
+        opacity: 0;
     }
+
     to {
-      opacity: 1;
+        opacity: 1;
     }
-  }
+}
 
 .auth-body-type1 {
     display: flex;
@@ -68,7 +69,7 @@
     height: 85% !important;
     padding: 30px;
     text-align: center;
-    background: #18181b;
+    background: #121418;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
@@ -94,7 +95,7 @@
     width: 100%;
     font-family: 'Inter';
     display: flex;
-    
+
     font-size: 18px;
     border-bottom: 1px solid rgb(41, 41, 41);
 }
@@ -116,13 +117,13 @@
     width: 50%;
     padding: 10px;
     color: #ededed;
-    
+
     cursor: pointer;
 }
 
 .auth-title-card.active {
     border-bottom: 3px solid #ffffff;
-    
+
 }
 
 
@@ -282,7 +283,7 @@ select:focus {
     background-image: url("/public/images/login-panel.webp");
     background-size: cover;
     background-position: center;
-    
+
     display: flex;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -303,11 +304,11 @@ select:focus {
     border-bottom-right-radius: 5px;
 }
 
-.auth-text{
+.auth-text {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap:10px;
+    gap: 10px;
 }
 
 .auth-text a:hover {

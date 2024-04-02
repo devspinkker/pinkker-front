@@ -180,25 +180,41 @@ const Home = ({
   }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const [is1080x1920, setIs1080x1920] = useState(false);
+
+  const handleResize = () => {
+    const is1080 = window.innerWidth === 1920;
+    const is1920 = window.innerHeight === 1080;
+    setIs1080x1920(is1080 && is1920);
+  };
+  console.log("is1080x1920", is1080x1920);
+  useEffect(() => {
+    handleResize(); // Comprobar el tamaño inicial de la pantalla al montar el componente
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const fetchMoreData = (direction) => {
     const increment = direction === "right" ? 1 : -1;
     const newIndex = currentIndex + increment;
 
-    if (newIndex >= 0 && newIndex < 5) {
+    if (newIndex >= 0 && newIndex < (is1080x1920 ? 3 : 4)) {
       setCurrentIndex(newIndex);
     }
   };
 
+  let size = is1080x1920 ? -15 : -20;
   const [color, setColor] = useState("");
 
   const generateColor = () => {
     setColor(Math.random().toString(16).substr(-6));
   };
 
-
   useEffect(() => {
-    generateColor()
-  }, [])
+    generateColor();
+  }, []);
 
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -672,28 +688,40 @@ const Home = ({
       </div> */}
       {/* {!isMobile && <Categories isMobile={isMobile} />} */}
 
-
       <DirectosRecommended
         isMobile={isMobile}
         socketMain={socketMain}
         handleMessage={handleMessage}
         expanded={expanded}
-
       />
 
       <div className="categories-home-container">
         <div className="categories-home-manager">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '80%' }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              width: "80%",
+            }}
+          >
             {/* <img src="/images/original.svg" style={{ width: '2%', color:'#856ffc' }} /> */}
 
-            <GrGamepad style={{ color: '#856ffc', fontSize: '20px' }} />
-            <h2 style={{ fontFamily: 'Inter', color: 'white' }}>Categorias</h2>
+            <GrGamepad style={{ color: "#856ffc", fontSize: "20px" }} />
+            <h2 style={{ fontFamily: "Inter", color: "white" }}>Categorias</h2>
           </div>
 
           <div className="manager-recommended-actions">
             <div className="manager-recommended-actions-ver-todos">
-              <Link to="/plataform/explore?tipo=categories" style={{ padding: 0 }}>
-                <span style={{ fontFamily: 'Signika Negative', fontSize: '14px' }}>Ver todos</span>
+              <Link
+                to="/plataform/explore?tipo=categories"
+                style={{ padding: 0 }}
+              >
+                <span
+                  style={{ fontFamily: "Signika Negative", fontSize: "14px" }}
+                >
+                  Ver todos
+                </span>
               </Link>
             </div>
             <div className="manager-recommended-actions-arrow">
@@ -718,9 +746,11 @@ const Home = ({
           onMouseLeave={handleMouseUp}
           style={{
             transition: "transform 0.5s ease",
-            transform: isDragging ? `translateX(${offset}px)` : `translateX(${currentIndex * -15}%)`,
-            cursor: isDragging ? 'grabbing' : 'grab', 
-            userSelect: 'none'
+            transform: isDragging
+              ? `translateX(${offset}px)`
+              : `translateX(${currentIndex * size}%)`,
+            cursor: isDragging ? "grabbing" : "grab",
+            userSelect: "none",
           }}
         >
           {!Categories[1] && (
@@ -729,61 +759,65 @@ const Home = ({
                 display: "flex",
                 alignItems: "center",
                 flexWrap: "wrap",
-                margin: '21px 0px',
-                gap: '10px',
-
+                margin: "21px 0px",
+                gap: "10px",
               }}
             >
               {[...Array(10)].map((_, index) => (
                 <div
-                  style={{ marginTop: "30px", display: "flex", alignItems: "center", gap: '15px' }}
+                  style={{
+                    marginTop: "30px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "15px",
+                  }}
                   key={index}
-
                 >
                   <Skeleton
                     variant="rectangular"
                     width={150}
                     height={199}
-                    style={{ backgroundColor: "#" + color, borderRadius: '5px' }}
+                    style={{
+                      backgroundColor: "#" + color,
+                      borderRadius: "5px",
+                    }}
                   />
-
                 </div>
               ))}
             </div>
           )}
           {Categories &&
-            Categories.filter((categorie, index) => index < 10).map((categorie) => (
-              <CardCategorie
-                width={isMobile ? "160px" : "160px"}
-                isLoading={isLoading}
-                name={categorie.nombre}
-                image={categorie.img ?? "/images/pinkker-stream.png"}
-                spectators={categorie.spectators}
-                tags={categorie.tags}
-                TopColor={categorie.TopColor}
-              />
-            ))}
+            Categories.filter((categorie, index) => index < 10).map(
+              (categorie) => (
+                <CardCategorie
+                  width={isMobile ? "160px" : "160px"}
+                  isLoading={isLoading}
+                  name={categorie.nombre}
+                  image={categorie.img ?? "/images/pinkker-stream.png"}
+                  spectators={categorie.spectators}
+                  tags={categorie.tags}
+                  TopColor={categorie.TopColor}
+                />
+              )
+            )}
           <CardCategorie
             width={isMobile ? "160px" : "160px"}
             isLoading={isLoading}
-            name={'Ver Todos'}
-            titulo={'Ver Todos'}
+            name={"Ver Todos"}
+            titulo={"Ver Todos"}
             image={"/images/pinkker-stream.png"}
-            spectators={''}
-            tags={''}
-            TopColor={''}
+            spectators={""}
+            tags={""}
+            TopColor={""}
           />
         </div>
       </div>
 
-      <AiOutlinePlayCircle />
       {!isMobile && <Clips isMobile={isMobile} />}
 
       {/* <Vods /> */}
 
-
-      {!isMobile && <Clips isMobile={isMobile} titulo={'Vods'} />}
-
+      {!isMobile && <Clips isMobile={isMobile} titulo={"Vods"} />}
 
       {/* {showPopupAuth === true && <Auth typeDefault={1} closePopup={() => togglePopupAuth()} />} */}
       {/*activePlayerPopup === true && <CustomPlayer expanded={expanded} width="100%" height="160px" popup={true} style={{zIndex: "99999"}} streamerName={streamerPlayerPopup} closePopup={() => setActivePlayerPopup(false)}/> */}

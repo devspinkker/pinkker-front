@@ -30,6 +30,7 @@ export default function CustomCard(props) {
     <>
       {image && (
         <div
+        
           style={{
             position: props.isLoading && "absolute",
             opacity: props.isLoading && "0",
