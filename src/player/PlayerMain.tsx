@@ -1,65 +1,76 @@
-import React, { useEffect,useRef,useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import flvjs from 'flv.js';
 import Hls from 'hls.js';
 
 interface ReactFlvPlayerProps {
   src: string;
   videoRef: React.RefObject<HTMLVideoElement>;
-  height:string;
-  width:string
+  height: string;
+  width: string;
 }
 
-function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
-  const [usedHLS, setUsedHLS] = useState(false);
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+function ReactFlvPlayer({ src, videoRef, height, width }: ReactFlvPlayerProps) {
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const hlsRef = useRef<Hls | null>(null);
+
   useEffect(() => {
     let flvPlayer: flvjs.Player | null = null;
     let hls: Hls | null = null;
 
     async function initializePlayer() {
       try {
-        if (flvjs.isSupported() ) { 
-                  flvPlayer = flvjs.createPlayer({
-                    type: 'flv',
-                    url: src +".flv",
-                  });
-          
-                  if (videoRef.current) {
-                    flvPlayer.attachMediaElement(videoRef.current);
-                    flvPlayer.load();
-          
-                    videoRef.current.addEventListener('loadedmetadata', () => {
-                      if (videoRef.current && flvPlayer) {
-                        videoRef.current.play().catch((error) => {
-                          console.error('Error playing video:', error);
-                        });
-                      }
-                    });
-                  }
-        } else if(Hls.isSupported() ){
-          hls = new Hls();
-          hlsRef.current = hls;
+        console.log(isMobile());
+
+        if (flvjs.isSupported()) {
+          flvPlayer = flvjs.createPlayer({
+            type: 'flv',
+            url: src + ".flv",
+          });
 
           if (videoRef.current) {
-            hls.loadSource(src + '/index.m3u8');
-            hls.attachMedia(videoRef.current);
+            flvPlayer.attachMediaElement(videoRef.current);
+            flvPlayer.load();
 
-              hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                setUsedHLS(true);
+            videoRef.current.addEventListener('loadedmetadata', () => {
+              if (videoRef.current && flvPlayer) {
+                videoRef.current.play().catch((error) => {
+                  console.error('Error playing video:', error);
+                });
+              }
+            });
+          }
+        } else {
+          const mobileInformation = isMobile().toLowerCase();
+          
+          if (mobileInformation.includes("iphone") || mobileInformation.includes("ipad")) {
+            videoRef.current!.src = src + "/index.m3u8";
+            videoRef.current!.play().catch(error => {
+              console.error('Error playing video:', error);
+            });
+          } else {
+            hls = new Hls();
+            hlsRef.current = hls;
 
-                if (videoRef.current) {
-                  const playPromise = videoRef.current.play();
-                  if (playPromise !== undefined) {
-                    playPromise.catch((error) => {
-                      console.error('Error during video playback:', error);
-                    });
-                  }
+            if (videoRef.current) {
+              hls.loadSource(src + "/index.m3u8");
+              hls.attachMedia(videoRef.current);
 
-                  videoRef.current.muted = false;
+              videoRef.current.addEventListener('click', () => {
+                if (!isPlaying) {
+                  videoRef.current?.play();
+                  setIsPlaying(true);
                 }
               });
+
+              hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                console.log('Manifest parsed');
+              });
+
+              hls.on(Hls.Events.ERROR, (event, data) => {
+                console.error('HLS error:', data);
+              });
+            }
           }
         }
       } catch (error) {
@@ -76,17 +87,35 @@ function ReactFlvPlayer({ src, videoRef,height,width }: ReactFlvPlayerProps) {
     };
   }, [src, videoRef]);
 
-  return <video 
-  style={{
-    width:width,
-    // height:height
-  }}
-  id='pinkker-player' muted controls playsInline ref={videoRef} />;
+  function isMobile() {
+    var check = false;
+    (function (a) {
+      if (/android|bb\d+|meego|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i
+      )
+        check = true;
+    })(navigator.userAgent || navigator.vendor || "");
+    return navigator.userAgent;
+  }
+  
+  function isMobileHight() {
+    // Función para determinar si el dispositivo es móvil
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+  
+  return <video   
+    style={{
+      width: width,
+      height:isMobileHight() ? height :""
+    }}
+    id='pinkker-player' 
+    muted ={false}
+    controls={false} 
+    playsInline 
+    ref={videoRef} 
+  />;
 }
 
 export default ReactFlvPlayer;
-
-
 // import React, { useEffect, useRef, useState } from 'react';
 // import Hls from 'hls.js';
 // import { Alert } from '@mui/material';

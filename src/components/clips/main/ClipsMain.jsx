@@ -3,7 +3,10 @@ import "./ClipsMain.css";
 import { useSelector } from "react-redux";
 import ClipCard from "./card/ClipCard";
 import Auth from "../../auth/Auth";
-import { GetClipsCategory } from "../../../services/backGo/clip";
+import {
+  ClipsRecommended,
+  GetClipsCategory,
+} from "../../../services/backGo/clip";
 
 export default function ClipsMain({ tyExpanded }) {
   const auth = useSelector((state) => state.auth);
@@ -27,9 +30,17 @@ export default function ClipsMain({ tyExpanded }) {
 
   const loadClips = async () => {
     try {
-      const res = await GetClipsCategory("", 1, "");
-      if (res.data.message === "ok") {
-        setClips(res.data.data);
+      let token = window.localStorage.getItem("token");
+      if (token) {
+        const res = await ClipsRecommended(token, ["65fe09638279a863aeb163fc"]);
+        if (res.data.message === "ok") {
+          setClips(res.data.data);
+        }
+      } else {
+        const res = await GetClipsCategory("", 1, "");
+        if (res.data.message === "ok") {
+          setClips(res.data.data);
+        }
       }
     } catch (error) {
       console.log(error);

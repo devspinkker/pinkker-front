@@ -51,6 +51,23 @@ export const GetClipsMostViewed = async (page) => {
     const response = await axios.get(`${url}/clips/GetClipsMostViewed?page=${page}`)
     return response
 }
+export const ClipsRecommended = async (token, ExcludeIDs) => {
+    try {
+        const res = await axios.post(
+            `${url}/clips/ClipsRecommended`,
+            {
+                ExcludeIDs
+
+            },
+            {
+                headers: { Authorization: token },
+            }
+        );
+        return res;
+    } catch (error) {
+        return error
+    }
+};
 export const GetClipsMostViewedLast48Hours = async (page) => {
 
     try {
