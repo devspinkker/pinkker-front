@@ -56,7 +56,7 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
           }
         } else {
           const mobileInformation = isMobile().toLowerCase();
-          
+
           if (mobileInformation.includes("iphone") || mobileInformation.includes("ipad")) {
             videoRef.current!.src = src + "/index.m3u8";
             videoRef.current!.play().catch(error => {
