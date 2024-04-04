@@ -2,16 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import flvjs from 'flv.js';
 import Hls from 'hls.js';
 
-interface ReactFlvPlayerProps {
+interface ReactVideoPlayerProps {
   src: string;
   videoRef: React.RefObject<HTMLVideoElement>;
   height: string;
   width: string;
 }
 
-function ReactFlvPlayer({ src, videoRef, height, width }: ReactFlvPlayerProps) {
+function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-
   const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
@@ -20,7 +19,6 @@ function ReactFlvPlayer({ src, videoRef, height, width }: ReactFlvPlayerProps) {
 
     async function initializePlayer() {
       try {
-        console.log(isMobile());
 
         if (flvjs.isSupported()) {
           flvPlayer = flvjs.createPlayer({
@@ -32,11 +30,27 @@ function ReactFlvPlayer({ src, videoRef, height, width }: ReactFlvPlayerProps) {
             flvPlayer.attachMediaElement(videoRef.current);
             flvPlayer.load();
 
+            // Iniciar reproducción automática en silencio
+            videoRef.current.muted = true;
+
             videoRef.current.addEventListener('loadedmetadata', () => {
               if (videoRef.current && flvPlayer) {
-                videoRef.current.play().catch((error) => {
-                  console.error('Error playing video:', error);
-                });
+                // Si es iOS, reproducir automáticamente después de la interacción del usuario
+                if (isIOS()) {
+                  videoRef.current.addEventListener('click', () => {
+                    if (!isPlaying) {
+                      videoRef.current?.play();
+                      setIsPlaying(true);
+                    }
+                  });
+                } else {
+                  // Reproducir automáticamente el video después de cargar la metadata
+                  videoRef.current.play().then(() => {
+                    setIsPlaying(true);
+                  }).catch((error) => {
+                    console.error('Error reproduciendo el video:', error);
+                  });
+                }
               }
             });
           }
@@ -46,7 +60,7 @@ function ReactFlvPlayer({ src, videoRef, height, width }: ReactFlvPlayerProps) {
           if (mobileInformation.includes("iphone") || mobileInformation.includes("ipad")) {
             videoRef.current!.src = src + "/index.m3u8";
             videoRef.current!.play().catch(error => {
-              console.error('Error playing video:', error);
+              console.error('Error reproduciendo el video:', error);
             });
           } else {
             hls = new Hls();
@@ -56,6 +70,9 @@ function ReactFlvPlayer({ src, videoRef, height, width }: ReactFlvPlayerProps) {
               hls.loadSource(src + "/index.m3u8");
               hls.attachMedia(videoRef.current);
 
+              // Reproducir automáticamente en silencio después de la interacción del usuario
+              videoRef.current.muted = true;
+
               videoRef.current.addEventListener('click', () => {
                 if (!isPlaying) {
                   videoRef.current?.play();
@@ -64,25 +81,35 @@ function ReactFlvPlayer({ src, videoRef, height, width }: ReactFlvPlayerProps) {
               });
 
               hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                console.log('Manifest parsed');
+                console.log('Manifesto analizado');
               });
 
               hls.on(Hls.Events.ERROR, (event, data) => {
-                console.error('HLS error:', data);
+                console.error('Error HLS:', data);
               });
             }
           }
         }
       } catch (error) {
-        console.error('Error initializing FLV player:', error);
+        console.error('Error inicializando el reproductor de video:', error);
       }
     }
 
     initializePlayer();
 
+    // Verificar si el video está completamente cargado después de 2 segundos
+    const timeoutId = setTimeout(() => {
+      if (!videoRef.current?.readyState || videoRef.current.readyState < 3) {
+        initializePlayer();
+      }
+    }, 2000);
+
+    // Limpiar el temporizador al desmontar el componente
     return () => {
-      if (flvPlayer) {
-        flvPlayer.destroy();
+      clearTimeout(timeoutId);
+ 
+      if (hls) {
+        hls.destroy();
       }
     };
   }, [src, videoRef]);
@@ -97,86 +124,23 @@ function ReactFlvPlayer({ src, videoRef, height, width }: ReactFlvPlayerProps) {
     return navigator.userAgent;
   }
   
-  function isMobileHight() {
-    // Función para determinar si el dispositivo es móvil
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  function isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !navigator.userAgent.includes("Macintosh");
   }
-  
-  return <video   
-    style={{
-      width: width,
-      height:isMobileHight() ? height :""
-    }}
-    id='pinkker-player' 
-    muted ={false}
-    controls={false} 
-    playsInline 
-    ref={videoRef} 
-  />;
+
+  return (
+    <video   
+      style={{
+        width: width,
+        height: isMobile() ? height : ""
+      }}
+      id='video-player' 
+      muted={false}
+      controls={false} 
+      playsInline 
+      ref={videoRef} 
+    />
+  );
 }
 
-export default ReactFlvPlayer;
-// import React, { useEffect, useRef, useState } from 'react';
-// import Hls from 'hls.js';
-// import { Alert } from '@mui/material';
-
-// interface ReactHlsPlayerProps {
-//   src: string;
-//   muted?: boolean;
-//   videoRef: React.RefObject<HTMLVideoElement>;
-// }
-
-// function ReactHlsPlayer({ src, muted = false, videoRef }: ReactHlsPlayerProps) {
-//   const hlsRef = useRef<Hls | null>(null);
-//   const [usedHLS, setUsedHLS] = useState(false);
-
-//   useEffect(() => {
-    
-//     let hls: Hls | null = null;
-
-//     async function initPlayer() {
-//       if (Hls.isSupported()) {
-//         hls = new Hls();
-//         hlsRef.current = hls;
-
-//         if (videoRef.current) {
-//           hls.loadSource(src);
-//           hls.attachMedia(videoRef.current);
-
-//           hls.on(Hls.Events.MANIFEST_PARSED, () => {
-//             setUsedHLS(true);
-
-//             if (videoRef.current) {
-//               const playPromise = videoRef.current.play();
-//               if (playPromise !== undefined) {
-//                 playPromise.catch((error) => {
-//                   console.error('Error during video playback:', error);
-//                 });
-//               }
-
-//               videoRef.current.muted = muted ?? false;
-//             }
-//           });
-//         }
-//       } else {
-//         if (videoRef.current) {
-//           videoRef.current.src = src
-//           videoRef.current.load();
-//           videoRef.current.play();
-
-//         }
-//       }
-//     }
-
-//     initPlayer();
-//     return () => {
-//       if (hls) {
-//         hls.destroy();
-//       }
-//     };
-//   }, [src, muted, videoRef, usedHLS]);
-
-//   return <video id='pinkker-player' controls playsInline ref={videoRef} />;
-// }
-
-// export default ReactHlsPlayer;
+export default ReactVideoPlayer;
