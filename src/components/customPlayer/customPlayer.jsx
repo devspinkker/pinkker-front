@@ -222,22 +222,9 @@ export default function CustomPlayer({
         autoPlay={playing}
         muted={muted}
         controls={false}
-        style={{
-          position: "relative",
-          marginLeft: marginLeft,
-          top: popup === true ? "10px" : "2px",
-          left:
-            height === "200px"
-              ? "0px"
-              : popup === true
-              ? "0px"
-              : left
-              ? left
-              : "-0px",
-          zIndex: "1",
-        }}
         width={width ? width : "100%"}
         height={height ? height : "835px"}
+        expanded={expanded}
       />
     );
   }

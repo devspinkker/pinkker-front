@@ -7,9 +7,10 @@ interface ReactVideoPlayerProps {
   videoRef: React.RefObject<HTMLVideoElement>;
   height: string;
   width: string;
+  expanded: boolean;
 }
 
-function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProps) {
+function ReactVideoPlayer({ src, videoRef, height, width, expanded }: ReactVideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const hlsRef = useRef<Hls | null>(null);
 
@@ -19,7 +20,6 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
 
     async function initializePlayer() {
       try {
-
         if (flvjs.isSupported()) {
           flvPlayer = flvjs.createPlayer({
             type: 'flv',
@@ -30,12 +30,10 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
             flvPlayer.attachMediaElement(videoRef.current);
             flvPlayer.load();
 
-            // Iniciar reproducción automática en silencio
             videoRef.current.muted = true;
 
             videoRef.current.addEventListener('loadedmetadata', () => {
               if (videoRef.current && flvPlayer) {
-                // Si es iOS, reproducir automáticamente después de la interacción del usuario
                 if (isIOS()) {
                   videoRef.current.addEventListener('click', () => {
                     if (!isPlaying) {
@@ -44,7 +42,6 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
                     }
                   });
                 } else {
-                  // Reproducir automáticamente el video después de cargar la metadata
                   videoRef.current.play().then(() => {
                     setIsPlaying(true);
                   }).catch((error) => {
@@ -70,7 +67,6 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
               hls.loadSource(src + "/index.m3u8");
               hls.attachMedia(videoRef.current);
 
-              // Reproducir automáticamente en silencio después de la interacción del usuario
               videoRef.current.muted = true;
 
               videoRef.current.addEventListener('click', () => {
@@ -97,17 +93,15 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
 
     initializePlayer();
 
-    // Verificar si el video está completamente cargado después de 2 segundos
     const timeoutId = setTimeout(() => {
       if (!videoRef.current?.readyState || videoRef.current.readyState < 3) {
         initializePlayer();
       }
     }, 2000);
 
-    // Limpiar el temporizador al desmontar el componente
     return () => {
       clearTimeout(timeoutId);
- 
+
       if (hls) {
         hls.destroy();
       }
@@ -123,22 +117,30 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
     })(navigator.userAgent || navigator.vendor || "");
     return navigator.userAgent;
   }
-  
+
   function isIOS() {
     return /iPad|iPhone|iPod/.test(navigator.userAgent) && !navigator.userAgent.includes("Macintosh");
   }
 
+  function HeightVideo() {
+    if (!isMobile() && !expanded) {
+      return height;
+    } else {
+      return "600px";
+    }
+  }
+
   return (
-    <video   
+    <video
       style={{
         width: width,
-        height: isMobile() ? height : ""
+        height: HeightVideo()
       }}
-      id='video-player' 
+      id='video-player'
       muted={false}
-      controls={false} 
-      playsInline 
-      ref={videoRef} 
+      controls={false}
+      playsInline
+      ref={videoRef}
     />
   );
 }
