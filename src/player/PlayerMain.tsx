@@ -103,7 +103,7 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
         hls.destroy();
       }
     };
-  }, [src]);
+  }, []);
 
   function isMobile() {
     var check = false;
