@@ -18,21 +18,21 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
     let hls: Hls | null = null;
 
     async function initializePlayer() {
-      
+
     if (hls) {
       hls.destroy();
     }
     if (flvPlayer) {
       console.log(flvPlayer);
-      
+
       flvPlayer.unload();
       flvPlayer.detachMediaElement();
       flvPlayer.destroy();
     }
       try {
-        
+
         if (flvjs.isSupported()) {
-   
+
           flvPlayer = flvjs.createPlayer({
             type: 'flv',
             url: src + ".flv",
@@ -45,7 +45,7 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
 
             videoRef.current.addEventListener('loadedmetadata', () => {
               if (videoRef.current && flvPlayer) {
-             
+
                   videoRef.current.play().then(() => {
                     videoRef.current!.muted = false;
                     setIsPlaying(true);
@@ -76,8 +76,7 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
               videoRef.current.addEventListener('click', () => {
                 if (!isPlaying) {
                   videoRef.current?.play();
-              videoRef.current!.muted = true;
-
+                  videoRef.current!.muted = true;
                   setIsPlaying(true);
                 }
               });
