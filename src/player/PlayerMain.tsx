@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import flvjs from 'flv.js';
 import Hls from 'hls.js';
+import "./ReactVideoPlayer.css"
 
 interface ReactVideoPlayerProps {
   src: string;
@@ -11,6 +12,7 @@ interface ReactVideoPlayerProps {
 
 function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
@@ -18,21 +20,17 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
     let hls: Hls | null = null;
 
     async function initializePlayer() {
+      if (hls) {
+        hls.destroy();
+      }
+      if (flvPlayer) {
+        flvPlayer.unload();
+        flvPlayer.detachMediaElement();
+        flvPlayer.destroy();
+      }
 
-    if (hls) {
-      hls.destroy();
-    }
-    if (flvPlayer) {
-      console.log(flvPlayer);
-
-      flvPlayer.unload();
-      flvPlayer.detachMediaElement();
-      flvPlayer.destroy();
-    }
       try {
-
         if (flvjs.isSupported()) {
-
           flvPlayer = flvjs.createPlayer({
             type: 'flv',
             url: src + ".flv",
@@ -42,16 +40,12 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
             flvPlayer.attachMediaElement(videoRef.current);
             flvPlayer.load();
 
-
-            videoRef.current.addEventListener('loadedmetadata', () => {
-              if (videoRef.current && flvPlayer) {
-
-                  videoRef.current.play().then(() => {
-                    videoRef.current!.muted = false;
-                    setIsPlaying(true);
-                  }).catch((error) => {
-                    console.error('Error reproduciendo el video:', error);
-                  });
+            videoRef.current.addEventListener('loadedmetadata', async () => {
+              try {
+                await flvPlayer?.play();
+                setIsPlaying(true);
+              } catch (error) {
+                console.error('Error reproduciendo el video:', error);
               }
             });
           }
@@ -63,7 +57,6 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
             videoRef.current!.play().catch(error => {
               console.error('Error reproduciendo el video:', error);
             });
-            videoRef.current!.muted = true;
           } else {
             hls = new Hls();
             hlsRef.current = hls;
@@ -72,14 +65,13 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
               hls.loadSource(src + "/index.m3u8");
               hls.attachMedia(videoRef.current);
 
-
               videoRef.current.addEventListener('click', () => {
                 if (!isPlaying) {
                   videoRef.current?.play();
-                  videoRef.current!.muted = true;
                   setIsPlaying(true);
                 }
               });
+              videoRef.current?.play();
 
               hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 console.log('Manifesto analizado');
@@ -116,9 +108,9 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
   function isMobile() {
     var check = false;
     (function (a) {
-      if (/android|bb\d+|meego|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i
-      )
+      if (/android|bb\d+|meego|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i) {
         check = true;
+      }
     })(navigator.userAgent || navigator.vendor || "");
     return navigator.userAgent;
   }
@@ -128,25 +120,54 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
   }
 
   function HeightVideo() {
-    if (!isMobile() ) {
+    if (!isMobile()) {
       return height;
     } else {
       return "600px";
     }
   }
 
+  // Función para desmutear el video
+  const handleUnmuteClick = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      if (overlayRef.current) {
+        overlayRef.current.style.display = 'none';
+      }
+    }
+  };
+  
+
   return (
-    <video
-      style={{
-        width: width,
-        height: "70%"
-      }}
-      id='video-player'
-      muted={true}
-      controls={false}
-      playsInline
-      ref={videoRef}
-    />
+    <>
+      <div
+        ref={overlayRef}
+        className="overlay" 
+        onClick={handleUnmuteClick} 
+        style={{
+          // width: width ,
+          height: height
+        }}
+      >
+        <span
+          className="mute-icon" 
+        >
+          🔊 
+        </span>
+      </div>
+
+      <video
+        style={{
+          width: width,
+          height: height
+        }}
+        id='video-player'
+        muted={true}
+        controls={false}
+        playsInline
+        ref={videoRef}
+      />
+    </>
   );
 }
 
