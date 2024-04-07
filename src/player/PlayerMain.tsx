@@ -20,14 +20,6 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
     let hls: Hls | null = null;
 
     async function initializePlayer() {
-      if (hls) {
-        hls.destroy();
-      }
-      if (flvPlayer) {
-        flvPlayer.unload();
-        flvPlayer.detachMediaElement();
-        flvPlayer.destroy();
-      }
 
       try {
         if (flvjs.isSupported()) {
@@ -98,9 +90,18 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
 
     return () => {
       clearTimeout(timeoutId);
-
+  
       if (hls) {
         hls.destroy();
+        hls = null;
+        
+      }
+      if (flvPlayer) {
+        flvPlayer.pause(); 
+        flvPlayer.unload();
+        flvPlayer.detachMediaElement();
+        flvPlayer.destroy();
+        flvPlayer = null;
       }
     };
   }, []);
