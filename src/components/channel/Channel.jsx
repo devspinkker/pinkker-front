@@ -162,7 +162,7 @@ export default function Channel({
       setusuarioID("no _id");
     }
     loadDataOnlyOnce();
-  }, [token, location]);
+  }, []);
 
   useEffect(() => {
     if (isMobile) {
@@ -353,7 +353,7 @@ export default function Channel({
     };
 
     fetchData();
-  }, [token, streamer]);
+  }, []);
 
   useEffect(() => {
     if (stream != null && stream != undefined) {

@@ -82,7 +82,7 @@ export default function CustomPlayer({
         videoPlayer.removeEventListener("error", handlePlayerError);
       };
     }
-  }, []);
+  }, [streamerData]);
 
   const [preLoad, setPreLoad] = useState(false);
 
@@ -101,18 +101,18 @@ export default function CustomPlayer({
     }
   }, []);
 
-  useEffect(() => {
-    if (
-      videoRef.current?.currentTime != NaN &&
-      videoRef.current?.currentTime != undefined &&
-      videoRef.current?.currentTime != null &&
-      videoRef.current?.currentTime != 0
-    ) {
-      if (videoRef.current?.duration - videoRef.current?.currentTime > 60) {
-        videoRef.current.currentTime = videoRef.current.duration - 30;
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (
+  //     videoRef.current?.currentTime != NaN &&
+  //     videoRef.current?.currentTime != undefined &&
+  //     videoRef.current?.currentTime != null &&
+  //     videoRef.current?.currentTime != 0
+  //   ) {
+  //     if (videoRef.current?.duration - videoRef.current?.currentTime > 60) {
+  //       videoRef.current.currentTime = videoRef.current.duration - 30;
+  //     }
+  //   }
+  // }, []);
 
   const onMouseEnterSettings = () => {
     if (dropdownSettings === true) {

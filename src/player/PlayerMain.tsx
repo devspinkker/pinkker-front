@@ -7,10 +7,9 @@ interface ReactVideoPlayerProps {
   videoRef: React.RefObject<HTMLVideoElement>;
   height: string;
   width: string;
-  expanded: boolean;
 }
 
-function ReactVideoPlayer({ src, videoRef, height, width, expanded }: ReactVideoPlayerProps) {
+function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const hlsRef = useRef<Hls | null>(null);
 
@@ -19,8 +18,21 @@ function ReactVideoPlayer({ src, videoRef, height, width, expanded }: ReactVideo
     let hls: Hls | null = null;
 
     async function initializePlayer() {
+      
+    if (hls) {
+      hls.destroy();
+    }
+    if (flvPlayer) {
+      console.log(flvPlayer);
+      
+      flvPlayer.unload();
+      flvPlayer.detachMediaElement();
+      flvPlayer.destroy();
+    }
       try {
+        
         if (flvjs.isSupported()) {
+   
           flvPlayer = flvjs.createPlayer({
             type: 'flv',
             url: src + ".flv",
@@ -30,24 +42,16 @@ function ReactVideoPlayer({ src, videoRef, height, width, expanded }: ReactVideo
             flvPlayer.attachMediaElement(videoRef.current);
             flvPlayer.load();
 
-            videoRef.current.muted = true;
 
             videoRef.current.addEventListener('loadedmetadata', () => {
               if (videoRef.current && flvPlayer) {
-                if (isIOS()) {
-                  videoRef.current.addEventListener('click', () => {
-                    if (!isPlaying) {
-                      videoRef.current?.play();
-                      setIsPlaying(true);
-                    }
-                  });
-                } else {
+             
                   videoRef.current.play().then(() => {
+                    videoRef.current!.muted = false;
                     setIsPlaying(true);
                   }).catch((error) => {
                     console.error('Error reproduciendo el video:', error);
                   });
-                }
               }
             });
           }
@@ -59,6 +63,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, expanded }: ReactVideo
             videoRef.current!.play().catch(error => {
               console.error('Error reproduciendo el video:', error);
             });
+            videoRef.current!.muted = true;
           } else {
             hls = new Hls();
             hlsRef.current = hls;
@@ -67,11 +72,12 @@ function ReactVideoPlayer({ src, videoRef, height, width, expanded }: ReactVideo
               hls.loadSource(src + "/index.m3u8");
               hls.attachMedia(videoRef.current);
 
-              videoRef.current.muted = true;
 
               videoRef.current.addEventListener('click', () => {
                 if (!isPlaying) {
                   videoRef.current?.play();
+              videoRef.current!.muted = true;
+
                   setIsPlaying(true);
                 }
               });
@@ -106,7 +112,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, expanded }: ReactVideo
         hls.destroy();
       }
     };
-  }, [src, videoRef]);
+  }, [src]);
 
   function isMobile() {
     var check = false;
@@ -123,7 +129,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, expanded }: ReactVideo
   }
 
   function HeightVideo() {
-    if (!isMobile() && !expanded) {
+    if (!isMobile() ) {
       return height;
     } else {
       return "600px";
@@ -134,10 +140,10 @@ function ReactVideoPlayer({ src, videoRef, height, width, expanded }: ReactVideo
     <video
       style={{
         width: width,
-        height: HeightVideo()
+        height: "70%"
       }}
       id='video-player'
-      muted={false}
+      muted={true}
       controls={false}
       playsInline
       ref={videoRef}
