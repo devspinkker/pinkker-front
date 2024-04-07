@@ -260,7 +260,7 @@ export default function ClipCard({ clip }) {
                             height: "45px",
                             borderRadius: "100px",
                           }}
-                          src={clip.Avatar}
+                          src={clip?.Avatar}
                         />
                       </Tippy>
                     </Link>

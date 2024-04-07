@@ -146,7 +146,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
     <div className="explorecategories-body">
       <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgb(42, 46, 56)' }}>
         <h3 style={{ color: 'white', fontSize: '30px' }}>Categorias</h3>
-        <img src={'/images/asd.png'} style={{ width: '10%' }} />
+        <img src={'/images/ESTRELLAPINKKER.png'} style={{ width: '10%' }} />
       </Grid>
       <div>{isMobile && <Search isMobile={isMobile} />}</div>
 

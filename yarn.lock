@@ -11753,6 +11753,11 @@
     "picocolors" "^1.0.0"
     "stable" "^0.1.8"
 
+"swiper@^11.1.0":
+  "integrity" "sha512-Pm78CgU7Wvg+w/MgIL/1NwMSLgx0XqFof25EnVyX8iZFCYJv5CppH7LHkBj43qW2k5Cp3Iz7FcdBxrox7XX2AQ=="
+  "resolved" "https://registry.npmjs.org/swiper/-/swiper-11.1.0.tgz"
+  "version" "11.1.0"
+
 "symbol-tree@^3.2.4":
   "integrity" "sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw=="
   "resolved" "https://registry.npmjs.org/symbol-tree/-/symbol-tree-3.2.4.tgz"

@@ -78,7 +78,7 @@ export default function ClipCard({ video, ...props }) {
         >
           <img
             style={{ width: "35px", height: "35px", borderRadius:'50%'  }}
-            src={video.Avatar}
+            src={video?.Avatar}
           />
           <div style={{ marginTop: "10px", marginLeft: "5px", display:'flex', gap:'2px', flexDirection:'column' }}>
             <h4 style={{ color: "white", fontSize: "14px" }}>{video?.clipTitle}</h4>
@@ -114,7 +114,7 @@ export default function ClipCard({ video, ...props }) {
             className="clipcard-duration"
           >
             <i style={{ marginRight: "2px" }} class="fas fa-play" />{" "}
-            {video.views}
+            {video?.views}
           </p>
 
         </div>

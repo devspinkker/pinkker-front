@@ -11,6 +11,7 @@ import ReactPlayer from "react-player";
 import SelectVideoClip from "./SelectVideoClip";
 import { AiOutlinePlayCircle } from "react-icons/ai";
 import { Grid } from "@mui/material";
+import SliderLayout from "../../layout/SliderLayout";
 
 // Nuevo componente para el loader
 
@@ -65,12 +66,12 @@ export default function Clips(props) {
   return (
     <div className="home-clips">
       <div className="manager-recommended">
-        <Grid style={{display:'flex', alignItems:'center',gap:'5px', width:'30%'}}>
+        <Grid style={{ display: 'flex', alignItems: 'center', gap: '5px', width: '30%' }}>
 
-          <AiOutlinePlayCircle style={{ color: '#856ffc', fontSize:'20px' }} />
-          <h2 style={{color:'white', fontSize:'20px'}}>{props.titulo ? 'Vods más vistos' : 'Clips más vistos'} </h2>
+          <AiOutlinePlayCircle style={{ color: '#856ffc', fontSize: '20px' }} />
+          <h2 style={{ color: 'white', fontSize: '20px' }}>{props.titulo ? 'Vods más vistos' : 'Clips más vistos'} </h2>
         </Grid>
-        <div className="manager-recommended-actions">
+        {/* <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
             <Link to="/plataform/explore?tipo=clips" style={{ padding: 0 }}>
               <span style={{ fontFamily: 'Signika Negative', fontSize: '14px' }}>Ver todos</span>
@@ -88,7 +89,7 @@ export default function Clips(props) {
               onClick={() => fetchMoreData("right")}
             ></i>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div
@@ -97,7 +98,7 @@ export default function Clips(props) {
           alignItems: "center",
         }}
       >
-        <div
+        {/* <div
           className="home-clips-card-container-clips"
           style={{
             transition: "transform 0.5s ease",
@@ -131,12 +132,11 @@ export default function Clips(props) {
                 </div>
               )
               )
-
-
-
             }
           </div>
-        </div>
+
+        </div> */}
+        <SliderLayout clipT={true} Categoria={false} clips={clips} />
 
         {selectedVideo && (
           <SelectVideoClip

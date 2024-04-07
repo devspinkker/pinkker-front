@@ -224,6 +224,7 @@ function NLayout(props) {
                   className="pixel-coming-soon-navbarLeft-img-pixel"
                   style={{
                     width: "36px",
+                    padding: '5px'
                   }}
                   src="/images/pixel.png"
                 />
@@ -411,7 +412,7 @@ function NLayout(props) {
                       fontSize: "14px",
                     }}
                   >
-                    Canales Recomendados
+                    CANALES RECOMENDADOS
                   </span>
                   <i
                     style={{
@@ -511,7 +512,7 @@ function NLayout(props) {
           >
             <Link to="/">
               <img
-                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
+                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1712283573/categorias/logo_trazado_pndioh.png"
                 style={{ width: "12.5%" }}
                 alt=""
               />
@@ -549,7 +550,7 @@ function NLayout(props) {
           >
             <Link to="/" style={{ width: "200px" }}>
               <img
-                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
+                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1712283573/categorias/logo_trazado_pndioh.png"
                 style={{ width: "60%" }}
                 alt=""
               />
@@ -577,7 +578,7 @@ function NLayout(props) {
                           width: props.isMobile ? "25px" : "17px",
                           marginRight: "-5px",
                           marginTop: "3px",
-                          padding: "10px",
+                          padding: "15px",
                         }}
                         src="/images/pixel.png"
                         alt=""
@@ -810,7 +811,7 @@ function NLayout(props) {
             <Grid style={{ width: '20%' }}>
               <Link to="/">
                 <img
-                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710859756/Emblemas/y9xupuj3mcg5d6prgahm.png"
+                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1712283573/categorias/logo_trazado_pndioh.png"
                   style={{ width: "70%" }}
                   alt=""
                 />
