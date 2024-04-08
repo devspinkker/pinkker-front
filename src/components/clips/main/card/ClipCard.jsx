@@ -6,8 +6,14 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import CommentCard from "../../../clips/view/card/CommentCard";
 
 import "./ClipCard.css";
-import { DislikeClip, likeClip } from "../../../../services/backGo/clip";
+import {
+  CommentClip,
+  DislikeClip,
+  GetClipComments,
+  likeClip,
+} from "../../../../services/backGo/clip";
 import { Grid, Typography } from "@mui/material";
+import { retweet } from "../../../../services/tweet";
 
 export default function ClipCard({ clip }) {
   const [playing, setPlaying] = useState(true);
@@ -17,14 +23,25 @@ export default function ClipCard({ clip }) {
   const playerRef = useRef();
   const [videoHover, setVideoHover] = useState(false);
 
-  const [showComment, setShowComment] = useState(false);
+  const [showComment, SetshowComment] = useState(false);
   const [comments, setComments] = useState(null);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(true);
+
+  async function getCommentsClipAndShow() {
+    const response = await GetClipComments(1, clip?.id);
+    SetshowComment(!showComment);
+    if (response?.data?.message === "ok") {
+      console.log(response.data.data);
+      setComments(response.data.data);
+    }
+  }
+
   useEffect(() => {
-    const id = window.localStorage.getItem("_id");
-    if (id && clip.likes.includes(id)) {
-      setIsLiked(true);
+    let id = window.localStorage.getItem("_id");
+    if (id) {
+      console.log(clip.likes);
+      setIsLiked(clip.likes?.includes(id));
     }
   }, [clip]);
 
@@ -45,7 +62,6 @@ export default function ClipCard({ clip }) {
     setProgress((currentTime / duration) * 100);
   };
 
-  console.log('clips', clip)
   const handleMute = () => {
     playerRef.current.muted = !muted;
     setMuted(!muted);
@@ -120,16 +136,31 @@ export default function ClipCard({ clip }) {
   };
 
   const createComment = () => {
-    if (comment.trim() !== "") {
+    const token = window.localStorage.getItem("token");
+    if (comment.trim() != "") {
+      CommentClip(token, clip?.id, comment).then((res) => {
+        if (res.data != null && res.data != undefined) {
+          // alert({ type: "SUCCESS", message: res.data.msg });
+          setComment("");
+        }
+      });
     }
   };
-
   return (
     <div className="clipmain-card-main">
-      <div className="clipsmain-container" style={{ margin: showComment ?? '0 auto' }}>
-        <Grid style={{ display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'flex-start' }}>
-          
-          <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div
+        className="clipsmain-container"
+        style={{ margin: showComment ?? "0 auto" }}
+      >
+        <Grid
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "5px",
+            alignItems: "flex-start",
+          }}
+        >
+          <Grid style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <img
               style={{
                 width: "45px",
@@ -138,9 +169,20 @@ export default function ClipCard({ clip }) {
               }}
               src={clip.Avatar}
             />
-            <Grid style={{display:'flex', flexDirection:'column', gap:'5px', alignItems:'flex-start'}}>
-              <Typography  style={{ color: 'white' }}>{clip.nameUserCreator}</Typography>
-              <Typography  style={{ color: 'white' }}>{clip.nameUserCreator}</Typography>
+            <Grid
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+                alignItems: "flex-start",
+              }}
+            >
+              <Typography style={{ color: "white" }}>
+                {clip.nameUserCreator}
+              </Typography>
+              <Typography style={{ color: "white" }}>
+                {clip.nameUserCreator}
+              </Typography>
             </Grid>
             <button
               // onClick={() => followUser()}
@@ -178,8 +220,9 @@ export default function ClipCard({ clip }) {
               >
                 <i
                   onClick={handleMute}
-                  className={`fas ${muted ? "fa-volume-mute" : "fa-volume-up"
-                    } button-more-player`}
+                  className={`fas ${
+                    muted ? "fa-volume-mute" : "fa-volume-up"
+                  } button-more-player`}
                 />
               </Tippy>
             </div>
@@ -188,7 +231,6 @@ export default function ClipCard({ clip }) {
                 display: "flex",
                 flexDirection: "column",
                 width: "100%",
-
               }}
             >
               {/* {!loading ? (
@@ -237,10 +279,7 @@ export default function ClipCard({ clip }) {
             )}
 
             <div className="clipsmain-bottom-buttons">
-              <div
-
-                className="channel-v2-info"
-              >
+              <div className="channel-v2-info">
                 <div className="channel-v2-primary">
                   <div className="channel-v2-categorie">
                     <Link to={`/${clip.streamerId}`}>
@@ -248,7 +287,12 @@ export default function ClipCard({ clip }) {
                         theme="pinkker"
                         content={
                           <>
-                            <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                            <h1
+                              style={{
+                                fontSize: "12px",
+                                fontFamily: "Montserrat",
+                              }}
+                            >
                               {clip.clipTitle}
                             </h1>
                           </>
@@ -264,18 +308,22 @@ export default function ClipCard({ clip }) {
                         />
                       </Tippy>
                     </Link>
-                    <Grid style={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-
+                    <Grid
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        flexDirection: "column",
+                      }}
+                    >
                       <h4
                         style={{
                           color: "#ededed",
-                          padding: 0
+                          padding: 0,
                         }}
                       >
                         {clip.clipTitle}
                       </h4>
                     </Grid>
-
                   </div>
                   {/* {!isMobile && (
             <img
@@ -296,13 +344,12 @@ export default function ClipCard({ clip }) {
                         style={{
                           display: "flex",
                           alignItems: "center",
-                          gap: '5px',
+                          gap: "5px",
                           marginRight: "0px",
                         }}
                         z
                       >
-                        <Grid style={{ display: 'flex', alignItems: 'center' }}>
-
+                        <Grid style={{ display: "flex", alignItems: "center" }}>
                           <i
                             style={{
                               marginRight: "7px",
@@ -322,8 +369,15 @@ export default function ClipCard({ clip }) {
                           </p>
                         </Grid>
                         •
-                        <h6 style={{ color: "darkgray", fontSize: "12px", fontFamily: "Montserrat" }}>Clipeado por {clip.nameUserCreator}</h6>
-
+                        <h6
+                          style={{
+                            color: "darkgray",
+                            fontSize: "12px",
+                            fontFamily: "Montserrat",
+                          }}
+                        >
+                          Clipeado por {clip.nameUserCreator}
+                        </h6>
                       </div>
 
                       {/* {!isMobile && (
@@ -346,17 +400,10 @@ export default function ClipCard({ clip }) {
                     </div>
                   </div>
                 </div>
-
-
               </div>
-
-
             </div>
-
           </div>
         </Grid>
-
-
 
         <div
           style={{
@@ -365,7 +412,7 @@ export default function ClipCard({ clip }) {
             alignItems: "center",
             justifyContent: "center",
             position: "relative",
-            left: showComment && '-55px',
+            left: showComment && "-55px",
             opacity: "1",
           }}
           className="clipsmain-right-buttons"
@@ -411,7 +458,7 @@ export default function ClipCard({ clip }) {
             </div>
 
             <div
-              onClick={() => setShowComment(true)}
+              onClick={() => getCommentsClipAndShow()}
               className="clipcard-icon-comment"
             >
               <i
@@ -482,7 +529,7 @@ export default function ClipCard({ clip }) {
               className="embleminfo-close"
             >
               <i
-                onClick={() => setShowComment(false)}
+                onClick={() => getCommentsClipAndShow()}
                 style={{
                   cursor: "pointer",
                   color: "#ededed",
@@ -492,7 +539,9 @@ export default function ClipCard({ clip }) {
               />
             </div>
             {comments != null ? (
-              comments.map((comment) => <CommentCard comment={comment} />)
+              comments?.map((comment) => {
+                return <CommentCard comment={comment} />;
+              })
             ) : (
               <div
                 style={{
@@ -520,7 +569,7 @@ export default function ClipCard({ clip }) {
             <div>
               <img
                 style={{ width: "30px", borderRadius: "100px" }}
-                src={clip.avatar}
+                src={clip.Avatar}
                 alt=""
               />
             </div>
@@ -533,12 +582,11 @@ export default function ClipCard({ clip }) {
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 style={{
-
                   height: "30px",
                   width: "90%",
                   fontSize: "16px",
                 }}
-                placeholder="Comenta el clip.."
+                placeholder="Comenta el clip..."
                 type="text"
               />
             </div>

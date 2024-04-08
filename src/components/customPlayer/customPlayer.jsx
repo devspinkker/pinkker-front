@@ -82,7 +82,7 @@ export default function CustomPlayer({
         videoPlayer.removeEventListener("error", handlePlayerError);
       };
     }
-  }, []);
+  }, [streamerData]);
 
   const [preLoad, setPreLoad] = useState(false);
 
@@ -101,18 +101,18 @@ export default function CustomPlayer({
     }
   }, []);
 
-  useEffect(() => {
-    if (
-      videoRef.current?.currentTime != NaN &&
-      videoRef.current?.currentTime != undefined &&
-      videoRef.current?.currentTime != null &&
-      videoRef.current?.currentTime != 0
-    ) {
-      if (videoRef.current?.duration - videoRef.current?.currentTime > 60) {
-        videoRef.current.currentTime = videoRef.current.duration - 30;
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (
+  //     videoRef.current?.currentTime != NaN &&
+  //     videoRef.current?.currentTime != undefined &&
+  //     videoRef.current?.currentTime != null &&
+  //     videoRef.current?.currentTime != 0
+  //   ) {
+  //     if (videoRef.current?.duration - videoRef.current?.currentTime > 60) {
+  //       videoRef.current.currentTime = videoRef.current.duration - 30;
+  //     }
+  //   }
+  // }, []);
 
   const onMouseEnterSettings = () => {
     if (dropdownSettings === true) {
@@ -222,22 +222,9 @@ export default function CustomPlayer({
         autoPlay={playing}
         muted={muted}
         controls={false}
-        style={{
-          position: "relative",
-          marginLeft: marginLeft,
-          top: popup === true ? "10px" : "2px",
-          left:
-            height === "200px"
-              ? "0px"
-              : popup === true
-              ? "0px"
-              : left
-              ? left
-              : "-0px",
-          zIndex: "1",
-        }}
         width={width ? width : "100%"}
         height={height ? height : "835px"}
+        expanded={expanded}
       />
     );
   }

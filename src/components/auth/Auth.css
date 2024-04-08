@@ -29,12 +29,13 @@
 /* Animación de entrada */
 @keyframes fadeIn {
     from {
-      opacity: 0;
+        opacity: 0;
     }
+
     to {
-      opacity: 1;
+        opacity: 1;
     }
-  }
+}
 
 .auth-body-type1 {
     display: flex;
@@ -94,7 +95,7 @@
     width: 100%;
     font-family: 'Inter';
     display: flex;
-    
+
     font-size: 18px;
     border-bottom: 1px solid rgb(41, 41, 41);
 }
@@ -116,13 +117,13 @@
     width: 50%;
     padding: 10px;
     color: #ededed;
-    
+
     cursor: pointer;
 }
 
 .auth-title-card.active {
     border-bottom: 3px solid #ffffff;
-    
+
 }
 
 
@@ -279,10 +280,10 @@ select:focus {
     padding: 30px;
     width: 32%;
     text-align: center;
-    background-image: url("/public/images/login.jpg");
+    background-image: url("https://res.cloudinary.com/dcj8krp42/image/upload/v1712456529/logos/login_zfm2ps.jpg");
     background-size: cover;
     background-position: center;
-    
+
     display: flex;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -303,11 +304,11 @@ select:focus {
     border-bottom-right-radius: 5px;
 }
 
-.auth-text{
+.auth-text {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap:10px;
+    gap: 10px;
 }
 
 .auth-text a:hover {

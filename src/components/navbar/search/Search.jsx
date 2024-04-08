@@ -142,32 +142,42 @@ export default function Search({ isMobile, tyExpanded, setExpanded }) {
     }
   };
 
-
   return (
     <div
       ref={divRef}
-      style={{ padding: tyExpanded && "0 0 0 1rem", height: tyExpanded && "3rem", lineHeight: tyExpanded && 2, display: "flex", width: tyExpanded && "88% !important", cursor: "pointer" }}
+      style={{
+        padding: tyExpanded && "0 0 0 1rem",
+        height: tyExpanded && "3rem",
+        lineHeight: tyExpanded && 2,
+        display: "flex",
+        width: tyExpanded && "88% !important",
+        cursor: "pointer",
+      }}
       onClick={() => setExpanded(true)}
       className={
         search === null
           ? "navbar-search-dark navbar-search-margin"
           : "navbar-search-" + theme.theme
       }
-
     >
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: 'center',
+          justifyContent: "center",
           height: isMobile ? "50px" : "",
         }}
       >
-        <img src="/images/search.svg" style={{ fontSize: tyExpanded ? '18px' : "16px", color: "rgb(89 89 89)", margin: tyExpanded ? '5px' : '8px' }} />
+        <img
+          src="/images/search.svg"
+          style={{
+            fontSize: tyExpanded ? "18px" : "16px",
+            color: "rgb(89 89 89)",
+            margin: tyExpanded ? "5px" : "8px",
+          }}
+        />
 
-
-        {
-          tyExpanded &&
+        {tyExpanded && (
           <input
             style={{ fontSize: "16px" }}
             value={text}
@@ -178,9 +188,7 @@ export default function Search({ isMobile, tyExpanded, setExpanded }) {
             type="search"
             className="input-searchbar"
           />
-        }
-
-
+        )}
       </div>
 
       {search != null && (

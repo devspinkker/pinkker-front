@@ -3,7 +3,10 @@ import "./ClipsMain.css";
 import { useSelector } from "react-redux";
 import ClipCard from "./card/ClipCard";
 import Auth from "../../auth/Auth";
-import { GetClipsCategory } from "../../../services/backGo/clip";
+import {
+  ClipsRecommended,
+  GetClipsCategory,
+} from "../../../services/backGo/clip";
 
 export default function ClipsMain({ tyExpanded }) {
   const auth = useSelector((state) => state.auth);
@@ -27,9 +30,18 @@ export default function ClipsMain({ tyExpanded }) {
 
   const loadClips = async () => {
     try {
-      const res = await GetClipsCategory("", 1, "");
-      if (res.data.message === "ok") {
-        setClips(res.data.data);
+      let token = window.localStorage.getItem("token");
+      if (token) {
+        const idsExclude = [];
+        const res = await ClipsRecommended(token, idsExclude);
+        if (res.data.message === "ok") {
+          setClips(res.data.data);
+        }
+      } else {
+        const res = await GetClipsCategory("", 1, "");
+        if (res.data.message === "ok") {
+          setClips(res.data.data);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -39,10 +51,19 @@ export default function ClipsMain({ tyExpanded }) {
   const loadMoreClips = async () => {
     if (!isLogged && clips) {
       try {
-        const res = await GetClipsCategory("", 1, clips[clips.length - 1].id);
-
-        if (res.data.message === "ok" && res.data.data.length > 0) {
-          setClips((prevClips) => [...prevClips, ...res.data.data]);
+        let token = window.localStorage.getItem("token");
+        if (token) {
+          // Extraer los IDs de los clips actuales
+          const idsExclude = clips.map((clip) => clip._id);
+          const res = await ClipsRecommended(token, idsExclude);
+          if (res.data.message === "ok") {
+            setClips((prevClips) => [...prevClips, ...res.data.data]);
+          }
+        } else {
+          const res = await GetClipsCategory("", 1, "");
+          if (res.data.message === "ok") {
+            setClips((prevClips) => [...prevClips, ...res.data.data]);
+          }
         }
       } catch (error) {
         console.log(error);

@@ -51,6 +51,23 @@ export const GetClipsMostViewed = async (page) => {
     const response = await axios.get(`${url}/clips/GetClipsMostViewed?page=${page}`)
     return response
 }
+export const ClipsRecommended = async (token, ExcludeIDs) => {
+    try {
+        const res = await axios.post(
+            `${url}/clips/ClipsRecommended`,
+            {
+                ExcludeIDs
+
+            },
+            {
+                headers: { Authorization: token },
+            }
+        );
+        return res;
+    } catch (error) {
+        return error
+    }
+};
 export const GetClipsMostViewedLast48Hours = async (page) => {
 
     try {
@@ -91,6 +108,67 @@ export const likeClip = async (token, ClipId) => {
             }
         );
         return res;
+    } catch (error) {
+        return error
+    }
+};
+
+export const LikeCommentClip = async (token, ClipId) => {
+    try {
+
+        const res = await axios.post(
+            `${url}/clips/LikeCommentClip`,
+            {
+                ClipId: ClipId,
+            },
+            {
+                headers: { Authorization: token },
+            }
+        );
+        return res;
+    } catch (error) {
+        return error
+    }
+};
+export const UnlikeComment = async (token, ClipId) => {
+    try {
+
+        const res = await axios.post(
+            `${url}/clips/UnlikeComment`,
+            {
+                ClipId: ClipId,
+            },
+            {
+                headers: { Authorization: token },
+            }
+        );
+        return res;
+    } catch (error) {
+        return error
+    }
+};
+export const CommentClip = async (token, ClipId, CommentClip) => {
+    try {
+
+        const res = await axios.post(
+            `${url}/clips/CommentClip`,
+            {
+                IdClip: ClipId,
+                CommentClip,
+            },
+            {
+                headers: { Authorization: token },
+            }
+        );
+        return res;
+    } catch (error) {
+        return error
+    }
+};
+export const GetClipComments = async (page, IdClip) => {
+    try {
+        const response = await axios.get(`${url}/clips/GetClipComments?page=${page}&IdClip=${IdClip}`)
+        return response;
     } catch (error) {
         return error
     }

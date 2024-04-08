@@ -634,7 +634,7 @@ export function ChatStreaming({
             color: "white",
             position: "fixed",
             right: "10px",
-            top: "70px",
+            top: "139px",
             transform: "rotate(180deg)",
             zIndex: "99999",
           }}
@@ -652,7 +652,7 @@ export function ChatStreaming({
             color: "white",
             position: "fixed",
             right: "24%",
-            top: "70px",
+            top: "96px",
             zIndex: "99999",
           }}
           className="chat-button-more"
