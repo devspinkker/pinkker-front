@@ -12,10 +12,15 @@ import { GetAllsStreamsOnline } from "../../services/backGo/streams";
 import { GrHomeRounded } from "react-icons/gr";
 import { FiSearch } from "react-icons/fi";
 import { AiOutlineMenu, AiOutlinePlayCircle } from "react-icons/ai";
-import { BsChatSquareText, BsWallet } from "react-icons/bs";
+import { BsChatDots, BsChatSquareText, BsWallet } from "react-icons/bs";
 import { CgTennis } from "react-icons/cg";
 import { ImDice } from "react-icons/im";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { AiOutlineSetting } from "react-icons/ai";
+import { IoIosArrowDown, IoIosArrowUp, IoMdNotificationsOutline } from "react-icons/io";
+import { TfiWallet } from "react-icons/tfi";
+import { AiOutlineUser } from "react-icons/ai";
+import { LiaSlidersHSolid } from "react-icons/lia";
+import { TbLogout2 } from "react-icons/tb";
 function NLayout(props) {
   const [pulse, setPulse] = useState(false);
   const [abrir, setAbrir] = useState(true);
@@ -60,10 +65,6 @@ function NLayout(props) {
     fetchData();
   }, [props.tyExpanded]);
 
-  let online = streams;
-
-  console.log("online", online);
-
   const [subMenu, setSubMenu] = useState(false);
 
   const [esClick, setEsClick] = useState(false);
@@ -84,7 +85,7 @@ function NLayout(props) {
   useEffect(() => {
     // Función para manejar el clic en cualquier parte de la página
     const handleClickOutside = () => {
-      setSubMenu(false); // Cambiar el estado a false cuando se hace clic fuera del área deseada
+      setSubMenu(false); // Cambiar el estado a false cuando se hace clic fuera del área deseada  
     };
 
     // Agregar un event listener para escuchar clics en el documento
@@ -105,8 +106,6 @@ function NLayout(props) {
 
   const [expandCartera, setExpandCartera] = useState(false);
 
-
-  console.log('expandCartera', props.user)
   const handleExpandCartera = () => {
 
     setExpandCartera(!expandCartera);
@@ -133,11 +132,11 @@ function NLayout(props) {
       >
         <Grid
           style={{
-            padding: props.tyExpanded ? ".98rem 5px" : "1.72rem 5px",
+            padding: props.tyExpanded ? ".98rem 15px" : "1.72rem 5px",
             width: "100%",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-around",
+            justifyContent: "space-between",
           }}
         >
           {/* <i
@@ -654,7 +653,7 @@ function NLayout(props) {
             <Link to="/" style={{ width: "200px" }}>
               <img
                 src="https://res.cloudinary.com/dcj8krp42/image/upload/v1712283573/categorias/logo_trazado_pndioh.png"
-                style={{ width: "65%" }}
+                style={{ width: "67%" }}
                 alt=""
               />
             </Link>
@@ -742,8 +741,7 @@ function NLayout(props) {
                   <div
                     style={{
                       width: "40px",
-
-                      backgroundColor: "#f36196",
+                      background: '#2a2e38',
                       position: "relative",
                       left: "  ",
                       top: "2px",
@@ -751,7 +749,8 @@ function NLayout(props) {
                     className="navbar-image-avatar"
 
                   >
-                    <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} />
+                    {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
+                    <IoMdNotificationsOutline style={{ fontSize: '20px', color:'white' }} />
                   </div>
 
                 </div>
@@ -760,8 +759,7 @@ function NLayout(props) {
                   <div
                     style={{
                       width: "40px",
-
-                      backgroundColor: "#f36196",
+                      background: '#2a2e38',
                       position: "relative",
                       left: "  ",
                       top: "2px",
@@ -769,7 +767,8 @@ function NLayout(props) {
                     className="navbar-image-avatar"
 
                   >
-                    <img src={"/images/iconos/mensaje.png"} alt="" style={{ width: '60%' }} />
+                    {/* <img src={"/images/iconos/mensaje.png"} alt="" style={{ width: '60%' }} /> */}
+                    <BsChatDots style={{ fontSize: '20px', color:'white' }} />
                   </div>
 
                 </div>
@@ -786,26 +785,26 @@ function NLayout(props) {
                     }}
                     className="navbar-image-avatar"
                     onClick={(e) => habilitarSubMenu(true, e)}
-                    onMouseEnter={() => habilitarSubMenu(true)}
+                    onMouseEnter={esClick ? console.log('activo') :() => habilitarSubMenu(true)}
                     onMouseLeave={esClick ? console.log('activo') : () => habilitarSubMenu(false)}
                   >
-                    <img src={"/images/pixel.png"} alt="" />
+                    <img src={props.user?.Avatar ?? "/images/pixel.png"} alt="" />
                   </div>
 
                 </div>
               </Grid>
               {subMenu && (
                 <Grid
-                  onMouseEnter={() => habilitarSubMenu(true)}
-                  onMouseLeave={() => habilitarSubMenu(false)}
+                  onMouseEnter={esClick ? console.log('activo') :() => habilitarSubMenu(true)}
+                  onMouseLeave={esClick ? console.log('activo') : () => habilitarSubMenu(false)}
                   style={{
                     backgroundColor: "#121418",
-                    height: "50vh",
+                    border: '1px solid #343843',
                     position: "absolute",
                     padding: "1rem",
                     width: "16.25rem",
                     right: "105px",
-                    borderRadius: "5px",
+                    borderRadius: "0.5rem",
                     zIndex: 99999,
                   }}
                 >
@@ -824,7 +823,7 @@ function NLayout(props) {
                         alignItems: "center",
                         gap: "15px",
                         padding: 10,
-                        borderBottom: "1px solid #2a2e38",
+                        
                       }}
                     >
                       <img
@@ -836,7 +835,7 @@ function NLayout(props) {
                           borderRadius: "50%",
                         }}
                       />
-                      <Grid style={{display:'flex', flexDirection:'column',gap:'3px' }}>
+                      <Grid style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
 
                         <Link
                           style={{
@@ -850,32 +849,18 @@ function NLayout(props) {
                             style={{
                               color: "white",
                               fontSize: "1rem",
-                              fontWeight: 500,
+                              fontFamily:'Inter',
+                              fontWeight: 600,
                             }}
                           >
                             {props.user?.NameUser ?? "Usuario"}
                           </Typography>
                         </Link>
-                        <Typography style={{color:'white', fontSize:'8px'}}>0 Seguidores</Typography>
+                        <Typography style={{ color: 'white', fontSize: '12px', fontFamily:'Inter' }}>0 seguidores</Typography>
                       </Grid>
                     </Grid>
 
-                    <Grid style={{ marginTop: "5px" }}>
-                      <Link
-                        style={{ textDecoration: "none" }}
-                        to={"/" + props.user.NameUser + "/settings"}
-                      >
-                        <Typography
-                          style={{
-                            color: "white",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Ajustes de tu cuenta{" "}
-                        </Typography>
-                      </Link>
-                    </Grid>
+
                   </Grid>
 
                   <Grid
@@ -885,74 +870,78 @@ function NLayout(props) {
                       alignItems: "flex-start",
                       gap: "15px",
                       marginTop: "15px",
-                      
+
                     }}
                   >
-                    
-                      <Link
-                        className="dropdownaccount-link"
-                        to={"/" + props.user.NameUser}
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
-                      >
-                        <i
-                          style={{ marginRight: "10px" }}
-                          class="fas fa-user"
-                        ></i>
-                        Tu canal
-                      </Link>
-                    
 
-                    
-                      <Link
-                        className="dropdownaccount-link"
-                        to={"/" + props.user.NameUser + "/dashboard/stream"}
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
-                      >
-                        <i
-                          style={{ marginRight: "10px" }}
-                          class="fas fa-sliders-h"
-                        ></i>
-                        Panel de control del creador
-                      </Link>
-                    
+                    <Link
+                      className="dropdownaccount-link"
+                      to={"/" + props.user.NameUser}
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      
+                      <AiOutlineUser style={{ marginRight: "10px" }}/>
+                      Tu canal
+                    </Link>
 
-                    
-                      <Link
-                        className="dropdownaccount-link"
-                        to="/plataform/cartera"
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
-                      >
-                        <i
-                          style={{ marginRight: "10px" }}
-                          class="fas fa-wallet"
-                        ></i>
-                        Cartera
-                      </Link>
-                    
-                    
-                      <div
-                        className="dropdownaccount-link"
-                        onClick={() => handleLogout()}
-                      >
-                        <i
-                          style={{ marginRight: "10px" }}
-                          class="fas fa-sign-out-alt"
-                        ></i>{" "}
-                        Cerrar sesión
-                      </div>
-                    
+
+
+                    <Link
+                      className="dropdownaccount-link"
+                      to={"/" + props.user.NameUser + "/dashboard/stream"}
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      
+                      <LiaSlidersHSolid style={{ marginRight: "10px", fontSize:'24px' }}/>
+                      Panel de control del creador
+                    </Link>
+
+
+
+                    <Link
+                      className="dropdownaccount-link"
+                      to="/plataform/cartera"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      
+                      <TfiWallet style={{ marginRight: "10px" }} />
+                      Cartera
+                    </Link>
+
+                    <Link
+                    className="dropdownaccount-link"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                      to={"/" + props.user.NameUser + "/settings"}
+                    >
+                      <AiOutlineSetting style={{ marginRight: "10px" }}/>
+                        Configuración
+                      
+                    </Link>
+                    <div
+                      className="dropdownaccount-link"
+                      onClick={() => handleLogout()}
+                    >
+                      
+                      <TbLogout2 style={{ marginRight: "10px" }} />
+                      Cerrar sesión
+                    </div>
+
 
                   </Grid>
                 </Grid>
@@ -961,7 +950,7 @@ function NLayout(props) {
           </Grid>
         )}
 
-        <Grid style={{ padding: "2rem 5.8rem", width: "102%" }}>
+        <Grid style={{ padding: "2rem 5.8rem", width: "102%" }} onClick={() => setEsClick(false)}>
           {props.children}
 
           {showPopupAuth === true && (

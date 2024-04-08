@@ -364,9 +364,12 @@
   justify-content: center;
   cursor: pointer;
   margin-right: 5px;
-  transition: 0.3s all;
+
 }
 
+.navbar-image-avatar:hover{
+  background: #343843 !important;
+}
 
 .navbar-image-avatar img {
   width: 36px;

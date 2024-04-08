@@ -66,11 +66,7 @@ export default function Clips(props) {
   return (
     <div className="home-clips">
       <div className="manager-recommended">
-        <Grid style={{ display: 'flex', alignItems: 'center', gap: '5px', width: '30%' }}>
-
-          <AiOutlinePlayCircle style={{ color: '#856ffc', fontSize: '20px' }} />
-          <h2 style={{ color: 'white', fontSize: '20px' }}>{props.titulo ? 'Vods más vistos' : 'Clips más vistos'} </h2>
-        </Grid>
+        
         
         {/* <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
@@ -137,7 +133,7 @@ export default function Clips(props) {
           </div>
 
         </div> */}
-        <SliderLayout clipT={true} Categoria={false} clips={clips} />
+        <SliderLayout clipT={true} Categoria={false} clips={clips}  />
 
         {selectedVideo && (
           <SelectVideoClip

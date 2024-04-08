@@ -10,7 +10,7 @@ import { PostCreate, setToken, PostGets } from "../../services/backGo/tweet";
 import { useNotification } from "../Notifications/NotificationProvider";
 
 import { useSelector } from "react-redux";
-import { ScaleLoader } from "react-spinners";
+import { ScaleLoader,BarLoader } from "react-spinners";
 
 import { FileUploader } from "react-drag-drop-files";
 
@@ -56,7 +56,7 @@ export default function Muro({ isMobile, userName }) {
   const [isLoading, setIsLoading] = useState(true);
   setTimeout(() => {
     setIsLoading(false);
-  }, 200);
+  }, 500);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -123,7 +123,6 @@ export default function Muro({ isMobile, userName }) {
     reader.readAsDataURL(fileT);
   };
 
-  console.log('userName',userName)
   function renderMuro() {
     if (true) {
       return (
@@ -505,7 +504,8 @@ export default function Muro({ isMobile, userName }) {
             justifyContent: "center",
           }}
         >
-          <ScaleLoader width={4} height={20} color="#f36197d7" />
+          <BarLoader color="#36d7b7" />
+          
         </div>
       )}
       {/*<div style={{height: "800px", display: "flex", alignItems: "center", justifyContent: "center"}}>
