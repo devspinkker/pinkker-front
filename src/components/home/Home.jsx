@@ -5,7 +5,7 @@ import "./Home.css";
 import Categories from "./categories/Categories";
 import DirectosRecommended from "./recommended/Recommended";
 import Clips from "./clips/Clips";
-import { useSelector } from "react-redux";
+
 
 import useTheme from "../../theme/useTheme";
 
@@ -32,6 +32,8 @@ import { Grid, Skeleton } from "@mui/material";
 import { AiOutlinePlayCircle } from "react-icons/ai";
 import { LuGamepad } from "react-icons/lu";
 import { GrGamepad } from "react-icons/gr";
+import SliderLayout from "../layout/SliderLayout";
+
 const Home = ({
   socketMain,
   expanded,
@@ -187,7 +189,6 @@ const Home = ({
     const is1920 = window.innerHeight === 1080;
     setIs1080x1920(is1080 && is1920);
   };
-  console.log("is1080x1920", is1080x1920);
   useEffect(() => {
     handleResize(); // Comprobar el tamaño inicial de la pantalla al montar el componente
 
@@ -236,6 +237,8 @@ const Home = ({
     setIsDragging(false);
     setStartX(0);
   };
+
+
   return (
     <div
       style={{
@@ -243,450 +246,6 @@ const Home = ({
       }}
       className={"home-body-" + theme.theme}
     >
-      {/* <div className="home-img">
-        {!isMobile && (
-          <div className="home-img-content">
-            <h1
-              style={{
-                fontWeight: "800",
-                fontFamily: "Poppins",
-                fontSize: "44px",
-              }}
-            >
-              Directos, clips ilimitados y <br /> mucho más.
-            </h1>
-            <p style={{ fontSize: "20px", marginBottom: "10px" }}>
-              Descubre las mejores transmisiones en directo allá donde estés.
-            </p>
-          </div>
-        )}
-
-        {isMobile && (
-          <div
-            style={{
-              width: "100%",
-              height: "10%",
-              display: "flex",
-              marginTop: "35px",
-              overflowX: "scroll",
-            }}
-          >
-            {false
-              ? streams?.map((stream) => (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      gap: "10px",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        width: "100px",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Link to={`/categorie/" + ${stream.nombre}`}>
-                        <img
-                          src={stream.img}
-                          style={{
-                            width: "80px",
-                            height: "80px",
-                            borderRadius: "50%",
-                            objectFit: "cover",
-                          }}
-                        />
-                        <span style={{ color: "white", textAlign: "center" }}>
-                          {stream.nombre}
-                        </span>
-                      </Link>
-                    </div>
-                  </div>
-                ))
-              : categorias.map((categorias, index) => (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      marginLeft: index === 0 ? "2%" : "5%",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Link to={`/categorie/${categorias.nombre}`}>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          width: "100px",
-                          alignItems: "center",
-                        }}
-                      >
-                        <img
-                          src={categorias.img}
-                          style={{
-                            width: "120px",
-                            height: "120px",
-                            borderRadius: "50%",
-                            objectFit: "cover",
-                          }}
-                        />
-                        <span style={{ color: "white", textAlign: "center" }}>
-                          {categorias.nombre}
-                        </span>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-          </div>
-        )}
-
-        {isLogged && !isMobile && (
-          <div className="test">
-            <Link to={"/categorie/" + getUrlFromImage(imagesNormal[random[0]])}>
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: "-60px",
-                  right: "255px",
-                  width: "265px",
-                  height: "257px",
-                  animation:
-                    randomAnimation[0] === 0
-                      ? "translateAnimation 5s infinite"
-                      : "translateAnimation 4s infinite",
-                  zIndex: "1000",
-                }}
-                className="home-image-effect"
-                src={"/images/categories/" + imagesNormal[random[0]]}
-              />
-            </Link>
-            <Link to={"/categorie/" + getUrlFromImage(imagesNormal[random[1]])}>
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: "188px",
-                  right: "477px",
-                  width: "225px",
-                  height: "190px",
-                  animation:
-                    randomAnimation[0] === 1 &&
-                    "translateAnimation 7s infinite",
-                  zIndex: randomAnimation[0] === 1 && "1000",
-                }}
-                className="home-image-effect"
-                src={"/images/categories/" + imagesNormal[random[1]]}
-              />
-            </Link>
-            <Link to={"/categorie/" + getUrlFromImage(imagesNormal[random[2]])}>
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: "163px",
-                  right: "705px",
-                  width: "225px",
-                  height: "190px",
-                  animation:
-                    randomAnimation[0] === 2 &&
-                    "translateAnimation 8s infinite",
-                  zIndex: randomAnimation[0] === 2 && "1000",
-                }}
-                className="home-image-effect"
-                src={"/images/categories/" + imagesNormal[random[2]]}
-              />
-            </Link>
-            <Link to={"/categorie/" + getUrlFromImage(imagesNormal[random[3]])}>
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: "-60px",
-                  right: "528px",
-                  width: "235px",
-                  height: "227px",
-                  animation:
-                    randomAnimation[0] === 3 &&
-                    "translateAnimation 4s infinite",
-                  zIndex: randomAnimation[0] === 3 && "1000",
-                }}
-                className="home-image-effect"
-                src={"/images/categories/" + imagesNormal[random[3]]}
-              />
-            </Link>
-            <Link to={"/categorie/" + getUrlFromImage(imagesNormal[random[4]])}>
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: "-50px",
-                  right: "1228px",
-                  width: "180px",
-                  height: "147px",
-                  animation:
-                    randomAnimation[0] === 4 &&
-                    "translateAnimation 5s infinite",
-                  zIndex: "1200",
-                }}
-                className="home-image-effect"
-                src={"/images/categories/" + imagesNormal[random[4]]}
-              />
-            </Link>
-            <Link to={"/categorie/" + getUrlFromImage(imagesNormal[random[5]])}>
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: "87px",
-                  right: "1430px",
-                  width: "180px",
-                  height: "187px",
-                  animation:
-                    randomAnimation[0] === 5 &&
-                    "translateAnimation 6s infinite",
-                  filter: randomAnimation[0] === 5 && "brightness(65%)",
-                  boxShadow:
-                    randomAnimation[0] === 5 &&
-                    "#ff85d9 1px 1px, #ff85d9 2px 2px, #ff85d9 3px 3px, #ff85d9 4px 4px, #ff85d9 5px 5px, #ff85d9 6px 6px, #ff85d9 7px 7px, #ff85d9 8px 8px",
-                  zIndex: randomAnimation[0] === 5 && "1000",
-                }}
-                className="home-image-effect"
-                src={"/images/categories/" + imagesNormal[random[5]]}
-              />
-            </Link>
-            <Link to={"/categorie/" + getUrlFromImage(imagesNormal[random[6]])}>
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: expanded ? "315px" : "308px",
-                  right: "-365px",
-                  width: "210px",
-                  height: "177px",
-                  position: "relative",
-                  animation:
-                    randomAnimation[0] === 6 &&
-                    "translateAnimation 7s infinite",
-                  zIndex: randomAnimation[0] === 6 && "1000",
-                }}
-                className="home-image-effect"
-                src={"/images/categories/" + imagesNormal[random[6]]}
-              />
-            </Link>
-
-            <Link
-              to={
-                "/categorie/" + getUrlFromBanner(imagesBanner[randomBanner[0]])
-              }
-            >
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: "51px",
-                  right: "1615px",
-                  width: "480px",
-                  height: "187px",
-                  animation:
-                    randomAnimation[0] === 0 &&
-                    "translateAnimation 5s infinite",
-                  zIndex: randomAnimation[0] === 0 && "1000",
-                }}
-                className="home-image-banner-effect"
-                src={
-                  "/images/categories/banners/" + imagesBanner[randomBanner[0]]
-                }
-              />
-            </Link>
-            <Link
-              to={
-                "/categorie/" + getUrlFromBanner(imagesBanner[randomBanner[1]])
-              }
-            >
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: "123px",
-                  right: "931px",
-                  width: "500px",
-                  height: "190px",
-                  animation:
-                    randomAnimation[0] === 1
-                      ? "translateAnimation 6s infinite"
-                      : "translateAnimation 6s infinite",
-                  zIndex: "1000",
-                }}
-                className="home-image-banner-effect"
-                src={
-                  "/images/categories/banners/" + imagesBanner[randomBanner[1]]
-                }
-              />
-            </Link>
-            <Link
-              to={
-                "/categorie/" + getUrlFromBanner(imagesBanner[randomBanner[2]])
-              }
-            >
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: expanded ? "229px" : "230px",
-                  right: expanded ? "-1000px" : "-1090px",
-                  position: "relative",
-                  width: "525px",
-                  height: "190px",
-                  animation:
-                    randomAnimation[0] === 2 &&
-                    "translateAnimation 9s infinite",
-                  zIndex: randomAnimation[0] === 2 && "1000",
-                }}
-                className="home-image-banner-effect"
-                src={
-                  "/images/categories/banners/" + imagesBanner[randomBanner[2]]
-                }
-              />
-            </Link>
-            <Link
-              to={
-                "/categorie/" + getUrlFromBanner(imagesBanner[randomBanner[3]])
-              }
-            >
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: "7px",
-                  right: "-220px",
-                  width: "480px",
-                  height: "230px",
-                  animation:
-                    randomAnimation[0] === 3 &&
-                    "translateAnimation 4s infinite",
-                  zIndex: randomAnimation[0] === 3 && "1000",
-                }}
-                className="home-image-banner-effect"
-                src={
-                  "/images/categories/banners/" + imagesBanner[randomBanner[3]]
-                }
-              />
-            </Link>
-            <Link
-              to={
-                "/categorie/" + getUrlFromBanner(imagesBanner[randomBanner[4]])
-              }
-            >
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: "-60px",
-                  right: "770px",
-                  width: "450px",
-                  height: "190px",
-                  animation:
-                    randomAnimation[0] === 4 &&
-                    "translateAnimation 8s infinite",
-                  zIndex: randomAnimation[0] === 4 && "1000",
-                }}
-                className="home-image-banner-effect"
-                src={
-                  "/images/categories/banners/" + imagesBanner[randomBanner[4]]
-                }
-              />
-            </Link>
-            <Link
-              to={
-                "/categorie/" + getUrlFromBanner(imagesBanner[randomBanner[5]])
-              }
-            >
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: "-57px",
-                  right: "1415px",
-                  width: "452px",
-                  height: "120px",
-                  animation:
-                    randomAnimation[0] === 5 &&
-                    "translateAnimation 11s infinite",
-                  zIndex: randomAnimation[0] === 5 && "1000",
-                }}
-                className="home-image-banner-effect"
-                src={
-                  "/images/categories/banners/" + imagesBanner[randomBanner[5]]
-                }
-              />
-            </Link>
-            <Link
-              to={
-                "/categorie/" + getUrlFromBanner(imagesBanner[randomBanner[6]])
-              }
-            >
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: expanded ? "280px" : "275px",
-                  right: expanded ? "820px" : "825px",
-                  width: "450px",
-                  height: "180px",
-                  position: "relative",
-                  animation:
-                    randomAnimation[0] === 6 &&
-                    "translateAnimation 4s infinite",
-                  zIndex: randomAnimation[0] === 6 && "1000",
-                }}
-                className="home-image-banner-effect"
-                src={
-                  "/images/categories/banners/" + imagesBanner[randomBanner[6]]
-                }
-              />
-            </Link>
-            <Link
-              to={
-                "/categorie/" + getUrlFromBanner(imagesBanner[randomBanner[7]])
-              }
-            >
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: expanded ? "415px" : "412px",
-                  right: "50px",
-                  width: "480px",
-                  height: "180px",
-                  position: "relative",
-                  animation:
-                    randomAnimation[0] === 7 &&
-                    "translateAnimation 3s infinite",
-                  zIndex: randomAnimation[0] === 7 && "1000",
-                }}
-                className="home-image-banner-effect"
-                src={
-                  "/images/categories/banners/" + imagesBanner[randomBanner[7]]
-                }
-              />
-            </Link>
-            <Link
-              to={
-                "/categorie/" + getUrlFromBanner(imagesBanner[randomBanner[8]])
-              }
-            >
-              <img
-                style={{
-                  borderRadius: "5px",
-                  top: expanded ? "175px" : "170px",
-                  right: "-25px",
-                  width: "560px",
-                  height: "180px",
-                  position: "relative",
-                  animation:
-                    randomAnimation[0] === 8 &&
-                    "translateAnimation 5s infinite",
-                  zIndex: randomAnimation[0] === 8 && "1000",
-                }}
-                className="home-image-banner-effect"
-                src={
-                  "/images/categories/banners/" + imagesBanner[randomBanner[8]]
-                }
-              />
-            </Link>
-          </div>
-        )}
-      </div> */}
-      {/* {!isMobile && <Categories isMobile={isMobile} />} */}
 
       <DirectosRecommended
         isMobile={isMobile}
@@ -694,6 +253,7 @@ const Home = ({
         handleMessage={handleMessage}
         expanded={expanded}
       />
+
 
       <div className="categories-home-container">
         <div className="categories-home-manager">
@@ -711,47 +271,10 @@ const Home = ({
             <h2 style={{ fontFamily: "Inter", color: "white" }}>Categorias</h2>
           </div>
 
-          <div className="manager-recommended-actions">
-            <div className="manager-recommended-actions-ver-todos">
-              <Link
-                to="/plataform/explore?tipo=categories"
-                style={{ padding: 0 }}
-              >
-                <span
-                  style={{ fontFamily: "Signika Negative", fontSize: "14px" }}
-                >
-                  Ver todos
-                </span>
-              </Link>
-            </div>
-            <div className="manager-recommended-actions-arrow">
-              <i
-                style={{ margin: "0px 10px", cursor: "pointer" }}
-                className="fas fa-chevron-left"
-                onClick={() => fetchMoreData("left")}
-              ></i>
-              <i
-                style={{ cursor: "pointer" }}
-                className="fas fa-chevron-right"
-                onClick={() => fetchMoreData("right")}
-              ></i>
-            </div>
-          </div>
+         
         </div>
         <div
-          className="categories-home"
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          style={{
-            transition: "transform 0.5s ease",
-            transform: isDragging
-              ? `translateX(${offset}px)`
-              : `translateX(${currentIndex * size}%)`,
-            cursor: isDragging ? "grabbing" : "grab",
-            userSelect: "none",
-          }}
+          className="categories-home"       
         >
           {!Categories[1] && (
             <div
@@ -763,7 +286,7 @@ const Home = ({
                 gap: "10px",
               }}
             >
-              {[...Array(10)].map((_, index) => (
+              {[...Array(9)].map((_, index) => (
                 <div
                   style={{
                     marginTop: "30px",
@@ -786,34 +309,14 @@ const Home = ({
               ))}
             </div>
           )}
-          {Categories &&
-            Categories.filter((categorie, index) => index < 10).map(
-              (categorie) => (
-                <CardCategorie
-                  width={isMobile ? "160px" : "160px"}
-                  isLoading={isLoading}
-                  name={categorie.nombre}
-                  image={categorie.img ?? "/images/pinkker-stream.png"}
-                  spectators={categorie.spectators}
-                  tags={categorie.tags}
-                  TopColor={categorie.TopColor}
-                />
-              )
-            )}
-          <CardCategorie
-            width={isMobile ? "160px" : "160px"}
-            isLoading={isLoading}
-            name={"Ver Todos"}
-            titulo={"Ver Todos"}
-            image={"/images/pinkker-stream.png"}
-            spectators={""}
-            tags={""}
-            TopColor={""}
-          />
         </div>
+
+
+
       </div>
 
-      {!isMobile && <Clips isMobile={isMobile} />}
+<SliderLayout Categories={Categories} Categoria={true} clipT={false}></SliderLayout>
+      {!isMobile &&  <Clips isMobile={isMobile} /> }
 
       {/* <Vods /> */}
 

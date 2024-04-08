@@ -54,7 +54,7 @@ export default function CustomCard(props) {
                   width: '140px',
                   height: '190px',
                 }}
-                className="img-categorie-card"
+                className= "img-categorie-card"
                 src={props.image}
                 loading={"lazy"}
                 alt=""

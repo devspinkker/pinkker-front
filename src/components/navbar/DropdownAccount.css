@@ -35,16 +35,19 @@
     .dropdownaccount-link {
       display: flex;
       height: 100%;
-      width: 100%;
+      width: 90%;
       text-decoration: none;
       color: #fff;
       font-weight: 400;
       transition: color 1s ease;
+      padding: 15px;
+      
     }
 
     .dropdownaccount-link:hover{
       cursor: pointer;
-      color:#cf5481;
+      background-color: #282828;
+      border-radius: 5px;
     }
     .dropdownaccount-button {
       background: none;
