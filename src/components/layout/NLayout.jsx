@@ -96,12 +96,6 @@ function NLayout(props) {
     };
   }, []);
 
-  const habilitarSubMenu = (valor) => {
-    setTimeout(() => {
-      setSubMenu(valor);
-    }, [100]);
-  };
-
   const handleLogout = async () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("_id");
