@@ -23,6 +23,7 @@ import {
 } from "../../../services/backGo/clip";
 import CustomSelect from "./CustomSelect";
 import SelectVideoClip from "../../home/clips/SelectVideoClip";
+import { ScaleLoader,BarLoader } from "react-spinners";
 
 export default function ExploreCategories({ isMobile, tyExpanded }) {
   const history = useHistory();
@@ -137,13 +138,26 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
   const generateColor = () => {
     setColor(Math.random().toString(16).substr(-6));
   };
- 
+
   useEffect(() => {
     generateColor()
-  },[])
+  }, [])
 
   return (
     <div className="explorecategories-body">
+      {isLoading && (
+          <div
+            style={{
+              height: "800px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <BarLoader color="#36d7b7" />
+
+          </div>
+        )}
       <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgb(42, 46, 56)' }}>
         <h3 style={{ color: 'white', fontSize: '30px' }}>Categorias</h3>
         <img src={'/images/ESTRELLAPINKKER.png'} style={{ width: '10%' }} />
@@ -186,30 +200,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
 
 
       <div className="explorecategories-card-container">
-        {isLoading && (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          {[...Array(16)].map((_, index) => (
-            <div
-              style={{ marginRight: "9px", marginTop: "30px" }}
-              key={index}
-            >
-              <Skeleton
-                variant="rectangular"
-                width={150}
-                height={226}
-                style={{ backgroundColor: "#" + color, borderRadius: '5px' }}
-              />
-
-            </div>
-          ))}
-        </div>
-         )} 
+        
 
         {filtros?.categories && (
           <>

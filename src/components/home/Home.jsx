@@ -33,6 +33,7 @@ import { AiOutlinePlayCircle } from "react-icons/ai";
 import { LuGamepad } from "react-icons/lu";
 import { GrGamepad } from "react-icons/gr";
 import SliderLayout from "../layout/SliderLayout";
+import { ScaleLoader,BarLoader } from "react-spinners";
 
 const Home = ({
   socketMain,
@@ -65,11 +66,6 @@ const Home = ({
   //     }
   //     fetchData()
   // }, [])
-
-  const [isLoading, setIsLoading] = useState(false);
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 1500);
 
   const theme = useTheme();
 
@@ -237,7 +233,10 @@ const Home = ({
     setIsDragging(false);
     setStartX(0);
   };
-
+  const [isLoading, setIsLoading] = useState(true);
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 500);
 
   return (
     <div
@@ -246,7 +245,19 @@ const Home = ({
       }}
       className={"home-body-" + theme.theme}
     >
+      {isLoading && (
+        <div
+          style={{
+            height: "800px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <BarLoader color="#36d7b7" />
 
+        </div>
+      )}
       <DirectosRecommended
         isMobile={isMobile}
         socketMain={socketMain}
@@ -257,24 +268,12 @@ const Home = ({
 
       <div className="categories-home-container">
         <div className="categories-home-manager">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              width: "80%",
-            }}
-          >
-            {/* <img src="/images/original.svg" style={{ width: '2%', color:'#856ffc' }} /> */}
-
-            <GrGamepad style={{ color: "#856ffc", fontSize: "20px" }} />
-            <h2 style={{ fontFamily: "Inter", color: "white" }}>Categorias</h2>
-          </div>
-
          
+
+
         </div>
         <div
-          className="categories-home"       
+          className="categories-home"
         >
           {!Categories[1] && (
             <div
@@ -315,8 +314,8 @@ const Home = ({
 
       </div>
 
-<SliderLayout Categories={Categories} Categoria={true} clipT={false}></SliderLayout>
-      {!isMobile &&  <Clips isMobile={isMobile} /> }
+      <SliderLayout Categories={Categories} Categoria={true} clipT={false}></SliderLayout>
+      {!isMobile && <Clips isMobile={isMobile} />}
 
       {/* <Vods /> */}
 

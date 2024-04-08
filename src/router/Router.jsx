@@ -144,8 +144,6 @@ const AppRouter = () => {
       setOpenMessageStreamer(null);
     }
   }
-  console.log('expanded', expanded);
-
   return (
     <Router>
       <LastLocationProvider>

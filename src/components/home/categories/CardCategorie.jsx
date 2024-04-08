@@ -50,7 +50,7 @@ export default function CustomCard(props) {
               </div> */}
               <img
                 style={{
-                  border: `1px solid ${dominantColor}`,
+                  border: `1px solid rgb(229, 224, 218)`,
                   width: '140px',
                   height: '190px',
                 }}
