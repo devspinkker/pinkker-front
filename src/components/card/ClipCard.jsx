@@ -68,7 +68,7 @@ export default function ClipCard({ video, ...props }) {
         <img
           style={{
             borderRadius: "5px",
-            width: "350px",            
+            width: "100%",            
           }}
           src={'/images/pinkker-stream.png'}
           alt=""
@@ -99,13 +99,12 @@ export default function ClipCard({ video, ...props }) {
       onMouseOver={() => handleEnter()}
       onMouseLeave={() => handleLeave()}
       style={{
-        maxWidth: props.width,
-        minWidth: props.width,
+        width: '100%',
         height: "maxContent",
         display: props.dashboard ? "flex" : "block",
       }}
       className="clipcard-body"
-    >
+    > 
       <div className="clipcard-container">
         <div className="clipcard-image">
           {getImagePreview()}

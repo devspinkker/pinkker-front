@@ -71,6 +71,7 @@ export default function Clips(props) {
           <AiOutlinePlayCircle style={{ color: '#856ffc', fontSize: '20px' }} />
           <h2 style={{ color: 'white', fontSize: '20px' }}>{props.titulo ? 'Vods más vistos' : 'Clips más vistos'} </h2>
         </Grid>
+        
         {/* <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
             <Link to="/plataform/explore?tipo=clips" style={{ padding: 0 }}>

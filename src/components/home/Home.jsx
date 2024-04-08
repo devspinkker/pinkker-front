@@ -283,7 +283,7 @@ const Home = ({
               }}
 
             >
-              {[...Array(10)].map((_, index) => (
+              {[...Array(9)].map((_, index) => (
                 <div
                   style={{ marginTop: "30px", display: "flex", alignItems: "center", gap: '15px' }}
                   key={index}

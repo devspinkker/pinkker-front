@@ -279,7 +279,7 @@ select:focus {
     padding: 30px;
     width: 32%;
     text-align: center;
-    background-image: url("/public/images/login-panel.webp");
+    background-image: url("/public/images/login.jpg");
     background-size: cover;
     background-position: center;
     

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { GetAllsStreamsOnline } from "../../../services/backGo/streams";
 import CardStreamRecomendado from "../categories/CardStreamRecomendado";
 import { Grid } from "@mui/material";
+import { GrGamepad } from "react-icons/gr";
 
 function CardSkeleto() {
   return (
@@ -160,13 +161,15 @@ export default function DirectosRecommended({
       {streams?.length && <div className="manager-recommended">
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '80%' }}>
-          <img src="/images/original.svg" style={{ width: '2.5%', color: '#7717ff' }} />
-          <h2 style={{ fontFamily: 'Inter', color: 'white' }}>Directos Recomendados</h2>
+          <GrGamepad style={{ color: '#856ffc', fontSize: '20px' }} />
+
+          <h2 style={{ fontFamily: 'Inter', color: 'white', fontSize:'20px' }}>Directos Recomendados</h2>
+
         </div>
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
-            <Link to="/plataform/explore?tipo=streams" style={{padding:0}}>
-              <span style={{ fontFamily: 'Signika Negative' , fontSize:'14px'}} >Ver todos</span>
+            <Link to="/plataform/explore?tipo=streams" style={{ padding: 0 }}>
+              <span style={{ fontFamily: 'Signika Negative', fontSize: '14px' }} >Ver todos</span>
             </Link>
           </div>
           <div className="manager-recommended-actions-arrow">
