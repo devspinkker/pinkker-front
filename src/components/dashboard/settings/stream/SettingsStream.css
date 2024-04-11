@@ -1,0 +1,58 @@
+.settingstream-body {
+    width: 100%;
+    min-height: 1000px;
+    background-color: #0a0b0d;
+}
+
+
+.settingstream-container {
+    width: 95%;
+    position: relative;
+    top: 75px;
+    color: #ededed;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0 auto;
+    min-height: 500px;
+}
+
+
+.settingstream-content {
+    width: 100%;
+    border-radius: 5px;
+}
+
+
+.settingstream-camp {
+    width: 100%;
+    margin: 0 auto;
+    height: 150px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.settingstream-input {
+    padding: 7px;
+    background-color: rgb(53, 53, 53);
+    border: none;
+    margin-top: 10px;
+    outline: none;
+    border-radius: 5px;
+    color: #ededed;
+}
+
+.button-copy {
+    padding: 5px;
+
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    color: #ededed;
+    cursor: pointer;
+    margin: 5px;
+    background-color: transparent;
+}
+
+.button-copy:hover {
+    background-color: #303030;
+
+}

@@ -1,0 +1,43 @@
+.accordionlist-body {
+    width: 100%;
+    height: 750px;
+}
+
+.accordionlist-item {
+    width: 90%;
+    padding: 10px;
+    border-top: 1px solid #151515;
+    border-bottom: 1px solid #151515;
+
+    margin: 0 auto;
+}
+
+.accordionlist-item-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    margin-bottom: 5px;
+    margin-top: 20px;
+
+}
+
+.accordionlist-item-content {
+    transition: 1s all;
+    margin-bottom: 20px;
+}
+
+.chat-users-card {
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.chat-users-card h4:hover{ 
+    border-bottom: 1px solid #ededed;
+}

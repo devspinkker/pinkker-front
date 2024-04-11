@@ -1,0 +1,114 @@
+.bettop-body {
+    z-index: 9999;
+    width: 85%;
+    left: 5%;
+    top: 55px;
+    border-radius: 5px;
+    margin: 0 auto;
+    position: absolute;
+}
+
+.bettop-body-main {
+    width: 100%;
+    position: relative;
+    border-radius: 5px;
+    top: 3px;
+    margin: 0 auto;
+    height: 78px;
+    background-color: #ff60b2;
+    position: absolute;
+    z-index: 1000;
+    transition: 0.5s all;
+}
+
+
+.bettop-container {
+    z-index: 9999;
+    width: 100%;
+    border-radius: 5px;
+    margin: 0 auto;
+    height: 58px;
+    background-color: #151515;
+    position: absolute;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+    transition: 0.5s all;
+}
+
+.bettop-button {
+    background-color: #ff60b2;
+    color: white;
+    font-weight: 800;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 85px;
+    margin-top: 10px;
+}
+
+.bettop-button:hover {
+    background-color: #bd3b7e;
+}
+
+.bettop-close-line {
+    height: 1px;
+    background-color: #ff60b2;
+    position: relative;
+    top: 26px;
+}
+
+
+.bettop-text-animation {
+    animation: textAnimationReveal 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+@keyframes textAnimationReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bettopwin-text-animation {
+    animation: textAnimationMoveX 7s ease-in-out infinite;
+    animation-fill-mode: forwards;
+    transform: translateX(400px);
+    display: flex;
+    align-items: center;
+
+}
+
+@keyframes textAnimationMoveX {
+    0% {
+        transform: translateX(400px);
+    }
+    100% {
+        transform: translateX(-500px);
+    }
+}
+
+/* Background with gradient and animation */
+
+.bettopwin-container {
+    z-index: 9999;
+    width: 100%;
+    border-radius: 5px;
+    margin: 0 auto;
+    height: 58px;
+    position: absolute;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+    transition: 0.5s all;
+    background-color: #ff60b2;
+}
+
+

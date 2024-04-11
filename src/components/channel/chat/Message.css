@@ -1,0 +1,74 @@
+.chat-message {
+    min-width: 90%;
+    max-width: 90%;
+    padding: 5px;
+    margin: 0 auto;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+    -webkit-line-break: after-white-space;
+}
+
+.chat-message:hover {
+    background-color: #2b2b2b3f;
+    border-radius: 5px;
+}
+
+.chat-message-user-hover{
+    margin-left: 3px;
+    padding: 2px;
+}
+
+.chat-message-user-hover:hover {
+    background-color: #303030;
+    padding: 2px;
+    border-radius: 3px;
+}
+
+.chat-message-system {
+    width: 90%;
+    padding: 5px;
+    margin: 0 auto;
+}
+
+.message-chat-links {
+    color: #ff60b2;
+    text-decoration: none;
+}
+
+.message-chat-links:hover {
+    text-decoration: underline;
+}
+
+.message-chat-donation {
+    width: 85%;
+    height: 30px;
+    margin: 5px auto;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+
+
+/* V2 */
+
+.chat-message-v2 {
+    background-color: blue;
+    max-width: 350px;
+    display: flex;
+
+}
+
+
+.chat-message-icons-hover {
+    position: absolute;
+    right: 15px;
+    margin-top: -30px;
+}
+
+.chat-message-icons-hover i{
+    background-color: #303030;
+    padding: 5px;
+    border-radius: 5px;
+}

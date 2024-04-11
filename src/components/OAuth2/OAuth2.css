@@ -1,0 +1,86 @@
+.conteiner-containerOAuth2Callback {
+    position: relative;
+    top: 200px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+}
+
+.form-containerOAuth2Callback {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+label {
+    display: block;
+
+    input,
+    textarea,
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        box-sizing: border-box;
+    }
+
+    input[type="checkbox"] {
+        margin-right: 5px;
+    }
+
+    div {
+        display: flex;
+        align-items: center;
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+    }
+}
+
+label {
+    color: white;
+}
+
+.auth-contentOAuth2callback {
+    background-color: #414141;
+    padding: 10px;
+}
+
+
+
+button {
+    background-color: #f36196;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-left: auto;
+
+    &:hover {
+        background-color: #4c0b39;
+    }
+}
+
+
+
+.OAuth2Login {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.OAuth2Login-button {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: #fff;
+    border: none;
+    width: 100%;
+    text-align: center;
+}

@@ -1,0 +1,34 @@
+.adminstatistics-body {
+    width: 100%;
+    min-height: 1000px;
+    background-color: #0A0B0D;
+}
+
+.adminstatistics-container {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.adminstatistics-card-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.adminstatistics-card {
+    width: 250px;
+    background-color: #151515;
+    height: 100px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ededed;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.adminstatistics-card:hover {
+    background-color: #303030;
+}

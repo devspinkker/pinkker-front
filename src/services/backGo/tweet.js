@@ -1,0 +1,126 @@
+import axios from "axios";
+const url = process.env.REACT_APP_BACKGO;
+var token = null;
+
+export const setToken = (newObject) => {
+  token = newObject;
+};
+
+export const PostCreate = async (formData) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const res = await axios.post(`${url}/post/postCreate`, formData, config);
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const PostGetFollow25h = async () => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const res = await axios.get(`${url}/post/postGetFollow`, config);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const PostGets = async () => {
+  try {
+    const res = await axios.get(`${url}/post/PostGets`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const GetCommentPost = async (object) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const res = await axios.post(`${url}/post/GetCommentPost`, object, config);
+  return res;
+
+};
+export const LikePost = async (object) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const res = await axios.post(`${url}/post/posttLike`, object, config);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const DislikePost = async (object) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const res = await axios.post(`${url}/post/postDislike`, object, config);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const CommentPost = async (object) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const res = await axios.post(`${url}/post/CommentPost`, object, config);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTweetFollowing = async (page, limit) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const res = await axios.get(
+      `${url}/get_tweets_following?page=${page}`,
+      config
+    );
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTweetUser = async (id, page, limit) => {
+  try {
+
+    const res = await axios.get(
+      `${url}/post/get_tweets_user?id=${id}&page=${page}&limit=${limit}`,
+    );
+    return res.data;
+  } catch (error) {
+  }
+};
+

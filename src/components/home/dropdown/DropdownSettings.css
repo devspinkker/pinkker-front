@@ -1,0 +1,116 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.dropdownsettingshome-menu {
+    position: absolute;
+    right: 0;
+    margin-top: -280px;
+    width: 180px;
+    display: flex;
+    background: #18181bf8;
+    box-shadow: 0px 5px 20px 5px black;
+    border-radius: 5px;
+    z-index: 99999;
+    }
+    
+    .dropdownsettingshome-menu li {
+        width: 100%;
+      cursor: pointer;
+      display: flex;
+      text-align: center;
+      font-size: 12px;
+      border-radius: 5px;
+      padding: 7px;
+    }
+    
+    .dropdownsettingshome-menu i {
+      transition: 0.3s all;
+
+    }
+
+    .dropdownsettingshome-menu li:hover .dropdownsettingshome-content i{
+      transform: translateY(-3px);
+    }
+
+    .dropdownsettingshome-menu li:hover {
+      background: #303030;
+    }
+    
+    .dropdownsettingshome-menu.clicked {
+      display: none;
+    }
+    
+    .dropdownsettingshome-link {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      text-decoration: none;
+      color: #fff;
+      padding: 12px;
+    }
+
+    .dropdownsettingshome-button {
+      background: none;
+      border: none;
+      width: 80%;
+      font-family: 'Montserrat';
+      font-weight: 800;
+      height: 100%;
+      padding: 16px;
+      color: #ededed;
+      cursor: pointer;
+
+    }
+
+    .dropdownsettingshome-content {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      justify-content: space-between;
+      color: #ededed;
+      font-family: 'Montserrat';
+      font-weight: 800;
+    }
+
+
+
+
+    .dropdownsettingshome-radio input[type="radio"] {
+      background-color: rgb(105, 105, 105);
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-block;
+      height: 15px;
+      margin-right: 5px;
+      position: relative;
+      width: 15px;
+      -webkit-appearance: none;
+  }
+  .dropdownsettingshome-radio input[type="radio"]:after {
+      border-radius: 25px;
+      background-color: rgb(71, 71, 71);
+      content: '';
+      display: block;
+      height: 9px;
+      left: 3px;
+      position: relative;
+      top: 3px;
+      width: 9px;
+  }
+  .dropdownsettingshome-radio input[type="radio"]:checked:after {
+      background-color: #ff60b2;
+  }
+    
+    @media screen and (max-width: 960px) {
+  
+      .dropdownsettingshome-menu {
+        width: 220%;
+        top: 60px;
+        z-index: 200;
+  
+      }
+  
+      .fa-caret-down {
+        display: none;
+      }
+    }

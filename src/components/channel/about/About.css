@@ -1,0 +1,65 @@
+.channel-about-body {
+    width: 95%;
+    margin: 0 auto;
+    min-height: 500px;
+    display: flex;
+    background-color: transparent;
+    margin-bottom: 0px;
+    border-radius: 10px;
+    padding: 0px;
+    color: #ededed;
+    margin-top: 20px;
+}
+
+.channel-about-primary {
+    width: 28%;
+    height: 180px;
+    padding: 20px;
+    background-color: #0404048f;
+    border-radius: 10px;
+}
+
+.channel-about-secondary {
+    padding: 20px;
+    border-radius: 10px;
+    width: 70%;
+    margin-left: 3%;
+    height: 500px;
+    background-color: #0404048f;
+}
+
+.channel-about-primary-card {
+    width: 50%;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.channel-about-primary-card:hover {
+    background-color: #303030;
+}
+
+.channel-about-primary-card-active {
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    background-color: #303030;
+}
+
+.channel-about-secondary-card {
+    margin-bottom: 20px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.channel-about-secondary-card:hover {
+    cursor: pointer;
+}
+
+.channel-about-emblem-container {
+    margin-top: 20px;
+}

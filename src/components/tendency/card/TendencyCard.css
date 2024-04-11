@@ -1,0 +1,25 @@
+.tendencycard-body {
+    width: 70%;
+    display: flex;
+    margin-top: 10px;
+    background-color: #151515;
+    padding: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tendencycard-image {
+    width: 20%;
+
+}
+
+.tendencycard-info {
+    width: 49%;
+    height: 100%;
+    color: #ededed;
+    margin-left: 50px;
+}
+
+.tendencycard-body:hover {
+    background-color: #303030;
+}

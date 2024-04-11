@@ -1,0 +1,192 @@
+.muro-body {
+    background-color: transparent;
+    width: 89%;
+    padding: 2rem 5.8rem;
+}
+
+.muro-container {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    background-color: #080808;
+}
+
+.muro-new-messages {
+    position: fixed;
+    text-align: center;
+    width: 135px;
+    top: 60px;
+    background-color: #ff60b2;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ededed;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.muro-new-messages:hover {
+    background-color: #b62f70;
+}
+
+.muro-send-tweet {
+    width: 65%;
+    margin: 0 auto;
+    min-height: 70px;
+    border: 1px solid #2a2e38;
+    border-radius: 5px;
+    background-color: #121418;
+    padding: 10px;
+}
+
+.muro-send-tweet-input {
+    width: 90%;
+    background-color: #3a3b3c;
+
+}
+
+.muro-send-tweet-input::placeholder{
+    padding: 55px;
+}
+
+.muro-send-tweet-input textarea {
+    background-color: transparent;
+    width: 99%;
+    border: none;
+    height: 20px;
+    border-radius:20px;
+    color: white;
+    font-size: 18px;
+    outline: none;
+    padding: 5px;
+    resize: none;
+}
+
+.muro-send-tweet-button {
+    width: 100px;
+    padding: 3px !important;
+    background-color: transparent;
+    border: 1px solid #f36196;
+    color: #ededed;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    
+}
+
+.mure-send-tweet-icons-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.mure-send-tweet-icons-card:hover {
+    background-color: #f960b44a;
+}
+.link-arriba:hover{
+    background-color: #343843;
+    border-radius: 5px;
+}
+.muro-send-tweet-button:hover {
+    background-color: #762543;
+}
+
+.muro-tweet-container {
+    width: 65%;
+    margin: 0 auto;
+    border: 1px solid #2a2e38;
+    border-radius: 5px;
+    background-color: #121418;
+    padding: 10px;
+}
+
+.muro-tweet-secondary {
+    width: 25%;
+}
+
+.muro-tweet-secondary-search input {
+    background-color: #131313;
+    width: 100%;
+    padding: 7.5px;
+    height: 35px;
+    font-size: 12px;
+    font-family: 'Montserrat';
+    outline: none;
+    border: none;
+    color: rgb(255, 255, 255);
+    border-top-left-radius: 5px;
+    border-end-start-radius: 5px;
+}
+
+
+.muro-tweet-secondary-tendency {
+    background-color: #131313;
+    margin-top: 15px;
+    border-radius: 5px;
+    padding: 20px;
+    color: #ededed;
+}
+
+.muro-tweet-secondary-tendency-card {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.muro-tweet-secondary-tendency-card h3{
+    font-size: 16px;
+}
+.muro-tweet-secondary-follow {
+    background-color: #131313;
+    margin-top: 30px;
+    border-radius: 5px;
+    padding: 20px;
+    color: #ededed;
+}
+.muro-tweet-secondary-follow h3{
+    font-size: 16px;
+}
+.muro-tweet-secondary-follow-card {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.muro-drag-input {
+    position: absolute;
+    min-width: 41%;
+    max-width: 41%;
+    height: 150px;
+    top: 0px;
+    border: 1px solid white;
+    background-color: rgb(0, 0, 0);
+}
+
+.muro-tweet-secondary-follow-card h3 {
+    color: #ededed;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.muro-tweet-secondary-follow-card h3:hover {
+    filter: brightness(69%);
+}
+
+
+@media screen and (max-width: 768px) {
+    .muro-send-tweet {
+        width: 95%;
+    }
+
+    .muro-tweet-container {
+        width: 98%;
+    }
+}

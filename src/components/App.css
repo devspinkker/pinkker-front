@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Signika+Negative&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #080808;
+
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+
+::-webkit-scrollbar-track {
+  width: 0px;
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 0px;
+  border-radius: 5px;
+  background-color: #f36196;
+  display: none;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+  width: 0px;
+  display: none;
+
+}
+
+
+
+.tippy-box[data-theme~='pinkker'] {
+  background-color: #ffeaf5;
+  font-weight: 800;
+
+  color: rgb(0, 0, 0);
+}
+
+.tippy-box[data-theme~='pinkker']>.tippy-arrow::before {
+  color: #ffeaf5;
+}
+
+.tippy-box[data-theme~='player'] {
+  background-color: #18181b;
+  font-weight: 800;
+  position: relative;
+  left: 10px;
+  color: rgb(0, 0, 0);
+}
+
+.tippy-box[data-theme~='player']>.tippy-arrow::before {
+  color: #18181b;
+}
+
+.avatar-only-head {
+  object-fit: none;
+  object-position: 45% 5%;
+  width: 35px;
+  height: 32px;
+  border-radius: 100px;
+}
+
+.avatar-only-head-channel {
+  object-fit: none;
+  object-position: 45% -10%;
+  width: 35px;
+  height: 32px;
+  border-radius: 100px;
+}
+
+
+.gray-button:hover {
+  background-color: #303030;
+}
+
+.pink-button:hover {
+  background-color: #bd3b7e;
+}
+
+.pink-hover {
+  color: darkgray;
+  cursor: pointer;
+}
+
+.pink-hover:hover {
+  color: #f36196;
+}
+
+.chat-button-more {
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.chat-button-more:hover {
+  background-color: #303030;
+
+}
+
+.pinkker-button-more {
+  height: 30px;
+  min-width: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pinkker-button-more .fas {
+  font-size: 16px;
+  color: lightgray;
+}
+
+.pinkker-button-more:hover {
+  background-color: #303030;
+  border-radius: 50%;
+}
+
+.pinkker-input {
+  background-color: rgb(65, 65, 65);
+  border: none;
+  font-size: 12px;
+  color: white;
+}
+
+.pinkker-input:hover {
+  outline: 1px solid rgb(92, 92, 92);
+}
+
+.pinkker-input:focus {
+  background-color: rgb(0, 0, 0);
+  outline: 1px solid #ff60b2;
+}
+
+
+.button-like {
+  background-color: transparent;
+  color: lightgray;
+  border: none;
+  font-size: 14px;
+  margin-top: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.button-isliked {
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-size: 14px;
+  margin-top: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.type-set {
+  width: 100%;
+  display: flex;
+  padding: 0px;
+
+}
+
+
+.type-card {
+  padding: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.7px;
+  color: darkgray;
+  width: 70px;
+  text-align: center;
+  transition: 0.1s;
+  border: 2px solid transparent;
+}
+
+.type-card:hover {}
+
+.type-card.active {
+  background: #343843;
+}
+
+.type-line {
+  position: absolute;
+  height: 2px;
+  width: 90px;
+  transition: 0.5s all;
+  background-color: #f36196;
+}
+
+.pinkker-tab-line {
+  width: 20px;
+  height: 2px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 6px;
+  width: 0;
+  background-color: #c23564;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+}
+
+video::-webkit-media-controls {
+  display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+
+
+/*video {
+  z-index: 0;
+}
+
+
+video:fullscreen {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 0, 0, 0.274);
+  z-index: 1;
+}
+
+
+video::-webkit-media-controls-fullscreen-button {
+  display: none;
+}
+video::-webkit-media-controls-play-button {
+  display: none;
+}
+video::-webkit-media-controls-timeline {
+  display: none;
+}
+video::-webkit-media-controls-current-time-display{
+  display: none;
+}
+video::-webkit-media-controls-time-remaining-display {
+  display: none;
+}
+video::-webkit-media-controls-mute-button {
+  display: none;
+}
+video::-webkit-media-controls-toggle-closed-captions-button {
+  display: none;
+}
+video::-webkit-media-controls-volume-slider {
+  display: none;
+}
+video::-webkit-media-controls-volume-slider-container {
+  display: none;
+}
+video::-webkit-media-controls-volume-slider-mute {
+  display: none;
+}
+video::-webkit-media-controls-volume-slider-thumb {
+  display: none;
+}
+video::-webkit-media-controls-volume-slider-value {
+  display: none;
+}
+video::-webkit-media-controls-toggle-closed-captions-button {
+  display: none;
+}
+video::-webkit-media-controls-toggle-closed-captions-button::-webkit-media-controls-toggle-closed-captions-button {
+  display: none;
+}
+video::-webkit-media-controls-toggle-closed-captions-button::-webkit-media-controls-toggle-closed-captions-button::-webkit-media-controls-toggle-closed-captions-button {
+  display: none;
+}
+video::-webkit-media-controls-toggle-closed-captions-button::-webkit-media-controls-toggle-closed-captions-button::-webkit-media-controls-toggle-closed-captions-button::-webkit-media-controls-toggle-closed-captions-button {
+  display: none;
+}*/

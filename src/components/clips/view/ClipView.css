@@ -1,0 +1,88 @@
+.clipview-body {
+    width: 100%;
+    height: 885px;
+    background-color: #0A0B0D;
+    overflow-y: hidden;
+}
+
+.clipview-container {
+    width: 100%;
+    display: flex;
+}
+
+.clipview-primary {
+    width: 70%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.clipview-secondary {
+    width: 30%;
+    position: relative;
+}
+
+.clipcard-comments-container {
+    width: 100%;
+    height: 560px;
+    margin-top: 20px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.clipcard-send-comment {
+    background-color: #303030;
+    border-radius: 10px;
+    height: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.clipview-content {
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 30px;
+    color: #ededed;
+}
+
+.clipview-primary-title {
+    width: 100%;
+}
+
+.clipview-primary-title a {
+    color: #ff60b2;
+    cursor: pointer;
+}
+
+.clipview-primary-title a:hover {
+    border-bottom: 1px solid #ff60b2;
+}
+
+
+.clipview-primary-title-secundary {
+    width: 50%;
+    min-height: 100px;
+    display: flex;
+    justify-content: right;
+}
+
+
+.clipview-button-view-vod {
+    background-color: #ff60b2;
+    padding: 7px;
+    border: none;
+    font-family: 'Montserrat';
+    color: #ededed;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.clipview-button-view-vod:hover {
+    background-color: #bd3b7e;
+}
+
+
+.clipcard-icons-container {
+    display: flex;
+    align-items: center;
+}

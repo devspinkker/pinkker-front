@@ -1,0 +1,14 @@
+.message-body {
+    width: 70%;
+    left: 11%;
+    height: 35px;
+    margin: 0 auto;
+    position:fixed;
+    top: 901px;
+    background-size: cover;
+    border-bottom: 1px solid #2b2b2b3f;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}

@@ -1,0 +1,23 @@
+.terms-body {
+    width: 100%;
+    min-height: 1000px;
+}
+
+.terms-container {
+    width: 70%;
+    color: lightgray;
+    margin: 0 auto;
+}
+
+.terms-container p{
+    margin-top: 20px;
+}
+
+.terms-container h2{
+    margin-top: 20px;
+}
+
+.terms-container h3{
+    color: #f36196;
+    margin-top: 20px;
+}

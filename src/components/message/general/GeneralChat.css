@@ -1,0 +1,139 @@
+.general-chat-body {
+    width: 95%;
+    margin: 0 auto;
+    position: relative;
+    background-color: #0A0B0D;
+    min-height: 2000px;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding: 20px;
+    
+}
+
+.general-chat-container {
+    width: 60%;
+    margin: 0 auto;
+    position: relative;
+    background-color: #0404048f;
+    min-height: 800px;
+    overflow: hidden;
+    overflow-y: scroll;
+    border: 1px solid #2b2b2b3f;
+    display: flex;
+    align-items: center;
+}
+
+.general-chat-primary {
+    width: 50%;
+    min-height: 800px;
+    border-right: 1px solid #2b2b2b3f;
+}
+
+.general-chat-secondary {
+    width: 50%;
+    min-height: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ededed;
+}
+
+
+
+.general-chat-primary-profile {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #2b2b2b3f;
+    color: #ededed;
+}
+
+.general-chat-card-container {
+    width: 100%;
+    margin: 0 auto;
+    height: 690px;
+    overflow: scroll;
+    overflow-x: hidden;
+    margin-top: 20px;
+}
+
+.general-chat-card {
+    width: 100%;
+    height: 50px;
+    border-top: 1px solid #2b2b2b3f;
+    border-bottom: 1px solid #2b2b2b3f;
+
+    display: flex;
+    align-items: center;
+    color: #ededed;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.general-chat-card:hover {
+    background-color: #303030;
+}
+
+
+.general-chat-selected {
+    width: 100%;
+    height: 800px;
+}
+
+.general-chat-selected-profile {
+    padding: 10px;
+    border-bottom: 2px solid #2b2b2b3f;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.general-chat-selected-messages {
+    width: 90%;
+    margin: 0 auto;
+    height: 650px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.general-chat-selected-message {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.general-chat-selected-message-message {
+    border-radius: 8px;
+    background-color: #101010;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 12px;
+    font-family: "Roboto";
+    margin-right: 5px;
+}
+
+.general-chat-selected-input {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 30px;
+    background-color: #040404;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+
+
+}
+
+.general-chat-selected-input input{
+    padding: 10px;
+    width: 75%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #ededed;
+    font-family: "Roboto";
+    font-weight: 600;
+}

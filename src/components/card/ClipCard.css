@@ -1,0 +1,152 @@
+.clipcard-body {
+    position: relative;
+    margin-right: 25px;
+    margin-top: 10px;
+    background-color: transparent;
+    transition: 1s;
+    border-radius: 5px;
+    height: max-content;
+}
+
+.clipcard-online {
+    font-size: 12px;
+    position: relative;
+    top: 130px;
+    left: 10px;
+    width: 50px;
+    background-color: rgba(0, 0, 0, 0.459);
+    color: #ededed;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: 600;
+    padding: 2px;
+    z-index: 10;
+
+}
+
+.clipcard-duration {
+    font-size: 14px;
+    position: relative;
+    top: -65px;
+    left: 10px;
+    margin-top: -15px;
+    width: 95%;
+    color: rgb(201, 103, 103);
+    text-align: left;
+    border-radius: 3px;
+    text-shadow: 0px 0px 5px rgb(0, 0, 0);
+    transition: all .5s ease-in-out;
+    z-index: 10;
+}
+
+.clipcard-body h3 {
+    color: rgb(255, 255, 255);
+}
+
+.clipcard-body p {
+    color: darkgray;
+}
+
+
+.clipcard-body p:hover {
+    color: #f36196;
+    cursor: pointer;
+}
+
+.clipcard-body .clipcard-image {
+    transition: 0.5s all;
+}
+
+
+/*.clipcard-body:hover .clipcard-image {
+    box-shadow: 10px 10px 400px 0px rgba(0,0,0,0.75) inset;
+}*/
+
+.clipcard-image:hover .clipcard-image-hover-buttons {
+    opacity: 1;
+
+}
+
+.clipcard-image {}
+
+.clipcard-image-preview  img{
+    transition: 0.2s;
+}
+.clipcard-image-preview{
+    
+    border:'1px solid red'
+}
+.clipcard-image-preview img:hover{
+    transform: translate3d(0px, -9px, 0px);
+
+}
+
+.clipcard-video-preview {
+    transition: 0.7s;
+    background-color: #202020;
+    border-radius: 5px;
+}
+
+.clipcard-video-preview video {
+    margin: 0 auto;
+}
+
+
+
+.clipcard-image-hover-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    box-shadow: -1px 1px 224px 0px rgba(0, 0, 0, 0.75) inset;
+    opacity: 0;
+    color: #ededed;
+}
+
+
+/*.clipcard-body .clipcard-image:hover{
+    color: #ff693d;
+    font-weight: bold;
+    box-shadow:  #f36196 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+    cursor: pointer;
+}
+*/
+.clipcard-body .clipcard-duration {
+    transition: 0.5s all;
+}
+
+
+.clipcard-body .clipcard-online {
+    transition: 0.5s all;
+}
+
+.clipcard-container:hover .clipcard-image-hover-buttons {
+    opacity: 1;
+}
+
+.vod-tag {
+    background-color: #252525;
+    padding: 2px;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    text-decoration: none;
+    color: #ededed;
+    min-width: 40px;
+    max-width: 60px;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.clipcard-image-preview p {
+    color: darkgray;
+}
+
+.clipcard-image-preview p:hover {
+    color: #f36196;
+}

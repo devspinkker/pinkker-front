@@ -1,0 +1,107 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.dropdownsettings-menu {
+    position: absolute;
+    left: 58.5%;
+    top: 440px;
+    display: flex;
+    background: #18181bf8;
+    box-shadow: 0px 5px 20px 5px black;
+    border-radius: 5px;
+    font-family: 'Roboto';
+    z-index: 99999;
+}
+    
+.dropdownsettings-menu li {
+    cursor: pointer;
+    display: flex;
+    text-align: center;
+    margin: 5px;
+    width: 270px;
+    font-size: 12px;
+    border-radius: 5px;
+}
+    
+    .dropdownsettings-menu li:hover {
+      background: #0e0e0e;
+    }
+    
+    .dropdownsettings-menu.clicked {
+      display: none;
+    }
+    
+    .dropdownsettings-link {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      text-decoration: none;
+      color: #fff;
+      padding: 12px;
+    }
+
+    .dropdownsettings-button {
+      background: none;
+      border: none;
+      width: 80%;
+      font-family: 'Montserrat';
+      font-weight: 800;
+      height: 100%;
+      padding: 16px;
+      color: #ededed;
+      cursor: pointer;
+
+    }
+
+    .dropdownsettings-content {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #ededed;
+    }
+
+
+
+
+    .dropdownsettings-radio input[type="radio"] {
+      background-color: rgb(105, 105, 105);
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-block;
+      height: 15px;
+      margin-right: 5px;
+      position: relative;
+      width: 15px;
+      -webkit-appearance: none;
+  }
+  .dropdownsettings-radio input[type="radio"]:after {
+      border-radius: 25px;
+      background-color: rgb(71, 71, 71);
+      content: '';
+      display: block;
+      height: 9px;
+      left: 3px;
+      position: relative;
+      top: 3px;
+      width: 9px;
+  }
+  .dropdownsettings-radio input[type="radio"]:checked:after {
+      background-color: #ff60b2;
+  }
+    
+    @media screen and (max-width: 960px) {
+  
+      .dropdownsettings-menu {
+        width: 220%;
+        top: 60px;
+        z-index: 200;
+  
+      }
+  
+      .fa-caret-down {
+        display: none;
+      }
+    }

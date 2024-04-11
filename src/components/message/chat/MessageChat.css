@@ -1,0 +1,117 @@
+.message-chat-body {
+    width: 200px;
+    height: 35px;
+    background-color: #26262c;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid rgba(136, 136, 136, 0.226);
+    margin-left: 10px;
+    transition: 0.3s;
+}
+
+.messagechat-closed {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 200px;
+    cursor: pointer;
+}
+
+.messagechat-opened {
+    width: 500px;
+    height: 500px;
+    background-image: url("../../../images/back-message.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.messagechat-opened-close {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #26262c;
+    border-bottom: 2px solid #2b2b2b3f;
+    cursor: pointer;
+
+}
+
+.messagechat-opened-messages {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.messagechat-opened-input {
+    background-color: #26262c;
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    text-align: center;
+    border-top: 1px solid #2b2b2b3f;   
+    border-radius: 3px;
+}
+
+
+.messagechat-time {
+    margin-left: 10px;
+    position: relative;
+    top: 8px;
+    font-size: 10px;
+    color: darkgray;
+}  
+
+  
+
+.messagechat-date {
+    text-align: center;
+}
+
+.messagechat-closed-window {
+    background-color: red;
+}
+
+.message-chat-body-window {
+    width: 200px;
+    height: 35px;
+    background-color: #262626;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid rgba(136, 136, 136, 0.226);
+    margin-left: 10px;
+    transition: 0.3s;
+    animation: 3s cambiarColor infinite;
+}
+
+.message-chat-send-input {
+    background-color: #26262c;
+    width: 100%;
+    margin: 0 auto;
+    border: none;
+    padding: 7px;
+    border-radius: 3px;
+    color: white;
+    outline: none;
+    font-weight: 600;
+}
+
+
+.message-chat-send-input:focus{
+    background-color: rgb(0, 0, 0);
+    outline: 1px solid #ff60b2;
+}
+
+.message-chat-send-input::placeholder {
+    color: rgb(255, 255, 255);
+  }
+  
+
+@keyframes cambiarColor {   
+    0%   { background-color: #421440;}   
+    50%   { background-color: #8a2185;} 
+    100% { background-color: #421440;}  
+ }

@@ -1,0 +1,20 @@
+.Canalrecomendado:hover{
+    cursor: pointer;
+    --tw-bg-opacity: 1;
+    background-color: rgb(36 39 44 / var(--tw-bg-opacity));
+    border-radius: 4px;
+}
+
+.Canalrecomendado:hover::after {
+    position: absolute;
+    right: -95px;
+    background-color: #3b3b44;
+    color:white;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    padding-left:  0.5rem !important;
+    padding-right:  0.5rem !important;
+    border-radius: 5px;
+    z-index: 999999999999;
+    content: attr(data-title); /* Utiliza el valor de la variable */
+    /* Otras propiedades CSS para :after si es necesario */
+  }

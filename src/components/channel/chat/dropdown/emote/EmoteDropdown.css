@@ -1,0 +1,25 @@
+.emoteinfo-body {
+    position: absolute;
+    width: 94%;
+    min-height: 100px;
+    background-color: #18181b;
+    border-radius: 5px;
+    z-index: 9999999;
+    border: 1px solid #ffffff1a;
+    box-shadow: 20px 20px 20px 0px #00000057;
+}
+
+.emoteinfo-container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.emoteinfo-close {
+    display: flex;
+    justify-content: right;
+    background-color: red;
+}
+
+.emoteinfo-close i{
+    cursor: pointer;
+}

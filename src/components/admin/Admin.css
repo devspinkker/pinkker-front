@@ -1,0 +1,57 @@
+.admin-body {
+    width: 100%;
+    min-height: 1500px;
+}
+
+.admin-container {
+    width: 95%;
+    margin: 0 auto;
+    position: relative;
+    top: 50px;
+}
+
+.admin-title {
+    color: white;
+}
+
+.admin-card-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.admin-card {
+    width: 300px;
+    border-radius: 10px;
+    background-color: #151515;
+    height: 200px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.admin-card:hover {
+    background-color: #303030;
+
+}
+
+.admin-pinkker-button {
+    width: 100px;
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+    margin-right: 5px;
+    background-color: #ff60b2;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.admin-pinkker-button:hover {
+    background-color: #b62f70;
+}

@@ -1,0 +1,26 @@
+.cliptendencycard-body {
+    width: 380px;
+    height: 320px;
+    display: flex;
+    margin: 10px;
+    background-color: #303030;
+    padding: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    flex-direction: column;
+}
+
+.cliptendencycard-image {
+    width: 15%;
+
+}
+
+.cliptendencycard-info {
+    width: 49%;
+    height: 100%;
+    color: #ededed;
+}
+
+.cliptendencycard-body:hover {
+    background-color: #303030;
+}

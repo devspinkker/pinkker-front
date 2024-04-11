@@ -1,0 +1,14 @@
+.channel-muro-body {
+    /* background-color: transparent;
+    width: 100%;
+    min-height: 2500px;
+    position: absolute;
+    top: 65px; */
+}
+
+.channel-muro-container {
+    width: 95%;
+    min-height: 500px;
+    margin: 0 auto;
+    display: flex;
+}

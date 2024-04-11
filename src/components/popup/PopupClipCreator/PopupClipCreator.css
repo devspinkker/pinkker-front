@@ -1,0 +1,158 @@
+
+.popupclipcreator-body {
+    position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	background-color: rgba(0,0,0, 0.5);
+    z-index: 9999;
+	display: flex;
+	align-items: center;
+}
+
+.clip-create-preview {
+    width: 20%;
+	background: #18181b;
+    height: 795px;
+    padding: 30px;
+    position: absolute;
+    right: 8.5%;
+    top: 65px;
+    z-index: 1005;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popupclipcreator-container {
+    width: 40%;
+	height: 795px;
+	margin: auto;
+    padding: 30px;
+    margin-top: 65px;
+	text-align: center;
+	background: #18181b;
+    border-radius: 5px;
+    z-index: 10000;
+}
+
+
+.popupclipcreator-close {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+	position: relative;
+    left: 65px;
+    top: -30px;
+}
+
+.popupclipcreator-close button{
+    background-color: transparent;
+    border: none;
+    color: #ededed;
+    cursor: pointer;
+}
+
+.input-range {
+	width: 100%;
+	-webkit-appearance: none;
+    background: #ebebeb;
+    height: 20px;
+    color: red;
+
+}
+
+.input-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 25px;
+    height: 35px;
+    background: #ff60b2;
+    cursor: pointer;
+    -webkit-transition: 1.15s ease-in-out;
+    transition: 1.15s ease-in-out;
+  }
+
+.input-range2 {
+	width: 100%;
+	-webkit-appearance: none;
+    background: #7a2424;
+    height: 20px;
+    color: red;
+	
+}
+
+.input-range2::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 25px;
+    height: 35px;
+    background: #ff60b2;
+    cursor: pointer;
+    -webkit-transition: 1.15s ease-in-out;
+    transition: 1.15s ease-in-out;
+  }
+
+
+.popupclipcreator-video {
+	width: 100%;
+	text-align: center;
+	min-height: 300px;
+}
+
+.popupclipcreator-video video{
+	width: 90%;
+	border-radius: 5px;
+}
+
+.button-create-clip {
+	width: 105px;
+	padding: 10px;
+	border: none;
+	font-family: 'Montserrat', sans-serif;
+	border-radius: 5px;
+	color: #ededed;
+	background-color: #ff60b2;
+	cursor: pointer;
+    z-index: 100000;
+
+}
+
+.popupclipcreator-input {
+	width: 98%;
+	padding: 10px;
+	margin: 20px auto;
+	font-family: 'Montserrat', sans-serif;
+}
+
+
+.clip-create-cover-card {
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clip-create-cover-card img:hover {
+    cursor: pointer;
+    border: 2px solid #ff60b2;
+}
+
+.clip-create-selected-cover {
+    position: absolute;
+    overflow: hidden;
+    width: 240px;
+    left: 101px;
+    margin-top: 25px;
+    object-fit: cover;
+}
+
+.clip-create-cover-input {
+    position: absolute;
+    background-color: red;
+    width: 100px;
+    height: 60px;
+    opacity: 0;
+}

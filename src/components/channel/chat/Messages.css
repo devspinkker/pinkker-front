@@ -1,0 +1,59 @@
+.messages {
+    width: 100%;
+    overflow: scroll;
+    overflow-x:hidden;
+    overflow-y:hidden;
+    margin-bottom: 5px;
+    transition: 0.2s ease;   
+    background-color: #0404048f;
+}
+
+.messages:hover {
+
+    overflow-y:scroll;
+  
+}
+
+.chat-new-messages {
+    width: 90%;
+    left: 13px;
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: -35px;
+    background-color: #a921a2e8;
+    position: absolute;
+    color: #ededed;
+    text-align: center;
+    z-index: 99999;
+}
+
+.chat-new-messages:hover {
+    background-color: #1d1d1dc5;
+}
+
+.chat-message-ban {
+    width: 90%;
+    margin: 0 auto;
+    height: 620px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-button-view-chat {
+    border: none;
+    font-family: "Poppins";
+    background-color: #f36196;
+    padding: 5px;
+    border-radius: 3px;
+    color: #ededed;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 1366px) {
+    
+}

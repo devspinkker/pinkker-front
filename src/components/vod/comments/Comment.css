@@ -1,0 +1,27 @@
+.comment-body {
+    color: #ededed;
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.comment-user {
+    display: flex;
+}
+
+.comment-button-reply {
+    margin-left: 20px;
+    background-color: transparent;
+    font-size: 12px;
+    border: none;
+    color: darkgray;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+}
+.comment-button-view-reply {
+    height: 35px;
+    background-color: transparent;
+    color: #ff60b2;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}

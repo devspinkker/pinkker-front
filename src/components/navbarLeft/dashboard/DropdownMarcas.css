@@ -1,0 +1,26 @@
+.dropdown-li {
+    position:relative;
+    display: inline-block;
+    width: 80%;
+    padding: 10px;
+    margin: 0px auto;
+    color: rgb(112, 112, 112);
+}
+
+.dropdown-marcas-link {
+    width:190px;
+    font-family: 'Poppins';
+    font-weight: 800;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    align-items: center;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+
+
+.fas-caret-down {
+    display: none;
+  }

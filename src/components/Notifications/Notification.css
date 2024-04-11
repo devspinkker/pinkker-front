@@ -1,0 +1,257 @@
+.notification-wrapper {
+    position: fixed;
+    top: 65px;
+    right: 20px;
+    width: 300px;
+    z-index: 10000000000000000000000000000000;
+}
+
+.notification-success {
+    background-color: #1c1c1c;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    font-family: 'Arial';
+    overflow: hidden;
+    animation: SlideLeft 0.4s;
+    animation-fill-mode: forwards;
+    width: 255px;
+    text-align: center;
+    color: #ededed;
+    padding: 10px;
+    z-index: 0;
+
+}
+
+.notification-info {
+    background-color: rgb(20, 20, 20);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    animation: SlideLeft 0.4s;
+    animation-fill-mode: forwards;
+    width: 400px;
+    text-align: center;
+    color: #ededed;
+    padding: 20px;
+    z-index: 0;
+
+}
+
+.notification-wait {
+    background-color: rgb(228, 225, 53);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    animation: SlideLeft 0.4s;
+    animation-fill-mode: forwards;
+    width: 400px;
+    text-align: center;
+    color: #ededed;
+    padding: 20px;
+    z-index: 0;
+
+}
+
+
+.notification-error {
+    background-color: #1c1c1c;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    font-family: 'Arial';
+    overflow: hidden;
+    animation: SlideLeft 0.4s;
+    animation-fill-mode: forwards;
+    width: 255px;
+    text-align: center;
+    color: #ededed;
+    padding: 10px;
+    z-index: 0;
+
+}
+
+.notification-monster {
+    position: fixed;
+    width: 90%;
+    top: 75px;
+    margin-left: 20%;
+    height: 800px;
+    margin: 0 auto;
+    z-index: 999;
+
+}
+
+.notification-monster-success {
+    width: 30%;
+    height: 500px;
+    background-color: rgba(0, 0, 0, 0.795);
+    margin-left: 45%;
+    margin-top: 130px;
+    animation-name: bounceIn;
+    animation-duration: 700ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.notification-monster-close {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+}
+
+.notification-monster-nft {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    color: #ededed;
+    padding: 40px;
+}
+
+.notification-img {
+    width: 50px;
+}
+
+.notification-icon {
+    width: 40%;
+}
+
+.notification-text {
+    width: 60%;
+}
+
+.notification-text-info {
+    width: 100%;
+}
+
+.notification-text-wait {
+    width: 100%;
+}
+
+
+
+.notification-item {
+    background-color: rgb(58, 58, 58);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    animation: SlideLeft 0.4s;
+    animation-fill-mode: forwards;
+    width: 300px;
+    text-align: center;
+    color: #ededed;
+}
+
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translate3d(0, 0, 0);
+    }
+
+    50% {
+        opacity: 0.9;
+        transform: scale(1.2);
+    }
+
+    80% {
+        opacity: 1;
+        transform: scale(0.89);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translate3d(0, 0, 0);
+
+    }
+}
+
+
+
+@keyframes SlideLeft {
+    0% {
+        margin-left: 120%;
+    }
+
+    100% {
+        margin-left: 0;
+    }
+}
+
+@keyframes SlideRight {
+    0% {
+        margin-left: 0;
+    }
+
+    100% {
+        margin-left: 120%;
+    }
+}
+
+.notification-item.exit {
+    animation: SlideRight 0.4s;
+    animation-fill-mode: forwards;
+}
+
+.notification-item p {
+    margin: 0;
+    padding: 10px;
+}
+
+.notification-wrapper .bar {
+    height: 5px;
+    background-color: #65d266;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    animation: SlideLeft 0.4s;
+
+}
+
+.notification-wrapper .bar-error {
+    height: 5px;
+    background-color: #AE0026;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    animation: SlideLeft 0.4s;
+
+}
+
+
+.notification-item.success .bar {
+    background-color: #65d266;
+}
+
+.notification-item.error .bar {
+    background-color: red;
+}
+
+.notification-item.info .bar {
+    background-color: #161616;
+}
+
+.notification-item.wait .bar {
+    background-color: #e9ec33;
+}
+
+
+@media (max-width: 1400px) {
+    .notification-monster-success {
+        width: 80%;
+        height: 500px;
+        background-color: rgba(0, 0, 0, 0.795);
+        margin-left: 15%;
+        margin-top: 130px;
+        animation-name: bounceIn;
+        animation-duration: 700ms;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+    }
+
+}

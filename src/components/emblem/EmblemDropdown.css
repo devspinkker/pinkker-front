@@ -1,0 +1,24 @@
+.embleminfo-body {
+    position: absolute;
+    width: 250px;
+    min-height: 190px;
+    background-color: #18181b;
+    border-radius: 5px;
+    z-index: 9999999;
+    border: 1px solid #ffffff1a;
+}
+
+.embleminfo-container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.embleminfo-close {
+    display: flex;
+    justify-content: right;
+    margin-top: 10px;
+}
+
+.embleminfo-close i{
+    cursor: pointer;
+}
