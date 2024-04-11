@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = process.env.REACT_APP_DEV_API_URL + "/categories";
+const url = 'https://www.pinkker.tv/8084/categorie';
 
 export const getAllCategories = async () => {
   try {
@@ -23,7 +23,7 @@ const getCategoriesWithLimit = async (limit) => {
 export const getCategorieByName = async (categorie) => {
   try {
     let response = await axios.get(
-      `${url}/get_categories_by_name/?name=${categorie}`
+      `${url}/GetCategoria/?Categoria=${categorie}`
     );
     return response.data;
   } catch (error) {

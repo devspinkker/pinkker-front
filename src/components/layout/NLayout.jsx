@@ -110,6 +110,26 @@ function NLayout(props) {
 
     setExpandCartera(!expandCartera);
   }
+
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [urlCat, setUrlCat] = useState();
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    // Agrega un event listener para detectar cambios en la ubicación
+    window.addEventListener('popstate', handleLocationChange);
+    setUrlCat(currentPath?.includes('/categorie/'));
+
+    // Limpia el event listener cuando el componente se desmonta
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+    };
+  }, []);
+
+  console.log('currentPath', currentPath)
+  console.log('urlCat', urlCat)
   return (
     <Grid
       style={{
@@ -750,7 +770,7 @@ function NLayout(props) {
 
                   >
                     {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
-                    <IoMdNotificationsOutline style={{ fontSize: '20px', color:'white' }} />
+                    <IoMdNotificationsOutline style={{ fontSize: '20px', color: 'white' }} />
                   </div>
 
                 </div>
@@ -768,7 +788,7 @@ function NLayout(props) {
 
                   >
                     {/* <img src={"/images/iconos/mensaje.png"} alt="" style={{ width: '60%' }} /> */}
-                    <BsChatDots style={{ fontSize: '20px', color:'white' }} />
+                    <BsChatDots style={{ fontSize: '20px', color: 'white' }} />
                   </div>
 
                 </div>
@@ -785,7 +805,7 @@ function NLayout(props) {
                     }}
                     className="navbar-image-avatar"
                     onClick={(e) => habilitarSubMenu(true, e)}
-                    onMouseEnter={esClick ? console.log('activo') :() => habilitarSubMenu(true)}
+                    onMouseEnter={esClick ? console.log('activo') : () => habilitarSubMenu(true)}
                     onMouseLeave={esClick ? console.log('activo') : () => habilitarSubMenu(false)}
                   >
                     <img src={props.user?.Avatar ?? "/images/pixel.png"} alt="" />
@@ -795,7 +815,7 @@ function NLayout(props) {
               </Grid>
               {subMenu && (
                 <Grid
-                  onMouseEnter={esClick ? console.log('activo') :() => habilitarSubMenu(true)}
+                  onMouseEnter={esClick ? console.log('activo') : () => habilitarSubMenu(true)}
                   onMouseLeave={esClick ? console.log('activo') : () => habilitarSubMenu(false)}
                   style={{
                     backgroundColor: "#121418",
@@ -823,7 +843,7 @@ function NLayout(props) {
                         alignItems: "center",
                         gap: "15px",
                         padding: 10,
-                        
+
                       }}
                     >
                       <img
@@ -849,14 +869,14 @@ function NLayout(props) {
                             style={{
                               color: "white",
                               fontSize: "1rem",
-                              fontFamily:'Inter',
+                              fontFamily: 'Inter',
                               fontWeight: 600,
                             }}
                           >
                             {props.user?.NameUser ?? "Usuario"}
                           </Typography>
                         </Link>
-                        <Typography style={{ color: 'white', fontSize: '12px', fontFamily:'Inter' }}>0 seguidores</Typography>
+                        <Typography style={{ color: 'white', fontSize: '12px', fontFamily: 'Inter' }}>0 seguidores</Typography>
                       </Grid>
                     </Grid>
 
@@ -883,8 +903,8 @@ function NLayout(props) {
                         alignItems: "center",
                       }}
                     >
-                      
-                      <AiOutlineUser style={{ marginRight: "10px" }}/>
+
+                      <AiOutlineUser style={{ marginRight: "10px" }} />
                       Tu canal
                     </Link>
 
@@ -899,8 +919,8 @@ function NLayout(props) {
                         alignItems: "center",
                       }}
                     >
-                      
-                      <LiaSlidersHSolid style={{ marginRight: "10px", fontSize:'24px' }}/>
+
+                      <LiaSlidersHSolid style={{ marginRight: "10px", fontSize: '24px' }} />
                       Panel de control del creador
                     </Link>
 
@@ -915,13 +935,13 @@ function NLayout(props) {
                         alignItems: "center",
                       }}
                     >
-                      
+
                       <TfiWallet style={{ marginRight: "10px" }} />
                       Cartera
                     </Link>
 
                     <Link
-                    className="dropdownaccount-link"
+                      className="dropdownaccount-link"
                       style={{
                         display: "flex",
                         flexDirection: "row",
@@ -929,15 +949,15 @@ function NLayout(props) {
                       }}
                       to={"/" + props.user.NameUser + "/settings"}
                     >
-                      <AiOutlineSetting style={{ marginRight: "10px" }}/>
-                        Configuración
-                      
+                      <AiOutlineSetting style={{ marginRight: "10px" }} />
+                      Configuración
+
                     </Link>
                     <div
                       className="dropdownaccount-link"
                       onClick={() => handleLogout()}
                     >
-                      
+
                       <TbLogout2 style={{ marginRight: "10px" }} />
                       Cerrar sesión
                     </div>
@@ -950,7 +970,7 @@ function NLayout(props) {
           </Grid>
         )}
 
-        <Grid style={{ padding: "2rem 5.8rem", width: "102%" }} onClick={() => setEsClick(false)}>
+        <Grid style={{  width: "102%" }} onClick={() => setEsClick(false)}>
           {props.children}
 
           {showPopupAuth === true && (
