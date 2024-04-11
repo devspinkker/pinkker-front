@@ -10,7 +10,7 @@ import { PostCreate, setToken, PostGets } from "../../services/backGo/tweet";
 import { useNotification } from "../Notifications/NotificationProvider";
 
 import { useSelector } from "react-redux";
-import { ScaleLoader,BarLoader } from "react-spinners";
+import { ScaleLoader, BarLoader } from "react-spinners";
 
 import { FileUploader } from "react-drag-drop-files";
 
@@ -132,12 +132,7 @@ export default function Muro({ isMobile, userName }) {
             {
               userName?.NameUser ?
 
-                <Grid style={{ color: 'white', width: '67%', margin: '0 auto' }}>
-                  <Grid style={{ display: 'flex', backgroundColor: '#202329', padding: '5px', width: '26%', alignItems: 'center', gap: '5px', borderRadius: '5px' }}>
-                    <Link to="/" style={{ padding: '5px', backgroundColor:'#343843', borderRadius:'5px' }} className="link-arriba">Para ti</Link>
-                    <Link to="/" style={{ padding: '5px' }} className="link-arriba">Siguiendo</Link>
-                  </Grid>
-                </Grid>
+                <></>
 
                 :
                 <Grid style={{ color: 'white', width: '67%', margin: '0 auto' }}>
@@ -169,14 +164,38 @@ export default function Muro({ isMobile, userName }) {
                     />
                   </div>
 
-                  <div className="muro-send-tweet-input">
-                    <textarea
+                  {/* <div className="muro-send-tweet-input">
+
+                    <input
+                      type="text"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Búsqueda"
+                    />
+                     <textarea
                       id="muro-textarea"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Qué estás pensando?"
                       type="text"
+                    /> 
+                  </div> */}
+                  <div style={{ backgroundColor: 'black', display: 'flex', alignItems: 'center', height: '40px', padding: '0px 10px', borderRadius: '5px', width: '90%' }} >
+                    <img
+                      src="/images/search.svg"
+                      style={{
+                        fontSize: "16px",
+                        color: "rgb(89 89 89)",
+                        margin: "8px",
+                      }}
                     />
+                    <input
+                      type="text"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Que esta pasando?"
+                    />
+
                   </div>
                 </div>
 
@@ -236,87 +255,90 @@ export default function Muro({ isMobile, userName }) {
                   }}
                 >
                   <div style={{ display: "flex", width: '80%', justifyContent: 'space-between' }}>
-                    <div
-                      className="mure-send-tweet-icons-card"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: '5px',
-                        padding: '0px',
-                      }}
-                    >
-                      <i
+
+                    <Grid style={{ display: "flex", width: '80%', justifyContent: 'flex-start' }}>
+
+                      <div
+                        className="mure-send-tweet-icons-card"
                         style={{
-                          padding: "5px",
-                          color: "#ff4aa7d2",
-
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderRadius: '5px',
+                          padding: '0px',
                         }}
-                        class="fas fa-photo-video"
-                      />
-                      <input
-                        onChange={(e) => handleChange2(e)}
-                        style={{
-                          backgroundColor: "red",
-                          width: "30px",
-                          position: "absolute",
-
-                          opacity: "0",
-                        }}
-                        type="file"
-                      />
-                      <Typography style={{ color: 'white' }}>Foto/Video</Typography>
-                    </div>
-
-
-
-
-                    <div
-                      onClick={() => onMouseEnterEmotes()}
-                      className="mure-send-tweet-icons-card"
-                      style={{
-
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-
-                      }}
-                    >
-                      <i
-                        style={{
-                          padding: "5px",
-                          color: "#ff4aa7d2",
-                          marginRight: "5px",
-                        }}
-                        class="far fa-smile"
-                      />
-                      {dropdownEmotes && (
-                        <div
+                      >
+                        <i
                           style={{
-                            position: "absolute",
-                            zIndex: "1001",
-                            marginTop: "60px",
+                            padding: "5px",
+                            color: "#ff4aa7d2",
+
                           }}
-                        >
-                          <EmojiPicker
-                            onEmojiClick={(e) => console.log("clickEmoji(e)")}
-                            autoFocusSearch={false}
-                            theme={Theme.DARK}
-                            searchDisabled
-                            height={"300px"}
-                            width="300px"
-                            lazyLoadEmojis={true}
-                            previewConfig={{
-                              showPreview: false,
+                          class="fas fa-photo-video"
+                        />
+                        <input
+                          onChange={(e) => handleChange2(e)}
+                          style={{
+                            backgroundColor: "red",
+                            width: "30px",
+                            position: "absolute",
+
+                            opacity: "0",
+                          }}
+                          type="file"
+                        />
+
+                      </div>
+
+
+
+
+                      <div
+                        onClick={() => onMouseEnterEmotes()}
+                        className="mure-send-tweet-icons-card"
+                        style={{
+
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+
+                        }}
+                      >
+                        <i
+                          style={{
+                            padding: "5px",
+                            color: "#ff4aa7d2",
+                            marginRight: "5px",
+                          }}
+                          class="far fa-smile"
+                        />
+                        {dropdownEmotes && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              zIndex: "1001",
+                              marginTop: "60px",
                             }}
-                          />
-                        </div>
+                          >
+                            <EmojiPicker
+                              onEmojiClick={(e) => console.log("clickEmoji(e)")}
+                              autoFocusSearch={false}
+                              theme={Theme.DARK}
+                              searchDisabled
+                              height={"300px"}
+                              width="300px"
+                              lazyLoadEmojis={true}
+                              previewConfig={{
+                                showPreview: false,
+                              }}
+                            />
+                          </div>
 
-                      )}
-                      <Typography style={{ color: 'white' }}>Emotes</Typography>
+                        )}
 
-                    </div>
 
+                      </div>
+                    </Grid>
                     {/*dropdownEmotes && <DropdownEmotes muro={true} clickEmoticon />*/}
 
 
@@ -334,7 +356,7 @@ export default function Muro({ isMobile, userName }) {
                     onClick={() => handleSubmit()}
                     className="muro-send-tweet-button"
                   >
-                    Publicar
+                    Postear
                   </button>
                 </div>
               </div>
@@ -372,120 +394,91 @@ export default function Muro({ isMobile, userName }) {
             </div>
           </div>
 
-          {!isMobile && (
-            <div className="muro-tweet-secondary">
-              <div className="muro-tweet-secondary-search">
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <input placeholder="Buscar en el muro.." type="search" style={{ backgroundColor: '#3a3b3c' }} />
+          {
+            !isMobile && (
+              <div className="muro-tweet-secondary">
+
+
+                <div style={{ backgroundColor: '#3a3b3c', width: '92% !important', display: 'flex', alignItems: 'center', height: '40px', padding: '0px 10px', borderRadius: '5px' }} >
+                  <img
+                    src="/images/search.svg"
+                    style={{
+                      fontSize: "16px",
+                      color: "rgb(89 89 89)",
+                      margin: "8px",
+                    }}
+                  />
+                  <input
+                    type="text"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Buscar en el muro.."
+                  />
 
                 </div>
-              </div>
 
-              <div className="muro-tweet-secondary-tendency">
-                <h3>Tendencias</h3>
 
-                <div className="muro-tweet-secondary-tendency-card">
-                  <div>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "darkgray",
-                        marginBottom: "3px",
-                      }}
-                    >
-                      Tendencias
-                    </p>
-                    <h3>Pinkker</h3>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "darkgray",
-                        marginTop: "3px",
-                      }}
-                    >
-                      8120 tweets
-                    </p>
-                  </div>
-                  <div>
-                    <i
-                      style={{ fontSize: "13px", color: "darkgray" }}
-                      class="fas fa-ellipsis-h"
-                    />
-                  </div>
-                </div>
+                {/* <input placeholder="Buscar en el muro.." type="search" style={{ backgroundColor: '#3a3b3c' }} /> */}
 
-                <div className="muro-tweet-secondary-tendency-card">
-                  <div>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "darkgray",
-                        marginBottom: "3px",
-                      }}
-                    >
-                      Tendencias
-                    </p>
-                    <h3>DNG TEAM ?</h3>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "darkgray",
-                        marginTop: "3px",
-                      }}
-                    >
-                      1200 tweets
-                    </p>
-                  </div>
-                  <div>
-                    <i
-                      style={{ fontSize: "13px", color: "darkgray" }}
-                      class="fas fa-ellipsis-h"
-                    />
-                  </div>
-                </div>
 
-                <div className="muro-tweet-secondary-tendency-card">
-                  <div>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "darkgray",
-                        marginBottom: "3px",
-                      }}
-                    >
-                      Tendencias
-                    </p>
-                    <h3>El Dengue Volvió al Stream</h3>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "darkgray",
-                        marginTop: "3px",
-                      }}
-                    >
-                      12k tweets
-                    </p>
-                  </div>
-                  <div>
-                    <i
-                      style={{ fontSize: "13px", color: "darkgray" }}
-                      class="fas fa-ellipsis-h"
-                    />
-                  </div>
-                </div>
-              </div>
 
-              <div className="muro-tweet-secondary-follow">
-                <h3>A quien seguir</h3>
 
-                {userFollows &&
-                  userFollows.map((follow) => (
-                    <FollowCard followData={follow} />
+                <div className="muro-tweet-secondary-tendency">
+                  <h3>Tendencias</h3>
+
+                  {[...Array(5)].map((_, index) => (
+                    <div className="muro-tweet-secondary-tendency-card">
+                      <div>
+                        <p
+                          style={{
+                            fontSize: "13px",
+                            color: "darkgray",
+                            marginBottom: "3px",
+                          }}
+                        >
+                          Tendencias {index + 1 }
+                        </p>
+                        <h3 style={{color:'#f36196'}}>#Pinkker</h3>
+                        <p
+                          style={{
+                            fontSize: "13px",
+                            color: "darkgray",
+                            marginTop: "3px",
+                          }}
+                        >
+                          8120 Posteos
+                        </p>
+                      </div>
+                      <div>
+                        <i
+                          style={{ fontSize: "13px", color: "darkgray" }}
+                          class="fas fa-ellipsis-h"
+                        />
+                      </div>
+                    </div>
                   ))}
+
+
+
+
+
+                  
+
+                  
+                </div>
+
+                <div className="muro-tweet-secondary-follow">
+                  <h3>A quien seguir</h3>
+
+                  {userFollows &&
+                    userFollows.map((follow) => (
+                      <FollowCard followData={follow} />
+                    ))}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )
+          }
+        </div >
       );
     } else {
       return <Auth typeDefault={0} />;
@@ -505,7 +498,7 @@ export default function Muro({ isMobile, userName }) {
           }}
         >
           <BarLoader color="#36d7b7" />
-          
+
         </div>
       )}
       {/*<div style={{height: "800px", display: "flex", alignItems: "center", justifyContent: "center"}}>

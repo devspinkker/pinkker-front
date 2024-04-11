@@ -23,7 +23,9 @@ import {
 } from "../../../services/backGo/clip";
 import CustomSelect from "./CustomSelect";
 import SelectVideoClip from "../../home/clips/SelectVideoClip";
-import { ScaleLoader,BarLoader } from "react-spinners";
+import { ScaleLoader, BarLoader } from "react-spinners";
+import { ImCross } from "react-icons/im";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 export default function ExploreCategories({ isMobile, tyExpanded }) {
   const history = useHistory();
@@ -109,14 +111,14 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
   };
 
   const sortedCategories = () => {
-    let sorted = categories.slice();
+    let sorted = categories?.slice();
     if (filterValue.trim() !== "") {
-      sorted = sorted.filter((category) =>
+      sorted = sorted?.filter((category) =>
         category.nombre.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
-    sorted.forEach((item) => {
+    sorted?.forEach((item) => {
       if (!item.hasOwnProperty("spectators")) {
         item.spectators = 0;
       }
@@ -124,14 +126,13 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
 
     // Luego, puedes realizar tu clasificación normalmente
     if (sortBy === "Mas visto") {
-      return sorted.slice().sort((a, b) => b.spectators - a.spectators);
+      return sorted?.slice().sort((a, b) => b.spectators - a.spectators);
     } else if (sortBy === "Menos visto") {
-      return sorted.slice().sort((a, b) => a.spectators - b.spectators);
+      return sorted?.slice().sort((a, b) => a.spectators - b.spectators);
     } else {
-      return sorted.slice().sort(() => Math.random() - 0.5);
+      return sorted?.slice().sort(() => Math.random() - 0.5);
     }
   };
-
 
   const [color, setColor] = useState("")
 
@@ -143,24 +144,26 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
     generateColor()
   }, [])
 
+
+
   return (
     <div className="explorecategories-body">
       {isLoading && (
-          <div
-            style={{
-              height: "800px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <BarLoader color="#36d7b7" />
+        <div
+          style={{
+            height: "800px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <BarLoader color="#36d7b7" />
 
-          </div>
-        )}
-      <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgb(42, 46, 56)' }}>
+        </div>
+      )}
+      <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgb(42, 46, 56)', padding: '0px  5.8rem', margin:'3.4rem 0px' }}>
         <h3 style={{ color: 'white', fontSize: '30px' }}>Categorias</h3>
-        <img src={'/images/ESTRELLAPINKKER.png'} style={{ width: '10%' }} />
+        <img src={'/images/ESTRELLA_PINKKER_ROSA.png'} style={{ width: '10%' }} />
       </Grid>
       <div>{isMobile && <Search isMobile={isMobile} />}</div>
 
@@ -200,7 +203,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
 
 
       <div className="explorecategories-card-container">
-        
+
 
         {filtros?.categories && (
           <>
@@ -211,16 +214,24 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
             >
               <div className="explorecategories-card-container-filters">
                 <div className="explorecategories-card-container-filter-input" >
-                  <i
-                    style={{ fontSize: "16px", color: "rgb(89 89 89)" }}
-                    class="fas fa-search navbar-search-i"
+                  <img
+                    src="/images/search.svg"
+                    style={{
+                      fontSize:  "16px",
+                      color: "rgb(89 89 89)",
+                      margin:  "8px",
+                    }}
                   />
                   <input
                     type="text"
                     value={filterValue}
                     onChange={(e) => setFilterValue(e.target.value)}
-                    placeholder="Search"
+                    placeholder="Búsqueda"
                   />
+                  {
+                    filterValue &&
+                    < AiOutlineCloseCircle style={{ color: 'white', cursor: 'pointer' }} onClick={(e) => setFilterValue("")} />
+                  }
                 </div>
                 <div>
                   <CustomSelect
@@ -230,8 +241,16 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                   />
                 </div>
               </div>
-              <div className="explorecategories-card-container-sorted-content">
+              <div className={!sortedCategories()?.length ? "explore-card-not-results" : "explorecategories-card-container-sorted-content"}>
                 {categories &&
+                  !sortedCategories()?.length ?
+                  <Grid style={{ display: 'flex', flexDirection: 'column', gap: '15px', justifyContent: 'center', alignItems: 'center', width: '100%', height: '300px', backgroundColor: '#121418', border: '1px dashed #2a2e38', marginBottom: '20%', marginTop: '1%', borderRadius: '5px' }}>
+
+                    <ImCross style={{ color: 'red', fontSize: '3.5rem' }} />
+                    <Typography style={{ fontFamily: 'Inter', fontWeight: 600, color: 'white' }}>No hay categorias para mostrar</Typography>
+                  </Grid>
+
+                  :
                   sortedCategories()?.map((categorie) => (
                     <CardCategorie
                       key={categorie.nombre}
@@ -243,7 +262,9 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                       tags={categorie.tags}
                       TopColor={categorie.TopColor}
                     />
-                  ))}
+                  ))
+
+                }
               </div>
             </div>
           </>

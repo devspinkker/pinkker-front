@@ -7,7 +7,7 @@
 }
 
 .tweetcard-container {
-    width: 97.8%;
+    width: 100%;
     min-height: 75px;
     display: flex;
     z-index: 1000;
@@ -32,7 +32,7 @@
 
 .tweetcard-primary {
     color: white;
-    width: 80%;
+    width: 100%;
     position: relative;
     left: -10px;
 }

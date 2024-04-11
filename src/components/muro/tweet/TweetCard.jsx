@@ -12,6 +12,8 @@ import {
   DislikePost,
   setToken,
 } from "../../../services/backGo/tweet";
+import { Grid, Typography, Skeleton } from "@mui/material";
+import { FaEllipsis } from "react-icons/fa6";
 
 export default function TweetCard({ tweet }) {
   const [popupTweetView, setPopupTweetView] = useState(false);
@@ -56,7 +58,7 @@ export default function TweetCard({ tweet }) {
   }, [tweet]);
 
   return (
-    <div style={{borderBottom:'1px solid #3a3b3c', padding: '5px'}}>
+    <div style={{ borderBottom: '1px solid #3a3b3c', padding: '5px' }}>
       <div className="tweetcard-body">
         <div
           onClick={() => togglePopupTweetView()}
@@ -77,16 +79,23 @@ export default function TweetCard({ tweet }) {
 
           <div className="tweetcard-primary">
             <div style={{ display: "flex", alignItems: "center" }}>
-              <h3>{tweet.UserInfo.FullName}</h3>
-              <p
-                style={{
-                  color: "lightgray",
-                  marginLeft: "5px",
-                  fontSize: "15px",
-                }}
-              >
-                {/* @{tweet.UserInfo.NameUser} · fechas */}
-              </p>
+              <Grid style={{width:'100%', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                <Grid style={{width:'80%', display:'flex', gap:'5px', alignItems:'center'}}>
+
+                  <h3>{tweet.UserInfo.FullName}</h3>
+                  <p
+                    style={{
+                      color: "lightgray",
+                      marginLeft: "5px",
+                      fontSize: "15px",
+                    }}
+                  >
+                    @{tweet.UserInfo.FullName} · 32min
+                  </p>
+                </Grid>
+
+                <FaEllipsis />
+              </Grid>
               {tweet.gallery === true && (
                 <p style={{ color: "#f36196", marginLeft: "5px" }}>
                   Contenido de Suscriptores

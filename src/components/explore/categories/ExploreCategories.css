@@ -27,22 +27,31 @@
 
 .explorecategories-card-container-filters {
     display: flex;
-    margin: 10px;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid rgb(42, 46, 56);
+    padding: 0px  5.8rem 18px 5.8rem;
+    margin : -34px 0px 18px 0px;
 }
 
 .explorecategories-card-container-sorted-content {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    padding: 1.2rem  5.8rem;
+}
 
+.explore-card-not-results{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:0px 5.8rem;
 }
 
 .explorecategories-card-container-filter-input {
     display: flex;
     align-items: center;
     height: 40px;
-    width: 85% !important;
+    width: 81% !important;
     background: #121418;
     border-radius: 7px;
     padding: 0px 10px;
@@ -89,6 +98,7 @@ input {
     align-content: center;
     align-items: center;
     padding: 0px 10px;
+    gap: 5px;
     font-weight: bold;
     font-size: 14px;
 }
@@ -163,6 +173,7 @@ input {
     gap: 10px;
     justify-content: flex-start;
     align-items: center;
+
 }
 
 @media screen and (max-width: 768px) {
