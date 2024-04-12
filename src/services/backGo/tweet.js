@@ -44,13 +44,9 @@ export const PostGets = async () => {
   }
 };
 
-export const GetCommentPost = async (object) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const res = await axios.post(`${url}/post/GetCommentPost`, object, config);
+export const GetCommentPost = async (id) => {
+
+  const res = await axios.get(`${url}/post/GetCommentPost?id=${id}`);
   return res;
 
 };
@@ -124,3 +120,13 @@ export const getTweetUser = async (id, page, limit) => {
   }
 };
 
+export const getTweetId = async (id) => {
+  try {
+
+    const res = await axios.get(
+      `${url}/post/PostGetId?id=${id}`,
+    );
+    return res.data;
+  } catch (error) {
+  }
+};
