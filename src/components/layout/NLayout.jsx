@@ -152,7 +152,7 @@ function NLayout(props) {
       >
         <Grid
           style={{
-            padding: props.tyExpanded ? ".98rem 15px" : "1.72rem 5px",
+            padding: props.tyExpanded ? ".98rem 20px" : "1.72rem 5px",
             width: "100%",
             display: "flex",
             alignItems: "center",
@@ -256,7 +256,7 @@ function NLayout(props) {
 
         <Grid
           style={{
-            padding: "1.3rem 15px",
+            padding: "1.3rem 20px",
             border: "1px solid #2a2e38",
             borderRight: "none",
             borderLeft: "none",
@@ -444,7 +444,7 @@ function NLayout(props) {
                 </li>
               </Link>
 
-              <Link
+              {/* <Link
                 style={{ textDecoration: "none" }}
                 className="menu-aside-option"
                 to="/plataform/clips"
@@ -466,9 +466,9 @@ function NLayout(props) {
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fas fa-film"
                   /> */}
-                  {props.tyExpanded && <span>Clips</span>}
+                 {/*} {props.tyExpanded && <span>Clips</span>}
                 </li>
-              </Link>
+              </Link> */}
 
               <Link
                 style={{ textDecoration: "none" }}

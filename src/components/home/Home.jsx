@@ -242,7 +242,7 @@ const Home = ({
     <div
       style={{
         padding: isMobile ? "0rem 0rem 0rem 4rem" : "2rem 5.8rem",
-        width:'90%'
+        width:'89%'
       }}
       className={"home-body-" + theme.theme}
     >
@@ -267,7 +267,7 @@ const Home = ({
       />
 
 
-      <div className="categories-home-container">
+      
         <div className="categories-home-manager">
          
 
@@ -313,7 +313,7 @@ const Home = ({
 
 
 
-      </div>
+      
 
       <SliderLayout Categories={Categories} Categoria={true} clipT={false}></SliderLayout>
       {!isMobile && <Clips isMobile={isMobile} />}
