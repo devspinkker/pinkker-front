@@ -43,6 +43,7 @@ export default function ViewTweet({ closePopup }) {
   }, [IdPost]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchTweet = async () => {
       try {
         const res = await getTweetId(IdPost);

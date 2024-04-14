@@ -130,3 +130,21 @@ export const getTweetId = async (id) => {
   } catch (error) {
   }
 };
+
+export const GetTweetsRecommended = async (token, ExcludeIDs) => {
+  try {
+    const res = await axios.post(
+      `${url}/post/GetTweetsRecommended`,
+      {
+        ExcludeIDs
+
+      },
+      {
+        headers: { Authorization: token },
+      }
+    );
+    return res;
+  } catch (error) {
+    return error
+  }
+};

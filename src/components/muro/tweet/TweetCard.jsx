@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"; // Importa useHistory
 import "./TweetCard.css";
 import { useSelector } from "react-redux";
-import ViewTweet from "../popup/ViewTweet";
 import CiteTweet from "../popup/CiteTweet";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -107,7 +106,7 @@ export default function TweetCard({ tweet }) {
                       fontSize: "15px",
                     }}
                   >
-                    @{tweet.UserInfo.Username} · 32min
+                    @{tweet.UserInfo.NameUser} · 32min
                   </p>
                 </Grid>
 
@@ -190,7 +189,10 @@ export default function TweetCard({ tweet }) {
                 <div
                   style={{ color: isLiked && "red" }}
                   className="tweetcard-icon-like"
-                  onClick={() => handleLike()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLike();
+                  }}
                 >
                   {isLiked ? (
                     <i className="fas fa-heart" />
