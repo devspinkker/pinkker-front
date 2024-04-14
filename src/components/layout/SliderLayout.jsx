@@ -19,13 +19,13 @@ function SliderLayout(props) {
     return (
         <Swiper
             style={{ display: 'flex', flexDirection: 'column-reverse' }}
-            spaceBetween={50}
+            spaceBetween={props.clipT ? 20 : 5}
             navigation={{
                 nextEl: '.custom-next',
                 prevEl: '.custom-prev',
             }}
             modules={[Navigation, Pagination, Scrollbar, A11y]}
-            slidesPerView={props.clipT ? 3 : 7}
+            slidesPerView={props.clipT ? 4.5 : 9}
             Pagination
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}

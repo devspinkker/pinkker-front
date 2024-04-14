@@ -94,7 +94,7 @@ export default function DirectosRecommended({
 }) {
   const [streams, setStreams] = useState(null);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -163,7 +163,7 @@ export default function DirectosRecommended({
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '80%' }}>
           <GrGamepad style={{ color: '#856ffc', fontSize: '20px' }} />
 
-          <h2 style={{ fontFamily: 'Inter', color: 'white', fontSize:'20px' }}>Directos Recomendados</h2>
+          <h2 style={{ fontFamily: 'Inter', color: 'white', fontSize: '20px' }}>Directos Recomendados</h2>
 
         </div>
         <div className="manager-recommended-actions">
@@ -218,74 +218,48 @@ export default function DirectosRecommended({
             transform: `translateX(${currentIndex * -20}%)`,
           }}
         >
-          {streams == null ? (
-            <></>
-            // <div
-            //   className="home-recommended-card-container-streams"
-            //   style={{
-            //     width: "100%",
+          {streams == null && isLoading == true ? (
+            [...Array(3)]?.map((_, index) => (
+              <div
+                style={{ marginRight: "9px" }}
+                key={index}
+              >
+                
+                <Skeleton
+                  variant="rectangular"
+                  width={500}
+                  height={250}
+                  style={{ backgroundColor: "rgb(32, 32, 31)", marginBottom: '10px' }}
+                />
+                <Grid style={{ display: 'flex', gap: '5px', alignItems: 'flex-start' }} >
+                  <Skeleton
+                    variant="circular"
+                    width={50}
+                    height={50}
 
-            //   }}
-            // >
-            //   {[...Array(3)].map((_, index) => (
-            //     <div
-            //       style={{ marginRight: "9px" }}
-            //       key={index}
-            //     >
-            //       {/* <CardStreamRecomendado
-            //         tags={'lol'}
-            //         isMobile={isMobile}
-            //         streamer={'eldenguee'}
-            //         categorie={'Just Chatting'}
-            //         title={'tokens 1v1 min 1000 max 10000 !IG'}
-            //         viewers={'1234'}
-            //         name={'eldenguee'}
-            //         isLoading={false}
-            //         avatarStreamer={'/images/pinkker-stream.png'}
-            //         image={
-            //           "/images/pinkker-stream.png"
-            //         }
-            //         ViewerCount={'1234'}
-            //       /> */}
-            //       <Skeleton
-            //         variant="rectangular"
-            //         width={450}
-            //         height={250}
-            //         style={{ backgroundColor: "rgb(32, 32, 31)", marginBottom: '10px'}}
-            //       />
-            //       <Grid style={{ display: 'flex', gap: '5px', alignItems: 'flex-start' }} >
-            //         <Skeleton
-            //           variant="circular"
-            //           width={50}
-            //           height={50}
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                  />
+                  <Grid style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
 
-            //           style={{ backgroundColor: "rgb(32, 32, 31)" }}
-            //         />
-            //         <Grid style={{display:'flex', flexDirection:'column', gap:'3px'}}>
+                    <Skeleton
+                      variant="text"
+                      width={120}
+                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      width={100}
+                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                    />
 
-            //           <Skeleton
-            //             variant="text"
-            //             width={120}
-            //             style={{ backgroundColor: "rgb(32, 32, 31)" }}
-            //           />
-            //           <Skeleton
-            //             variant="text"
-            //             width={100}
-            //             style={{ backgroundColor: "rgb(32, 32, 31)" }}
-            //           />
-            //           <Skeleton
-            //             variant="text"
-            //             width={100}
-            //             style={{ backgroundColor: "rgb(32, 32, 31)" }}
-            //           />
-            //         </Grid>
-            //       </Grid>
+                  </Grid>
+                </Grid>
 
-            //     </div>
-            //   ))}
-            // </div>
+              </div>
+            ))
+
           ) : (
-            streams.map((stream, index) => (
+            streams?.map((stream, index) => (
               <div
                 style={{ marginRight: "9px" }}
                 key={index}
