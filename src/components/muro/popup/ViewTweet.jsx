@@ -129,10 +129,10 @@ export default function ViewTweet({ closePopup }) {
         >
           <p style={{ fontSize: "24px", color: "white" }}>{tweet?.Status}</p>
         </div>
-        {tweet?.image != null && (
-          <div style={{ marginTop: "10px" }}>
+        {tweet?.PostImage !== "" && (
+          <div style={{ marginTop: "10px", display: "flex" }}>
             <img
-              style={{ borderRadius: "20px" }}
+              style={{ borderRadius: "20px", width: "400px" }}
               src={tweet?.PostImage}
               alt=""
             />

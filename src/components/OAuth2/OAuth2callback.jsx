@@ -178,14 +178,14 @@ export default function OAuth2callback() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </label>
-            <label>
+            {/* <label>
               Biografía:
               <textarea
                 className="auth-contentOAuth2callback"
                 value={biography}
                 onChange={(e) => setBiography(e.target.value)}
               />
-            </label>
+            </label> */}
             <button type="submit">Enviar</button>
           </form>
         </div>

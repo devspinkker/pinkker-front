@@ -104,7 +104,7 @@ export default function Muro({ isMobile, userName }) {
     if (message != "") {
       const formData = new FormData();
       formData.append("Status", message);
-      formData.append("imgPost", image);
+      formData.append("imgPost", file);
       try {
         let loggedUser = window.localStorage.getItem("token");
         if (loggedUser) {
@@ -129,8 +129,6 @@ export default function Muro({ isMobile, userName }) {
   };
 
   const handleChange2 = (e) => {
-    return alert({ type: "ERROR", message: "Esta función esta desabilitada!" });
-
     var fileT = e.target.files[0];
     setFile(fileT);
     const reader = new FileReader();
