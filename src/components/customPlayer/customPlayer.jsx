@@ -183,10 +183,36 @@ export default function CustomPlayer({
   };
 
   function getHlsSrc() {
-    let keyTransmission = streamerData?.keyTransmission.substring(
+    var keyTransmission;
+    keyTransmission = streamerData?.keyTransmission.substring(
       4,
       streamerData.keyTransmission.length
     );
+
+    if (quality === "720") {
+      keyTransmission =
+        streamerData.keyTransmission.substring(
+          4,
+          streamerData.keyTransmission.length
+        ) + "_720";
+    }
+
+    if (quality === "480") {
+      keyTransmission =
+        streamerData.keyTransmission.substring(
+          4,
+          streamerData.keyTransmission.length
+        ) + "_480";
+    }
+
+    if (quality === "360") {
+      keyTransmission =
+        streamerData.keyTransmission.substring(
+          4,
+          streamerData.keyTransmission.length
+        ) + "_360";
+    }
+
     const rtmp = process.env.REACT_APP_RTMP;
     // const rtmp = "http://localhost:8000/live";
     var url = `${rtmp}/${keyTransmission}`;
@@ -209,7 +235,6 @@ export default function CustomPlayer({
     //     </video>
     //   );
     // }
-
     return (
       <ReactFlvPlayer
         allowFullScreen
@@ -225,6 +250,7 @@ export default function CustomPlayer({
         width={width ? width : "100%"}
         height={height ? height : "835px"}
         expanded={expanded}
+        quality={quality}
       />
     );
   }
@@ -577,7 +603,7 @@ export default function CustomPlayer({
                   </Tippy>
                 </div>
 
-                {/* <div className="customPlayer-card">
+                <div className="customPlayer-card">
                   <Tippy
                     theme="pinkker"
                     content={
@@ -594,7 +620,7 @@ export default function CustomPlayer({
                       class="fas fa-cog pinkker-button-more button-more-player"
                     />
                   </Tippy>
-                </div> */}
+                </div>
 
                 <div className="customPlayer-card">
                   <Tippy
