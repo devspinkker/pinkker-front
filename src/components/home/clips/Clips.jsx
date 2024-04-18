@@ -133,7 +133,7 @@ export default function Clips(props) {
           </div>
 
         </div> */}
-        <SliderLayout clipT={true} Categoria={false} clips={clips}  />
+        <SliderLayout clipT={true} Categoria={false} clips={clips} isMobile={props.isMobile}  />
 
         {selectedVideo && (
           <SelectVideoClip

@@ -119,7 +119,7 @@ export default function CropImage({ closePopup, image }) {
         />
       </div>
 
-      <div style={{ textAlign: "right", marginTop: "10px" }}>
+      <div style={{ textAlign: "right", marginTop: "20px" }}>
         <button onClick={closePopup} className="usersettings-popup-cancel">
           Cancelar
         </button>

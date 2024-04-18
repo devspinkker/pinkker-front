@@ -1,9 +1,7 @@
 .usersettings-body-dark {
-    width: 100%;
-    min-height: 150%;
     background-color: #080808;
     color: #ededed;
-    padding: 3rem 5rem;
+    padding: 2rem 0px;
 }
 
 .usersettings-body-light {
@@ -19,14 +17,16 @@
     background-color: #192734;
     color: #ededed;
 }
-
-.usersettings-navbar {
-    width: 95%;
-    margin: 0 auto;
-    height: 118px;
-    z-index: 1000px;
+.item-config:hover{
+    background-color: #343843;
+    border-radius: 5px;
+    cursor: pointer;
 }
+.item-config-active{
+    background-color: #343843;
+    border-radius: 5px;
 
+}
 
 .usersettings-set-type {
     width: 100%;
@@ -53,25 +53,28 @@
 
 
 .usersettings-settings {
-    width: 95%;
-    margin: 0 auto;
+    width: 50%;
+    border: 1px solid rgb(42, 46, 56);
     color: #ededed;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .usersettings-change-avatar {
     width: 100%;
+    margin-top: 15px;
 }
 
 .usersettings-card {
     display: flex;
     align-items: center;
-    width: 501px;
-    height: 184px;
     background-color: #191b1f;
     border-radius: 5px;
-    margin-top: 10px;
     flex-direction: column;
-    padding: 14px;
+    margin-top: 10px;
 }
 
 

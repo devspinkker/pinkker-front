@@ -241,7 +241,7 @@ const Home = ({
   return (
     <div
       style={{
-        padding: isMobile ? "0rem 0rem 0rem 4rem" : "2rem 5.8rem",
+        padding: isMobile ? "0px 1rem 5rem 1rem" : "2rem 5.8rem",
         width:'89%'
       }}
       className={"home-body-" + theme.theme}
@@ -315,12 +315,12 @@ const Home = ({
 
       
 
-      <SliderLayout Categories={Categories} Categoria={true} clipT={false}></SliderLayout>
-      {!isMobile && <Clips isMobile={isMobile} />}
+      <SliderLayout Categories={Categories} Categoria={true} clipT={false} isMobile={isMobile}></SliderLayout>
+      { <Clips isMobile={isMobile} />}
 
       {/* <Vods /> */}
 
-      {!isMobile && <Clips isMobile={isMobile} titulo={"Vods"} />}
+      {<Clips isMobile={isMobile} titulo={"Vods"} />}
 
       {/* {showPopupAuth === true && <Auth typeDefault={1} closePopup={() => togglePopupAuth()} />} */}
       {/*activePlayerPopup === true && <CustomPlayer expanded={expanded} width="100%" height="160px" popup={true} style={{zIndex: "99999"}} streamerName={streamerPlayerPopup} closePopup={() => setActivePlayerPopup(false)}/> */}

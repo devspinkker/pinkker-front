@@ -11,8 +11,9 @@ import { getCroppedImg, getRotatedImage } from "./canvasUtils";
 import { getOrientation } from "get-orientation/browser";
 
 import { updateCustomAvatar } from "../../../../services/user";
+import { Grid } from "@mui/material";
 
-export default function UserSettingsPopup({ closePopup }) {
+export default function UserSettingsPopup({ closePopup, usuario }) {
   const auth = useSelector((state) => state.auth);
   const { user, isAdmin } = auth;
   const token = useSelector((state) => state.token);
@@ -74,27 +75,34 @@ export default function UserSettingsPopup({ closePopup }) {
           </button>
         </div>
 
-        <h2>Actualizar foto de perfil</h2>
+        <Grid style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:'15px'}}>
 
-        <div style={{ cursor: "pointer" }} className="usersettingspopup-card">
-          <div>
-            <i style={{ fontSize: "24px" }} class="fas fa-upload"></i>
-            <h4>Cargar foto</h4>
-            <input
-              className="usersettings-loadfile"
-              type="file"
-              onChange={onFileChange}
-              accept="image/*"
-            />
+          <h2 style={{ textAlign: 'center' }}>Editar foto de perfil</h2>
+
+          <img src={usuario.Avatar} style={{ width: '80px', height: '80px', borderRadius: '50%', margin: '0 auto', display: 'flex' }} />
+          <div  className="usersettingspopup-card">
+
+            <div style={{ cursor: "pointer" }}>
+              {/* <i style={{ fontSize: "24px" }} class="fas fa-upload"></i> */}
+              <h4>Cambiar foto de perfil</h4>
+
+              <input
+                className="usersettings-loadfile"
+                type="file"
+                onChange={onFileChange}
+                accept="image/*"
+              />
+            </div>
           </div>
-        </div>
+        </Grid>
 
-        <div onClick={onEditAvatar} className="usersettingspopup-card">
+
+        {/* <div onClick={onEditAvatar} className="usersettingspopup-card">
           <div>
             <i style={{ fontSize: "24px" }} class="fas fa-edit"></i>
             <h4>Editar foto</h4>
           </div>
-        </div>
+        </div> */}
 
         {/*<div onClick={() => handleCustomAvatar()} className="usersettingspopup-card">
                     <div>
