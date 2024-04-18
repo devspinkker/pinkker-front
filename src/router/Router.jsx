@@ -81,6 +81,7 @@ const AppRouter = () => {
 
   const isMobile = width <= 768;
 
+
   useEffect(() => {
     if (user.name != null && user.name != undefined) {
       loadDataOnlyOnce();
@@ -148,15 +149,16 @@ const AppRouter = () => {
   return (
     <Router>
       <LastLocationProvider>
-        {/* <Navbar
-          isMobile={isMobile}
-          exact
-          socketMain={socketMain}
-          handleMessage={(e) => addOpenMessage(e, false)}
-          expanded={expanded}
-          tyExpanded={() => toggleExpanded()}
-          user={user}
-        /> */}
+        {/* {isMobile &&
+          <Navbar
+            isMobile={isMobile}
+            exact
+            socketMain={socketMain}
+            handleMessage={(e) => addOpenMessage(e, false)}
+            expanded={expanded}
+            tyExpanded={() => toggleExpanded()}
+            user={user}
+          />} */}
         {/* {openMessage && (
           <Message
             socketMain={socketMain}
@@ -165,6 +167,7 @@ const AppRouter = () => {
           />
         )} */}
         {/*!isLogged && <NavbarButtom isMobile={isMobile}/>*/}
+
         <NLayout
           isMobile={isMobile}
           tyExpanded={expanded}
@@ -172,6 +175,7 @@ const AppRouter = () => {
           tyDashboard={false}
           setExpanded={setExpanded}
         >
+
           <Switch>
             <Route exact path="/:streamer/dashboard/home">
               <Dashboard isMobile={isMobile} />
@@ -339,7 +343,8 @@ const AppRouter = () => {
           </Switch>
         </NLayout>
       </LastLocationProvider>
-    </Router>
+    </Router >
+
   );
 };
 

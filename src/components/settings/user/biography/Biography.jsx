@@ -6,7 +6,9 @@ import { useSelector } from "react-redux";
 import { updateBiography } from "../../../../services/user";
 import { editProfile } from "../../../../services/backGo/user";
 import { useNotification } from "../../../Notifications/NotificationProvider";
-export default function Biography() {
+import { TbEdit } from "react-icons/tb";
+import { Grid } from "@mui/material";
+export default function Biography(props) {
   const auth = useSelector((state) => state.auth);
   const { user, isLogged } = auth;
   const token = useSelector((state) => state.token);
@@ -59,28 +61,33 @@ export default function Biography() {
 
   return (
     <div className="biography-body">
-      <h2>Ajustes del perfil</h2>
+      <h3>Acerca de</h3>
 
       <div className="biography-container">
         <div className="biography-content">
-          <div style={{ width: "20%", textAlign: "left", marginLeft: "20px" }}>
+          <div style={{ textAlign: "left" }}>
             <h4>Nombre de usuario</h4>
           </div>
           <div className="biography-input">
-            <input disabled={true} type="text" placeholder={user.name} />
-            <p style={{ fontSize: "13px", color: "darkgray" }}>
-              Puedes actualizar tu nombre de usuario.
-            </p>
+            <p>{props.user.NameUser}</p>
+            <Grid style={{ fontSize: '24px', cursor: 'pointer' }}>
+
+              <TbEdit />
+            </Grid>
+            {/* <input disabled={true} type="text" placeholder={props.user.NameUser} /> */}
+
           </div>
         </div>
-        <hr style={{ border: "1px solid #2b2b2b8f" }} />
+
         <div className="biography-content">
-          <div style={{ width: "20%", textAlign: "left", marginLeft: "20px" }}>
-            <h4>Biografía</h4>
+          <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%'}} >
+            <h4>Biografía y Usuario </h4>
+            <TbEdit style={{ fontSize: '24px', cursor: 'pointer' }} />
+
           </div>
-          <div className="biography-input">
+          <div className="biography-input" style={{display:'flex', flexDirection:'column', gap:'5px'}}>
             <input
-              placeholder={user.biography}
+              placeholder={props.user.biography}
               type="text"
               onChange={(e) => setBiography(e.target.value)}
             />
@@ -90,138 +97,8 @@ export default function Biography() {
             </p>
           </div>
         </div>
-        <hr style={{ border: "1px solid #2b2b2b8f" }} />
 
-        <div className="biography-content">
-          <div style={{ width: "20%", textAlign: "left", marginLeft: "20px" }}>
-            <h4>Sitio Web</h4>
-          </div>
-          <div className="biography-input">
-            <input
-              placeholder={
-                user.website === null
-                  ? "https://pinkker.tv/" + user.name
-                  : user.website
-              }
-              type="text"
-              onChange={(e) => setWebsite(e.target.value)}
-            />
-            <p style={{ fontSize: "13px", color: "darkgray" }}>
-              Cambiar el sitio web de tu cuenta!
-            </p>
-          </div>
-        </div>
-        <hr style={{ border: "1px solid #2b2b2b8f" }} />
-
-        <div className="biography-content">
-          <div style={{ width: "20%", textAlign: "left", marginLeft: "20px" }}>
-            <h4>Sexo</h4>
-          </div>
-          <div className="biography-input">
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <select
-                onChange={(e) => setSex(e.target.value)}
-                style={{
-                  width: "250px",
-                  marginRight: "0px",
-                  padding: "8px",
-                  marginLeft: "0px",
-                }}
-              >
-                <option value={null}>Selecciona un genero</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
-                <option value="No Definido">No Definido</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <hr style={{ border: "1px solid #2b2b2b8f" }} />
-
-        <div className="biography-content">
-          <div style={{ width: "20%", textAlign: "left", marginLeft: "20px" }}>
-            <h4>Fecha de nacimiento</h4>
-          </div>
-          <div className="biography-input">
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <input
-                onChange={(e) => setrDay(e.target.value)}
-                style={{
-                  marginRight: "2px",
-                  width: "100px",
-                  fontSize: "15px",
-                  padding: "8px",
-                  marginLeft: "0px",
-                }}
-                placeholder="Día 02"
-                type="number"
-              />
-              <select
-                onChange={(e) => setrMonth(e.target.value)}
-                style={{
-                  width: "250px",
-                  marginRight: "0px",
-                  padding: "8px",
-                  marginLeft: "0px",
-                }}
-                defaultValue="1"
-              >
-                <option value="01">Mes</option>
-                <option value="01">Enero</option>
-                <option value="02">Febrero</option>
-                <option value="03">Marzo</option>
-                <option value="04">Abril</option>
-                <option value="05">Mayo</option>
-                <option value="06">Junio</option>
-                <option value="07">Julio</option>
-                <option value="08">Agosto</option>
-                <option value="09">Septiembre</option>
-                <option value="10">Octubre</option>
-                <option value="11">Noviembre</option>
-                <option value="12">Diciembre</option>
-              </select>
-              <input
-                onChange={(e) => setrYear(e.target.value)}
-                style={{
-                  marginLeft: "2px",
-                  width: "125px",
-                  fontSize: "15px",
-                  padding: "8px",
-                }}
-                placeholder="Año 2000"
-                type="number"
-              />
-            </div>
-          </div>
-        </div>
-        <hr style={{ border: "1px solid #2b2b2b8f" }} />
-
-        <div className="biography-content">
-          <div style={{ width: "20%", textAlign: "left", marginLeft: "20px" }}>
-            <h4>Situación sentimental</h4>
-          </div>
-          <div className="biography-input">
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <select
-                onChange={(e) => setSentimental(e.target.value)}
-                style={{
-                  width: "250px",
-                  marginRight: "0px",
-                  padding: "8px",
-                  marginLeft: "0px",
-                }}
-              >
-                <option vvalue={null}>Selecciona una opción</option>
-                <option value="Relación estable">Relación estable</option>
-                <option value="Matrimonio">Matrimonio</option>
-                <option value="Soltero/a">Soltero/a</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <hr style={{ border: "1px solid #2b2b2b8f" }} />
-
-        <div style={{ textAlign: "right", padding: "20px" }}>
+        <div style={{ textAlign: "right", padding: '5px 0px' }}>
           <button
             style={{ width: "105px" }}
             onClick={() => handleSubmit()}

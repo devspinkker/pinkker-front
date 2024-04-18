@@ -16,6 +16,7 @@ import { GrGamepad } from 'react-icons/gr';
 
 
 function SliderLayout(props) {
+
     return (
         <Swiper
             style={{ display: 'flex', flexDirection: 'column-reverse' }}
@@ -25,7 +26,7 @@ function SliderLayout(props) {
                 prevEl: '.custom-prev',
             }}
             modules={[Navigation, Pagination, Scrollbar, A11y]}
-            slidesPerView={props.clipT ? 4.5 : 9}
+            slidesPerView={props.isMobile ? props.clipT ? 1 : 2 :props.clipT ? 4.5 : 9}
             Pagination
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
@@ -40,7 +41,7 @@ function SliderLayout(props) {
                             display: "flex",
                             alignItems: "center",
                             gap: "10px",
-                            width: "80%",
+                            width: !props.isMobile && "80%",
                         }}
                     >
                         {/* <img src="/images/original.svg" style={{ width: '2%', color:'#856ffc' }} /> */}
@@ -57,7 +58,7 @@ function SliderLayout(props) {
                     <Grid style={{ display: 'flex', alignItems: 'center', gap: '5px', width: '30%' }}>
 
                         <AiOutlinePlayCircle style={{ color: '#856ffc', fontSize: '20px' }} />
-                        <h2 style={{ color: 'white', fontSize: '20px' }}>{props.titulo ? 'Vods más vistos' : 'Clips más vistos'} </h2>
+                        <h2 style={{ color: 'white', fontSize: '20px' }}>{props.titulo ? 'Vods más vistos' : props.isMobile ? 'Clips' :'Clips más vistos'} </h2>
                     </Grid>
                 }
 
