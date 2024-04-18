@@ -8,14 +8,16 @@ interface ReactVideoPlayerProps {
   videoRef: React.RefObject<HTMLVideoElement>;
   height: string;
   width: string;
+  quality:string;
 }
 
-function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProps) {
+function ReactVideoPlayer({ src, videoRef, height, width, quality }: ReactVideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
+
     let flvPlayer: flvjs.Player | null = null;
     let hls: Hls | null = null;
 
@@ -86,15 +88,14 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
       if (!videoRef.current?.readyState || videoRef.current.readyState < 3) {
         initializePlayer();
       }
-    }, 2000);
+    }, 5000);
 
     return () => {
       clearTimeout(timeoutId);
-  
+    
       if (hls) {
         hls.destroy();
         hls = null;
-        
       }
       if (flvPlayer) {
         flvPlayer.pause(); 
@@ -104,7 +105,8 @@ function ReactVideoPlayer({ src, videoRef, height, width }: ReactVideoPlayerProp
         flvPlayer = null;
       }
     };
-  }, []);
+    
+  }, [quality]);
 
   function isMobile() {
     var check = false;

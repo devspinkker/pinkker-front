@@ -54,6 +54,7 @@ import DashboardStream from "../components/dashboard/stream-manager/DashboardStr
 import DashboardAjustes from "../components/dashboard/stream-manager/DeshboardAjustes";
 import DashboardServerTransmision from "../components/dashboard/stream-manager/DashboardServerTransmision";
 import NLayout from "../components/layout/NLayout";
+import ViewTweet from "../components/muro/popup/ViewTweet";
 
 const AppRouter = () => {
   const [expanded, setExpanded] = useState(true);
@@ -166,21 +167,25 @@ const AppRouter = () => {
           />
         )} */}
         {/*!isLogged && <NavbarButtom isMobile={isMobile}/>*/}
-        <NLayout isMobile={isMobile} tyExpanded={expanded} user={user} tyDashboard={false} setExpanded={setExpanded}>
+
+        <NLayout
+          isMobile={isMobile}
+          tyExpanded={expanded}
+          user={user}
+          tyDashboard={false}
+          setExpanded={setExpanded}
+        >
 
           <Switch>
             <Route exact path="/:streamer/dashboard/home">
-
               <Dashboard isMobile={isMobile} />
             </Route>
 
             <Route exact path="/:streamer/dashboard/analytics">
-
               <Analytics />
             </Route>
 
             <Route exact path="/:streamer/dashboard/streammanager">
-
               <StreamManager
                 isMobile={isMobile}
                 socketMain={socketMain}
@@ -189,17 +194,14 @@ const AppRouter = () => {
             </Route>
 
             <Route exact path="/:streamer/dashboard/content">
-
               <Content />
             </Route>
 
             <Route exact path="/:streamer/dashboard/community">
-
               <Community />
             </Route>
 
             <Route exact path="/:streamer/settings">
-
               <UserSettings user={user} isMobile={isMobile} />
             </Route>
 
@@ -210,79 +212,67 @@ const AppRouter = () => {
             />
 
             <Route exact path="/plataform/tendency">
-
               <Tendency isMobile={isMobile} />
             </Route>
 
             <Route exact path="/admin/general">
-
               <Admin />
             </Route>
 
             <Route exact path="/admin/pagos">
-
               <Pagos />
             </Route>
 
             <Route exact path="/admin/statistics">
-
               <Statistics />
             </Route>
 
             <Route exact path="/user/reset/:token">
-
               <ResetPassword isMobile={isMobile} />
             </Route>
 
             <Route exact path="/plataform/explore">
-
               <Explore isMobile={isMobile} tyExpanded={!expanded} />
             </Route>
 
             <Route exact path="/plataform/cartera">
-
               <Cartera user={user} />
             </Route>
 
             <Route exact path="/plataform/subscriptions">
-
               <Suscriptions />
             </Route>
 
             <Route exact path="/plataform/achievement">
-
               <Achievement />
             </Route>
 
             <Route exact path="/plataform/clips">
-
               <ClipsMain tyExpanded={expanded} />
             </Route>
 
             <Route exact path="/plataform/muro">
-
               <Muro isMobile={isMobile} userName={user} />
+            </Route>
+            <Route exact path="/post/:User/:IdPost">
+              <ViewTweet />
             </Route>
 
             <Route exact path="/vod/:vodId">
-
               <Vod />
             </Route>
 
             <Route path="/categorie/:categorieName" exact>
-
               <Categorie />
             </Route>
             <Route path="/user/password-reset">
               <RecoverPassword />
             </Route>
             <Route path="/clip/:clipId" exact>
-
               <ClipView />
             </Route>
 
             <Route exact path="/" component={Home}>
-
               <Home
                 isMobile={isMobile}
                 socketMain={socketMain}
@@ -300,31 +290,25 @@ const AppRouter = () => {
             </Route>
 
             <Route exact path={"/direct/inbox"}>
-
               <GeneralChat />
             </Route>
 
             <Route exact path={"/plataform/search"}>
-
               <Search />
             </Route>
 
             <Route exact path="/plataform/terms">
-
               <Terms />
             </Route>
 
             <Route exact path="/plataform/privacy">
-
               <Privacy />
             </Route>
             <Route exact path="/OAuth2Login">
               <OAuth2Login />
             </Route>
 
-
             <Route exact path="/:streamer">
-
               <Channel
                 isMobile={isMobile}
                 socketMain={socketMain}
@@ -337,15 +321,12 @@ const AppRouter = () => {
               <CreateClip />
             </Route>
             <Route exact path="/clips/getId">
-
               <GetClip />
             </Route>
             <Route exact path="/:streamer/dashboard/stream">
-
               <DashboardStream tyExpanded={expanded} isMobile={isMobile} />
             </Route>
             <Route exact path="/:streamer/dashboard/Configuración">
-
               <DashboardAjustes
                 user={user}
                 tyExpanded={expanded}
@@ -353,7 +334,6 @@ const AppRouter = () => {
               />
             </Route>
             <Route exact path="/:streamer/dashboard/Clave">
-
               <DashboardServerTransmision
                 tyExpanded={expanded}
                 isMobile={isMobile}
@@ -361,17 +341,10 @@ const AppRouter = () => {
               />
             </Route>
           </Switch>
-
-
         </NLayout>
-
       </LastLocationProvider>
-
-
-
-
-
     </Router >
+
   );
 };
 

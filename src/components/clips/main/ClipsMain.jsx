@@ -7,7 +7,7 @@ import {
   ClipsRecommended,
   GetClipsCategory,
 } from "../../../services/backGo/clip";
-import { ScaleLoader,BarLoader } from "react-spinners";
+import { ScaleLoader, BarLoader } from "react-spinners";
 
 export default function ClipsMain({ tyExpanded }) {
   const auth = useSelector((state) => state.auth);
@@ -131,101 +131,187 @@ export default function ClipsMain({ tyExpanded }) {
         padding: "0px",
       }}
     >
-      {
-        isLoading ?
-
-          <div
-            style={{
-              height: "800px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <BarLoader color="#36d7b7" />
-
+      {isLoading ? (
+        <div
+          style={{
+            height: "800px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <BarLoader color="#36d7b7" />
+        </div>
+      ) : (
+        <>
+          <div>
+            {clips &&
+              clips.map((clip, index) =>
+                index <= 0 ? (
+                  <ClipCard
+                    tyExpanded={tyExpanded}
+                    key={clip.id}
+                    type={0}
+                    clip={clip}
+                  />
+                ) : (
+                  <ClipCard
+                    tyExpanded={tyExpanded}
+                    key={clip.id}
+                    type={1}
+                    clip={clip}
+                  />
+                )
+              )}
           </div>
-          :
 
-          <>
-            <div>
-              {clips &&
-                clips.map((clip, index) =>
-                  index <= 0 ? (
-                    <ClipCard
-                      tyExpanded={tyExpanded}
-                      key={clip.id}
-                      type={0}
-                      clip={clip}
-                    />
-                  ) : (
-                    <ClipCard
-                      tyExpanded={tyExpanded}
-                      key={clip.id}
-                      type={1}
-                      clip={clip}
-                    />
-                  )
-                )}
-            </div>
-
-            <div style={{ top: "120px" }} className="clipsmain-right-buttons">
-              <div
+          <div style={{ top: "120px" }} className="clipsmain-right-buttons">
+            <div
+              style={{
+                height: "40%",
+                display: "flex",
+                alignItems: "start",
+                justifyContent: "center",
+              }}
+            >
+              <i
+                onClick={previewClip}
                 style={{
-                  height: "40%",
+                  backgroundColor: "#303030",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50px",
+                  color: "darkgray",
                   display: "flex",
-                  alignItems: "start",
+                  alignItems: "center",
                   justifyContent: "center",
+                  fontSize: "22px",
                 }}
-              >
-                <i
-                  onClick={previewClip}
-                  style={{
-                    backgroundColor: "#303030",
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "50px",
-                    color: "darkgray",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "22px",
-                  }}
-                  className="fas fa-arrow-up"
-                />
-              </div>
-              <div
-                style={{
-                  height: "40%",
-                  display: "flex",
-                  alignItems: "end",
-                  justifyContent: "center",
-                }}
-              >
-                <i
-                  onClick={nextClip}
-                  style={{
-                    backgroundColor: "#303030",
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "50px",
-                    color: "darkgray",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "22px",
-                  }}
-                  className="fas fa-arrow-down"
-                />
-              </div>
+                className="fas fa-arrow-up"
+              />
             </div>
+            <div
+              style={{
+                height: "40%",
+                display: "flex",
+                alignItems: "end",
+                justifyContent: "center",
+              }}
+            >
+              <i
+                onClick={nextClip}
+                style={{
+                  backgroundColor: "#303030",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50px",
+                  color: "darkgray",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "22px",
+                }}
+                className="fas fa-arrow-down"
+              />
+            </div>
+          </div>
 
-            {viewAuth && (
-              <Auth typeDefault={0} closePopup={() => setViewAuth(false)} />
-            )}
-          </>
-      }
+          {viewAuth && (
+            <Auth typeDefault={0} closePopup={() => setViewAuth(false)} />
+          )}
+        </>
+      )}
+      =======
+      {isLoading ? (
+        <div
+          style={{
+            height: "800px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <BarLoader color="#36d7b7" />
+        </div>
+      ) : (
+        <>
+          <div>
+            {clips &&
+              clips.map((clip, index) =>
+                index <= 0 ? (
+                  <ClipCard
+                    tyExpanded={tyExpanded}
+                    key={clip.id}
+                    type={0}
+                    clip={clip}
+                  />
+                ) : (
+                  <ClipCard
+                    tyExpanded={tyExpanded}
+                    key={clip.id}
+                    type={1}
+                    clip={clip}
+                  />
+                )
+              )}
+          </div>
 
+          <div style={{ top: "120px" }} className="clipsmain-right-buttons">
+            <div
+              style={{
+                height: "40%",
+                display: "flex",
+                alignItems: "start",
+                justifyContent: "center",
+              }}
+            >
+              <i
+                onClick={previewClip}
+                style={{
+                  backgroundColor: "#303030",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50px",
+                  color: "darkgray",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "22px",
+                }}
+                className="fas fa-arrow-up"
+              />
+            </div>
+            <div
+              style={{
+                height: "40%",
+                display: "flex",
+                alignItems: "end",
+                justifyContent: "center",
+              }}
+            >
+              <i
+                onClick={nextClip}
+                style={{
+                  backgroundColor: "#303030",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50px",
+                  color: "darkgray",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "22px",
+                }}
+                className="fas fa-arrow-down"
+              />
+            </div>
+          </div>
+
+          {viewAuth && (
+            <Auth typeDefault={0} closePopup={() => setViewAuth(false)} />
+          )}
+        </>
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom"; // Importa useHistory
 import "./TweetCard.css";
 import { useSelector } from "react-redux";
-import ViewTweet from "../popup/ViewTweet";
 import CiteTweet from "../popup/CiteTweet";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -20,11 +20,14 @@ export default function TweetCard({ tweet }) {
   const [popupCiteTweet, setPopupCiteTweet] = useState(false);
   const [showDropdownRetweet, setShowDropdownRetweet] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const history = useHistory(); // Inicializa useHistory
 
   const alert = useNotification();
 
   function togglePopupTweetView() {
     setPopupTweetView(!popupTweetView);
+    // Cambia la URL cuando se abre un tweet
+    history.push(`/post/${tweet.UserInfo.NameUser}/${tweet._id}`);
   }
 
   function togglePopupCiteTweet() {
@@ -58,7 +61,7 @@ export default function TweetCard({ tweet }) {
   }, [tweet]);
 
   return (
-    <div style={{ borderBottom: '1px solid #3a3b3c', padding: '5px' }}>
+    <div style={{ borderBottom: "1px solid #3a3b3c", padding: "5px" }}>
       <div className="tweetcard-body">
         <div
           onClick={() => togglePopupTweetView()}
@@ -79,9 +82,22 @@ export default function TweetCard({ tweet }) {
 
           <div className="tweetcard-primary">
             <div style={{ display: "flex", alignItems: "center" }}>
-              <Grid style={{width:'100%', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                <Grid style={{width:'80%', display:'flex', gap:'5px', alignItems:'center'}}>
-
+              <Grid
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Grid
+                  style={{
+                    width: "80%",
+                    display: "flex",
+                    gap: "5px",
+                    alignItems: "center",
+                  }}
+                >
                   <h3>{tweet.UserInfo.FullName}</h3>
                   <p
                     style={{
@@ -90,7 +106,7 @@ export default function TweetCard({ tweet }) {
                       fontSize: "15px",
                     }}
                   >
-                    @{tweet.UserInfo.FullName} · 32min
+                    @{tweet.UserInfo.NameUser} · 32min
                   </p>
                 </Grid>
 
@@ -158,15 +174,12 @@ export default function TweetCard({ tweet }) {
                   </div>
                 )}
               </Tippy>
-              {/* {showDropdownRetweet === true && (
+              {showDropdownRetweet === true && (
                 <DropdownReTweet
                   citeTweet={() => setPopupCiteTweet(true)}
                   closePopup={() => toggleShowDropdownRetweet()}
                 />
-              )} */}
-
-
-
+              )}
 
               <Tippy
                 placement="bottom"
@@ -176,7 +189,10 @@ export default function TweetCard({ tweet }) {
                 <div
                   style={{ color: isLiked && "red" }}
                   className="tweetcard-icon-like"
-                  onClick={() => handleLike()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLike();
+                  }}
                 >
                   {isLiked ? (
                     <i className="fas fa-heart" />
@@ -205,18 +221,16 @@ export default function TweetCard({ tweet }) {
                   </p>
                 </div>
               </Tippy>
-
-
             </div>
           </div>
         </div>
 
-        {popupTweetView === true && (
+        {/* {popupTweetView === true && (
           <ViewTweet tweet={tweet} closePopup={() => togglePopupTweetView()} />
         )}
         {popupCiteTweet === true && (
           <CiteTweet tweet={tweet} closePopup={() => togglePopupCiteTweet()} />
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ import "./OAuth2.css";
 export default function OAuth2callback() {
   const [showUsernameForm, setShowUsernameForm] = useState(false);
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [biography, setBiography] = useState("");
   const [email, setEmail] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -62,13 +63,13 @@ export default function OAuth2callback() {
         );
     }
   }, [selectedCountry]);
+
   const handleOAuthCallback = async (code) => {
     try {
       const responseGoogleCallback = await Google_callback(code);
 
       if (responseGoogleCallback.data.message === "redirect to complete user") {
         setEmail(responseGoogleCallback.data.data);
-
         setShowUsernameForm(true);
       }
 
@@ -90,6 +91,7 @@ export default function OAuth2callback() {
         pais: selectedCountry ? selectedCountry.label : "",
         ciudad: selectedProvince ? selectedProvince.label : "",
         biography: biography,
+        password,
       };
 
       const response = await Google_callback_Complete_Profile_And_Username(
@@ -135,7 +137,7 @@ export default function OAuth2callback() {
             onSubmit={handleUsernameFormSubmit}
           >
             <label>
-              nombre de usuario
+              Nombre de usuario:
               <input
                 className="auth-contentOAuth2callback"
                 placeholder="nameUser"
@@ -167,13 +169,23 @@ export default function OAuth2callback() {
               />
             </label> */}
             <label>
+              Contraseña:
+              <input
+                className="auth-contentOAuth2callback"
+                placeholder="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </label>
+            {/* <label>
               Biografía:
               <textarea
                 className="auth-contentOAuth2callback"
                 value={biography}
                 onChange={(e) => setBiography(e.target.value)}
               />
-            </label>
+            </label> */}
             <button type="submit">Enviar</button>
           </form>
         </div>

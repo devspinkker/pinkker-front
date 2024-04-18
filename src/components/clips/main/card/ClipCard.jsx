@@ -576,7 +576,7 @@ export default function ClipCard({ clip }) {
 
             <div
               style={{ marginLeft: "10px", height: "50px" }}
-              className="muro-send-tweet-input"
+              className="-input"
             >
               <textarea
                 value={comment}

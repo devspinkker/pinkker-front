@@ -183,7 +183,7 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
 
           <hr style={{ border: "1px solid #4b4b4b8f", margin: "10px auto" }} />
 
-          <li onClick={() => changeQuality("auto")}>
+          {/* <li onClick={() => changeQuality("auto")}>
             <div className="dropdownsettings-content">
               <div
                 className="dropdownsettings-radio"
@@ -193,14 +193,14 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
                 <span style={{ marginLeft: "5px" }}>Automática</span>
               </div>
             </div>
-          </li>
+          </li> */}
           <li onClick={() => changeQuality("1080")}>
             <div className="dropdownsettings-content">
               <div
                 className="dropdownsettings-radio"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                <input type="radio" />
+                <input type="radio" checked={quality === "1080"} />
                 <span style={{ marginLeft: "5px" }}>1080p</span>
               </div>
             </div>
@@ -211,7 +211,7 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
                 className="dropdownsettings-radio"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                <input type="radio" />
+                <input type="radio" checked={quality === "720"} />
                 <span style={{ marginLeft: "5px" }}>720p</span>
               </div>
             </div>
@@ -223,7 +223,7 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
                 className="dropdownsettings-radio"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                <input type="radio" />
+                <input type="radio" checked={quality === "480"} />
                 <span style={{ marginLeft: "5px" }}>480p</span>
               </div>
             </div>
@@ -235,7 +235,7 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
                 className="dropdownsettings-radio"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                <input type="radio" />
+                <input type="radio" checked={quality === "360"} />
                 <span style={{ marginLeft: "5px" }}>360p</span>
               </div>
             </div>
