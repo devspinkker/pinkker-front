@@ -81,7 +81,6 @@ const AppRouter = () => {
 
   const isMobile = width <= 768;
 
-
   useEffect(() => {
     if (user.name != null && user.name != undefined) {
       loadDataOnlyOnce();
@@ -175,7 +174,6 @@ const AppRouter = () => {
           tyDashboard={false}
           setExpanded={setExpanded}
         >
-
           <Switch>
             <Route exact path="/:streamer/dashboard/home">
               <Dashboard isMobile={isMobile} />
@@ -343,8 +341,7 @@ const AppRouter = () => {
           </Switch>
         </NLayout>
       </LastLocationProvider>
-    </Router >
-
+    </Router>
   );
 };
 

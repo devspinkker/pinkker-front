@@ -105,8 +105,25 @@ export default function ViewTweet({ closePopup }) {
 
     return (
       <div>
-        <div style={{ display: "flex" }}>
-          <div style={{ textAlign: "left" }} className="tweetcard-avatar-pop">
+        <div className="back-viewTweet">
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1yevf0r r-meisx5"
+          >
+            <g>
+              <path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"></path>
+            </g>
+          </svg>
+          <h2>
+            <span>Post</span>
+          </h2>
+        </div>
+        <div style={{ display: "flex", marginTop: "20px" }}>
+          <div
+            style={{ textAlign: "left", marginTop: "10px" }}
+            className="tweetcard-avatar-pop"
+          >
             <img
               style={{ width: "45px", borderRadius: "100px" }}
               src={tweet?.UserInfo.Avatar}
@@ -132,7 +149,7 @@ export default function ViewTweet({ closePopup }) {
         {tweet?.PostImage !== "" && (
           <div style={{ marginTop: "10px", display: "flex" }}>
             <img
-              style={{ borderRadius: "20px", width: "400px" }}
+              style={{ borderRadius: "20px", width: "100%" }}
               src={tweet?.PostImage}
               alt=""
             />

@@ -24,6 +24,18 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality }: ReactVideoP
     async function initializePlayer() {
 
       try {
+        if (flvPlayer) {
+          flvPlayer.pause(); 
+          flvPlayer.unload();
+          flvPlayer.detachMediaElement();
+          flvPlayer.destroy();
+          flvPlayer = null;
+        }
+  
+        if (hls) {
+          hls.destroy();
+          hls = null;
+        }
         if (flvjs.isSupported()) {
           flvPlayer = flvjs.createPlayer({
             type: 'flv',
@@ -106,7 +118,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality }: ReactVideoP
       }
     };
     
-  }, [quality]);
+  }, [src]);
 
   function isMobile() {
     var check = false;

@@ -22,6 +22,7 @@
     height: 800px;
     overflow: scroll;
     margin: auto;
+    margin-top: 10px;
     padding: 30px;
     text-align: center;
     background: #121418;
@@ -160,4 +161,25 @@
     outline: none;
     margin-top: 10px;
     resize: none;
+}
+
+.back-viewTweet {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: fixed;
+    background: #121418c2;
+    width: 92%;
+    height: 37px;
+    top: 90px;
+    left: 29%;
+}
+
+.back-viewTweet>svg {
+    width: 35px;
+    color: #ededed;
+}
+
+.back-viewTweet>h2 {
+    margin-left: 20px;
 }
