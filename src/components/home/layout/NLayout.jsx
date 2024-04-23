@@ -437,7 +437,7 @@ function NLayout(props) {
           width: props.tyExpanded ? "85%" : "95%",
           display: "flex",
           flexDirection: "column",
-          zIndex: 99999,
+          zIndex: 99999999,
         }}
       >
         {!props.user.NameUser ? (
@@ -450,7 +450,7 @@ function NLayout(props) {
               padding: "1.3rem 5.8rem",
               position: "sticky",
               top: 0,
-              zIndex: 9999,
+              zIndex: 999999999999,
               backgroundColor: "#080808",
             }}
           >
@@ -486,7 +486,7 @@ function NLayout(props) {
               padding: "1.3rem 5.8rem",
               position: "sticky",
               top: 0,
-              zIndex: 9999,
+              zIndex: 999999999,
               backgroundColor: "#080808",
             }}
           >

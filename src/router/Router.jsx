@@ -21,6 +21,8 @@ import SettingsStream from "../components/dashboard/settings/stream/SettingsStre
 import StreamManager from "../components/dashboard/stream-manager/StreamManager";
 import Disconnected from "../components/channel/Disconnected";
 import Tendency from "../components/tendency/Tendency";
+import TendencyMuro from "../components/muro/Tendency";
+
 import UserSettings from "../components/settings/user/UserSettings";
 import Explore from "../components/explore/Explore";
 import Vod from "../components/vod/Vod";
@@ -253,7 +255,17 @@ const AppRouter = () => {
               <Muro isMobile={isMobile} userName={user} />
             </Route>
             <Route exact path="/post/:User/:IdPost">
-              <ViewTweet />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row-reverse",
+                  padding: "22px",
+                  justifyContent: "space-between",
+                }}
+              >
+                <TendencyMuro />
+                <ViewTweet />
+              </div>
             </Route>
 
             <Route exact path="/vod/:vodId">

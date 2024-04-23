@@ -105,7 +105,7 @@ export default function ViewTweet({ closePopup }) {
 
     return (
       <div>
-        <div className="back-viewTweet">
+        {/* <div className="back-viewTweet">
           <svg
             viewBox="0 0 24 24"
             aria-hidden="true"
@@ -118,8 +118,8 @@ export default function ViewTweet({ closePopup }) {
           <h2>
             <span>Post</span>
           </h2>
-        </div>
-        <div style={{ display: "flex", marginTop: "20px" }}>
+        </div> */}
+        <div style={{ display: "flex", marginTop: "10px" }}>
           <div
             style={{ textAlign: "left", marginTop: "10px" }}
             className="tweetcard-avatar-pop"

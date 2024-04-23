@@ -148,3 +148,29 @@ export const GetTweetsRecommended = async (token, ExcludeIDs) => {
     return error
   }
 };
+export const getTrends = async (page = 1) => {
+  try {
+    const response = await axios.get(`${url}/post/GetTrends?page=${page}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTweetsByHashtag = async (hashtag, page = 1) => {
+  try {
+    const response = await axios.get(`${url}/post/GetTweetsByHashtag?page=${page}&hashtag=${hashtag}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTrendsByPrefix = async (prefix) => {
+  try {
+    const response = await axios.get(`${url}/post/GetTrendsByPrefix?hashtag=${prefix}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
