@@ -38,7 +38,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import Tendency from "./Tendency";
+import Tendency from "./TendencyLayout";
 
 export default function Muro({ isMobile, userName }) {
   const alert = useNotification();

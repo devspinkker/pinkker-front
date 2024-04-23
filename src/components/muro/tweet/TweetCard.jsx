@@ -20,7 +20,7 @@ export default function TweetCard({ tweet }) {
   const [popupCiteTweet, setPopupCiteTweet] = useState(false);
   const [showDropdownRetweet, setShowDropdownRetweet] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const history = useHistory(); // Inicializa useHistory
+  const history = useHistory();
 
   const alert = useNotification();
 

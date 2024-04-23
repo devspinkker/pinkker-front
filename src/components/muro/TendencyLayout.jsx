@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getTrends, getTrendsByPrefix } from "../../services/backGo/tweet";
 import FollowCard from "./FollowCard";
+import { Link } from "react-router-dom";
 
 export default function Tendency() {
   const [trends, setTrends] = useState([]);
@@ -31,7 +32,11 @@ export default function Tendency() {
   const fetchTrends = async () => {
     try {
       const response = await getTrends();
-      setTrends(response.data);
+      if (response.message == "ok" && response.data) {
+        setTrends(response.data);
+      } else {
+        setTrends([]);
+      }
     } catch (error) {
       console.error("Error fetching trends:", error);
       setTrends([]);
@@ -88,7 +93,9 @@ export default function Tendency() {
                   Tendencias {index + 1}
                 </p>
               )}
-              <h3 style={{ color: "#f36196" }}>#{trend.hashtag}</h3>
+              <Link to={`/hashtag/${trend.hashtag}`}>
+                <h3 style={{ color: "#f36196" }}>#{trend.hashtag}</h3>
+              </Link>
               <p
                 style={{
                   fontSize: "13px",

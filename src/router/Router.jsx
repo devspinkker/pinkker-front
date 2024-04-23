@@ -21,7 +21,7 @@ import SettingsStream from "../components/dashboard/settings/stream/SettingsStre
 import StreamManager from "../components/dashboard/stream-manager/StreamManager";
 import Disconnected from "../components/channel/Disconnected";
 import Tendency from "../components/tendency/Tendency";
-import TendencyMuro from "../components/muro/Tendency";
+import TendencyMuro from "../components/muro/TendencyLayout";
 
 import UserSettings from "../components/settings/user/UserSettings";
 import Explore from "../components/explore/Explore";
@@ -57,6 +57,7 @@ import DashboardAjustes from "../components/dashboard/stream-manager/DeshboardAj
 import DashboardServerTransmision from "../components/dashboard/stream-manager/DashboardServerTransmision";
 import NLayout from "../components/layout/NLayout";
 import ViewTweet from "../components/muro/popup/ViewTweet";
+import HashtagPost from "../components/muro/HashtagPost";
 
 const AppRouter = () => {
   const [expanded, setExpanded] = useState(true);
@@ -260,14 +261,25 @@ const AppRouter = () => {
                   display: "flex",
                   flexDirection: "row-reverse",
                   padding: "22px",
-                  justifyContent: "space-between",
                 }}
               >
                 <TendencyMuro />
                 <ViewTweet />
               </div>
             </Route>
-
+            <Route path="/hashtag/:hashtag">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row-reverse",
+                  padding: "22px",
+                  justifyContent: "space-between",
+                }}
+              >
+                <TendencyMuro />
+                <HashtagPost />
+              </div>
+            </Route>
             <Route exact path="/vod/:vodId">
               <Vod />
             </Route>
