@@ -50,6 +50,19 @@ export const GetCommentPost = async (id) => {
   return res;
 
 };
+export const RePost = async (id, token) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const res = await axios.post(`${url}/post/Repost`, { idPost: id }, config);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const LikePost = async (object) => {
   try {
     const config = {

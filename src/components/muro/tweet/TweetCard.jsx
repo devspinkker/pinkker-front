@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom"; // Importa useHistory
+import { useHistory } from "react-router-dom";
 import "./TweetCard.css";
 import { useSelector } from "react-redux";
 import CiteTweet from "../popup/CiteTweet";
@@ -11,6 +11,7 @@ import {
   LikePost,
   DislikePost,
   setToken,
+  RePost,
 } from "../../../services/backGo/tweet";
 import { Grid, Typography, Skeleton } from "@mui/material";
 import { FaEllipsis } from "react-icons/fa6";
@@ -27,41 +28,97 @@ export default function TweetCard({ tweet }) {
   function togglePopupTweetView() {
     setPopupTweetView(!popupTweetView);
     // Cambia la URL cuando se abre un tweet
-    history.push(`/post/${tweet.UserInfo.NameUser}/${tweet._id}`);
+    let id;
+    if (tweet.Type === "RePost") {
+      id = tweet.OriginalPostData._id;
+    } else {
+      id = tweet._id;
+    }
+    history.push(`/post/${tweet.UserInfo.NameUser}/${id}`);
   }
 
   function togglePopupCiteTweet() {
     setPopupCiteTweet(!popupCiteTweet);
   }
 
-  function toggleShowDropdownRetweet() {
-    setShowDropdownRetweet(!showDropdownRetweet);
+  async function toggleShowDropdownRetweet() {
+    let token = window.localStorage.getItem("token");
+    if (token) {
+      let id;
+      if (tweet.Type === "RePost") {
+        id = tweet.OriginalPostData._id;
+      } else {
+        id = tweet._id;
+      }
+      const res = await RePost(id, token);
+      console.log(res);
+      setShowDropdownRetweet(!showDropdownRetweet);
+    }
   }
 
   const handleLike = async () => {
     let token = window.localStorage.getItem("token");
     let idUser = window.localStorage.getItem("_id");
+    let id;
+    var repost;
+    if (tweet.Type === "RePost") {
+      id = tweet.OriginalPostData._id;
+      repost = true;
+    } else {
+      id = tweet._id;
+      repost = false;
+    }
     if (token) {
       setToken(token);
-      if (tweet.Likes.includes(idUser)) {
-        setIsLiked(!isLiked);
-        await DislikePost({ idPost: tweet._id });
+
+      if (!repost && tweet.Likes.includes(idUser)) {
+        setIsLiked(false);
+        const index = tweet.Likes?.Likes?.indexOf(idUser);
+        if (index !== -1) {
+          tweet?.Likes?.splice(index, 1);
+        }
+        await DislikePost({ idPost: id });
+      } else if (repost && tweet.OriginalPostData?.Likes?.includes(idUser)) {
+        const index = tweet.OriginalPostData?.Likes?.indexOf(idUser);
+        if (index !== -1) {
+          tweet.OriginalPostData?.Likes?.splice(index, 1);
+        }
+        setIsLiked(false);
+        await DislikePost({ idPost: id });
       } else {
-        setIsLiked(!isLiked);
-        await LikePost({ idPost: tweet._id });
+        if (!repost) {
+          tweet?.Likes?.push(idUser);
+        } else {
+          tweet.OriginalPostData?.Likes?.push(idUser);
+        }
+        setIsLiked(true);
+        await LikePost({ idPost: id });
       }
     } else {
       alert("logeate");
     }
   };
+
   useEffect(() => {
     let loggedUser = window.localStorage.getItem("_id");
-    tweet.Likes.includes(loggedUser);
-    setIsLiked(tweet.Likes.includes(loggedUser));
+    let repost = tweet.Type === "RePost" ? true : false;
+    if (!repost) {
+      tweet.Likes?.includes(loggedUser);
+      setIsLiked(tweet.Likes?.includes(loggedUser));
+    } else {
+      tweet.OriginalPostData?.Likes?.includes(loggedUser);
+      setIsLiked(tweet.OriginalPostData?.Likes?.includes(loggedUser));
+    }
   }, [tweet]);
 
   return (
     <div style={{ borderBottom: "1px solid #3a3b3c", padding: "5px" }}>
+      {tweet.Type === "RePost" && (
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <i className="fas fa-retweet" />
+          <h3 style={{ padding: " 0px 10px" }}> {tweet.UserInfo.NameUser} </h3>
+        </div>
+      )}
       <div className="tweetcard-body">
         <div
           onClick={() => togglePopupTweetView()}
@@ -98,7 +155,11 @@ export default function TweetCard({ tweet }) {
                     alignItems: "center",
                   }}
                 >
-                  <h3>{tweet.UserInfo.FullName}</h3>
+                  {tweet.Type === "RePost" ? (
+                    <h3>{tweet.OriginalPostData.UserInfo.FullName} </h3>
+                  ) : (
+                    <h3> {tweet.UserInfo.FullName} </h3>
+                  )}
                   <p
                     style={{
                       color: "lightgray",
@@ -106,7 +167,11 @@ export default function TweetCard({ tweet }) {
                       fontSize: "15px",
                     }}
                   >
-                    @{tweet.UserInfo.NameUser} · 32min
+                    {tweet.Type === "RePost" ? (
+                      <p>@{tweet.OriginalPostData.UserInfo.NameUser} · 32min</p>
+                    ) : (
+                      <p> @{tweet.UserInfo.NameUser} · 32min</p>
+                    )}
                   </p>
                 </Grid>
 
@@ -120,7 +185,11 @@ export default function TweetCard({ tweet }) {
             </div>
 
             <div style={{ marginTop: "5px", textAlign: "left" }}>
-              <p>{tweet.Status}</p>
+              {tweet.Type === "RePost" ? (
+                <p>{tweet.OriginalPostData.Status}</p>
+              ) : (
+                <p>{tweet.Status}</p>
+              )}
             </div>
 
             {tweet.PostImage !== "" && (
@@ -152,7 +221,11 @@ export default function TweetCard({ tweet }) {
                 <div className="tweetcard-icon-comment">
                   <i className="far fa-comment" />
                   <p style={{ marginLeft: "5px", fontSize: "14px" }}>
-                    {tweet.Comments.length}
+                    {tweet.Type === "RePost" ? (
+                      <p>{tweet.OriginalPostData?.Comments?.length}</p>
+                    ) : (
+                      <p>{tweet.Comments?.length}</p>
+                    )}
                   </p>
                 </div>
               </Tippy>
@@ -164,21 +237,38 @@ export default function TweetCard({ tweet }) {
               >
                 {tweet.gallery !== true && (
                   <div
-                    onClick={() => toggleShowDropdownRetweet()}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleShowDropdownRetweet(tweet?._id);
+                    }}
                     className="tweetcard-icon-retweet"
                   >
                     <i className="fas fa-retweet" />
-                    <p style={{ marginLeft: "5px", fontSize: "14px" }}>
-                      {/* {tweet.RePosts.length} */}
-                    </p>
+                    {tweet.Type === "RePost" ? (
+                      <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                        {tweet.OriginalPostData?.RePosts?.length}
+                      </p>
+                    ) : (
+                      <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                        {" "}
+                        {tweet?.RePosts?.length}
+                      </p>
+                    )}
                   </div>
                 )}
               </Tippy>
               {showDropdownRetweet === true && (
-                <DropdownReTweet
-                  citeTweet={() => setPopupCiteTweet(true)}
-                  closePopup={() => toggleShowDropdownRetweet()}
-                />
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  {/* <DropdownReTweet
+                    reTweet={() => toggleShowDropdownRetweet(tweet?._id)}
+                    citeTweet={() => setPopupCiteTweet(true)}
+                    closePopup={() => toggleShowDropdownRetweet()}
+                  /> */}
+                </div>
               )}
 
               <Tippy
@@ -199,9 +289,16 @@ export default function TweetCard({ tweet }) {
                   ) : (
                     <i className="far fa-heart" />
                   )}
-                  <p style={{ marginLeft: "5px", fontSize: "14px" }}>
-                    {tweet.Likes.length}
-                  </p>
+                  {tweet.Type === "RePost" ? (
+                    <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                      {tweet.OriginalPostData?.Likes?.length}
+                    </p>
+                  ) : (
+                    <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                      {" "}
+                      {tweet?.Likes?.length}
+                    </p>
+                  )}
                 </div>
               </Tippy>
 
@@ -216,9 +313,16 @@ export default function TweetCard({ tweet }) {
                   onClick={() => handleLike()}
                 >
                   <i class="fas fa-chart-bar" />
-                  <p style={{ marginLeft: "5px", fontSize: "14px" }}>
-                    {tweet.Likes.length}
-                  </p>
+                  {tweet.Type === "RePost" ? (
+                    <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                      {tweet.OriginalPostData?.Likes?.length}
+                    </p>
+                  ) : (
+                    <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                      {" "}
+                      {/* {tweet?.Likes?.length} */}
+                    </p>
+                  )}
                 </div>
               </Tippy>
             </div>
