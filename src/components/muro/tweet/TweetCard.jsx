@@ -125,16 +125,29 @@ export default function TweetCard({ tweet }) {
           className="tweetcard-container"
         >
           <div className="tweetcard-avatar">
-            <img
-              style={{
-                width: "40px",
-                borderRadius: "100px",
-                position: "relative",
-                left: "-10px",
-              }}
-              src={tweet.UserInfo.Avatar}
-              alt={`${tweet.UserInfo.NameUser} avatar`}
-            />
+            {tweet.Type === "RePost" ? (
+              <img
+                style={{
+                  width: "40px",
+                  borderRadius: "100px",
+                  position: "relative",
+                  left: "-10px",
+                }}
+                src={tweet.OriginalPostData.UserInfo.Avatar}
+                alt={`${tweet.OriginalPostData.UserInfo.NameUser} avatar`}
+              />
+            ) : (
+              <img
+                style={{
+                  width: "40px",
+                  borderRadius: "100px",
+                  position: "relative",
+                  left: "-10px",
+                }}
+                src={tweet.UserInfo.Avatar}
+                alt={`${tweet.UserInfo.NameUser} avatar`}
+              />
+            )}
           </div>
 
           <div className="tweetcard-primary">
