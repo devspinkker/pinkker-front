@@ -96,6 +96,23 @@ export async function updateModChat(token, streamInfo) {
 		console.log(error);
 	}
 }
+export async function updateModChatSlowModeAxios(token, second) {
+	try {
+		const response = await axios.post(
+			`${baseURL}/stream/updateModChatSlowMode`,
+			{ ModSlowMode: second },
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		return response.data;
+
+	} catch (error) {
+		console.log(error);
+	}
+}
 // Función para obtener streams en línea
 export async function GetAllsStreamsOnline(page) {
 	try {

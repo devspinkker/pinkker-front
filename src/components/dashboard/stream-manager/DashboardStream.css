@@ -482,3 +482,14 @@
 .creator-actions-item>span {
     padding: 10px;
 }
+
+.menuModChatSlowMode {
+    display: flex;
+    padding: 16px;
+}
+
+
+.SecondModChatSlowModeInput {
+    display: flex;
+    z-index: 100000000;
+}

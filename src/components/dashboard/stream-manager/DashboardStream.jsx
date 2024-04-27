@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import "./DashboardStream.css";
 import { ChatStreaming } from "./chat/ChatStreaming";
 import { getUserByIdTheToken } from "../../../services/backGo/user";
-import { getStreamById, updateModChat } from "../../../services/backGo/streams";
+import {
+  getStreamById,
+  updateModChat,
+  updateModChatSlowModeAxios,
+} from "../../../services/backGo/streams";
 import { getCategorieByName } from "../../../services/categories";
 import { getStream } from "../../../services/stream";
 import ReactFlvPlayer from "../../../player/PlayerMain";
@@ -25,6 +29,7 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
   const [QuickActionShow, setQuickActionSHow] = useState(true);
   const [ChatOnliFollowers, setChatOnliFollowers] = useState(false);
   const [ChatOnliSubs, setChatOnliSubs] = useState(false);
+  const [SecondModChatSlowMode, SetSecondModChatSlowMode] = useState(null);
 
   const toggleChatOnliSubs = async () => {
     let token = window.localStorage.getItem("token");
@@ -39,7 +44,21 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
     }
     setChatOnliSubs(!ChatOnliSubs);
   };
+  const [menuModChatSlowMode, setModChatSlowMode] = useState(false);
+  const togglemenuModChatSlowMode = () => {
+    setModChatSlowMode(!menuModChatSlowMode);
+  };
 
+  const updateModChatSlowMode = async (second) => {
+    const secondsInt = parseInt(second, 10);
+    let token = window.localStorage.getItem("token");
+    if (token) {
+      const res = await updateModChatSlowModeAxios(token, secondsInt);
+      if (res?.message === "ok") {
+        SetSecondModChatSlowMode(secondsInt);
+      }
+    }
+  };
   const toggleChatOnliFollowers = async () => {
     let token = window.localStorage.getItem("token");
     if (token && ChatOnliFollowers) {
@@ -89,7 +108,11 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
           setChatOnliSubs(false);
         }
       }
-
+      if (dataStreamer.data?.ModSlowMode) {
+        SetSecondModChatSlowMode(dataStreamer.data?.ModSlowMode);
+      } else {
+        SetSecondModChatSlowMode(0);
+      }
       const res = await getStream(token);
       if (res != null && res != undefined) {
         setStream(res);
@@ -858,11 +881,80 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                   <span>Modo lento</span>
                   <div className="flex flex-row items-center gap-2">
                     <div id="base-toggle-wrapper" className="toggle-size-sm">
-                      <div className="base-toggle">
-                        <div className="base-toggle-indicator"></div>
+                      <div
+                        className="base-toggle"
+                        onClick={() => {
+                          togglemenuModChatSlowMode();
+                        }}
+                      >
+                        <div
+                          style={{
+                            left: menuModChatSlowMode && "16.4px",
+                            background: menuModChatSlowMode && "#53fc18",
+                          }}
+                          className="base-toggle-indicator"
+                        ></div>
                       </div>
                     </div>
                   </div>
+                </div>
+                <div>
+                  {menuModChatSlowMode && (
+                    <div className="dropdown-menu">
+                      {[2, 5, 7, 15, 20, 60].map((seconds) => (
+                        <div
+                          key={seconds}
+                          className=" menuModChatSlowMode"
+                          onClick={() => updateModChatSlowMode(seconds)}
+                        >
+                          <div>
+                            <span
+                              style={{
+                                padding: "10px",
+                              }}
+                            >
+                              {seconds}
+                            </span>
+                            <span>segundos</span>
+                          </div>
+                          <div
+                            className="toggle-size-sm"
+                            onClick={() => updateModChatSlowMode(seconds)}
+                          ></div>
+                          <div className="base-toggle">
+                            <div
+                              className="base-toggle-indicator"
+                              style={{
+                                left:
+                                  SecondModChatSlowMode === seconds && "16.4px",
+                                background:
+                                  SecondModChatSlowMode === seconds &&
+                                  "#53fc18",
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+                      ))}
+                      <div className="SecondModChatSlowModeInput">
+                        <input
+                          type="number"
+                          placeholder="Escriba un tiempo en segundos"
+                          value={SecondModChatSlowMode}
+                          onChange={(e) => {
+                            SetSecondModChatSlowMode(e.target.value);
+                          }}
+                          min="1"
+                        />
+                        <button
+                          onClick={() =>
+                            updateModChatSlowMode(SecondModChatSlowMode)
+                          }
+                        >
+                          Confirmar
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="channel-actions-item">
                   <span>Chat de solo-emotes</span>
