@@ -461,7 +461,7 @@ export function ChatStreaming({
     e.preventDefault();
     sendMessage();
   };
-
+  const [Modolento, setModolento] = useState(null);
   const sendMessage = async () => {
     setMessage("");
     if (
@@ -485,6 +485,12 @@ export function ChatStreaming({
           { message },
           config
         );
+        const currentDate = new Date();
+        const newDate = new Date(
+          currentDate.getTime() + streamerChat.ModSlowMode * 1000
+        );
+
+        setModolento(newDate);
       } catch (error) {
         console.log(error);
       }
@@ -506,6 +512,15 @@ export function ChatStreaming({
           { message },
           config
         );
+        const currentDate = new Date();
+        const newDate = new Date(
+          currentDate.getTime() + streamerChat.ModSlowMode * 1000
+        );
+
+        console.log(currentDate);
+        console.log(newDate);
+
+        setModolento(newDate);
       } catch (error) {
         console.log(error);
       }
@@ -531,6 +546,10 @@ export function ChatStreaming({
     } else {
       return "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/SUBSCRIPTOR.jpg_pxzloq.png";
     }
+  };
+  const countdownSeconds = () => {
+    const difference = (Modolento - new Date()) / 1000;
+    return Math.floor(difference);
   };
 
   const [GetUserTheChatFollowing, setGetUserTheChatFollowing] = useState(false);
@@ -1021,12 +1040,20 @@ export function ChatStreaming({
         {streamerChat?.ModChat === "Following" &&
           (followParam || FollowParamOwnner) && (
             <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-              <input
-                type="text"
-                value={message}
-                placeholder="Enviar un mensaje"
-                onChange={handleChange}
-              />
+              {Modolento >= new Date() ? (
+                <input
+                  type="text"
+                  value={message}
+                  placeholder={`Faltan ${countdownSeconds()} segundos`}
+                />
+              ) : (
+                <input
+                  type="text"
+                  value={message}
+                  placeholder="Enviar un mensaje"
+                  onChange={handleChange}
+                />
+              )}
             </form>
           )}
         {streamerChat?.ModChat === "Following" &&
@@ -1064,12 +1091,20 @@ export function ChatStreaming({
           )}
         {streamerChat?.ModChat === "Subscriptions" && SubStateAct && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={message}
-              placeholder="Enviar un mensaje"
-              onChange={handleChange}
-            />
+            {Modolento >= new Date() ? (
+              <input
+                type="text"
+                value={message}
+                placeholder={`Faltan ${countdownSeconds()} segundos`}
+              />
+            ) : (
+              <input
+                type="text"
+                value={message}
+                placeholder="Enviar un mensaje"
+                onChange={handleChange}
+              />
+            )}
           </form>
         )}
         {streamerChat?.ModChat === "Subscriptions" && !SubStateAct && (
@@ -1105,12 +1140,20 @@ export function ChatStreaming({
         )}
         {streamerChat?.ModChat === "" && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={message}
-              placeholder="Enviar un mensaje"
-              onChange={handleChange}
-            />
+            {Modolento >= new Date() ? (
+              <input
+                type="text"
+                value={message}
+                placeholder={`Faltan ${countdownSeconds()} segundos`}
+              />
+            ) : (
+              <input
+                type="text"
+                value={message}
+                placeholder="Enviar un mensaje"
+                onChange={handleChange}
+              />
+            )}
           </form>
         )}
         <div className="actions-chat">

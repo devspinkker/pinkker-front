@@ -299,7 +299,6 @@ export default function Channel({
       } else {
         setFollowParam(false);
       }
-
       const dataStream = await getStreamByUserName(streamer);
 
       if (dataStream != null && dataStream != undefined) {
@@ -368,11 +367,14 @@ export default function Channel({
     const fetchData = async () => {
       try {
         const dataStream = await getStreamByUserName(streamer);
-
-        if (stream?.ModChat !== dataStream?.data?.ModChat) {
+        if (
+          stream?.ModChat !== dataStream?.data?.ModChat ||
+          stream?.ModSlowMode !== dataStream?.data.ModSlowMode
+        ) {
           setStream((prevStream) => ({
             ...prevStream,
             ModChat: dataStream.data.ModChat,
+            ModSlowMode: dataStream?.data.ModSlowMode,
           }));
         }
         if (dataStream.data.online) {
