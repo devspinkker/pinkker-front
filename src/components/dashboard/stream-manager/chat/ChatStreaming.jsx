@@ -635,6 +635,41 @@ export function ChatStreaming({
       alert({ type: "ERROR" });
     }
   };
+  function parseMessage(message) {
+    const urlRegex = /(https?:\/\/\S+)/g;
+    const parts = message.split(urlRegex);
+
+    return parts.map((part, index) => {
+      if (part.match(urlRegex)) {
+        return (
+          <a
+            key={index}
+            href={part}
+            target="_blank"
+            style={{
+              color: "inherit",
+              textDecoration: "inherit",
+              borderBottom: "1px solid #ffff",
+              padding: "0px",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
+  }
+
+  function isValidURL(string) {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
   return (
     <div
       className="ChatStreaming"
@@ -969,9 +1004,9 @@ export function ChatStreaming({
                       color: message.Color,
                     }}
                   >
-                    {message.nameUser}:
+                    {message.nameUser}:{" "}
                     <span style={{ color: "#ffff" }}>
-                      {" " + message.message}
+                      {parseMessage(message.message)}
                     </span>
                   </p>
                 </div>
@@ -1025,9 +1060,9 @@ export function ChatStreaming({
                       color: message.Color,
                     }}
                   >
-                    {message.nameUser}:
+                    {message.nameUser}:{" "}
                     <span style={{ color: "#ffff" }}>
-                      {" " + message.message}
+                      {parseMessage(message.message)}
                     </span>
                   </p>
                 </div>
