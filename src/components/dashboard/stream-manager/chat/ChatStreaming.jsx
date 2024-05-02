@@ -6,6 +6,8 @@ import "./ChatStreaming.css";
 import DonationCard from "../../../channel/chat/donation/card/DonationCard";
 import { GetPixelesDonationsChat } from "../../../../services/backGo/donation";
 import Donation from "../../../channel/chat/donation/card/Donation";
+import { BsFillTrashFill } from "react-icons/bs";
+
 import {
   GetSubsAct,
   GetSubssChat,
@@ -625,6 +627,8 @@ export function ChatStreaming({
 
   const [GetUserTheChatFollowing, setGetUserTheChatFollowing] = useState(false);
   const [InfoUserChatSelect, setInfoUserChatSelect] = useState({});
+  const [followingFrom, setFollowingFrom] = useState(null);
+
   const GetUserTheChatFunc = async (message) => {
     setInfoUserChatSelect(message);
     console.log(message);
@@ -632,8 +636,10 @@ export function ChatStreaming({
     if (res.message == "ok") {
       setGetUserTheChat(res.data);
 
+      console.log(res.data);
       setShowGetUserTheChat(true);
       if (user?.Following.hasOwnProperty(res?.data.id)) {
+        setFollowingFrom(res.data?.Following[`${res.data.id}`]?.since);
         setGetUserTheChatFollowing(true);
       }
     }
@@ -871,8 +877,43 @@ export function ChatStreaming({
               </Link>
               <div className="ShowGetUserTheChat-InfoUser-gsd">
                 <Link to={"/" + GetUserTheChat?.NameUser}>
-                  <span>{GetUserTheChat?.NameUser}</span>
+                  <span
+                    style={{
+                      fontFamily: "inter",
+                      fontSize: "0.875rem",
+                      lineHeight: "1.25rem",
+                      fontWeight: "700",
+                    }}
+                  >
+                    {GetUserTheChat?.NameUser}
+                  </span>
                 </Link>
+                {GetUserTheChatFollowing && (
+                  <div className="followingFrom">
+                    <span
+                      style={{
+                        fontFamily: "inter",
+                        fontSize: "0.675rem",
+                        lineHeight: "1.25rem",
+                        fontWeight: "700",
+                      }}
+                    >
+                      Siguido desde
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "inter",
+                        fontSize: "0.875rem",
+                        lineHeight: "1.25rem",
+                        fontWeight: "700",
+                      }}
+                    >
+                      {followingFrom && (
+                        <p>{new Date(followingFrom).toLocaleDateString()}</p>
+                      )}
+                    </span>
+                  </div>
+                )}
               </div>
               <span
                 className="ShowGetUserTheChat-InfoUser-gsd-x"
@@ -1027,7 +1068,7 @@ export function ChatStreaming({
                     }
                     className="ShowGetUserTheChat-actions-Moderator-vip"
                   >
-                    <span>quitar Moderator</span>
+                    <span>sacar Mod</span>
                   </div>
                 )}
               </div>
@@ -1091,7 +1132,9 @@ export function ChatStreaming({
                       deleteMessageschat(message);
                     }}
                   >
-                    <button className="hover-btn">delete</button>
+                    <button className="hover-btn">
+                      <BsFillTrashFill />
+                    </button>
                   </div>
                 )}
             </div>
@@ -1161,7 +1204,9 @@ export function ChatStreaming({
                       deleteMessageschat(message);
                     }}
                   >
-                    <button className="hover-btn">delete</button>
+                    <button className="hover-btn">
+                      <BsFillTrashFill />
+                    </button>
                   </div>
                 )}
             </div>
