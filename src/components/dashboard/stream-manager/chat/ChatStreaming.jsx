@@ -23,6 +23,7 @@ import {
   GetInfoUserInRoomFunc,
   actionsChatStream,
   actionsModeratorChatStream,
+  deleteChatMessage,
 } from "../../../../services/backGo/chat";
 import { useNotification } from "../../../Notifications/NotificationProvider";
 export function ChatStreaming({
@@ -122,6 +123,67 @@ export function ChatStreaming({
       }
     };
   }, [history]);
+  useEffect(() => {
+    if (isMobile) {
+      ToggleChat(false);
+    }
+
+    const token = window.localStorage.getItem("token");
+    const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
+    const newSocket = new WebSocket(
+      `${REACT_APP_BACKCHATWS}/ws/notifications/deleteMessages/${streamerChat.id}`
+    );
+    const connectWebSocket = () => {
+      newSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+      newSocket.onmessage = (event) => {
+        try {
+          const receivedMessage = JSON.parse(event.data);
+          newSocket.send("onmessage");
+          console.log(receivedMessage);
+          if (
+            receivedMessage.action === "message_deleted" &&
+            typeof receivedMessage.message_id === "string"
+          ) {
+            deleteMessages(receivedMessage);
+          }
+        } catch (error) {
+          console.error("Error al analizar el mensaje JSON:", error);
+        }
+      };
+
+      newSocket.onopen = () => {};
+      setSocket(newSocket);
+
+      window.addEventListener("beforeunload", () => {
+        newSocket.send("closing");
+        newSocket.close();
+      });
+    };
+
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+      connectWebSocket();
+    }
+    return () => {
+      if (newSocket && newSocket.readyState === WebSocket.OPEN) {
+        newSocket.close();
+      }
+    };
+  }, [history]);
+  function deleteMessages(receivedMessage) {
+    console.log(messages);
+    setMessages((prevMessages) =>
+      prevMessages.filter(
+        (message) => message.Id !== receivedMessage.message_id
+      )
+    );
+    setMessageold((prevMessages) =>
+      prevMessages.filter(
+        (message) => message.Id !== receivedMessage.message_id
+      )
+    );
+  }
   useEffect(() => {
     const fetchGetSubsAct = async () => {
       const res = await GetSubsAct(user?.id, streamerData?.id);
@@ -245,6 +307,15 @@ export function ChatStreaming({
       setMovil(false);
     }
   }, []);
+  const deleteMessageschat = (msj) => {
+    const token = window.localStorage.getItem("token");
+    if (!token) {
+      alert("no logueado");
+      return;
+    }
+    const res = deleteChatMessage(streamerChat.id, msj.Id, token);
+    console.log(res);
+  };
   const getDonationSubscriptionCard = (donationsSubscriptions) => {
     return (
       <div
@@ -976,16 +1047,16 @@ export function ChatStreaming({
             <div className="MessagesChat">
               <div className="badges">
                 {message.EmotesChat.Moderator && (
-                  <img src={message.EmotesChat.Moderator} alt="Moderator" />
+                  <img src={message.EmotesChat.Moderator} alt="" />
                 )}
                 {message.EmotesChat.Verified && (
-                  <img src={message.EmotesChat.Verified} alt="Verified" />
+                  <img src={message.EmotesChat.Verified} alt="" />
                 )}
                 {message.EmotesChat.Vip && (
-                  <img src={message.EmotesChat.Vip} alt="Vip" />
+                  <img src={message.EmotesChat.Vip} alt="" />
                 )}
                 {isSubscriptor(message) && (
-                  <img src={isSubscriptor(message)} alt="iubscriptor" />
+                  <img src={isSubscriptor(message)} alt="" />
                 )}
                 {message?.StreamerChannelOwner && (
                   <img
@@ -1000,9 +1071,7 @@ export function ChatStreaming({
                 <div className="content-info-message-2">
                   <p
                     className="content-info-message-2-nameUser"
-                    style={{
-                      color: message.Color,
-                    }}
+                    style={{ color: message.Color }}
                   >
                     {message.nameUser}:{" "}
                     <span style={{ color: "#ffff" }}>
@@ -1011,6 +1080,20 @@ export function ChatStreaming({
                   </p>
                 </div>
               </div>
+              {GetInfoUserInRoom &&
+                (GetInfoUserInRoom.Moderator ||
+                  streamerChat.streamerId ==
+                    window.localStorage.getItem("_id")) && (
+                  <div
+                    className="hover-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteMessageschat(message);
+                    }}
+                  >
+                    <button className="hover-btn">delete</button>
+                  </div>
+                )}
             </div>
           </div>
         ))}
@@ -1067,6 +1150,20 @@ export function ChatStreaming({
                   </p>
                 </div>
               </div>
+              {GetInfoUserInRoom &&
+                (GetInfoUserInRoom.Moderator ||
+                  streamerChat.streamerId ==
+                    window.localStorage.getItem("_id")) && (
+                  <div
+                    className="hover-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteMessageschat(message);
+                    }}
+                  >
+                    <button className="hover-btn">delete</button>
+                  </div>
+                )}
             </div>
           </div>
         ))}

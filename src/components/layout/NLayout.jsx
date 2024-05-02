@@ -16,7 +16,11 @@ import { BsChatDots, BsChatSquareText, BsWallet } from "react-icons/bs";
 import { CgTennis } from "react-icons/cg";
 import { ImDice } from "react-icons/im";
 import { AiOutlineSetting } from "react-icons/ai";
-import { IoIosArrowDown, IoIosArrowUp, IoMdNotificationsOutline } from "react-icons/io";
+import {
+  IoIosArrowDown,
+  IoIosArrowUp,
+  IoMdNotificationsOutline,
+} from "react-icons/io";
 import { TfiWallet } from "react-icons/tfi";
 import { AiOutlineUser } from "react-icons/ai";
 import { LiaSlidersHSolid } from "react-icons/lia";
@@ -70,30 +74,28 @@ function NLayout(props) {
   const [esClick, setEsClick] = useState(false);
   const habilitarSubMenu = (valor, e) => {
     if (e?.type === "click") {
-      setEsClick(true)
+      setEsClick(true);
     } else {
-      setEsClick(false)
-
+      setEsClick(false);
     }
 
     setTimeout(() => {
       setSubMenu(valor);
-
-    }, [100])
-  }
+    }, [100]);
+  };
 
   useEffect(() => {
     // Función para manejar el clic en cualquier parte de la página
     const handleClickOutside = () => {
-      setSubMenu(false); // Cambiar el estado a false cuando se hace clic fuera del área deseada  
+      setSubMenu(false); // Cambiar el estado a false cuando se hace clic fuera del área deseada
     };
 
     // Agregar un event listener para escuchar clics en el documento
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
 
     // Limpiar el event listener en la fase de limpieza de useEffect
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
@@ -107,9 +109,8 @@ function NLayout(props) {
   const [expandCartera, setExpandCartera] = useState(false);
 
   const handleExpandCartera = () => {
-
     setExpandCartera(!expandCartera);
-  }
+  };
 
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const [urlCat, setUrlCat] = useState();
@@ -119,15 +120,14 @@ function NLayout(props) {
     };
 
     // Agrega un event listener para detectar cambios en la ubicación
-    window.addEventListener('popstate', handleLocationChange);
-    setUrlCat(currentPath?.includes('/categorie/'));
+    window.addEventListener("popstate", handleLocationChange);
+    setUrlCat(currentPath?.includes("/categorie/"));
 
     // Limpia el event listener cuando el componente se desmonta
     return () => {
-      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener("popstate", handleLocationChange);
     };
   }, []);
-
 
   const getNavDesktop = () => {
     return (
@@ -341,7 +341,10 @@ function NLayout(props) {
           <Grid>
             <Grid
               className="pixel-li"
-              style={{ transition: 'all 1s ease', animation: !props.tyExpanded && "ease-in-out 1s linear" }}
+              style={{
+                transition: "all 1s ease",
+                animation: !props.tyExpanded && "ease-in-out 1s linear",
+              }}
             >
               <div
                 className={
@@ -355,7 +358,7 @@ function NLayout(props) {
                     className="pixel-coming-soon-navbarLeft-img-pixel"
                     style={{
                       width: "36px",
-                      padding: '5px'
+                      padding: "5px",
                     }}
                     src="/images/pixel.png"
                   />
@@ -363,7 +366,9 @@ function NLayout(props) {
                 {props.tyExpanded && (
                   <div className="pixel-coming-soon-text-container">
                     <div className="pixel-coming-soon-text">
-                      <span className="pixel-coming-soon-text-pixel">Pixel</span>
+                      <span className="pixel-coming-soon-text-pixel">
+                        Pixel
+                      </span>
                       <span className="pixel-coming-soon-text-pxl">(PXL)</span>
                     </div>
                     <span className="pixel-coming-soon-navbarLeft-Comming-soon">
@@ -524,7 +529,6 @@ function NLayout(props) {
                         fontFamily: "Inter",
                         fontWeight: "600",
                         fontSize: "13px",
-
                       }}
                     >
                       CANALES RECOMENDADOS
@@ -539,7 +543,9 @@ function NLayout(props) {
                         transition: "all 0.5s ",
                       }}
                       class={
-                        props.abrir ? "fas fa-chevron-down" : "fas fa-chevron-up"
+                        props.abrir
+                          ? "fas fa-chevron-down"
+                          : "fas fa-chevron-up"
                       }
                       onClick={() => cerrarCanalesRecomendados()}
                     />
@@ -640,7 +646,9 @@ function NLayout(props) {
                   alt=""
                 />
               </Link>
-              <Grid style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <Grid
+                style={{ display: "flex", alignItems: "center", gap: "5px" }}
+              >
                 <h6
                   onClick={() => togglePopupAuth(0)}
                   className="button-navbar-login"
@@ -682,10 +690,9 @@ function NLayout(props) {
                 <div
                   style={{
                     display: "flex",
-                    gap: '5px'
+                    gap: "5px",
                   }}
                 >
-
                   <div
                     style={{
                       // width: "500px",
@@ -693,12 +700,23 @@ function NLayout(props) {
                       justifyContent: "flex-end",
                     }}
                     className="button-purchase-pixels"
-
                     onClick={() => handleExpandCartera()}
                   >
-                    <button style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Grid style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '50%' }}>
-
+                    <button
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Grid
+                        style={{
+                          display: "flex",
+                          gap: "5px",
+                          alignItems: "center",
+                          width: "50%",
+                        }}
+                      >
                         <img
                           style={{
                             width: props.isMobile ? "25px" : "17px",
@@ -706,94 +724,126 @@ function NLayout(props) {
                           src="/images/usdt.svg"
                           alt=""
                         />{" "}
-                        <span style={{ fontSize: '14px' }}>{props.user?.Pixeles != 0 ? props.user?.Pixeles : "0.0000000"}</span>
+                        <span style={{ fontSize: "14px" }}>
+                          {props.user?.Pixeles != 0
+                            ? props.user?.Pixeles
+                            : "0.0000000"}
+                        </span>
                       </Grid>
 
-                      {expandCartera ?
-                        <IoIosArrowUp />
-                        :
-                        <IoIosArrowDown />
-
-                      }
+                      {expandCartera ? <IoIosArrowUp /> : <IoIosArrowDown />}
                     </button>
                   </div>
-                  {
-                    expandCartera &&
-
-                    <Grid className="expandedCartera" style={{ backgroundColor: '#202329', zIndex: '9999999', position: 'fixed', width: '10.5%', top: '9.5%', borderRadius: '5px', color: 'white', paddingTop: '10px', paddingBottom: '10px' }} onClick={() => handleExpandCartera()}>
-
-                      <Grid style={{ borderTop: '1px solid #343843', borderBottom: '1px solid #343843', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} className="moneda">
-                        <Grid style={{ display: 'flex', gap: '5px', alignItems: 'center', padding: '10px' }}>
-                          <img src="/images/pixel.png" style={{ width: '30%' }} />
+                  {expandCartera && (
+                    <Grid
+                      className="expandedCartera"
+                      style={{
+                        backgroundColor: "#202329",
+                        zIndex: "9999999",
+                        position: "fixed",
+                        width: "10.5%",
+                        top: "9.5%",
+                        borderRadius: "5px",
+                        color: "white",
+                        paddingTop: "10px",
+                        paddingBottom: "10px",
+                      }}
+                      // onClick={() => handleExpandCartera()}
+                    >
+                      <Grid
+                        style={{
+                          borderTop: "1px solid #343843",
+                          borderBottom: "1px solid #343843",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                        className="moneda"
+                      >
+                        <Grid
+                          style={{
+                            display: "flex",
+                            gap: "5px",
+                            alignItems: "center",
+                            padding: "10px",
+                          }}
+                        >
+                          <img
+                            src="/images/pixel.png"
+                            style={{ width: "30%" }}
+                          />
                           <Typography>PXL</Typography>
+                          <DropdownPurchase />
                         </Grid>
-                        <span style={{ fontSize: '14px', padding: '10px' }}>{props.user?.Pixeles != 0 ? props.user?.Pixeles : "0.0000000"}</span>
-
+                        <span style={{ fontSize: "14px", padding: "10px" }}>
+                          {props.user?.Pixeles != 0
+                            ? props.user?.Pixeles
+                            : "0.0000000"}
+                        </span>
                       </Grid>
-
                     </Grid>
-                  }
+                  )}
 
                   <Link to="/plataform/cartera">
                     <button
                       style={{
                         borderRadius: "5px",
                         fontFamily: "inter",
-                        display: 'flex',
+                        display: "flex",
                         alignItems: "center",
-                        gap: '5px'
+                        gap: "5px",
                       }}
                       className="boton-comprar"
                     >
                       <BsWallet />
-                      <Typography style={{ fontSize: '14px' }}>Comprar </Typography>
+                      <Typography style={{ fontSize: "14px" }}>
+                        Comprar{" "}
+                      </Typography>
                     </button>
                   </Link>
-
                 </div>
               </Grid>
 
               <Grid>
-                <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-
+                <Grid
+                  style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
                   <div className="navbar-image-avatar-container">
-
                     <div
                       style={{
                         width: "40px",
-                        background: '#2a2e38',
+                        background: "#2a2e38",
                         position: "relative",
                         left: "  ",
                         top: "2px",
                       }}
                       className="navbar-image-avatar"
-
                     >
                       {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
-                      <IoMdNotificationsOutline style={{ fontSize: '20px', color: 'white' }} />
+                      <IoMdNotificationsOutline
+                        style={{ fontSize: "20px", color: "white" }}
+                      />
                     </div>
-
                   </div>
                   <div className="navbar-image-avatar-container">
-
                     <div
                       style={{
                         width: "40px",
-                        background: '#2a2e38',
+                        background: "#2a2e38",
                         position: "relative",
                         left: "  ",
                         top: "2px",
                       }}
                       className="navbar-image-avatar"
-
                     >
                       {/* <img src={"/images/iconos/mensaje.png"} alt="" style={{ width: '60%' }} /> */}
-                      <BsChatDots style={{ fontSize: '20px', color: 'white' }} />
+                      <BsChatDots
+                        style={{ fontSize: "20px", color: "white" }}
+                      />
                     </div>
-
                   </div>
                   <div className="navbar-image-avatar-container">
-
                     <div
                       style={{
                         width: "40px",
@@ -805,22 +855,40 @@ function NLayout(props) {
                       }}
                       className="navbar-image-avatar"
                       onClick={(e) => habilitarSubMenu(true, e)}
-                      onMouseEnter={esClick ? console.log('activo') : () => habilitarSubMenu(true)}
-                      onMouseLeave={esClick ? console.log('activo') : () => habilitarSubMenu(false)}
+                      onMouseEnter={
+                        esClick
+                          ? console.log("activo")
+                          : () => habilitarSubMenu(true)
+                      }
+                      onMouseLeave={
+                        esClick
+                          ? console.log("activo")
+                          : () => habilitarSubMenu(false)
+                      }
                     >
-                      <img src={props.user?.Avatar ?? "/images/pixel.png"} alt="" />
+                      <img
+                        src={props.user?.Avatar ?? "/images/pixel.png"}
+                        alt=""
+                      />
                     </div>
-
                   </div>
                 </Grid>
 
                 {subMenu && (
                   <Grid
-                    onMouseEnter={esClick ? console.log('activo') : () => habilitarSubMenu(true)}
-                    onMouseLeave={esClick ? console.log('activo') : () => habilitarSubMenu(false)}
+                    onMouseEnter={
+                      esClick
+                        ? console.log("activo")
+                        : () => habilitarSubMenu(true)
+                    }
+                    onMouseLeave={
+                      esClick
+                        ? console.log("activo")
+                        : () => habilitarSubMenu(false)
+                    }
                     style={{
                       backgroundColor: "#121418",
-                      border: '1px solid #343843',
+                      border: "1px solid #343843",
                       position: "absolute",
                       padding: "1rem",
                       width: "16.25rem",
@@ -844,7 +912,6 @@ function NLayout(props) {
                           alignItems: "center",
                           gap: "15px",
                           padding: 10,
-
                         }}
                       >
                         <img
@@ -856,8 +923,13 @@ function NLayout(props) {
                             borderRadius: "50%",
                           }}
                         />
-                        <Grid style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
-
+                        <Grid
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "1px",
+                          }}
+                        >
                           <Link
                             style={{
                               textDecoration: "none",
@@ -870,18 +942,24 @@ function NLayout(props) {
                               style={{
                                 color: "white",
                                 fontSize: "1rem",
-                                fontFamily: 'Inter',
+                                fontFamily: "Inter",
                                 fontWeight: 600,
                               }}
                             >
                               {props.user?.NameUser ?? "Usuario"}
                             </Typography>
                           </Link>
-                          <Typography style={{ color: 'white', fontSize: '12px', fontFamily: 'Inter' }}>0 seguidores</Typography>
+                          <Typography
+                            style={{
+                              color: "white",
+                              fontSize: "12px",
+                              fontFamily: "Inter",
+                            }}
+                          >
+                            0 seguidores
+                          </Typography>
                         </Grid>
                       </Grid>
-
-
                     </Grid>
 
                     <Grid
@@ -891,10 +969,8 @@ function NLayout(props) {
                         alignItems: "flex-start",
                         gap: "15px",
                         marginTop: "15px",
-
                       }}
                     >
-
                       <Link
                         className="dropdownaccount-link"
                         to={"/" + props.user.NameUser}
@@ -904,12 +980,9 @@ function NLayout(props) {
                           alignItems: "center",
                         }}
                       >
-
                         <AiOutlineUser style={{ marginRight: "10px" }} />
                         Tu canal
                       </Link>
-
-
 
                       <Link
                         className="dropdownaccount-link"
@@ -920,12 +993,11 @@ function NLayout(props) {
                           alignItems: "center",
                         }}
                       >
-
-                        <LiaSlidersHSolid style={{ marginRight: "10px", fontSize: '24px' }} />
+                        <LiaSlidersHSolid
+                          style={{ marginRight: "10px", fontSize: "24px" }}
+                        />
                         Panel de control del creador
                       </Link>
-
-
 
                       <Link
                         className="dropdownaccount-link"
@@ -936,7 +1008,6 @@ function NLayout(props) {
                           alignItems: "center",
                         }}
                       >
-
                         <TfiWallet style={{ marginRight: "10px" }} />
                         Cartera
                       </Link>
@@ -952,18 +1023,14 @@ function NLayout(props) {
                       >
                         <AiOutlineSetting style={{ marginRight: "10px" }} />
                         Configuración
-
                       </Link>
                       <div
                         className="dropdownaccount-link"
                         onClick={() => handleLogout()}
                       >
-
                         <TbLogout2 style={{ marginRight: "10px" }} />
                         Cerrar sesión
                       </div>
-
-
                     </Grid>
                   </Grid>
                 )}
@@ -984,20 +1051,22 @@ function NLayout(props) {
           </Grid>
           {/* FOOTER */}
 
-
-          <Grid style={{
-            width: '103%',
-            display: "flex",
-            flexDirection: "column",
-            padding: "1.3rem 5rem",
-            zIndex: 99999,
-            backgroundColor: "rgb(18, 20, 24)",
-            gap: '2rem',
-            position: "relative",
-            bottom: 0
-          }}>
-            <Grid style={{ display: 'flex', alignItems: 'center', width: '98%' }}>
-
+          <Grid
+            style={{
+              width: "103%",
+              display: "flex",
+              flexDirection: "column",
+              padding: "1.3rem 5rem",
+              zIndex: 99999,
+              backgroundColor: "rgb(18, 20, 24)",
+              gap: "2rem",
+              position: "relative",
+              bottom: 0,
+            }}
+          >
+            <Grid
+              style={{ display: "flex", alignItems: "center", width: "98%" }}
+            >
               {/* COLUMNA LOGO */}
 
               <Grid style={{ width: "20%" }}>
@@ -1011,32 +1080,124 @@ function NLayout(props) {
               </Grid>
               {/* COLUMNA SUPPORT*/}
 
-              <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-                <Typography style={{ fontWeight: 800, fontSize: '1rem', textShadow: '0 1px 0 #000' }}>Support</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Live Support</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Help Center</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Game Responsibly</Typography>
+              <Grid
+                style={{
+                  display: "flex",
+                  alignItems: "flexStart",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  width: "20%",
+                  color: "white",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontWeight: 800,
+                    fontSize: "1rem",
+                    textShadow: "0 1px 0 #000",
+                  }}
+                >
+                  Support
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Live Support
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Help Center
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Game Responsibly
+                </Typography>
               </Grid>
               {/* COLUMNA PLATFORM*/}
-              <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-                <Typography style={{ fontWeight: 800, fontSize: '1rem', textShadow: '0 1px 0 #000' }}>Support</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Live Support</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Help Center</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Game Responsibly</Typography>
+              <Grid
+                style={{
+                  display: "flex",
+                  alignItems: "flexStart",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  width: "20%",
+                  color: "white",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontWeight: 800,
+                    fontSize: "1rem",
+                    textShadow: "0 1px 0 #000",
+                  }}
+                >
+                  Support
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Live Support
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Help Center
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Game Responsibly
+                </Typography>
               </Grid>
               {/* COLUMNA policy*/}
-              <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-                <Typography style={{ fontWeight: 800, fontSize: '1rem', textShadow: '0 1px 0 #000' }}>Support</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Live Support</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Help Center</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Game Responsibly</Typography>
+              <Grid
+                style={{
+                  display: "flex",
+                  alignItems: "flexStart",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  width: "20%",
+                  color: "white",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontWeight: 800,
+                    fontSize: "1rem",
+                    textShadow: "0 1px 0 #000",
+                  }}
+                >
+                  Support
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Live Support
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Help Center
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Game Responsibly
+                </Typography>
               </Grid>
               {/* COLUMNA cOMMUNITY*/}
-              <Grid style={{ display: 'flex', alignItems: 'flexStart', flexDirection: 'column', justifyContent: 'center', width: '20%', color: 'white' }}>
-                <Typography style={{ fontWeight: 800, fontSize: '1rem', textShadow: '0 1px 0 #000' }}>Support</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Live Support</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Help Center</Typography>
-                <Typography style={{ color: '#828998', fontFamily: 'Inter' }}>Game Responsibly</Typography>
+              <Grid
+                style={{
+                  display: "flex",
+                  alignItems: "flexStart",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  width: "20%",
+                  color: "white",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontWeight: 800,
+                    fontSize: "1rem",
+                    textShadow: "0 1px 0 #000",
+                  }}
+                >
+                  Support
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Live Support
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Help Center
+                </Typography>
+                <Typography style={{ color: "#828998", fontFamily: "Inter" }}>
+                  Game Responsibly
+                </Typography>
               </Grid>
               {/* COLUMNA cOMMUNITY*/}
               <Grid
@@ -1067,31 +1228,62 @@ function NLayout(props) {
               </Grid>
             </Grid>
 
-
-            <Grid style={{ width: '98%' }} >
-              <p style={{ color: '#828998', fontSize: '14px', fontFamily: 'Inter' }}>
-                Shuffle is owned and operated by Natural Nine B.V., Curaçao company registration number 160998, with its registered address at Fransche Bloemweg 4, Willemstad, Curaçao. Shuffle is authorized and regulated by the Government of Curaçao and operates under License No. 8048/JAZ issued to Antillephone. Shuffle’s payment agent company is River Card Limited, Cyprus company registration number HE 431566, with its registered address at 50 Spyrou Kyprianou Avenue, Irida Tower 3, Floor 6, 6057 Larnaca, Cyprus. Contact us at support@shuffle.com.
-
+            <Grid style={{ width: "98%" }}>
+              <p
+                style={{
+                  color: "#828998",
+                  fontSize: "14px",
+                  fontFamily: "Inter",
+                }}
+              >
+                Shuffle is owned and operated by Natural Nine B.V., Curaçao
+                company registration number 160998, with its registered address
+                at Fransche Bloemweg 4, Willemstad, Curaçao. Shuffle is
+                authorized and regulated by the Government of Curaçao and
+                operates under License No. 8048/JAZ issued to Antillephone.
+                Shuffle’s payment agent company is River Card Limited, Cyprus
+                company registration number HE 431566, with its registered
+                address at 50 Spyrou Kyprianou Avenue, Irida Tower 3, Floor 6,
+                6057 Larnaca, Cyprus. Contact us at support@shuffle.com.
               </p>
             </Grid>
 
-
-            <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '98%', borderTop: '1px solid gray', paddingTop: '20px', paddingBottom: '20px' }}>
-              <p style={{ color: '#828998', fontSize: '14px', fontFamily: 'Inter' }}>
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "98%",
+                borderTop: "1px solid gray",
+                paddingTop: "20px",
+                paddingBottom: "20px",
+              }}
+            >
+              <p
+                style={{
+                  color: "#828998",
+                  fontSize: "14px",
+                  fontFamily: "Inter",
+                }}
+              >
                 1 ETH = $3,561.37
               </p>
 
-              <p style={{ color: '#828998', fontSize: '14px', fontFamily: 'Inter' }}>
-
+              <p
+                style={{
+                  color: "#828998",
+                  fontSize: "14px",
+                  fontFamily: "Inter",
+                }}
+              >
                 © 2024 Pinkker.tv | All Rights Reserved
               </p>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-    )
-  }
-
+    );
+  };
 
   const getNavMobile = () => {
     return (
@@ -1112,11 +1304,7 @@ function NLayout(props) {
             }}
           >
             <Link to="/" style={{ width: "15%" }}>
-              <img
-                src="/images/pinkker.png"
-                style={{ width: "100%" }}
-                alt=""
-              />
+              <img src="/images/pinkker.png" style={{ width: "100%" }} alt="" />
             </Link>
             <Grid style={{ display: "flex", alignItems: "center", gap: "5px" }}>
               <h6
@@ -1149,22 +1337,17 @@ function NLayout(props) {
             }}
           >
             <Link to="/" style={{ width: "15%" }}>
-              <img
-                src="/images/pinkker.png"
-                style={{ width: "100%" }}
-                alt=""
-              />
+              <img src="/images/pinkker.png" style={{ width: "100%" }} alt="" />
             </Link>
 
             <Grid style={{ display: "flex", alignItems: "center" }}>
               <div
                 style={{
                   display: "flex",
-                  gap: '5px',
-                  alignItems: "center"
+                  gap: "5px",
+                  alignItems: "center",
                 }}
               >
-
                 <div
                   style={{
                     // width: "500px",
@@ -1172,12 +1355,23 @@ function NLayout(props) {
                     justifyContent: "flex-end",
                   }}
                   className="button-purchase-pixels"
-
                   onClick={() => handleExpandCartera()}
                 >
-                  <button style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Grid style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '50%' }}>
-
+                  <button
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Grid
+                      style={{
+                        display: "flex",
+                        gap: "5px",
+                        alignItems: "center",
+                        width: "50%",
+                      }}
+                    >
                       <img
                         style={{
                           width: props.isMobile ? "25px" : "17px",
@@ -1185,57 +1379,85 @@ function NLayout(props) {
                         src="/images/usdt.svg"
                         alt=""
                       />{" "}
-                      <span style={{ fontSize: '14px' }}>{props.user?.Pixeles != 0 ? props.user?.Pixeles : "0.0000000"}</span>
+                      <span style={{ fontSize: "14px" }}>
+                        {props.user?.Pixeles != 0
+                          ? props.user?.Pixeles
+                          : "0.0000000"}
+                      </span>
                     </Grid>
 
-                    {expandCartera ?
-                      <IoIosArrowUp />
-                      :
-                      <IoIosArrowDown />
-
-                    }
+                    {expandCartera ? <IoIosArrowUp /> : <IoIosArrowDown />}
                   </button>
                 </div>
-                {
-                  expandCartera &&
-
-                  <Grid className="expandedCartera" style={{ backgroundColor: '#202329', zIndex: '9999999', position: 'fixed', width: '30%', top: '7%', borderRadius: '5px', color: 'white', paddingTop: '10px', paddingBottom: '10px' }} onClick={() => handleExpandCartera()}>
-
-                    <Grid style={{ borderTop: '1px solid #343843', borderBottom: '1px solid #343843', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} className="moneda">
-                      <Grid style={{ display: 'flex', gap: '5px', alignItems: 'center', padding: '10px' }}>
-                        <img src="/images/pixel.png" style={{ width: '30%' }} />
+                {expandCartera && (
+                  <Grid
+                    className="expandedCartera"
+                    style={{
+                      backgroundColor: "#202329",
+                      zIndex: "9999999",
+                      position: "fixed",
+                      width: "30%",
+                      top: "7%",
+                      borderRadius: "5px",
+                      color: "white",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                    }}
+                    onClick={() => handleExpandCartera()}
+                  >
+                    <Grid
+                      style={{
+                        borderTop: "1px solid #343843",
+                        borderBottom: "1px solid #343843",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                      className="moneda"
+                    >
+                      <Grid
+                        style={{
+                          display: "flex",
+                          gap: "5px",
+                          alignItems: "center",
+                          padding: "10px",
+                        }}
+                      >
+                        <img src="/images/pixel.png" style={{ width: "30%" }} />
                         <Typography>PXL</Typography>
                       </Grid>
-                      <span style={{ fontSize: '14px', padding: '10px' }}>{props.user?.Pixeles != 0 ? props.user?.Pixeles : "0.0000000"}</span>
-
+                      <span style={{ fontSize: "14px", padding: "10px" }}>
+                        {props.user?.Pixeles != 0
+                          ? props.user?.Pixeles
+                          : "0.0000000"}
+                      </span>
                     </Grid>
-
                   </Grid>
-                }
+                )}
 
                 <Link to="/plataform/cartera">
                   <button
                     style={{
                       borderRadius: "5px",
                       fontFamily: "inter",
-                      display: 'flex',
+                      display: "flex",
                       alignItems: "center",
-                      gap: '5px'
+                      gap: "5px",
                     }}
                     className="boton-comprar"
                   >
                     <BsWallet />
-
                   </button>
                 </Link>
-
               </div>
             </Grid>
 
             <Grid>
-              <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Grid
+                style={{ display: "flex", alignItems: "center", gap: "10px" }}
+              >
                 <div className="navbar-image-avatar-container">
-
                   <div
                     style={{
                       width: "40px",
@@ -1247,26 +1469,44 @@ function NLayout(props) {
                     }}
                     className="navbar-image-avatar"
                     onClick={(e) => habilitarSubMenu(true, e)}
-                    onMouseEnter={esClick ? console.log('activo') : () => habilitarSubMenu(true)}
-                    onMouseLeave={esClick ? console.log('activo') : () => habilitarSubMenu(false)}
+                    onMouseEnter={
+                      esClick
+                        ? console.log("activo")
+                        : () => habilitarSubMenu(true)
+                    }
+                    onMouseLeave={
+                      esClick
+                        ? console.log("activo")
+                        : () => habilitarSubMenu(false)
+                    }
                   >
-                    <img src={props.user?.Avatar ?? "/images/pixel.png"} alt="" />
+                    <img
+                      src={props.user?.Avatar ?? "/images/pixel.png"}
+                      alt=""
+                    />
                   </div>
-
                 </div>
               </Grid>
 
               {subMenu && (
                 <Grid
-                  onMouseEnter={esClick ? console.log('activo') : () => habilitarSubMenu(true)}
-                  onMouseLeave={esClick ? console.log('activo') : () => habilitarSubMenu(false)}
+                  onMouseEnter={
+                    esClick
+                      ? console.log("activo")
+                      : () => habilitarSubMenu(true)
+                  }
+                  onMouseLeave={
+                    esClick
+                      ? console.log("activo")
+                      : () => habilitarSubMenu(false)
+                  }
                   style={{
                     backgroundColor: "#121418",
-                    border: '1px solid #343843',
+                    border: "1px solid #343843",
                     position: "absolute",
                     padding: "1rem",
                     width: "16.25rem",
-                    right: props.isMobile  ? "5px" :"105px",
+                    right: props.isMobile ? "5px" : "105px",
                     top: props.isMobile && "100%",
                     borderRadius: "0.5rem",
                     zIndex: 99999,
@@ -1287,7 +1527,6 @@ function NLayout(props) {
                         alignItems: "center",
                         gap: "15px",
                         padding: 10,
-
                       }}
                     >
                       <img
@@ -1299,8 +1538,13 @@ function NLayout(props) {
                           borderRadius: "50%",
                         }}
                       />
-                      <Grid style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
-
+                      <Grid
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "1px",
+                        }}
+                      >
                         <Link
                           style={{
                             textDecoration: "none",
@@ -1313,18 +1557,24 @@ function NLayout(props) {
                             style={{
                               color: "white",
                               fontSize: "1rem",
-                              fontFamily: 'Inter',
+                              fontFamily: "Inter",
                               fontWeight: 600,
                             }}
                           >
                             {props.user?.NameUser ?? "Usuario"}
                           </Typography>
                         </Link>
-                        <Typography style={{ color: 'white', fontSize: '12px', fontFamily: 'Inter' }}>0 seguidores</Typography>
+                        <Typography
+                          style={{
+                            color: "white",
+                            fontSize: "12px",
+                            fontFamily: "Inter",
+                          }}
+                        >
+                          0 seguidores
+                        </Typography>
                       </Grid>
                     </Grid>
-
-
                   </Grid>
 
                   <Grid
@@ -1334,10 +1584,8 @@ function NLayout(props) {
                       alignItems: "flex-start",
                       gap: "15px",
                       marginTop: "15px",
-
                     }}
                   >
-
                     <Link
                       className="dropdownaccount-link"
                       to={"/" + props.user.NameUser}
@@ -1347,12 +1595,9 @@ function NLayout(props) {
                         alignItems: "center",
                       }}
                     >
-
                       <AiOutlineUser style={{ marginRight: "10px" }} />
                       Tu canal
                     </Link>
-
-
 
                     <Link
                       className="dropdownaccount-link"
@@ -1363,12 +1608,11 @@ function NLayout(props) {
                         alignItems: "center",
                       }}
                     >
-
-                      <LiaSlidersHSolid style={{ marginRight: "10px", fontSize: '24px' }} />
+                      <LiaSlidersHSolid
+                        style={{ marginRight: "10px", fontSize: "24px" }}
+                      />
                       Panel de control del creador
                     </Link>
-
-
 
                     <Link
                       className="dropdownaccount-link"
@@ -1379,7 +1623,6 @@ function NLayout(props) {
                         alignItems: "center",
                       }}
                     >
-
                       <TfiWallet style={{ marginRight: "10px" }} />
                       Cartera
                     </Link>
@@ -1395,18 +1638,14 @@ function NLayout(props) {
                     >
                       <AiOutlineSetting style={{ marginRight: "10px" }} />
                       Configuración
-
                     </Link>
                     <div
                       className="dropdownaccount-link"
                       onClick={() => handleLogout()}
                     >
-
                       <TbLogout2 style={{ marginRight: "10px" }} />
                       Cerrar sesión
                     </div>
-
-
                   </Grid>
                 </Grid>
               )}
@@ -1414,8 +1653,10 @@ function NLayout(props) {
           </Grid>
         )}
 
-
-        <Grid style={{ width: "100%", height:'100vh' }} onClick={() => setEsClick(false)}>
+        <Grid
+          style={{ width: "100%", height: "100vh" }}
+          onClick={() => setEsClick(false)}
+        >
           {props.children}
 
           {showPopupAuth === true && (
@@ -1427,37 +1668,87 @@ function NLayout(props) {
           )}
         </Grid>
 
-
-
-        <Grid style={{ display: 'flex', alignItems: 'center', position: 'fixed', height: '60px', bottom: 0, zIndex:999999, padding: '0rem 1rem', borderTop:'#2a2e38', backgroundColor:'#121418', width:'100%', justifyContent:'space-around' }}>
-          <Link to="/" style={{display:'flex', alignItems:'center', gap:'5px', flexDirection:'column'}}>
+        <Grid
+          style={{
+            display: "flex",
+            alignItems: "center",
+            position: "fixed",
+            height: "60px",
+            bottom: 0,
+            zIndex: 999999,
+            padding: "0rem 1rem",
+            borderTop: "#2a2e38",
+            backgroundColor: "#121418",
+            width: "100%",
+            justifyContent: "space-around",
+          }}
+        >
+          <Link
+            to="/"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: "column",
+            }}
+          >
             <GrHomeRounded />
             <span>Inicio</span>
           </Link>
-          <Link to="/" style={{display:'flex', alignItems:'center', gap:'5px', flexDirection:'column'}}>
+          <Link
+            to="/"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: "column",
+            }}
+          >
             <GrHomeRounded />
             <span>Directos</span>
           </Link>
-          <Link to="/" style={{display:'flex', alignItems:'center', gap:'5px', flexDirection:'column'}}>
+          <Link
+            to="/"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: "column",
+            }}
+          >
             <GrHomeRounded />
             <span>Categorías</span>
           </Link>
-          <Link to="/" style={{display:'flex', alignItems:'center', gap:'5px', flexDirection:'column'}}>
+          <Link
+            to="/"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: "column",
+            }}
+          >
             <GrHomeRounded />
             <span>Explorar</span>
           </Link>
-          <Link to="/" style={{display:'flex', alignItems:'center', gap:'5px', flexDirection:'column'}}>
+          <Link
+            to="/"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: "column",
+            }}
+          >
             <GrHomeRounded />
             <span>Muro</span>
           </Link>
         </Grid>
       </Grid>
-    )
-  }
+    );
+  };
 
-  return (
-    props.isMobile ? getNavMobile() : getNavDesktop()
-  );
+  return props.isMobile ? getNavMobile() : getNavDesktop();
 }
 
 export default NLayout;

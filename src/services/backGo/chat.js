@@ -23,6 +23,22 @@ export async function actionsModeratorChatStream(action, actionAgainst, timeOut,
         return error
     }
 }
+export async function deleteChatMessage(roomID, messageID, token) {
+    try {
+        const response = await axios.delete(
+            `${baseURL}/chatStreaming/${roomID}/messages/${messageID}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
 export async function actionsChatStream(action, actionAgainst, timeOut, token, room) {
     try {
         const response = await axios.post(

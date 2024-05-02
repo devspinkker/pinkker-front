@@ -179,3 +179,17 @@ export async function compradePixeles(id, amount) {
         return error;
     }
 }
+export async function compradePixelesBiancePay(id, amount) {
+    try {
+        const response = await axios.post(
+            `${mercadopago}/createChargeBinancePay`,
+            {
+                idUser: id,
+                amount: amount
+            },
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}

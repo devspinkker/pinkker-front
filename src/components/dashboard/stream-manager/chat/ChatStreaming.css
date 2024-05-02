@@ -26,10 +26,30 @@
     padding: 2px 5px;
     margin: 5px 7px;
     border-radius: 7px;
+    position: relative;
 }
 
 .Message:hover {
     background-color: #290815;
+}
+
+.hover-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.Message:hover .hover-button {
+    opacity: 1;
+}
+
+.hover-btn {
+    background-color: #ccc;
+    padding: 5px 10px;
+    border: none;
 }
 
 .content-info-message-2 {
