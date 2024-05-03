@@ -43,7 +43,7 @@ import Tendency from "./TendencyLayout";
 export default function Muro({ isMobile, userName }) {
   const alert = useNotification();
 
-  const [tweets, setTweets] = useState([]);
+  const [tweets, setTweets] = useState(null);
   const [message, setMessage] = useState("");
 
   const fileTypes = ["JPG", "PNG", "GIF"];
@@ -71,7 +71,7 @@ export default function Muro({ isMobile, userName }) {
         const ExcludeIDs = [];
         const data = await GetTweetsRecommended(token, ExcludeIDs);
         if (data.data == null) {
-          setTweets([]);
+          setTweets(null);
         } else {
           if (data.data.message === "ok") {
             setTweets(data.data.data);
@@ -80,13 +80,13 @@ export default function Muro({ isMobile, userName }) {
       } else {
         const data = await PostGets();
         if (data.data == null) {
-          setTweets([]);
+          setTweets(null);
         } else {
           setTweets(data.data);
         }
       }
     } catch (error) {
-      setTweets([]);
+      setTweets(null);
     }
   }
   useEffect(() => {
@@ -409,9 +409,9 @@ export default function Muro({ isMobile, userName }) {
               {/*<div style={{height: "60px", cursor: "pointer", width: "100%", borderTop: "1px solid #ffffff1a", borderBottom: "1px solid #ffffff1a", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                   <p style={{color: "#ff60b2"}}>10 nuevos posteos</p>
                               </div>*/}
-              {tweets.map((tweet) => (
-                <TweetCard tweet={tweet} />
-              ))}
+
+              {tweets != null &&
+                tweets.map((tweet) => <TweetCard tweet={tweet} />)}
               {!tweets && (
                 <div
                   style={{

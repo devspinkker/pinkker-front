@@ -30,7 +30,9 @@
     position: relative;
 }
 
-.Message:hover {}
+.Message:hover {
+    background-color: #f3619769;
+}
 
 .hover-button {
     position: absolute;
