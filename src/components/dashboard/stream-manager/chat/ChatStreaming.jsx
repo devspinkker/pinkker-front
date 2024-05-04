@@ -42,6 +42,7 @@ export function ChatStreaming({
   followParam,
 }) {
   const [messages, setMessages] = useState([]);
+  const messagesRef = useRef([]);
   const [message, setMessage] = useState("");
   const conversationRef = useRef(null);
   const [socket, setSocket] = useState(null);
@@ -159,6 +160,11 @@ export function ChatStreaming({
           }
           if (receivedMessage.action === "message_Anclar") {
             AnclarMessage(receivedMessage);
+            return;
+          }
+          if (receivedMessage.action === "message_Desanclar") {
+            console.log(receivedMessage);
+            SetMsjChatAnclado(null);
           }
         } catch (error) {
           console.error("Error al analizar el mensaje JSON:", error);
@@ -186,10 +192,9 @@ export function ChatStreaming({
 
   function AnclarMessage(receivedMessage) {
     let messageToAnclar = null;
-    console.log(messages);
+    const messages = messagesRef.current;
     for (let i = messages.length - 1; i >= 0; i--) {
       const message = messages[i];
-      console.log(message);
       if (message.Id === receivedMessage.message_id) {
         messageToAnclar = message;
         break;
@@ -202,6 +207,9 @@ export function ChatStreaming({
       console.log("El mensaje no se encontró en el historial.");
     }
   }
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
   useEffect(() => {
     const pingInterval = () => {
       if (socket && socket.readyState === WebSocket.OPEN) {
@@ -373,6 +381,7 @@ export function ChatStreaming({
   const ResMessageschat = (msj) => {
     setResMessageschat(msj);
   };
+
   const desanclarMessageschat = (msj) => {
     const token = window.localStorage.getItem("token");
     if (!token) {
@@ -950,7 +959,8 @@ export function ChatStreaming({
         />
         <div
           style={{
-            padding: "10px",
+            width: "100%",
+            background: "#24272c",
           }}
         >
           {MsjChatAnclado != null && (
@@ -998,22 +1008,28 @@ export function ChatStreaming({
                     </p>
                   </div>
                 </div>
-                <div
-                  className="hover-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setResMessageschat(null);
-                    }}
-                    className="hover-btn"
-                  >
-                    x
-                  </button>
-                </div>
+                {GetInfoUserInRoom &&
+                  (GetInfoUserInRoom.Moderator ||
+                    streamerChat.streamerId ==
+                      window.localStorage.getItem("_id")) && (
+                    <div
+                      className="hover-button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteMessageschat(message);
+                      }}
+                    >
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          desanclarMessageschat(message);
+                        }}
+                        className="hover-btn"
+                      >
+                        <BsFillTrashFill />
+                      </button>
+                    </div>
+                  )}
               </div>
             </div>
           )}
@@ -1237,10 +1253,11 @@ export function ChatStreaming({
             style={{ cursor: "pointer" }}
           >
             {message.ResMessage != "" && (
-              <div>
-                <span> {message.ResNameUser} </span>
-                <span> {message.ResMessage}</span>
-                <FaReply />
+              <div className="ResMessage">
+                <FaReply className="grey-icon" />
+                <span> Respondio a </span>
+                <span> @{message.ResNameUser}:</span>
+                <span>{message.ResMessage}</span>
               </div>
             )}
             <div className="MessagesChat">
@@ -1356,10 +1373,11 @@ export function ChatStreaming({
             style={{ cursor: "pointer" }}
           >
             {message.ResMessage != "" && (
-              <div>
-                <span> {message.ResNameUser} </span>
-                <span> {message.ResMessage}</span>
-                <FaReply />
+              <div className="ResMessage">
+                <FaReply className="grey-icon" />
+                <span> Respondio a </span>
+                <span> @{message.ResNameUser}:</span>
+                <span>{message.ResMessage}</span>
               </div>
             )}
             <div className="MessagesChat">

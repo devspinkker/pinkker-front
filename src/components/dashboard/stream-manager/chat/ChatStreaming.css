@@ -436,3 +436,21 @@
     --tw-bg-opacity: 1;
     background-color: rgb(83 252 24 / var(--tw-bg-opacity));
 }
+
+.ResMessage {
+    display: flex;
+
+}
+
+.grey-icon {
+    font-size: 13px;
+    color: grey;
+}
+
+.ResMessage>span {
+    font-size: 12px;
+    font-family: inter;
+    color: #3f4243;
+    padding: 0px 3px;
+    font-weight: 500;
+}
