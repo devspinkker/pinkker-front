@@ -38,13 +38,18 @@ export async function deleteChatMessage(roomID, messageID, token) {
         return error;
     }
 }
-export async function anclarChatMessage(roomID, messageID, token) {
+export async function anclarChatMessage(roomID, data, token) {
+    data.EmotesChat = JSON.stringify(data.EmotesChat);
+    data.SubscriptionInfo = JSON.stringify(data.SubscriptionInfo);
+
     try {
-        const response = await axios.delete(
-            `${baseURL}/chatStreaming/${roomID}/messages/anclar/${messageID}`,
+        const response = await axios.post(
+            `${baseURL}/chatStreaming/${roomID}/messages/anclar`,
+            data,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
                 },
             }
         );
@@ -53,9 +58,11 @@ export async function anclarChatMessage(roomID, messageID, token) {
         return error;
     }
 }
+
+
 export async function desanclarChatMessage(roomID, messageID, token) {
     try {
-        const response = await axios.delete(
+        const response = await axios.get(
             `${baseURL}/chatStreaming/${roomID}/messages/desanclar/${messageID}`,
             {
                 headers: {

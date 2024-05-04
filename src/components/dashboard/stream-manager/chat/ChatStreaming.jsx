@@ -159,11 +159,11 @@ export function ChatStreaming({
             return;
           }
           if (receivedMessage.action === "message_Anclar") {
-            AnclarMessage(receivedMessage);
+            console.log(receivedMessage);
+            AnclarMessage(receivedMessage?.message);
             return;
           }
           if (receivedMessage.action === "message_Desanclar") {
-            console.log(receivedMessage);
             SetMsjChatAnclado(null);
           }
         } catch (error) {
@@ -191,22 +191,19 @@ export function ChatStreaming({
   }, []);
 
   function AnclarMessage(receivedMessage) {
-    let messageToAnclar = null;
-    const messages = messagesRef.current;
-    for (let i = messages.length - 1; i >= 0; i--) {
-      const message = messages[i];
-      if (message.Id === receivedMessage.message_id) {
-        messageToAnclar = message;
-        break;
-      }
-    }
+    const emotesChat = JSON.parse(receivedMessage.EmotesChat);
+    const subscriptionInfo = JSON.parse(receivedMessage.SubscriptionInfo);
 
-    if (messageToAnclar) {
-      SetMsjChatAnclado(messageToAnclar);
-    } else {
-      console.log("El mensaje no se encontró en el historial.");
-    }
+    const messageData = {
+      ...receivedMessage,
+      EmotesChat: emotesChat,
+      SubscriptionInfo: subscriptionInfo,
+    };
+    SetMsjChatAnclado(null);
+    console.log(messageData);
+    SetMsjChatAnclado(messageData);
   }
+
   useEffect(() => {
     messagesRef.current = messages;
   }, [messages]);
@@ -366,16 +363,14 @@ export function ChatStreaming({
       return;
     }
     const res = deleteChatMessage(streamerChat.id, msj.Id, token);
-    console.log(res);
   };
-  const anclarMessageschat = (msj) => {
+  const anclarMessageschat = async (msj) => {
     const token = window.localStorage.getItem("token");
     if (!token) {
       alert("no logueado");
       return;
     }
-    const res = anclarChatMessage(streamerChat.id, msj.Id, token);
-    console.log(res);
+    const res = await anclarChatMessage(streamerChat.id, msj, token);
   };
   const [ResMessageschatState, setResMessageschat] = useState(null);
   const ResMessageschat = (msj) => {
@@ -388,8 +383,7 @@ export function ChatStreaming({
       alert("no logueado");
       return;
     }
-    const res = desanclarChatMessage(streamerChat.id, msj.Id, token);
-    console.log(res);
+    desanclarChatMessage(streamerChat.id, msj.Id, token);
   };
 
   const getDonationSubscriptionCard = (donationsSubscriptions) => {
@@ -697,7 +691,7 @@ export function ChatStreaming({
   const isSubscriptor = (message) => {
     const currentTimestamp = Date.now();
     const subscriptionEndTimestamp = Date.parse(
-      message.SubscriptionInfo.SubscriptionEnd
+      message.SubscriptionInfo?.SubscriptionEnd
     );
 
     if (subscriptionEndTimestamp <= 0 || isNaN(subscriptionEndTimestamp)) {
@@ -972,14 +966,14 @@ export function ChatStreaming({
             >
               <div className="MessagesChat">
                 <div className="badges">
-                  {MsjChatAnclado.EmotesChat.Moderator && (
-                    <img src={MsjChatAnclado.EmotesChat.Moderator} alt="" />
+                  {MsjChatAnclado.EmotesChat?.Moderator && (
+                    <img src={MsjChatAnclado.EmotesChat?.Moderator} alt="" />
                   )}
-                  {MsjChatAnclado.EmotesChat.Verified && (
-                    <img src={MsjChatAnclado.EmotesChat.Verified} alt="" />
+                  {MsjChatAnclado.EmotesChat?.Verified && (
+                    <img src={MsjChatAnclado.EmotesChat?.Verified} alt="" />
                   )}
-                  {MsjChatAnclado.EmotesChat.Vip && (
-                    <img src={MsjChatAnclado.EmotesChat.Vip} alt="" />
+                  {MsjChatAnclado.EmotesChat?.Vip && (
+                    <img src={MsjChatAnclado.EmotesChat?.Vip} alt="" />
                   )}
                   {isSubscriptor(MsjChatAnclado) && (
                     <img src={isSubscriptor(MsjChatAnclado)} alt="" />
@@ -993,13 +987,12 @@ export function ChatStreaming({
                     />
                   )}
                 </div>
+
                 <div className="content-info-message">
                   <div className="content-info-message-2">
                     <p
                       className="content-info-message-2-nameUser"
-                      style={{
-                        color: MsjChatAnclado.Color,
-                      }}
+                      style={{ color: MsjChatAnclado.Color }}
                     >
                       {MsjChatAnclado.nameUser}:{" "}
                       <span style={{ color: "#ffff" }}>
@@ -1016,13 +1009,12 @@ export function ChatStreaming({
                       className="hover-button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        deleteMessageschat(message);
                       }}
                     >
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          desanclarMessageschat(message);
+                          desanclarMessageschat(MsjChatAnclado);
                         }}
                         className="hover-btn"
                       >
@@ -1305,7 +1297,6 @@ export function ChatStreaming({
                   className="hover-button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    deleteMessageschat(message);
                   }}
                 >
                   <button
@@ -1426,7 +1417,6 @@ export function ChatStreaming({
                   className="hover-button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    deleteMessageschat(message);
                   }}
                 >
                   <button
