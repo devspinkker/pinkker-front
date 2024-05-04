@@ -9,7 +9,7 @@ import { createOrder } from "../../services/order";
 import { createMpOrder, createPaypalOrderr } from "../../services/purchase";
 
 import { getPrices } from "../../services/server";
-import { compradePixelesBiancePay } from "../../services/backGo/user";
+import { compradePixeles } from "../../services/backGo/user";
 
 export default function PurchasePopup({ amountt, closePopup }) {
   const auth = useSelector((state) => state.auth);
@@ -33,7 +33,7 @@ export default function PurchasePopup({ amountt, closePopup }) {
   async function handleSubmit() {
     const iduser = window.localStorage.getItem("_id");
     try {
-      const data = await compradePixelesBiancePay(iduser, amount);
+      const data = await compradePixeles(iduser, amount);
       if (data?.init_point) {
         window.location.href = data.init_point;
       }

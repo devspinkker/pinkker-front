@@ -6,7 +6,8 @@ import "./ChatStreaming.css";
 import DonationCard from "../../../channel/chat/donation/card/DonationCard";
 import { GetPixelesDonationsChat } from "../../../../services/backGo/donation";
 import Donation from "../../../channel/chat/donation/card/Donation";
-import { BsFillTrashFill } from "react-icons/bs";
+import { BsFillTrashFill, BsPin } from "react-icons/bs";
+import { FaReply } from "react-icons/fa";
 
 import {
   GetSubsAct,
@@ -25,7 +26,9 @@ import {
   GetInfoUserInRoomFunc,
   actionsChatStream,
   actionsModeratorChatStream,
+  anclarChatMessage,
   deleteChatMessage,
+  desanclarChatMessage,
 } from "../../../../services/backGo/chat";
 import { useNotification } from "../../../Notifications/NotificationProvider";
 export function ChatStreaming({
@@ -42,6 +45,8 @@ export function ChatStreaming({
   const [message, setMessage] = useState("");
   const conversationRef = useRef(null);
   const [socket, setSocket] = useState(null);
+  const [socketDeleteMsj, setsocketDeleteMsj] = useState(null);
+  const pingIntervalRef = useRef(null);
   const [donations, setDonations] = useState(null);
   const [donationsSubscriptions, setDonationsSubscriptions] = useState(null);
   const [donationCard, setDonationCard] = useState(false);
@@ -57,6 +62,7 @@ export function ChatStreaming({
   const [messagesold, setMessageold] = useState([]);
   const [SubStateAct, SetSubStateAct] = useState(false);
   const [FollowParamOwnner, SetFollowParamOwner] = useState(false);
+  const [MsjChatAnclado, SetMsjChatAnclado] = useState(null);
   const alert = useNotification();
   const history = useHistory();
 
@@ -91,7 +97,6 @@ export function ChatStreaming({
             scrollToBottom();
           } else {
             setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-            console.log(receivedMessage);
             scrollToBottom();
           }
         } catch (error) {
@@ -124,7 +129,8 @@ export function ChatStreaming({
         newSocket.close();
       }
     };
-  }, [history]);
+  }, []);
+
   useEffect(() => {
     if (isMobile) {
       ToggleChat(false);
@@ -133,7 +139,7 @@ export function ChatStreaming({
     const token = window.localStorage.getItem("token");
     const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
     const newSocket = new WebSocket(
-      `${REACT_APP_BACKCHATWS}/ws/notifications/deleteMessages/${streamerChat.id}`
+      `${REACT_APP_BACKCHATWS}/ws/notifications/notifications/actionMessages/${streamerChat.id}`
     );
     const connectWebSocket = () => {
       newSocket.onerror = (error) => {
@@ -149,6 +155,10 @@ export function ChatStreaming({
             typeof receivedMessage.message_id === "string"
           ) {
             deleteMessages(receivedMessage);
+            return;
+          }
+          if (receivedMessage.action === "message_Anclar") {
+            AnclarMessage(receivedMessage);
           }
         } catch (error) {
           console.error("Error al analizar el mensaje JSON:", error);
@@ -156,7 +166,7 @@ export function ChatStreaming({
       };
 
       newSocket.onopen = () => {};
-      setSocket(newSocket);
+      setsocketDeleteMsj(newSocket);
 
       window.addEventListener("beforeunload", () => {
         newSocket.send("closing");
@@ -164,7 +174,7 @@ export function ChatStreaming({
       });
     };
 
-    if (!socket || socket.readyState !== WebSocket.OPEN) {
+    if (!socketDeleteMsj || socketDeleteMsj.readyState !== WebSocket.OPEN) {
       connectWebSocket();
     }
     return () => {
@@ -172,9 +182,53 @@ export function ChatStreaming({
         newSocket.close();
       }
     };
-  }, [history]);
-  function deleteMessages(receivedMessage) {
+  }, []);
+
+  function AnclarMessage(receivedMessage) {
+    let messageToAnclar = null;
     console.log(messages);
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const message = messages[i];
+      console.log(message);
+      if (message.Id === receivedMessage.message_id) {
+        messageToAnclar = message;
+        break;
+      }
+    }
+
+    if (messageToAnclar) {
+      SetMsjChatAnclado(messageToAnclar);
+    } else {
+      console.log("El mensaje no se encontró en el historial.");
+    }
+  }
+  useEffect(() => {
+    const pingInterval = () => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send("ping");
+      }
+    };
+
+    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
+    pingIntervalRef.current = setInterval(pingInterval, 3000);
+    return () => {
+      clearInterval(pingIntervalRef.current);
+    };
+  }, [socket]);
+  useEffect(() => {
+    const pingInterval = () => {
+      if (socketDeleteMsj && socketDeleteMsj.readyState === WebSocket.OPEN) {
+        socketDeleteMsj.send("ping");
+      }
+    };
+
+    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
+    pingIntervalRef.current = setInterval(pingInterval, 3000);
+    return () => {
+      clearInterval(pingIntervalRef.current);
+    };
+  }, [socketDeleteMsj]);
+  function deleteMessages(receivedMessage) {
     setMessages((prevMessages) =>
       prevMessages.filter(
         (message) => message.Id !== receivedMessage.message_id
@@ -203,18 +257,6 @@ export function ChatStreaming({
       SetFollowParamOwner(true);
     }
   }, []);
-  useEffect(() => {
-    const pingInterval = setInterval(() => {
-      if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.send("ping");
-      }
-    }, 5000);
-
-    return () => {
-      clearInterval(pingInterval);
-    };
-  }, [socket]);
-
   const scrollToBottom = () => {
     if (conversationRef.current) {
       conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
@@ -318,6 +360,29 @@ export function ChatStreaming({
     const res = deleteChatMessage(streamerChat.id, msj.Id, token);
     console.log(res);
   };
+  const anclarMessageschat = (msj) => {
+    const token = window.localStorage.getItem("token");
+    if (!token) {
+      alert("no logueado");
+      return;
+    }
+    const res = anclarChatMessage(streamerChat.id, msj.Id, token);
+    console.log(res);
+  };
+  const [ResMessageschatState, setResMessageschat] = useState(null);
+  const ResMessageschat = (msj) => {
+    setResMessageschat(msj);
+  };
+  const desanclarMessageschat = (msj) => {
+    const token = window.localStorage.getItem("token");
+    if (!token) {
+      alert("no logueado");
+      return;
+    }
+    const res = desanclarChatMessage(streamerChat.id, msj.Id, token);
+    console.log(res);
+  };
+
   const getDonationSubscriptionCard = (donationsSubscriptions) => {
     return (
       <div
@@ -536,6 +601,8 @@ export function ChatStreaming({
   };
   const [Modolento, setModolento] = useState(null);
   const sendMessage = async () => {
+    setResMessageschat(null);
+
     setMessage("");
     if (
       streamerChat?.ModChat == "Following" &&
@@ -552,10 +619,19 @@ export function ChatStreaming({
             Authorization: `Bearer ${token}`,
           },
         };
+
         const REACT_APP_BACKCHAT = process.env.REACT_APP_BACKCHAT;
+        let ResNameUser = "";
+        let ResMessage = "";
+
+        if (ResMessageschatState != null) {
+          ResNameUser = ResMessageschatState.nameUser;
+          ResMessage = ResMessageschatState.message;
+        }
+
         const res = await axios.post(
           `${REACT_APP_BACKCHAT}/chatStreaming/${streamerChat.id}`,
-          { message },
+          { message, ResNameUser, ResMessage },
           config
         );
         const currentDate = new Date();
@@ -580,18 +656,23 @@ export function ChatStreaming({
           },
         };
         const REACT_APP_BACKCHAT = process.env.REACT_APP_BACKCHAT;
+        let ResNameUser = "";
+        let ResMessage = "";
+
+        if (ResMessageschatState != null) {
+          ResNameUser = ResMessageschatState.nameUser;
+          ResMessage = ResMessageschatState.message;
+        }
+
         const res = await axios.post(
           `${REACT_APP_BACKCHAT}/chatStreaming/${streamerChat.id}`,
-          { message },
+          { message, ResNameUser, ResMessage },
           config
         );
         const currentDate = new Date();
         const newDate = new Date(
           currentDate.getTime() + streamerChat.ModSlowMode * 1000
         );
-
-        console.log(currentDate);
-        console.log(newDate);
 
         setModolento(newDate);
       } catch (error) {
@@ -867,6 +948,76 @@ export function ChatStreaming({
             marginTop: "19px auto",
           }}
         />
+        <div
+          style={{
+            padding: "10px",
+          }}
+        >
+          {MsjChatAnclado != null && (
+            <div
+              key={MsjChatAnclado.Id}
+              className="Message"
+              onClick={() => GetUserTheChatFunc(MsjChatAnclado)}
+              style={{ cursor: "pointer" }}
+            >
+              <div className="MessagesChat">
+                <div className="badges">
+                  {MsjChatAnclado.EmotesChat.Moderator && (
+                    <img src={MsjChatAnclado.EmotesChat.Moderator} alt="" />
+                  )}
+                  {MsjChatAnclado.EmotesChat.Verified && (
+                    <img src={MsjChatAnclado.EmotesChat.Verified} alt="" />
+                  )}
+                  {MsjChatAnclado.EmotesChat.Vip && (
+                    <img src={MsjChatAnclado.EmotesChat.Vip} alt="" />
+                  )}
+                  {isSubscriptor(MsjChatAnclado) && (
+                    <img src={isSubscriptor(MsjChatAnclado)} alt="" />
+                  )}
+                  {MsjChatAnclado?.StreamerChannelOwner && (
+                    <img
+                      src={
+                        "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/2"
+                      }
+                      alt="StreamerChannelOwner"
+                    />
+                  )}
+                </div>
+                <div className="content-info-message">
+                  <div className="content-info-message-2">
+                    <p
+                      className="content-info-message-2-nameUser"
+                      style={{
+                        color: MsjChatAnclado.Color,
+                      }}
+                    >
+                      {MsjChatAnclado.nameUser}:{" "}
+                      <span style={{ color: "#ffff" }}>
+                        {parseMessage(MsjChatAnclado.message)}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div
+                  className="hover-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setResMessageschat(null);
+                    }}
+                    className="hover-btn"
+                  >
+                    x
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
       <div className="Conversation" ref={conversationRef}>
         {ShowGetUserTheChat && GetUserTheChat && (
@@ -1085,6 +1236,13 @@ export function ChatStreaming({
             onClick={() => GetUserTheChatFunc(message)}
             style={{ cursor: "pointer" }}
           >
+            {message.ResMessage != "" && (
+              <div>
+                <span> {message.ResNameUser} </span>
+                <span> {message.ResMessage}</span>
+                <FaReply />
+              </div>
+            )}
             <div className="MessagesChat">
               <div className="badges">
                 {message.EmotesChat.Moderator && (
@@ -1108,6 +1266,7 @@ export function ChatStreaming({
                   />
                 )}
               </div>
+
               <div className="content-info-message">
                 <div className="content-info-message-2">
                   <p
@@ -1122,21 +1281,62 @@ export function ChatStreaming({
                 </div>
               </div>
               {GetInfoUserInRoom &&
-                (GetInfoUserInRoom.Moderator ||
-                  streamerChat.streamerId ==
-                    window.localStorage.getItem("_id")) && (
-                  <div
-                    className="hover-button"
+              (GetInfoUserInRoom.Moderator ||
+                streamerChat.streamerId ==
+                  window.localStorage.getItem("_id")) ? (
+                <div
+                  className="hover-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteMessageschat(message);
+                  }}
+                >
+                  <button
                     onClick={(e) => {
                       e.stopPropagation();
                       deleteMessageschat(message);
                     }}
+                    className="hover-btn"
                   >
-                    <button className="hover-btn">
-                      <BsFillTrashFill />
-                    </button>
-                  </div>
-                )}
+                    <BsFillTrashFill />
+                  </button>{" "}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      anclarMessageschat(message);
+                    }}
+                    className="hover-btn"
+                  >
+                    <BsPin />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      ResMessageschat(message);
+                    }}
+                    className="hover-btn"
+                  >
+                    <FaReply />
+                  </button>
+                </div>
+              ) : (
+                <div
+                  className="hover-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      ResMessageschat(message);
+                    }}
+                    className="hover-btn"
+                  >
+                    <FaReply />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -1155,6 +1355,13 @@ export function ChatStreaming({
             onClick={() => GetUserTheChatFunc(message)}
             style={{ cursor: "pointer" }}
           >
+            {message.ResMessage != "" && (
+              <div>
+                <span> {message.ResNameUser} </span>
+                <span> {message.ResMessage}</span>
+                <FaReply />
+              </div>
+            )}
             <div className="MessagesChat">
               <div className="badges">
                 {message.EmotesChat.Moderator && (
@@ -1194,26 +1401,131 @@ export function ChatStreaming({
                 </div>
               </div>
               {GetInfoUserInRoom &&
-                (GetInfoUserInRoom.Moderator ||
-                  streamerChat.streamerId ==
-                    window.localStorage.getItem("_id")) && (
-                  <div
-                    className="hover-button"
+              (GetInfoUserInRoom.Moderator ||
+                streamerChat.streamerId ==
+                  window.localStorage.getItem("_id")) ? (
+                <div
+                  className="hover-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteMessageschat(message);
+                  }}
+                >
+                  <button
                     onClick={(e) => {
                       e.stopPropagation();
                       deleteMessageschat(message);
                     }}
+                    className="hover-btn"
                   >
-                    <button className="hover-btn">
-                      <BsFillTrashFill />
-                    </button>
-                  </div>
-                )}
+                    <BsFillTrashFill />
+                  </button>{" "}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      anclarMessageschat(message);
+                    }}
+                    className="hover-btn"
+                  >
+                    <BsPin />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      ResMessageschat(message);
+                    }}
+                    className="hover-btn"
+                  >
+                    <FaReply />
+                  </button>
+                </div>
+              ) : (
+                <div
+                  className="hover-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      ResMessageschat(message);
+                    }}
+                    className="hover-btn"
+                  >
+                    <FaReply />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}
       </div>
       <div className="actions-chat-conteiner">
+        {ResMessageschatState != null && (
+          <div
+            key={ResMessageschatState.Id}
+            className="Message"
+            onClick={() => GetUserTheChatFunc(ResMessageschatState)}
+            style={{ cursor: "pointer" }}
+          >
+            <div className="MessagesChat">
+              <div className="badges">
+                {ResMessageschatState.EmotesChat.Moderator && (
+                  <img src={ResMessageschatState.EmotesChat.Moderator} alt="" />
+                )}
+                {ResMessageschatState.EmotesChat.Verified && (
+                  <img src={ResMessageschatState.EmotesChat.Verified} alt="" />
+                )}
+                {ResMessageschatState.EmotesChat.Vip && (
+                  <img src={ResMessageschatState.EmotesChat.Vip} alt="" />
+                )}
+                {isSubscriptor(ResMessageschatState) && (
+                  <img src={isSubscriptor(ResMessageschatState)} alt="" />
+                )}
+                {ResMessageschatState?.StreamerChannelOwner && (
+                  <img
+                    src={
+                      "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/2"
+                    }
+                    alt="StreamerChannelOwner"
+                  />
+                )}
+              </div>
+              <div className="content-info-message">
+                <div className="content-info-message-2">
+                  <p
+                    className="content-info-message-2-nameUser"
+                    style={{
+                      color: ResMessageschatState.Color,
+                    }}
+                  >
+                    {ResMessageschatState.nameUser}:{" "}
+                    <span style={{ color: "#ffff" }}>
+                      {parseMessage(ResMessageschatState.message)}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                className="hover-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setResMessageschat(null);
+                  }}
+                  className="hover-btn"
+                >
+                  x
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         {streamerChat?.ModChat === "Following" &&
           (followParam || FollowParamOwnner) && (
             <form className="ChatStreaming_form" onSubmit={handleSubmit}>
