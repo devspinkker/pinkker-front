@@ -17,6 +17,38 @@ export async function getStreamById(streamId) {
 		return error
 	}
 }
+export async function CommercialInStream(token) {
+	try {
+		const response = await axios.post(
+			`${baseURL}/stream/commercialInStream`,
+			{ CommercialInStream: 1 },
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		return response.data;
+	} catch (error) {
+		return error
+	}
+}
+export async function AdsAddStreamSummary(token, StreamerID) {
+	try {
+		const response = await axios.post(
+			`${baseURL}/StreamSummary/AdsAdd`,
+			{ StreamerID },
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		return response.data;
+	} catch (error) {
+		return error
+	}
+}
 
 // Función para obtener streams por categoría
 export async function getStreamsByCategory(category, page) {

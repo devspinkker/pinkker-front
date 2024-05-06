@@ -30,6 +30,7 @@ export default function CustomPlayer({
   popup,
   closePopup,
   streamerData,
+  stream,
 }) {
   const { streamer } = useParams();
 
@@ -251,6 +252,8 @@ export default function CustomPlayer({
         height={height ? height : "835px"}
         expanded={expanded}
         quality={quality}
+        stream={stream?.id}
+        streamerDataID={streamerData.id}
       />
     );
   }

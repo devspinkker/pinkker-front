@@ -1279,6 +1279,7 @@ export default function Channel({
         streamer={streamer}
         time={stream && stream.start_date}
         streamerData={streamerData}
+        stream={stream}
       ></CustomPlayer>
     );
   }

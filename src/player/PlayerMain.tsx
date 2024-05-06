@@ -2,19 +2,106 @@ import React, { useEffect, useRef, useState } from 'react';
 import flvjs from 'flv.js';
 import Hls from 'hls.js';
 import "./ReactVideoPlayer.css"
-
+import { AdsAddStreamSummary } from '../services/backGo/streams';
 interface ReactVideoPlayerProps {
   src: string;
   videoRef: React.RefObject<HTMLVideoElement>;
   height: string;
   width: string;
   quality:string;
+  stream:string;
+  streamerDataID:string;
 }
 
-function ReactVideoPlayer({ src, videoRef, height, width, quality }: ReactVideoPlayerProps) {
+function ReactVideoPlayer({ src, videoRef, height, width, quality,stream,streamerDataID}: ReactVideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [Commercial, setCommercial] = useState(null);
+  const commercialRef = useRef<HTMLVideoElement | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const hlsRef = useRef<Hls | null>(null);
+  const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+
+
+
+  const handleCommercialEnded = async () => {
+    setCommercial(null);
+    let token = window.localStorage.getItem("token");
+     await AdsAddStreamSummary(token, streamerDataID)
+
+  };
+  useEffect(() => {
+    const REACT_APP_BACKCOMMERCIALWS = process.env.REACT_APP_BACKCOMMERCIALWS;
+    
+    const newSocket = new WebSocket(
+      `wss://www.pinkker.tv/8084/ws/commercialInStream/${stream}`
+    );
+
+    const connectWebSocket = () => {
+      newSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+      newSocket.onmessage = (event) => {
+        try {
+
+          const receivedMessage = JSON.parse(event.data);
+          if (receivedMessage && receivedMessage.Commercial) {
+            setCommercial(receivedMessage.Commercial);
+            if (commercialRef.current) {
+              commercialRef.current.src = receivedMessage.Commercial;
+              commercialRef.current.play();
+              commercialRef.current.muted = false;
+              
+            }
+          }
+        } catch (error) {
+          console.error("Error al analizar el mensaje JSON:", error);
+        }
+      };
+
+      newSocket.onopen = () => {};
+      setSocket(newSocket);
+
+      window.addEventListener("beforeunload", () => {
+        newSocket.send("closing");
+        newSocket.close();
+      });
+    };   
+     if (!socket || socket.readyState !== WebSocket.OPEN) {
+      connectWebSocket();
+    }
+    return () => {
+      window.addEventListener("beforeunload", () => {
+        newSocket.send("closing");
+        newSocket.close();
+      });
+      if (newSocket && newSocket.readyState === WebSocket.OPEN) {
+        newSocket.close();
+      }
+    };
+  }, [stream]);
+
+  useEffect(() => {
+    const pingInterval = () => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send("ping");
+      }
+    };
+  
+    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
+    const intervalId = setInterval(pingInterval, 3000);
+    if (pingIntervalRef.current) {
+      pingIntervalRef.current = intervalId;
+    }
+  
+    return () => {
+      if (pingIntervalRef.current) {
+        clearInterval(pingIntervalRef.current);
+      }
+    };
+  }, [socket]);
+  
+  
 
   useEffect(() => {
 
@@ -149,7 +236,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality }: ReactVideoP
       if (overlayRef.current) {
         overlayRef.current.style.display = 'none';
       }
-    }
+    } 
   };
   
 
@@ -170,11 +257,25 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality }: ReactVideoP
           🔊 
         </span>
       </div>
-
+      {Commercial && (
+        <video
+          style={{
+            width: width,
+            height: height,
+          }}
+          id='commercial-player'
+          muted={true}
+          controls={false}
+          playsInline
+          ref={commercialRef}
+          onEnded={handleCommercialEnded}
+        />
+      )}
       <video
         style={{
           width: width,
-          height: height
+          height: height,
+          display: Commercial ? "none":""
         }}
         id='video-player'
         muted={true}

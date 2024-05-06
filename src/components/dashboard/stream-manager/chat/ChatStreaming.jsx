@@ -200,7 +200,6 @@ export function ChatStreaming({
       SubscriptionInfo: subscriptionInfo,
     };
     SetMsjChatAnclado(null);
-    console.log(messageData);
     SetMsjChatAnclado(messageData);
   }
 

@@ -6,6 +6,7 @@ import {
   getStreamById,
   updateModChat,
   updateModChatSlowModeAxios,
+  CommercialInStream,
 } from "../../../services/backGo/streams";
 import { getCategorieByName } from "../../../services/categories";
 import { getStream } from "../../../services/stream";
@@ -48,7 +49,10 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
   const togglemenuModChatSlowMode = () => {
     setModChatSlowMode(!menuModChatSlowMode);
   };
-
+  const CommercialInStreamFunc = () => {
+    let token = window.localStorage.getItem("token");
+    CommercialInStream(token);
+  };
   const updateModChatSlowMode = async (second) => {
     const secondsInt = parseInt(second, 10);
     let token = window.localStorage.getItem("token");
@@ -307,6 +311,20 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                           fill="currentColor"
                         ></path>
                       </svg>
+                    </div>
+                  </button>
+                </div>
+                <div className="relative">
+                  <button
+                    onClick={() => {
+                      CommercialInStreamFunc();
+                    }}
+                  >
+                    <div
+                      className="base-icon icon"
+                      style={{ width: "20px", height: "20px" }}
+                    >
+                      ADS
                     </div>
                   </button>
                 </div>
