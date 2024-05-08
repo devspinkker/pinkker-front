@@ -36,10 +36,10 @@
   position: fixed;
   top: 0px;
   left: 0px;
-  width: 15%;
+  width: 300px;
   height: 100vh;
   background-color: #131418;
-  z-index: 99999;
+  z-index: 1000000000;
   border-right: 1px solid #2a2e38;
 
 }
@@ -604,7 +604,7 @@
   display: flex;
   justify-content: start;
   align-items: center;
-  gap:.62rem;
+  gap: .62rem;
 }
 
 

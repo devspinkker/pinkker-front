@@ -30,6 +30,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
     // Studio: ["Proyectos", "Diseños", "Bocetos"],
     // Comunidad: ["Foro", "Grupos", "Eventos"],
     Ajustes: ["Configuración", "Clave"],
+    Estadisticas: ["Analytics"],
   };
 
   const menuItems = [
@@ -39,6 +40,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
     // { title: "Studio", icon: "fas fa-paint-brush" },
     // { title: "Comunidad", icon: "fas fa-users" },
     { title: "Ajustes", icon: "fas fa-cog" },
+    { title: "Estadisticas", icon: "fas fa-cog" },
   ];
 
   return (

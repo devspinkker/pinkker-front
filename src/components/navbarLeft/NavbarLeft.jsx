@@ -105,6 +105,12 @@ export default function NavbarLeft({
     ) {
       setDashboard(true);
     }
+    if (
+      window.location?.pathname ===
+      "/" + user?.NameUser + "/dashboard/Analytics"
+    ) {
+      setDashboard(true);
+    }
     if (window.location?.pathname != "/plataform/clips") {
       window.onscroll = function (e) {
         console.log("");

@@ -260,3 +260,22 @@ export async function getCategoriesWithLimit(param) {
 		return error
 	}
 }
+
+
+
+export async function GetLastSixStreamSummaries(token, date) {
+	try {
+		const response = await axios.post(
+			`${baseURL}/StreamSummary/GetLastSixStreamSummaries`,
+			{ date },
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		return response.data;
+	} catch (error) {
+		return error
+	}
+}

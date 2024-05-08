@@ -15,6 +15,7 @@ import {
 } from "../../../services/history";
 
 import DropdownDays from "./dropdownDays";
+import StreamSummaryAnalytics from "./StreamSummaryAnalytics";
 
 export default function Analytics() {
   const auth = useSelector((state) => state.auth);
@@ -672,6 +673,9 @@ export default function Analytics() {
   return (
     <div className="analytics-body">
       <div className="analytics-container">
+        <div>
+          <StreamSummaryAnalytics />
+        </div>
         <div style={{ opacity: "0" }}>
           <h3>
             ¡Sigue así! Tu canal recibió un{" "}

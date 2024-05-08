@@ -170,6 +170,64 @@ const AppRouter = () => {
         )} */}
         {/*!isLogged && <NavbarButtom isMobile={isMobile}/>*/}
 
+        <Route exact path="/:streamer/dashboard/stream">
+          <NavbarLeft
+            isMobile={isMobile}
+            tyExpanded={expanded}
+            user={user}
+            tyDashboard={true}
+            setExpanded={setExpanded}
+          ></NavbarLeft>
+          <DashboardStream tyExpanded={expanded} isMobile={isMobile} />
+        </Route>
+        <Route exact path="/:streamer/dashboard/Configuración">
+          <NavbarLeft
+            isMobile={isMobile}
+            tyExpanded={expanded}
+            user={user}
+            tyDashboard={true}
+            setExpanded={setExpanded}
+          ></NavbarLeft>
+          <DashboardAjustes
+            user={user}
+            tyExpanded={expanded}
+            isMobile={isMobile}
+          />
+        </Route>
+        <Route exact path="/:streamer/dashboard/Clave">
+          <NavbarLeft
+            isMobile={isMobile}
+            tyExpanded={expanded}
+            user={user}
+            tyDashboard={true}
+            setExpanded={setExpanded}
+          ></NavbarLeft>
+          <DashboardServerTransmision
+            tyExpanded={expanded}
+            isMobile={isMobile}
+            user={user}
+          />
+        </Route>
+        <Route exact path="/:streamer/dashboard/home">
+          <NavbarLeft
+            isMobile={isMobile}
+            tyExpanded={expanded}
+            user={user}
+            tyDashboard={true}
+            setExpanded={setExpanded}
+          ></NavbarLeft>
+          <Dashboard isMobile={isMobile} />
+        </Route>
+        <Route exact path="/:streamer/dashboard/analytics">
+          <NavbarLeft
+            isMobile={isMobile}
+            tyExpanded={expanded}
+            user={user}
+            tyDashboard={true}
+            setExpanded={setExpanded}
+          ></NavbarLeft>
+          <Analytics />
+        </Route>
         <NLayout
           isMobile={isMobile}
           tyExpanded={expanded}
@@ -178,14 +236,6 @@ const AppRouter = () => {
           setExpanded={setExpanded}
         >
           <Switch>
-            <Route exact path="/:streamer/dashboard/home">
-              <Dashboard isMobile={isMobile} />
-            </Route>
-
-            <Route exact path="/:streamer/dashboard/analytics">
-              <Analytics />
-            </Route>
-
             <Route exact path="/:streamer/dashboard/streammanager">
               <StreamManager
                 isMobile={isMobile}
@@ -344,23 +394,6 @@ const AppRouter = () => {
             </Route>
             <Route exact path="/clips/getId">
               <GetClip />
-            </Route>
-            <Route exact path="/:streamer/dashboard/stream">
-              <DashboardStream tyExpanded={expanded} isMobile={isMobile} />
-            </Route>
-            <Route exact path="/:streamer/dashboard/Configuración">
-              <DashboardAjustes
-                user={user}
-                tyExpanded={expanded}
-                isMobile={isMobile}
-              />
-            </Route>
-            <Route exact path="/:streamer/dashboard/Clave">
-              <DashboardServerTransmision
-                tyExpanded={expanded}
-                isMobile={isMobile}
-                user={user}
-              />
             </Route>
           </Switch>
         </NLayout>
