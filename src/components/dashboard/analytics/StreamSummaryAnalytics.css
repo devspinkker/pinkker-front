@@ -3,6 +3,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     font-family: "inter";
+    padding-top: 4rem;
 }
 
 .summary {
@@ -28,14 +29,17 @@
 }
 
 .summary-details-item {
+    display: flex;
     flex-grow: 1;
-    /* Ocupar todo el espacio disponible */
     height: 100px;
+    min-width: 250px;
     margin: 5px 0;
     background: #18181b;
     /* margin: 10px; */
     flex-grow: 1;
-    padding: 10px;
+    padding: 18px;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .property-name {
@@ -46,6 +50,19 @@
 }
 
 .comparison {
-    color: #ff69b4;
+    color: #ff69b433;
+    margin-right: 10px;
     /* Color rosado */
+    font-family: inter;
+}
+
+.comparisonLast {
+    color: #ff69b433;
+    font-family: inter;
+}
+
+.property-value {
+    color: #ff69b4;
+    font-weight: 700;
+    font-family: inter;
 }

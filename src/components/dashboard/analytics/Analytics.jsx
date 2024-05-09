@@ -683,10 +683,10 @@ export default function Analytics() {
             costumbre en los últimos 28 días
           </h3>
         </div>
-        {getStats()}
-        {getTypeStats()}
-        {getClips()}
-        {getVods()}
+        {/* {getStats()} */}
+        {/* {getTypeStats()} */}
+        {/* {getClips()} */}
+        {/* {getVods()} */}
       </div>
     </div>
   );

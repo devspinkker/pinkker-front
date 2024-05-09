@@ -1,7 +1,7 @@
-.analytics-body{
+.analytics-body {
     width: 100%;
     min-height: 1000px;
-    background-color:#0a0b0d;
+    background-color: #0a0b0d;
 
 }
 
@@ -82,10 +82,4 @@
 
 .analytics-type-stats {
     height: 350px;
-}
-
-rect {
-    fill: #202020;
-    text: white;
-    border-radius: 5px;
 }
