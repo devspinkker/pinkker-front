@@ -493,3 +493,166 @@
     display: flex;
     z-index: 100000000;
 }
+
+.base-card {
+    padding: 0;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.max-h-full {
+    max-height: 100%;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.rounded-t {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+
+
+.w-full {
+    width: 100%;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+
+.base-card-act {
+    /* width: 100%; */
+    /* padding: 12px; */
+}
+
+.Feeddeactividades {
+    width: 13rem;
+    padding: 6px 13px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+
+}
+
+.Feeddeactividades_container {
+    background: #232628;
+    padding: 10px 5px;
+}
+
+.mapFeedAct {
+    padding: 6px 13px;
+}
+
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.text-base {
+    font-size: 1rem;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.text-white {
+    color: #fff;
+}
+
+.ml-auto {
+    margin-left: auto;
+}
+
+.shrink {
+    flex-shrink: 1;
+}
+
+.base-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.variant-text {
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.size-sm {
+    font-size: 0.875rem;
+}
+
+.base-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.button-content {
+    display: flex;
+    align-items: center;
+}
+
+.inner-label {
+    margin-left: 0.5rem;
+}
+
+.relative {
+    position: relative;
+}
+
+.base-icon-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.activity-feed-item {
+    display: flex;
+    align-items: center;
+}
+
+.soft-hidden {
+    visibility: hidden;
+}
+
+.font-normal {
+    font-weight: normal;
+}
+
+.mapFeedAct {
+    max-height: 140px !important;
+    overflow-y: overlay;
+    color: #fff;
+}
+
+.activity-feed-item__info {
+    padding-left: 4px;
+    font-family: inter;
+    font-weight: 600;
+}
+
+.activity-feed-item__info_action {}

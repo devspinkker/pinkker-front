@@ -31,6 +31,76 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
   const [ChatOnliFollowers, setChatOnliFollowers] = useState(false);
   const [ChatOnliSubs, setChatOnliSubs] = useState(false);
   const [SecondModChatSlowMode, SetSecondModChatSlowMode] = useState(null);
+  const [socket, setSocket] = useState(null);
+  const pingIntervalRef = useRef();
+  const [ActivityFeed, setActivityFeed] = useState([]);
+
+  useEffect(() => {
+    const REACT_APP_BACKCOMMERCIALWS = process.env.REACT_APP_BACKCOMMERCIALWS;
+    let id = window.localStorage.getItem("_id");
+    const connectWebSocket = () => {
+      const newSocket = new WebSocket(
+        `wss://www.pinkker.tv/8084/ws/notification/ActivityFeed/${id}`
+      );
+
+      newSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+
+      newSocket.onmessage = (event) => {
+        try {
+          const receivedMessage = JSON.parse(event.data);
+          console.log(event);
+          console.log(receivedMessage);
+          setActivityFeed((prevMessages) => [...prevMessages, receivedMessage]);
+        } catch (error) {
+          console.error("Error parsing JSON message:", error);
+        }
+      };
+
+      newSocket.onopen = () => {};
+
+      setSocket(newSocket);
+
+      window.addEventListener("beforeunload", () => {
+        newSocket.send("closing");
+        newSocket.close();
+      });
+    };
+
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+      connectWebSocket();
+    }
+
+    return () => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send("closing");
+        socket.close();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const pingInterval = () => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send("ping");
+      }
+    };
+
+    const intervalId = setInterval(pingInterval, 3000);
+    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
+
+    if (pingIntervalRef.current) {
+      clearInterval(pingIntervalRef.current);
+    }
+    pingIntervalRef.current = intervalId;
+
+    return () => {
+      if (pingIntervalRef.current) {
+        clearInterval(pingIntervalRef.current);
+      }
+    };
+  }, [socket]);
 
   const toggleChatOnliSubs = async () => {
     let token = window.localStorage.getItem("token");
@@ -640,6 +710,89 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
                 >
                   SIN CONEXIÓN
                 </span>
+              </div>
+              <div>
+                <section className="base-card-act">
+                  <div className="Feeddeactividades_container">
+                    <div
+                      title="Feed de actividades"
+                      className="Feeddeactividades"
+                    >
+                      <div
+                        className="base-icon icon"
+                        style={{ width: "20px", height: "20px" }}
+                      >
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12.625 7.3H9.32188L10.2188 1L3 8.7H6.12375L5.40625 15L12.625 7.3Z"
+                            fill="currentColor"
+                          ></path>
+                        </svg>
+                      </div>
+                      <span className="max-w-full shrink truncate text-base font-bold text-white">
+                        Feed de actividades
+                      </span>
+                    </div>
+                  </div>
+                  <div className="FeedAct">
+                    <div className="mapFeedAct">
+                      {ActivityFeed.map((item, index) => (
+                        <div key={index} className="activity-feed-item">
+                          {/* {item?.action === "follow" && ( */}
+                          <div
+                            className="base-icon icon"
+                            style={{ width: "20px", height: "20px" }}
+                          >
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M12.375 1.5H10.1875L8 3.25L5.8125 1.5H3.625L1 4.125V8.0625L8 14.625L15 8.0625V4.125L12.375 1.5Z"
+                                fill="currentColor"
+                              ></path>
+                            </svg>
+                          </div>
+                          {/* )} */}
+                          <div className="activity-feed-item__info">
+                            <span className="activity-feed-item__info_name">
+                              {item?.data}
+                            </span>
+                            <span>
+                              {item?.action === "follow" && (
+                                <span className="activity-feed-item__info_action">
+                                  {" "}
+                                  followed the channe
+                                </span>
+                              )}
+                              {item?.action === "DonatePixels" && (
+                                <span className="activity-feed-item__info_action">
+                                  {" "}
+                                  Dono {item?.Pixeles} Pixeles
+                                </span>
+                              )}
+                              {item?.action === "Suscribirse" && (
+                                <span className="activity-feed-item__info_action">
+                                  {" "}
+                                  subscribe to the channel
+                                </span>
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
               </div>
               <div
                 style={{
