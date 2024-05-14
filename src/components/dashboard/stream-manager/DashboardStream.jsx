@@ -34,6 +34,15 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
   const [socket, setSocket] = useState(null);
   const pingIntervalRef = useRef();
   const [ActivityFeed, setActivityFeed] = useState([]);
+  const speakMessage = (message) => {
+    const speech = new SpeechSynthesisUtterance();
+    speech.text = message;
+    speech.volume = 1;
+    speech.rate = 1;
+    speech.pitch = 1;
+    speech.lang = "es";
+    window.speechSynthesis.speak(speech);
+  };
 
   useEffect(() => {
     const REACT_APP_BACKCOMMERCIALWS = process.env.REACT_APP_BACKCOMMERCIALWS;
@@ -52,6 +61,9 @@ export default function DashboardStream({ isMobile, tyExpanded }) {
           const receivedMessage = JSON.parse(event.data);
           console.log(event);
           console.log(receivedMessage);
+          if (receivedMessage.action === "DonatePixels") {
+            speakMessage(receivedMessage.text);
+          }
           setActivityFeed((prevMessages) => [...prevMessages, receivedMessage]);
         } catch (error) {
           console.error("Error parsing JSON message:", error);

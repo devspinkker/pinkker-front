@@ -31,7 +31,7 @@ export const PostGetFollow25h = async () => {
     const res = await axios.get(`${url}/post/postGetFollow`, config);
     return res.data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
@@ -40,7 +40,7 @@ export const PostGets = async () => {
     const res = await axios.get(`${url}/post/PostGets`);
     return res.data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
@@ -60,7 +60,7 @@ export const RePost = async (id, token) => {
     const res = await axios.post(`${url}/post/Repost`, { idPost: id }, config);
     return res.data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 export const LikePost = async (object) => {
@@ -73,7 +73,7 @@ export const LikePost = async (object) => {
     const res = await axios.post(`${url}/post/posttLike`, object, config);
     return res.data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
@@ -87,7 +87,7 @@ export const DislikePost = async (object) => {
     const res = await axios.post(`${url}/post/postDislike`, object, config);
     return res.data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
@@ -101,7 +101,7 @@ export const CommentPost = async (object) => {
     const res = await axios.post(`${url}/post/CommentPost`, object, config);
     return res.data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
@@ -118,7 +118,7 @@ export const getTweetFollowing = async (page, limit) => {
     );
     return res.data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
@@ -166,7 +166,7 @@ export const getTrends = async (page = 1) => {
     const response = await axios.get(`${url}/post/GetTrends?page=${page}`);
     return response.data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
@@ -175,7 +175,7 @@ export const getTweetsByHashtag = async (hashtag, page = 1) => {
     const response = await axios.get(`${url}/post/GetTweetsByHashtag?page=${page}&hashtag=${hashtag}`);
     return response.data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
@@ -184,6 +184,6 @@ export const getTrendsByPrefix = async (prefix) => {
     const response = await axios.get(`${url}/post/GetTrendsByPrefix?hashtag=${prefix}`);
     return response.data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
