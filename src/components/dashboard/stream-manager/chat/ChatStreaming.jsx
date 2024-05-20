@@ -170,7 +170,10 @@ export function ChatStreaming({
             SetMsjChatAnclado(null);
           }
           if (receivedMessage?.action === "host_action") {
-            history.push("/" + receivedMessage?.hostA?.nameUser);
+            const delay = Math.floor(Math.random() * 3000);
+            setTimeout(() => {
+              history.push("/" + receivedMessage?.hostA?.nameUser);
+            }, delay);
           }
           if (receivedMessage?.action === "Host") {
             SetNewHost({

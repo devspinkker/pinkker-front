@@ -134,17 +134,15 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
     }
   };
 
-  const [color, setColor] = useState("")
+  const [color, setColor] = useState("");
 
   const generateColor = () => {
     setColor(Math.random().toString(16).substr(-6));
   };
 
   useEffect(() => {
-    generateColor()
-  }, [])
-
-
+    generateColor();
+  }, []);
 
   return (
     <div className="explorecategories-body">
@@ -158,12 +156,23 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           }}
         >
           <BarLoader color="#36d7b7" />
-
         </div>
       )}
-      <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgb(42, 46, 56)', padding: '0px  5.8rem', margin:'3.4rem 0px' }}>
-        <h3 style={{ color: 'white', fontSize: '30px' }}>Categorias</h3>
-        <img src={'/images/ESTRELLA_PINKKER_ROSA.png'} style={{ width: '10%' }} />
+      <Grid
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderBottom: "1px solid rgb(42, 46, 56)",
+          padding: "0px  5.8rem",
+          margin: "3.4rem 0px",
+        }}
+      >
+        <h3 style={{ color: "white", fontSize: "30px" }}>Categorias</h3>
+        <img
+          src={"/images/ESTRELLA_PINKKER_ROSA.png"}
+          style={{ width: "10%" }}
+        />
       </Grid>
       <div>{isMobile && <Search isMobile={isMobile} />}</div>
 
@@ -201,10 +210,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           style={{ left: `calc(${barPosition} * 48px)` }}
         ></div> */}
 
-
       <div className="explorecategories-card-container">
-
-
         {filtros?.categories && (
           <>
             <div
@@ -213,13 +219,13 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
               }}
             >
               <div className="explorecategories-card-container-filters">
-                <div className="explorecategories-card-container-filter-input" >
+                <div className="explorecategories-card-container-filter-input">
                   <img
                     src="/images/search.svg"
                     style={{
-                      fontSize:  "16px",
+                      fontSize: "16px",
                       color: "rgb(89 89 89)",
-                      margin:  "8px",
+                      margin: "8px",
                     }}
                   />
                   <input
@@ -228,10 +234,12 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                     onChange={(e) => setFilterValue(e.target.value)}
                     placeholder="Búsqueda"
                   />
-                  {
-                    filterValue &&
-                    < AiOutlineCloseCircle style={{ color: 'white', cursor: 'pointer' }} onClick={(e) => setFilterValue("")} />
-                  }
+                  {filterValue && (
+                    <AiOutlineCloseCircle
+                      style={{ color: "white", cursor: "pointer" }}
+                      onClick={(e) => setFilterValue("")}
+                    />
+                  )}
                 </div>
                 <div>
                   <CustomSelect
@@ -241,16 +249,42 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                   />
                 </div>
               </div>
-              <div className={!sortedCategories()?.length ? "explore-card-not-results" : "explorecategories-card-container-sorted-content"}>
-                {categories &&
-                  !sortedCategories()?.length ?
-                  <Grid style={{ display: 'flex', flexDirection: 'column', gap: '15px', justifyContent: 'center', alignItems: 'center', width: '100%', height: '300px', backgroundColor: '#121418', border: '1px dashed #2a2e38', marginBottom: '20%', marginTop: '1%', borderRadius: '5px' }}>
-
-                    <ImCross style={{ color: 'red', fontSize: '3.5rem' }} />
-                    <Typography style={{ fontFamily: 'Inter', fontWeight: 600, color: 'white' }}>No hay categorias para mostrar</Typography>
+              <div
+                className={
+                  !sortedCategories()?.length
+                    ? "explore-card-not-results"
+                    : "explorecategories-card-container-sorted-content"
+                }
+              >
+                {categories && !sortedCategories()?.length ? (
+                  <Grid
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "15px",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "100%",
+                      height: "300px",
+                      backgroundColor: "#121418",
+                      border: "1px dashed #2a2e38",
+                      marginBottom: "20%",
+                      marginTop: "1%",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    <ImCross style={{ color: "red", fontSize: "3.5rem" }} />
+                    <Typography
+                      style={{
+                        fontFamily: "Inter",
+                        fontWeight: 600,
+                        color: "white",
+                      }}
+                    >
+                      No hay categorias para mostrar
+                    </Typography>
                   </Grid>
-
-                  :
+                ) : (
                   sortedCategories()?.map((categorie) => (
                     <CardCategorie
                       key={categorie.nombre}
@@ -263,8 +297,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                       TopColor={categorie.TopColor}
                     />
                   ))
-
-                }
+                )}
               </div>
             </div>
           </>
@@ -278,8 +311,8 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                 stream?.streamer && isMobile
                   ? "100%"
                   : stream?.streamer && !isMobile
-                    ? "30%"
-                    : "160px"
+                  ? "30%"
+                  : "160px"
               }
               isLoading={isLoading}
               name={stream.streamer}

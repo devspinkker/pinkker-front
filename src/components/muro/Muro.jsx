@@ -55,15 +55,19 @@ export default function Muro({ isMobile, userName }) {
   const [dropdownEmotes, setDropdownEmotes] = useState(false);
   const [userFollows, setUserFollows] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(true);
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 500);
+  const [isLoading, setIsLoading] = useState(false);
+  const [AvatarSearch, SetAvatarSearch] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    let avatar = window.localStorage.getItem("avatar");
+    if (avatar) {
+      SetAvatarSearch(avatar);
+    }
+  }, []);
   async function PostGetsf() {
     try {
       let token = window.localStorage.getItem("token");
@@ -113,6 +117,9 @@ export default function Muro({ isMobile, userName }) {
           setMessage("");
           setImage(null);
           const res = await PostCreate(formData);
+          if (res?.message === "StatusCreated") {
+            setTweets([res.post, ...tweets]);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -184,7 +191,7 @@ export default function Muro({ isMobile, userName }) {
                   <div className="tweetcard-avatar">
                     <img
                       style={{ width: "35px", borderRadius: "50%" }}
-                      src={userName.avatar ?? "/images/pixel.png"}
+                      src={AvatarSearch ? AvatarSearch : "/images/search.svg"}
                     />
                   </div>
 
@@ -216,7 +223,7 @@ export default function Muro({ isMobile, userName }) {
                     }}
                   >
                     <img
-                      src="/images/search.svg"
+                      src={"/images/search.svg"}
                       style={{
                         fontSize: "16px",
                         color: "rgb(89 89 89)",

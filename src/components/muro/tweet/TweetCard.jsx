@@ -40,6 +40,41 @@ export default function TweetCard({ tweet }) {
   function togglePopupCiteTweet() {
     setPopupCiteTweet(!popupCiteTweet);
   }
+  function calculateTimeDifference(postDate) {
+    const currentDate = new Date();
+    const tweetDate = new Date(postDate);
+    const difference = Math.abs(currentDate - tweetDate);
+    const minutesDifference = Math.floor(difference / (1000 * 60));
+
+    if (minutesDifference < 60) {
+      return `${minutesDifference} ${
+        minutesDifference === 1 ? "minuto" : "minutos"
+      } `;
+    }
+
+    const hoursDifference = Math.floor(minutesDifference / 60);
+    if (hoursDifference < 24) {
+      return `${hoursDifference} ${hoursDifference === 1 ? "hora" : "horas"} `;
+    }
+
+    const daysDifference = Math.floor(hoursDifference / 24);
+    if (daysDifference < 30) {
+      return `${daysDifference} ${daysDifference === 1 ? "día" : "días"} `;
+    }
+
+    const monthsDifference = Math.floor(daysDifference / 30);
+    const remainingDays = daysDifference % 30;
+    if (monthsDifference < 12) {
+      return `${monthsDifference} ${
+        monthsDifference === 1 ? "mes" : "meses"
+      } y ${remainingDays} ${remainingDays === 1 ? "día" : "días"} `;
+    }
+
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return tweetDate.toLocaleDateString(undefined, options);
+  }
+
+  const timeDifference = calculateTimeDifference(tweet.TimeStamp);
 
   async function toggleShowDropdownRetweet() {
     let token = window.localStorage.getItem("token");
@@ -100,6 +135,7 @@ export default function TweetCard({ tweet }) {
   };
 
   useEffect(() => {
+    console.log(tweet);
     let loggedUser = window.localStorage.getItem("_id");
     let repost = tweet.Type === "RePost" ? true : false;
     if (!repost) {
@@ -181,9 +217,15 @@ export default function TweetCard({ tweet }) {
                     }}
                   >
                     {tweet.Type === "RePost" ? (
-                      <p>@{tweet.OriginalPostData.UserInfo.NameUser} · 32min</p>
+                      <p>
+                        @{tweet.OriginalPostData.UserInfo.NameUser} ·{" "}
+                        {timeDifference}
+                      </p>
                     ) : (
-                      <p> @{tweet.UserInfo.NameUser} · 32min</p>
+                      <p>
+                        {" "}
+                        @{tweet.UserInfo.NameUser} · {timeDifference}
+                      </p>
                     )}
                   </p>
                 </Grid>
