@@ -59,6 +59,24 @@ export async function anclarChatMessage(roomID, data, token) {
     }
 }
 
+export async function HostChatMessage(roomID, data, token) {
+
+    try {
+        const response = await axios.post(
+            `${baseURL}/chatStreaming/${roomID}/messages/Host`,
+            { nameUser: data, },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
 
 export async function desanclarChatMessage(roomID, messageID, token) {
     try {

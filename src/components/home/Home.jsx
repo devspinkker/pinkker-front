@@ -6,7 +6,6 @@ import Categories from "./categories/Categories";
 import DirectosRecommended from "./recommended/Recommended";
 import Clips from "./clips/Clips";
 
-
 import useTheme from "../../theme/useTheme";
 
 import { useLocation } from "react-router-dom";
@@ -33,7 +32,7 @@ import { AiOutlinePlayCircle } from "react-icons/ai";
 import { LuGamepad } from "react-icons/lu";
 import { GrGamepad } from "react-icons/gr";
 import SliderLayout from "../layout/SliderLayout";
-import { ScaleLoader,BarLoader } from "react-spinners";
+import { ScaleLoader, BarLoader } from "react-spinners";
 
 const Home = ({
   socketMain,
@@ -242,7 +241,7 @@ const Home = ({
     <div
       style={{
         padding: isMobile ? "0px 1rem 5rem 1rem" : "2rem 5.8rem",
-        width:'89%'
+        width: "89%",
       }}
       className={"home-body-" + theme.theme}
     >
@@ -256,7 +255,6 @@ const Home = ({
           }}
         >
           <BarLoader color="#36d7b7" />
-
         </div>
       )}
       <DirectosRecommended
@@ -266,57 +264,50 @@ const Home = ({
         expanded={expanded}
       />
 
-
-      
-        <div className="categories-home-manager">
-         
-
-
-        </div>
-        <div
-          className="categories-home"
-        >
-          {!Categories[1] && (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-                margin: "21px 0px",
-                gap: "10px",
-              }}
-            >
-              {[...Array(9)].map((_, index) => (
-                <div
+      <div className="categories-home-manager"></div>
+      <div className="categories-home">
+        {Categories && !Categories[1] && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+              margin: "21px 0px",
+              gap: "10px",
+            }}
+          >
+            {[...Array(9)].map((_, index) => (
+              <div
+                style={{
+                  marginTop: "30px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                }}
+                key={index}
+              >
+                <Skeleton
+                  variant="rectangular"
+                  width={150}
+                  height={199}
                   style={{
-                    marginTop: "30px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "15px",
+                    backgroundColor: "#" + color,
+                    borderRadius: "5px",
                   }}
-                  key={index}
-                >
-                  <Skeleton
-                    variant="rectangular"
-                    width={150}
-                    height={199}
-                    style={{
-                      backgroundColor: "#" + color,
-                      borderRadius: "5px",
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
-
-
-      
-
-      <SliderLayout Categories={Categories} Categoria={true} clipT={false} isMobile={isMobile}></SliderLayout>
-      { <Clips isMobile={isMobile} />}
+      <SliderLayout
+        Categories={Categories}
+        Categoria={true}
+        clipT={false}
+        isMobile={isMobile}
+      ></SliderLayout>
+      {<Clips isMobile={isMobile} />}
 
       {/* <Vods /> */}
 

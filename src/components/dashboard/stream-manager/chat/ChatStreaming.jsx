@@ -24,6 +24,7 @@ import {
 import { getStreamerDonationSubscription } from "../../../../services/donationSubscription";
 import {
   GetInfoUserInRoomFunc,
+  HostChatMessage,
   actionsChatStream,
   actionsModeratorChatStream,
   anclarChatMessage,
@@ -165,6 +166,9 @@ export function ChatStreaming({
           }
           if (receivedMessage.action === "message_Desanclar") {
             SetMsjChatAnclado(null);
+          }
+          if (receivedMessage?.action === "host_action") {
+            history.push("/" + receivedMessage?.hostA?.nameUser);
           }
         } catch (error) {
           console.error("Error al analizar el mensaje JSON:", error);
@@ -371,6 +375,15 @@ export function ChatStreaming({
     }
     const res = await anclarChatMessage(streamerChat.id, msj, token);
   };
+  const HostChatMessageFunc = async (msj) => {
+    const token = window.localStorage.getItem("token");
+    if (!token) {
+      alert("no logueado");
+      return;
+    }
+    await HostChatMessage(streamerChat.id, msj, token);
+  };
+
   const [ResMessageschatState, setResMessageschat] = useState(null);
   const ResMessageschat = (msj) => {
     setResMessageschat(msj);
@@ -603,6 +616,22 @@ export function ChatStreaming({
   };
   const [Modolento, setModolento] = useState(null);
   const sendMessage = async () => {
+    if (message.startsWith("/host")) {
+      const regex = /\/host\s+(\S+)\s*(.*)/;
+      const match = message.match(regex);
+      if (match) {
+        const nameUser = match[1];
+        HostChatMessageFunc(nameUser);
+        setResMessageschat(null);
+
+        setMessage("");
+        return;
+      }
+      setResMessageschat(null);
+
+      setMessage("");
+      return;
+    }
     setResMessageschat(null);
 
     setMessage("");
