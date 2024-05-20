@@ -162,7 +162,7 @@ export default function Channel({
       setusuarioID("no _id");
     }
     loadDataOnlyOnce();
-  }, []);
+  }, [streamer]);
 
   useEffect(() => {
     if (isMobile) {
@@ -352,7 +352,7 @@ export default function Channel({
     };
 
     fetchData();
-  }, []);
+  }, [streamer]);
 
   useEffect(() => {
     if (stream != null && stream != undefined) {
@@ -373,8 +373,8 @@ export default function Channel({
         ) {
           setStream((prevStream) => ({
             ...prevStream,
-            ModChat: dataStream.data.ModChat,
-            ModSlowMode: dataStream?.data.ModSlowMode,
+            ModChat: dataStream?.data?.ModChat,
+            ModSlowMode: dataStream?.data?.ModSlowMode,
           }));
         }
         if (dataStream.data.online) {
@@ -389,7 +389,7 @@ export default function Channel({
     const interval = setInterval(fetchData, 6000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [streamer]);
 
   const [nameD, setNameD] = useState("Siguiendo");
 

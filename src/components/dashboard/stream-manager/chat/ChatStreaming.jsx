@@ -65,6 +65,8 @@ export function ChatStreaming({
   const [SubStateAct, SetSubStateAct] = useState(false);
   const [FollowParamOwnner, SetFollowParamOwner] = useState(false);
   const [MsjChatAnclado, SetMsjChatAnclado] = useState(null);
+  const [NewHost, SetNewHost] = useState(null);
+  const hostTimeoutRef = useRef(null);
   const alert = useNotification();
   const history = useHistory();
 
@@ -169,6 +171,20 @@ export function ChatStreaming({
           }
           if (receivedMessage?.action === "host_action") {
             history.push("/" + receivedMessage?.hostA?.nameUser);
+          }
+          if (receivedMessage?.action === "Host") {
+            SetNewHost({
+              HostBy: receivedMessage.hostby,
+              spectators: receivedMessage.spectators,
+            });
+
+            if (hostTimeoutRef.current) {
+              clearTimeout(hostTimeoutRef.current);
+            }
+
+            hostTimeoutRef.current = setTimeout(() => {
+              SetNewHost(null);
+            }, 90000);
           }
         } catch (error) {
           console.error("Error al analizar el mensaje JSON:", error);
@@ -1050,6 +1066,32 @@ export function ChatStreaming({
                       </button>
                     </div>
                   )}
+              </div>
+            </div>
+          )}
+          {NewHost != null && (
+            <div className="Host">
+              <div className="HostChat">
+                <div className="contentHostInfo">
+                  <div className="contentHostInfo-spans">
+                    <span
+                      style={{
+                        color: "#ffff",
+                      }}
+                    >
+                      host de
+                      {" " + NewHost?.HostBy}
+                    </span>{" "}
+                    <span
+                      style={{
+                        color: "#ffff",
+                      }}
+                    >
+                      con
+                      {" " + NewHost?.spectators} espectadores
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           )}
