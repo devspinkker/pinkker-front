@@ -6,7 +6,7 @@
 .dashboard-left-menu-header {
     position: relative;
     display: flex;
-    height: 5rem;
+    margin: 10px 12px;
     width: 100%;
     align-items: center;
     gap: 0.625rem;
@@ -36,7 +36,6 @@
 
 .dashboard-left-menu-item {
     display: flex;
-    justify-content: flex-start;
     margin: 10px 12px;
     padding: 7px;
     height: 36px;
@@ -50,7 +49,6 @@
     justify-content: flex-start;
     padding: 7px;
     height: 36px;
-    width: 145px;
     align-items: center;
     border-radius: 5px;
     color: #fff;

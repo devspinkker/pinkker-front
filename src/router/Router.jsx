@@ -178,7 +178,7 @@ const AppRouter = () => {
             tyDashboard={true}
             setExpanded={setExpanded}
           ></NavbarLeft>
-          <DashboardStream tyExpanded={expanded} isMobile={isMobile} />
+          <DashboardStream tyExpanded={expanded} isMobile={isMobile} user={user}/>
         </Route>
         <Route exact path="/:streamer/dashboard/Configuración">
           <NavbarLeft
@@ -232,7 +232,7 @@ const AppRouter = () => {
           isMobile={isMobile}
           tyExpanded={expanded}
           user={user}
-          tyDashboard={false}
+          tyDashboard={ window.location.pathname.includes('/dashboard') ? true : false}
           setExpanded={setExpanded}
         >
           <Switch>

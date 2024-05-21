@@ -26,6 +26,10 @@ import { AiOutlineUser } from "react-icons/ai";
 import { LiaSlidersHSolid } from "react-icons/lia";
 import { TbLogout2 } from "react-icons/tb";
 function NLayout(props) {
+
+
+  const [locationpath, setLocationPath] = useState()
+  const [dashboard, setDashboard] = useState(false)
   const [pulse, setPulse] = useState(false);
   const [abrir, setAbrir] = useState(true);
   const [aparecer, setAparcer] = useState(false);
@@ -67,7 +71,11 @@ function NLayout(props) {
       }
     };
     fetchData();
-  }, [props.tyExpanded]);
+    
+    if(window.location.pathname.includes('/dashboard')){
+      setDashboard(true)
+    }
+  }, [props.tyExpanded, window.location.pathname]);
 
   const [subMenu, setSubMenu] = useState(false);
 
@@ -133,7 +141,7 @@ function NLayout(props) {
     return (
       <Grid
         style={{
-          display: "flex",
+          display: dashboard ? 'none' : "flex",
           flexDirection: "row",
           width: "105% !important",
         }}
@@ -748,7 +756,7 @@ function NLayout(props) {
                         paddingTop: "10px",
                         paddingBottom: "10px",
                       }}
-                      // onClick={() => handleExpandCartera()}
+                    // onClick={() => handleExpandCartera()}
                     >
                       <Grid
                         style={{
@@ -1292,7 +1300,7 @@ function NLayout(props) {
           <Grid
             style={{
               borderBottom: "1px solid #2a2e38",
-              display: "flex",
+              display: dashboard ? 'none' : "flex",
               alignItems: "center",
               justifyContent: "space-between",
               padding: "1rem 1rem",

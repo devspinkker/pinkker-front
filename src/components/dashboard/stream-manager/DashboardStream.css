@@ -22,7 +22,8 @@
     background-color: #131418;
     margin-top: 0px;
     color: #fff;
-    padding: 4px 12px;
+    padding: 1rem 5.8rem;
+    width: 95%;
 }
 
 .navigation-container-stream-deshboard {
@@ -154,24 +155,20 @@
 
 .content {
     display: flex;
-    flex-direction: row;
-    flex: 1;
-    overflow: hidden;
-    margin-top: 10px;
+    justify-content: space-between;
+    padding: 1rem 5.8rem;
+    height: 100vh;
+    width: 95%;
 }
 
 .part-one-chat {
-    flex: 1 1;
-    max-width: 545px;
-    min-width: 354px;
     overflow: hidden;
     display: flex;
     justify-content: center;
 }
 
 .part-two {
-    flex: 1 1;
-    margin: -3px 0px 0px 23px;
+    width: 60%;
 }
 
 .column {
@@ -185,15 +182,14 @@
 
 .column>div {
     margin: 5px;
-    height: 33%;
-    background: #191b1f;
+    height: 100%;
     border-radius: 5px;
 }
 
 .Información-sesión-p1 {
     display: flex;
+    flex-direction: column;
     padding: 10px;
-    background-color: #232628;
     color: #ffff;
     justify-content: space-between;
     font-weight: bolder;
@@ -201,8 +197,8 @@
 
 .vista-previa-stream-p1 {
     display: flex;
+    align-items: center;
     padding: 10px;
-    background-color: #232628;
     color: #ffff;
 }
 
@@ -362,13 +358,12 @@
 .Broadcast-preview-dashboard {
     display: flex;
     /* justify-content: center; */
-    height: 400px !important;
+    height: 100% !important;
     flex-direction: column;
 }
 
 .sin-conexion-s3 {
     padding: 6px;
-    background: #0f1214;
     color: #fff;
     position: relative;
     font-weight: bolder;
@@ -554,11 +549,6 @@
     align-items: center;
     color: #fff;
 
-}
-
-.Feeddeactividades_container {
-    background: #232628;
-    padding: 10px 5px;
 }
 
 .mapFeedAct {
