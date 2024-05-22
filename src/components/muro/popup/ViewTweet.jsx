@@ -89,9 +89,16 @@ export default function ViewTweet({ closePopup }) {
       const token = window.localStorage.getItem("token");
       setToken(token);
       try {
-        CommentPost({ status: comment, OriginalPost: tweet?._id });
-        setComment("");
-        alert({ type: "SUCCESS" });
+        const res = await CommentPost({
+          status: comment,
+          OriginalPost: tweet?._id,
+        });
+        console.log(res);
+        if (res?.message == "StatusCreated") {
+          setComments([res?.post, ...comments]);
+          alert({ type: "SUCCESS" });
+          setComment("");
+        }
       } catch (error) {
         console.log(error);
       }
