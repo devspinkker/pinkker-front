@@ -365,17 +365,16 @@ export default function TweetCard({ tweet }) {
                 <div
                   style={{ color: isLiked && "red" }}
                   className="tweetcard-icon-like"
-                  onClick={() => handleLike()}
                 >
                   <i class="fas fa-chart-bar" />
                   {tweet.Type === "RePost" ? (
                     <p style={{ marginLeft: "5px", fontSize: "14px" }}>
-                      {tweet.OriginalPostData?.Likes?.length}
+                      {tweet.OriginalPostData?.Views}
                     </p>
                   ) : (
                     <p style={{ marginLeft: "5px", fontSize: "14px" }}>
                       {" "}
-                      {/* {tweet?.Likes?.length} */}
+                      {tweet?.Views}
                     </p>
                   )}
                 </div>

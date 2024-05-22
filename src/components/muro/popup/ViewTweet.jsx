@@ -30,11 +30,16 @@ export default function ViewTweet({ closePopup }) {
       try {
         const commentsData = await GetCommentPost(IdPost);
         if (commentsData.data.message === "ok") {
-          setComments(commentsData.data.data);
+          if (commentsData.data?.data) {
+            setComments(commentsData.data?.data);
+          } else {
+            setComments([]);
+          }
         } else {
           setComments([]);
         }
       } catch (error) {
+        setComments([]);
         console.error("Error al obtener los comentarios:", error);
       }
     };
@@ -93,13 +98,14 @@ export default function ViewTweet({ closePopup }) {
           status: comment,
           OriginalPost: tweet?._id,
         });
-        console.log(res);
         if (res?.message == "StatusCreated") {
           setComments([res?.post, ...comments]);
+          console.log(comments);
           alert({ type: "SUCCESS" });
           setComment("");
         }
       } catch (error) {
+        console.log(comments);
         console.log(error);
       }
     }
