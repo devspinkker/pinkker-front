@@ -362,10 +362,7 @@ export default function TweetCard({ tweet }) {
                 theme="pinkker"
                 content={<h1>{isLiked ? "Cancelar Me gusta" : "Me gusta"}</h1>}
               >
-                <div
-                  style={{ color: isLiked && "red" }}
-                  className="tweetcard-icon-like"
-                >
+                <div className="tweetcard-icon-like">
                   <i class="fas fa-chart-bar" />
                   {tweet.Type === "RePost" ? (
                     <p style={{ marginLeft: "5px", fontSize: "14px" }}>

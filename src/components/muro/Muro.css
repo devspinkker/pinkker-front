@@ -44,7 +44,7 @@
 .muro-send-tweet-input {
     width: 90%;
     background-color: #3a3b3c;
-
+    border-radius: 25px;
 }
 
 .muro-send-tweet-input::placeholder {
@@ -61,6 +61,7 @@
     font-size: 18px;
     outline: none;
     padding: 5px;
+    padding-left: 20px;
     resize: none;
 }
 
@@ -108,7 +109,7 @@
 }
 
 .muro-tweet-secondary {
-    width: 25%;
+    width: 44%;
 }
 
 .muro-tweet-secondary-search input {

@@ -3,6 +3,7 @@ import "./ViewTweet.css";
 import { useSelector } from "react-redux";
 import { useNotification } from "../../Notifications/NotificationProvider";
 import { ScaleLoader } from "react-spinners";
+import { Link } from "react-router-dom";
 import {
   CommentPost,
   setToken,
@@ -132,23 +133,26 @@ export default function ViewTweet({ closePopup }) {
             <span>Post</span>
           </h2>
         </div> */}
-        <div style={{ display: "flex", marginTop: "10px" }}>
-          <div
-            style={{ textAlign: "left", marginTop: "10px" }}
-            className="tweetcard-avatar-pop"
-          >
-            <img
-              style={{ width: "45px", borderRadius: "100px" }}
-              src={tweet?.UserInfo.Avatar}
-            />
+        <Link to={"/" + tweet?.UserInfo.NameUser}>
+          <div style={{ display: "flex", marginTop: "10px" }}>
+            <div
+              style={{ textAlign: "left", marginTop: "10px" }}
+              className="tweetcard-avatar-pop"
+            >
+              <img
+                style={{ width: "45px", borderRadius: "100px" }}
+                src={tweet?.UserInfo.Avatar}
+              />
+            </div>
+            <div className="tweetcard-primary-pop">
+              <h3>{tweet?.UserInfo.NameUser}</h3>
+              <p style={{ color: "lightgray", fontSize: "15px" }}>
+                @{tweet?.UserInfo.NameUser}
+              </p>
+            </div>
           </div>
-          <div className="tweetcard-primary-pop">
-            <h3>{tweet?.UserInfo.NameUser}</h3>
-            <p style={{ color: "lightgray", fontSize: "15px" }}>
-              @{tweet?.UserInfo.NameUser}
-            </p>
-          </div>
-        </div>
+        </Link>
+
         <div
           style={{
             marginTop: "10px",
@@ -168,14 +172,7 @@ export default function ViewTweet({ closePopup }) {
             />
           </div>
         )}
-        <div className="viewtweet-quantity">
-          <div className="viewtweet-quantity-card">
-            <p style={{ color: "white" }}>
-              {tweet?.Likes.length}{" "}
-              <a style={{ color: "darkgray" }}>Me gusta</a>
-            </p>
-          </div>
-        </div>
+
         <div
           style={{
             width: "100%",
@@ -192,6 +189,13 @@ export default function ViewTweet({ closePopup }) {
         >
           <div className="tweetcard-icon-comment">
             <i style={{ fontSize: "16px" }} className="far fa-comment" />
+            <div className="viewtweet-quantity">
+              <div className="viewtweet-quantity-card">
+                <p style={{ color: "white", paddingLeft: "10px" }}>
+                  {tweet?.Comments?.length}{" "}
+                </p>
+              </div>
+            </div>
           </div>
           <div
             onClick={handleLike}
@@ -203,6 +207,14 @@ export default function ViewTweet({ closePopup }) {
             ) : (
               <i style={{ fontSize: "16px" }} className="far fa-heart" />
             )}
+
+            <div className="viewtweet-quantity">
+              <div className="viewtweet-quantity-card">
+                <p style={{ color: "white", paddingLeft: "10px" }}>
+                  {tweet?.Likes.length}{" "}
+                </p>
+              </div>
+            </div>
           </div>
           <div className="tweetcard-icon-share">
             <i style={{ fontSize: "16px" }} className="fas fa-share" />
@@ -265,7 +277,7 @@ export default function ViewTweet({ closePopup }) {
                 className="muro-send-tweet-input-respuesta"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Twittea tu respuesta"
+                placeholder="Postea tu respuesta"
                 type="text"
               />
             </div>

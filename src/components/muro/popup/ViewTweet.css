@@ -9,6 +9,7 @@
     margin: auto;
     background-color: rgba(0, 0, 0, 0.0);
     z-index: 9999;
+    margin: 0px;
 
 }
 
@@ -18,12 +19,12 @@
 }
 
 .viewtweet-popup-container {
-    width: 58%;
+    width: 91%;
     height: 800px;
     overflow: scroll;
     margin: auto;
     margin-top: 10px;
-    padding: 30px;
+    padding: 3px 30px;
     text-align: center;
     background: #121418;
     box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
@@ -148,6 +149,7 @@
     border: none;
     color: #ededed;
     cursor: pointer;
+    border-radius: 10px;
 }
 
 .muro-send-tweet-input-respuesta {
