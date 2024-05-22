@@ -662,11 +662,11 @@ export default function CustomPlayer({
       {popup === false && <div className="customPlayer-shadow-1"></div>}
       {getHlsPlayer()}
 
-      {dashboard === false && videoLoading === true && (
+      {/* {dashboard === false && videoLoading === true && (
         <div className="pinkker-player-loading">
           <ScaleLoader color="#f36197d7" />
         </div>
-      )}
+      )} */}
       {/* {dashboard ===  && showScreenMute === true && ( */}
       {/* )} */}
       {/* <div className="customPlayer-shadow-1"></div> */}

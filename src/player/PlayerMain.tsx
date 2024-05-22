@@ -3,7 +3,7 @@ import flvjs from 'flv.js';
 import Hls from 'hls.js';
 import "./ReactVideoPlayer.css";
 import { AdsAddStreamSummary } from '../services/backGo/streams';
-
+import { useHistory  } from "react-router-dom";
 interface ReactVideoPlayerProps {
   src: string;
   videoRef: React.RefObject<HTMLVideoElement>;
@@ -15,6 +15,7 @@ interface ReactVideoPlayerProps {
 }
 
 function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID }: ReactVideoPlayerProps) {
+  const history = useHistory();
   const [isPlaying, setIsPlaying] = useState(false);
   const [Commercial, setCommercial] = useState<any>(null);
   const [showWarning, setShowWarning] = useState(true); 
@@ -211,7 +212,9 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
       videoRef.current.play();
     }
   };
-
+  const handleRedirectHome = () => {
+    history.push("/")
+  };
   return (
     <>
       {showWarning && (
@@ -253,7 +256,9 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
             </p>
           </div>
           <div  className="dialog-actions">
-              <button >
+              <button
+               onClick={handleRedirectHome}
+              >
                 <div >
                   <div>Cancelar</div>
                 </div>
