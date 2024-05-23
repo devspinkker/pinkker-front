@@ -171,14 +171,14 @@ const AppRouter = () => {
         {/*!isLogged && <NavbarButtom isMobile={isMobile}/>*/}
 
         <Route exact path="/:streamer/dashboard/stream">
-          <NavbarLeft
+          {/* <NavbarLeft
             isMobile={isMobile}
             tyExpanded={expanded}
             user={user}
             tyDashboard={true}
             setExpanded={setExpanded}
-          ></NavbarLeft>
-          <DashboardStream tyExpanded={expanded} isMobile={isMobile} user={user}/>
+          ></NavbarLeft> */}
+          <DashboardStream tyExpanded={expanded} isMobile={isMobile} user={user}  />
         </Route>
         <Route exact path="/:streamer/dashboard/Configuración">
           <NavbarLeft

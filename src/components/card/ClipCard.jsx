@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 
 import "./ClipCard.css";
+import { Link } from "react-router-dom";
+import SelectVideoClip from "../home/clips/SelectVideoClip";
 
 export default function ClipCard({ video, ...props }) {
   const [mouseEnter, setMouseEnter] = useState(false);
   const [viewVideo, setViewVideo] = useState(false);
 
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const toggleSelect = () => {
+    setSelectedVideo(!selectedVideo);
+  };
+  console.log(video)
   const handleEnter = () => {
     setMouseEnter(true);
     setTimeout(() => {
@@ -47,15 +54,20 @@ export default function ClipCard({ video, ...props }) {
         )}
 
         <div
-          style={{ marginLeft: "10px", display: "flex", alignItems: "center" }}
+          style={{ display: "flex", alignItems: "center" }}
         >
           <img
             style={{ width: "35px", borderRadius: "50px", marginTop: "10px" }}
             src={video.Avatar}
           />
-          <div style={{ marginTop: "10px", marginLeft: "5px" }}>
-            <h4 style={{ color: "white", fontSize: "14px" }}>{props?.title}</h4>
-            <p style={{ fontSize: "13px" }}>{props.views} vistas · hace 2m </p>
+          <div style={{ marginTop: "10px", marginLeft: "5px", display: 'flex', gap: '2px', flexDirection: 'column' }}>
+            <h4 style={{ color: "white", fontSize: "14px" }}>{video?.clipTitle}</h4>
+            <p style={{ fontSize: "12px" }}>
+              {video?.streamerId}
+            </p>
+            <p style={{ fontSize: "10px" }}>
+              Clipeado por {video?.nameUserCreator}
+            </p>
           </div>
         </div>
       </div>
@@ -64,33 +76,44 @@ export default function ClipCard({ video, ...props }) {
 
   function getImagePreview() {
     return (
-      <div className="clipcard-image-preview">
+
+      <div className="clipcard-image-preview" onClick={() => setSelectedVideo({ video })}>
         <img
           style={{
             borderRadius: "5px",
-            width: "100%",            
+            width: "100%",
           }}
           src={'/images/pinkker-stream.png'}
           alt=""
         />
         <div
-          style={{  display: "flex", alignItems: "center" }}
+          style={{ display: "flex", alignItems: "center" }}
         >
           <img
-            style={{ width: "35px", height: "35px", borderRadius:'50%'  }}
+            style={{ width: "35px", height: "35px", borderRadius: '50%' }}
             src={video?.Avatar}
           />
-          <div style={{ marginTop: "10px", marginLeft: "5px", display:'flex', gap:'2px', flexDirection:'column' }}>
+          <div style={{ marginTop: "10px", marginLeft: "5px", display: 'flex', gap: '2px', flexDirection: 'column' }}>
             <h4 style={{ color: "white", fontSize: "14px" }}>{video?.clipTitle}</h4>
             <p style={{ fontSize: "12px" }}>
-             {video?.streamerId}
+              {video?.streamerId}
             </p>
             <p style={{ fontSize: "10px" }}>
-             Clipeado por {video?.nameUserCreator}
+              Clipeado por {video?.nameUserCreator}
             </p>
           </div>
         </div>
+
+
+
+        {selectedVideo && (
+          <SelectVideoClip
+            clip={selectedVideo.video}
+            toggleSelect={toggleSelect}
+          />
+        )}
       </div>
+
     );
   }
 
@@ -104,7 +127,7 @@ export default function ClipCard({ video, ...props }) {
         display: props.dashboard ? "flex" : "block",
       }}
       className="clipcard-body"
-    > 
+    >
       <div className="clipcard-container">
         <div className="clipcard-image">
           {getImagePreview()}

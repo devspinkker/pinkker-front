@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
@@ -13,8 +13,10 @@ import ClipCard from "../card/ClipCard";
 import "./SliderLayout.css";
 import { AiOutlinePlayCircle } from "react-icons/ai";
 import { GrGamepad } from "react-icons/gr";
+import SelectVideoClip from "../home/clips/SelectVideoClip";
 
 function SliderLayout(props) {
+
   return (
     <Swiper
       style={{
@@ -75,8 +77,8 @@ function SliderLayout(props) {
               {props.titulo
                 ? "Vods más vistos"
                 : props.isMobile
-                ? "Clips"
-                : "Clips más vistos"}{" "}
+                  ? "Clips"
+                  : "Clips más vistos"}{" "}
             </h2>
           </Grid>
         )}
@@ -170,6 +172,9 @@ function SliderLayout(props) {
             ))}
         </>
       )}
+
+
+      
     </Swiper>
   );
 }

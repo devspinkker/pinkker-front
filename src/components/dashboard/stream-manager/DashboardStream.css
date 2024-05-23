@@ -1,10 +1,3 @@
-#DashboardStream-container {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    width: 83%;
-    padding: 0vh 0rem 0rem 18rem;
-}
 
 .first-section {
     flex: 55%;
@@ -19,10 +12,11 @@
 }
 
 .navigation {
-    background-color: #131418;
+    background-color: #080808;
+    border-bottom: 1px solid rgb(42, 46, 56) ;
     margin-top: 0px;
     color: #fff;
-    padding: 1rem 5.8rem;
+    padding: 1rem 6rem;
     width: 95%;
 }
 
@@ -156,9 +150,9 @@
 .content {
     display: flex;
     justify-content: space-between;
-    padding: 1rem 5.8rem;
+    padding: 0rem 5.8rem;
     height: 100vh;
-    width: 95%;
+    width: 100%;
 }
 
 .part-one-chat {
@@ -168,7 +162,9 @@
 }
 
 .part-two {
-    width: 60%;
+    width: 40%;
+    border-right: 1px solid white;
+    margin-right: 10px;
 }
 
 .column {
@@ -177,12 +173,11 @@
     /* width: 100%; */
     max-width: 83rem;
     height: 100%;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .column>div {
     margin: 5px;
-    height: 100%;
     border-radius: 5px;
 }
 
@@ -358,7 +353,7 @@
 .Broadcast-preview-dashboard {
     display: flex;
     /* justify-content: center; */
-    height: 100% !important;
+    /* height: 100% !important; */
     flex-direction: column;
 }
 
@@ -539,6 +534,7 @@
 
 .base-card-act {
     /* width: 100%; */
+    height: 65%  !important;
     /* padding: 12px; */
 }
 

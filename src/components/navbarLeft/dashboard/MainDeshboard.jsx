@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./MainDeshboard.css";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Grid } from "@mui/material";
+import { GrHomeRounded } from "react-icons/gr";
 
 export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
   const [expandedMenus, setExpandedMenus] = useState({
@@ -59,6 +60,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
           style={{
             position: !tyExpanded && "relative",
             left: !tyExpanded && "0px",
+            padding: !tyExpanded ? '1.45rem 0rem': '.8rem 0rem'
           }}
           className="dashboard-left-menu-header"
         >
@@ -66,6 +68,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
           <button
             onClick={() => toggleexpandedMenu()}
             className="menu-activator-icon"
+            style={{width: !tyExpanded && '100%'}}
           >
             <div
               className="base-icon icon"
@@ -76,97 +79,51 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
             </div>
           </button>
         </div>
-        <Grid style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}}>
+        <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }} >
 
+          <ul
+            style={{
+              listStyle: "none",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              transition: "all 1s ease",
+            }}
+          >
 
-          {menuItems.map((item, index) => (
-            <div key={index} style={{width:'100%'}}>
-              <div
-                style={{
-                  backgroundColor: expandedMenus[item.title]
-                    ? "#313538"
-                    : item.title === "Stream"
-                      ? "#53fc18"
-                      : "transparent",
-                  color: item.title == "Stream" ? "#0e0e10" : "",
-                  cursor: "pointer",
-                  justifyContent: !tyExpanded ? 'center !important' : 'flex-start !important'
-                }}
-                className="dashboard-left-menu-item"
+            {menuItems.map((item, index) => (
+              <Link
+                style={{ textDecoration: "none" }}
+                className="menu-aside-option"
+                to="/"
               >
-                <div
-                  aria-current="page"
-                  className={`menu-item-link item-selected ${expandedMenus[item.title] ? "menu-extended" : ""
-                    }`}
-                  onClick={() => handleItemClick(item.title)}
+                <li
+                  style={{
+                    color: "white",
+                    display: "flex",
+                    gap: "10px",
+                    alignItems: "center",
+                    width: "100% !important",
+                    padding: tyExpanded ? "0rem 15px" : "0px",
+                    justifyContent: !tyExpanded ? 'center' : "flex-start",
+                    animation: !tyExpanded && "ease-in-out 1s linear",
+                  }}
+                  className="item-li"
                 >
-                  <div className="menu-item-icon-holder w-5">
-                    <i
-                      className={item.icon}
-                      style={{
-                        color: "#fff",
-                        color: item.title === "Stream" ? "#080808" : "#fff",
-                      }}
-                    ></i>
-                  </div>
-                  <div
-                    style={{
-                      display: tyExpanded ? "" : "none",
-                      color: "#fff",
-                    }}
-                    className="item-title"
-                  >
-                    {item?.title == "Stream" ? (
-                      <Link
-                        style={{
-                          color: item.title === "Stream" ? "#080808" : "#fff",
-                        }}
-                        to={"/" + user?.NameUser + "/dashboard/stream"}
-                      >
-                        {item.title}
-                      </Link>
-                    ) : (
-                      item.title
-                    )}
-                  </div>
-                </div>
-                {/* {item.title !== "Stream" && (
-                  <div
-                    onClick={() => handleItemClick(item.title)}
-                    style={{ display: "flex", alignItems: "center" }}
-                  >
-                    <i
-                      className="fas fa-chevron-left"
-                      style={{
-                        margin: "0px 10px",
-                        cursor: "pointer",
-                        color: "#fff",
-                        transition: "200ms all",
-                        transform: expandedMenus[item.title]
-                          ? "rotate(-90deg)"
-                          : "rotate(90deg)",
-                      }}
-                    ></i>
-                  </div>
-                )} */}
-              </div>
-              {/* <div
-                className={`items-container-expandedMenus ${expandedMenus[item.title] ? "expanded" : ""
-                  }`}
-              >
-                {expandedMenus[item.title] &&
-                  menuElements[item.title].map((element, elementIndex) => {
-                    return (
-                      <Link to={"/" + user?.NameUser + "/dashboard/" + element}>
-                        <div key={elementIndex} className="menu-item-sublink">
-                          {element}
-                        </div>
-                      </Link>
-                    );
-                  })}
-              </div> */}
-            </div>
-          ))}
+                  <GrHomeRounded />
+                  {/* <i
+                    style={{ position: "relative", fontSize: "20px" }}
+                    class="fa fa-home"
+                  /> */}
+                  {tyExpanded && <span>{item.title}</span>}
+                </li>
+
+
+              </Link>
+            ))}
+
+
+          </ul>
         </Grid>
       </aside>
 

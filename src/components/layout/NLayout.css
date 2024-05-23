@@ -46,7 +46,7 @@
 }
 
 .pixel-li:hover::after {
-    background-color: #856ffc;
+    background-color: #ff69c4;
     position: absolute;
     content: '';
     height: 3rem;
@@ -59,12 +59,12 @@
 }
 
 .item-li:hover {
-    color: #856ffc !important;
+    color: #ff69c4 !important;
     cursor: pointer;
 }
 
 .item-li::after {
-    background-color: #856ffc;
+    background-color: #ff69c4;
     position: absolute;
     content: '';
     height: 3rem;

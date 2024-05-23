@@ -25,6 +25,7 @@ import { TfiWallet } from "react-icons/tfi";
 import { AiOutlineUser } from "react-icons/ai";
 import { LiaSlidersHSolid } from "react-icons/lia";
 import { TbLogout2 } from "react-icons/tb";
+import { FaBullseye } from "react-icons/fa";
 function NLayout(props) {
 
 
@@ -35,9 +36,15 @@ function NLayout(props) {
   const [aparecer, setAparcer] = useState(false);
   const [showPopupAuth, setShowPopupAuth] = useState(false);
   const [type, setType] = useState(0);
+  const [openNotification, setOpenNotification] = useState(true)
+  const [openMessage, setOpenMessage] = useState(false)
   function clickPulsedButton() {
     setPulse(!pulse);
     props.setExpanded(!props.tyExpanded);
+    if (props.expanded) {
+      setOpenMessage(false);
+      setOpenNotification(false)
+    }
     setTimeout(() => {
       if (pulse) {
         setAparcer(true);
@@ -71,8 +78,8 @@ function NLayout(props) {
       }
     };
     fetchData();
-    
-    if(window.location.pathname.includes('/dashboard')){
+
+    if (window.location.pathname.includes('/dashboard')) {
       setDashboard(true)
     }
   }, [props.tyExpanded, window.location.pathname]);
@@ -80,6 +87,40 @@ function NLayout(props) {
   const [subMenu, setSubMenu] = useState(false);
 
   const [esClick, setEsClick] = useState(false);
+
+  const habilitarAside = (e, openMessage, openNotification) => {
+
+    if (openNotification) {
+      setOpenMessage(false);
+    } else if (openMessage) {
+      setOpenNotification(false);
+    }
+  }
+
+
+  const habilitarMensaje = () => {
+    if (openMessage) {
+      setOpenMessage(false);
+
+    } else {
+      setOpenMessage(true);
+
+    }
+    setOpenNotification(false);
+    props.setExpanded(false)
+  }
+
+  const habilitarNotificaciones = () => {
+    if (openNotification) {
+      setOpenNotification(false);
+
+    } else {
+      setOpenNotification(true);
+
+    }
+    setOpenMessage(false);
+    props.setExpanded(false)
+  }
   const habilitarSubMenu = (valor, e) => {
     if (e?.type === "click") {
       setEsClick(true);
@@ -137,6 +178,7 @@ function NLayout(props) {
     };
   }, []);
 
+
   const getNavDesktop = () => {
     return (
       <Grid
@@ -144,6 +186,7 @@ function NLayout(props) {
           display: dashboard ? 'none' : "flex",
           flexDirection: "row",
           width: "105% !important",
+          justifyContent: !props.tyExpanded && openNotification ? 'space-between' : 'none'
         }}
       >
         {/* GRID ASIDE */}
@@ -183,7 +226,7 @@ function NLayout(props) {
             {/* <img  src="/images/menu.svg" className="img-bars" /> */}
 
             <AiOutlineMenu
-              style={{ color: "white", fontSize: "26px" }}
+              style={{ color: "white", fontSize: "26px", width: !props.tyExpanded && '100%'}}
               onClick={() => clickPulsedButton()}
               className="img-bars"
             />
@@ -626,7 +669,7 @@ function NLayout(props) {
 
         <Grid
           style={{
-            width: props.tyExpanded ? "85%" : "95%",
+            width: props.tyExpanded ? "85%" : openNotification ? '80%' : "95%",
             display: "flex",
             flexDirection: "column",
             zIndex: 99999,
@@ -831,6 +874,8 @@ function NLayout(props) {
                       {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
                       <IoMdNotificationsOutline
                         style={{ fontSize: "20px", color: "white" }}
+                        name="notificaciones"
+                        onClick={() => habilitarNotificaciones()}
                       />
                     </div>
                   </div>
@@ -848,6 +893,7 @@ function NLayout(props) {
                       {/* <img src={"/images/iconos/mensaje.png"} alt="" style={{ width: '60%' }} /> */}
                       <BsChatDots
                         style={{ fontSize: "20px", color: "white" }}
+                        onClick={() => habilitarMensaje()}
                       />
                     </div>
                   </div>
@@ -1289,6 +1335,36 @@ function NLayout(props) {
             </Grid>
           </Grid>
         </Grid>
+
+        {
+          (openNotification && !props.tyExpanded ) &&
+          <Grid
+            style={{
+              width: "15%",
+              transition: "width .2s ease-in-out",
+              border: "1px solid #2a2e38",
+              height: "100vh",
+              backgroundColor: "#121418",
+              position: "sticky",
+              zIndex: 999999,
+              top: 0,
+            }}
+          >
+            <Grid
+              style={{
+                display: "flex",
+                textAlign: "center",
+                alignItems: "center",
+                border: "1px solid #343843",
+                padding: "1.70rem"
+              }}
+
+            >
+              <Typography style={{ color: 'white', fontWeight: 600, textAlign:'center', fontSize:'18px', width:'100%'}}>{'Notificaciones'}</Typography>
+            </Grid>
+          </Grid>
+        }
+
       </Grid>
     );
   };

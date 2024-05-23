@@ -6,9 +6,11 @@
 .dashboard-left-menu-header {
     position: relative;
     display: flex;
-    margin: 10px 12px;
+    /* margin: 10px 12px; */
+    padding: .8rem 0rem;
     width: 100%;
     align-items: center;
+    border-bottom: 1px solid rgb(42, 46, 56);
     gap: 0.625rem;
 }
 
