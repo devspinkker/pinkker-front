@@ -107,7 +107,14 @@ function NLayout(props) {
                   borderRadius: ".375rem",
                 }}
               >
-                <span style={{ fontSize: "14px" }}>Directos </span>
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to="/plataform/explore?tipo=streams"
+                >
+                  <span style={{ fontSize: "14px" }}>Directos</span>
+                </Link>
+
+
               </Grid>
 
               <Grid

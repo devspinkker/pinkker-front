@@ -168,7 +168,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           margin: "3.4rem 0px",
         }}
       >
-        <h3 style={{ color: "white", fontSize: "30px" }}>Categorias</h3>
+        <h3 style={{ color: "white", fontSize: "30px" }}>{barPosition == 0 ? 'Directos' : 'Categorias'}</h3>
         <img
           src={"/images/ESTRELLA_PINKKER_ROSA.png"}
           style={{ width: "10%" }}
@@ -303,27 +303,59 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           </>
         )}
 
-        {filtros?.streams &&
-          streams &&
-          streams.map((stream) => (
-            <CardStream
-              width={
-                stream?.streamer && isMobile
-                  ? "100%"
-                  : stream?.streamer && !isMobile
-                  ? "30%"
-                  : "160px"
-              }
-              isLoading={isLoading}
-              name={stream.streamer}
-              avatarStreamer={stream.streamer_avatar}
-              image={stream.stream_thumbnail ?? "/images/pinkker-stream.png"}
-              ViewerCount={stream.ViewerCount}
-              tags={stream.stream_tag}
-              title={stream.stream_title}
-              categorie={stream.stream_category}
-            />
-          ))}
+        {
+          barPosition == 0 &&
+
+            filtros?.streams &&
+            streams ?
+            streams.map((stream) => (
+              <CardStream
+                width={
+                  stream?.streamer && isMobile
+                    ? "100%"
+                    : stream?.streamer && !isMobile
+                      ? "30%"
+                      : "160px"
+                }
+                isLoading={isLoading}
+                name={stream.streamer}
+                avatarStreamer={stream.streamer_avatar}
+                image={stream.stream_thumbnail ?? "/images/pinkker-stream.png"}
+                ViewerCount={stream.ViewerCount}
+                tags={stream.stream_tag}
+                title={stream.stream_title}
+                categorie={stream.stream_category}
+              />
+            ))
+            :
+            <Grid
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "15px",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                height: "300px",
+                backgroundColor: "#121418",
+                border: "1px dashed #2a2e38",
+                marginBottom: "20%",
+                marginTop: "1%",
+                borderRadius: "5px",
+              }}
+            >
+              <ImCross style={{ color: "red", fontSize: "3.5rem" }} />
+              <Typography
+                style={{
+                  fontFamily: "Inter",
+                  fontWeight: 600,
+                  color: "white",
+                }}
+              >
+                No hay Directos para mostrar
+              </Typography>
+            </Grid>
+        }
 
         {filtros?.clips &&
           clips &&

@@ -243,7 +243,7 @@ function NLayout(props) {
                 }}
                 className="contenedor-directos-cat"
               >
-                <Link style={{ textDecoration: "none", padding: 0 }} to="/">
+                <Link style={{ textDecoration: "none", padding: 0 }} to="/plataform/explore?tipo=streams">
                   <Grid
                     className="button-casino"
                     style={{
@@ -254,7 +254,8 @@ function NLayout(props) {
                       alignItems: "center",
                       width: "70px",
                       background:
-                        ' url("/images/mobile-tab-background-press.svg") #2a2e38',
+                        ' url("/images/BOTON-DIRECTO-blanco-y-negro.jpg") ',
+                      backgroundSize: 'cover',
                       padding: ".5rem",
                       borderRadius: ".375rem",
                       animation: !props.tyExpanded && "ease-in-out 1.5s linear",

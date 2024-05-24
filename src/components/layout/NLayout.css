@@ -104,12 +104,13 @@
 
 
 .button-sports:hover {
-    background: url("/public/images/mobile-tab-background-press.svg") #2a2e38;
+    background: url("/public/images/BOTON-DIRECTO-blanco-y-negro.jpg") #2a2e38;
     cursor: pointer;
 }
 
 .button-casino:hover {
-    background: url("/public/images/mobile-tab-background-active.svg") rgb(119, 23, 255) !important;
+    background: url("/public/images/BOTON-DIRECTO.jpg")!important;
+    background-size: cover !important;
 
     cursor: pointer;
 }
