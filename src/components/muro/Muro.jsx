@@ -42,7 +42,6 @@ import Tendency from "./TendencyLayout";
 
 export default function Muro({ isMobile, userName }) {
   const alert = useNotification();
-
   const [tweets, setTweets] = useState(null);
   const [message, setMessage] = useState("");
 
@@ -121,6 +120,7 @@ export default function Muro({ isMobile, userName }) {
             setTweets([res.post, ...tweets]);
           }
         }
+        alert({ type: "SUCCESS" });
       } catch (error) {
         console.log(error);
       }

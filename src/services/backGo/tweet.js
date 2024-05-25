@@ -20,7 +20,20 @@ export const PostCreate = async (formData) => {
     return error;
   }
 };
-
+export const CitaPost = async (formData, token) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const res = await axios.post(`${url}/post/Citapost`, formData, config);
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
 export const PostGetFollow25h = async () => {
   try {
     const config = {

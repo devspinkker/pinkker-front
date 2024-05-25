@@ -15,31 +15,33 @@ import {
 } from "../../../services/backGo/tweet";
 import { Grid, Typography, Skeleton } from "@mui/material";
 import { FaEllipsis } from "react-icons/fa6";
+import CitaCard from "./CitaCard";
 
 export default function TweetCard({ tweet }) {
   const [popupTweetView, setPopupTweetView] = useState(false);
   const [popupCiteTweet, setPopupCiteTweet] = useState(false);
   const [showDropdownRetweet, setShowDropdownRetweet] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [isRetweet, setIsRetweet] = useState(false);
   const history = useHistory();
 
   const alert = useNotification();
 
   function togglePopupTweetView() {
     setPopupTweetView(!popupTweetView);
-    // Cambia la URL cuando se abre un tweet
     let id;
-    if (tweet.Type === "RePost") {
-      id = tweet.OriginalPostData._id;
+    if (tweet?.Type === "RePost") {
+      id = tweet?.OriginalPostData?._id;
     } else {
-      id = tweet._id;
+      id = tweet?._id;
     }
-    history.push(`/post/${tweet.UserInfo.NameUser}/${id}`);
+    history.push(`/post/${tweet?.UserInfo?.NameUser}/${id}`);
   }
 
   function togglePopupCiteTweet() {
     setPopupCiteTweet(!popupCiteTweet);
   }
+
   function calculateTimeDifference(postDate) {
     const currentDate = new Date();
     const tweetDate = new Date(postDate);
@@ -74,9 +76,13 @@ export default function TweetCard({ tweet }) {
     return tweetDate.toLocaleDateString(undefined, options);
   }
 
-  const timeDifference = calculateTimeDifference(tweet.TimeStamp);
+  const timeDifference = calculateTimeDifference(tweet?.TimeStamp);
 
   async function toggleShowDropdownRetweet() {
+    setShowDropdownRetweet(!showDropdownRetweet);
+  }
+
+  const handleRePost = async () => {
     let token = window.localStorage.getItem("token");
     if (token) {
       let id;
@@ -86,10 +92,14 @@ export default function TweetCard({ tweet }) {
         id = tweet._id;
       }
       const res = await RePost(id, token);
-      console.log(res);
-      setShowDropdownRetweet(!showDropdownRetweet);
+      setShowDropdownRetweet(false);
     }
-  }
+  };
+
+  const handleCiteTweet = () => {
+    setPopupCiteTweet(true);
+    setShowDropdownRetweet(false);
+  };
 
   const handleLike = async () => {
     let token = window.localStorage.getItem("token");
@@ -135,7 +145,6 @@ export default function TweetCard({ tweet }) {
   };
 
   useEffect(() => {
-    console.log(tweet);
     let loggedUser = window.localStorage.getItem("_id");
     let repost = tweet.Type === "RePost" ? true : false;
     if (!repost) {
@@ -155,13 +164,14 @@ export default function TweetCard({ tweet }) {
           <h3 style={{ padding: " 0px 10px" }}> {tweet.UserInfo.NameUser} </h3>
         </div>
       )}
+
       <div className="tweetcard-body">
         <div
           onClick={() => togglePopupTweetView()}
           className="tweetcard-container"
         >
           <div className="tweetcard-avatar">
-            {tweet.Type === "RePost" ? (
+            {tweet?.Type === "RePost" ? (
               <img
                 style={{
                   width: "40px",
@@ -169,8 +179,8 @@ export default function TweetCard({ tweet }) {
                   position: "relative",
                   left: "-10px",
                 }}
-                src={tweet.OriginalPostData.UserInfo.Avatar}
-                alt={`${tweet.OriginalPostData.UserInfo.NameUser} avatar`}
+                src={tweet?.OriginalPostData?.UserInfo?.Avatar}
+                alt={`${tweet.OriginalPostData?.UserInfo?.NameUser} avatar`}
               />
             ) : (
               <img
@@ -204,10 +214,10 @@ export default function TweetCard({ tweet }) {
                     alignItems: "center",
                   }}
                 >
-                  {tweet.Type === "RePost" ? (
-                    <h3>{tweet.OriginalPostData.UserInfo.FullName} </h3>
+                  {tweet?.Type === "RePost" ? (
+                    <h3>{tweet?.OriginalPostData?.UserInfo?.FullName} </h3>
                   ) : (
-                    <h3> {tweet.UserInfo.FullName} </h3>
+                    <h3> {tweet?.UserInfo?.FullName} </h3>
                   )}
                   <p
                     style={{
@@ -216,15 +226,15 @@ export default function TweetCard({ tweet }) {
                       fontSize: "15px",
                     }}
                   >
-                    {tweet.Type === "RePost" ? (
+                    {tweet?.Type === "RePost" ? (
                       <p>
-                        @{tweet.OriginalPostData.UserInfo.NameUser} ·{" "}
+                        @{tweet?.OriginalPostData?.UserInfo?.NameUser} ·{" "}
                         {timeDifference}
                       </p>
                     ) : (
                       <p>
                         {" "}
-                        @{tweet.UserInfo.NameUser} · {timeDifference}
+                        @{tweet?.UserInfo?.NameUser} · {timeDifference}
                       </p>
                     )}
                   </p>
@@ -232,41 +242,49 @@ export default function TweetCard({ tweet }) {
 
                 <FaEllipsis />
               </Grid>
-              {tweet.gallery === true && (
+              {/* {tweet.gallery === true && (
                 <p style={{ color: "#f36196", marginLeft: "5px" }}>
                   Contenido de Suscriptores
                 </p>
-              )}
+              )} */}
             </div>
 
             <div style={{ marginTop: "5px", textAlign: "left" }}>
-              {tweet.Type === "RePost" ? (
-                <p>{tweet.OriginalPostData.Status}</p>
+              {tweet?.Type === "RePost" ? (
+                <p>{tweet?.OriginalPostData?.Status}</p>
               ) : (
-                <p>{tweet.Status}</p>
+                <p>{tweet?.Status}</p>
               )}
             </div>
 
-            {tweet.PostImage !== "" && (
+            {tweet?.PostImage !== "" && (
               <div style={{ marginTop: "10px" }}>
                 <img
                   style={{ borderRadius: "20px", maxWidth: "350px" }}
-                  src={tweet.PostImage}
+                  src={tweet?.PostImage}
                   alt="Post image"
                 />
               </div>
             )}
 
-            {tweet.gallery === true && (
+            {tweet?.gallery === true && (
               <div style={{ marginTop: "10px" }}>
                 <img
                   style={{ borderRadius: "20px", maxWidth: "350px" }}
-                  src={tweet.PostImage}
+                  src={tweet?.PostImage}
                   alt="Gallery image"
                 />
               </div>
             )}
-
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              {tweet?.Type === "CitaPost" && (
+                <CitaCard tweet={tweet?.OriginalPostData} />
+              )}
+            </div>
             <div className="tweetcard-icons">
               <Tippy
                 placement="bottom"
@@ -276,10 +294,10 @@ export default function TweetCard({ tweet }) {
                 <div className="tweetcard-icon-comment">
                   <i className="far fa-comment" />
                   <p style={{ marginLeft: "5px", fontSize: "14px" }}>
-                    {tweet.Type === "RePost" ? (
-                      <p>{tweet.OriginalPostData?.Comments?.length}</p>
+                    {tweet?.Type == "RePost" ? (
+                      <p>{tweet?.OriginalPostData?.Comments?.length}</p>
                     ) : (
-                      <p>{tweet.Comments?.length}</p>
+                      <p>{tweet?.Comments?.length}</p>
                     )}
                   </p>
                 </div>
@@ -305,24 +323,24 @@ export default function TweetCard({ tweet }) {
                       </p>
                     ) : (
                       <p style={{ marginLeft: "5px", fontSize: "14px" }}>
-                        {" "}
                         {tweet?.RePosts?.length}
                       </p>
                     )}
                   </div>
                 )}
               </Tippy>
-              {showDropdownRetweet === true && (
+              {showDropdownRetweet && (
                 <div
+                  className="DropdownReTweet-main"
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
                 >
-                  {/* <DropdownReTweet
-                    reTweet={() => toggleShowDropdownRetweet(tweet?._id)}
-                    citeTweet={() => setPopupCiteTweet(true)}
-                    closePopup={() => toggleShowDropdownRetweet()}
-                  /> */}
+                  <DropdownReTweet
+                    reTweet={handleRePost}
+                    citeTweet={handleCiteTweet}
+                    closePopup={() => setShowDropdownRetweet(false)}
+                  />
                 </div>
               )}
 
@@ -363,7 +381,7 @@ export default function TweetCard({ tweet }) {
                 content={<h1>{isLiked ? "Cancelar Me gusta" : "Me gusta"}</h1>}
               >
                 <div className="tweetcard-icon-like">
-                  <i class="fas fa-chart-bar" />
+                  <i className="fas fa-chart-bar" />
                   {tweet.Type === "RePost" ? (
                     <p style={{ marginLeft: "5px", fontSize: "14px" }}>
                       {tweet.OriginalPostData?.Views}
@@ -380,12 +398,14 @@ export default function TweetCard({ tweet }) {
           </div>
         </div>
 
-        {/* {popupTweetView === true && (
-          <ViewTweet tweet={tweet} closePopup={() => togglePopupTweetView()} />
+        {popupCiteTweet && (
+          <CiteTweet
+            closePopup={() => setPopupCiteTweet(false)}
+            tweet={tweet}
+            isLiked={isLiked}
+            isRetweet={isRetweet}
+          />
         )}
-        {popupCiteTweet === true && (
-          <CiteTweet tweet={tweet} closePopup={() => togglePopupCiteTweet()} />
-        )} */}
       </div>
     </div>
   );

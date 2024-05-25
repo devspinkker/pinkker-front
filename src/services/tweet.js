@@ -78,7 +78,25 @@ export const getTweetFollowing = async (token, page, limit) => {
   }
 };
 
+export const citaTweet = async (token, status, image, OriginalPost) => {
+  try {
+    const res = await axios.post(
+      `${url}/Citapost  `,
+      {
+        status,
+        image,
+        OriginalPost,
+      },
+      {
+        headers: { Authorization: token },
+      }
+    );
+    return res;
+  } catch (error) {
+    return error;
 
+  }
+};
 export const createTweet = async (token, text, image, citeTweet) => {
   try {
     const res = await axios.post(

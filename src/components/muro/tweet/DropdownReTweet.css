@@ -1,15 +1,17 @@
 .dropdownretweet-body {
-    position: absolute;
-    z-index: 1001;
+    z-index: 100000000000000;
 }
 
 .dropdownretweet-container {
+    /* position: absolute; */
+    z-index: 100000000000000;
     background-color: #151515;
     height: 70px;
     padding: 20px;
     width: 120px;
+    left: 15px;
     border-radius: 5px;
-    margin-top: 150px;
+    margin-top: 19px;
     box-shadow: 1px 5px 23px 0px rgba(255, 255, 255, 0.3);
     -webkit-box-shadow: 1px 5px 23px 0px rgba(255, 255, 255, 0.3);
     -moz-box-shadow: 1px 5px 23px 0px rgba(255, 255, 255, 0.3);
