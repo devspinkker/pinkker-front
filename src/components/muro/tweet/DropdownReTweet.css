@@ -10,7 +10,7 @@
     padding: 20px;
     width: 120px;
     left: 15px;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-top: 19px;
     box-shadow: 1px 5px 23px 0px rgba(255, 255, 255, 0.3);
     -webkit-box-shadow: 1px 5px 23px 0px rgba(255, 255, 255, 0.3);
@@ -19,7 +19,10 @@
 
 .dropdownretweet-card {
     padding: 5px;
-    margin-top: 5px;
     display: flex;
     align-items: center;
+}
+
+.dropdownretweet-card>i {
+    padding-right: 10px;
 }

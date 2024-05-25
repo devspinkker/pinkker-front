@@ -23,15 +23,16 @@ import { createTweet } from "../../../services/tweet";
 import { CitaPost } from "../../../services/backGo/tweet";
 
 export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
-  const auth = useSelector((state) => state.auth);
-  const { user, isAdmin } = auth;
-  const token = useSelector((state) => state.token);
+  const [file, setFile] = useState(null);
+  const [image, setImage] = useState(null);
 
   const dispatch = useDispatch();
   const alert = useNotification();
+  const [Avatar, setAvatar] = useState(null);
 
   useEffect(() => {
-    console.log(tweet);
+    let loggedUser = window.localStorage.getItem("avatar");
+    setAvatar(loggedUser);
   }, [tweet]);
 
   const [comments, setComments] = useState(null);
@@ -48,6 +49,15 @@ export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
   function clickEmoji(e) {
     setMessage(message + e.emoji);
   }
+  const handleChange2 = (e) => {
+    var fileT = e.target.files[0];
+    setFile(fileT);
+    const reader = new FileReader();
+    reader.addEventListener("loadend", () => {
+      setImage(reader.result);
+    });
+    reader.readAsDataURL(fileT);
+  };
 
   async function handleSubmit() {
     if (message != "") {
@@ -55,21 +65,26 @@ export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
       formData.append("status", message);
       formData.append("OriginalPost", tweet?._id);
 
-      //   formData.append("imgPost", file);
+      formData.append("imgPost", file);
       try {
         let token = window.localStorage.getItem("token");
         if (token) {
           setMessage("");
           const res = await CitaPost(formData, token);
-          console.log(res);
-          alert({ type: "SUCCESS" });
+          if (res?.message === "StatusCreated") {
+            setImage(null);
+            alert({ type: "SUCCESS" });
+          }
         }
       } catch (error) {
         console.log(error);
       }
     }
   }
-
+  const clearImages = () => {
+    setImage(null);
+    setFile(null);
+  };
   return (
     <div className="citetweet-popup-body">
       <div
@@ -91,7 +106,7 @@ export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
             <div className="citetweet-popup-avatar">
               <img
                 style={{ width: "50px", borderRadius: "50px" }}
-                src={user.avatar}
+                src={Avatar}
               />
             </div>
             <div className="muro-send-tweet-input">
@@ -106,11 +121,7 @@ export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
             </div>
           </div>
 
-          <div className="citetweet-popup-tweet">
-            <TweetCard tweet={tweet} />
-          </div>
-
-          <div style={{ marginTop: "20px" }}>
+          <div style={{ marginTop: "20px", display: "flex" }}>
             <div
               onClick={() => onMouseEnterEmotes()}
               className="mure-send-tweet-icons-card"
@@ -131,6 +142,35 @@ export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
                   marginRight: "5px",
                 }}
                 class="far fa-smile"
+              />
+            </div>
+            <div
+              className="mure-send-tweet-icons-card"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "5px",
+                padding: "0px",
+              }}
+            >
+              <i
+                style={{
+                  padding: "5px",
+                  color: "#ff4aa7d2",
+                }}
+                class="fas fa-photo-video"
+              />
+              <input
+                onChange={(e) => handleChange2(e)}
+                style={{
+                  backgroundColor: "red",
+                  width: "30px",
+                  position: "absolute",
+
+                  opacity: "0",
+                }}
+                type="file"
               />
             </div>
             {dropdownEmotes && (
@@ -166,7 +206,36 @@ export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
               marginBottom: "10px",
             }}
           />
-
+          {file != null && (
+            <div
+              style={{
+                textAlign: "center",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <i
+                onClick={() => clearImages()}
+                style={{
+                  color: "white",
+                  cursor: "pointer",
+                  height: "20px",
+                  width: "20px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "50px",
+                  position: "relative",
+                  left: "35px",
+                  top: "10px",
+                  padding: "5px",
+                  backgroundColor: "#303030",
+                }}
+                class="fas fa-times"
+              />
+              <img style={{ maxWidth: "320px" }} src={image} />
+            </div>
+          )}
           <div style={{ marginTop: "50px", textAlign: "right" }}>
             <button
               onClick={() => handleSubmit()}
@@ -174,6 +243,9 @@ export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
             >
               Publicar
             </button>
+          </div>
+          <div className="citetweet-popup-tweet">
+            <TweetCard tweet={tweet} />
           </div>
         </div>
       </div>

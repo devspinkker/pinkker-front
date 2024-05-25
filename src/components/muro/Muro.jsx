@@ -118,15 +118,18 @@ export default function Muro({ isMobile, userName }) {
           const res = await PostCreate(formData);
           if (res?.message === "StatusCreated") {
             setTweets([res.post, ...tweets]);
+            alert({ type: "SUCCESS" });
           }
         }
-        alert({ type: "SUCCESS" });
       } catch (error) {
         console.log(error);
       }
     }
   }
-
+  const clearImages = () => {
+    setImage(null);
+    setFile(null);
+  };
   const handleChange = (file) => {
     setFile(file);
     const reader = new FileReader();
@@ -248,7 +251,7 @@ export default function Muro({ isMobile, userName }) {
                     }}
                   >
                     <i
-                      onClick={() => console.log("i")}
+                      onClick={() => clearImages()}
                       style={{
                         color: "white",
                         cursor: "pointer",

@@ -14,10 +14,12 @@ export default function DropdownReTweet({ closePopup, reTweet, citeTweet }) {
           className="dropdownretweet-card"
         >
           <i
-            style={{ fontSize: "14px", width: "25px" }}
+            style={{
+              marginRight: "6px",
+            }}
             className="fas fa-retweet"
           />
-          <h3>Retwittear</h3>
+          <h3>RePostear</h3>
         </div>
         <div
           onClick={(e) => {
@@ -27,7 +29,9 @@ export default function DropdownReTweet({ closePopup, reTweet, citeTweet }) {
           className="dropdownretweet-card"
         >
           <i
-            style={{ fontSize: "14px", width: "25px" }}
+            style={{
+              marginRight: "10px",
+            }}
             className="fas fa-pen-square"
           />
           <h3>Citar</h3>

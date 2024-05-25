@@ -159,9 +159,14 @@ export default function TweetCard({ tweet }) {
   return (
     <div style={{ borderBottom: "1px solid #3a3b3c", padding: "5px" }}>
       {tweet.Type === "RePost" && (
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div
+          style={{ display: "flex", alignItems: "center", color: "aliceblue" }}
+        >
           <i className="fas fa-retweet" />
-          <h3 style={{ padding: " 0px 10px" }}> {tweet.UserInfo.NameUser} </h3>
+          <h3 style={{ padding: " 0px 10px" }}>
+            {" "}
+            {tweet.UserInfo.NameUser} Reposteo{" "}
+          </h3>
         </div>
       )}
 
