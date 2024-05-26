@@ -16,7 +16,6 @@ import { GrGamepad } from "react-icons/gr";
 import SelectVideoClip from "../home/clips/SelectVideoClip";
 
 function SliderLayout(props) {
-
   return (
     <Swiper
       style={{
@@ -77,8 +76,8 @@ function SliderLayout(props) {
               {props.titulo
                 ? "Vods más vistos"
                 : props.isMobile
-                  ? "Clips"
-                  : "Clips más vistos"}{" "}
+                ? "Clips"
+                : "Clips más vistos"}{" "}
             </h2>
           </Grid>
         )}
@@ -167,14 +166,11 @@ function SliderLayout(props) {
             ?.filter((clip, index) => index < 10)
             .map((clip) => (
               <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
-                <ClipCard width="350px" video={clip} />
+                <ClipCard video={clip} />
               </SwiperSlide>
             ))}
         </>
       )}
-
-
-      
     </Swiper>
   );
 }

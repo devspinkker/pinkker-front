@@ -12,7 +12,7 @@ export default function ClipCard({ video, ...props }) {
   const toggleSelect = () => {
     setSelectedVideo(!selectedVideo);
   };
-  console.log(video)
+  console.log(video);
   const handleEnter = () => {
     setMouseEnter(true);
     setTimeout(() => {
@@ -53,18 +53,24 @@ export default function ClipCard({ video, ...props }) {
           />
         )}
 
-        <div
-          style={{ display: "flex", alignItems: "center" }}
-        >
+        <div style={{ display: "flex", alignItems: "center" }}>
           <img
             style={{ width: "35px", borderRadius: "50px", marginTop: "10px" }}
             src={video.Avatar}
           />
-          <div style={{ marginTop: "10px", marginLeft: "5px", display: 'flex', gap: '2px', flexDirection: 'column' }}>
-            <h4 style={{ color: "white", fontSize: "14px" }}>{video?.clipTitle}</h4>
-            <p style={{ fontSize: "12px" }}>
-              {video?.streamerId}
-            </p>
+          <div
+            style={{
+              marginTop: "10px",
+              marginLeft: "5px",
+              display: "flex",
+              gap: "2px",
+              flexDirection: "column",
+            }}
+          >
+            <h4 style={{ color: "white", fontSize: "14px" }}>
+              {video?.clipTitle}
+            </h4>
+            <p style={{ fontSize: "12px" }}>{video?.streamerId}</p>
             <p style={{ fontSize: "10px" }}>
               Clipeado por {video?.nameUserCreator}
             </p>
@@ -76,44 +82,42 @@ export default function ClipCard({ video, ...props }) {
 
   function getImagePreview() {
     return (
-
-      <div className="clipcard-image-preview" onClick={() => setSelectedVideo({ video })}>
+      <div
+        className="clipcard-image-preview"
+        onClick={() => setSelectedVideo({ video })}
+      >
         <img
           style={{
             borderRadius: "5px",
             width: "100%",
           }}
-          src={'/images/pinkker-stream.png'}
+          src={video?.streamThumbnail}
           alt=""
         />
-        <div
-          style={{ display: "flex", alignItems: "center" }}
-        >
+        <div style={{ display: "flex", alignItems: "center" }}>
           <img
-            style={{ width: "35px", height: "35px", borderRadius: '50%' }}
+            style={{ width: "35px", height: "35px", borderRadius: "50%" }}
             src={video?.Avatar}
           />
-          <div style={{ marginTop: "10px", marginLeft: "5px", display: 'flex', gap: '2px', flexDirection: 'column' }}>
-            <h4 style={{ color: "white", fontSize: "14px" }}>{video?.clipTitle}</h4>
-            <p style={{ fontSize: "12px" }}>
-              {video?.streamerId}
-            </p>
+          <div
+            style={{
+              marginTop: "10px",
+              marginLeft: "5px",
+              display: "flex",
+              gap: "2px",
+              flexDirection: "column",
+            }}
+          >
+            <h4 style={{ color: "white", fontSize: "14px" }}>
+              {video?.clipTitle}
+            </h4>
+            <p style={{ fontSize: "12px" }}>{video?.streamerId}</p>
             <p style={{ fontSize: "10px" }}>
               Clipeado por {video?.nameUserCreator}
             </p>
           </div>
         </div>
-
-
-
-        {selectedVideo && (
-          <SelectVideoClip
-            clip={selectedVideo.video}
-            toggleSelect={toggleSelect}
-          />
-        )}
       </div>
-
     );
   }
 
@@ -122,7 +126,7 @@ export default function ClipCard({ video, ...props }) {
       onMouseOver={() => handleEnter()}
       onMouseLeave={() => handleLeave()}
       style={{
-        width: '100%',
+        width: "100%",
         height: "maxContent",
         display: props.dashboard ? "flex" : "block",
       }}
@@ -138,9 +142,15 @@ export default function ClipCard({ video, ...props }) {
             <i style={{ marginRight: "2px" }} class="fas fa-play" />{" "}
             {video?.views}
           </p>
-
         </div>
       </div>
+
+      {selectedVideo && (
+        <SelectVideoClip
+          clip={selectedVideo.video}
+          toggleSelect={toggleSelect}
+        />
+      )}
     </div>
   );
 }

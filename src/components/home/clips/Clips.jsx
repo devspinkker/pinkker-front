@@ -62,12 +62,9 @@ export default function Clips(props) {
     setSelectedVideo(!selectedVideo);
   };
 
-
   return (
     <div className="home-clips">
       <div className="manager-recommended">
-        
-        
         {/* <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
             <Link to="/plataform/explore?tipo=clips" style={{ padding: 0 }}>
@@ -133,7 +130,12 @@ export default function Clips(props) {
           </div>
 
         </div> */}
-        <SliderLayout clipT={true} Categoria={false} clips={clips} isMobile={props.isMobile}  />
+        <SliderLayout
+          clipT={true}
+          Categoria={false}
+          clips={clips}
+          isMobile={props.isMobile}
+        />
 
         {selectedVideo && (
           <SelectVideoClip

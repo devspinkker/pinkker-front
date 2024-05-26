@@ -42,7 +42,6 @@
     align-items: center;
     transition: 0.15s;
     flex-direction: column;
-
 }
 
 .channel-top-stream {
@@ -514,7 +513,7 @@
 .channel-v2-categorie {
     display: flex;
     align-items: center;
-    gap:10px;
+    gap: 10px;
 }
 
 .channel-v2-categorie>h4 {
