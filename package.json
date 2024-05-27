@@ -59,6 +59,7 @@
     "react-toastify": "^9.1.3",
     "react-tooltip": "^4.2.21",
     "react-world-countries-map": "^1.1.0",
+    "recharts": "^2.12.7",
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
     "socket.io-client": "^4.4.0",

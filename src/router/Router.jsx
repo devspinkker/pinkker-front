@@ -58,6 +58,7 @@ import DashboardServerTransmision from "../components/dashboard/stream-manager/D
 import NLayout from "../components/layout/NLayout";
 import ViewTweet from "../components/muro/popup/ViewTweet";
 import HashtagPost from "../components/muro/HashtagPost";
+import NAnalytics from "../components/dashboard/analytics/NAnalytics";
 
 const AppRouter = () => {
   const [expanded, setExpanded] = useState(true);
@@ -178,8 +179,10 @@ const AppRouter = () => {
             tyDashboard={true}
             setExpanded={setExpanded}
           ></NavbarLeft> */}
-          <DashboardStream tyExpanded={expanded} isMobile={isMobile} user={user}  />
+          <DashboardStream tyExpanded={expanded} isMobile={isMobile} user={user} />
         </Route>
+
+
         <Route exact path="/:streamer/dashboard/Configuración">
           <NavbarLeft
             isMobile={isMobile}
@@ -219,23 +222,18 @@ const AppRouter = () => {
           <Dashboard isMobile={isMobile} />
         </Route>
         <Route exact path="/:streamer/dashboard/analytics">
-          <NavbarLeft
-            isMobile={isMobile}
-            tyExpanded={expanded}
-            user={user}
-            tyDashboard={true}
-            setExpanded={setExpanded}
-          ></NavbarLeft>
-          <Analytics />
+          <NAnalytics user={user} />
         </Route>
         <NLayout
           isMobile={isMobile}
           tyExpanded={expanded}
           user={user}
-          tyDashboard={ window.location.pathname.includes('/dashboard') ? true : false}
+          tyDashboard={window.location.pathname.includes('/dashboard') ? true : false}
           setExpanded={setExpanded}
         >
           <Switch>
+
+
             <Route exact path="/:streamer/dashboard/streammanager">
               <StreamManager
                 isMobile={isMobile}

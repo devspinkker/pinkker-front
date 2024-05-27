@@ -90,8 +90,84 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
               transition: "all 1s ease",
             }}
           >
-
-            {menuItems.map((item, index) => (
+              <Link
+                style={{ textDecoration: "none" }}
+                className="menu-aside-option"
+                to={"/" + user?.NameUser + "/dashboard/stream"}
+              >
+                <li
+                  style={{
+                    color: "white",
+                    display: "flex",
+                    gap: "10px",
+                    alignItems: "center",
+                    width: "100% !important",
+                    padding: tyExpanded ? "0rem 15px" : "0px",
+                    justifyContent: !tyExpanded ? 'center' : "flex-start",
+                    animation: !tyExpanded && "ease-in-out 1s linear",
+                  }}
+                  className="item-li"
+                >
+                  <GrHomeRounded />
+                  {/* <i
+                    style={{ position: "relative", fontSize: "20px" }}
+                    class="fa fa-home"
+                  /> */}
+                  {tyExpanded && <span>{'Stream'}</span>}
+                </li>
+              </Link>
+              <Link
+                style={{ textDecoration: "none" }}
+                className="menu-aside-option"
+                to={"/" + user?.NameUser + "/dashboard/stream"}
+              >
+                <li
+                  style={{
+                    color: "white",
+                    display: "flex",
+                    gap: "10px",
+                    alignItems: "center",
+                    width: "100% !important",
+                    padding: tyExpanded ? "0rem 15px" : "0px",
+                    justifyContent: !tyExpanded ? 'center' : "flex-start",
+                    animation: !tyExpanded && "ease-in-out 1s linear",
+                  }}
+                  className="item-li"
+                >
+                  <GrHomeRounded />
+                  {/* <i
+                    style={{ position: "relative", fontSize: "20px" }}
+                    class="fa fa-home"
+                  /> */}
+                  {tyExpanded && <span>{'Contenido'}</span>}
+                </li>
+              </Link>
+              <Link
+                style={{ textDecoration: "none" }}
+                className="menu-aside-option"
+                to={"/" + user?.NameUser + "/dashboard/analytics"}
+              >
+                <li
+                  style={{
+                    color: "white",
+                    display: "flex",
+                    gap: "10px",
+                    alignItems: "center",
+                    width: "100% !important",
+                    padding: tyExpanded ? "0rem 15px" : "0px",
+                    justifyContent: !tyExpanded ? 'center' : "flex-start",
+                    animation: !tyExpanded && "ease-in-out 1s linear",
+                  }}
+                  className="item-li"
+                >
+                  <GrHomeRounded />
+                  {/* <i
+                    style={{ position: "relative", fontSize: "20px" }}
+                    class="fa fa-home"
+                  /> */}
+                  {tyExpanded && <span>{'Analytics'}</span>}
+                </li>
+              </Link>
               <Link
                 style={{ textDecoration: "none" }}
                 className="menu-aside-option"
@@ -115,12 +191,36 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
                   /> */}
-                  {tyExpanded && <span>{item.title}</span>}
+                  {tyExpanded && <span>{'Comentarios'}</span>}
                 </li>
-
-
               </Link>
-            ))}
+              <Link
+                style={{ textDecoration: "none" }}
+                className="menu-aside-option"
+                to={"/" + user?.NameUser + "/dashboard/stream"}
+              >
+                <li
+                  style={{
+                    color: "white",
+                    display: "flex",
+                    gap: "10px",
+                    alignItems: "center",
+                    width: "100% !important",
+                    padding: tyExpanded ? "0rem 15px" : "0px",
+                    justifyContent: !tyExpanded ? 'center' : "flex-start",
+                    animation: !tyExpanded && "ease-in-out 1s linear",
+                  }}
+                  className="item-li"
+                >
+                  <GrHomeRounded />
+                  {/* <i
+                    style={{ position: "relative", fontSize: "20px" }}
+                    class="fa fa-home"
+                  /> */}
+                  {tyExpanded && <span>{'Ingresos'}</span>}
+                </li>
+              </Link>
+            
 
 
           </ul>

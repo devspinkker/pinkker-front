@@ -344,6 +344,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
   return (
 
     <Grid style={{ display: 'flex' }}>
+      
       <NavbarLeft isMobile={isMobile}
         tyExpanded={expanded}
         user={user}
