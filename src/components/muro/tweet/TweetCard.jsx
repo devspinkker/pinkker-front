@@ -174,7 +174,7 @@ export default function TweetCard({ tweet }) {
       )}
       {tweet.Type === "PostComment" &&
         (location.pathname === "/plataform/muro" ||
-          tweet?.OriginalPostData?.Type === "PostComment") && (
+          tweet?.OriginalPostData?.Type === "Post") && (
           <PostComment tweet={tweet?.OriginalPostData} />
         )}
       <div className="tweetcard-body">
