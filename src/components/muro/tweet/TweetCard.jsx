@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import "./TweetCard.css";
 import { useSelector } from "react-redux";
 import CiteTweet from "../popup/CiteTweet";
@@ -16,8 +16,11 @@ import {
 import { Grid, Typography, Skeleton } from "@mui/material";
 import { FaEllipsis } from "react-icons/fa6";
 import CitaCard from "./CitaCard";
+import PostComment from "./PostComment";
 
 export default function TweetCard({ tweet }) {
+  const location = useLocation();
+
   const [popupTweetView, setPopupTweetView] = useState(false);
   const [popupCiteTweet, setPopupCiteTweet] = useState(false);
   const [showDropdownRetweet, setShowDropdownRetweet] = useState(false);
@@ -169,38 +172,28 @@ export default function TweetCard({ tweet }) {
           </h3>
         </div>
       )}
-
+      {tweet.Type === "PostComment" &&
+        (location.pathname === "/plataform/muro" ||
+          tweet?.OriginalPostData?.Type === "PostComment") && (
+          <PostComment tweet={tweet?.OriginalPostData} />
+        )}
       <div className="tweetcard-body">
         <div
           onClick={() => togglePopupTweetView()}
           className="tweetcard-container"
         >
           <div className="tweetcard-avatar">
-            {tweet?.Type === "RePost" ? (
-              <img
-                style={{
-                  width: "40px",
-                  borderRadius: "100px",
-                  position: "relative",
-                  left: "-10px",
-                }}
-                src={tweet?.OriginalPostData?.UserInfo?.Avatar}
-                alt={`${tweet.OriginalPostData?.UserInfo?.NameUser} avatar`}
-              />
-            ) : (
-              <img
-                style={{
-                  width: "40px",
-                  borderRadius: "100px",
-                  position: "relative",
-                  left: "-10px",
-                }}
-                src={tweet.UserInfo.Avatar}
-                alt={`${tweet.UserInfo.NameUser} avatar`}
-              />
-            )}
+            <img
+              style={{
+                width: "50px",
+                borderRadius: "100%",
+                position: "relative",
+                left: "-10px",
+              }}
+              src={tweet.UserInfo.Avatar}
+              alt={`${tweet.UserInfo.NameUser} avatar`}
+            />
           </div>
-
           <div className="tweetcard-primary">
             <div style={{ display: "flex", alignItems: "center" }}>
               <Grid
@@ -219,11 +212,7 @@ export default function TweetCard({ tweet }) {
                     alignItems: "center",
                   }}
                 >
-                  {tweet?.Type === "RePost" ? (
-                    <h3>{tweet?.OriginalPostData?.UserInfo?.FullName} </h3>
-                  ) : (
-                    <h3> {tweet?.UserInfo?.FullName} </h3>
-                  )}
+                  <h3>{tweet.UserInfo.FullName}</h3>
                   <p
                     style={{
                       color: "lightgray",
@@ -231,52 +220,29 @@ export default function TweetCard({ tweet }) {
                       fontSize: "15px",
                     }}
                   >
-                    {tweet?.Type === "RePost" ? (
-                      <p>
-                        @{tweet?.OriginalPostData?.UserInfo?.NameUser} ·{" "}
-                        {timeDifference}
-                      </p>
-                    ) : (
-                      <p>
-                        {" "}
-                        @{tweet?.UserInfo?.NameUser} · {timeDifference}
-                      </p>
-                    )}
+                    @{tweet.UserInfo.NameUser} · {timeDifference}
                   </p>
                 </Grid>
-
                 <FaEllipsis />
               </Grid>
-              {/* {tweet.gallery === true && (
-                <p style={{ color: "#f36196", marginLeft: "5px" }}>
-                  Contenido de Suscriptores
-                </p>
-              )} */}
             </div>
-
             <div style={{ marginTop: "5px", textAlign: "left" }}>
-              {tweet?.Type === "RePost" ? (
-                <p>{tweet?.OriginalPostData?.Status}</p>
-              ) : (
-                <p>{tweet?.Status}</p>
-              )}
+              <p>{tweet.Status}</p>
             </div>
-
-            {tweet?.PostImage !== "" && (
+            {tweet.PostImage !== "" && (
               <div style={{ marginTop: "10px" }}>
                 <img
                   style={{ borderRadius: "20px", maxWidth: "350px" }}
-                  src={tweet?.PostImage}
+                  src={tweet.PostImage}
                   alt="Post image"
                 />
               </div>
             )}
-
-            {tweet?.gallery === true && (
+            {tweet.gallery === true && (
               <div style={{ marginTop: "10px" }}>
                 <img
                   style={{ borderRadius: "20px", maxWidth: "350px" }}
-                  src={tweet?.PostImage}
+                  src={tweet.PostImage}
                   alt="Gallery image"
                 />
               </div>
@@ -286,7 +252,7 @@ export default function TweetCard({ tweet }) {
                 e.stopPropagation();
               }}
             >
-              {tweet?.Type === "CitaPost" && (
+              {tweet.Type === "CitaPost" && (
                 <CitaCard tweet={tweet?.OriginalPostData} />
               )}
             </div>
@@ -299,7 +265,7 @@ export default function TweetCard({ tweet }) {
                 <div className="tweetcard-icon-comment">
                   <i className="far fa-comment" />
                   <p style={{ marginLeft: "5px", fontSize: "14px" }}>
-                    {tweet?.Type == "RePost" ? (
+                    {tweet.Type == "RePost" ? (
                       <p>{tweet?.OriginalPostData?.Comments?.length}</p>
                     ) : (
                       <p>{tweet?.Comments?.length}</p>

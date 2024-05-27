@@ -298,7 +298,7 @@ export default function ClipView() {
             >
               <div>
                 <img
-                  style={{ width: "40px", borderRadius: "100px" }}
+                  style={{ width: "50px", borderRadius: "100px" }}
                   src={user.avatar}
                 />
               </div>

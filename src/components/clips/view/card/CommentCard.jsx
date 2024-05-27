@@ -103,8 +103,8 @@ export default function CommentCard({ comment }) {
       <div className="tweetcard-avatar">
         <img
           style={{
-            width: "30px",
-            borderRadius: "100px",
+            width: "50px",
+            borderRadius: "100%",
             position: "relative",
             left: "-10px",
           }}

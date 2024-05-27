@@ -193,7 +193,11 @@ export default function Muro({ isMobile, userName }) {
                 >
                   <div className="tweetcard-avatar">
                     <img
-                      style={{ width: "35px", borderRadius: "50%" }}
+                      style={{
+                        width: "50px",
+                        borderRadius: "100%",
+                        // padding: "10px",
+                      }}
                       src={AvatarSearch ? AvatarSearch : "/images/search.svg"}
                     />
                   </div>
@@ -220,7 +224,7 @@ export default function Muro({ isMobile, userName }) {
                       display: "flex",
                       alignItems: "center",
                       height: "40px",
-                      padding: "0px 10px",
+                      margin: "0px 10px",
                       borderRadius: "5px",
                       width: "90%",
                     }}

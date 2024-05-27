@@ -202,7 +202,7 @@ export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
               width: "100%",
               height: "1px",
               backgroundColor: "#ffffff1a",
-              marginTop: "10px",
+              // marginTop: "10px",
               marginBottom: "10px",
             }}
           />
@@ -236,9 +236,12 @@ export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
               <img style={{ maxWidth: "320px" }} src={image} />
             </div>
           )}
-          <div style={{ marginTop: "50px", textAlign: "right" }}>
+          <div style={{ marginTop: "0px", textAlign: "right" }}>
             <button
               onClick={() => handleSubmit()}
+              style={{
+                margin: "10px 0px",
+              }}
               className="muro-send-tweet-button"
             >
               Publicar

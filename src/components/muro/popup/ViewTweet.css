@@ -20,7 +20,7 @@
 
 .viewtweet-popup-container {
     width: 91%;
-    height: 800px;
+    min-height: 800px;
     overflow: scroll;
     margin: auto;
     margin-top: 10px;
@@ -103,6 +103,7 @@
     height: 470px;
     overflow: scroll;
     overflow-x: hidden;
+    box-shadow: inset 1px -2px 9px 0px #1e2127;
 }
 
 .popupgallery-view-input-container {
