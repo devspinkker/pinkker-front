@@ -59,6 +59,7 @@ import NLayout from "../components/layout/NLayout";
 import ViewTweet from "../components/muro/popup/ViewTweet";
 import HashtagPost from "../components/muro/HashtagPost";
 import NAnalytics from "../components/dashboard/analytics/NAnalytics";
+import Main from "../components/panelAdminPinkker/Main";
 
 const AppRouter = () => {
   const [expanded, setExpanded] = useState(true);
@@ -179,9 +180,12 @@ const AppRouter = () => {
             tyDashboard={true}
             setExpanded={setExpanded}
           ></NavbarLeft> */}
-          <DashboardStream tyExpanded={expanded} isMobile={isMobile} user={user} />
+          <DashboardStream
+            tyExpanded={expanded}
+            isMobile={isMobile}
+            user={user}
+          />
         </Route>
-
 
         <Route exact path="/:streamer/dashboard/Configuración">
           <NavbarLeft
@@ -228,11 +232,15 @@ const AppRouter = () => {
           isMobile={isMobile}
           tyExpanded={expanded}
           user={user}
-          tyDashboard={window.location.pathname.includes('/dashboard') ? true : false}
+          tyDashboard={
+            window.location.pathname.includes("/dashboard") ? true : false
+          }
           setExpanded={setExpanded}
         >
           <Switch>
-
+            <Route exact path="/panel/PaneldminPinkker">
+              <Main />
+            </Route>
 
             <Route exact path="/:streamer/dashboard/streammanager">
               <StreamManager

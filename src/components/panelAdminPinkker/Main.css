@@ -1,0 +1,45 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.categories-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.category-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.category-img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px 10px 0 0;
+}
+
+.category-name {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.category-topcolor {
+    height: 10px;
+    border-radius: 0 0 10px 10px;
+}
+
+.EditarCategoria {
+    background: #121418;
+    position: fixed;
+    z-index: 1000;
+    padding: 10px;
+}

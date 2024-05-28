@@ -13,13 +13,12 @@ import { ScaleLoader } from "react-spinners";
 import Tippy from "@tippyjs/react";
 
 import { useNotification } from "../Notifications/NotificationProvider";
+import Retiros from "./Retiros";
 
 export default function Cartera({ user }) {
   const token = useSelector((state) => state.token);
-
-  // function formatNumbersWithCommas(x) {
-  //   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  // }
+  const [amount, setAmount] = useState("");
+  const [alias, setAlias] = useState("");
 
   const [withdraws, setWithdraws] = useState(null);
 
@@ -58,6 +57,44 @@ export default function Cartera({ user }) {
       fetchData();
     }
   }
+
+  const handleWithdrawSubmit = (e) => {
+    e.preventDefault();
+    console.log("Amount:", amount, "Alias:", alias);
+    setShowWithdraw(false); // Close popup after submit
+  };
+
+  // const renderPopup = () => (
+  //   <div className="withdraw-popup">
+  //     <form onSubmit={handleWithdrawSubmit}>
+  //       <h2>Retirar Fondos</h2>
+  //       <div className="form-group">
+  //         <label htmlFor="amount">Cantidad de Pixeles</label>
+  //         <input
+  //           type="number"
+  //           id="amount"
+  //           value={amount}
+  //           onChange={(e) => setAmount(e.target.value)}
+  //           required
+  //         />
+  //       </div>
+  //       <div className="form-group">
+  //         <label htmlFor="alias">Alias</label>
+  //         <input
+  //           type="text"
+  //           id="alias"
+  //           value={alias}
+  //           onChange={(e) => setAlias(e.target.value)}
+  //           required
+  //         />
+  //       </div>
+  //       <button type="submit">Enviar</button>
+  //       <button type="button" onClick={() => setShowWithdraw(false)}>
+  //         Cancelar
+  //       </button>
+  //     </form>
+  //   </div>
+  // );
 
   function getStatus(status) {
     if (status === 0) {
@@ -268,13 +305,11 @@ export default function Cartera({ user }) {
               marginBottom: "10px",
             }}
           />
-          {/* ... (Código para la sección de retiros) */}
+          <Retiros />
         </div>
       );
     }
   }
-
-  // ... (Código posterior)
 
   return (
     <div className="cartera-body">
@@ -313,9 +348,7 @@ export default function Cartera({ user }) {
                 </h3>
               </div>
             </div>
-            <button
-              /*onClick={() => openWithdraw()}*/ className="cartera-balance-button"
-            >
+            <button onClick={openWithdraw} className="cartera-balance-button">
               Retirar fondos
             </button>
           </div>
@@ -353,6 +386,7 @@ export default function Cartera({ user }) {
             >
               <h3>RETIROS</h3>
             </div>
+
             {/* <div style={{ left: getLeftForType() }} className="type-line"></div> */}
           </div>
         </div>
@@ -362,6 +396,7 @@ export default function Cartera({ user }) {
 
       {showWithdraw && (
         <WithdrawPopup
+          user={user}
           reloadData={() => reloadData()}
           closePopup={() => openWithdraw()}
         />

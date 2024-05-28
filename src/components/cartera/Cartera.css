@@ -81,3 +81,35 @@
 .cartera-history-card-date {
     width: 20%;
 }
+
+.withdraw-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.withdraw-popup .form-group {
+    margin-bottom: 15px;
+}
+
+.withdraw-popup label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.withdraw-popup input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.withdraw-popup button {
+    margin-right: 10px;
+    padding: 10px 15px;
+}
