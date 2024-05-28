@@ -3,12 +3,10 @@ import "./WithdrawPopup.css";
 import { useSelector } from "react-redux";
 import { useNotification } from "../../Notifications/NotificationProvider";
 import { ScaleLoader } from "react-spinners";
-import { getMyWithdraw, createWithdraw } from "../../../services/withdraw";
+import { getMyWithdraw } from "../../../services/withdraw";
+import { withdrawalRequest } from "../../../services/backGo/withdraw";
 
 export default function WithdrawPopup({ closePopup, reloadData, user }) {
-  const auth = useSelector((state) => state.auth);
-  const token = useSelector((state) => state.token);
-
   const [methodPay, setMethodPay] = useState(0);
   const [email, setEmail] = useState(null);
   const [amount, setAmount] = useState(null);
@@ -81,11 +79,10 @@ export default function WithdrawPopup({ closePopup, reloadData, user }) {
         return;
       }
     }
-
-    const res = await createWithdraw(token, methodPay, amount, cbu, email);
+    let token = window.localStorage.getItem("token");
+    const res = await withdrawalRequest(token, amount, cbu);
     if (res != null && res != undefined) {
-      alert({ type: "SUCCESS", message: res.data.msg });
-      user.Pixeles = user.Pixeles - amount;
+      alert({ type: "SUCCESS" });
       reloadData();
       closePopup();
     }

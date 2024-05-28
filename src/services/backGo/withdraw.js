@@ -8,11 +8,14 @@ export const setToken = (newObject) => {
 const baseURL = process.env.REACT_APP_BACKGO
 
 
-export async function follow(token, userId) {
+export async function withdrawalRequest(token, amount, cbu) {
     try {
         const response = await axios.post(
-            `${baseURL}/user/follow`,
-            { IdUser: userId },
+            `${baseURL}/Withdraw/WithdrawalRequest`,
+            {
+                amount,
+                cbu
+            },
             {
                 headers: {
                     Authorization: `Bearer ${token}`,

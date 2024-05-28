@@ -36,4 +36,19 @@ export async function GetCodePanelPinkker(token, code) {
     } catch (error) {
         return error
     }
+} export async function GetWithdrawalRequest(Code, token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/Withdraw/GetWithdrawalRequest`,
+            { Code },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
 }

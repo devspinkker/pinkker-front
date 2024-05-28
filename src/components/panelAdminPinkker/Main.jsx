@@ -1,34 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.css";
-import { GetCodePanelPinkker } from "../../services/backGo/solicitudApanelPinkker";
+import { GetWithdrawalRequest } from "../../services/backGo/solicitudApanelPinkker";
 import UpdateCategorie from "./UpdateCategorie";
+import WithdrawalRequest from "./WithdrawalRequest";
 
 export default function Main() {
   const [code, setCode] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState(null);
   const [activePanel, setActivePanel] = useState(null); // Estado para rastrear el panel activo
+  const [withdrawalRequestInfo, setWithdrawalRequestInfo] = useState(null);
 
   const token = window.localStorage.getItem("token");
 
-  useEffect(() => {
-    const fetchData = async () => {};
-
-    fetchData();
-  }, []);
-
   const handleCodeSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await GetCodePanelPinkker(token, code);
-      if (response.success) {
-        setIsAuthenticated(true);
-      } else {
-        setError("Invalid code. Please try again.");
+
+    if (activePanel === "retiros" && code !== "" && token) {
+      try {
+        const withdrawalRequestData = await GetWithdrawalRequest(
+          "ecg920dnql1p",
+          token
+        );
+
+        setWithdrawalRequestInfo(withdrawalRequestData);
+      } catch (err) {
+        setError("An error occurred. Please try again.");
       }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
     }
   };
 
@@ -37,9 +36,30 @@ export default function Main() {
       case "categorias":
         return <UpdateCategorie />;
       case "retiros":
-        return <div>Retiros Component</div>; // Aquí iría el componente para "Retiros"
+        return (
+          <div>
+            {/* Mostrar el formulario para ingresar el código */}
+            <form onSubmit={handleCodeSubmit}>
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="Ingrese el código"
+              />
+              <button type="submit">Enviar</button>
+            </form>
+            {/* Mostrar el componente WithdrawalRequest si hay información */}
+            {withdrawalRequestInfo ? (
+              <WithdrawalRequest
+                withdrawalRequestInfo={withdrawalRequestInfo}
+              />
+            ) : (
+              <p>Loading...</p>
+            )}
+          </div>
+        );
       case "usuarios":
-        return <div>Usuarios Component</div>; // Aquí iría el componente para "Usuarios"
+        return <div>Usuarios Component</div>;
       default:
         return null;
     }
