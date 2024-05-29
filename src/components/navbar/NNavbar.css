@@ -372,7 +372,8 @@
 }
 
 .navbar-image-avatar img {
-  width: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 20px;
   position: relative;
   object-fit: cover;

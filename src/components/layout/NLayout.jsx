@@ -7,7 +7,7 @@ import DropdownBalance from "../navbar/balance/DropdownBalance";
 import DropdownPurchase from "../navbar/purchase/DropdownPurchase";
 import CanalesRecomendados from "./CanalesRecomendados";
 import Auth from "../auth/Auth";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { GetAllsStreamsOnline } from "../../services/backGo/streams";
 import { GrHomeRounded } from "react-icons/gr";
 import { FiSearch } from "react-icons/fi";
@@ -38,6 +38,7 @@ function NLayout(props) {
   const [type, setType] = useState(0);
   const [openNotification, setOpenNotification] = useState(true)
   const [openMessage, setOpenMessage] = useState(false)
+  console.log('openMessage', openMessage)
   function clickPulsedButton() {
     setPulse(!pulse);
     props.setExpanded(!props.tyExpanded);
@@ -69,6 +70,8 @@ function NLayout(props) {
 
   let expandido = pulse;
   const [streams, setStreams] = useState(null);
+  let location = useLocation();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -163,10 +166,12 @@ function NLayout(props) {
 
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const [urlCat, setUrlCat] = useState();
+
   useEffect(() => {
     const handleLocationChange = () => {
       setCurrentPath(window.location.pathname);
     };
+
 
     // Agrega un event listener para detectar cambios en la ubicación
     window.addEventListener("popstate", handleLocationChange);
@@ -186,7 +191,7 @@ function NLayout(props) {
           display: dashboard ? 'none' : "flex",
           flexDirection: "row",
           width: "105% !important",
-          justifyContent: !props.tyExpanded && openNotification ? 'space-between' : 'none'
+          justifyContent: !props.tyExpanded && (openNotification || openMessage) && 'space-between' 
         }}
       >
         {/* GRID ASIDE */}
@@ -226,7 +231,7 @@ function NLayout(props) {
             {/* <img  src="/images/menu.svg" className="img-bars" /> */}
 
             <AiOutlineMenu
-              style={{ color: "white", fontSize: "26px", width: !props.tyExpanded && '100%'}}
+              style={{ color: "white", fontSize: "26px", width: !props.tyExpanded && '100%' }}
               onClick={() => clickPulsedButton()}
               className="img-bars"
             />
@@ -465,8 +470,9 @@ function NLayout(props) {
                       justifyContent: !props.tyExpanded && "center",
                       animation: !props.tyExpanded && "ease-in-out 1s linear",
                     }}
-                    className="item-li"
+                    className={location.pathname === '/' ? "item-liActive" : "item-li"}
                   >
+
                     <GrHomeRounded />
                     {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
@@ -490,7 +496,8 @@ function NLayout(props) {
                       justifyContent: !props.tyExpanded && "center",
                       animation: !props.tyExpanded && "ease-in-out 1s linear",
                     }}
-                    className="item-li"
+                    className={location.pathname === '/plataform/explore' ? "item-liActive" : "item-li"}
+
                   >
                     {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
@@ -542,7 +549,8 @@ function NLayout(props) {
                       justifyContent: !props.tyExpanded && "center",
                       animation: !props.tyExpanded && "ease-in-out 3s linear",
                     }}
-                    className="item-li"
+                    className={location.pathname === '/plataform/muro' ? "item-liActive" : "item-li"}
+
                   >
                     <BsChatSquareText />
                     {/* <i
@@ -670,7 +678,7 @@ function NLayout(props) {
 
         <Grid
           style={{
-            width: props.tyExpanded ? "85%" : openNotification ? '80%' : "95%",
+            width: props.tyExpanded ? "85%" : (openNotification || openMessage) ? '80%' : "95%",
             display: "flex",
             flexDirection: "column",
             zIndex: 99999,
@@ -1283,25 +1291,7 @@ function NLayout(props) {
               </Grid>
             </Grid>
 
-            <Grid style={{ width: "98%" }}>
-              <p
-                style={{
-                  color: "#828998",
-                  fontSize: "14px",
-                  fontFamily: "Inter",
-                }}
-              >
-                Shuffle is owned and operated by Natural Nine B.V., Curaçao
-                company registration number 160998, with its registered address
-                at Fransche Bloemweg 4, Willemstad, Curaçao. Shuffle is
-                authorized and regulated by the Government of Curaçao and
-                operates under License No. 8048/JAZ issued to Antillephone.
-                Shuffle’s payment agent company is River Card Limited, Cyprus
-                company registration number HE 431566, with its registered
-                address at 50 Spyrou Kyprianou Avenue, Irida Tower 3, Floor 6,
-                6057 Larnaca, Cyprus. Contact us at support@shuffle.com.
-              </p>
-            </Grid>
+
 
             <Grid
               style={{
@@ -1338,7 +1328,7 @@ function NLayout(props) {
         </Grid>
 
         {
-          (openNotification && !props.tyExpanded ) &&
+          ((openNotification || openMessage) && !props.tyExpanded) &&
           <Grid
             style={{
               width: "15%",
@@ -1361,7 +1351,7 @@ function NLayout(props) {
               }}
 
             >
-              <Typography style={{ color: 'white', fontWeight: 600, textAlign:'center', fontSize:'18px', width:'100%'}}>{'Notificaciones'}</Typography>
+              <Typography style={{ color: 'white', fontWeight: 600, textAlign: 'center', fontSize: '18px', width: '100%' }}>{ openMessage ? 'Mensajes' :'Notificaciones'}</Typography>
             </Grid>
           </Grid>
         }

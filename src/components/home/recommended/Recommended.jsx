@@ -161,7 +161,7 @@ export default function DirectosRecommended({
       {streams?.length && <div className="manager-recommended">
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '80%' }}>
-          <GrGamepad style={{ color: '#856ffc', fontSize: '20px' }} />
+          <GrGamepad style={{ color: '#ff69c4', fontSize: '20px' }} />
 
           <h2 style={{ fontFamily: 'Inter', color: 'white', fontSize: '20px' }}>Directos Recomendados</h2>
 

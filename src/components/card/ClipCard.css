@@ -56,7 +56,9 @@
 .clipcard-body .clipcard-image {
     transition: 0.5s all;
 }
-
+.clipcard-image:hover{
+    transform: translate3d(0px, -9px, 0px) !important;
+}
 
 /*.clipcard-body:hover .clipcard-image {
     box-shadow: 10px 10px 400px 0px rgba(0,0,0,0.75) inset;

@@ -14,6 +14,7 @@ import "./SliderLayout.css";
 import { AiOutlinePlayCircle } from "react-icons/ai";
 import { GrGamepad } from "react-icons/gr";
 import SelectVideoClip from "../home/clips/SelectVideoClip";
+import VodCard from "../card/VodCard";
 
 function SliderLayout(props) {
   return (
@@ -55,7 +56,7 @@ function SliderLayout(props) {
           >
             {/* <img src="/images/original.svg" style={{ width: '2%', color:'#856ffc' }} /> */}
 
-            <GrGamepad style={{ color: "#856ffc", fontSize: "20px" }} />
+            <GrGamepad style={{ color: "#ff69c4", fontSize: "20px" }} />
             <h2 style={{ fontFamily: "Inter", color: "white" }}>Categorias</h2>
           </div>
         )}
@@ -70,7 +71,7 @@ function SliderLayout(props) {
             }}
           >
             <AiOutlinePlayCircle
-              style={{ color: "#856ffc", fontSize: "20px" }}
+              style={{ color: "#ff69c4", fontSize: "20px" }}
             />
             <h2 style={{ color: "white", fontSize: "20px" }}>
               {props.titulo
@@ -78,6 +79,25 @@ function SliderLayout(props) {
                 : props.isMobile
                 ? "Clips"
                 : "Clips más vistos"}{" "}
+            </h2>
+          </Grid>
+        )}
+        {props.Vods && (
+          <Grid
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              width: "30%",
+            }}
+          >
+            <AiOutlinePlayCircle
+              style={{ color: "#ff69c4", fontSize: "20px" }}
+            />
+            <h2 style={{ color: "white", fontSize: "20px" }}>
+              { props.isMobile
+                ? "Clips"
+                : "Vods más vistos"}{" "}
             </h2>
           </Grid>
         )}
@@ -171,6 +191,29 @@ function SliderLayout(props) {
             ))}
         </>
       )}
+      {props.Vods && (
+        <>
+          {props?.clips
+            ?.filter((clip, index) => index < 10)
+            .map((clip) => (
+              <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
+                <VodCard 
+                            width={"300px"}
+                            views={clip.views} 
+                            createdAt={clip.createdAt} 
+                            duration={clip.duration} 
+                            image={"https://res.cloudinary.com/pinkker/image/upload/v1669407676/min/jpikyrdltculevcxkstj.png"} 
+                            title={clip.clipName} 
+                            categorie={clip.stream.stream_category} 
+                            tags={clip.stream.stream_tag}
+                        />  
+              </SwiperSlide>
+            ))}
+        </>
+      )}
+
+
+
     </Swiper>
   );
 }

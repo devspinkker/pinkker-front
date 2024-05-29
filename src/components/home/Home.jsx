@@ -309,9 +309,9 @@ const Home = ({
       ></SliderLayout>
       {<Clips isMobile={isMobile} />}
 
-      {/* <Vods /> */}
+      <Vods isMobile={isMobile} />
 
-      {<Clips isMobile={isMobile} titulo={"Vods"} />}
+      {/* {<Clips isMobile={isMobile} titulo={"Vods"} />} */}
 
       {/* {showPopupAuth === true && <Auth typeDefault={1} closePopup={() => togglePopupAuth()} />} */}
       {/*activePlayerPopup === true && <CustomPlayer expanded={expanded} width="100%" height="160px" popup={true} style={{zIndex: "99999"}} streamerName={streamerPlayerPopup} closePopup={() => setActivePlayerPopup(false)}/> */}
