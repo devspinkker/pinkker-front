@@ -99,7 +99,13 @@ export default function UpdateCategorie() {
             }}
             key={index}
           >
-            <h5>{category.nombre}</h5>
+            <h5
+              style={{
+                color: "#fff",
+              }}
+            >
+              {category.nombre}
+            </h5>
             <CardCategorie
               width={"160px"}
               isLoading={false}
@@ -138,7 +144,7 @@ export default function UpdateCategorie() {
               type="text"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="Enter category code"
+              placeholder="Enter code"
               required
             />
             <button onClick={handleCategorySubmit}>Submit Category</button>

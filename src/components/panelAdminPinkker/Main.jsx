@@ -4,6 +4,7 @@ import "./Main.css";
 import { GetWithdrawalRequest } from "../../services/backGo/solicitudApanelPinkker";
 import UpdateCategorie from "./UpdateCategorie";
 import WithdrawalRequest from "./WithdrawalRequest";
+import FindUsersPanel from "./FindUsersPanel";
 
 export default function Main() {
   const [code, setCode] = useState("");
@@ -13,18 +14,15 @@ export default function Main() {
   const [withdrawalRequestInfo, setWithdrawalRequestInfo] = useState(null);
 
   const token = window.localStorage.getItem("token");
-
   const handleCodeSubmit = async (e) => {
     e.preventDefault();
 
     if (activePanel === "retiros" && code !== "" && token) {
       try {
-        const withdrawalRequestData = await GetWithdrawalRequest(
-          "ecg920dnql1p",
-          token
-        );
-
-        setWithdrawalRequestInfo(withdrawalRequestData);
+        const withdrawalRequestData = await GetWithdrawalRequest(code, token);
+        if (withdrawalRequestData.message == "ok") {
+          setWithdrawalRequestInfo(withdrawalRequestData.data);
+        }
       } catch (err) {
         setError("An error occurred. Please try again.");
       }
@@ -48,10 +46,10 @@ export default function Main() {
               />
               <button type="submit">Enviar</button>
             </form>
-            {/* Mostrar el componente WithdrawalRequest si hay información */}
             {withdrawalRequestInfo ? (
               <WithdrawalRequest
                 withdrawalRequestInfo={withdrawalRequestInfo}
+                Code={code}
               />
             ) : (
               <p>Loading...</p>
@@ -59,7 +57,20 @@ export default function Main() {
           </div>
         );
       case "usuarios":
-        return <div>Usuarios Component</div>;
+        return (
+          <div>
+            <form onSubmit={handleCodeSubmit}>
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="Ingrese el código"
+              />
+              <button type="submit">Enviar</button>
+            </form>
+            <FindUsersPanel Code={code} />
+          </div>
+        );
       default:
         return null;
     }

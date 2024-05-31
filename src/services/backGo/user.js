@@ -16,7 +16,66 @@ export async function signupNotConfirmed(userData) {
         return error
     }
 }
-
+export async function PanelAdminPinkkerInfoUser(Code, IdUser, token, NameUser) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/PanelAdminPinkker/InfoUser`,
+            {
+                Code,
+                IdUser,
+                NameUser
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
+export async function PanelAdminPinkkerbanStreamer(Code, IdUser, token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/PanelAdminPinkker/banStreamer`,
+            {
+                Code,
+                IdUser,
+                NameUser: ""
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
+export async function PanelAdminPinkkerRemoveBanStreamer(Code, IdUser, token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/PanelAdminPinkker/RemoveBanStreamer`,
+            {
+                Code,
+                IdUser,
+                NameUser: ""
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
 export async function SaveUserCodeConfirm(code) {
     try {
         const response = await axios.post(`${baseURL}/user/SaveUserCodeConfirm`, { code });
