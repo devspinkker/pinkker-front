@@ -25,17 +25,19 @@ export default function FindUsersPanel({ Code }) {
   };
 
   return (
-    <div>
-      <form onSubmit={handleFormSubmit}>
-        <label htmlFor="usernameInput">Nombre de Usuario:</label>
-        <input
-          type="text"
-          id="usernameInput"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <button type="submit">Buscar</button>
-      </form>
+    <div className="FindUsersPanelFindUsersPanel">
+      <div className="FindUsersPanelFindUsersPanelForm">
+        <form onSubmit={handleFormSubmit}>
+          <label htmlFor="usernameInput">Nombre de Usuario:</label>
+          <input
+            type="text"
+            id="usernameInput"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <button type="submit">Buscar</button>
+        </form>
+      </div>
 
       {userInfo && streamInfo && (
         <UserStreamInfoPanel

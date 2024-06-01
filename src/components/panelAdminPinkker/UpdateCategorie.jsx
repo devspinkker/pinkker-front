@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getCategoriesWithLimit } from "../../services/backGo/streams";
 import { updateCategoria } from "../../services/backGo/solicitudApanelPinkker";
 import CardCategorie from "../home/categories/CardCategorie";
-import "./UpdateCategorie.css"; // Importa el archivo CSS específico para este componente
+import "./UpdateCategorie.css";
 
 export default function UpdateCategorie() {
   const [code, setCode] = useState("");

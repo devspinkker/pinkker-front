@@ -35,9 +35,12 @@ export default function Main() {
         return <UpdateCategorie />;
       case "retiros":
         return (
-          <div>
+          <div style={{ width: "700px" }}>
             {/* Mostrar el formulario para ingresar el código */}
-            <form onSubmit={handleCodeSubmit}>
+            <form
+              className="renderActivePanel-main"
+              onSubmit={handleCodeSubmit}
+            >
               <input
                 type="text"
                 value={code}
@@ -46,27 +49,27 @@ export default function Main() {
               />
               <button type="submit">Enviar</button>
             </form>
-            {withdrawalRequestInfo ? (
+            {withdrawalRequestInfo && (
               <WithdrawalRequest
                 withdrawalRequestInfo={withdrawalRequestInfo}
                 Code={code}
               />
-            ) : (
-              <p>Loading...</p>
             )}
           </div>
         );
       case "usuarios":
         return (
           <div>
-            <form onSubmit={handleCodeSubmit}>
+            <form
+              className="renderActivePanel-main"
+              onSubmit={handleCodeSubmit}
+            >
               <input
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="Ingrese el código"
               />
-              <button type="submit">Enviar</button>
             </form>
             <FindUsersPanel Code={code} />
           </div>

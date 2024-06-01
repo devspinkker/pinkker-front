@@ -113,3 +113,83 @@
     margin-right: 10px;
     padding: 10px 15px;
 }
+
+/*  retiros */
+.cartera-history-card-container {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.cartera-history-card {
+    display: flex;
+    align-items: center;
+    background-color: #2d2d2d;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.cartera-history-card-name,
+.cartera-history-card-destino,
+.cartera-history-card-amount,
+.cartera-history-card-status,
+.cartera-history-card-date {
+    width: 20%;
+}
+
+.cartera-history-card-name h4,
+.cartera-history-card-destino h4,
+.cartera-history-card-amount h4,
+.cartera-history-card-date h4 {
+    color: #ededed;
+    margin: 0;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.status.accepted {
+    background-color: green;
+}
+
+.status.rejected {
+    background-color: red;
+}
+
+.status.pending {
+    background-color: orange;
+}
+
+/* Tooltip container */
+.tooltip-container {
+    position: relative;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    /* Position above the text */
+    left: 50%;
+    margin-left: -100px;
+    /* Center the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

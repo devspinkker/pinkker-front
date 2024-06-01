@@ -46,3 +46,37 @@ export async function AcceptWithdrawal(Code, WithdrawalRequestsId, token) {
         return error
     }
 }
+export async function RejectWithdrawal(Code, WithdrawalRequestsId, TextReturn, token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/Withdraw/RejectWithdrawal`,
+            {
+                Code,
+                WithdrawalRequestsId,
+                TextReturn
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+} export async function GetWithdrawalToken(token) {
+    try {
+        const response = await axios.get(
+            `${baseURL}/Withdraw/GetWithdrawalToken`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
