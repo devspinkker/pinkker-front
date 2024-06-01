@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getCategoriesWithLimit } from "../../services/backGo/streams";
 import { updateCategoria } from "../../services/backGo/solicitudApanelPinkker";
 import CardCategorie from "../home/categories/CardCategorie";
+import "./UpdateCategorie.css"; // Importa el archivo CSS específico para este componente
 
 export default function UpdateCategorie() {
   const [code, setCode] = useState("");
@@ -88,24 +89,19 @@ export default function UpdateCategorie() {
   };
 
   return (
-    <div className="main-container">
-      {error && <p className="error">{error}</p>}
-      <div className="categories-container">
+    <div className="update-categorie-container">
+      {error && <p className="error-message">{error}</p>}
+      <div className="categories-list">
         {categories?.map((category, index) => (
           <div
+            className="category-item"
             onClick={(e) => {
               e.stopPropagation();
               handleEditCategory(category);
             }}
             key={index}
           >
-            <h5
-              style={{
-                color: "#fff",
-              }}
-            >
-              {category.nombre}
-            </h5>
+            <h5 className="category-name">{category.nombre}</h5>
             <CardCategorie
               width={"160px"}
               isLoading={false}
@@ -117,8 +113,11 @@ export default function UpdateCategorie() {
           </div>
         ))}
       </div>
-      <div className="EditarCategoria">
-        <button onClick={() => setShowEditDropdown(!showEditDropdown)}>
+      <div className="edit-category-panel">
+        <button
+          className="edit-button"
+          onClick={() => setShowEditDropdown(!showEditDropdown)}
+        >
           Editar Categoría
         </button>
         {showEditDropdown && (
@@ -127,27 +126,37 @@ export default function UpdateCategorie() {
               type="text"
               value={newCategoryName}
               onChange={handleCategoryNameChange}
+              className="input-field"
             />
             <input
               type="file"
               accept="image/*"
               onChange={handleCategoryImageChange}
+              className="input-file"
             />
-            <input
-              type="checkbox"
-              id="delete-category"
-              checked={deleteCategory}
-              onChange={handleDeleteChange}
-            />
-            <label htmlFor="delete-category">Delete category</label>
+            <div className="deleteUpdateCategorie">
+              <input
+                type="checkbox"
+                id="delete-category"
+                checked={deleteCategory}
+                onChange={handleDeleteChange}
+                className="input-checkbox"
+              />
+              <label htmlFor="delete-category" className="checkbox-label">
+                Delete category
+              </label>
+            </div>
             <input
               type="text"
               value={code}
               onChange={(e) => setCode(e.target.value)}
               placeholder="Enter code"
+              className="input-field"
               required
             />
-            <button onClick={handleCategorySubmit}>Submit Category</button>
+            <button className="submit-button" onClick={handleCategorySubmit}>
+              Submit Category
+            </button>
           </div>
         )}
       </div>

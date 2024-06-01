@@ -1,0 +1,105 @@
+.update-categorie-container {
+    padding: 20px;
+    background-color: #121418;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.categories-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.category-item {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.category-item:hover {
+    transform: scale(1.05);
+}
+
+.category-name {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.edit-category-panel {
+    margin-top: 20px;
+}
+
+.edit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.edit-dropdown {
+    background-color: #08080861;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.input-file {
+    margin-bottom: 10px;
+}
+
+.input-checkbox {
+    margin-right: 5px;
+}
+
+.checkbox-label {
+    color: #333;
+}
+
+.submit-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #218838;
+}
+
+.deleteUpdateCategorie {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+.deleteUpdateCategorie label {
+
+    color: #fff;
+    width: 200px;
+}

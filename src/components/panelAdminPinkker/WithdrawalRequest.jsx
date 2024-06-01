@@ -1,15 +1,27 @@
 import React, { useState } from "react";
 import "./WithdrawalRequest.css"; // Importa el archivo CSS
 import { PanelAdminPinkkerInfoUser } from "../../services/backGo/user";
+
 import UserStreamInfoPanel from "./UserStreamInfoPanel"; // Importa el nuevo componente
+import { AcceptWithdrawal } from "../../services/backGo/withdraw";
 
 export default function WithdrawalRequest({ withdrawalRequestInfo, Code }) {
+  const handleAcceptWithdrawal = async (id) => {
+    const token = window.localStorage.getItem("token");
+
+    if (token) {
+      const res = await AcceptWithdrawal(Code, id, token);
+      if (res?.message) {
+        console.log(res);
+      }
+    }
+  };
+
   const [userInfo, setUserInfo] = useState(null);
   const [streamInfo, setStreamInfo] = useState(null);
 
   const handleButtonClick = async (id) => {
     const token = window.localStorage.getItem("token");
-
     if (token) {
       const res = await PanelAdminPinkkerInfoUser(Code, id, token);
       if (res?.message) {
@@ -35,6 +47,12 @@ export default function WithdrawalRequest({ withdrawalRequestInfo, Code }) {
             onClick={() => handleButtonClick(request.RequestedBy)}
           >
             Ver Información
+          </button>
+          <button
+            className="button"
+            onDoubleClick={() => handleAcceptWithdrawal(request.id)}
+          >
+            Accept Withdrawal
           </button>
         </div>
       ))}

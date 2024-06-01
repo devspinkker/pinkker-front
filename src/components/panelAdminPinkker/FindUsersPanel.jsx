@@ -15,10 +15,8 @@ export default function FindUsersPanel({ Code }) {
       try {
         const res = await PanelAdminPinkkerInfoUser(Code, "", token, username);
         if (res?.message) {
-          console.log(res.user);
-          console.log(res.stream);
-          setUserInfo(res.user); // Guardar la información del usuario
-          setStreamInfo(res.stream); // Guardar la información del stream
+          setUserInfo(res.user);
+          setStreamInfo(res.stream);
         }
       } catch (error) {
         console.error("Error al buscar usuario:", error);

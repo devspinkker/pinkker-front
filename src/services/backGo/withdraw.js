@@ -27,3 +27,22 @@ export async function withdrawalRequest(token, amount, cbu) {
         return error
     }
 }
+export async function AcceptWithdrawal(Code, WithdrawalRequestsId, token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/Withdraw/AcceptWithdrawal`,
+            {
+                Code,
+                WithdrawalRequestsId
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
