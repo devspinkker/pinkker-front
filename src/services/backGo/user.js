@@ -76,6 +76,26 @@ export async function PanelAdminPinkkerRemoveBanStreamer(Code, IdUser, token) {
         return error
     }
 }
+export async function PanelAdminPinkkerPartnerUser(Code, IdUser, token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/PanelAdminPinkker/PanelAdminPinkkerPartnerUser`,
+            {
+                Code,
+                IdUser,
+                NameUser: ""
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
 export async function SaveUserCodeConfirm(code) {
     try {
         const response = await axios.post(`${baseURL}/user/SaveUserCodeConfirm`, { code });

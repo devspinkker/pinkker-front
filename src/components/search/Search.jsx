@@ -8,6 +8,7 @@ import {
 } from "../../redux/actions/searchAction";
 
 import { useSelector } from "react-redux";
+import Emblem from "../emblem/Emblem";
 
 import { Link } from "react-router-dom";
 
@@ -113,16 +114,38 @@ export default function Search() {
                           )}
                         </div>
                         <div style={{ textAlign: "left" }}>
-                          <h3
+                          <div
                             style={{
-                              color: "white",
-                              fontSize: "18px",
-                              marginTop: "20px",
-                              marginLeft: "10px",
+                              display: "flex",
+                              alignItems: "flex-end",
                             }}
                           >
-                            {user.NameUser}
-                          </h3>
+                            <h3
+                              style={{
+                                color: "white",
+                                fontSize: "18px",
+                                marginTop: "20px",
+                                marginLeft: "10px",
+                              }}
+                            >
+                              {user.NameUser}
+                            </h3>
+                            <div
+                              style={{
+                                display: "flex",
+                                padding: "0px 10px",
+                              }}
+                            >
+                              {user && user.Partner.active && (
+                                <Emblem
+                                  name={"Verificado"}
+                                  img={
+                                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                                  }
+                                />
+                              )}{" "}
+                            </div>
+                          </div>
                           <h3
                             style={{
                               color: "darkgray",

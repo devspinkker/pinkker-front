@@ -36,7 +36,6 @@ export default function Main() {
       case "retiros":
         return (
           <div style={{ width: "700px" }}>
-            {/* Mostrar el formulario para ingresar el código */}
             <form
               className="renderActivePanel-main"
               onSubmit={handleCodeSubmit}

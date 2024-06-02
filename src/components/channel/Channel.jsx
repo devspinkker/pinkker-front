@@ -1117,7 +1117,7 @@ export default function Channel({
                 }}
               >
                 {streamer} <a style={{ marginRight: "5px" }}></a>{" "}
-                {streamerData && streamerData.verified && (
+                {streamerData && streamerData.Partner.active && (
                   <Emblem
                     name={"Verificado"}
                     img={

@@ -1295,7 +1295,7 @@ const Input = ({
   function getIdentityEmblem() {
     return (
       <a>
-        {user.pinkkerPrime.active === true && (
+        {user.Partner.active === true && (
           <Emblem
             chat={true}
             name="Pinkker Prime"

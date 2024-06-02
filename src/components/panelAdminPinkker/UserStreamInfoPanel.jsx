@@ -3,6 +3,7 @@ import "./WithdrawalRequest.css";
 import {
   PanelAdminPinkkerbanStreamer,
   PanelAdminPinkkerRemoveBanStreamer,
+  PanelAdminPinkkerPartnerUser,
 } from "../../services/backGo/user";
 
 export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
@@ -20,7 +21,20 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
       }
     }
   };
-
+  const handlePanelAdminPinkkerPartnerUser = async () => {
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      try {
+        const res = await PanelAdminPinkkerPartnerUser(
+          Code,
+          userInfo.id,
+          token
+        );
+      } catch (error) {
+        console.error("Error unbanning streamer:", error);
+      }
+    }
+  };
   const handleRemoveBanStreamerClick = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
@@ -82,6 +96,21 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
           ) : (
             <button className="banButton" onClick={handleBanStreamerClick}>
               Ban Streamer
+            </button>
+          )}
+          {!userInfo.Partner?.active ? (
+            <button
+              className="banButton"
+              onClick={handlePanelAdminPinkkerPartnerUser}
+            >
+              dar Parner
+            </button>
+          ) : (
+            <button
+              className="banButton"
+              onClick={handlePanelAdminPinkkerPartnerUser}
+            >
+              quitar Parner
             </button>
           )}
         </div>
