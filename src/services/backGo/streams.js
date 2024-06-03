@@ -33,11 +33,14 @@ export async function CommercialInStream(token) {
 		return error
 	}
 }
-export async function AdsAddStreamSummary(token, StreamerID) {
+export async function AdsAddStreamSummary(token, StreamerID, AdvertisementsId) {
 	try {
 		const response = await axios.post(
 			`${baseURL}/StreamSummary/AdsAdd`,
-			{ StreamerID },
+			{
+				StreamerID,
+				AdvertisementsId
+			},
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,

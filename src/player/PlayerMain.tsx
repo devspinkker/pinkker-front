@@ -28,14 +28,14 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   const reconnectIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleCommercialEnded = async () => {
-    setCommercial(null);
     let token = window.localStorage.getItem("token");
-    await AdsAddStreamSummary(token, streamerDataID);
+    await AdsAddStreamSummary(token, streamerDataID,Commercial._id);
+    setCommercial(null);
   };
 
   const playCommercial = () => {
     if (commercialRef.current) {
-      commercialRef.current.src = Commercial; 
+      commercialRef.current.src = Commercial.UrlVideo; 
       commercialRef.current.play().catch(error => {
         console.error('Error playing commercial:', error);
       });
@@ -58,9 +58,9 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
     newSocket.onmessage = (event) => {
       try {
         const receivedMessage = JSON.parse(event.data);
-        if (receivedMessage && receivedMessage.Commercial) {
-          setCommercial(receivedMessage.Commercial);
-          console.log(receivedMessage.Commercial);
+        if (receivedMessage && receivedMessage.UrlVideo) {
+          setCommercial(receivedMessage);
+          console.log(receivedMessage);
           setShowWarning(false);
         }
       } catch (error) {
@@ -313,6 +313,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
           playsInline
           ref={commercialRef}
           onEnded={handleCommercialEnded}
+          onClick={() => window.open(Commercial?.LinkReference, '_blank')}
         />
       )}
       <video
