@@ -61,7 +61,7 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
       return (
         <div>
           <li onClick={handleClick}>
-            <Link
+            <div
               style={{
                 fontFamily: "Poppins",
                 display: "flex",
@@ -69,12 +69,11 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
                 justifyContent: "center",
               }}
               className="dropdownsettings-link"
-              to={"/" + user.name}
               onClick={closeNavbar}
             >
               Cerrar
               <i style={{ marginLeft: "10px" }} class="fas fa-times" />
-            </Link>
+            </div>
           </li>
 
           <hr style={{ border: "1px solid #4b4b4b8f", margin: "10px auto" }} />

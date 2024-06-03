@@ -3,7 +3,8 @@ import flvjs from 'flv.js';
 import Hls from 'hls.js';
 import "./ReactVideoPlayer.css";
 import { AdsAddStreamSummary } from '../services/backGo/streams';
-import { useHistory  } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
 interface ReactVideoPlayerProps {
   src: string;
   videoRef: React.RefObject<HTMLVideoElement>;
@@ -18,12 +19,13 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   const history = useHistory();
   const [isPlaying, setIsPlaying] = useState(false);
   const [Commercial, setCommercial] = useState<any>(null);
-  const [showWarning, setShowWarning] = useState(true); 
-  const [Player, setPlayer] = useState(true); 
+  const [showWarning, setShowWarning] = useState(true);
+  const [Player, setPlayer] = useState(true);
   const commercialRef = useRef<HTMLVideoElement | null>(null);
   const hlsRef = useRef<Hls | null>(null);
   const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  const reconnectIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleCommercialEnded = async () => {
     setCommercial(null);
@@ -31,8 +33,22 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
     await AdsAddStreamSummary(token, streamerDataID);
   };
 
+  const playCommercial = () => {
+    if (commercialRef.current) {
+      commercialRef.current.src = Commercial; 
+      commercialRef.current.play().catch(error => {
+        console.error('Error playing commercial:', error);
+      });
+    }
+  };
+
   useEffect(() => {
-    const REACT_APP_BACKCOMMERCIALWS = process.env.REACT_APP_BACKCOMMERCIALWS;
+    if (Commercial) {
+      playCommercial();
+    }
+  }, [Commercial]);
+
+  const initializeWebSocket = () => {
     const newSocket = new WebSocket(`wss://www.pinkker.tv/8084/ws/commercialInStream/${stream}`);
 
     newSocket.onerror = (error) => {
@@ -44,6 +60,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         const receivedMessage = JSON.parse(event.data);
         if (receivedMessage && receivedMessage.Commercial) {
           setCommercial(receivedMessage.Commercial);
+          console.log(receivedMessage.Commercial);
           setShowWarning(false);
         }
       } catch (error) {
@@ -51,16 +68,39 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
       }
     };
 
-    newSocket.onopen = () => {};
+    newSocket.onclose = () => {
+      console.warn("WebSocket closed. Attempting to reconnect...");
+      if (reconnectIntervalRef.current) {
+        clearTimeout(reconnectIntervalRef.current);
+      }
+      reconnectIntervalRef.current = setTimeout(() => {
+        initializeWebSocket();
+      }, 5000);
+    };
+
+    newSocket.onopen = () => {
+      console.log("WebSocket connected.");
+    };
+
+    setSocket(newSocket);
+  };
+
+  useEffect(() => {
+    initializeWebSocket();
 
     window.addEventListener("beforeunload", () => {
-      newSocket.send("close");
-      newSocket.close();
+      if (socket) {
+        socket.send("close");
+        socket.close();
+      }
     });
 
     return () => {
-      if (newSocket && newSocket.readyState === WebSocket.OPEN) {
-        newSocket.close();
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.close();
+      }
+      if (reconnectIntervalRef.current) {
+        clearTimeout(reconnectIntervalRef.current);
       }
     };
   }, [stream]);
@@ -72,7 +112,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
       }
     };
 
-    pingInterval(); // Call the function here to run it immediately
+    pingInterval();
     const intervalId = setInterval(pingInterval, 3000);
 
     if (pingIntervalRef.current) {
@@ -203,75 +243,65 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
     }
   }
 
-  // Function to handle the click on "Comenzar a mirar"
   const handleStartWatchingClick = () => {
     setShowWarning(false);
     if (videoRef.current) {
       videoRef.current.muted = false;
-      setPlayer(false)
+      setPlayer(false);
       videoRef.current.play();
     }
   };
+
   const handleRedirectHome = () => {
-    history.push("/")
+    history.push("/");
   };
+
   return (
     <>
       {showWarning && (
         <div
-        style={{ width, height,background:"#080808",paddingTop:"100px", display:"flex",justifyContent:"center"}}
-        
+          style={{ width, height, background: "#080808", paddingTop: "100px", display: "flex", justifyContent: "center" }}
         >
-        <div
-        className="base-dialog">
-          <div className="dialog-icon-holder">
-            <svg
-             width="70px"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-              className="stroke-white"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-              ></path>
-            </svg>
-          </div>
-          <div 
-    
-          className="base-dialogo-Adver"
-       >
-            Advertencia, contenido para mayores de 18 años
-          </div>
-          <div 
-            className="base-dialogo-transmisión"
-         >
-            <p >
-              Esta transmisión tiene contenido para adultos. Debes tener 18 años de edad o más para poder ver este contenido.
-            </p>
-          </div>
-          <div  className="dialog-actions">
-              <button
-               onClick={handleRedirectHome}
+          <div className="base-dialog">
+            <div className="dialog-icon-holder">
+              <svg
+                width="70px"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+                className="stroke-white"
               >
-                <div >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                ></path>
+              </svg>
+            </div>
+            <div className="base-dialogo-Adver">
+              Advertencia, contenido para mayores de 18 años
+            </div>
+            <div className="base-dialogo-transmisión">
+              <p>
+                Esta transmisión tiene contenido para adultos. Debes tener 18 años de edad o más para poder ver este contenido.
+              </p>
+            </div>
+            <div className="dialog-actions">
+              <button onClick={handleRedirectHome}>
+                <div>
                   <div>Cancelar</div>
                 </div>
               </button>
-              <button
-                onClick={handleStartWatchingClick}
-              >
-                <div >
-                  <div >Comenzar a mirar</div>
+              <button onClick={handleStartWatchingClick}>
+                <div>
+                  <div>Comenzar a mirar</div>
                 </div>
               </button>
+            </div>
           </div>
-        </div>
         </div>
       )}
       {Commercial && (
@@ -287,7 +317,6 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
       )}
       <video
         style={{ width, height, display: Commercial || Player ? "none" : "" }}
-
         id='video-player'
         muted={true}
         controls={false}

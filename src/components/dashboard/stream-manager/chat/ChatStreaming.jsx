@@ -78,62 +78,44 @@ export function ChatStreaming({
 
     return () => clearTimeout(timer);
   }, []);
-  useEffect(() => {
-    if (isMobile) {
-      ToggleChat(false);
-    }
 
-    const token = window.localStorage.getItem("token");
-    const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
-    const newSocket = new WebSocket(
-      `${REACT_APP_BACKCHATWS}/ws/chatStreaming/${streamerChat.id}/${token}`
-    );
-    const connectWebSocket = () => {
-      newSocket.onerror = (error) => {
-        console.error("WebSocket error:", error);
-      };
-      newSocket.onmessage = (event) => {
-        try {
-          const receivedMessage = JSON.parse(event.data);
-          newSocket.send("onmessage");
-          if (stopIteration) {
-            setMessageold((prevMessages) => [...prevMessages, receivedMessage]);
-            scrollToBottom();
-          } else {
-            setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-            scrollToBottom();
-          }
-        } catch (error) {
-          console.error("Error al analizar el mensaje JSON:", error);
-        }
-      };
+  const connectWebSocket = (url, setSocketFn, handleMsgFn) => {
+    const newSocket = new WebSocket(url);
 
-      newSocket.onclose = () => {
-        newSocket.send("closing");
-      };
-
-      newSocket.onopen = () => {};
-      setSocket(newSocket);
-
-      window.addEventListener("beforeunload", () => {
-        newSocket.send("closing");
-        newSocket.close();
-      });
+    newSocket.onerror = (error) => {
+      console.error("WebSocket error:", error);
     };
 
-    if (!socket || socket.readyState !== WebSocket.OPEN) {
-      connectWebSocket();
-    }
-    return () => {
-      // window.addEventListener("beforeunload", () => {
-      //   newSocket.send("closing");
-      //   newSocket.close();
-      // });
-      if (newSocket && newSocket.readyState === WebSocket.OPEN) {
-        newSocket.close();
+    newSocket.onmessage = (event) => {
+      try {
+        const receivedMessage = JSON.parse(event.data);
+        newSocket.send("onmessage");
+        handleMsgFn(receivedMessage);
+      } catch (error) {
+        console.error("Error al analizar el mensaje JSON:", error);
       }
     };
-  }, []);
+
+    newSocket.onclose = () => {
+      console.warn("WebSocket closed. Attempting to reconnect...");
+      setTimeout(() => {
+        connectWebSocket(url, setSocketFn, handleMsgFn);
+      }, 5000);
+    };
+
+    newSocket.onopen = () => {
+      console.log("WebSocket connected.");
+    };
+
+    setSocketFn(newSocket);
+
+    window.addEventListener("beforeunload", () => {
+      if (newSocket) {
+        newSocket.send("closing");
+        newSocket.close();
+      }
+    });
+  };
 
   useEffect(() => {
     if (isMobile) {
@@ -142,76 +124,104 @@ export function ChatStreaming({
 
     const token = window.localStorage.getItem("token");
     const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
-    const newSocket = new WebSocket(
-      `${REACT_APP_BACKCHATWS}/ws/notifications/notifications/actionMessages/${streamerChat.id}`
-    );
-    const connectWebSocket = () => {
-      newSocket.onerror = (error) => {
-        console.error("WebSocket error:", error);
-      };
-      newSocket.onmessage = (event) => {
-        try {
-          const receivedMessage = JSON.parse(event.data);
-          newSocket.send("onmessage");
-          console.log(receivedMessage);
-          if (
-            receivedMessage.action === "message_deleted" &&
-            typeof receivedMessage.message_id === "string"
-          ) {
-            deleteMessages(receivedMessage);
-            return;
-          }
-          if (receivedMessage.action === "message_Anclar") {
-            console.log(receivedMessage);
-            AnclarMessage(receivedMessage?.message);
-            return;
-          }
-          if (receivedMessage.action === "message_Desanclar") {
-            SetMsjChatAnclado(null);
-          }
-          if (receivedMessage?.action === "host_action") {
-            const delay = Math.floor(Math.random() * 3000);
-            setTimeout(() => {
-              history.push("/" + receivedMessage?.hostA?.nameUser);
-            }, delay);
-          }
-          if (receivedMessage?.action === "Host") {
-            SetNewHost({
-              HostBy: receivedMessage.hostby,
-              spectators: receivedMessage.spectators,
-            });
+    const chatSocketUrl = `${REACT_APP_BACKCHATWS}/ws/chatStreaming/${streamerChat.id}/${token}`;
 
-            if (hostTimeoutRef.current) {
-              clearTimeout(hostTimeoutRef.current);
-            }
-
-            hostTimeoutRef.current = setTimeout(() => {
-              SetNewHost(null);
-            }, 90000);
-          }
-        } catch (error) {
-          console.error("Error al analizar el mensaje JSON:", error);
-        }
-      };
-
-      newSocket.onopen = () => {};
-      setsocketDeleteMsj(newSocket);
-
-      window.addEventListener("beforeunload", () => {
-        newSocket.send("closing");
-        newSocket.close();
-      });
-    };
-
-    if (!socketDeleteMsj || socketDeleteMsj.readyState !== WebSocket.OPEN) {
-      connectWebSocket();
-    }
-    return () => {
-      if (newSocket && newSocket.readyState === WebSocket.OPEN) {
-        newSocket.close();
+    const handleChatMessage = (receivedMessage) => {
+      if (stopIteration) {
+        setMessageold((prevMessages) => [...prevMessages, receivedMessage]);
+        scrollToBottom();
+      } else {
+        setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+        scrollToBottom();
       }
     };
-  }, []);
+
+    connectWebSocket(chatSocketUrl, setSocket, handleChatMessage);
+
+    return () => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.close();
+      }
+    };
+  }, [streamerChat.id, isMobile]);
+
+  useEffect(() => {
+    if (isMobile) {
+      ToggleChat(false);
+    }
+
+    const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
+    const deleteSocketUrl = `${REACT_APP_BACKCHATWS}/ws/notifications/notifications/actionMessages/${streamerChat.id}`;
+
+    const handleDeleteMessage = (receivedMessage) => {
+      if (
+        receivedMessage.action === "message_deleted" &&
+        typeof receivedMessage.message_id === "string"
+      ) {
+        deleteMessages(receivedMessage);
+      } else if (receivedMessage.action === "message_Anclar") {
+        AnclarMessage(receivedMessage?.message);
+      } else if (receivedMessage.action === "message_Desanclar") {
+        SetMsjChatAnclado(null);
+      } else if (receivedMessage?.action === "host_action") {
+        const delay = Math.floor(Math.random() * 3000);
+        setTimeout(() => {
+          history.push("/" + receivedMessage?.hostA?.nameUser);
+        }, delay);
+      } else if (receivedMessage?.action === "Host") {
+        SetNewHost({
+          HostBy: receivedMessage.hostby,
+          spectators: receivedMessage.spectators,
+        });
+
+        if (hostTimeoutRef.current) {
+          clearTimeout(hostTimeoutRef.current);
+        }
+
+        hostTimeoutRef.current = setTimeout(() => {
+          SetNewHost(null);
+        }, 90000);
+      }
+    };
+
+    connectWebSocket(deleteSocketUrl, setsocketDeleteMsj, handleDeleteMessage);
+
+    return () => {
+      if (socketDeleteMsj && socketDeleteMsj.readyState === WebSocket.OPEN) {
+        socketDeleteMsj.close();
+      }
+    };
+  }, [streamerChat.id, isMobile]);
+
+  useEffect(() => {
+    const pingInterval = () => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send("ping");
+      }
+    };
+
+    pingInterval();
+    pingIntervalRef.current = setInterval(pingInterval, 3000);
+
+    return () => {
+      clearInterval(pingIntervalRef.current);
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    const pingInterval = () => {
+      if (socketDeleteMsj && socketDeleteMsj.readyState === WebSocket.OPEN) {
+        socketDeleteMsj.send("ping");
+      }
+    };
+
+    pingInterval();
+    pingIntervalRef.current = setInterval(pingInterval, 3000);
+
+    return () => {
+      clearInterval(pingIntervalRef.current);
+    };
+  }, [socketDeleteMsj]);
 
   function AnclarMessage(receivedMessage) {
     const emotesChat = JSON.parse(receivedMessage.EmotesChat);
@@ -229,32 +239,6 @@ export function ChatStreaming({
   useEffect(() => {
     messagesRef.current = messages;
   }, [messages]);
-  useEffect(() => {
-    const pingInterval = () => {
-      if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.send("ping");
-      }
-    };
-
-    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
-    pingIntervalRef.current = setInterval(pingInterval, 3000);
-    return () => {
-      clearInterval(pingIntervalRef.current);
-    };
-  }, [socket]);
-  useEffect(() => {
-    const pingInterval = () => {
-      if (socketDeleteMsj && socketDeleteMsj.readyState === WebSocket.OPEN) {
-        socketDeleteMsj.send("ping");
-      }
-    };
-
-    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
-    pingIntervalRef.current = setInterval(pingInterval, 3000);
-    return () => {
-      clearInterval(pingIntervalRef.current);
-    };
-  }, [socketDeleteMsj]);
   function deleteMessages(receivedMessage) {
     setMessages((prevMessages) =>
       prevMessages.filter(
@@ -884,7 +868,7 @@ export function ChatStreaming({
       style={{
         maxWidth: DashboardStream ? "40vh" : "",
         height: DashboardStream ? "100%" : "",
-        position: DashboardStream && 'relative'
+        position: DashboardStream && "relative",
       }}
     >
       {chatExpandeds == true && !isMobile && !DashboardStream && (
