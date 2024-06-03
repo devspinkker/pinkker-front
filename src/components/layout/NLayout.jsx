@@ -1795,7 +1795,7 @@ function NLayout(props) {
             <span>Categorías</span>
           </Link>
           <Link
-            to="/"
+            to="/plataform/explore?tipo=categories"
             style={{
               display: "flex",
               alignItems: "center",
