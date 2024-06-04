@@ -36,6 +36,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   const playCommercial = () => {
     if (commercialRef.current) {
       commercialRef.current.src = Commercial.UrlVideo; 
+      commercialRef.current.muted = false;
       commercialRef.current.play().catch(error => {
         console.error('Error playing commercial:', error);
       });
