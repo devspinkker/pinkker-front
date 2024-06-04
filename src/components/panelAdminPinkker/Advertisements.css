@@ -1,0 +1,146 @@
+.update-categorie-container {
+    padding: 20px;
+    background-color: #121418;
+    font-family: 'Arial', sans-serif;
+    width: 700px;
+}
+
+.advertisement {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.advertisement:hover {
+    transform: translateY(-5px);
+}
+
+.advertisement h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.advertisement p {
+    font-size: 1em;
+    color: #666;
+}
+
+.advertisement a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+.advertisement a:hover {
+    text-decoration: underline;
+}
+
+.advertisement video {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.advertisement button {
+    background-color: #1a73e8;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.advertisement button:hover {
+    background-color: #155bb5;
+}
+
+.advertisement-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    background-color: #080808;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.advertisement-form input,
+.advertisement-form button {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #000000;
+    color: #ffffff;
+    border-radius: 4px;
+    width: 590px;
+}
+
+.advertisement-form button {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.advertisement-form button:hover {
+    background-color: #155bb5;
+}
+
+/* Advertisements.css */
+
+.update-categorie-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.advertisement-form {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    margin-bottom: 20px;
+}
+
+.advertisement-form input {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.advertisement-form input::placeholder {
+    color: #888;
+    /* Color del placeholder */
+}
+
+.advertisement {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 700px;
+}
+
+.advertisement h2 {
+    margin: 0 0 10px 0;
+}
+
+.advertisement p {
+    margin: 5px 0;
+}
+
+.advertisement a {
+    color: blue;
+    text-decoration: underline;
+}
+
+.advertisement button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}

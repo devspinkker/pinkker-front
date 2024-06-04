@@ -5,6 +5,7 @@ import { GetWithdrawalRequest } from "../../services/backGo/solicitudApanelPinkk
 import UpdateCategorie from "./UpdateCategorie";
 import WithdrawalRequest from "./WithdrawalRequest";
 import FindUsersPanel from "./FindUsersPanel";
+import Advertisements from "./Advertisements";
 
 export default function Main() {
   const [code, setCode] = useState("");
@@ -73,6 +74,23 @@ export default function Main() {
             <FindUsersPanel Code={code} />
           </div>
         );
+      case "Ads":
+        return (
+          <div>
+            <form
+              className="renderActivePanel-main"
+              onSubmit={handleCodeSubmit}
+            >
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="Ingrese el código"
+              />
+            </form>
+            <Advertisements Code={code} />
+          </div>
+        );
       default:
         return null;
     }
@@ -87,6 +105,7 @@ export default function Main() {
           </button>
           <button onClick={() => setActivePanel("retiros")}>Retiros</button>
           <button onClick={() => setActivePanel("usuarios")}>Usuarios</button>
+          <button onClick={() => setActivePanel("Ads")}>Ads</button>
         </div>
         <div className="categories-container">{renderActivePanel()}</div>
       </div>
