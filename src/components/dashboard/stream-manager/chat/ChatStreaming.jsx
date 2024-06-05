@@ -32,6 +32,9 @@ import {
   desanclarChatMessage,
 } from "../../../../services/backGo/chat";
 import { useNotification } from "../../../Notifications/NotificationProvider";
+import DropdownChatConfig from "../../../channel/chat/dropdown/config/DropdownChatConfig";
+import UserInfo from "../../../userinfo/UserInfo";
+import DropdownChatIdentity from "../../../channel/chat/dropdown/identity/DropdownChatIdentity";
 export function ChatStreaming({
   streamerChat,
   chatExpandeds,
@@ -69,6 +72,11 @@ export function ChatStreaming({
   const hostTimeoutRef = useRef(null);
   const alert = useNotification();
   const history = useHistory();
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+
+  const closeNavbar = () => {
+    setIsNavbarOpen(!isNavbarOpen);
+  };
 
   let stopIteration = true;
   useEffect(() => {
@@ -78,44 +86,62 @@ export function ChatStreaming({
 
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+    if (isMobile) {
+      ToggleChat(false);
+    }
 
-  const connectWebSocket = (url, setSocketFn, handleMsgFn) => {
-    const newSocket = new WebSocket(url);
+    const token = window.localStorage.getItem("token");
+    const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
+    const newSocket = new WebSocket(
+      `${REACT_APP_BACKCHATWS}/ws/chatStreaming/${streamerChat.id}/${token}`
+    );
+    const connectWebSocket = () => {
+      newSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+      newSocket.onmessage = (event) => {
+        try {
+          const receivedMessage = JSON.parse(event.data);
+          newSocket.send("onmessage");
+          if (stopIteration) {
+            setMessageold((prevMessages) => [...prevMessages, receivedMessage]);
+            scrollToBottom();
+          } else {
+            setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+            scrollToBottom();
+          }
+        } catch (error) {
+          console.error("Error al analizar el mensaje JSON:", error);
+        }
+      };
 
-    newSocket.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
+      newSocket.onclose = () => {
+        newSocket.send("closing");
+      };
 
-    newSocket.onmessage = (event) => {
-      try {
-        const receivedMessage = JSON.parse(event.data);
-        newSocket.send("onmessage");
-        handleMsgFn(receivedMessage);
-      } catch (error) {
-        console.error("Error al analizar el mensaje JSON:", error);
-      }
-    };
+      newSocket.onopen = () => {};
+      setSocket(newSocket);
 
-    newSocket.onclose = () => {
-      console.warn("WebSocket closed. Attempting to reconnect...");
-      setTimeout(() => {
-        connectWebSocket(url, setSocketFn, handleMsgFn);
-      }, 5000);
-    };
-
-    newSocket.onopen = () => {
-      console.log("WebSocket connected.");
-    };
-
-    setSocketFn(newSocket);
-
-    window.addEventListener("beforeunload", () => {
-      if (newSocket) {
+      window.addEventListener("beforeunload", () => {
         newSocket.send("closing");
         newSocket.close();
+      });
+    };
+
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+      connectWebSocket();
+    }
+    return () => {
+      // window.addEventListener("beforeunload", () => {
+      //   newSocket.send("closing");
+      //   newSocket.close();
+      // });
+      if (newSocket && newSocket.readyState === WebSocket.OPEN) {
+        newSocket.close();
       }
-    });
-  };
+    };
+  }, []);
 
   useEffect(() => {
     if (isMobile) {
@@ -124,74 +150,76 @@ export function ChatStreaming({
 
     const token = window.localStorage.getItem("token");
     const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
-    const chatSocketUrl = `${REACT_APP_BACKCHATWS}/ws/chatStreaming/${streamerChat.id}/${token}`;
+    const newSocket = new WebSocket(
+      `${REACT_APP_BACKCHATWS}/ws/notifications/notifications/actionMessages/${streamerChat.id}`
+    );
+    const connectWebSocket = () => {
+      newSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+      newSocket.onmessage = (event) => {
+        try {
+          const receivedMessage = JSON.parse(event.data);
+          newSocket.send("onmessage");
+          console.log(receivedMessage);
+          if (
+            receivedMessage.action === "message_deleted" &&
+            typeof receivedMessage.message_id === "string"
+          ) {
+            deleteMessages(receivedMessage);
+            return;
+          }
+          if (receivedMessage.action === "message_Anclar") {
+            console.log(receivedMessage);
+            AnclarMessage(receivedMessage?.message);
+            return;
+          }
+          if (receivedMessage.action === "message_Desanclar") {
+            SetMsjChatAnclado(null);
+          }
+          if (receivedMessage?.action === "host_action") {
+            const delay = Math.floor(Math.random() * 3000);
+            setTimeout(() => {
+              history.push("/" + receivedMessage?.hostA?.nameUser);
+            }, delay);
+          }
+          if (receivedMessage?.action === "Host") {
+            SetNewHost({
+              HostBy: receivedMessage.hostby,
+              spectators: receivedMessage.spectators,
+            });
 
-    const handleChatMessage = (receivedMessage) => {
-      if (stopIteration) {
-        setMessageold((prevMessages) => [...prevMessages, receivedMessage]);
-        scrollToBottom();
-      } else {
-        setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-        scrollToBottom();
-      }
-    };
+            if (hostTimeoutRef.current) {
+              clearTimeout(hostTimeoutRef.current);
+            }
 
-    connectWebSocket(chatSocketUrl, setSocket, handleChatMessage);
-
-    return () => {
-      if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.close();
-      }
-    };
-  }, [streamerChat.id, isMobile]);
-
-  useEffect(() => {
-    if (isMobile) {
-      ToggleChat(false);
-    }
-
-    const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
-    const deleteSocketUrl = `${REACT_APP_BACKCHATWS}/ws/notifications/notifications/actionMessages/${streamerChat.id}`;
-
-    const handleDeleteMessage = (receivedMessage) => {
-      if (
-        receivedMessage.action === "message_deleted" &&
-        typeof receivedMessage.message_id === "string"
-      ) {
-        deleteMessages(receivedMessage);
-      } else if (receivedMessage.action === "message_Anclar") {
-        AnclarMessage(receivedMessage?.message);
-      } else if (receivedMessage.action === "message_Desanclar") {
-        SetMsjChatAnclado(null);
-      } else if (receivedMessage?.action === "host_action") {
-        const delay = Math.floor(Math.random() * 3000);
-        setTimeout(() => {
-          history.push("/" + receivedMessage?.hostA?.nameUser);
-        }, delay);
-      } else if (receivedMessage?.action === "Host") {
-        SetNewHost({
-          HostBy: receivedMessage.hostby,
-          spectators: receivedMessage.spectators,
-        });
-
-        if (hostTimeoutRef.current) {
-          clearTimeout(hostTimeoutRef.current);
+            hostTimeoutRef.current = setTimeout(() => {
+              SetNewHost(null);
+            }, 90000);
+          }
+        } catch (error) {
+          console.error("Error al analizar el mensaje JSON:", error);
         }
+      };
 
-        hostTimeoutRef.current = setTimeout(() => {
-          SetNewHost(null);
-        }, 90000);
-      }
+      newSocket.onopen = () => {};
+      setsocketDeleteMsj(newSocket);
+
+      window.addEventListener("beforeunload", () => {
+        newSocket.send("closing");
+        newSocket.close();
+      });
     };
 
-    connectWebSocket(deleteSocketUrl, setsocketDeleteMsj, handleDeleteMessage);
-
+    if (!socketDeleteMsj || socketDeleteMsj.readyState !== WebSocket.OPEN) {
+      connectWebSocket();
+    }
     return () => {
-      if (socketDeleteMsj && socketDeleteMsj.readyState === WebSocket.OPEN) {
-        socketDeleteMsj.close();
+      if (newSocket && newSocket.readyState === WebSocket.OPEN) {
+        newSocket.close();
       }
     };
-  }, [streamerChat.id, isMobile]);
+  }, []);
 
   useEffect(() => {
     const pingInterval = () => {
@@ -200,14 +228,12 @@ export function ChatStreaming({
       }
     };
 
-    pingInterval();
+    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
     pingIntervalRef.current = setInterval(pingInterval, 3000);
-
     return () => {
       clearInterval(pingIntervalRef.current);
     };
   }, [socket]);
-
   useEffect(() => {
     const pingInterval = () => {
       if (socketDeleteMsj && socketDeleteMsj.readyState === WebSocket.OPEN) {
@@ -215,9 +241,8 @@ export function ChatStreaming({
       }
     };
 
-    pingInterval();
+    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
     pingIntervalRef.current = setInterval(pingInterval, 3000);
-
     return () => {
       clearInterval(pingIntervalRef.current);
     };
@@ -998,6 +1023,9 @@ export function ChatStreaming({
             >
               <div className="MessagesChat">
                 <div className="badges">
+                  {MsjChatAnclado.Identidad && (
+                    <img src={MsjChatAnclado.Identidad} alt="" />
+                  )}
                   {MsjChatAnclado.EmotesChat?.Moderator && (
                     <img src={MsjChatAnclado.EmotesChat?.Moderator} alt="" />
                   )}
@@ -1013,7 +1041,7 @@ export function ChatStreaming({
                   {MsjChatAnclado?.StreamerChannelOwner && (
                     <img
                       src={
-                        "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/2"
+                        "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
                       }
                       alt="StreamerChannelOwner"
                     />
@@ -1312,6 +1340,7 @@ export function ChatStreaming({
             )}
             <div className="MessagesChat">
               <div className="badges">
+                {message.Identidad && <img src={message.Identidad} alt="" />}
                 {message.EmotesChat.Moderator && (
                   <img src={message.EmotesChat.Moderator} alt="" />
                 )}
@@ -1327,7 +1356,7 @@ export function ChatStreaming({
                 {message?.StreamerChannelOwner && (
                   <img
                     src={
-                      "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/2"
+                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
                     }
                     alt="StreamerChannelOwner"
                   />
@@ -1431,6 +1460,7 @@ export function ChatStreaming({
             )}
             <div className="MessagesChat">
               <div className="badges">
+                {message.Identidad && <img src={message.Identidad} alt="" />}
                 {message.EmotesChat.Moderator && (
                   <img src={message.EmotesChat.Moderator} alt="" />
                 )}
@@ -1446,7 +1476,7 @@ export function ChatStreaming({
                 {message?.StreamerChannelOwner && (
                   <img
                     src={
-                      "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/2"
+                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
                     }
                     alt="StreamerChannelOwner"
                   />
@@ -1552,7 +1582,7 @@ export function ChatStreaming({
                 {ResMessageschatState?.StreamerChannelOwner && (
                   <img
                     src={
-                      "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/2"
+                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
                     }
                     alt="StreamerChannelOwner"
                   />
@@ -1595,6 +1625,7 @@ export function ChatStreaming({
         {streamerChat?.ModChat === "Following" &&
           (followParam || FollowParamOwnner) && (
             <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+              <span>log</span>
               {Modolento >= new Date() ? (
                 <input
                   type="text"
@@ -1615,6 +1646,7 @@ export function ChatStreaming({
           !followParam &&
           !FollowParamOwnner && (
             <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+              <span>log</span>
               <svg
                 width="20"
                 height="20"
@@ -1646,6 +1678,7 @@ export function ChatStreaming({
           )}
         {streamerChat?.ModChat === "Subscriptions" && SubStateAct && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+            <span>log</span>
             {Modolento >= new Date() ? (
               <input
                 type="text"
@@ -1664,6 +1697,7 @@ export function ChatStreaming({
         )}
         {streamerChat?.ModChat === "Subscriptions" && !SubStateAct && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+            <span>log</span>
             <svg
               width="20"
               height="20"
@@ -1695,6 +1729,21 @@ export function ChatStreaming({
         )}
         {streamerChat?.ModChat === "" && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+            <span
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => closeNavbar()}
+            >
+              log
+            </span>
+            {isNavbarOpen && (
+              <DropdownChatIdentity
+                closeNavbar={closeNavbar}
+                chatData={GetInfoUserInRoom}
+                user={user}
+              />
+            )}
             {Modolento >= new Date() ? (
               <input
                 type="text"

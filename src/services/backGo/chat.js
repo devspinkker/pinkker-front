@@ -23,6 +23,24 @@ export async function actionsModeratorChatStream(action, actionAgainst, timeOut,
         return error
     }
 }
+export async function ActionIdentidadUser(room, Color, Identidad, token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/ActionIdentidadUser`,
+            {
+                room, Color, Identidad,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
 export async function deleteChatMessage(roomID, messageID, token) {
     try {
         const response = await axios.delete(

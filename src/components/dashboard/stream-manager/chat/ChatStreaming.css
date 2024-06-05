@@ -208,11 +208,25 @@
     align-items: center;
 }
 
-.ChatStreaming_form>input {
-    width: 95%;
+.ChatStreaming_form>span {
+    display: flex;
+    align-items: center;
     height: 38px;
     border-radius: 5px 0px 0px 5px;
     border: #545658 1px solid;
+    border-right: none;
+    background: #171a1f;
+    text-align: left;
+    padding: 0px 0px 0px 15px;
+    font-weight: bold;
+}
+
+.ChatStreaming_form>input {
+    width: 95%;
+    height: 38px;
+    border-radius: 0px 0px 0px 0px;
+    border: #545658 1px solid;
+    border-left: none;
     background: #171a1f;
     text-align: left;
     padding: 0px 0px 0px 15px;

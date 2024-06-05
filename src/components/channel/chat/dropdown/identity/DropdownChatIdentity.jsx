@@ -7,20 +7,20 @@ import { useParams } from "react-router-dom";
 import Tippy from "@tippyjs/react";
 
 import Emblem from "../../../../emblem/Emblem";
+import { ActionIdentidadUser } from "../../../../../services/backGo/chat";
 
 function DropdownChatIdentity({
   closeNavbar,
-  changeColor,
   userMod,
   userVip,
   chatData,
+  user,
 }) {
   const [click, setClick] = useState(false);
 
   const handleClick = () => setClick(!click);
 
   const auth = useSelector((state) => state.auth);
-  const { user, isLogged } = auth;
 
   const [type, setType] = useState(0);
 
@@ -30,11 +30,20 @@ function DropdownChatIdentity({
 
   const { streamer } = useParams();
 
-  function handleChangeColor(color) {
-    changeColor(color);
-    closeNavbar();
+  async function handleChangeColor(color) {
+    let token = window.localStorage.getItem("token");
+    if (token) {
+      await ActionIdentidadUser(chatData.Room, color, "mute", token);
+      closeNavbar();
+    }
   }
-
+  async function handleChangeEmblema(Emblema) {
+    let token = window.localStorage.getItem("token");
+    if (token) {
+      await ActionIdentidadUser(chatData.Room, "", Emblema, token);
+      closeNavbar();
+    }
+  }
   const findSign = (dateS) => {
     const date = new Date(dateS);
     const days = [21, 20, 21, 21, 22, 22, 23, 24, 24, 24, 23, 22];
@@ -92,7 +101,7 @@ function DropdownChatIdentity({
   function getIdentityEmblem() {
     return (
       <a>
-        {user.Partner.active === true && (
+        {user?.Partner?.active === true && (
           <Emblem
             chat={true}
             name="Pinkker Prime"
@@ -101,7 +110,7 @@ function DropdownChatIdentity({
             }
           />
         )}
-        {user.name === streamer && (
+        {user?.NameUser === streamer && (
           <Emblem chat={true} name="Emisor" img={"/images/emblem/emisor.jpg"} />
         )}
         {userMod && (
@@ -114,7 +123,7 @@ function DropdownChatIdentity({
         {userVip && (
           <Emblem chat={true} name="VIP" img={"/images/emblem/vip.jpg"} />
         )}
-        {chatData.suscribers.filter((e) => e._id === user._id).length > 0 && (
+        {chatData?.SubscriptionInfo && (
           <Emblem
             chat={true}
             name="Suscriptor"
@@ -227,7 +236,7 @@ function DropdownChatIdentity({
               {user.name}
             </a>
           </h3>
-
+          {/* 
           <div className="dropdownchatidentity-container-second">
             <p
               style={{
@@ -266,7 +275,7 @@ function DropdownChatIdentity({
               name={findSignName(user.birthDate)}
               img={findSign(user.birthDate)}
             />
-          </div>
+          </div> */}
 
           <div className="dropdownchatidentity-container-second">
             <p
@@ -291,10 +300,15 @@ function DropdownChatIdentity({
             >
               Estos emblemas aparecen en el canal de {streamer}.
             </p>
-            <img
-              className="dropdownchatidentity-card-emote"
-              src="https://static.twitchcdn.net/assets/dark-40f6c299eb07b670b88d.svg"
-            />
+            <div
+              onClick={() => handleChangeEmblema("mute")}
+              className="emblemamute"
+            >
+              <img
+                className="dropdownchatidentity-card-emote"
+                src="https://static.twitchcdn.net/assets/dark-40f6c299eb07b670b88d.svg"
+              />
+            </div>
           </div>
 
           <div className="dropdownchatidentity-container-second">
@@ -352,7 +366,7 @@ function DropdownChatIdentity({
                 }
               >
                 <div
-                  onClick={() => handleChangeColor("blue")}
+                  onClick={() => handleChangeColor("#44698b")}
                   style={{ backgroundColor: "#44698b" }}
                   className="dropdownchatidentity-container-second-color"
                 />
@@ -366,7 +380,7 @@ function DropdownChatIdentity({
                 }
               >
                 <div
-                  onClick={() => handleChangeColor("green")}
+                  onClick={() => handleChangeColor("#a1d1a3")}
                   style={{ backgroundColor: "#a1d1a3" }}
                   className="dropdownchatidentity-container-second-color"
                 />
@@ -380,7 +394,7 @@ function DropdownChatIdentity({
                 }
               >
                 <div
-                  onClick={() => handleChangeColor("yellow")}
+                  onClick={() => handleChangeColor("#ddd59d")}
                   style={{ backgroundColor: "#ddd59d" }}
                   className="dropdownchatidentity-container-second-color"
                 />
@@ -394,7 +408,7 @@ function DropdownChatIdentity({
                 }
               >
                 <div
-                  onClick={() => handleChangeColor("pink")}
+                  onClick={() => handleChangeColor("#dda4a7")}
                   style={{ backgroundColor: "#dda4a7" }}
                   className="dropdownchatidentity-container-second-color"
                 />
@@ -408,7 +422,7 @@ function DropdownChatIdentity({
                 }
               >
                 <div
-                  onClick={() => handleChangeColor("lightblue")}
+                  onClick={() => handleChangeColor("#659dab")}
                   style={{ backgroundColor: "#659dab" }}
                   className="dropdownchatidentity-container-second-color"
                 />
@@ -422,7 +436,7 @@ function DropdownChatIdentity({
                 }
               >
                 <div
-                  onClick={() => handleChangeColor("orange")}
+                  onClick={() => handleChangeColor("#dd7e0e")}
                   style={{ backgroundColor: "#dd7e0e" }}
                   className="dropdownchatidentity-container-second-color"
                 />
@@ -436,7 +450,7 @@ function DropdownChatIdentity({
                 }
               >
                 <div
-                  onClick={() => handleChangeColor("violet")}
+                  onClick={() => handleChangeColor("#6c4e7c")}
                   style={{ backgroundColor: "#6c4e7c" }}
                   className="dropdownchatidentity-container-second-color"
                 />
@@ -450,14 +464,14 @@ function DropdownChatIdentity({
                 }
               >
                 <div
-                  onClick={() => handleChangeColor("white")}
+                  onClick={() => handleChangeColor("#bebebe")}
                   style={{ backgroundColor: "#bebebe" }}
                   className="dropdownchatidentity-container-second-color"
                 />
               </Tippy>
             </div>
 
-            <div className="dropdownchatidentity-container-second">
+            {/* <div className="dropdownchatidentity-container-second">
               <p
                 style={{
                   fontFamily: "Inter",
@@ -582,7 +596,7 @@ function DropdownChatIdentity({
                   </div>
                 </Tippy>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       );
