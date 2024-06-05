@@ -12,6 +12,13 @@
   border-top-right-radius: 5px;
   padding: 10px;
   border-bottom: 1px solid #ffffff1a;
+  z-index: 100000000000;
+}
+
+.showinChat {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
 }
 

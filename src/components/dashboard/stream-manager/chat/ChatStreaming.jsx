@@ -250,7 +250,7 @@ export function ChatStreaming({
 
   function AnclarMessage(receivedMessage) {
     const emotesChat = JSON.parse(receivedMessage.EmotesChat);
-    const subscriptionInfo = JSON.parse(receivedMessage.SubscriptionInfo);
+    const subscriptionInfo = JSON.parse(receivedMessage?.SubscriptionInfo);
 
     const messageData = {
       ...receivedMessage,
@@ -745,9 +745,10 @@ export function ChatStreaming({
     setMessage(e.target.value);
   };
   const isSubscriptor = (message) => {
+    console.log();
     const currentTimestamp = Date.now();
     const subscriptionEndTimestamp = Date.parse(
-      message.SubscriptionInfo?.SubscriptionEnd
+      message?.SubscriptionInfo?.SubscriptionEnd
     );
 
     if (subscriptionEndTimestamp <= 0 || isNaN(subscriptionEndTimestamp)) {
@@ -1625,7 +1626,36 @@ export function ChatStreaming({
         {streamerChat?.ModChat === "Following" &&
           (followParam || FollowParamOwnner) && (
             <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-              <span>log</span>
+              <span
+                style={{
+                  cursor: "pointer",
+                  display: "flex",
+                }}
+                onClick={() => closeNavbar()}
+              >
+                <svg
+                  style={{
+                    padding: "3px",
+                  }}
+                  width="25"
+                  height="25"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill="grey"
+                    fillRule="evenodd"
+                    d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
+              {isNavbarOpen && (
+                <DropdownChatIdentity
+                  closeNavbar={closeNavbar}
+                  chatData={GetInfoUserInRoom}
+                  user={user}
+                />
+              )}
               {Modolento >= new Date() ? (
                 <input
                   type="text"
@@ -1646,7 +1676,36 @@ export function ChatStreaming({
           !followParam &&
           !FollowParamOwnner && (
             <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-              <span>log</span>
+              <span
+                style={{
+                  cursor: "pointer",
+                  display: "flex",
+                }}
+                onClick={() => closeNavbar()}
+              >
+                <svg
+                  style={{
+                    padding: "3px",
+                  }}
+                  width="25"
+                  height="25"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill="grey"
+                    fillRule="evenodd"
+                    d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
+              {isNavbarOpen && (
+                <DropdownChatIdentity
+                  closeNavbar={closeNavbar}
+                  chatData={GetInfoUserInRoom}
+                  user={user}
+                />
+              )}
               <svg
                 width="20"
                 height="20"
@@ -1678,7 +1737,36 @@ export function ChatStreaming({
           )}
         {streamerChat?.ModChat === "Subscriptions" && SubStateAct && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-            <span>log</span>
+            <span
+              style={{
+                cursor: "pointer",
+                display: "flex",
+              }}
+              onClick={() => closeNavbar()}
+            >
+              <svg
+                style={{
+                  padding: "3px",
+                }}
+                width="25"
+                height="25"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill="grey"
+                  fillRule="evenodd"
+                  d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </span>
+            {isNavbarOpen && (
+              <DropdownChatIdentity
+                closeNavbar={closeNavbar}
+                chatData={GetInfoUserInRoom}
+                user={user}
+              />
+            )}
             {Modolento >= new Date() ? (
               <input
                 type="text"
@@ -1697,7 +1785,36 @@ export function ChatStreaming({
         )}
         {streamerChat?.ModChat === "Subscriptions" && !SubStateAct && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-            <span>log</span>
+            <span
+              style={{
+                cursor: "pointer",
+                display: "flex",
+              }}
+              onClick={() => closeNavbar()}
+            >
+              <svg
+                style={{
+                  padding: "3px",
+                }}
+                width="25"
+                height="25"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill="grey"
+                  fillRule="evenodd"
+                  d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </span>
+            {isNavbarOpen && (
+              <DropdownChatIdentity
+                closeNavbar={closeNavbar}
+                chatData={GetInfoUserInRoom}
+                user={user}
+              />
+            )}
             <svg
               width="20"
               height="20"
@@ -1732,10 +1849,25 @@ export function ChatStreaming({
             <span
               style={{
                 cursor: "pointer",
+                display: "flex",
               }}
               onClick={() => closeNavbar()}
             >
-              log
+              <svg
+                style={{
+                  padding: "3px",
+                }}
+                width="25"
+                height="25"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill="grey"
+                  fillRule="evenodd"
+                  d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
+                  clipRule="evenodd"
+                />
+              </svg>
             </span>
             {isNavbarOpen && (
               <DropdownChatIdentity
