@@ -33,7 +33,7 @@ function DropdownChatIdentity({
   async function handleChangeColor(color) {
     let token = window.localStorage.getItem("token");
     if (token) {
-      await ActionIdentidadUser(chatData.Room, color, "mute", token);
+      await ActionIdentidadUser(chatData.Room, color, "", token);
       closeNavbar();
     }
   }
@@ -300,14 +300,38 @@ function DropdownChatIdentity({
             >
               Estos emblemas aparecen en el canal de {streamer}.
             </p>
-            <div
-              onClick={() => handleChangeEmblema("mute")}
-              className="emblemamute"
-            >
-              <img
-                className="dropdownchatidentity-card-emote"
-                src="https://static.twitchcdn.net/assets/dark-40f6c299eb07b670b88d.svg"
-              />
+            <div className="content-indentidades">
+              <div
+                onClick={() => handleChangeEmblema("")}
+                className="sinEmblema"
+              >
+                <svg
+                  className="dropdownchatidentity-card-emote"
+                  style={{
+                    marginTop: "-10px",
+                    padding: "3px",
+                  }}
+                  width="25"
+                  height="25"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill="grey"
+                    fillRule="evenodd"
+                    d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div
+                onClick={() => handleChangeEmblema("mute")}
+                className="emblemamute"
+              >
+                <img
+                  className="dropdownchatidentity-card-emote"
+                  src="https://static.twitchcdn.net/assets/dark-40f6c299eb07b670b88d.svg"
+                />
+              </div>
             </div>
           </div>
 

@@ -1,151 +1,164 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 .dropdownchatidentity-menu {
-    position: absolute;
-    margin-top: -600px;
-    left: 0px;
-    width: 342px;
-    display: flex;
-    background: #0a0a0afc;
-    border: 1px solid #15151563;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    padding: 10px;
-    border-bottom: 1px solid #ffffff1a;
+  position: absolute;
+  margin-top: -600px;
+  left: 0px;
+  width: 342px;
+  display: flex;
+  background: #0a0a0afc;
+  border: 1px solid #15151563;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 10px;
+  border-bottom: 1px solid #ffffff1a;
 
-    }
-    
-    .dropdownchatidentity-menu li {
-      cursor: pointer;
-      display: flex;
-      text-align: center;
-      font-size: 13px;
-      border-radius: 5px;
-    }
-    
-    .dropdownchatidentity-menu i {
-      transition: 0.3s all;
+}
 
-    }
+.dropdownchatidentity-menu li {
+  cursor: pointer;
+  display: flex;
+  text-align: center;
+  font-size: 13px;
+  border-radius: 5px;
+}
 
-    .dropdownchatidentity-menu li:hover .dropdownchatidentity-content i{
-      transform: translateY(-3px);
-    }
+.dropdownchatidentity-menu i {
+  transition: 0.3s all;
 
-    .dropdownchatidentity-menu li:hover {
-      background: #2e2e2e;
-    }
-    
-    .dropdownchatidentity-menu.clicked {
-      display: none;
-    }
-    
-    .dropdownchatidentity-link {
-      display: flex;
-      justify-content: center;
-      font-family: "Poppins";
-      height: 100%;
-      width: 100%;
-      text-decoration: none;
-      color: #fff;
-      padding: 5px;
-    }
+}
 
-    .dropdownchatidentity-button {
-      background: none;
-      border: none;
-      width: 80%;
-      font-family: 'Montserrat';
-      font-weight: 800;
-      height: 100%;
-      padding: 16px;
-      color: #ededed;
-      cursor: pointer;
+.dropdownchatidentity-menu li:hover .dropdownchatidentity-content i {
+  transform: translateY(-3px);
+}
 
-    }
+.dropdownchatidentity-menu li:hover {
+  background: #2e2e2e;
+}
 
-    .dropdownchatidentity-content {
-      width: 100%;
-      padding: 10px;
-      border-radius: 5px;
-      justify-content: space-between;
-      color: #ededed;
-      font-family: 'Montserrat';
-      font-weight: 800;
-    }
+.dropdownchatidentity-menu.clicked {
+  display: none;
+}
 
+.dropdownchatidentity-link {
+  display: flex;
+  justify-content: center;
+  font-family: "Poppins";
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: #fff;
+  padding: 5px;
+}
 
+.dropdownchatidentity-button {
+  background: none;
+  border: none;
+  width: 80%;
+  font-family: 'Montserrat';
+  font-weight: 800;
+  height: 100%;
+  padding: 16px;
+  color: #ededed;
+  cursor: pointer;
+
+}
+
+.dropdownchatidentity-content {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  justify-content: space-between;
+  color: #ededed;
+  font-family: 'Montserrat';
+  font-weight: 800;
+}
 
 
-    .dropdownchatidentity-radio input[type="radio"] {
-      background-color: rgb(105, 105, 105);
-      border-radius: 10px;
-      cursor: pointer;
-      display: inline-block;
-      height: 15px;
-      margin-right: 5px;
-      position: relative;
-      width: 15px;
-      -webkit-appearance: none;
+
+
+.dropdownchatidentity-radio input[type="radio"] {
+  background-color: rgb(105, 105, 105);
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-block;
+  height: 15px;
+  margin-right: 5px;
+  position: relative;
+  width: 15px;
+  -webkit-appearance: none;
+}
+
+.dropdownchatidentity-radio input[type="radio"]:after {
+  border-radius: 25px;
+  background-color: rgb(71, 71, 71);
+  content: '';
+  display: block;
+  height: 9px;
+  left: 3px;
+  position: relative;
+  top: 3px;
+  width: 9px;
+}
+
+.dropdownchatidentity-radio input[type="radio"]:checked:after {
+  background-color: #ff60b2;
+}
+
+.dropdownchatidentity-container-second {
+  padding-top: 20px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+
+.dropdownchatidentity-card-emote {
+  width: 20px;
+  padding: 5px;
+  background-color: #040404;
+  text-align: center;
+  border-radius: 2px;
+  margin-top: 5px;
+  border: 1px solid white;
+  margin-left: 5px;
+
+}
+
+.dropdownchatidentity-container-second-color {
+  min-width: 30px;
+  max-width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  margin-left: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+
+.content-indentidades {
+  display: flex;
+  align-items: center;
+}
+
+.sinEmblema {
+  display: flex;
+  cursor: pointer;
+}
+
+.emblemamute {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 960px) {
+
+  .dropdownchatidentity-menu {
+    width: 220%;
+    top: 60px;
+    z-index: 200;
+
   }
-  .dropdownchatidentity-radio input[type="radio"]:after {
-      border-radius: 25px;
-      background-color: rgb(71, 71, 71);
-      content: '';
-      display: block;
-      height: 9px;
-      left: 3px;
-      position: relative;
-      top: 3px;
-      width: 9px;
+
+  .fa-caret-down {
+    display: none;
   }
-  .dropdownchatidentity-radio input[type="radio"]:checked:after {
-      background-color: #ff60b2;
-  }
-
-  .dropdownchatidentity-container-second {
-    padding-top: 20px;
-    overflow: hidden;
-    overflow-y: scroll;
-  }
-
-
-  .dropdownchatidentity-card-emote {
-    width: 20px;
-    padding: 5px;
-    background-color: #040404;
-    text-align: center;
-    border-radius: 2px;
-    margin-top: 5px;
-    border: 1px solid white;
-    margin-left: 5px;
-
-  }
-    
-  .dropdownchatidentity-container-second-color {
-    min-width: 30px;
-    max-width: 30px;
-    height: 30px;
-    border-radius: 50px;
-    margin-left: 5px;
-    margin-top: 10px;
-    cursor: pointer;
-  }
-
-
-
-
-    @media screen and (max-width: 960px) {
-  
-      .dropdownchatidentity-menu {
-        width: 220%;
-        top: 60px;
-        z-index: 200;
-  
-      }
-  
-      .fa-caret-down {
-        display: none;
-      }
-    }
+}
