@@ -51,7 +51,7 @@
 .MessagesChat {
     display: flex;
     flex-direction: row;
-    max-width: 96%;
+    max-width: 88%;
     max-height: 100%;
     overflow-y: auto;
     align-items: center;
@@ -60,6 +60,8 @@
 
 
 .Message {
+    display: flex;
+    align-items: stretch;
     width: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -137,7 +139,7 @@
 
 .badges {
     display: flex;
-    height: 30px;
+    height: 21px;
     /* width: 30px; */
     flex-direction: row;
     align-items: center;
@@ -298,11 +300,11 @@
 
 .actions-chat {
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
-    align-items: center;
     width: 100%;
     margin-top: 10px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .marquee {

@@ -161,7 +161,6 @@ export function ChatStreaming({
         try {
           const receivedMessage = JSON.parse(event.data);
           newSocket.send("onmessage");
-          console.log(receivedMessage);
           if (
             receivedMessage.action === "message_deleted" &&
             typeof receivedMessage.message_id === "string"
@@ -170,7 +169,6 @@ export function ChatStreaming({
             return;
           }
           if (receivedMessage.action === "message_Anclar") {
-            console.log(receivedMessage);
             AnclarMessage(receivedMessage?.message);
             return;
           }
@@ -276,6 +274,11 @@ export function ChatStreaming({
       )
     );
   }
+  const [dropdownChatConfig, setDropdownChatConfig] = useState(false);
+  const onMouseEnterChatConfig = () => {
+    setDropdownChatConfig(!dropdownChatConfig);
+  };
+
   useEffect(() => {
     const fetchGetSubsAct = async () => {
       const res = await GetSubsAct(user?.id, streamerData?.id);
@@ -380,7 +383,6 @@ export function ChatStreaming({
   const [allDonationsExpanded, setAllDonationsExpanded] = useState(false);
   const [movil, setMovil] = useState(false);
   useEffect(() => {
-    console.log(streamerChat);
     if (window.innerWidth <= 768) {
       setMovil(true);
     } else {
@@ -745,7 +747,6 @@ export function ChatStreaming({
     setMessage(e.target.value);
   };
   const isSubscriptor = (message) => {
-    console.log();
     const currentTimestamp = Date.now();
     const subscriptionEndTimestamp = Date.parse(
       message?.SubscriptionInfo?.SubscriptionEnd
@@ -769,15 +770,20 @@ export function ChatStreaming({
   const [GetUserTheChatFollowing, setGetUserTheChatFollowing] = useState(false);
   const [InfoUserChatSelect, setInfoUserChatSelect] = useState({});
   const [followingFrom, setFollowingFrom] = useState(null);
+  const [changeTextSizeState, setchangeTextSize] = useState("12px");
+  useEffect(() => {
+    const chatTextSize = localStorage.getItem("chatTextSize");
+    if (changeTextSize != null) {
+      changeTextSize(chatTextSize);
+    }
+  }, []);
 
   const GetUserTheChatFunc = async (message) => {
     setInfoUserChatSelect(message);
-    console.log(message);
     const res = await getUserByNameUser(message.nameUser);
     if (res.message == "ok") {
       setGetUserTheChat(res.data);
 
-      console.log(res.data);
       setShowGetUserTheChat(true);
       if (user?.Following.hasOwnProperty(res?.data.id)) {
         setFollowingFrom(res.data?.Following[`${res.data.id}`]?.since);
@@ -812,6 +818,19 @@ export function ChatStreaming({
           message: res?.data?.message,
         });
       }
+    }
+  };
+  const changeTextSize = async (e) => {
+    if (e == 0) {
+      setchangeTextSize("12px");
+      return;
+    } else if (e == 1) {
+      setchangeTextSize("13px");
+      return;
+    } else if (e == 2) {
+      setchangeTextSize("16px");
+    } else if (e == 3) {
+      setchangeTextSize("18px");
     }
   };
   const ModeratorUserChat = async (action, actionAgainst, timeOut, room) => {
@@ -1022,33 +1041,32 @@ export function ChatStreaming({
               onClick={() => GetUserTheChatFunc(MsjChatAnclado)}
               style={{ cursor: "pointer" }}
             >
+              <div className="badges">
+                {MsjChatAnclado.Identidad && (
+                  <img src={MsjChatAnclado.Identidad} alt="" />
+                )}
+                {MsjChatAnclado.EmotesChat?.Moderator && (
+                  <img src={MsjChatAnclado.EmotesChat?.Moderator} alt="" />
+                )}
+                {MsjChatAnclado.EmotesChat?.Verified && (
+                  <img src={MsjChatAnclado.EmotesChat?.Verified} alt="" />
+                )}
+                {MsjChatAnclado.EmotesChat?.Vip && (
+                  <img src={MsjChatAnclado.EmotesChat?.Vip} alt="" />
+                )}
+                {isSubscriptor(MsjChatAnclado) && (
+                  <img src={isSubscriptor(MsjChatAnclado)} alt="" />
+                )}
+                {MsjChatAnclado?.StreamerChannelOwner && (
+                  <img
+                    src={
+                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
+                    }
+                    alt="StreamerChannelOwner"
+                  />
+                )}
+              </div>
               <div className="MessagesChat">
-                <div className="badges">
-                  {MsjChatAnclado.Identidad && (
-                    <img src={MsjChatAnclado.Identidad} alt="" />
-                  )}
-                  {MsjChatAnclado.EmotesChat?.Moderator && (
-                    <img src={MsjChatAnclado.EmotesChat?.Moderator} alt="" />
-                  )}
-                  {MsjChatAnclado.EmotesChat?.Verified && (
-                    <img src={MsjChatAnclado.EmotesChat?.Verified} alt="" />
-                  )}
-                  {MsjChatAnclado.EmotesChat?.Vip && (
-                    <img src={MsjChatAnclado.EmotesChat?.Vip} alt="" />
-                  )}
-                  {isSubscriptor(MsjChatAnclado) && (
-                    <img src={isSubscriptor(MsjChatAnclado)} alt="" />
-                  )}
-                  {MsjChatAnclado?.StreamerChannelOwner && (
-                    <img
-                      src={
-                        "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
-                      }
-                      alt="StreamerChannelOwner"
-                    />
-                  )}
-                </div>
-
                 <div className="content-info-message">
                   <div className="content-info-message-2">
                     <p
@@ -1339,36 +1357,38 @@ export function ChatStreaming({
                 <span>{message.ResMessage}</span>
               </div>
             )}
+            <div className="badges">
+              {message.Identidad && <img src={message.Identidad} alt="" />}
+              {message.EmotesChat.Moderator && (
+                <img src={message.EmotesChat.Moderator} alt="" />
+              )}
+              {message.EmotesChat.Verified && (
+                <img src={message.EmotesChat.Verified} alt="" />
+              )}
+              {message.EmotesChat.Vip && (
+                <img src={message.EmotesChat.Vip} alt="" />
+              )}
+              {isSubscriptor(message) && (
+                <img src={isSubscriptor(message)} alt="" />
+              )}
+              {message?.StreamerChannelOwner && (
+                <img
+                  src={
+                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
+                  }
+                  alt="StreamerChannelOwner"
+                />
+              )}
+            </div>
             <div className="MessagesChat">
-              <div className="badges">
-                {message.Identidad && <img src={message.Identidad} alt="" />}
-                {message.EmotesChat.Moderator && (
-                  <img src={message.EmotesChat.Moderator} alt="" />
-                )}
-                {message.EmotesChat.Verified && (
-                  <img src={message.EmotesChat.Verified} alt="" />
-                )}
-                {message.EmotesChat.Vip && (
-                  <img src={message.EmotesChat.Vip} alt="" />
-                )}
-                {isSubscriptor(message) && (
-                  <img src={isSubscriptor(message)} alt="" />
-                )}
-                {message?.StreamerChannelOwner && (
-                  <img
-                    src={
-                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
-                    }
-                    alt="StreamerChannelOwner"
-                  />
-                )}
-              </div>
-
               <div className="content-info-message">
                 <div className="content-info-message-2">
                   <p
                     className="content-info-message-2-nameUser"
-                    style={{ color: message.Color }}
+                    style={{
+                      color: message.Color,
+                      fontSize: changeTextSizeState,
+                    }}
                   >
                     {message.nameUser}:{" "}
                     <span style={{ color: "#ffff" }}>
@@ -1459,36 +1479,37 @@ export function ChatStreaming({
                 <span>{message.ResMessage}</span>
               </div>
             )}
+            <div className="badges">
+              {message.Identidad && <img src={message.Identidad} alt="" />}
+              {message.EmotesChat.Moderator && (
+                <img src={message.EmotesChat.Moderator} alt="" />
+              )}
+              {message.EmotesChat.Verified && (
+                <img src={message.EmotesChat.Verified} alt="" />
+              )}
+              {message.EmotesChat.Vip && (
+                <img src={message.EmotesChat.Vip} alt="" />
+              )}
+              {isSubscriptor(message) && (
+                <img src={isSubscriptor(message)} alt="" />
+              )}
+              {message?.StreamerChannelOwner && (
+                <img
+                  src={
+                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
+                  }
+                  alt="StreamerChannelOwner"
+                />
+              )}
+            </div>
             <div className="MessagesChat">
-              <div className="badges">
-                {message.Identidad && <img src={message.Identidad} alt="" />}
-                {message.EmotesChat.Moderator && (
-                  <img src={message.EmotesChat.Moderator} alt="" />
-                )}
-                {message.EmotesChat.Verified && (
-                  <img src={message.EmotesChat.Verified} alt="" />
-                )}
-                {message.EmotesChat.Vip && (
-                  <img src={message.EmotesChat.Vip} alt="" />
-                )}
-                {isSubscriptor(message) && (
-                  <img src={isSubscriptor(message)} alt="" />
-                )}
-                {message?.StreamerChannelOwner && (
-                  <img
-                    src={
-                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
-                    }
-                    alt="StreamerChannelOwner"
-                  />
-                )}
-              </div>
               <div className="content-info-message">
                 <div className="content-info-message-2">
                   <p
                     className="content-info-message-2-nameUser"
                     style={{
                       color: message.Color,
+                      fontSize: changeTextSizeState,
                     }}
                   >
                     {message.nameUser}:{" "}
@@ -1566,29 +1587,29 @@ export function ChatStreaming({
             onClick={() => GetUserTheChatFunc(ResMessageschatState)}
             style={{ cursor: "pointer" }}
           >
+            <div className="badges">
+              {ResMessageschatState.EmotesChat.Moderator && (
+                <img src={ResMessageschatState.EmotesChat.Moderator} alt="" />
+              )}
+              {ResMessageschatState.EmotesChat.Verified && (
+                <img src={ResMessageschatState.EmotesChat.Verified} alt="" />
+              )}
+              {ResMessageschatState.EmotesChat.Vip && (
+                <img src={ResMessageschatState.EmotesChat.Vip} alt="" />
+              )}
+              {isSubscriptor(ResMessageschatState) && (
+                <img src={isSubscriptor(ResMessageschatState)} alt="" />
+              )}
+              {ResMessageschatState?.StreamerChannelOwner && (
+                <img
+                  src={
+                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
+                  }
+                  alt="StreamerChannelOwner"
+                />
+              )}
+            </div>
             <div className="MessagesChat">
-              <div className="badges">
-                {ResMessageschatState.EmotesChat.Moderator && (
-                  <img src={ResMessageschatState.EmotesChat.Moderator} alt="" />
-                )}
-                {ResMessageschatState.EmotesChat.Verified && (
-                  <img src={ResMessageschatState.EmotesChat.Verified} alt="" />
-                )}
-                {ResMessageschatState.EmotesChat.Vip && (
-                  <img src={ResMessageschatState.EmotesChat.Vip} alt="" />
-                )}
-                {isSubscriptor(ResMessageschatState) && (
-                  <img src={isSubscriptor(ResMessageschatState)} alt="" />
-                )}
-                {ResMessageschatState?.StreamerChannelOwner && (
-                  <img
-                    src={
-                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
-                    }
-                    alt="StreamerChannelOwner"
-                  />
-                )}
-              </div>
               <div className="content-info-message">
                 <div className="content-info-message-2">
                   <p
@@ -1929,17 +1950,42 @@ export function ChatStreaming({
               </Tippy>
             )}
           </button>
-          <button onClick={handleSubmit} type="submit">
-            Enviar
-          </button>
-          <div style={{ zIndex: "100000000000" }}>
-            {dropdownPoints && (
+          {dropdownChatConfig && (
+            <DropdownChatConfig changeTextSize={(e) => changeTextSize(e)} />
+          )}
+          <div>
+            <Tippy
+              theme="pinkker"
+              content={
+                <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                  Config. del chat
+                </h1>
+              }
+            >
+              <button
+                onClick={() => onMouseEnterChatConfig()}
+                style={{ marginRight: "5px" }}
+                className="config-button"
+              >
+                <i
+                  style={{ fontSize: isMobile && "24px" }}
+                  class="fas fa-cog"
+                />
+              </button>
+            </Tippy>
+
+            <button onClick={handleSubmit} type="submit">
+              Enviar
+            </button>
+          </div>
+          {dropdownPoints && (
+            <div style={{ zIndex: "100000000000" }}>
               <DropdownPoints
                 streamer={streamerData}
                 closeNavbar={() => setDropdownPoints(false)}
               />
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
