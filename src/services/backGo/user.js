@@ -272,3 +272,13 @@ export async function compradePixelesBiancePay(id, amount) {
         return error;
     }
 }
+export async function GetPinkkerEmotes() {
+    try {
+        const response = await axios.get(
+            `${baseURL}/Emotes/GetPinkkerEmotes`,
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}

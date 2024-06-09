@@ -1763,27 +1763,27 @@ const Input = ({
 
               {/*getDelayForNewMessage()*/}
 
-              {emotes && (
-                <Tippy
-                  theme="pinkker"
-                  content={
-                    <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-                      Emoticonos
-                    </h1>
-                  }
+              {/* {emotes && ( */}
+              <Tippy
+                theme="pinkker"
+                content={
+                  <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                    Emoticonos
+                  </h1>
+                }
+              >
+                <button
+                  style={{ marginRight: "3px" }}
+                  onClick={() => onMouseEnterEmotes()}
+                  className="config-button"
                 >
-                  <button
-                    style={{ marginRight: "3px" }}
-                    onClick={() => onMouseEnterEmotes()}
-                    className="config-button"
-                  >
-                    <i
-                      style={{ fontSize: isMobile && "24px" }}
-                      class="fas fa-laugh"
-                    />
-                  </button>
-                </Tippy>
-              )}
+                  <i
+                    style={{ fontSize: isMobile && "24px" }}
+                    class="fas fa-laugh"
+                  />
+                </button>
+              </Tippy>
+              {/* )} */}
 
               <Tippy
                 theme="pinkker"

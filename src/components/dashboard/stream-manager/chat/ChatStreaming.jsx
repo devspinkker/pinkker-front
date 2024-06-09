@@ -35,6 +35,7 @@ import { useNotification } from "../../../Notifications/NotificationProvider";
 import DropdownChatConfig from "../../../channel/chat/dropdown/config/DropdownChatConfig";
 import UserInfo from "../../../userinfo/UserInfo";
 import DropdownChatIdentity from "../../../channel/chat/dropdown/identity/DropdownChatIdentity";
+import DropdownEmotes from "../../../channel/chat/dropdown/emotes/DropdownEmotes";
 export function ChatStreaming({
   streamerChat,
   chatExpandeds,
@@ -47,7 +48,7 @@ export function ChatStreaming({
 }) {
   const [messages, setMessages] = useState([]);
   const messagesRef = useRef([]);
-  const [message, setMessage] = useState("");
+
   const conversationRef = useRef(null);
   const [socket, setSocket] = useState(null);
   const [socketDeleteMsj, setsocketDeleteMsj] = useState(null);
@@ -73,12 +74,119 @@ export function ChatStreaming({
   const alert = useNotification();
   const history = useHistory();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const [isNavbarOpenDropdownEmotes, setisNavbarOpenDropdownEmotes] =
+    useState(false);
 
   const closeNavbar = () => {
     setIsNavbarOpen(!isNavbarOpen);
   };
+  const closeNavbarDropdownEmotes = () => {
+    setisNavbarOpenDropdownEmotes(!isNavbarOpenDropdownEmotes);
+  };
+  const [message, setMessage] = useState("");
+  const [emoticonMessage, setEmoticonMessage] = useState([]);
+  const [cursorIndex, setCursorIndex] = useState(0);
+  // useEffect(() => {
+  //   if (inputRef.current) {
+  //     inputRef.current.innerHTML = message;
+  //     placeCaretAtEnd(inputRef.current);
+  //   }
+  // }, [message]);
+  const placeCaretAtEnd = (el) => {
+    el.focus();
+    if (
+      typeof window.getSelection != "undefined" &&
+      typeof document.createRange != "undefined"
+    ) {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      range.collapse(false);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  };
 
+  const inputRef = useRef(null);
+  const insertHTMLAtCaret = (html) => {
+    const el = document.createElement("div");
+    el.innerHTML = html;
+
+    const range = window.getSelection().getRangeAt(0);
+    const selectedNode = range.commonAncestorContainer;
+
+    if (selectedNode.nodeType === Node.TEXT_NODE) {
+      const text = selectedNode.textContent;
+      const beforeText = text.substring(0, range.startOffset);
+      const afterText = text.substring(range.endOffset);
+      const textNodeBefore = document.createTextNode(beforeText);
+      const textNodeAfter = document.createTextNode(afterText);
+
+      inputRef.current.insertBefore(textNodeBefore, selectedNode);
+      inputRef.current.insertBefore(el.firstChild, selectedNode);
+      inputRef.current.insertBefore(textNodeAfter, selectedNode);
+
+      inputRef.current.removeChild(selectedNode);
+    } else {
+      inputRef.current.appendChild(el.firstChild);
+    }
+
+    setMessage(inputRef.current.innerHTML);
+  };
+
+  const clickEmoticon = (emoticon) => {
+    const imgHTML = `<img src="${emoticon.url}" alt="${emoticon.name}" style="width: 20px; height: 20px;" />`;
+    insertHTMLAtCaret(imgHTML);
+    // setEmoticonMessage((prevMessage) => [...prevMessage, emoticon.url]);
+  };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+      const selection = window.getSelection();
+      const range = document.createRange();
+      const node = inputRef.current.childNodes[0];
+      if (node) {
+        range.setStart(node, cursorIndex);
+        range.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+    }
+  }, [cursorIndex]);
+
+  const handleInput = () => {
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+    setCursorIndex(range.startOffset);
+
+    setMessage(inputRef.current.innerText);
+  };
+  const getPlainTextMessage = () => {
+    const inputElement = inputRef.current;
+    const imgTags = inputElement.getElementsByTagName("img");
+    let messageWithImages = "";
+
+    for (let node of inputElement.childNodes) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        messageWithImages += node.textContent;
+      } else if (
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.tagName === "IMG"
+      ) {
+        messageWithImages += " " + node.src + " ";
+      }
+    }
+    return messageWithImages.trim();
+  };
   let stopIteration = true;
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmit(event);
+    }
+  };
   useEffect(() => {
     const timer = setTimeout(async () => {
       stopIteration = false;
@@ -663,8 +771,8 @@ export function ChatStreaming({
       return;
     }
     setResMessageschat(null);
-
     setMessage("");
+    const textplain = await getPlainTextMessage();
     if (
       streamerChat?.ModChat == "Following" &&
       (followParam || FollowParamOwnner)
@@ -692,7 +800,7 @@ export function ChatStreaming({
 
         const res = await axios.post(
           `${REACT_APP_BACKCHAT}/chatStreaming/${streamerChat.id}`,
-          { message, ResNameUser, ResMessage },
+          { message: textplain, ResNameUser, ResMessage },
           config
         );
         const currentDate = new Date();
@@ -727,7 +835,7 @@ export function ChatStreaming({
 
         const res = await axios.post(
           `${REACT_APP_BACKCHAT}/chatStreaming/${streamerChat.id}`,
-          { message, ResNameUser, ResMessage },
+          { message: textplain, ResNameUser, ResMessage },
           config
         );
         const currentDate = new Date();
@@ -874,26 +982,61 @@ export function ChatStreaming({
   };
   function parseMessage(message) {
     const urlRegex = /(https?:\/\/\S+)/g;
+    const imgRegex = /<img.*?src=['"](.*?)['"].*?>/g;
     const parts = message.split(urlRegex);
 
     return parts.map((part, index) => {
       if (part.match(urlRegex)) {
-        return (
-          <a
-            key={index}
-            href={part}
-            target="_blank"
-            style={{
-              color: "inherit",
-              textDecoration: "inherit",
-              borderBottom: "1px solid #ffff",
-              padding: "0px",
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {part}
-          </a>
-        );
+        // Si la parte del mensaje es una URL
+        if (part.includes("files.kick.com")) {
+          // Decodificamos la URL para manejar los caracteres especiales correctamente
+          const decodedUrl = decodeURIComponent(part);
+          // Cortamos la URL a partir del símbolo &
+          const cutoffIndex = decodedUrl.indexOf("&");
+          const imageUrl =
+            cutoffIndex !== -1
+              ? decodedUrl.substring(0, cutoffIndex)
+              : decodedUrl;
+
+          // Devolvemos la etiqueta img con la URL cortada como src
+          return (
+            <img
+              key={index}
+              src={imageUrl}
+              style={{ width: "20px", height: "auto" }}
+              alt="Image"
+            />
+          );
+        } else {
+          // Si no es una URL de files.kick.com, devolvemos un enlace
+          return (
+            <a
+              key={index}
+              href={part}
+              target="_blank"
+              style={{
+                color: "inherit",
+                textDecoration: "inherit",
+                borderBottom: "1px solid #ffff",
+                padding: "0px",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {part}
+            </a>
+          );
+        }
+      } else if (part.match(imgRegex)) {
+        // Si la parte del mensaje es una etiqueta img
+        return part.replace(imgRegex, (match, src) => {
+          if (src.includes("files.kick.com")) {
+            // Si el src coincide con files.kick.com, reemplazamos la etiqueta img con un párrafo
+            return `${match}`;
+          } else {
+            // Si el src no coincide con files.kick.com, devolvemos la etiqueta img original
+            return match;
+          }
+        });
       }
       return part;
     });
@@ -1677,6 +1820,14 @@ export function ChatStreaming({
                   user={user}
                 />
               )}
+              {isNavbarOpenDropdownEmotes && (
+                <DropdownEmotes
+                  clickEmoticon={clickEmoticon}
+                  closeNavbar={closeNavbarDropdownEmotes}
+                  chatData={GetInfoUserInRoom}
+                  user={user}
+                />
+              )}
               {Modolento >= new Date() ? (
                 <input
                   type="text"
@@ -1684,13 +1835,42 @@ export function ChatStreaming({
                   placeholder={`Faltan ${countdownSeconds()} segundos`}
                 />
               ) : (
-                <input
-                  type="text"
-                  value={message}
-                  placeholder="Enviar un mensaje"
-                  onChange={handleChange}
+                // <input
+                //   type="text"
+                //   value={message}
+                //   placeholder="Enviar un mensaje"
+                //   onChange={handleChange}
+                // />
+                <div
+                  contentEditable
+                  className="divinput-chat"
+                  ref={inputRef}
+                  onInput={handleInput}
+                  dangerouslySetInnerHTML={{ __html: message }}
+                  color="#fff"
+                  placeholder="Type a message..."
+                  onKeyPress={handleKeyPress}
                 />
               )}
+              <Tippy
+                theme="pinkker"
+                content={
+                  <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                    Emoticonos
+                  </h1>
+                }
+              >
+                <div
+                  style={{ marginRight: "3px" }}
+                  onClick={() => closeNavbarDropdownEmotes()}
+                  className="config-buttoncloseNavbarDropdownEmotes"
+                >
+                  <i
+                    style={{ fontSize: isMobile && "24px" }}
+                    class="fas fa-laugh"
+                  />
+                </div>
+              </Tippy>
             </form>
           )}
         {streamerChat?.ModChat === "Following" &&
@@ -1727,6 +1907,14 @@ export function ChatStreaming({
                   user={user}
                 />
               )}
+              {isNavbarOpenDropdownEmotes && (
+                <DropdownEmotes
+                  clickEmoticon={clickEmoticon}
+                  closeNavbar={closeNavbarDropdownEmotes}
+                  chatData={GetInfoUserInRoom}
+                  user={user}
+                />
+              )}
               <svg
                 width="20"
                 height="20"
@@ -1754,6 +1942,25 @@ export function ChatStreaming({
                 placeholder="solo seguidores"
                 // onChange={handleChange}
               />
+              <Tippy
+                theme="pinkker"
+                content={
+                  <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                    Emoticonos
+                  </h1>
+                }
+              >
+                <div
+                  style={{ marginRight: "3px" }}
+                  onClick={() => closeNavbarDropdownEmotes()}
+                  className="config-buttoncloseNavbarDropdownEmotes"
+                >
+                  <i
+                    style={{ fontSize: isMobile && "24px" }}
+                    class="fas fa-laugh"
+                  />
+                </div>
+              </Tippy>
             </form>
           )}
         {streamerChat?.ModChat === "Subscriptions" && SubStateAct && (
@@ -1788,6 +1995,14 @@ export function ChatStreaming({
                 user={user}
               />
             )}
+            {isNavbarOpenDropdownEmotes && (
+              <DropdownEmotes
+                clickEmoticon={clickEmoticon}
+                closeNavbar={closeNavbarDropdownEmotes}
+                chatData={GetInfoUserInRoom}
+                user={user}
+              />
+            )}
             {Modolento >= new Date() ? (
               <input
                 type="text"
@@ -1795,13 +2010,42 @@ export function ChatStreaming({
                 placeholder={`Faltan ${countdownSeconds()} segundos`}
               />
             ) : (
-              <input
-                type="text"
-                value={message}
-                placeholder="Enviar un mensaje"
-                onChange={handleChange}
+              // <input
+              //   type="text"
+              //   value={message}
+              //   placeholder="Enviar un mensaje"
+              //   onChange={handleChange}
+              // />
+              <div
+                contentEditable
+                className="divinput-chat"
+                ref={inputRef}
+                onInput={handleInput}
+                dangerouslySetInnerHTML={{ __html: message }}
+                color="#fff"
+                placeholder="Type a message..."
+                onKeyPress={handleKeyPress}
               />
             )}
+            <Tippy
+              theme="pinkker"
+              content={
+                <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                  Emoticonos
+                </h1>
+              }
+            >
+              <div
+                style={{ marginRight: "3px" }}
+                onClick={() => closeNavbarDropdownEmotes()}
+                className="config-buttoncloseNavbarDropdownEmotes"
+              >
+                <i
+                  style={{ fontSize: isMobile && "24px" }}
+                  class="fas fa-laugh"
+                />
+              </div>
+            </Tippy>{" "}
           </form>
         )}
         {streamerChat?.ModChat === "Subscriptions" && !SubStateAct && (
@@ -1836,6 +2080,14 @@ export function ChatStreaming({
                 user={user}
               />
             )}
+            {isNavbarOpenDropdownEmotes && (
+              <DropdownEmotes
+                clickEmoticon={clickEmoticon}
+                closeNavbar={closeNavbarDropdownEmotes}
+                chatData={GetInfoUserInRoom}
+                user={user}
+              />
+            )}
             <svg
               width="20"
               height="20"
@@ -1863,6 +2115,25 @@ export function ChatStreaming({
               placeholder="solo suscriptores"
               // onChange={handleChange}
             />
+            <Tippy
+              theme="pinkker"
+              content={
+                <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                  Emoticonos
+                </h1>
+              }
+            >
+              <div
+                style={{ marginRight: "3px" }}
+                onClick={() => closeNavbarDropdownEmotes()}
+                className="config-buttoncloseNavbarDropdownEmotes"
+              >
+                <i
+                  style={{ fontSize: isMobile && "24px" }}
+                  class="fas fa-laugh"
+                />
+              </div>
+            </Tippy>
           </form>
         )}
         {streamerChat?.ModChat === "" && (
@@ -1897,6 +2168,14 @@ export function ChatStreaming({
                 user={user}
               />
             )}
+            {isNavbarOpenDropdownEmotes && (
+              <DropdownEmotes
+                clickEmoticon={clickEmoticon}
+                closeNavbar={closeNavbarDropdownEmotes}
+                chatData={GetInfoUserInRoom}
+                user={user}
+              />
+            )}
             {Modolento >= new Date() ? (
               <input
                 type="text"
@@ -1904,13 +2183,43 @@ export function ChatStreaming({
                 placeholder={`Faltan ${countdownSeconds()} segundos`}
               />
             ) : (
-              <input
-                type="text"
-                value={message}
-                placeholder="Enviar un mensaje"
-                onChange={handleChange}
+              // <input
+              //   type="text"
+              //   // value={message}
+              //   placeholder="Enviar un mensaje"
+              //   onChange={handleChange}
+              //   dangerouslySetInnerHTML={{ __html: message }}
+              // />
+              <div
+                contentEditable
+                className="divinput-chat"
+                ref={inputRef}
+                onInput={handleInput}
+                dangerouslySetInnerHTML={{ __html: message }}
+                color="#fff"
+                placeholder="Type a message..."
+                onKeyPress={handleKeyPress}
               />
             )}
+            <Tippy
+              theme="pinkker"
+              content={
+                <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                  Emoticonos
+                </h1>
+              }
+            >
+              <div
+                style={{ marginRight: "3px" }}
+                onClick={() => closeNavbarDropdownEmotes()}
+                className="config-buttoncloseNavbarDropdownEmotes"
+              >
+                <i
+                  style={{ fontSize: isMobile && "24px" }}
+                  class="fas fa-laugh"
+                />
+              </div>
+            </Tippy>
           </form>
         )}
         <div className="actions-chat">
