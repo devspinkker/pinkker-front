@@ -1,0 +1,61 @@
+.emotes-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #080808;
+    width: 700px;
+}
+
+.emotes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: scroll;
+    width: 820px;
+    /* height: 180px; */
+}
+
+.emote-card {
+    width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 3px;
+    margin-top: 7px;
+    margin-right: 4px;
+    background-color: #121418;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.emote-card:hover {
+    transform: translateY(-5px);
+}
+
+.emote-card img {
+    width: 37%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.emote-card span {
+    display: block;
+    font-size: 16px;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.emote-buttons button {
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.emote-buttons button:hover {
+    background-color: #cc0000;
+}

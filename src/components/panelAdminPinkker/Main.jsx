@@ -6,6 +6,7 @@ import UpdateCategorie from "./UpdateCategorie";
 import WithdrawalRequest from "./WithdrawalRequest";
 import FindUsersPanel from "./FindUsersPanel";
 import Advertisements from "./Advertisements";
+import Emotes from "./Emotes";
 
 export default function Main() {
   const [code, setCode] = useState("");
@@ -91,6 +92,23 @@ export default function Main() {
             <Advertisements Code={code} />
           </div>
         );
+      case "Emotes":
+        return (
+          <div>
+            <form
+              className="renderActivePanel-main"
+              onSubmit={handleCodeSubmit}
+            >
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="Ingrese el código"
+              />
+            </form>
+            <Emotes Code={code} />
+          </div>
+        );
       default:
         return null;
     }
@@ -106,6 +124,7 @@ export default function Main() {
           <button onClick={() => setActivePanel("retiros")}>Retiros</button>
           <button onClick={() => setActivePanel("usuarios")}>Usuarios</button>
           <button onClick={() => setActivePanel("Ads")}>Ads</button>
+          <button onClick={() => setActivePanel("Emotes")}>Emotes</button>
         </div>
         <div className="categories-container">{renderActivePanel()}</div>
       </div>

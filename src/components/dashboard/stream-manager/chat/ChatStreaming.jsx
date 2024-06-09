@@ -114,7 +114,10 @@ export function ChatStreaming({
 
     const range = window.getSelection().getRangeAt(0);
     const selectedNode = range.commonAncestorContainer;
-
+    if (!inputRef.current) {
+      console.error("inputRef.current is null");
+      return;
+    }
     if (selectedNode.nodeType === Node.TEXT_NODE) {
       const text = selectedNode.textContent;
       const beforeText = text.substring(0, range.startOffset);
@@ -128,7 +131,8 @@ export function ChatStreaming({
 
       inputRef.current.removeChild(selectedNode);
     } else {
-      inputRef.current.appendChild(el.firstChild);
+      console.log(el?.firstChild);
+      inputRef?.current?.appendChild(el?.firstChild);
     }
 
     setMessage(inputRef.current.innerHTML);

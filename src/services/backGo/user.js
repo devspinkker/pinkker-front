@@ -282,3 +282,29 @@ export async function GetPinkkerEmotes() {
         return error;
     }
 }
+export async function GetGlobalEmotes() {
+    try {
+        const response = await axios.get(
+            `${baseURL}/Emotes/GetGlobalEmotes`,
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+export async function UpdateEmoteAut(data, token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/Emotes/UpdateEmoteAut`,
+            data
+            , {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}   

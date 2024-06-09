@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from "react";
 import "./DropdownEmotes.css";
 import { useSelector } from "react-redux";
-import { GetPinkkerEmotes } from "../../../../../services/backGo/user";
+import {
+  GetPinkkerEmotes,
+  GetGlobalEmotes,
+} from "../../../../../services/backGo/user";
 
 function DropdownEmotes({ closeNavbar, clickEmoticon, muro }) {
   const [click, setClick] = useState(false);
   const [PinkkerEmotes, setPinkkerEmotes] = useState(null);
+  const [GlobalEmotes, setGlobalEmotes] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const ress = await GetPinkkerEmotes();
       if (ress.message === "ok" && ress.data !== null) {
-        console.log(ress.data);
         setPinkkerEmotes(ress.data);
+      }
+      const ressGetPinkkerEmotes = await GetGlobalEmotes();
+
+      if (ressGetPinkkerEmotes.message === "ok" && ressGetPinkkerEmotes.data) {
+        setGlobalEmotes(ressGetPinkkerEmotes.data);
       }
     };
     fetchData();
@@ -93,15 +101,20 @@ function DropdownEmotes({ closeNavbar, clickEmoticon, muro }) {
             height: "180px",
           }}
         >
-          {PinkkerEmotes[0]?.emotes?.map((emote) => (
-            <div
-              key={emote.name}
-              onClick={() => clickEmoticon(emote)}
-              className="dropdownemotes-emote"
-            >
-              <img style={{ width: "25px" }} src={emote.url} alt={emote.name} />
-            </div>
-          ))}
+          {GlobalEmotes &&
+            GlobalEmotes[0]?.emotes?.map((emote) => (
+              <div
+                key={emote.name}
+                onClick={() => clickEmoticon(emote)}
+                className="dropdownemotes-emote"
+              >
+                <img
+                  style={{ width: "25px" }}
+                  src={emote.url}
+                  alt={emote.name}
+                />
+              </div>
+            ))}
         </div>
       </div>
     );
