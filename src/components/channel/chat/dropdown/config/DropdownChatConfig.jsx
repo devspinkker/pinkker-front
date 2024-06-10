@@ -10,7 +10,12 @@ import Switch from "@mui/material/Switch";
 
 import { useParams } from "react-router-dom";
 
-function DropdownChatConfig({ closeNavbar, changeTextSize, chatOff }) {
+function DropdownChatConfig({
+  closeNavbar,
+  changeTextSize,
+  chatOff,
+  openChatWindow,
+}) {
   const [click, setClick] = useState(false);
 
   const handleClick = () => setClick(!click);
@@ -169,6 +174,7 @@ function DropdownChatConfig({ closeNavbar, changeTextSize, chatOff }) {
           </li> */}
 
           <li
+            onClick={openChatWindow}
             // onClick={() =>
             // popupwindow(
             //   process.env.REACT_APP_API_URL === "localhost"

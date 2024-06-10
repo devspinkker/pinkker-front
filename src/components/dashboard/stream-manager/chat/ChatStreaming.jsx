@@ -8,7 +8,6 @@ import { GetPixelesDonationsChat } from "../../../../services/backGo/donation";
 import Donation from "../../../channel/chat/donation/card/Donation";
 import { BsFillTrashFill, BsPin } from "react-icons/bs";
 import { FaReply } from "react-icons/fa";
-
 import {
   GetSubsAct,
   GetSubssChat,
@@ -37,6 +36,7 @@ import UserInfo from "../../../userinfo/UserInfo";
 import DropdownChatIdentity from "../../../channel/chat/dropdown/identity/DropdownChatIdentity";
 import DropdownEmotes from "../../../channel/chat/dropdown/emotes/DropdownEmotes";
 export function ChatStreaming({
+  openChatWindow,
   streamerChat,
   chatExpandeds,
   ToggleChat,
@@ -84,29 +84,8 @@ export function ChatStreaming({
     setisNavbarOpenDropdownEmotes(!isNavbarOpenDropdownEmotes);
   };
   const [message, setMessage] = useState("");
-  const [emoticonMessage, setEmoticonMessage] = useState([]);
   const [cursorIndex, setCursorIndex] = useState(0);
-  // useEffect(() => {
-  //   if (inputRef.current) {
-  //     inputRef.current.innerHTML = message;
-  //     placeCaretAtEnd(inputRef.current);
-  //   }
-  // }, [message]);
-  const placeCaretAtEnd = (el) => {
-    el.focus();
-    if (
-      typeof window.getSelection != "undefined" &&
-      typeof document.createRange != "undefined"
-    ) {
-      const range = document.createRange();
-      range.selectNodeContents(el);
-      range.collapse(false);
-      const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-    }
-  };
-
+  // manejo de los msj en el chat
   const inputRef = useRef(null);
   const insertHTMLAtCaret = (html) => {
     const el = document.createElement("div");
@@ -141,7 +120,6 @@ export function ChatStreaming({
   const clickEmoticon = (emoticon) => {
     const imgHTML = `<img src="${emoticon.url}" alt="${emoticon.name}" style="width: 20px; height: 20px;" />`;
     insertHTMLAtCaret(imgHTML);
-    // setEmoticonMessage((prevMessage) => [...prevMessage, emoticon.url]);
   };
 
   useEffect(() => {
@@ -151,7 +129,8 @@ export function ChatStreaming({
       const range = document.createRange();
       const node = inputRef.current.childNodes[0];
       if (node) {
-        range.setStart(node, cursorIndex);
+        const offset = Math.min(cursorIndex, node.textContent.length);
+        range.setStart(node, offset);
         range.collapse(true);
         selection.removeAllRanges();
         selection.addRange(range);
@@ -161,11 +140,13 @@ export function ChatStreaming({
 
   const handleInput = () => {
     const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    setCursorIndex(range.startOffset);
-
+    if (selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      setCursorIndex(range.startOffset);
+    }
     setMessage(inputRef.current.innerText);
   };
+
   const getPlainTextMessage = () => {
     const inputElement = inputRef.current;
     const imgTags = inputElement.getElementsByTagName("img");
@@ -183,7 +164,6 @@ export function ChatStreaming({
     }
     return messageWithImages.trim();
   };
-  let stopIteration = true;
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -191,6 +171,9 @@ export function ChatStreaming({
       handleSubmit(event);
     }
   };
+
+  // ws para las conexiones de lo msj que entran y las acciones que hay en el chat
+  let stopIteration = true;
   useEffect(() => {
     const timer = setTimeout(async () => {
       stopIteration = false;
@@ -358,6 +341,7 @@ export function ChatStreaming({
     };
   }, [socketDeleteMsj]);
 
+  //
   function AnclarMessage(receivedMessage) {
     const emotesChat = JSON.parse(receivedMessage.EmotesChat);
     const subscriptionInfo = JSON.parse(receivedMessage?.SubscriptionInfo);
@@ -2264,7 +2248,10 @@ export function ChatStreaming({
             )}
           </button>
           {dropdownChatConfig && (
-            <DropdownChatConfig changeTextSize={(e) => changeTextSize(e)} />
+            <DropdownChatConfig
+              openChatWindow={openChatWindow}
+              changeTextSize={(e) => changeTextSize(e)}
+            />
           )}
           <div>
             <Tippy

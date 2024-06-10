@@ -19,7 +19,6 @@ export default function CustomPlayer({
   isMobile,
   expanded,
   dashboard,
-  setViewInfoStream,
   streamerName,
   width,
   height,
