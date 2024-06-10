@@ -48,9 +48,7 @@ export default function Statistics() {
           },
         ]);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   }
 
   function onError(error) {

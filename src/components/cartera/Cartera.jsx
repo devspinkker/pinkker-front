@@ -14,9 +14,10 @@ import Tippy from "@tippyjs/react";
 
 import { useNotification } from "../Notifications/NotificationProvider";
 import Retiros from "./Retiros";
+import Profit from "./Profits";
 
 export default function Cartera({ user }) {
-  const token = useSelector((state) => state.token);
+  let token = window.localStorage.getItem("token");
   const [amount, setAmount] = useState("");
   const [alias, setAlias] = useState("");
 
@@ -44,7 +45,6 @@ export default function Cartera({ user }) {
       fetchData();
     }
   }, [token]);
-
   function reloadData() {
     if (token != null && token != undefined && token != "") {
       const fetchData = async () => {
@@ -235,59 +235,7 @@ export default function Cartera({ user }) {
               marginBottom: "10px",
             }}
           />
-          <div className="cartera-history-card-container">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                color: "#ededed",
-                fontWeight: "600",
-              }}
-            >
-              <p style={{ width: "20%", marginLeft: "10px" }}>Nombre</p>
-              <p style={{ width: "30%" }}>Descripción</p>
-              <p style={{ width: "20%" }}>Monto</p>
-              <p style={{ width: "10%" }}>Estado</p>
-              <p style={{ width: "20%" }}>Fecha</p>
-            </div>
-
-            {user?.Subscribers?.map((subscription, index) => (
-              <div className="cartera-history-card" key={index}>
-                <div
-                  style={{ marginLeft: "10px" }}
-                  className="cartera-history-card-name"
-                >
-                  <h4>{subscription.SubscriberNameUser}</h4>
-                </div>
-
-                <div className="cartera-history-card-destino">
-                  <h4>Suscripción</h4>
-                </div>
-                <div
-                  style={{ width: "20%" }}
-                  className="cartera-history-card-amount"
-                >
-                  <h4 style={{ display: "flex", alignItems: "center" }}>
-                    1000{" "}
-                    <img
-                      style={{ width: "20px", marginLeft: "5px" }}
-                      src="/images/pixel.png"
-                    />
-                  </h4>
-                </div>
-
-                <div
-                  style={{ textAlign: "center" }}
-                  className="cartera-history-card-status"
-                >
-                  {getStatus(1)}
-                </div>
-                <div className="cartera-history-card-date">
-                  <h4>{formatDate(subscription.SubscriptionStart)}</h4>
-                </div>
-              </div>
-            ))}
-          </div>
+          <Profit />
         </div>
       );
     }

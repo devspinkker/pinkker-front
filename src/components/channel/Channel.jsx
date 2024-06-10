@@ -149,9 +149,7 @@ export default function Channel({
           if (res?.message === "ok" && res?.data?.id) {
             setUser(res.data);
           }
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       }
     }
     let loggedUser = window.localStorage.getItem("_id");

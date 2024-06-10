@@ -15,7 +15,6 @@ export default function Tendency() {
       try {
         const response = await getTrendsByPrefix(prefix);
         if (response.message == "ok" && response.data) {
-          console.log(response.data);
           setTrends(response.data);
         } else {
           setTrends([]);

@@ -76,9 +76,7 @@ export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
             alert({ type: "SUCCESS" });
           }
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
   }
   const clearImages = () => {

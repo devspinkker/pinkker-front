@@ -12,7 +12,6 @@ export default function ClipCard({ video, ...props }) {
   const toggleSelect = () => {
     setSelectedVideo(!selectedVideo);
   };
-  console.log(video);
   const handleEnter = () => {
     setMouseEnter(true);
     setTimeout(() => {

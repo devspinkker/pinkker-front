@@ -25,9 +25,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
           if (res.message === "ok") {
             setUser(res.data);
           }
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       }
     }
     GetUser();

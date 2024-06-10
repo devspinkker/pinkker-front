@@ -37,7 +37,6 @@ export default function Emotes({ Code }) {
   const updateEmotes = async (updatedEmotes, type) => {
     const res = await UpdateEmoteAut({ ...updatedEmotes, Code }, token);
     if (res.message === "ok") {
-      console.log(res.data);
       if (type === "Pinkker") {
         setPinkkerEmotes(res.data);
       } else if (type === "Global") {

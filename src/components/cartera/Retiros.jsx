@@ -11,7 +11,6 @@ export default function Retiros({ user }) {
       const res = await GetWithdrawalToken(token);
       if (res?.message === "ok") {
         setWithdrawals(res.data);
-        console.log(res.data);
       }
     }
   };

@@ -166,7 +166,6 @@ function DropdownChatIdentity({
       };
     }
   }
-  console.log(chatData);
   function getdropdownchatidentity() {
     if (type === 0) {
       return (
