@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import VideoPlayer from './VideoPlayer';
 import Filter from './Filter';
+import Comments from './Comments';
 
 const VideoFeed = ({ liveVideos, clipsVideos }) => {
   const [selectedFilter, setSelectedFilter] = useState('live');
@@ -19,7 +20,7 @@ const VideoFeed = ({ liveVideos, clipsVideos }) => {
     if (videoRefs.current[currentVideoIndex]) {
       videoRefs.current[currentVideoIndex].scrollIntoView({ behavior: 'smooth' });
     }
-  }, [currentVideoIndex]);
+  }, [currentVideoIndex, videos]);
 
   const handleNext = () => {
     if (currentVideoIndex < videos?.length - 1) {
@@ -40,54 +41,76 @@ const VideoFeed = ({ liveVideos, clipsVideos }) => {
     trackMouse: true,
   });
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowUp') {
+        handlePrev();
+      } else if (event.key === 'ArrowDown') {
+        handleNext();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentVideoIndex, videos]);
+
   return (
-    <div {...handlers} style={{ height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div {...handlers} style={containerStyle}>
       <Filter selectedFilter={selectedFilter} onSelectFilter={handleSelectFilter} />
-      <button
-        onClick={handlePrev}
-        disabled={currentVideoIndex === 0}
-        style={{ ...buttonStyle, top: '10px' }}
-      >
-        &uarr;
-      </button>
-      <div style={{ flex: 1, width: '100%', overflow: 'auto' }}>
-        {videos?.map((video, index) => (
-          <div
-            key={index}
-            ref={(el) => (videoRefs.current[index] = el)}
-            style={videoWrapperStyle}
-          >
-            <VideoPlayer src={video.url} isPlaying={index === currentVideoIndex} />
-          </div>
-        ))}
+      <div style={contentStyle}>
+        <div style={videoColumnStyle}>
+          {videos?.map((video, index) => (
+            <div
+              key={index}
+              ref={(el) => (videoRefs.current[index] = el)}
+              style={videoWrapperStyle}
+            >
+              <VideoPlayer src={video.url} isPlaying={index === currentVideoIndex} />
+            </div>
+          ))}
+        </div>
+        {/* <div style={commentsColumnStyle}>
+          <Comments video={videos?.length >= 1 && videos } />
+        </div> */}
       </div>
-      <button
-        onClick={handleNext}
-        disabled={currentVideoIndex === videos?.length - 1}
-        style={{ ...buttonStyle, bottom: '10px' }}
-      >
-        &darr;
-      </button>
     </div>
   );
 };
 
-const buttonStyle = {
-  backgroundColor: '#007bff',
-  color: 'white',
-  border: 'none',
-  padding: '10px',
-  cursor: 'pointer',
-  position: 'absolute',
-  zIndex: 1,
+const containerStyle = {
+  height: '100vh',
+  overflow: 'hidden',
+  display: 'flex',
+  flexDirection: 'column',
+};
+
+const contentStyle = {
+  display: 'flex',
+  width: '100%',
+  height: '100%',
+};
+
+const videoColumnStyle = {
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  overflowY: 'auto',
+};
+
+const commentsColumnStyle = {
+  width: '400px',
+  padding: '20px',
+  overflowY: 'auto',
 };
 
 const videoWrapperStyle = {
+  height: '100vh',
   display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  height: '80vh', // Adjust this to control the height of the video
-  margin: '10vh 0', // Add some top and bottom margin
 };
 
 export default VideoFeed;

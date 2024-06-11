@@ -15,7 +15,6 @@
 }
 
 .clipsmain-container {
-    width: 60%;
     height: max-content;
     position: relative;
     display: flex;
@@ -28,12 +27,13 @@
 .clipsmain-video {
 
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     scroll-behavior: smooth;
     transition: 5s all;
     flex-direction: column;
-width: 100%;
+width: 320px;
+height: 570px;
 
 }
 
@@ -48,7 +48,6 @@ width: 100%;
     color: white;
     width: 90%;
     margin: 0 auto;
-    position: absolute;
     top: 15%;
     display: flex;
     align-items: center;

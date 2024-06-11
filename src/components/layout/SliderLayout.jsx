@@ -15,8 +15,13 @@ import { AiOutlinePlayCircle } from "react-icons/ai";
 import { GrGamepad } from "react-icons/gr";
 import SelectVideoClip from "../home/clips/SelectVideoClip";
 import VodCard from "../card/VodCard";
+import ClipCardChannel from "../card/ClipCardChannel";
 
 function SliderLayout(props) {
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const toggleSelect = () => {
+    setSelectedVideo(!selectedVideo);
+  };
   return (
     <Swiper
       style={{
@@ -77,8 +82,8 @@ function SliderLayout(props) {
               {props.titulo
                 ? "Vods más vistos"
                 : props.isMobile
-                ? "Clips"
-                : "Clips más vistos"}{" "}
+                  ? "Clips"
+                  : "Clips más vistos"}{" "}
             </h2>
           </Grid>
         )}
@@ -95,7 +100,7 @@ function SliderLayout(props) {
               style={{ color: "#ff69c4", fontSize: "20px" }}
             />
             <h2 style={{ color: "white", fontSize: "20px" }}>
-              { props.isMobile
+              {props.isMobile
                 ? "Clips"
                 : "Vods más vistos"}{" "}
             </h2>
@@ -186,6 +191,8 @@ function SliderLayout(props) {
             ?.filter((clip, index) => index < 10)
             .map((clip) => (
               <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
+                {/* <ClipCard video={clip} /> */}
+                
                 <ClipCard video={clip} />
               </SwiperSlide>
             ))}
@@ -197,16 +204,16 @@ function SliderLayout(props) {
             ?.filter((clip, index) => index < 10)
             .map((clip) => (
               <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
-                <VodCard 
-                            width={"300px"}
-                            views={clip.views} 
-                            createdAt={clip.createdAt} 
-                            duration={clip.duration} 
-                            image={"https://res.cloudinary.com/pinkker/image/upload/v1669407676/min/jpikyrdltculevcxkstj.png"} 
-                            title={clip.clipName} 
-                            categorie={clip.stream.stream_category} 
-                            tags={clip.stream.stream_tag}
-                        />  
+                <VodCard
+                  width={"300px"}
+                  views={clip.views}
+                  createdAt={clip.createdAt}
+                  duration={clip.duration}
+                  image={"https://res.cloudinary.com/pinkker/image/upload/v1669407676/min/jpikyrdltculevcxkstj.png"}
+                  title={clip.clipName}
+                  categorie={clip.stream.stream_category}
+                  tags={clip.stream.stream_tag}
+                />
               </SwiperSlide>
             ))}
         </>

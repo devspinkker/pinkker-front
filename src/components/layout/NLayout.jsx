@@ -484,7 +484,7 @@ function NLayout(props) {
                 <Link
                   style={{ textDecoration: "none" }}
                   className="menu-aside-option"
-                  to="/plataform/explore?tipo=categories"
+                  to="/plataform/clips"
                 >
                   <li
                     style={{
@@ -496,7 +496,7 @@ function NLayout(props) {
                       justifyContent: !props.tyExpanded && "center",
                       animation: !props.tyExpanded && "ease-in-out 1s linear",
                     }}
-                    className={location.pathname === '/plataform/explore' ? "item-liActive" : "item-li"}
+                    className={location.pathname === '/plataform/clips' ? "item-liActive" : "item-li"}
 
                   >
                     {/* <i
@@ -1795,7 +1795,7 @@ function NLayout(props) {
             <span>Categorías</span>
           </Link>
           <Link
-            to="/plataform/explore?tipo=categories"
+            to="/plataform/clips"
             style={{
               display: "flex",
               alignItems: "center",

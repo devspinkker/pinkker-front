@@ -42,8 +42,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
   const [userIp, setUserIp] = useState(null);
 
   const [signupNotConfirmedErr, setsignupNotConfirmedErr] = useState(false);
-  const [signupNotConfirmedCodeErr, setsignupNotConfirmedCodeErr] =
-    useState(false);
+  const [signupNotConfirmedCodeErr, setsignupNotConfirmedCodeErr] =useState(false);
 
   const [rUsername, setrUsername] = useState(null);
   const [rPassword, setrPassword] = useState(null);
@@ -152,14 +151,17 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           password: rPassword,
           // BirthDate: birthDate,
         });
+       
         if (res && res.message == "email to confirm") {
           setCodeConfirm(true);
           // localStorage.setItem("firstLogin", true);
           // setStep(1);
         } else {
+          alert({type: "ERROR", message: "Email o Nombre de Usuario en uso" })
           setsignupNotConfirmedErr(true);
         }
       } catch (err) {
+        
         alert({ type: "ERROR", message: err.response.data.msg });
       }
     }

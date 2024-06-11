@@ -17,15 +17,18 @@ export default function ClipsMain({ tyExpanded }) {
   const [viewedClip, setViewedClip] = useState(0);
   const [viewAuth, setViewAuth] = useState(false);
   const [loadingMoreClips, setLoadingMoreClips] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     loadClips();
 
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
@@ -54,7 +57,6 @@ export default function ClipsMain({ tyExpanded }) {
       try {
         let token = window.localStorage.getItem("token");
         if (token) {
-          // Extraer los IDs de los clips actuales
           const idsExclude = clips.map((clip) => clip._id);
           const res = await ClipsRecommended(token, idsExclude);
           if (res.data.message === "ok") {
@@ -100,12 +102,19 @@ export default function ClipsMain({ tyExpanded }) {
       setLoadingMoreClips((prevLoading) => {
         if (!prevLoading) {
           loadMoreClips().then(() => {
-            // Restablecer el estado de loadingMoreClips después de cargar los clips
             setLoadingMoreClips(false);
           });
         }
-        return true; // Establecer loadingMoreClips en true independientemente de su valor anterior
+        return true;
       });
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "ArrowUp") {
+      previewClip();
+    } else if (event.key === "ArrowDown") {
+      nextClip();
     }
   };
 
@@ -120,10 +129,11 @@ export default function ClipsMain({ tyExpanded }) {
     var pos = window.pageYOffset;
     window.scrollTo(0, pos - 855);
   };
-  const [isLoading, setIsLoading] = useState(true);
+
   setTimeout(() => {
     setIsLoading(false);
   }, 500);
+
   return (
     <div
       className="clipsmain-body"
@@ -131,97 +141,6 @@ export default function ClipsMain({ tyExpanded }) {
         padding: "0px",
       }}
     >
-      {isLoading ? (
-        <div
-          style={{
-            height: "800px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <BarLoader color="#36d7b7" />
-        </div>
-      ) : (
-        <>
-          <div>
-            {clips &&
-              clips.map((clip, index) =>
-                index <= 0 ? (
-                  <ClipCard
-                    tyExpanded={tyExpanded}
-                    key={clip.id}
-                    type={0}
-                    clip={clip}
-                  />
-                ) : (
-                  <ClipCard
-                    tyExpanded={tyExpanded}
-                    key={clip.id}
-                    type={1}
-                    clip={clip}
-                  />
-                )
-              )}
-          </div>
-
-          <div style={{ top: "120px" }} className="clipsmain-right-buttons">
-            <div
-              style={{
-                height: "40%",
-                display: "flex",
-                alignItems: "start",
-                justifyContent: "center",
-              }}
-            >
-              <i
-                onClick={previewClip}
-                style={{
-                  backgroundColor: "#303030",
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50px",
-                  color: "darkgray",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "22px",
-                }}
-                className="fas fa-arrow-up"
-              />
-            </div>
-            <div
-              style={{
-                height: "40%",
-                display: "flex",
-                alignItems: "end",
-                justifyContent: "center",
-              }}
-            >
-              <i
-                onClick={nextClip}
-                style={{
-                  backgroundColor: "#303030",
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50px",
-                  color: "darkgray",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "22px",
-                }}
-                className="fas fa-arrow-down"
-              />
-            </div>
-          </div>
-
-          {viewAuth && (
-            <Auth typeDefault={0} closePopup={() => setViewAuth(false)} />
-          )}
-        </>
-      )}
-      =======
       {isLoading ? (
         <div
           style={{

@@ -7,6 +7,9 @@ import { MoreViewOfTheClip } from "../../../services/backGo/clip";
 import Tippy from "@tippyjs/react";
 
 export default function SelectVideoClip({ clip, toggleSelect }) {
+
+  console.log('clip', clip)
+  console.log('toggleSelect', toggleSelect)
   const [progress, setProgress] = useState(0);
   const [showLoader, setShowLoader] = useState(true);
   const [playing, setPlaying] = useState(true);

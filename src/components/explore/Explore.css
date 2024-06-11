@@ -1,11 +1,12 @@
 .explore-body {
  
-    display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
   overflow: hidden;
+
 
 }
 
@@ -97,4 +98,45 @@ button {
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.filter-container button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.filter-container .active {
+  background-color: #007bff;
+  color: white;
+}
+
+video {
+  max-height: 100%;
+  width: auto;
+}
+
+.video-actions {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.video-actions button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  margin: 10px 0;
+  cursor: pointer;
+  color: white;
 }

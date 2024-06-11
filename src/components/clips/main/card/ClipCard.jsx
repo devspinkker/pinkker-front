@@ -14,6 +14,7 @@ import {
 } from "../../../../services/backGo/clip";
 import { Grid, Typography } from "@mui/material";
 import { retweet } from "../../../../services/tweet";
+import { IoMdSend } from "react-icons/io";
 
 export default function ClipCard({ clip }) {
   const [playing, setPlaying] = useState(true);
@@ -160,30 +161,35 @@ export default function ClipCard({ clip }) {
             alignItems: "flex-start",
           }}
         >
-          <Grid style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <img
-              style={{
-                width: "45px",
-                height: "45px",
-                borderRadius: "100px",
-              }}
-              src={clip.Avatar}
-            />
-            <Grid
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "5px",
-                alignItems: "flex-start",
-              }}
-            >
-              <Typography style={{ color: "white" }}>
-                {clip.nameUserCreator}
-              </Typography>
-              <Typography style={{ color: "white" }}>
-                {clip.nameUserCreator}
-              </Typography>
+          <Grid style={{ display: "flex", alignItems: "center", gap: "10px", width:'100%', justifyContent:'space-between' }}>
+            <Grid style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+
+              <img
+                style={{
+                  width: "45px",
+                  height: "45px",
+                  borderRadius: "100px",
+                }}
+                src={clip.Avatar}
+              />
+
+              <Grid
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "5px",
+                  alignItems: "flex-start",
+                }}
+              >
+                <Typography style={{ color: "white" }}>
+                  {clip.nameUserCreator}
+                </Typography>
+                <Typography style={{ color: "white" }}>
+                  {clip.nameUserCreator}
+                </Typography>
+              </Grid>
             </Grid>
+
             <button
               // onClick={() => followUser()}
               style={{ marginLeft: "5px" }}
@@ -220,9 +226,8 @@ export default function ClipCard({ clip }) {
               >
                 <i
                   onClick={handleMute}
-                  className={`fas ${
-                    muted ? "fa-volume-mute" : "fa-volume-up"
-                  } button-more-player`}
+                  className={`fas ${muted ? "fa-volume-mute" : "fa-volume-up"
+                    } button-more-player`}
                 />
               </Tippy>
             </div>
@@ -319,6 +324,7 @@ export default function ClipCard({ clip }) {
                         style={{
                           color: "#ededed",
                           padding: 0,
+                          fontSize:'14px'
                         }}
                       >
                         {clip.clipTitle}
@@ -368,8 +374,8 @@ export default function ClipCard({ clip }) {
                             {clip.views} Vistas
                           </p>
                         </Grid>
-                        •
-                        <h6
+                        {/* • */}
+                        {/* <h6
                           style={{
                             color: "darkgray",
                             fontSize: "12px",
@@ -377,7 +383,7 @@ export default function ClipCard({ clip }) {
                           }}
                         >
                           Clipeado por {clip.nameUserCreator}
-                        </h6>
+                        </h6> */}
                       </div>
 
                       {/* {!isMobile && (
@@ -551,7 +557,8 @@ export default function ClipCard({ clip }) {
                   justifyContent: "center",
                 }}
               >
-                <ScaleLoader width={4} height={20} color="#f36197d7" />
+                <h4 style={{color:'white'}}>No hay comentarios!</h4>
+                {/* <ScaleLoader width={4} height={20} color="#f36197d7" /> */}
               </div>
             )}
           </div>
@@ -563,27 +570,28 @@ export default function ClipCard({ clip }) {
               marginTop: "5px",
               marginBottom: "10px",
               backgroundColor: "#151515",
+              justifyContent:'space-between'
             }}
             className="clipcard-send-comment"
           >
             <div>
               <img
-                style={{ width: "30px", borderRadius: "100px" }}
+                style={{ width: "30px", borderRadius: "50%", height: "30px"}}
                 src={clip.Avatar}
                 alt=""
               />
             </div>
 
             <div
-              style={{ marginLeft: "10px", height: "50px" }}
+             
               className="-input"
             >
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 style={{
-                  height: "30px",
-                  width: "90%",
+                  
+                  
                   fontSize: "16px",
                 }}
                 placeholder="Comenta el clip..."
@@ -596,7 +604,8 @@ export default function ClipCard({ clip }) {
                 onClick={() => createComment()}
                 className="viewtweet-button-reply"
               >
-                Responder
+                <IoMdSend />
+
               </button>
             </div>
           </div>
