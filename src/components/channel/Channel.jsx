@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Component } from "react";
 
 import "./Channel.css";
+import "../../components/dashboard/stream-manager/chat/ChatStreaming.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUserByIdTheToken,
@@ -34,13 +35,7 @@ import {
   existsRecientsChannelName,
 } from "../../helpers/streamHelper";
 
-import { useNotification } from "../Notifications/NotificationProvider";
-
-import { useLastLocation } from "react-router-last-location";
-
 import About from "./about/About";
-
-import useChatMessage from "../../hooks/chatmessage/useChatMessage";
 
 import SuscriptionDropdown from "./dropdown/suscription/SuscriptionDropdown";
 
@@ -52,10 +47,12 @@ import GiftSuscriptionDropdown from "./dropdown/giftsuscription/GiftSuscription"
 
 import { getStreamerGallery } from "../../services/gallery";
 import Muro from "./muro/Muro";
-import NavbarLeft from "../navbarLeft/NavbarLeft";
-import { useHistory } from "react-router-dom";
 import { follow, unfollow } from "../../services/backGo/user";
 import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
+import "../../components/dashboard/stream-manager/chat/ChatStreaming.css";
+import ReactDOM from "react-dom";
+import { MemoryRouter } from "react-router-dom";
+import NotificationProvider from "../../components/Notifications/NotificationProvider";
 
 export default function Channel({
   isMobile,
@@ -118,27 +115,73 @@ export default function Channel({
   const ENDPOINT = process.env.REACT_APP_DEV_CHAT_URL;
 
   const [userSuscripted, setUserSuscripted] = useState(false);
-  const [suscribers, setSuscribers] = useState(null);
   const [gallerys, setGallerys] = useState(null);
   const [unlocked, setUnlocked] = useState(false);
-
-  const [viewers, setViewers] = useState(0);
-
-  const [viewInfoStream, setViewInfoStream] = useState(false);
 
   const [typeFollowers, setTypeFollowers] = useState(0);
 
   const [loadingFollow, setLoadingFollow] = useState(false);
 
-  const alert = useNotification();
-
   const [time, setTime] = useState(0);
   let currentTime = 0;
 
-  const [showOmitir, setShowOmitir] = useState(false);
-  const history = useHistory();
-  const location = useLastLocation();
+  // chat emergente
+  const [chatWindow, setChatWindow] = useState(null);
+  const openChatWindow = () => {
+    if (!chatWindow || chatWindow.closed) {
+      const newChatWindow = window.open(
+        "about:blank",
+        "ChatWindow",
+        "width=400,height=600"
+      );
 
+      const head = document.head.cloneNode(true);
+      newChatWindow.document.head.appendChild(head);
+
+      setChatWindow(newChatWindow);
+    } else {
+      chatWindow.focus();
+    }
+  };
+  useEffect(() => {
+    if (chatWindow) {
+      const chatContainer = chatWindow.document.createElement("div");
+      chatWindow.document.body.appendChild(chatContainer);
+      ReactDOM.render(
+        <NotificationProvider>
+          <MemoryRouter>
+            <ChatStreaming
+              openChatWindow={openChatWindow}
+              streamerChat={stream}
+              chatExpandeds={chatExpanded}
+              ToggleChat={handleToggleChat}
+              streamerData={streamerData}
+              user={user}
+              isMobile={isMobile}
+              followParam={followParam}
+            />
+          </MemoryRouter>
+        </NotificationProvider>,
+
+        chatContainer
+      );
+
+      const handleUnload = () => {
+        chatWindow.close();
+        setChatWindow(null);
+      };
+
+      window.addEventListener("beforeunload", handleUnload);
+      return () => {
+        window.removeEventListener("beforeunload", handleUnload);
+        if (chatWindow) {
+          chatWindow.close();
+        }
+      };
+    }
+  }, [chatWindow]);
+
+  //  get usuario
   useEffect(() => {
     async function getUserToken() {
       let token = window.localStorage.getItem("token");
@@ -149,9 +192,7 @@ export default function Channel({
           if (res?.message === "ok" && res?.data?.id) {
             setUser(res.data);
           }
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       }
     }
     let loggedUser = window.localStorage.getItem("_id");
@@ -557,11 +598,7 @@ export default function Channel({
 
   function getStream() {
     return (
-      <div
-        onMouseEnter={() => setViewInfoStream(true)}
-        onMouseLeave={() => setViewInfoStream(false)}
-        className="channel-v2-info"
-      >
+      <div className="channel-v2-info">
         <div className="channel-v2-primary">
           <div className="channel-v2-categorie">
             <Link to={"/categorie/" + stream.stream_category}>
@@ -1273,7 +1310,6 @@ export default function Channel({
         expanded={tyExpanded}
         height={getHeightPlayer()}
         marginLeft={tyExpanded ? "-17px" : "6px"}
-        setViewInfoStream={setViewInfoStream}
         started={started}
         vod={false}
         streamer={streamer}
@@ -1352,11 +1388,7 @@ export default function Channel({
               <div className="conteiner-streamer-online-infoStream">
                 {getBottomStream()}
                 {stream.online ? (
-                  <div
-                    onMouseEnter={() => setViewInfoStream(true)}
-                    onMouseLeave={() => setViewInfoStream(false)}
-                    className="channel-custom-player-main-div"
-                  >
+                  <div className="channel-custom-player-main-div">
                     {streamerData && announce === false && renderPlayer()}
                   </div>
                 ) : (
@@ -1439,6 +1471,7 @@ export default function Channel({
                 >
                   {isMobile && (
                     <ChatStreaming
+                      openChatWindow={openChatWindow}
                       streamerChat={stream}
                       chatExpandeds={chatExpanded}
                       ToggleChat={handleToggleChatMobile}
@@ -1478,6 +1511,7 @@ export default function Channel({
                 )}
 
                 <ChatStreaming
+                  openChatWindow={openChatWindow}
                   streamerChat={stream}
                   chatExpandeds={chatExpanded}
                   ToggleChat={handleToggleChat}
@@ -1516,6 +1550,7 @@ export default function Channel({
 
   return (
     <div
+      id="ChannelConteiner"
       className={
         (!tyExpanded && !isMobile && "container-channel") ||
         (tyExpanded && !isMobile && "container-channel-expand") ||

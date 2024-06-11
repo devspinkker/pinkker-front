@@ -33,7 +33,6 @@ export default function ClipCard({ clip }) {
     const response = await GetClipComments(1, clip?.id);
     SetshowComment(!showComment);
     if (response?.data?.message === "ok") {
-      console.log(response.data.data);
       setComments(response.data.data);
     }
   }
@@ -41,7 +40,6 @@ export default function ClipCard({ clip }) {
   useEffect(() => {
     let id = window.localStorage.getItem("_id");
     if (id) {
-      console.log(clip.likes);
       setIsLiked(clip.likes?.includes(id));
     }
   }, [clip]);
@@ -131,9 +129,7 @@ export default function ClipCard({ clip }) {
           }
         }
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const createComment = () => {

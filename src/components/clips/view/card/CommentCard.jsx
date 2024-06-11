@@ -51,9 +51,7 @@ export default function CommentCard({ comment }) {
           }
         }
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   async function createReply() {

@@ -16,11 +16,15 @@ function DropdownChatIdentity({
   chatData,
   user,
 }) {
+  const isSubscriptor = (dt) => {
+    if (dt.Subscription != "000000000000000000000000") {
+      return "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/SUBSCRIPTOR.jpg_pxzloq.png";
+    }
+    return null;
+  };
   const [click, setClick] = useState(false);
 
   const handleClick = () => setClick(!click);
-
-  const auth = useSelector((state) => state.auth);
 
   const [type, setType] = useState(0);
 
@@ -33,14 +37,14 @@ function DropdownChatIdentity({
   async function handleChangeColor(color) {
     let token = window.localStorage.getItem("token");
     if (token) {
-      await ActionIdentidadUser(chatData.Room, color, "mute", token);
+      await ActionIdentidadUser(chatData?.Room, color, "", token);
       closeNavbar();
     }
   }
   async function handleChangeEmblema(Emblema) {
     let token = window.localStorage.getItem("token");
     if (token) {
-      await ActionIdentidadUser(chatData.Room, "", Emblema, token);
+      await ActionIdentidadUser(chatData?.Room, "", Emblema, token);
       closeNavbar();
     }
   }
@@ -98,41 +102,41 @@ function DropdownChatIdentity({
     return signs[month];
   };
 
-  function getIdentityEmblem() {
-    return (
-      <a>
-        {user?.Partner?.active === true && (
-          <Emblem
-            chat={true}
-            name="Pinkker Prime"
-            img={
-              "https://res.cloudinary.com/pinkker/image/upload/v1677782920/emblem/PRIME_PINKKER_fwsdcm.png"
-            }
-          />
-        )}
-        {user?.NameUser === streamer && (
-          <Emblem chat={true} name="Emisor" img={"/images/emblem/emisor.jpg"} />
-        )}
-        {userMod && (
-          <Emblem
-            chat={true}
-            name="Moderador"
-            img={"/images/emblem/moderador.jpg"}
-          />
-        )}
-        {userVip && (
-          <Emblem chat={true} name="VIP" img={"/images/emblem/vip.jpg"} />
-        )}
-        {chatData?.SubscriptionInfo && (
-          <Emblem
-            chat={true}
-            name="Suscriptor"
-            img={"/images/emblem/subscriptor.jpg"}
-          />
-        )}
-      </a>
-    );
-  }
+  // function getIdentityEmblem() {
+  //   return (
+  //     <a>
+  //       {user?.Partner?.active === true && (
+  //         <Emblem
+  //           chat={true}
+  //           name="Pinkker Prime"
+  //           img={
+  //             "https://res.cloudinary.com/pinkker/image/upload/v1677782920/emblem/PRIME_PINKKER_fwsdcm.png"
+  //           }
+  //         />
+  //       )}
+  //       {user?.NameUser === streamer && (
+  //         <Emblem chat={true} name="Emisor" img={"/images/emblem/emisor.jpg"} />
+  //       )}
+  //       {userMod && (
+  //         <Emblem
+  //           chat={true}
+  //           name="Moderador"
+  //           img={"/images/emblem/moderador.jpg"}
+  //         />
+  //       )}
+  //       {userVip && (
+  //         <Emblem chat={true} name="VIP" img={"/images/emblem/vip.jpg"} />
+  //       )}
+  //       {chatData?.SubscriptionInfo && (
+  //         <Emblem
+  //           chat={true}
+  //           name="Suscriptor"
+  //           img={"/images/emblem/subscriptor.jpg"}
+  //         />
+  //       )}
+  //     </a>
+  //   );
+  // }
 
   function getBackgroundColorPrime() {
     if (user.color === "#D500FF") {
@@ -162,7 +166,6 @@ function DropdownChatIdentity({
       };
     }
   }
-
   function getdropdownchatidentity() {
     if (type === 0) {
       return (
@@ -193,12 +196,11 @@ function DropdownChatIdentity({
               ></i>
             </div>
           </div>
-
           <p
             style={{
               fontFamily: "Inter",
               color: "darkgray",
-              fontWeight: "100",
+              fontWeight: "600",
               padding: "5px",
               fontSize: "14px",
             }}
@@ -209,33 +211,52 @@ function DropdownChatIdentity({
             style={{
               fontFamily: "Inter",
               color: "white",
-              fontWeight: "100",
+              fontWeight: "600",
               padding: "5px",
               fontSize: "12px",
             }}
           >
             Cómo aparecerá tu nombre en el chat de {streamer}:
           </p>
+          <div className="showinChat">
+            <div className="badges">
+              {chatData?.Identidad && <img src={chatData?.Identidad} alt="" />}
+              {chatData?.EmblemasChat?.Moderator && (
+                <img src={chatData?.EmblemasChat?.Moderator} alt="" />
+              )}
+              {chatData?.EmblemasChat?.Verified && (
+                <img src={chatData?.EmblemasChat?.Verified} alt="" />
+              )}
+              {chatData?.EmblemasChat?.Vip && (
+                <img src={chatData?.EmblemasChat?.Vip} alt="" />
+              )}
+              {chatData && isSubscriptor(chatData) && (
+                <img src={isSubscriptor(chatData)} alt="" />
+              )}
+              {chatData?.StreamerChannelOwner && (
+                <img
+                  src={
+                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
+                  }
+                  alt="StreamerChannelOwner"
+                />
+              )}
+            </div>{" "}
+            <h3
+              style={{
+                fontFamily: "Inter",
+                color: user.color ? user.color : "white",
+                fontWeight: "600",
+                padding: "5px",
+                fontSize: "14px",
+              }}
+            >
+              <a style={{ ...getBackgroundColorPrime(), fontWeight: "600" }}>
+                {user.NameUser}
+              </a>
+            </h3>
+          </div>
 
-          <h3
-            style={{
-              fontFamily: "Inter",
-              color: user.color ? user.color : "white",
-              fontWeight: "600",
-              padding: "5px",
-              fontSize: "14px",
-            }}
-          >
-            <Emblem
-              style={{ marginRight: "2px" }}
-              name={findSignName(user.birthDate)}
-              img={findSign(user.birthDate)}
-            />{" "}
-            {getIdentityEmblem()}{" "}
-            <a style={{ ...getBackgroundColorPrime(), fontWeight: "600" }}>
-              {user.name}
-            </a>
-          </h3>
           {/* 
           <div className="dropdownchatidentity-container-second">
             <p
@@ -276,13 +297,12 @@ function DropdownChatIdentity({
               img={findSign(user.birthDate)}
             />
           </div> */}
-
           <div className="dropdownchatidentity-container-second">
             <p
               style={{
                 fontFamily: "Inter",
                 color: "darkgray",
-                fontWeight: "100",
+                fontWeight: "600",
                 padding: "5px",
                 fontSize: "14px",
               }}
@@ -293,30 +313,53 @@ function DropdownChatIdentity({
               style={{
                 fontFamily: "Inter",
                 color: "white",
-                fontWeight: "100",
+                fontWeight: "600",
                 padding: "5px",
                 fontSize: "12px",
               }}
             >
               Estos emblemas aparecen en el canal de {streamer}.
             </p>
-            <div
-              onClick={() => handleChangeEmblema("mute")}
-              className="emblemamute"
-            >
-              <img
-                className="dropdownchatidentity-card-emote"
-                src="https://static.twitchcdn.net/assets/dark-40f6c299eb07b670b88d.svg"
-              />
+            <div className="content-indentidades">
+              <div
+                onClick={() => handleChangeEmblema("")}
+                className="sinEmblema"
+              >
+                <svg
+                  className="dropdownchatidentity-card-emote"
+                  style={{
+                    marginTop: "0px",
+                    padding: "3px",
+                  }}
+                  width="25"
+                  height="25"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill="grey"
+                    fillRule="evenodd"
+                    d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div
+                onClick={() => handleChangeEmblema("mute")}
+                className="emblemamute"
+              >
+                <img
+                  className="dropdownchatidentity-card-emote"
+                  src="https://static.twitchcdn.net/assets/dark-40f6c299eb07b670b88d.svg"
+                />
+              </div>
             </div>
           </div>
-
           <div className="dropdownchatidentity-container-second">
             <p
               style={{
                 fontFamily: "Inter",
                 color: "darkgray",
-                fontWeight: "100",
+                fontWeight: "600",
                 padding: "5px",
                 fontSize: "14px",
               }}
@@ -327,7 +370,7 @@ function DropdownChatIdentity({
               style={{
                 fontFamily: "Inter",
                 color: "white",
-                fontWeight: "100",
+                fontWeight: "600",
                 padding: "5px",
                 fontSize: "12px",
               }}

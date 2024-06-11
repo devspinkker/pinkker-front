@@ -510,7 +510,6 @@ function Navbar({
   const [Deshboard, setDeshboard] = useState(0);
 
   useEffect(() => {
-    console.log(window.location?.pathname);
     if (
       window.location?.pathname ===
       "/" + user?.NameUser + "/dashboard/stream"

@@ -47,9 +47,7 @@ export default function ClipsMain({ tyExpanded }) {
           setClips(res.data.data);
         }
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const loadMoreClips = async () => {
@@ -68,9 +66,7 @@ export default function ClipsMain({ tyExpanded }) {
             setClips((prevClips) => [...prevClips, ...res.data.data]);
           }
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
 
     setLoadingMoreClips(false);

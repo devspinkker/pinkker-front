@@ -57,7 +57,6 @@ export default function Categorie() {
   useEffect(() => {
     const fetchData = async () => {
       const responseStreams = await getStreamsByCategory(categorieName, 1);
-      console.log(responseStreams);
       if (responseStreams?.message === "ok") {
         setStreams(responseStreams.data);
         return;

@@ -18,7 +18,6 @@ export default function WithdrawalRequest({ withdrawalRequestInfo, Code }) {
     if (token) {
       const res = await AcceptWithdrawal(Code, id, token);
       if (res?.message) {
-        console.log(res);
       }
     }
   };
@@ -29,7 +28,6 @@ export default function WithdrawalRequest({ withdrawalRequestInfo, Code }) {
     if (token) {
       const res = await RejectWithdrawal(Code, id, rejectReason, token);
       if (res?.message) {
-        console.log(res);
       }
     }
   };

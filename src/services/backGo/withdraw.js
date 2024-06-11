@@ -79,4 +79,18 @@ export async function RejectWithdrawal(Code, WithdrawalRequestsId, TextReturn, t
     } catch (error) {
         return error
     }
+} export async function AllMyPixelesDonors(token) {
+    try {
+        const response = await axios.get(
+            `${baseURL}/pixel/AllMyPixelesDonors`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
 }

@@ -27,24 +27,22 @@ import { LiaSlidersHSolid } from "react-icons/lia";
 import { TbLogout2 } from "react-icons/tb";
 import { FaBullseye } from "react-icons/fa";
 function NLayout(props) {
-
-
-  const [locationpath, setLocationPath] = useState()
-  const [dashboard, setDashboard] = useState(false)
+  const [locationpath, setLocationPath] = useState();
+  const [dashboard, setDashboard] = useState(false);
   const [pulse, setPulse] = useState(false);
   const [abrir, setAbrir] = useState(true);
   const [aparecer, setAparcer] = useState(false);
   const [showPopupAuth, setShowPopupAuth] = useState(false);
   const [type, setType] = useState(0);
-  const [openNotification, setOpenNotification] = useState(true)
-  const [openMessage, setOpenMessage] = useState(false)
-  console.log('openMessage', openMessage)
+  const [openNotification, setOpenNotification] = useState(true);
+  const [openMessage, setOpenMessage] = useState(false);
+  console.log("openMessage", openMessage);
   function clickPulsedButton() {
     setPulse(!pulse);
     props.setExpanded(!props.tyExpanded);
     if (props.expanded) {
       setOpenMessage(false);
-      setOpenNotification(false)
+      setOpenNotification(false);
     }
     setTimeout(() => {
       if (pulse) {
@@ -72,7 +70,6 @@ function NLayout(props) {
   const [streams, setStreams] = useState(null);
   let location = useLocation();
 
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await GetAllsStreamsOnline();
@@ -82,8 +79,8 @@ function NLayout(props) {
     };
     fetchData();
 
-    if (window.location.pathname.includes('/dashboard')) {
-      setDashboard(true)
+    if (window.location.pathname.includes("/dashboard")) {
+      setDashboard(true);
     }
   }, [props.tyExpanded, window.location.pathname]);
 
@@ -92,38 +89,32 @@ function NLayout(props) {
   const [esClick, setEsClick] = useState(false);
 
   const habilitarAside = (e, openMessage, openNotification) => {
-
     if (openNotification) {
       setOpenMessage(false);
     } else if (openMessage) {
       setOpenNotification(false);
     }
-  }
-
+  };
 
   const habilitarMensaje = () => {
     if (openMessage) {
       setOpenMessage(false);
-
     } else {
       setOpenMessage(true);
-
     }
     setOpenNotification(false);
-    props.setExpanded(false)
-  }
+    props.setExpanded(false);
+  };
 
   const habilitarNotificaciones = () => {
     if (openNotification) {
       setOpenNotification(false);
-
     } else {
       setOpenNotification(true);
-
     }
     setOpenMessage(false);
-    props.setExpanded(false)
-  }
+    props.setExpanded(false);
+  };
   const habilitarSubMenu = (valor, e) => {
     if (e?.type === "click") {
       setEsClick(true);
@@ -172,7 +163,6 @@ function NLayout(props) {
       setCurrentPath(window.location.pathname);
     };
 
-
     // Agrega un event listener para detectar cambios en la ubicación
     window.addEventListener("popstate", handleLocationChange);
     setUrlCat(currentPath?.includes("/categorie/"));
@@ -183,15 +173,17 @@ function NLayout(props) {
     };
   }, []);
 
-
   const getNavDesktop = () => {
     return (
       <Grid
         style={{
-          display: dashboard ? 'none' : "flex",
+          display: dashboard ? "none" : "flex",
           flexDirection: "row",
           width: "105% !important",
-          justifyContent: !props.tyExpanded && (openNotification || openMessage) && 'space-between' 
+          justifyContent:
+            !props.tyExpanded &&
+            (openNotification || openMessage) &&
+            "space-between",
         }}
       >
         {/* GRID ASIDE */}
@@ -231,7 +223,11 @@ function NLayout(props) {
             {/* <img  src="/images/menu.svg" className="img-bars" /> */}
 
             <AiOutlineMenu
-              style={{ color: "white", fontSize: "26px", width: !props.tyExpanded && '100%' }}
+              style={{
+                color: "white",
+                fontSize: "26px",
+                width: !props.tyExpanded && "100%",
+              }}
               onClick={() => clickPulsedButton()}
               className="img-bars"
             />
@@ -248,7 +244,10 @@ function NLayout(props) {
                 }}
                 className="contenedor-directos-cat"
               >
-                <Link style={{ textDecoration: "none", padding: 0 }} to="/plataform/explore?tipo=streams">
+                <Link
+                  style={{ textDecoration: "none", padding: 0 }}
+                  to="/plataform/explore?tipo=streams"
+                >
                   <Grid
                     className="button-casino"
                     style={{
@@ -260,7 +259,7 @@ function NLayout(props) {
                       width: "70px",
                       background:
                         ' url("/images/BOTON-DIRECTO-blanco-y-negro.jpg") ',
-                      backgroundSize: 'cover',
+                      backgroundSize: "cover",
                       padding: ".5rem",
                       borderRadius: ".375rem",
                       animation: !props.tyExpanded && "ease-in-out 1.5s linear",
@@ -470,9 +469,10 @@ function NLayout(props) {
                       justifyContent: !props.tyExpanded && "center",
                       animation: !props.tyExpanded && "ease-in-out 1s linear",
                     }}
-                    className={location.pathname === '/' ? "item-liActive" : "item-li"}
+                    className={
+                      location.pathname === "/" ? "item-liActive" : "item-li"
+                    }
                   >
-
                     <GrHomeRounded />
                     {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
@@ -549,8 +549,11 @@ function NLayout(props) {
                       justifyContent: !props.tyExpanded && "center",
                       animation: !props.tyExpanded && "ease-in-out 3s linear",
                     }}
-                    className={location.pathname === '/plataform/muro' ? "item-liActive" : "item-li"}
-
+                    className={
+                      location.pathname === "/plataform/muro"
+                        ? "item-liActive"
+                        : "item-li"
+                    }
                   >
                     <BsChatSquareText />
                     {/* <i
@@ -678,7 +681,11 @@ function NLayout(props) {
 
         <Grid
           style={{
-            width: props.tyExpanded ? "85%" : (openNotification || openMessage) ? '80%' : "95%",
+            width: props.tyExpanded
+              ? "85%"
+              : openNotification || openMessage
+              ? "80%"
+              : "95%",
             display: "flex",
             flexDirection: "column",
             zIndex: 99999,
@@ -808,7 +815,7 @@ function NLayout(props) {
                         paddingTop: "10px",
                         paddingBottom: "10px",
                       }}
-                    // onClick={() => handleExpandCartera()}
+                      // onClick={() => handleExpandCartera()}
                     >
                       <Grid
                         style={{
@@ -1113,7 +1120,7 @@ function NLayout(props) {
             )}
           </Grid>
           {/* FOOTER */}
-
+          {/* 
           <Grid
             style={{
               width: "103%",
@@ -1130,8 +1137,6 @@ function NLayout(props) {
             <Grid
               style={{ display: "flex", alignItems: "center", width: "98%" }}
             >
-              {/* COLUMNA LOGO */}
-
               <Grid style={{ width: "20%" }}>
                 <Link to="/">
                   <img
@@ -1141,7 +1146,6 @@ function NLayout(props) {
                   />
                 </Link>
               </Grid>
-              {/* COLUMNA SUPPORT*/}
 
               <Grid
                 style={{
@@ -1172,7 +1176,6 @@ function NLayout(props) {
                   Game Responsibly
                 </Typography>
               </Grid>
-              {/* COLUMNA PLATFORM*/}
               <Grid
                 style={{
                   display: "flex",
@@ -1202,7 +1205,6 @@ function NLayout(props) {
                   Game Responsibly
                 </Typography>
               </Grid>
-              {/* COLUMNA policy*/}
               <Grid
                 style={{
                   display: "flex",
@@ -1232,7 +1234,6 @@ function NLayout(props) {
                   Game Responsibly
                 </Typography>
               </Grid>
-              {/* COLUMNA cOMMUNITY*/}
               <Grid
                 style={{
                   display: "flex",
@@ -1262,7 +1263,6 @@ function NLayout(props) {
                   Game Responsibly
                 </Typography>
               </Grid>
-              {/* COLUMNA cOMMUNITY*/}
               <Grid
                 style={{
                   display: "flex",
@@ -1290,8 +1290,6 @@ function NLayout(props) {
                 </select>
               </Grid>
             </Grid>
-
-
 
             <Grid
               style={{
@@ -1324,11 +1322,10 @@ function NLayout(props) {
                 © 2024 Pinkker.tv | All Rights Reserved
               </p>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Grid>
 
-        {
-          ((openNotification || openMessage) && !props.tyExpanded) &&
+        {(openNotification || openMessage) && !props.tyExpanded && (
           <Grid
             style={{
               width: "15%",
@@ -1347,15 +1344,23 @@ function NLayout(props) {
                 textAlign: "center",
                 alignItems: "center",
                 border: "1px solid #343843",
-                padding: "1.70rem"
+                padding: "1.70rem",
               }}
-
             >
-              <Typography style={{ color: 'white', fontWeight: 600, textAlign: 'center', fontSize: '18px', width: '100%' }}>{ openMessage ? 'Mensajes' :'Notificaciones'}</Typography>
+              <Typography
+                style={{
+                  color: "white",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  fontSize: "18px",
+                  width: "100%",
+                }}
+              >
+                {openMessage ? "Mensajes" : "Notificaciones"}
+              </Typography>
             </Grid>
           </Grid>
-        }
-
+        )}
       </Grid>
     );
   };
@@ -1367,7 +1372,7 @@ function NLayout(props) {
           <Grid
             style={{
               borderBottom: "1px solid #2a2e38",
-              display: dashboard ? 'none' : "flex",
+              display: dashboard ? "none" : "flex",
               alignItems: "center",
               justifyContent: "space-between",
               padding: "1rem 1rem",

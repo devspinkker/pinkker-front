@@ -14,7 +14,6 @@ export default function HashtagPost() {
   const fetchTweetsByHashtag = async () => {
     try {
       const response = await getTweetsByHashtag(hashtag);
-      console.log(response);
       if (response.message == "ok" && response.data) {
         setTweets(response.data);
       } else {

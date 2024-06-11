@@ -82,9 +82,7 @@ export default function ViewTweet({ closePopup }) {
           await LikePost({ idPost: tweet?._id });
         }
         setIsLiked(!isLiked);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     } else {
       alert("Inicia sesión para dar like");
     }
@@ -101,14 +99,10 @@ export default function ViewTweet({ closePopup }) {
         });
         if (res?.message == "StatusCreated") {
           setComments([res?.post, ...comments]);
-          console.log(comments);
           alert({ type: "SUCCESS" });
           setComment("");
         }
-      } catch (error) {
-        console.log(comments);
-        console.log(error);
-      }
+      } catch (error) {}
     }
   }
 

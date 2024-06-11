@@ -121,9 +121,7 @@ export default function Muro({ isMobile, userName }) {
             alert({ type: "SUCCESS" });
           }
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
   }
   const clearImages = () => {

@@ -28,7 +28,6 @@ export function CreateClip() {
         const queryParams = new URLSearchParams(window.location.search);
         const totalKey = queryParams.get("totalKey");
         const response = await GetBuffer(totalKey);
-        console.log(response);
         const data = await response.arrayBuffer();
         const blob = new Blob([data], { type: "video/mp4" });
         const videoURL = URL.createObjectURL(blob);
