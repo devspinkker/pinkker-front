@@ -32,7 +32,6 @@ import {
 } from "../../../../services/backGo/chat";
 import { useNotification } from "../../../Notifications/NotificationProvider";
 import DropdownChatConfig from "../../../channel/chat/dropdown/config/DropdownChatConfig";
-import UserInfo from "../../../userinfo/UserInfo";
 import DropdownChatIdentity from "../../../channel/chat/dropdown/identity/DropdownChatIdentity";
 import DropdownEmotes from "../../../channel/chat/dropdown/emotes/DropdownEmotes";
 export function ChatStreaming({
@@ -83,9 +82,9 @@ export function ChatStreaming({
   const closeNavbarDropdownEmotes = () => {
     setisNavbarOpenDropdownEmotes(!isNavbarOpenDropdownEmotes);
   };
+  // manejo de los msj en el chat
   const [message, setMessage] = useState("");
   const [cursorIndex, setCursorIndex] = useState(0);
-  // manejo de los msj en el chat
   const inputRef = useRef(null);
   const insertHTMLAtCaret = (html) => {
     const el = document.createElement("div");
@@ -140,13 +139,12 @@ export function ChatStreaming({
 
   const handleInput = () => {
     const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
+    if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0);
       setCursorIndex(range.startOffset);
+      setMessage(inputRef.current.innerText);
     }
-    setMessage(inputRef.current.innerText);
   };
-
   const getPlainTextMessage = () => {
     const inputElement = inputRef.current;
     const imgTags = inputElement.getElementsByTagName("img");

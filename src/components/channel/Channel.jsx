@@ -52,6 +52,8 @@ import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
 import "../../components/dashboard/stream-manager/chat/ChatStreaming.css";
 import ReactDOM from "react-dom";
 import { MemoryRouter } from "react-router-dom";
+import NotificationProvider from "../../components/Notifications/NotificationProvider";
+
 export default function Channel({
   isMobile,
   tyExpanded,
@@ -128,7 +130,7 @@ export default function Channel({
   const openChatWindow = () => {
     if (!chatWindow || chatWindow.closed) {
       const newChatWindow = window.open(
-        "",
+        "about:blank",
         "ChatWindow",
         "width=400,height=600"
       );
@@ -141,28 +143,26 @@ export default function Channel({
       chatWindow.focus();
     }
   };
-
   useEffect(() => {
     if (chatWindow) {
       const chatContainer = chatWindow.document.createElement("div");
       chatWindow.document.body.appendChild(chatContainer);
-
-      // Establecer la dirección del texto en el documento de la ventana emergente
-      chatWindow.document.body.dir = "ltr"; // Cambiar a "rtl" si es necesario
-
       ReactDOM.render(
-        <MemoryRouter>
-          <ChatStreaming
-            openChatWindow={openChatWindow}
-            streamerChat={stream}
-            chatExpandeds={chatExpanded}
-            ToggleChat={handleToggleChat}
-            streamerData={streamerData}
-            user={user}
-            isMobile={isMobile}
-            followParam={followParam}
-          />
-        </MemoryRouter>,
+        <NotificationProvider>
+          <MemoryRouter>
+            <ChatStreaming
+              openChatWindow={openChatWindow}
+              streamerChat={stream}
+              chatExpandeds={chatExpanded}
+              ToggleChat={handleToggleChat}
+              streamerData={streamerData}
+              user={user}
+              isMobile={isMobile}
+              followParam={followParam}
+            />
+          </MemoryRouter>
+        </NotificationProvider>,
+
         chatContainer
       );
 
@@ -181,6 +181,7 @@ export default function Channel({
     }
   }, [chatWindow]);
 
+  //  get usuario
   useEffect(() => {
     async function getUserToken() {
       let token = window.localStorage.getItem("token");
