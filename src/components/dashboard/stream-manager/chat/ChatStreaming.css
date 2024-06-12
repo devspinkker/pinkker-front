@@ -15,6 +15,10 @@
     align-items: center;
 }
 
+.ChatStreaming-message-main {
+    display: flex;
+}
+
 .Message {
     width: 100%;
     word-wrap: break-word;
@@ -69,6 +73,7 @@
     margin: 5px 7px;
     border-radius: 7px;
     position: relative;
+    flex-direction: column;
 }
 
 .Message:hover {
@@ -544,7 +549,7 @@
 
 .ResMessage {
     display: flex;
-
+    overflow: hidden;
 }
 
 .grey-icon {

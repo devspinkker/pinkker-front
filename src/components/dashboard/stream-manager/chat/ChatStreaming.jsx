@@ -1481,107 +1481,109 @@ export function ChatStreaming({
             {message.ResMessage != "" && (
               <div className="ResMessage">
                 <FaReply className="grey-icon" />
-                <span> Respondio a </span>
+                <span> Respondio </span>
                 <span> @{message.ResNameUser}:</span>
                 <span>{message.ResMessage}</span>
               </div>
             )}
-            <div className="badges">
-              {message.Identidad && <img src={message.Identidad} alt="" />}
-              {message.EmotesChat.Moderator && (
-                <img src={message.EmotesChat.Moderator} alt="" />
-              )}
-              {message.EmotesChat.Verified && (
-                <img src={message.EmotesChat.Verified} alt="" />
-              )}
-              {message.EmotesChat.Vip && (
-                <img src={message.EmotesChat.Vip} alt="" />
-              )}
-              {isSubscriptor(message) && (
-                <img src={isSubscriptor(message)} alt="" />
-              )}
-              {message?.StreamerChannelOwner && (
-                <img
-                  src={
-                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
-                  }
-                  alt="StreamerChannelOwner"
-                />
-              )}
-            </div>
-            <div className="MessagesChat">
-              <div className="content-info-message">
-                <div className="content-info-message-2">
-                  <p
-                    className="content-info-message-2-nameUser"
-                    style={{
-                      color: message.Color,
-                      fontSize: changeTextSizeState,
-                    }}
-                  >
-                    {message.nameUser}:{" "}
-                    <span style={{ color: "#ffff" }}>
-                      {parseMessage(message.message)}
-                    </span>
-                  </p>
-                </div>
+            <div className="ChatStreaming-message-main">
+              <div className="badges">
+                {message.Identidad && <img src={message.Identidad} alt="" />}
+                {message.EmotesChat.Moderator && (
+                  <img src={message.EmotesChat.Moderator} alt="" />
+                )}
+                {message.EmotesChat.Verified && (
+                  <img src={message.EmotesChat.Verified} alt="" />
+                )}
+                {message.EmotesChat.Vip && (
+                  <img src={message.EmotesChat.Vip} alt="" />
+                )}
+                {isSubscriptor(message) && (
+                  <img src={isSubscriptor(message)} alt="" />
+                )}
+                {message?.StreamerChannelOwner && (
+                  <img
+                    src={
+                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
+                    }
+                    alt="StreamerChannelOwner"
+                  />
+                )}
               </div>
-              {GetInfoUserInRoom &&
-              (GetInfoUserInRoom.Moderator ||
-                streamerChat.streamerId ==
-                  window.localStorage.getItem("_id")) ? (
-                <div
-                  className="hover-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteMessageschat(message);
-                    }}
-                    className="hover-btn"
-                  >
-                    <BsFillTrashFill />
-                  </button>{" "}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      anclarMessageschat(message);
-                    }}
-                    className="hover-btn"
-                  >
-                    <BsPin />
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      ResMessageschat(message);
-                    }}
-                    className="hover-btn"
-                  >
-                    <FaReply />
-                  </button>
+              <div className="MessagesChat">
+                <div className="content-info-message">
+                  <div className="content-info-message-2">
+                    <p
+                      className="content-info-message-2-nameUser"
+                      style={{
+                        color: message.Color,
+                        fontSize: changeTextSizeState,
+                      }}
+                    >
+                      {message.nameUser}:{" "}
+                      <span style={{ color: "#ffff" }}>
+                        {parseMessage(message.message)}
+                      </span>
+                    </p>
+                  </div>
                 </div>
-              ) : (
-                <div
-                  className="hover-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  <button
+                {GetInfoUserInRoom &&
+                (GetInfoUserInRoom.Moderator ||
+                  streamerChat.streamerId ==
+                    window.localStorage.getItem("_id")) ? (
+                  <div
+                    className="hover-button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      ResMessageschat(message);
                     }}
-                    className="hover-btn"
                   >
-                    <FaReply />
-                  </button>
-                </div>
-              )}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteMessageschat(message);
+                      }}
+                      className="hover-btn"
+                    >
+                      <BsFillTrashFill />
+                    </button>{" "}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        anclarMessageschat(message);
+                      }}
+                      className="hover-btn"
+                    >
+                      <BsPin />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        ResMessageschat(message);
+                      }}
+                      className="hover-btn"
+                    >
+                      <FaReply />
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    className="hover-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        ResMessageschat(message);
+                      }}
+                      className="hover-btn"
+                    >
+                      <FaReply />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -1603,107 +1605,109 @@ export function ChatStreaming({
             {message.ResMessage != "" && (
               <div className="ResMessage">
                 <FaReply className="grey-icon" />
-                <span> Respondio a </span>
+                <span> Respondio </span>
                 <span> @{message.ResNameUser}:</span>
                 <span>{message.ResMessage}</span>
               </div>
             )}
-            <div className="badges">
-              {message.Identidad && <img src={message.Identidad} alt="" />}
-              {message.EmotesChat.Moderator && (
-                <img src={message.EmotesChat.Moderator} alt="" />
-              )}
-              {message.EmotesChat.Verified && (
-                <img src={message.EmotesChat.Verified} alt="" />
-              )}
-              {message.EmotesChat.Vip && (
-                <img src={message.EmotesChat.Vip} alt="" />
-              )}
-              {isSubscriptor(message) && (
-                <img src={isSubscriptor(message)} alt="" />
-              )}
-              {message?.StreamerChannelOwner && (
-                <img
-                  src={
-                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
-                  }
-                  alt="StreamerChannelOwner"
-                />
-              )}
-            </div>
-            <div className="MessagesChat">
-              <div className="content-info-message">
-                <div className="content-info-message-2">
-                  <p
-                    className="content-info-message-2-nameUser"
-                    style={{
-                      color: message.Color,
-                      fontSize: changeTextSizeState,
-                    }}
-                  >
-                    {message.nameUser}:{" "}
-                    <span style={{ color: "#ffff" }}>
-                      {parseMessage(message.message)}
-                    </span>
-                  </p>
-                </div>
+            <div className="ChatStreaming-message-main">
+              <div className="badges">
+                {message.Identidad && <img src={message.Identidad} alt="" />}
+                {message.EmotesChat.Moderator && (
+                  <img src={message.EmotesChat.Moderator} alt="" />
+                )}
+                {message.EmotesChat.Verified && (
+                  <img src={message.EmotesChat.Verified} alt="" />
+                )}
+                {message.EmotesChat.Vip && (
+                  <img src={message.EmotesChat.Vip} alt="" />
+                )}
+                {isSubscriptor(message) && (
+                  <img src={isSubscriptor(message)} alt="" />
+                )}
+                {message?.StreamerChannelOwner && (
+                  <img
+                    src={
+                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
+                    }
+                    alt="StreamerChannelOwner"
+                  />
+                )}
               </div>
-              {GetInfoUserInRoom &&
-              (GetInfoUserInRoom.Moderator ||
-                streamerChat.streamerId ==
-                  window.localStorage.getItem("_id")) ? (
-                <div
-                  className="hover-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteMessageschat(message);
-                    }}
-                    className="hover-btn"
-                  >
-                    <BsFillTrashFill />
-                  </button>{" "}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      anclarMessageschat(message);
-                    }}
-                    className="hover-btn"
-                  >
-                    <BsPin />
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      ResMessageschat(message);
-                    }}
-                    className="hover-btn"
-                  >
-                    <FaReply />
-                  </button>
+              <div className="MessagesChat">
+                <div className="content-info-message">
+                  <div className="content-info-message-2">
+                    <p
+                      className="content-info-message-2-nameUser"
+                      style={{
+                        color: message.Color,
+                        fontSize: changeTextSizeState,
+                      }}
+                    >
+                      {message.nameUser}:{" "}
+                      <span style={{ color: "#ffff" }}>
+                        {parseMessage(message.message)}
+                      </span>
+                    </p>
+                  </div>
                 </div>
-              ) : (
-                <div
-                  className="hover-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  <button
+                {GetInfoUserInRoom &&
+                (GetInfoUserInRoom.Moderator ||
+                  streamerChat.streamerId ==
+                    window.localStorage.getItem("_id")) ? (
+                  <div
+                    className="hover-button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      ResMessageschat(message);
                     }}
-                    className="hover-btn"
                   >
-                    <FaReply />
-                  </button>
-                </div>
-              )}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteMessageschat(message);
+                      }}
+                      className="hover-btn"
+                    >
+                      <BsFillTrashFill />
+                    </button>{" "}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        anclarMessageschat(message);
+                      }}
+                      className="hover-btn"
+                    >
+                      <BsPin />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        ResMessageschat(message);
+                      }}
+                      className="hover-btn"
+                    >
+                      <FaReply />
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    className="hover-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        ResMessageschat(message);
+                      }}
+                      className="hover-btn"
+                    >
+                      <FaReply />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -1714,7 +1718,7 @@ export function ChatStreaming({
             key={ResMessageschatState.Id}
             className="Message"
             onClick={() => GetUserTheChatFunc(ResMessageschatState)}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", flexDirection: "row" }}
           >
             <div className="badges">
               {ResMessageschatState.EmotesChat.Moderator && (
