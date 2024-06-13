@@ -1,7 +1,7 @@
 .dashboard-community-body {
     width: 100%;
     min-height: 1000px;
-    background-color:#0a0b0d;
+    background-color: #0a0b0d;
 
 }
 
@@ -9,6 +9,7 @@
     width: 95%;
     margin: 0 auto;
     color: #ededed;
+    padding: 0rem 20rem;
 }
 
 
@@ -80,7 +81,7 @@
     align-items: center;
 }
 
-.dashboard-content-emotes-image img{
+.dashboard-content-emotes-image img {
     max-width: 40px;
 }
 
@@ -88,7 +89,7 @@
     opacity: 0;
 }
 
-.dashboard-content-emotes-image:hover i{
+.dashboard-content-emotes-image:hover i {
     opacity: 1;
     cursor: pointer;
 }

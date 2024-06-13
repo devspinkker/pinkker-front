@@ -15,11 +15,12 @@ import { ScaleLoader } from "react-spinners";
 import { useNotification } from "../../Notifications/NotificationProvider";
 import Tippy from "@tippyjs/react";
 import AddEmblemPopup from "./popup/AddEmblemPopup";
+import { GetEmoteUserandType } from "../../../services/backGo/Emotes";
 
 export default function Community() {
   const auth = useSelector((state) => state.auth);
   const { user, isLogged } = auth;
-  const token = useSelector((state) => state.token);
+  const token = window.localStorage.getItem("token");
 
   const [addEmotePopup, setAddEmotePopup] = useState(false);
   const [addEmblemPopup, setAddEmblemPopup] = useState(false);
@@ -55,71 +56,28 @@ export default function Community() {
     window.scrollTo(0, 0);
   }, []);
 
+  const fetchData = async () => {
+    let IdUser = window.localStorage.getItem("_id");
+    let response = await GetEmoteUserandType(IdUser, "", token);
+    console.log(response);
+    if (response != null && response.data) {
+      setEmotesFree(response.data);
+    }
+    const responsesubs = await GetEmoteUserandType(IdUser, "subs", token);
+    if (responsesubs != null && responsesubs.data) {
+      setEmotesSubscriptions(responsesubs.data);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await getMyEmotes(token);
-      if (response != null && response != undefined) {
-        const freeEmotes = response.filter((emote) => emote.type === 0);
-        setEmotesFree(freeEmotes);
-
-        const suscriptionEmotes = response.filter((emote) => emote.type === 1);
-        setEmotesSubscriptions(suscriptionEmotes);
-
-        const suscriptionTier2Emotes = response.filter(
-          (emote) => emote.type === 2
-        );
-        setEmotesSubscriptionsTier2(suscriptionTier2Emotes);
-
-        setEmotes(response);
-      }
-
-      const responseEmblem = await getMyEmblem(token);
-      if (responseEmblem != null && responseEmblem != undefined) {
-        const emblemType0 = responseEmblem.filter((emote) => emote.type === 0);
-        setEmblemType0(emblemType0);
-
-        const emblemType1 = responseEmblem.filter((emote) => emote.type === 1);
-        setEmblemType1(emblemType1);
-
-        const emblemType2 = responseEmblem.filter((emote) => emote.type === 2);
-        setEmblemType2(emblemType2);
-
-        const emblemType3 = responseEmblem.filter((emote) => emote.type === 3);
-        setEmblemType3(emblemType3);
-
-        setEmblems(responseEmblem);
-      }
-    };
     fetchData();
   }, [token]);
 
   async function removeEmote(emoteName) {
-    const data = await deleteEmote(token, emoteName);
-    if (data != null) {
-      setEmotes(emotes.filter((emote) => emote.name != emoteName));
-      alert({ type: "SUCCESS", message: data.data.msg });
-    }
+    // alert({ type: "SUCCESS", message: data.data.msg });
   }
 
   function handleReload() {
-    const fetchData = async () => {
-      const response = await getMyEmotes(token);
-      if (response != null && response != undefined) {
-        const freeEmotes = response.filter((emote) => emote.type === 0);
-        setEmotesFree(freeEmotes);
-
-        const suscriptionEmotes = response.filter((emote) => emote.type === 1);
-        setEmotesSubscriptions(suscriptionEmotes);
-
-        const suscriptionTier2Emotes = response.filter(
-          (emote) => emote.type === 2
-        );
-        setEmotesSubscriptionsTier2(suscriptionTier2Emotes);
-
-        setEmotes(response);
-      }
-    };
-    fetchData();
+    console.log("algo");
   }
 
   return (
@@ -135,7 +93,7 @@ export default function Community() {
             <h3>
               Emotes{" "}
               <button
-                onClick={() => openAddEmotePopup(0)}
+                onClick={() => openAddEmotePopup("")}
                 style={{
                   width: "25px",
                   cursor: "pointer",
@@ -151,56 +109,52 @@ export default function Community() {
               </button>
             </h3>
 
-            {emotes != null ? (
+            {emotesFree != null ? (
               <div className="dashboard-content-emotes">
-                {emotes &&
-                  emotes.map(
-                    (emote) =>
-                      emote.type === 0 && (
-                        <Tippy
-                          theme="pinkker"
-                          content={
-                            <h1
-                              style={{
-                                fontSize: "12px",
-                                fontFamily: "Montserrat",
-                              }}
-                            >
-                              {emote.name}
-                            </h1>
-                          }
-                        >
-                          <div className="dashboard-content-emotes-image">
-                            <i
-                              onClick={() => removeEmote(emote.name)}
-                              style={{
-                                position: "absolute",
-                                marginLeft: "40px",
-                                marginBottom: "55px",
-                              }}
-                              class="fas fa-times"
-                            />
-                            <img src={emote.image} />
-                          </div>
-                        </Tippy>
-                      )
-                  )}
+                {emotesFree.emotes?.map((emote) => (
+                  <Tippy
+                    theme="pinkker"
+                    content={
+                      <h1
+                        style={{
+                          fontSize: "12px",
+                          fontFamily: "Montserrat",
+                        }}
+                      >
+                        {emote.name}
+                      </h1>
+                    }
+                  >
+                    <div className="dashboard-content-emotes-image">
+                      <i
+                        onClick={() => removeEmote(emote.name)}
+                        style={{
+                          position: "absolute",
+                          marginLeft: "40px",
+                          marginBottom: "55px",
+                        }}
+                        class="fas fa-times"
+                      />
+                      <img src={emote.url} />
+                    </div>
+                  </Tippy>
+                ))}
 
                 {/* if it doesn't exist more emotes fill with empty */}
-                {emotesFree.length < 2 && (
+                {emotesFree?.length < 2 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
-                      onClick={() => openAddEmotePopup(0)}
+                      onClick={() => openAddEmotePopup("")}
                       class="fas fa-plus"
                     />
                   </div>
                 )}
-                {emotesFree.length < 1 && (
+                {emotesFree?.length < 1 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
-                      onClick={() => openAddEmotePopup(0)}
+                      onClick={() => openAddEmotePopup("")}
                       class="fas fa-plus"
                     />
                   </div>
@@ -224,7 +178,7 @@ export default function Community() {
             <h3>
               Emotes Suscripciones
               <button
-                onClick={() => openAddEmotePopup(1)}
+                onClick={() => openAddEmotePopup("subs")}
                 style={{
                   width: "25px",
                   cursor: "pointer",
@@ -240,82 +194,78 @@ export default function Community() {
               </button>
             </h3>
 
-            {emotes != null ? (
+            {emotesSubscriptions != null ? (
               <div className="dashboard-content-emotes">
-                {emotes &&
-                  emotes.map(
-                    (emote) =>
-                      emote.type === 1 && (
-                        <Tippy
-                          theme="pinkker"
-                          content={
-                            <h1
-                              style={{
-                                fontSize: "12px",
-                                fontFamily: "Montserrat",
-                              }}
-                            >
-                              {emote.name}
-                            </h1>
-                          }
-                        >
-                          <div className="dashboard-content-emotes-image">
-                            <i
-                              onClick={() => removeEmote(emote.name)}
-                              style={{
-                                position: "absolute",
-                                marginLeft: "40px",
-                                marginBottom: "55px",
-                              }}
-                              class="fas fa-times"
-                            />
-                            <img src={emote.image} />
-                          </div>
-                        </Tippy>
-                      )
-                  )}
+                {emotesSubscriptions.emotes?.map((emote) => (
+                  <Tippy
+                    theme="pinkker"
+                    content={
+                      <h1
+                        style={{
+                          fontSize: "12px",
+                          fontFamily: "Montserrat",
+                        }}
+                      >
+                        {emote.name}
+                      </h1>
+                    }
+                  >
+                    <div className="dashboard-content-emotes-image">
+                      <i
+                        onClick={() => removeEmote(emote.name)}
+                        style={{
+                          position: "absolute",
+                          marginLeft: "40px",
+                          marginBottom: "55px",
+                        }}
+                        class="fas fa-times"
+                      />
+                      <img src={emote.url} />
+                    </div>
+                  </Tippy>
+                ))}
 
-                {emotesSubscriptions.length < 5 && (
+                {emotesSubscriptions?.length < 5 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
-                      onClick={() => openAddEmotePopup(2)}
+                      onClick={() => openAddEmotePopup("subs")}
                       class="fas fa-plus"
                     />
                   </div>
                 )}
-                {emotesSubscriptions.length < 4 && (
+                {emotesSubscriptions?.length < 4 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
-                      onClick={() => openAddEmotePopup(2)}
+                      onClick={() => openAddEmotePopup("subs")}
                       class="fas fa-plus"
                     />
                   </div>
                 )}
-                {emotesSubscriptions.length < 3 && (
+                {emotesSubscriptions?.length < 3 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
-                      onClick={() => openAddEmotePopup(2)}
+                      onClick={() => openAddEmotePopup("subs")}
                       class="fas fa-plus"
                     />
                   </div>
                 )}
-                {emotesSubscriptions.length < 2 && (
+                {emotesSubscriptions?.length < 2 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
-                      onClick={() => openAddEmotePopup(2)}
+                      onClick={() => openAddEmotePopup("subs")}
                       class="fas fa-plus"
                     />
                   </div>
                 )}
-                {emotesSubscriptions.length < 1 && (
+                {emotesSubscriptions?.length < 1 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
-                      onClick={() => openAddEmotePopup(2)}
+                      onClick={() => openAddEmotePopup("subs")}
                       class="fas fa-plus"
                     />
                   </div>
@@ -357,41 +307,40 @@ export default function Community() {
 
             {emotes != null ? (
               <div className="dashboard-content-emotes">
-                {emotes &&
-                  emotes.map(
-                    (emote) =>
-                      emote.type === 2 && (
-                        <Tippy
-                          theme="pinkker"
-                          content={
-                            <h1
-                              style={{
-                                fontSize: "12px",
-                                fontFamily: "Montserrat",
-                              }}
-                            >
-                              {emote.name}
-                            </h1>
-                          }
-                        >
-                          <div className="dashboard-content-emotes-image">
-                            <i
-                              onClick={() => removeEmote(emote.name)}
-                              style={{
-                                position: "absolute",
-                                marginLeft: "40px",
-                                marginBottom: "55px",
-                              }}
-                              class="fas fa-times"
-                            />
-                            <img src={emote.image} />
-                          </div>
-                        </Tippy>
-                      )
-                  )}
+                {emotes.emotes?.map(
+                  (emote) =>
+                    emote.type === 2 && (
+                      <Tippy
+                        theme="pinkker"
+                        content={
+                          <h1
+                            style={{
+                              fontSize: "12px",
+                              fontFamily: "Montserrat",
+                            }}
+                          >
+                            {emote.name}
+                          </h1>
+                        }
+                      >
+                        <div className="dashboard-content-emotes-image">
+                          <i
+                            onClick={() => removeEmote(emote.name)}
+                            style={{
+                              position: "absolute",
+                              marginLeft: "40px",
+                              marginBottom: "55px",
+                            }}
+                            class="fas fa-times"
+                          />
+                          <img src={emote.image} />
+                        </div>
+                      </Tippy>
+                    )
+                )}
 
                 {/* if it doesn't exist more emotes fill with empty */}
-                {emotesSubscriptionsTier2.length < 5 && (
+                {emotesSubscriptionsTier2?.length < 5 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
@@ -400,7 +349,7 @@ export default function Community() {
                     />
                   </div>
                 )}
-                {emotesSubscriptionsTier2.length < 4 && (
+                {emotesSubscriptionsTier2?.length < 4 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
@@ -409,7 +358,7 @@ export default function Community() {
                     />
                   </div>
                 )}
-                {emotesSubscriptionsTier2.length < 3 && (
+                {emotesSubscriptionsTier2?.length < 3 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
@@ -418,7 +367,7 @@ export default function Community() {
                     />
                   </div>
                 )}
-                {emotesSubscriptionsTier2.length < 2 && (
+                {emotesSubscriptionsTier2?.length < 2 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
@@ -427,7 +376,7 @@ export default function Community() {
                     />
                   </div>
                 )}
-                {emotesSubscriptionsTier2.length < 1 && (
+                {emotesSubscriptionsTier2?.length < 1 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
@@ -462,40 +411,39 @@ export default function Community() {
 
             {emblems != null ? (
               <div className="dashboard-content-emotes">
-                {emblems &&
-                  emblems.map(
-                    (emote) =>
-                      emote.type === 0 && (
-                        <Tippy
-                          theme="pinkker"
-                          content={
-                            <h1
-                              style={{
-                                fontSize: "12px",
-                                fontFamily: "Montserrat",
-                              }}
-                            >
-                              {emote.name}
-                            </h1>
-                          }
-                        >
-                          <div className="dashboard-content-emotes-image">
-                            <i
-                              onClick={() => removeEmote(emote.name)}
-                              style={{
-                                position: "absolute",
-                                marginLeft: "40px",
-                                marginBottom: "55px",
-                              }}
-                              class="fas fa-times"
-                            />
-                            <img src={emote.image} />
-                          </div>
-                        </Tippy>
-                      )
-                  )}
+                {emblems.emotes?.map(
+                  (emote) =>
+                    emote.type === 0 && (
+                      <Tippy
+                        theme="pinkker"
+                        content={
+                          <h1
+                            style={{
+                              fontSize: "12px",
+                              fontFamily: "Montserrat",
+                            }}
+                          >
+                            {emote.name}
+                          </h1>
+                        }
+                      >
+                        <div className="dashboard-content-emotes-image">
+                          <i
+                            onClick={() => removeEmote(emote.name)}
+                            style={{
+                              position: "absolute",
+                              marginLeft: "40px",
+                              marginBottom: "55px",
+                            }}
+                            class="fas fa-times"
+                          />
+                          <img src={emote.URL} />
+                        </div>
+                      </Tippy>
+                    )
+                )}
 
-                {emblemType0.length < 1 && (
+                {emblemType0?.length < 1 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
@@ -557,7 +505,7 @@ export default function Community() {
                       )
                   )}
 
-                {emblemType1.length < 1 && (
+                {emblemType1?.length < 1 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
@@ -619,7 +567,7 @@ export default function Community() {
                       )
                   )}
 
-                {emblemType2.length < 1 && (
+                {emblemType2?.length < 1 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}
@@ -681,7 +629,7 @@ export default function Community() {
                       )
                   )}
 
-                {emblemType3.length < 1 && (
+                {emblemType3?.length < 1 && (
                   <div className="dashboard-content-emotes-empty">
                     <i
                       style={{ cursor: "pointer" }}

@@ -1,40 +1,35 @@
-import React, { useState, useEffect } from "react";
-
-import "./AddEmotePopup.css";
-
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-
-import axios from "axios";
-
 import { useNotification } from "../../../Notifications/NotificationProvider";
 import { ScaleLoader } from "react-spinners";
 
+import "./AddEmotePopup.css";
+import { CreateOrUpdateEmote } from "../../../../services/backGo/Emotes";
+
 export default function AddEmotePopup({ closePopup, emoteType, handleReload }) {
   const auth = useSelector((state) => state.auth);
-  const { user, isAdmin } = auth;
-  const token = useSelector((state) => state.token);
+  const { user } = auth;
+  const token = window.localStorage.getItem("token");
 
   const [imageSrc, setImageSrc] = useState(null);
-  const [emoteName, setEmoteName] = useState(null);
-
+  const [emoteName, setEmoteName] = useState("");
   const [loading, setLoading] = useState(false);
 
   const alert = useNotification();
 
-  function readFile(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.addEventListener("load", () => resolve(reader.result), false);
-      reader.readAsDataURL(file);
-    });
-  }
-
   const onFileChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      let imageDataUrl = await readFile(file);
-
-      setImageSrc(imageDataUrl);
+      if (file.size > 1024 * 1024) {
+        alert({
+          type: "ERROR",
+          message: "La imagen no puede ser mayor a 1 MB.",
+        });
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => setImageSrc(reader.result);
+      reader.readAsDataURL(file);
     }
   };
 
@@ -46,29 +41,26 @@ export default function AddEmotePopup({ closePopup, emoteType, handleReload }) {
         type: "image/png",
       });
       let formData = new FormData();
-      formData.append("file", file);
+      formData.append("emoteImage", file);
+      formData.append("name", emoteName);
+      formData.append("typeEmote", emoteType);
+      const res = await CreateOrUpdateEmote(formData, token);
 
-      const res = await axios.post(
-        process.env.REACT_APP_DEV_API_URL +
-          `/emotes/add_emote_streamer?emoteName=${emoteName}&emoteType=${emoteType}`,
-        formData,
-        {
-          headers: {
-            "content-type": "multipart/form-data",
-            Authorization: token,
-          },
-        }
-      );
-
-      if (res.data != null) {
-        alert({ type: "SUCCESS", message: res.data.msg });
-        setLoading(false);
+      if (res) {
+        alert({
+          type: "SUCCESS",
+          message: res.message || "Emote creado o actualizado exitosamente.",
+        });
         handleReload();
         closePopup();
       } else {
-        alert({ type: "ERROR", message: res });
+        alert({ type: "ERROR", message: res.message || "Ocurrió un error." });
       }
-    } catch (err) {}
+    } catch (err) {
+      alert({ type: "ERROR", message: err.message || "Ocurrió un error." });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -104,7 +96,7 @@ export default function AddEmotePopup({ closePopup, emoteType, handleReload }) {
                 }}
                 className="dashboard-content-emotes-empty"
               >
-                <i style={{ fontSize: "35px" }} class="fas fa-plus" />
+                <i style={{ fontSize: "35px" }} className="fas fa-plus" />
                 <input
                   onChange={onFileChange}
                   className="addmote-popup-file"
@@ -123,6 +115,7 @@ export default function AddEmotePopup({ closePopup, emoteType, handleReload }) {
                   justifyContent: "center",
                 }}
                 src={imageSrc}
+                alt="Emote"
               />
             )}
 
@@ -130,7 +123,7 @@ export default function AddEmotePopup({ closePopup, emoteType, handleReload }) {
               style={{ color: "darkgray", marginTop: "20px", fontSize: "14px" }}
             >
               Sube una imagen PNG o GIF cuadrada. La imagen no puede ser mayor a
-              1 MB.
+              1 MB.
             </p>
 
             <div style={{ marginTop: "20px" }}>
@@ -166,7 +159,7 @@ export default function AddEmotePopup({ closePopup, emoteType, handleReload }) {
                 </button>
               ) : (
                 <button
-                  onClick={() => handleSubmit()}
+                  onClick={handleSubmit}
                   className="addemote-popup-button"
                 >
                   Publicar

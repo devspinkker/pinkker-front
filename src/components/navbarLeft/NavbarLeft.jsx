@@ -107,7 +107,13 @@ export default function NavbarLeft({
     }
     if (
       window.location?.pathname ===
-      "/" + user?.NameUser + "/dashboard/Analytics"
+      "/" + user?.NameUser + "/dashboard/community"
+    ) {
+      setDashboard(true);
+    }
+    if (
+      window.location?.pathname ===
+      "/" + user?.NameUser + "/dashboard/community"
     ) {
       setDashboard(true);
     }
