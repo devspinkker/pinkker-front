@@ -158,7 +158,7 @@
 
 @media screen and (max-width: 960px) {
 
-  .dropdownemotes-menu {
+  /* .dropdownemotes-menu {
     width: 220%;
     top: 60px;
     z-index: 200;
@@ -167,5 +167,5 @@
 
   .fa-caret-down {
     display: none;
-  }
+  } */
 }

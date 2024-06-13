@@ -44,7 +44,8 @@ export default function Muro({ isMobile, userName }) {
   const alert = useNotification();
   const [tweets, setTweets] = useState(null);
   const [message, setMessage] = useState("");
-
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const fileTypes = ["JPG", "PNG", "GIF"];
 
   const [onDrag, setOnDrag] = useState(false);
@@ -57,6 +58,49 @@ export default function Muro({ isMobile, userName }) {
   const [isLoading, setIsLoading] = useState(false);
   const [AvatarSearch, SetAvatarSearch] = useState(null);
 
+  async function loadMoreTweets() {
+    if (!hasMore || loadingMore) return;
+
+    setLoadingMore(true);
+    try {
+      let token = window.localStorage.getItem("token");
+      let data;
+
+      if (token) {
+        const ExcludeIDs = tweets.map((tweet) => tweet._id);
+
+        console.log(ExcludeIDs);
+        data = await GetTweetsRecommended(token, ExcludeIDs);
+      } else {
+        // data = await fetchMoreTweets();
+      }
+
+      if (data?.data?.message === "ok" && data.data.data.length > 0) {
+        setTweets((prevTweets) => [...prevTweets, ...data.data.data]);
+      } else {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error("Error loading more tweets:", error);
+    } finally {
+      setLoadingMore(false);
+    }
+  }
+  useEffect(() => {
+    function handleScroll() {
+      const { scrollTop, clientHeight, scrollHeight } =
+        document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 20) {
+        loadMoreTweets();
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [tweets, loadingMore]);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -71,7 +115,7 @@ export default function Muro({ isMobile, userName }) {
     try {
       let token = window.localStorage.getItem("token");
       if (token) {
-        const ExcludeIDs = [];
+        const ExcludeIDs = ["664764679e2d9410727f8a36"];
         const data = await GetTweetsRecommended(token, ExcludeIDs);
         if (data.data == null) {
           setTweets(null);

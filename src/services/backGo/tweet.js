@@ -159,12 +159,11 @@ export const getTweetId = async (id) => {
 
 export const GetTweetsRecommended = async (token, ExcludeIDs) => {
   try {
+    console.log({ ExcludeIDs });
     const res = await axios.post(
       `${url}/post/GetTweetsRecommended`,
-      {
-        ExcludeIDs
+      { ExcludeIDs },
 
-      },
       {
         headers: { Authorization: token },
       }
