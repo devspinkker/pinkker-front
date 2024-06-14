@@ -219,23 +219,25 @@ export default function Channel({
   const formatNumber = (number) => (number < 10 ? `0${number}` : number);
 
   useEffect(() => {
-    const calculateElapsedTime = () => {
-      const startDateTime = new Date(stream?.start_date);
-      const now = new Date();
+    if (stream?.Online) {
+      const calculateElapsedTime = () => {
+        const startDateTime = new Date(stream?.start_date);
+        const now = new Date();
 
-      const timeDifference = now - startDateTime;
-      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-      const minutes = Math.floor(
-        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-      );
-      const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+        const timeDifference = now - startDateTime;
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+        const minutes = Math.floor(
+          (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const hours = Math.floor(timeDifference / (1000 * 60 * 60));
 
-      setElapsedTime({ hours, minutes, seconds });
-    };
+        setElapsedTime({ hours, minutes, seconds });
+      };
 
-    const interval = setInterval(calculateElapsedTime, 1000);
+      const interval = setInterval(calculateElapsedTime, 1000);
 
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
+    }
   }, [stream?.start_date]);
 
   useEffect(() => {
@@ -412,11 +414,11 @@ export default function Channel({
           stream?.ModChat !== dataStream?.data?.ModChat ||
           stream?.ModSlowMode !== dataStream?.data.ModSlowMode
         ) {
-          setStream((prevStream) => ({
-            ...prevStream,
-            ModChat: dataStream?.data?.ModChat,
-            ModSlowMode: dataStream?.data?.ModSlowMode,
-          }));
+          // setStream((prevStream) => ({
+          //   ...prevStream,
+          //   ModChat: dataStream?.data?.ModChat,
+          //   ModSlowMode: dataStream?.data?.ModSlowMode,
+          // }));
         }
         if (dataStream.data.online) {
           expanded();

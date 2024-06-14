@@ -146,6 +146,7 @@ export function ChatStreaming({
     }
   };
   const getPlainTextMessage = () => {
+    console.log(SubStateAct);
     const inputElement = inputRef.current;
     const imgTags = inputElement.getElementsByTagName("img");
     let messageWithImages = "";
@@ -157,9 +158,20 @@ export function ChatStreaming({
         node.nodeType === Node.ELEMENT_NODE &&
         node.tagName === "IMG"
       ) {
-        messageWithImages += " " + node.src + " ";
+        const src = node.src;
+        if (
+          src.includes("res.cloudinary.com/depcty8j1/") &&
+          src.includes("subs")
+        ) {
+          if (!SubStateAct) {
+            continue;
+          }
+        }
+        messageWithImages += " " + src + " ";
       }
     }
+
+    console.log(messageWithImages.trim());
     return messageWithImages.trim();
   };
 
@@ -974,7 +986,7 @@ export function ChatStreaming({
     return parts.map((part, index) => {
       if (part.match(urlRegex)) {
         // Si la parte del mensaje es una URL
-        if (part.includes("files.kick.com")) {
+        if (part.includes("res.cloudinary.com/depcty8j1/")) {
           // Decodificamos la URL para manejar los caracteres especiales correctamente
           const decodedUrl = decodeURIComponent(part);
           // Cortamos la URL a partir del símbolo &
@@ -994,7 +1006,7 @@ export function ChatStreaming({
             />
           );
         } else {
-          // Si no es una URL de files.kick.com, devolvemos un enlace
+          // Si no es una URL de res.cloudinary.com/depcty8j1/, devolvemos un enlace
           return (
             <a
               key={index}
@@ -1015,11 +1027,11 @@ export function ChatStreaming({
       } else if (part.match(imgRegex)) {
         // Si la parte del mensaje es una etiqueta img
         return part.replace(imgRegex, (match, src) => {
-          if (src.includes("files.kick.com")) {
-            // Si el src coincide con files.kick.com, reemplazamos la etiqueta img con un párrafo
+          if (src.includes("res.cloudinary.com/depcty8j1/")) {
+            // Si el src coincide con res.cloudinary.com/depcty8j1/, reemplazamos la etiqueta img con un párrafo
             return `${match}`;
           } else {
-            // Si el src no coincide con files.kick.com, devolvemos la etiqueta img original
+            // Si el src no coincide con res.cloudinary.com/depcty8j1/, devolvemos la etiqueta img original
             return match;
           }
         });
@@ -1483,7 +1495,7 @@ export function ChatStreaming({
                 <FaReply className="grey-icon" />
                 <span> Respondio </span>
                 <span> @{message.ResNameUser}:</span>
-                <span>{message.ResMessage}</span>
+                <span> {parseMessage(message.ResMessage)}</span>
               </div>
             )}
             <div className="ChatStreaming-message-main">
@@ -1607,7 +1619,7 @@ export function ChatStreaming({
                 <FaReply className="grey-icon" />
                 <span> Respondio </span>
                 <span> @{message.ResNameUser}:</span>
-                <span>{message.ResMessage}</span>
+                <span> {parseMessage(message.ResMessage)}</span>
               </div>
             )}
             <div className="ChatStreaming-message-main">
@@ -1812,6 +1824,8 @@ export function ChatStreaming({
               )}
               {isNavbarOpenDropdownEmotes && (
                 <DropdownEmotes
+                  SubStateAct={SubStateAct}
+                  idStreamer={streamerChat.streamerId}
                   clickEmoticon={clickEmoticon}
                   closeNavbar={closeNavbarDropdownEmotes}
                   chatData={GetInfoUserInRoom}
@@ -1899,6 +1913,8 @@ export function ChatStreaming({
               )}
               {isNavbarOpenDropdownEmotes && (
                 <DropdownEmotes
+                  SubStateAct={SubStateAct}
+                  idStreamer={streamerChat.streamerId}
                   clickEmoticon={clickEmoticon}
                   closeNavbar={closeNavbarDropdownEmotes}
                   chatData={GetInfoUserInRoom}
@@ -1987,6 +2003,8 @@ export function ChatStreaming({
             )}
             {isNavbarOpenDropdownEmotes && (
               <DropdownEmotes
+                SubStateAct={SubStateAct}
+                idStreamer={streamerChat.streamerId}
                 clickEmoticon={clickEmoticon}
                 closeNavbar={closeNavbarDropdownEmotes}
                 chatData={GetInfoUserInRoom}
@@ -2072,6 +2090,8 @@ export function ChatStreaming({
             )}
             {isNavbarOpenDropdownEmotes && (
               <DropdownEmotes
+                SubStateAct={SubStateAct}
+                idStreamer={streamerChat.streamerId}
                 clickEmoticon={clickEmoticon}
                 closeNavbar={closeNavbarDropdownEmotes}
                 chatData={GetInfoUserInRoom}
@@ -2160,6 +2180,8 @@ export function ChatStreaming({
             )}
             {isNavbarOpenDropdownEmotes && (
               <DropdownEmotes
+                SubStateAct={SubStateAct}
+                idStreamer={streamerChat.streamerId}
                 clickEmoticon={clickEmoticon}
                 closeNavbar={closeNavbarDropdownEmotes}
                 chatData={GetInfoUserInRoom}

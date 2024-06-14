@@ -5,24 +5,44 @@ import {
   GetPinkkerEmotes,
   GetGlobalEmotes,
 } from "../../../../../services/backGo/user";
+import { GetEmoteUserandType } from "../../../../../services/backGo/Emotes";
 
-function DropdownEmotes({ closeNavbar, clickEmoticon, muro }) {
+function DropdownEmotes({
+  closeNavbar,
+  clickEmoticon,
+  muro,
+  idStreamer,
+  SubStateAct,
+}) {
   const [click, setClick] = useState(false);
   const [PinkkerEmotes, setPinkkerEmotes] = useState(null);
   const [GlobalEmotes, setGlobalEmotes] = useState(null);
+  const [GetEmotesidStreamer, setGetEmotesidStreamer] = useState(null);
+  const [GetEmotesSubsidStreamer, setGetEmotesSubsidStreamer] = useState(null);
+
+  const token = window.localStorage.getItem("token");
+  const fetchData = async () => {
+    const ress = await GetPinkkerEmotes();
+    if (ress.message === "ok" && ress.data !== null) {
+      setPinkkerEmotes(ress.data);
+    }
+    const ressGetPinkkerEmotes = await GetGlobalEmotes();
+
+    if (ressGetPinkkerEmotes.message === "ok" && ressGetPinkkerEmotes.data) {
+      setGlobalEmotes(ressGetPinkkerEmotes.data);
+    }
+
+    const responsesubs = await GetEmoteUserandType(idStreamer, "subs", token);
+    if (responsesubs != null && responsesubs.data) {
+      setGetEmotesSubsidStreamer(responsesubs.data);
+    }
+    const responseFree = await GetEmoteUserandType(idStreamer, "", token);
+    if (responseFree != null && responseFree.data) {
+      setGetEmotesidStreamer(responseFree.data);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const ress = await GetPinkkerEmotes();
-      if (ress.message === "ok" && ress.data !== null) {
-        setPinkkerEmotes(ress.data);
-      }
-      const ressGetPinkkerEmotes = await GetGlobalEmotes();
-
-      if (ressGetPinkkerEmotes.message === "ok" && ressGetPinkkerEmotes.data) {
-        setGlobalEmotes(ressGetPinkkerEmotes.data);
-      }
-    };
     fetchData();
   }, []);
 
@@ -119,6 +139,131 @@ function DropdownEmotes({ closeNavbar, clickEmoticon, muro }) {
       </div>
     );
   }
+  function renderGlobalesEmotesidStreamers() {
+    if (!PinkkerEmotes) return null;
+
+    return (
+      <div className="dropdownemotes-primary">
+        <hr
+          style={{
+            border: "1px solid #4b4b4b8f",
+            width: "95%",
+            marginBottom: "10px",
+          }}
+        />
+        <p
+          style={{
+            fontFamily: "Inter",
+            color: "darkgray",
+            fontWeight: "600",
+            fontSize: "14px",
+            marginBottom: "5px",
+          }}
+        >
+          Emotes libres del canal
+        </p>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            overflow: "scroll",
+            height: "180px",
+          }}
+        >
+          {GetEmotesidStreamer &&
+            GetEmotesidStreamer?.emotes?.map((emote) => (
+              <div
+                key={emote.name}
+                onClick={() => clickEmoticon(emote)}
+                className="dropdownemotes-emote"
+              >
+                <img
+                  style={{ width: "25px" }}
+                  src={emote.url}
+                  alt={emote.name}
+                />
+              </div>
+            ))}
+        </div>
+      </div>
+    );
+  }
+  function renderGlobalesEmotesidStreamersSubs() {
+    if (!PinkkerEmotes) return null;
+
+    return (
+      <div className="dropdownemotes-primary">
+        <hr
+          style={{
+            border: "1px solid #4b4b4b8f",
+            width: "95%",
+            marginBottom: "10px",
+          }}
+        />
+        <p
+          style={{
+            fontFamily: "Inter",
+            color: "darkgray",
+            fontWeight: "600",
+            fontSize: "14px",
+            marginBottom: "5px",
+          }}
+        >
+          Emotes de subs
+        </p>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            overflow: "scroll",
+            height: "180px",
+          }}
+        >
+          {GetEmotesSubsidStreamer &&
+            GetEmotesSubsidStreamer?.emotes?.map((emote) => (
+              <div
+                key={emote.name}
+                onClick={SubStateAct ? () => clickEmoticon(emote) : undefined}
+                className="dropdownemotes-emote"
+                style={{ position: "relative" }}
+              >
+                <img
+                  style={{ width: "25px" }}
+                  src={emote.url}
+                  alt={emote.name}
+                />
+                {!SubStateAct && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "0",
+                      left: "0",
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M11.75 6.25V1H4.75V6.25H3V15H13.5V6.25H11.75ZM6.5 2.75H10V6.25H6.5V2.75ZM10.4375 10.625H9.125V12.375H7.375V10.625H6.0625V8.875H10.4375V10.625Z" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            ))}
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       <ul
@@ -157,6 +302,8 @@ function DropdownEmotes({ closeNavbar, clickEmoticon, muro }) {
             >
               {renderPinkkerEmotes()}
               {renderGlobalesEmotes()}
+              {renderGlobalesEmotesidStreamers()}
+              {renderGlobalesEmotesidStreamersSubs()}
             </div>
             <div className="dropdown-secondary">
               <div className="dropdown-secondary-card">
