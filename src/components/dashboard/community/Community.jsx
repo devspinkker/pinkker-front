@@ -15,7 +15,10 @@ import { ScaleLoader } from "react-spinners";
 import { useNotification } from "../../Notifications/NotificationProvider";
 import Tippy from "@tippyjs/react";
 import AddEmblemPopup from "./popup/AddEmblemPopup";
-import { GetEmoteUserandType } from "../../../services/backGo/Emotes";
+import {
+  DeleteEmote,
+  GetEmoteUserandType,
+} from "../../../services/backGo/Emotes";
 
 export default function Community() {
   const auth = useSelector((state) => state.auth);
@@ -72,8 +75,26 @@ export default function Community() {
     fetchData();
   }, [token]);
 
-  async function removeEmote(emoteName) {
-    // alert({ type: "SUCCESS", message: data.data.msg });
+  async function removeEmote(name, typeEmote) {
+    let response = await DeleteEmote(name, typeEmote, token);
+    console.log(response);
+    if (response?.message === "ok" && emotesFree) {
+      if (typeEmote == "") {
+        setEmotesFree((prevEmotesFree) => ({
+          ...prevEmotesFree,
+          emotes: prevEmotesFree.emotes.filter((emote) => emote.name !== name),
+        }));
+      }
+      if (typeEmote == "subs" && emotesSubscriptions) {
+        setEmotesSubscriptions((prevEmotesSubscriptions) => ({
+          ...prevEmotesSubscriptions,
+          emotes: prevEmotesSubscriptions.emotes.filter(
+            (emote) => emote.name !== name
+          ),
+        }));
+      }
+      alert({ type: "SUCCESS" });
+    }
   }
 
   function handleReload() {
@@ -95,9 +116,7 @@ export default function Community() {
               <button
                 onClick={() => openAddEmotePopup("")}
                 style={{
-                  width: "25px",
                   cursor: "pointer",
-                  height: "25px",
                   color: "white",
                   backgroundColor: "#303030",
                   border: "none",
@@ -127,7 +146,7 @@ export default function Community() {
                   >
                     <div className="dashboard-content-emotes-image">
                       <i
-                        onClick={() => removeEmote(emote.name)}
+                        onClick={() => removeEmote(emote.name, "")}
                         style={{
                           position: "absolute",
                           marginLeft: "40px",
@@ -180,9 +199,7 @@ export default function Community() {
               <button
                 onClick={() => openAddEmotePopup("subs")}
                 style={{
-                  width: "25px",
                   cursor: "pointer",
-                  height: "25px",
                   color: "white",
                   backgroundColor: "#303030",
                   border: "none",
@@ -212,7 +229,7 @@ export default function Community() {
                   >
                     <div className="dashboard-content-emotes-image">
                       <i
-                        onClick={() => removeEmote(emote.name)}
+                        onClick={() => removeEmote(emote.name, "subs")}
                         style={{
                           position: "absolute",
                           marginLeft: "40px",
@@ -291,9 +308,7 @@ export default function Community() {
               <button
                 onClick={() => openAddEmotePopup(2)}
                 style={{
-                  width: "25px",
                   cursor: "pointer",
-                  height: "25px",
                   color: "white",
                   backgroundColor: "#303030",
                   border: "none",

@@ -60,27 +60,30 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
           style={{
             position: !tyExpanded && "relative",
             left: !tyExpanded && "0px",
-            padding: !tyExpanded ? '1.45rem 0rem': '.8rem 0rem'
+            padding: !tyExpanded ? "1.45rem 0rem" : ".8rem 0rem",
           }}
           className="dashboard-left-menu-header"
         >
-
           <button
             onClick={() => toggleexpandedMenu()}
             className="menu-activator-icon"
-            style={{width: !tyExpanded && '100%'}}
+            style={{ width: !tyExpanded && "100%" }}
           >
             <div
               className="base-icon icon"
               style={{ width: "20px", height: "20px" }}
             >
-              <GiHamburgerMenu style={{ fontSize: '25px' }} />
-
+              <GiHamburgerMenu style={{ fontSize: "25px" }} />
             </div>
           </button>
         </div>
-        <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }} >
-
+        <Grid
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          }}
+        >
           <ul
             style={{
               listStyle: "none",
@@ -90,143 +93,165 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
               transition: "all 1s ease",
             }}
           >
-              <Link
-                style={{ textDecoration: "none" }}
-                className="menu-aside-option"
-                to={"/" + user?.NameUser + "/dashboard/stream"}
+            <Link
+              style={{ textDecoration: "none" }}
+              className="menu-aside-option"
+              to={"/" + user?.NameUser + "/dashboard/stream"}
+            >
+              <li
+                style={{
+                  color: "white",
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "100% !important",
+                  padding: tyExpanded ? "0rem 15px" : "0px",
+                  justifyContent: !tyExpanded ? "center" : "flex-start",
+                  animation: !tyExpanded && "ease-in-out 1s linear",
+                }}
+                className="item-li"
               >
-                <li
-                  style={{
-                    color: "white",
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "center",
-                    width: "100% !important",
-                    padding: tyExpanded ? "0rem 15px" : "0px",
-                    justifyContent: !tyExpanded ? 'center' : "flex-start",
-                    animation: !tyExpanded && "ease-in-out 1s linear",
-                  }}
-                  className="item-li"
-                >
-                  <GrHomeRounded />
-                  {/* <i
+                <GrHomeRounded />
+                {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
                   /> */}
-                  {tyExpanded && <span>{'Stream'}</span>}
-                </li>
-              </Link>
-              <Link
-                style={{ textDecoration: "none" }}
-                className="menu-aside-option"
-                to={"/" + user?.NameUser + "/dashboard/stream"}
+                {tyExpanded && <span>{"Stream"}</span>}
+              </li>
+            </Link>
+            <Link
+              style={{ textDecoration: "none" }}
+              className="menu-aside-option"
+              to={"/" + user?.NameUser + "/dashboard/stream"}
+            >
+              <li
+                style={{
+                  color: "white",
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "100% !important",
+                  padding: tyExpanded ? "0rem 15px" : "0px",
+                  justifyContent: !tyExpanded ? "center" : "flex-start",
+                  animation: !tyExpanded && "ease-in-out 1s linear",
+                }}
+                className="item-li"
               >
-                <li
-                  style={{
-                    color: "white",
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "center",
-                    width: "100% !important",
-                    padding: tyExpanded ? "0rem 15px" : "0px",
-                    justifyContent: !tyExpanded ? 'center' : "flex-start",
-                    animation: !tyExpanded && "ease-in-out 1s linear",
-                  }}
-                  className="item-li"
-                >
-                  <GrHomeRounded />
-                  {/* <i
+                <GrHomeRounded />
+                {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
                   /> */}
-                  {tyExpanded && <span>{'Contenido'}</span>}
-                </li>
-              </Link>
-              <Link
-                style={{ textDecoration: "none" }}
-                className="menu-aside-option"
-                to={"/" + user?.NameUser + "/dashboard/analytics"}
+                {tyExpanded && <span>{"Contenido"}</span>}
+              </li>
+            </Link>
+            <Link
+              style={{ textDecoration: "none" }}
+              className="menu-aside-option"
+              to={"/" + user?.NameUser + "/dashboard/analytics"}
+            >
+              <li
+                style={{
+                  color: "white",
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "100% !important",
+                  padding: tyExpanded ? "0rem 15px" : "0px",
+                  justifyContent: !tyExpanded ? "center" : "flex-start",
+                  animation: !tyExpanded && "ease-in-out 1s linear",
+                }}
+                className="item-li"
               >
-                <li
-                  style={{
-                    color: "white",
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "center",
-                    width: "100% !important",
-                    padding: tyExpanded ? "0rem 15px" : "0px",
-                    justifyContent: !tyExpanded ? 'center' : "flex-start",
-                    animation: !tyExpanded && "ease-in-out 1s linear",
-                  }}
-                  className="item-li"
-                >
-                  <GrHomeRounded />
-                  {/* <i
+                <GrHomeRounded />
+                {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
                   /> */}
-                  {tyExpanded && <span>{'Analytics'}</span>}
-                </li>
-              </Link>
-              <Link
-                style={{ textDecoration: "none" }}
-                className="menu-aside-option"
-                to="/"
+                {tyExpanded && <span>{"Analytics"}</span>}
+              </li>
+            </Link>
+            <Link
+              style={{ textDecoration: "none" }}
+              className="menu-aside-option"
+              to="/"
+            >
+              <li
+                style={{
+                  color: "white",
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "100% !important",
+                  padding: tyExpanded ? "0rem 15px" : "0px",
+                  justifyContent: !tyExpanded ? "center" : "flex-start",
+                  animation: !tyExpanded && "ease-in-out 1s linear",
+                }}
+                className="item-li"
               >
-                <li
-                  style={{
-                    color: "white",
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "center",
-                    width: "100% !important",
-                    padding: tyExpanded ? "0rem 15px" : "0px",
-                    justifyContent: !tyExpanded ? 'center' : "flex-start",
-                    animation: !tyExpanded && "ease-in-out 1s linear",
-                  }}
-                  className="item-li"
-                >
-                  <GrHomeRounded />
-                  {/* <i
+                <GrHomeRounded />
+                {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
                   /> */}
-                  {tyExpanded && <span>{'Comentarios'}</span>}
-                </li>
-              </Link>
-              <Link
-                style={{ textDecoration: "none" }}
-                className="menu-aside-option"
-                to={"/" + user?.NameUser + "/dashboard/stream"}
+                {tyExpanded && <span>{"Comentarios"}</span>}
+              </li>
+            </Link>
+            <Link
+              style={{ textDecoration: "none" }}
+              className="menu-aside-option"
+              to={"/" + user?.NameUser + "/dashboard/stream"}
+            >
+              <li
+                style={{
+                  color: "white",
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "100% !important",
+                  padding: tyExpanded ? "0rem 15px" : "0px",
+                  justifyContent: !tyExpanded ? "center" : "flex-start",
+                  animation: !tyExpanded && "ease-in-out 1s linear",
+                }}
+                className="item-li"
               >
-                <li
-                  style={{
-                    color: "white",
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "center",
-                    width: "100% !important",
-                    padding: tyExpanded ? "0rem 15px" : "0px",
-                    justifyContent: !tyExpanded ? 'center' : "flex-start",
-                    animation: !tyExpanded && "ease-in-out 1s linear",
-                  }}
-                  className="item-li"
-                >
-                  <GrHomeRounded />
-                  {/* <i
+                <GrHomeRounded />
+                {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
                   /> */}
-                  {tyExpanded && <span>{'Ingresos'}</span>}
-                </li>
-              </Link>
-            
-
-
+                {tyExpanded && <span>{"Ingresos"}</span>}
+              </li>
+            </Link>
+            <Link
+              style={{ textDecoration: "none" }}
+              className="menu-aside-option"
+              to={"/" + user?.NameUser + "/dashboard/community"}
+            >
+              <li
+                style={{
+                  color: "white",
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "100% !important",
+                  padding: tyExpanded ? "0rem 15px" : "0px",
+                  justifyContent: !tyExpanded ? "center" : "flex-start",
+                  animation: !tyExpanded && "ease-in-out 1s linear",
+                }}
+                className="item-li"
+              >
+                <GrHomeRounded />
+                {/* <i
+                    style={{ position: "relative", fontSize: "20px" }}
+                    class="fa fa-home"
+                  /> */}
+                {tyExpanded && <span>{"community"}</span>}
+              </li>
+            </Link>
           </ul>
         </Grid>
       </aside>
-
     </div>
   );
 }

@@ -7,7 +7,7 @@
   width: 342px;
   height: 293px;
   display: flex;
-  background: #0a0a0afc;
+  background: #24272c;
   border: 1px solid #15151563;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -62,7 +62,7 @@
 
 .dropdownemotes-link {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   font-family: "Poppins";
   align-items: center;
   width: 100%;
@@ -142,6 +142,7 @@
 
 .dropdownemotes-emote {
   width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -169,4 +170,18 @@
   .fa-caret-down {
     display: none;
   }
+}
+
+.DropDownButton {
+  display: flex;
+  width: 31px;
+  height: 31px;
+  align-items: center;
+  margin: 0px;
+  justify-content: center;
+  background: none;
+}
+
+.DropDownButton img {
+  width: 20px;
 }

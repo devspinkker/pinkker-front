@@ -1824,6 +1824,7 @@ export function ChatStreaming({
               )}
               {isNavbarOpenDropdownEmotes && (
                 <DropdownEmotes
+                  ImgStreamer={streamerChat.streamer_avatar}
                   SubStateAct={SubStateAct}
                   idStreamer={streamerChat.streamerId}
                   clickEmoticon={clickEmoticon}
@@ -1913,6 +1914,7 @@ export function ChatStreaming({
               )}
               {isNavbarOpenDropdownEmotes && (
                 <DropdownEmotes
+                  ImgStreamer={streamerChat.streamer_avatar}
                   SubStateAct={SubStateAct}
                   idStreamer={streamerChat.streamerId}
                   clickEmoticon={clickEmoticon}
@@ -2003,6 +2005,7 @@ export function ChatStreaming({
             )}
             {isNavbarOpenDropdownEmotes && (
               <DropdownEmotes
+                ImgStreamer={streamerChat.streamer_avatar}
                 SubStateAct={SubStateAct}
                 idStreamer={streamerChat.streamerId}
                 clickEmoticon={clickEmoticon}
@@ -2090,6 +2093,7 @@ export function ChatStreaming({
             )}
             {isNavbarOpenDropdownEmotes && (
               <DropdownEmotes
+                ImgStreamer={streamerChat.streamer_avatar}
                 SubStateAct={SubStateAct}
                 idStreamer={streamerChat.streamerId}
                 clickEmoticon={clickEmoticon}
@@ -2180,6 +2184,7 @@ export function ChatStreaming({
             )}
             {isNavbarOpenDropdownEmotes && (
               <DropdownEmotes
+                ImgStreamer={streamerChat.streamer_avatar}
                 SubStateAct={SubStateAct}
                 idStreamer={streamerChat.streamerId}
                 clickEmoticon={clickEmoticon}

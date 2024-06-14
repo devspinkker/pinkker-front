@@ -1,102 +1,116 @@
 import React, { useState, useEffect } from "react";
 import "./Emotes.css";
 import {
-  GetGlobalEmotes,
   GetPinkkerEmotes,
-  UpdateEmoteAut,
-} from "../../services/backGo/user";
+  GetGlobalEmotes,
+  AddEmoteAut,
+  DeleteEmoteAut,
+} from "../../services/backGo/Emotes";
 
 export default function Emotes({ Code }) {
   const [PinkkerEmotes, setPinkkerEmotes] = useState(null);
+
   const [GlobalEmotes, setGlobalEmotes] = useState(null);
   const [newEmoteName, setNewEmoteName] = useState("");
-  const [newEmoteUrl, setNewEmoteUrl] = useState("");
-  const [updatedEmoteName, setUpdatedEmoteName] = useState(""); // Nuevo estado para almacenar el nombre actualizado
-  const [expandedPinkker, setExpandedPinkker] = useState(false); // Estado para controlar la expansión del contenido de Pinkker
-  const [expandedGlobal, setExpandedGlobal] = useState(false); // Estado para controlar la expansión del contenido global
+  const [newEmoteImage, setNewEmoteImage] = useState(null);
+  const [updatedEmoteName, setUpdatedEmoteName] = useState("");
+  const [expandedPinkker, setExpandedPinkker] = useState(false);
+  const [expandedGlobal, setExpandedGlobal] = useState(false);
   const token = window.localStorage.getItem("token");
 
-  const GetEmotes = async () => {
-    if (token) {
-      const resPinkker = await GetPinkkerEmotes();
-      if (resPinkker.message === "ok") {
-        setPinkkerEmotes(resPinkker.data[0]);
-      } else {
-        console.error("Failed to fetch Pinkker emotes", resPinkker);
-      }
-
-      const resGlobal = await GetGlobalEmotes();
-      if (resGlobal.message === "ok") {
-        setGlobalEmotes(resGlobal.data[0]);
-      } else {
-        console.error("Failed to fetch Global emotes", resGlobal);
-      }
-    }
-  };
-
-  const updateEmotes = async (updatedEmotes, type) => {
-    const res = await UpdateEmoteAut({ ...updatedEmotes, Code }, token);
-    if (res.message === "ok") {
-      if (type === "Pinkker") {
-        setPinkkerEmotes(res.data);
-      } else if (type === "Global") {
-        setGlobalEmotes(res.data);
-      }
-    } else {
-      console.error("Failed to update emotes", res);
-    }
-  };
-
-  const handleDeleteEmote = async (emoteIndex, type) => {
-    const updatedEmotes =
-      type === "Pinkker" ? { ...PinkkerEmotes } : { ...GlobalEmotes };
-    updatedEmotes.emotes.splice(emoteIndex, 1);
-    await updateEmotes(updatedEmotes, type);
-  };
-
-  const handleUpdateEmote = async (updatedEmote, emoteIndex, type) => {
-    const updatedEmotes =
-      type === "Pinkker" ? { ...PinkkerEmotes } : { ...GlobalEmotes };
-    updatedEmotes.emotes[emoteIndex] = updatedEmote;
-    await updateEmotes(updatedEmotes, type);
-  };
-
-  const handleAddEmote = async (type) => {
-    const newEmote = {
-      name: newEmoteName,
-      url: newEmoteUrl,
-    };
-    const updatedEmotes =
-      type === "Pinkker" ? { ...PinkkerEmotes } : { ...GlobalEmotes };
-    updatedEmotes.emotes.push(newEmote);
-    await updateEmotes(updatedEmotes, type);
-    setNewEmoteName("");
-    setNewEmoteUrl("");
-  };
-
   useEffect(() => {
-    GetEmotes();
-  }, []);
+    const fetchEmotes = async () => {
+      if (token) {
+        const resPinkker = await GetPinkkerEmotes();
+        if (resPinkker.message === "ok") {
+          setPinkkerEmotes(resPinkker.data[0]);
+        } else {
+          console.error("Failed to fetch Pinkker emotes", resPinkker);
+        }
+
+        const resGlobal = await GetGlobalEmotes();
+        if (resGlobal.message === "ok") {
+          setGlobalEmotes(resGlobal.data[0]);
+        } else {
+          console.error("Failed to fetch Global emotes", resGlobal);
+        }
+      }
+    };
+
+    fetchEmotes();
+  }, [token]);
+
+  const handleDeleteEmote = async (name, emoteIndex, type, id) => {
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("Code", Code);
+      formData.append("typeEmote", type);
+      formData.append("id", id);
+
+      const res = await DeleteEmoteAut(formData, token);
+      if (res.message === "OK") {
+        if (type === "Pinkker") {
+          const updatedPinkkerEmotes = { ...PinkkerEmotes };
+          updatedPinkkerEmotes.emotes.splice(emoteIndex, 1);
+          setPinkkerEmotes(updatedPinkkerEmotes);
+        } else if (type === "Global") {
+          const updatedGlobalEmotes = { ...GlobalEmotes };
+          updatedGlobalEmotes.emotes.splice(emoteIndex, 1);
+          setGlobalEmotes(updatedGlobalEmotes);
+        }
+      } else {
+        console.error("Failed to delete emote", res);
+      }
+    } catch (error) {
+      console.error("Error deleting emote", error);
+    }
+  };
+
+  const handleAddEmote = async (type, id) => {
+    try {
+      const formData = new FormData();
+      formData.append("emoteImage", newEmoteImage);
+      formData.append("name", newEmoteName);
+      formData.append("Code", Code);
+      formData.append("typeEmote", type); // Adjust if typeEmote is necessary
+      formData.append("id", id); // Adjust if typeEmote is necessary
+
+      const res = await AddEmoteAut(formData, token);
+      if (res.message === "OK") {
+        if (type === "Pinkker") {
+          setPinkkerEmotes(res.data);
+        } else if (type === "Global") {
+          setGlobalEmotes(res.data);
+        }
+        setNewEmoteName("");
+        setNewEmoteImage(null);
+      } else {
+        console.error("Failed to add emote", res);
+      }
+    } catch (error) {
+      console.error("Error adding emote", error);
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 1024 * 1024) {
+        console.error("Image size exceeds limit (1MB)");
+        return;
+      }
+      setNewEmoteImage(file);
+    }
+  };
 
   return (
     <div className="emotes-container">
-      <h1
-        style={{
-          color: "#fff",
-        }}
-      >
-        Emotes
-      </h1>
+      <h1 style={{ color: "#fff" }}>Emotes</h1>
 
       {PinkkerEmotes && (
         <div key={PinkkerEmotes.id}>
-          <h2
-            style={{
-              color: "#fff",
-            }}
-          >
-            {PinkkerEmotes.name}
-          </h2>
+          <h2 style={{ color: "#fff" }}>{PinkkerEmotes.name}</h2>
           <div className="emotes-grid">
             {expandedPinkker &&
               PinkkerEmotes.emotes.map((emote, index) => (
@@ -104,7 +118,16 @@ export default function Emotes({ Code }) {
                   <span>{emote.name}</span>
                   <img src={emote.url} alt={emote.name} />
                   <div className="emote-buttons">
-                    <button onClick={() => handleDeleteEmote(index, "Pinkker")}>
+                    <button
+                      onClick={() =>
+                        handleDeleteEmote(
+                          emote.name,
+                          index,
+                          "Pinkker",
+                          PinkkerEmotes.id
+                        )
+                      }
+                    >
                       Delete
                     </button>
                     <input
@@ -112,17 +135,6 @@ export default function Emotes({ Code }) {
                       value={updatedEmoteName}
                       onChange={(e) => setUpdatedEmoteName(e.target.value)}
                     />
-                    <button
-                      onClick={() =>
-                        handleUpdateEmote(
-                          { ...emote, name: updatedEmoteName },
-                          index,
-                          "Pinkker"
-                        )
-                      }
-                    >
-                      Update
-                    </button>
                   </div>
                 </div>
               ))}
@@ -132,26 +144,17 @@ export default function Emotes({ Code }) {
           </button>
           {expandedPinkker && (
             <div>
-              <h3
-                style={{
-                  color: "#fff",
-                }}
-              >
-                Add New Emote
-              </h3>
+              <h3 style={{ color: "#fff" }}>Add New Emote</h3>
               <input
                 type="text"
                 placeholder="Emote Name"
                 value={newEmoteName}
                 onChange={(e) => setNewEmoteName(e.target.value)}
               />
-              <input
-                type="text"
-                placeholder="Emote URL"
-                value={newEmoteUrl}
-                onChange={(e) => setNewEmoteUrl(e.target.value)}
-              />
-              <button onClick={() => handleAddEmote("Pinkker")}>
+              <input type="file" onChange={handleImageChange} />
+              <button
+                onClick={() => handleAddEmote("Pinkker", PinkkerEmotes.id)}
+              >
                 Add Emote
               </button>
             </div>
@@ -161,13 +164,7 @@ export default function Emotes({ Code }) {
 
       {GlobalEmotes && (
         <div key={GlobalEmotes.id}>
-          <h2
-            style={{
-              color: "#fff",
-            }}
-          >
-            {GlobalEmotes.name}
-          </h2>
+          <h2 style={{ color: "#fff" }}>{GlobalEmotes.name}</h2>
           <div className="emotes-grid">
             {expandedGlobal &&
               GlobalEmotes.emotes.map((emote, index) => (
@@ -175,7 +172,16 @@ export default function Emotes({ Code }) {
                   <span>{emote.name}</span>
                   <img src={emote.url} alt={emote.name} />
                   <div className="emote-buttons">
-                    <button onClick={() => handleDeleteEmote(index, "Global")}>
+                    <button
+                      onClick={() =>
+                        handleDeleteEmote(
+                          emote.name,
+                          index,
+                          "Global",
+                          GlobalEmotes.id
+                        )
+                      }
+                    >
                       Delete
                     </button>
                     <input
@@ -183,17 +189,6 @@ export default function Emotes({ Code }) {
                       value={updatedEmoteName}
                       onChange={(e) => setUpdatedEmoteName(e.target.value)}
                     />
-                    <button
-                      onClick={() =>
-                        handleUpdateEmote(
-                          { ...emote, name: updatedEmoteName },
-                          index,
-                          "Global"
-                        )
-                      }
-                    >
-                      Update
-                    </button>
                   </div>
                 </div>
               ))}
@@ -203,26 +198,15 @@ export default function Emotes({ Code }) {
           </button>
           {expandedGlobal && (
             <div>
-              <h3
-                style={{
-                  color: "#fff",
-                }}
-              >
-                Add New Emote
-              </h3>
+              <h3 style={{ color: "#fff" }}>Add New Emote</h3>
               <input
                 type="text"
                 placeholder="Emote Name"
                 value={newEmoteName}
                 onChange={(e) => setNewEmoteName(e.target.value)}
               />
-              <input
-                type="text"
-                placeholder="Emote URL"
-                value={newEmoteUrl}
-                onChange={(e) => setNewEmoteUrl(e.target.value)}
-              />
-              <button onClick={() => handleAddEmote("Global")}>
+              <input type="file" onChange={handleImageChange} />
+              <button onClick={() => handleAddEmote("Global", GlobalEmotes.id)}>
                 Add Emote
               </button>
             </div>

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./DropdownEmotes.css";
 import { useSelector } from "react-redux";
+
 import {
-  GetPinkkerEmotes,
+  GetEmoteUserandType,
   GetGlobalEmotes,
-} from "../../../../../services/backGo/user";
-import { GetEmoteUserandType } from "../../../../../services/backGo/Emotes";
+  GetPinkkerEmotes,
+} from "../../../../../services/backGo/Emotes";
 
 function DropdownEmotes({
+  ImgStreamer,
   closeNavbar,
   clickEmoticon,
   muro,
@@ -19,6 +21,7 @@ function DropdownEmotes({
   const [GlobalEmotes, setGlobalEmotes] = useState(null);
   const [GetEmotesidStreamer, setGetEmotesidStreamer] = useState(null);
   const [GetEmotesSubsidStreamer, setGetEmotesSubsidStreamer] = useState(null);
+  const [selectedEmoteType, setSelectedEmoteType] = useState("Pinkker");
 
   const token = window.localStorage.getItem("token");
   const fetchData = async () => {
@@ -90,8 +93,9 @@ function DropdownEmotes({
       </div>
     );
   }
+
   function renderGlobalesEmotes() {
-    if (!PinkkerEmotes) return null;
+    if (!GlobalEmotes) return null;
 
     return (
       <div className="dropdownemotes-primary">
@@ -121,26 +125,22 @@ function DropdownEmotes({
             height: "180px",
           }}
         >
-          {GlobalEmotes &&
-            GlobalEmotes[0]?.emotes?.map((emote) => (
-              <div
-                key={emote.name}
-                onClick={() => clickEmoticon(emote)}
-                className="dropdownemotes-emote"
-              >
-                <img
-                  style={{ width: "25px" }}
-                  src={emote.url}
-                  alt={emote.name}
-                />
-              </div>
-            ))}
+          {GlobalEmotes[0]?.emotes?.map((emote) => (
+            <div
+              key={emote.name}
+              onClick={() => clickEmoticon(emote)}
+              className="dropdownemotes-emote"
+            >
+              <img style={{ width: "25px" }} src={emote.url} alt={emote.name} />
+            </div>
+          ))}
         </div>
       </div>
     );
   }
+
   function renderGlobalesEmotesidStreamers() {
-    if (!PinkkerEmotes) return null;
+    if (!GetEmotesidStreamer) return null;
 
     return (
       <div className="dropdownemotes-primary">
@@ -170,26 +170,22 @@ function DropdownEmotes({
             height: "180px",
           }}
         >
-          {GetEmotesidStreamer &&
-            GetEmotesidStreamer?.emotes?.map((emote) => (
-              <div
-                key={emote.name}
-                onClick={() => clickEmoticon(emote)}
-                className="dropdownemotes-emote"
-              >
-                <img
-                  style={{ width: "25px" }}
-                  src={emote.url}
-                  alt={emote.name}
-                />
-              </div>
-            ))}
+          {GetEmotesidStreamer?.emotes?.map((emote) => (
+            <div
+              key={emote.name}
+              onClick={() => clickEmoticon(emote)}
+              className="dropdownemotes-emote"
+            >
+              <img style={{ width: "25px" }} src={emote.url} alt={emote.name} />
+            </div>
+          ))}
         </div>
       </div>
     );
   }
+
   function renderGlobalesEmotesidStreamersSubs() {
-    if (!PinkkerEmotes) return null;
+    if (!GetEmotesSubsidStreamer) return null;
 
     return (
       <div className="dropdownemotes-primary">
@@ -197,7 +193,7 @@ function DropdownEmotes({
           style={{
             border: "1px solid #4b4b4b8f",
             width: "95%",
-            marginBottom: "10px",
+            // marginBottom: "10px",
           }}
         />
         <p
@@ -219,51 +215,47 @@ function DropdownEmotes({
             height: "180px",
           }}
         >
-          {GetEmotesSubsidStreamer &&
-            GetEmotesSubsidStreamer?.emotes?.map((emote) => (
-              <div
-                key={emote.name}
-                onClick={SubStateAct ? () => clickEmoticon(emote) : undefined}
-                className="dropdownemotes-emote"
-                style={{ position: "relative" }}
-              >
-                <img
-                  style={{ width: "25px" }}
-                  src={emote.url}
-                  alt={emote.name}
-                />
-                {!SubStateAct && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "0",
-                      left: "0",
-                      width: "100%",
-                      height: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: "rgba(0, 0, 0, 0.5)",
-                      borderRadius: "5px",
-                    }}
+          {GetEmotesSubsidStreamer?.emotes?.map((emote) => (
+            <div
+              key={emote.name}
+              onClick={SubStateAct ? () => clickEmoticon(emote) : undefined}
+              className="dropdownemotes-emote"
+              style={{ position: "relative" }}
+            >
+              <img style={{ width: "25px" }} src={emote.url} alt={emote.name} />
+              {!SubStateAct && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    borderRadius: "5px",
+                  }}
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M11.75 6.25V1H4.75V6.25H3V15H13.5V6.25H11.75ZM6.5 2.75H10V6.25H6.5V2.75ZM10.4375 10.625H9.125V12.375H7.375V10.625H6.0625V8.875H10.4375V10.625Z" />
-                    </svg>
-                  </div>
-                )}
-              </div>
-            ))}
+                    <path d="M11.75 6.25V1H4.75V6.25H3V15H13.5V6.25H11.75ZM6.5 2.75H10V6.25H6.5V2.75ZM10.4375 10.625H9.125V12.375H7.375V10.625H6.0625V8.875H10.4375V10.625Z" />
+                  </svg>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     );
   }
+
   return (
     <>
       <ul
@@ -277,47 +269,93 @@ function DropdownEmotes({
       >
         <div style={{ width: "100%" }} className="dropdownemotes-container">
           <div className="dropdownemotes-link">
-            <div
+            {/* <div
               style={{ marginRight: "70px" }}
               className="dropdownemotes-input"
             >
-              <i style={{ fontSize: "14px" }} class="fas fa-search" />
+              <i style={{ fontSize: "14px" }} className="fas fa-search" />
               <input placeholder="Buscar emote" type="text" />
-            </div>
+            </div> */}
             <i
-              // onClick={() => setClick(!click)}
               onClick={closeNavbar}
               style={{ marginLeft: "10px", cursor: "pointer" }}
-              class="fas fa-times pinkker-button-more"
+              className="fas fa-times pinkker-button-more"
             ></i>
           </div>
-
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              marginBottom: "10px",
+            }}
+          >
+            <button
+              className={"DropDownButton"}
+              style={{
+                background:
+                  selectedEmoteType === "Pinkker" ? "#4c0b39" : "none",
+              }}
+              onClick={() => setSelectedEmoteType("Pinkker")}
+            >
+              <i style={{ fontSize: "14px" }} className="fas fa-clock" />
+            </button>
+            <button
+              style={{
+                background:
+                  selectedEmoteType === "Globales" ? "#4c0b39" : "none",
+              }}
+              className="DropDownButton"
+              onClick={() => setSelectedEmoteType("Globales")}
+            >
+              <i style={{ fontSize: "14px" }} className="fas fa-globe" />
+            </button>
+            <button
+              style={{
+                background:
+                  selectedEmoteType === "Streamers" ? "#4c0b39" : "none",
+              }}
+              className="DropDownButton"
+              onClick={() => setSelectedEmoteType("Streamers")}
+            >
+              <img src={ImgStreamer} alt="imgStreamer" />
+            </button>
+            <button
+              style={{
+                background:
+                  selectedEmoteType === "StreamersSubs" ? "#4c0b39" : "none",
+              }}
+              className="DropDownButton"
+              onClick={() => setSelectedEmoteType("StreamersSubs")}
+            >
+              <i style={{ fontSize: "14px" }} className="fas fa-unlock" />
+            </button>
+          </div>
           <div style={{ display: "flex" }}>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "300px",
+                width: "100%",
               }}
             >
-              {renderPinkkerEmotes()}
-              {renderGlobalesEmotes()}
-              {renderGlobalesEmotesidStreamers()}
-              {renderGlobalesEmotesidStreamersSubs()}
+              {selectedEmoteType === "Pinkker" && renderPinkkerEmotes()}
+              {selectedEmoteType === "Globales" && renderGlobalesEmotes()}
+              {selectedEmoteType === "Streamers" &&
+                renderGlobalesEmotesidStreamers()}
+              {selectedEmoteType === "StreamersSubs" &&
+                renderGlobalesEmotesidStreamersSubs()}
             </div>
-            <div className="dropdown-secondary">
+            {/* <div className="dropdown-secondary">
               <div className="dropdown-secondary-card">
-                <i style={{ fontSize: "14px" }} class="fas fa-clock" />
+                <i style={{ fontSize: "14px" }} className="fas fa-clock" />
               </div>
-
               <div className="dropdown-secondary-card">
-                <i style={{ fontSize: "14px" }} class="fas fa-unlock" />
+                <i style={{ fontSize: "14px" }} className="fas fa-unlock" />
               </div>
-
               <div className="dropdown-secondary-card">
-                <i style={{ fontSize: "14px" }} class="fas fa-globe" />
+                <i style={{ fontSize: "14px" }} className="fas fa-globe" />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </ul>
