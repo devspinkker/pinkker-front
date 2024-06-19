@@ -295,7 +295,11 @@ function DropdownEmotes({
                 background:
                   selectedEmoteType === "Pinkker" ? "#4c0b39" : "none",
               }}
-              onClick={() => setSelectedEmoteType("Pinkker")}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setSelectedEmoteType("Pinkker");
+              }}
             >
               <i style={{ fontSize: "14px" }} className="fas fa-clock" />
             </button>
@@ -305,7 +309,11 @@ function DropdownEmotes({
                   selectedEmoteType === "Globales" ? "#4c0b39" : "none",
               }}
               className="DropDownButton"
-              onClick={() => setSelectedEmoteType("Globales")}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setSelectedEmoteType("Globales");
+              }}
             >
               <i style={{ fontSize: "14px" }} className="fas fa-globe" />
             </button>
@@ -315,7 +323,11 @@ function DropdownEmotes({
                   selectedEmoteType === "Streamers" ? "#4c0b39" : "none",
               }}
               className="DropDownButton"
-              onClick={() => setSelectedEmoteType("Streamers")}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setSelectedEmoteType("Streamers");
+              }}
             >
               <img src={ImgStreamer} alt="imgStreamer" />
             </button>
@@ -325,7 +337,11 @@ function DropdownEmotes({
                   selectedEmoteType === "StreamersSubs" ? "#4c0b39" : "none",
               }}
               className="DropDownButton"
-              onClick={() => setSelectedEmoteType("StreamersSubs")}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setSelectedEmoteType("StreamersSubs");
+              }}
             >
               <i style={{ fontSize: "14px" }} className="fas fa-unlock" />
             </button>
