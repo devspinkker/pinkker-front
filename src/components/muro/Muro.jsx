@@ -129,7 +129,7 @@ export default function Muro({ isMobile, userName }) {
   }, [orderCount]);
   const scrollToTop = () => {
     if (orderCount > 0) {
-      setOrderCount(0);
+      // setOrderCount(0);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -552,13 +552,15 @@ export default function Muro({ isMobile, userName }) {
   }
 
   return (
-    <div className="muro-body">
+    <div
+      className="muro-body"
+      style={{ padding: isMobile && "0px 1rem 5rem", width: isMobile && "90%" }}
+    >
       {!showScrollButton && (
         <button onClick={scrollToTop} className="alprincipio">
           Nuevas Publicaciones
         </button>
       )}
-
       {isLoading === false && renderMuro()}
       {isLoading && (
         <div
