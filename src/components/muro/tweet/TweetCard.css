@@ -52,6 +52,10 @@
     left: 4px;
 }
 
+.hoverLink:hover {
+    text-decoration-line: underline;
+}
+
 .tweetcard-icons {
     width: 80%;
     margin-top: 10px;

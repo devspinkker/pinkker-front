@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./TweetCard.css";
 import { useSelector } from "react-redux";
 import CiteTweet from "../popup/CiteTweet";
@@ -184,16 +185,24 @@ export default function TweetCard({ tweet }) {
           className="tweetcard-container"
         >
           <div className="tweetcard-avatar">
-            <img
-              style={{
-                width: "50px",
-                borderRadius: "100%",
-                position: "relative",
-                left: "-10px",
+            <Link
+              to={"/" + tweet.UserInfo.NameUser}
+              className="hoverLink"
+              onClick={(e) => {
+                e.stopPropagation();
               }}
-              src={tweet.UserInfo.Avatar}
-              alt={`${tweet.UserInfo.NameUser} avatar`}
-            />
+            >
+              <img
+                style={{
+                  width: "50px",
+                  borderRadius: "100%",
+                  position: "relative",
+                  left: "-10px",
+                }}
+                src={tweet.UserInfo.Avatar}
+                alt={`${tweet.UserInfo.NameUser} avatar`}
+              />
+            </Link>
           </div>
           <div className="tweetcard-primary">
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -213,7 +222,16 @@ export default function TweetCard({ tweet }) {
                     alignItems: "center",
                   }}
                 >
-                  <h3>{tweet.UserInfo.FullName}</h3>
+                  <Link
+                    to={"/" + tweet.UserInfo.NameUser}
+                    className="hoverLink"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    <h3>{tweet.UserInfo.FullName}</h3>
+                  </Link>
+
                   <p
                     style={{
                       color: "lightgray",
@@ -221,7 +239,16 @@ export default function TweetCard({ tweet }) {
                       fontSize: "15px",
                     }}
                   >
-                    @{tweet.UserInfo.NameUser} · {timeDifference}
+                    <Link
+                      to={"/" + tweet.UserInfo.NameUser}
+                      className="hoverLink"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      @{tweet.UserInfo.NameUser}
+                    </Link>
+                    · {timeDifference}
                   </p>
                 </Grid>
                 <FaEllipsis />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import "./CommentCard.css";
-
+import { Link } from "react-router-dom";
 import {
   LikeCommentClip,
   UnlikeComment,
@@ -112,7 +112,9 @@ export default function CommentCard({ comment }) {
 
       <div style={{ marginLeft: "5px" }} className="tweetcard-primary">
         <div style={{ display: "flex", alignItems: "center" }}>
-          <h4>{comment.NameUser}</h4>
+          <Link to={"/" + comment.NameUser}>
+            <h4>{comment.NameUser}</h4>
+          </Link>
         </div>
         <p style={{ color: "lightgray", marginLeft: "5px", fontSize: "15px" }}>
           {" "}
