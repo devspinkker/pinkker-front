@@ -503,7 +503,7 @@ export default function Muro({ isMobile, userName }) {
   }
 
   return (
-    <div className="muro-body">
+    <div className="muro-body" style={{padding: isMobile && '0px 1rem 5rem', width: isMobile && '90%'}}>
       {isLoading === false && renderMuro()}
       {isLoading && (
         <div

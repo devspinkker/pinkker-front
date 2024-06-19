@@ -246,7 +246,7 @@ function NLayout(props) {
               >
                 <Link
                   style={{ textDecoration: "none", padding: 0 }}
-                  to="/plataform/explore?tipo=streams"
+                  to="/plataform/clips"
                 >
                   <Grid
                     className="button-casino"
@@ -279,7 +279,7 @@ function NLayout(props) {
 
                 <Link
                   style={{ textDecoration: "none", padding: 0 }}
-                  to="/plataform/explore?tipo=categories"
+                  to="/plataform/clips"
                 >
                   <Grid
                     style={{
@@ -1749,19 +1749,8 @@ function NLayout(props) {
         </Grid>
 
         <Grid
-          style={{
-            display: "flex",
-            alignItems: "center",
-            position: "fixed",
-            height: "60px",
-            bottom: 0,
-            zIndex: 999999,
-            padding: "0rem 1rem",
-            borderTop: "#2a2e38",
-            backgroundColor: "#121418",
-            width: "100%",
-            justifyContent: "space-around",
-          }}
+          
+          className="mobile-menu"
         >
           <Link
             to="/"
@@ -1770,34 +1759,14 @@ function NLayout(props) {
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
+              padding: '10px 0px'
             }}
+            className={
+              location.pathname === "/" && "item-liActiveMobile"
+            }
           >
-            <GrHomeRounded />
-            <span>Inicio</span>
-          </Link>
-          <Link
-            to="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              flexDirection: "column",
-            }}
-          >
-            <GrHomeRounded />
-            <span>Directos</span>
-          </Link>
-          <Link
-            to="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              flexDirection: "column",
-            }}
-          >
-            <GrHomeRounded />
-            <span>Categorías</span>
+            <GrHomeRounded style={{ fontSize: '26px' }} />
+            <span style={{ fontSize: '26px' }}>Inicio</span>
           </Link>
           <Link
             to="/plataform/clips"
@@ -1806,22 +1775,56 @@ function NLayout(props) {
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
+              padding: '10px 0px'
             }}
+            className={
+              location.pathname === "/plataform/clips" && "item-liActiveMobile"
+            }
           >
-            <GrHomeRounded />
-            <span>Explorar</span>
+            <GrHomeRounded style={{ fontSize: '26px' }}/>
+            <span style={{ fontSize: '26px' }}>Explorar</span>
           </Link>
-          <Link
+          {/* <Link
             to="/"
             style={{
               display: "flex",
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
+              padding: '10px 0px'
             }}
           >
-            <GrHomeRounded />
-            <span>Muro</span>
+            <GrHomeRounded style={{ fontSize: '18px' }} />
+            <span style={{ fontSize: '18px' }}>Categorías</span>
+          </Link> */}
+          {/* <Link
+            to="/plataform/clips"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: "column",
+              padding: '10px 0px'
+            }}
+          >
+            <GrHomeRounded style={{ fontSize: '18px' }}/>
+            <span style={{ fontSize: '18px' }}>Explorar</span>
+          </Link> */}
+          <Link
+            to="/plataform/muro"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: "column",
+              padding: '10px 0px'
+            }}
+            className={
+              location.pathname === "/plataform/muro" && "item-liActiveMobile"
+            }
+          >
+            <GrHomeRounded style={{ fontSize: '26px' }} />
+            <span style={{ fontSize: '26px' }}>Muro</span>
           </Link>
         </Grid>
       </Grid>

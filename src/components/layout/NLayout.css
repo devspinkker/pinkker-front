@@ -4,6 +4,21 @@
     position: relative;
 }
 
+/* menu.css */
+.mobile-menu {
+    position: fixed;
+    border-top: #2a2e38;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #121418;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 1000; /* Asegura que el menú esté por encima de otros elementos */
+}
 
 .item-li {
     width: 100%;
@@ -85,6 +100,9 @@
     animation: fadeIn 1.5s ease-in-out;
     color: #ff69c4 !important;
     cursor: pointer;
+}
+.item-liActiveMobile{
+    color: #ff69c4 !important;
 }
 .item-liActive::after{
     background-color: #ff69c4;
