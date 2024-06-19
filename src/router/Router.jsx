@@ -334,8 +334,9 @@ const AppRouter = () => {
                 style={{
                   display: "flex",
                   flexDirection: "row-reverse",
+                  width: "72%",
                   padding: "22px",
-                  justifyContent: "space-between",
+                  justifyContent: "flex-end",
                 }}
               >
                 <TendencyMuro />

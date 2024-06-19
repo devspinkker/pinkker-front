@@ -19,10 +19,10 @@
 }
 
 .viewtweet-popup-container {
-    width: 91%;
+    width: 59%;
     min-height: 800px;
     overflow: scroll;
-    margin: auto;
+    /* margin: auto; */
     margin-top: 10px;
     padding: 3px 30px;
     text-align: center;

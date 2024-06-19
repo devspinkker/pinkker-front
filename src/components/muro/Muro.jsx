@@ -58,34 +58,82 @@ export default function Muro({ isMobile, userName }) {
   const [isLoading, setIsLoading] = useState(false);
   const [AvatarSearch, SetAvatarSearch] = useState(null);
 
-  async function loadMoreTweets() {
-    if (!hasMore || loadingMore) return;
+  const [orderCount, setOrderCount] = useState(0);
+  const [referenceTweet, setReferenceTweet] = useState(null);
 
-    setLoadingMore(true);
+  async function loadMoreTweets() {
     try {
       let token = window.localStorage.getItem("token");
       let data;
 
       if (token) {
         const ExcludeIDs = tweets.map((tweet) => tweet._id);
-
-        console.log(ExcludeIDs);
         data = await GetTweetsRecommended(token, ExcludeIDs);
       } else {
-        // data = await fetchMoreTweets();
+        // data = await PostGets();
       }
 
-      if (data?.data?.message === "ok" && data.data.data.length > 0) {
-        setTweets((prevTweets) => [...prevTweets, ...data.data.data]);
+      if (data.data == null) {
+        return;
       } else {
-        setHasMore(false);
+        if (data.data.message === "ok" || data.data.data) {
+          // Obtener los tweets actuales del estado
+          let currentTweets = [...(tweets || [])];
+          let newTweets = data.data.data;
+
+          // Eliminar duplicados si es necesario (basado en _id por ejemplo)
+          let uniqueNewTweets = newTweets.filter(
+            (tweet, index, self) =>
+              index === self.findIndex((t) => t._id === tweet._id)
+          );
+
+          // Establecer el tweet de referencia si aún no se ha establecido
+          if (!referenceTweet && currentTweets.length > 0) {
+            setReferenceTweet(currentTweets[0]);
+          }
+
+          // Verificar si el tweet más reciente es más nuevo que el tweet de referencia
+          if (
+            referenceTweet &&
+            new Date(uniqueNewTweets[0]?.TimeStamp) >
+              new Date(referenceTweet.TimeStamp)
+          ) {
+            // Combinar los tweets actuales con los nuevos y ordenar
+            let allTweets = [...currentTweets, ...uniqueNewTweets];
+            allTweets.sort(
+              (a, b) => new Date(b.TimeStamp) - new Date(a.TimeStamp)
+            );
+
+            setTweets(allTweets);
+            // Incrementar el contador de orden
+            console.log(orderCount);
+            setOrderCount((prevCount) => prevCount + 1);
+          } else {
+            // Agregar los nuevos tweets al final
+            let updatedTweets = [...currentTweets, ...uniqueNewTweets];
+            setTweets(updatedTweets);
+          }
+        }
       }
     } catch (error) {
-      console.error("Error loading more tweets:", error);
-    } finally {
-      setLoadingMore(false);
+      // setTweets(null);
     }
   }
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  useEffect(() => {
+    if (orderCount <= 1) {
+      setShowScrollButton(true);
+    } else {
+      setShowScrollButton(false);
+    }
+  }, [orderCount]);
+  const scrollToTop = () => {
+    if (orderCount > 0) {
+      setOrderCount(0);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
     function handleScroll() {
       const { scrollTop, clientHeight, scrollHeight } =
@@ -115,7 +163,7 @@ export default function Muro({ isMobile, userName }) {
     try {
       let token = window.localStorage.getItem("token");
       if (token) {
-        const ExcludeIDs = ["664764679e2d9410727f8a36"];
+        const ExcludeIDs = [];
         const data = await GetTweetsRecommended(token, ExcludeIDs);
         if (data.data == null) {
           setTweets(null);
@@ -197,10 +245,11 @@ export default function Muro({ isMobile, userName }) {
         <div className="muro-container">
           <div
             style={{
-              width: "100%",
+              width: "65%",
               display: "flex",
               flexDirection: "column",
               gap: "15px",
+              justifyContent: "flex-end",
             }}
           >
             {userName?.NameUser ? (
@@ -504,6 +553,12 @@ export default function Muro({ isMobile, userName }) {
 
   return (
     <div className="muro-body">
+      {!showScrollButton && (
+        <button onClick={scrollToTop} className="alprincipio">
+          Nuevas Publicaciones
+        </button>
+      )}
+
       {isLoading === false && renderMuro()}
       {isLoading && (
         <div

@@ -751,6 +751,17 @@ export function ChatStreaming({
     sendMessage();
   };
   const [Modolento, setModolento] = useState(null);
+  async function ActionSendMessageComando(action, nameUser) {
+    const streamerId = window.localStorage.getItem("_id");
+    if (streamerChat.streamerId === streamerId) {
+      await ModeratorUserChatStreamer(streamerChat.id, action, nameUser, 0);
+    } else if (
+      GetInfoUserInRoom.Moderator &&
+      streamerChat.streamerId !== streamerId
+    ) {
+      ModeratorUserChat(action, nameUser, 0, streamerChat.id);
+    }
+  }
   const sendMessage = async () => {
     if (message.startsWith("/host")) {
       const regex = /\/host\s+(\S+)\s*(.*)/;
@@ -768,9 +779,109 @@ export function ChatStreaming({
       setMessage("");
       return;
     }
+
+    if (message.startsWith("/vip")) {
+      const regex = /\/vip\s+(\S+)\s*(.*)/;
+      const match = message.match(regex);
+      if (match) {
+        const nameUser = match[1];
+        ActionSendMessageComando("vip", nameUser);
+        setResMessageschat(null);
+
+        setMessage("");
+        return;
+      }
+      setResMessageschat(null);
+
+      setMessage("");
+      return;
+    }
+    console.log(message);
+
+    if (message.startsWith("/unvip")) {
+      const regex = /\/unvip\s+(\S+)\s*(.*)/;
+      const match = message.match(regex);
+      console.log(match);
+      if (match) {
+        const nameUser = match[1];
+        ActionSendMessageComando("rVip", nameUser);
+        setResMessageschat(null);
+
+        setMessage("");
+        return;
+      }
+      setResMessageschat(null);
+
+      setMessage("");
+      return;
+    }
+    if (message.startsWith("/ban")) {
+      const regex = /\/ban\s+(\S+)\s*(.*)/;
+      const match = message.match(regex);
+      if (match) {
+        const nameUser = match[1];
+        ActionSendMessageComando("baneado", nameUser);
+        setResMessageschat(null);
+
+        setMessage("");
+        return;
+      }
+      setResMessageschat(null);
+
+      setMessage("");
+      return;
+    }
+    if (message.startsWith("/unban")) {
+      const regex = /\/unban\s+(\S+)\s*(.*)/;
+      const match = message.match(regex);
+      if (match) {
+        const nameUser = match[1];
+        ActionSendMessageComando("removeban", nameUser);
+        setResMessageschat(null);
+
+        setMessage("");
+        return;
+      }
+      setResMessageschat(null);
+
+      setMessage("");
+      return;
+    }
+    if (message.startsWith("/mod")) {
+      const regex = /\/mod\s+(\S+)\s*(.*)/;
+      const match = message.match(regex);
+      if (match) {
+        const nameUser = match[1];
+        ActionSendMessageComando("moderator", nameUser);
+        setResMessageschat(null);
+
+        setMessage("");
+        return;
+      }
+      setResMessageschat(null);
+
+      setMessage("");
+      return;
+    }
+    if (message.startsWith("/unmod")) {
+      const regex = /\/unmod\s+(\S+)\s*(.*)/;
+      const match = message.match(regex);
+      if (match) {
+        const nameUser = match[1];
+        ActionSendMessageComando("rModerator", nameUser);
+        setResMessageschat(null);
+
+        setMessage("");
+        return;
+      }
+      setResMessageschat(null);
+
+      setMessage("");
+      return;
+    }
     setResMessageschat(null);
     setMessage("");
-    const textplain = await getPlainTextMessage();
+    const textplain = getPlainTextMessage();
     if (
       streamerChat?.ModChat == "Following" &&
       (followParam || FollowParamOwnner)

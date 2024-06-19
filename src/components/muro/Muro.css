@@ -111,7 +111,11 @@
 }
 
 .muro-tweet-secondary {
-    width: 44%;
+    position: fixed;
+    width: 28%;
+    right: 2%;
+    z-index: 1000;
+
 }
 
 .muro-tweet-secondary-search input {
@@ -134,7 +138,10 @@
     margin-top: 15px;
     border-radius: 5px;
     padding: 20px;
+    height: 462px;
     color: #ededed;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 .muro-tweet-secondary-tendency-card {
@@ -197,4 +204,17 @@
     .muro-tweet-container {
         width: 98%;
     }
+}
+
+.alprincipio {
+    position: fixed;
+    top: 128px;
+    left: 43%;
+    padding: 10px;
+    background-color: rgb(79, 70, 229);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 100000;
 }
