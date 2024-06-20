@@ -1,34 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import "./Muro.css";
-
 import TweetCard from "./tweet/TweetCard";
-
 import {
   PostCreate,
   setToken,
   PostGets,
   GetTweetsRecommended,
 } from "../../services/backGo/tweet";
-
 import { useNotification } from "../Notifications/NotificationProvider";
-
 import { useSelector } from "react-redux";
 import { ScaleLoader, BarLoader } from "react-spinners";
-
 import { FileUploader } from "react-drag-drop-files";
-
 import axios from "axios";
-
 import DropdownEmotes from "../channel/chat/dropdown/emotes/DropdownEmotes";
-
 import Auth from "../auth/Auth";
 import { render } from "react-dom";
-
 import { follow, unfollow } from "../../services/follow";
 import FollowCard from "./FollowCard";
-
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import {
   FormControl,
@@ -60,9 +49,12 @@ export default function Muro({ isMobile, userName }) {
 
   const [orderCount, setOrderCount] = useState(0);
   const [referenceTweet, setReferenceTweet] = useState(null);
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const [isFetching, setIsFetching] = useState(false); // nuevo estado para manejar la espera
 
   async function loadMoreTweets() {
     try {
+      setIsFetching(true); // marca que se está ejecutando la carga de más tweets
       let token = window.localStorage.getItem("token");
       let data;
 
@@ -77,39 +69,30 @@ export default function Muro({ isMobile, userName }) {
         return;
       } else {
         if (data.data.message === "ok" || data.data.data) {
-          // Obtener los tweets actuales del estado
           let currentTweets = [...(tweets || [])];
           let newTweets = data.data.data;
 
-          // Eliminar duplicados si es necesario (basado en _id por ejemplo)
           let uniqueNewTweets = newTweets.filter(
             (tweet, index, self) =>
               index === self.findIndex((t) => t._id === tweet._id)
           );
 
-          // Establecer el tweet de referencia si aún no se ha establecido
           if (!referenceTweet && currentTweets.length > 0) {
             setReferenceTweet(currentTweets[0]);
           }
 
-          // Verificar si el tweet más reciente es más nuevo que el tweet de referencia
           if (
             referenceTweet &&
             new Date(uniqueNewTweets[0]?.TimeStamp) >
               new Date(referenceTweet.TimeStamp)
           ) {
-            // Combinar los tweets actuales con los nuevos y ordenar
             let allTweets = [...currentTweets, ...uniqueNewTweets];
             allTweets.sort(
               (a, b) => new Date(b.TimeStamp) - new Date(a.TimeStamp)
             );
-
             setTweets(allTweets);
-            // Incrementar el contador de orden
-            console.log(orderCount);
             setOrderCount((prevCount) => prevCount + 1);
           } else {
-            // Agregar los nuevos tweets al final
             let updatedTweets = [...currentTweets, ...uniqueNewTweets];
             setTweets(updatedTweets);
           }
@@ -117,21 +100,23 @@ export default function Muro({ isMobile, userName }) {
       }
     } catch (error) {
       // setTweets(null);
+    } finally {
+      setIsFetching(false);
     }
   }
-  const [showScrollButton, setShowScrollButton] = useState(false);
+
   useEffect(() => {
-    if (orderCount <= 1) {
+    if (orderCount >= 1) {
       setShowScrollButton(true);
     } else {
       setShowScrollButton(false);
     }
   }, [orderCount]);
+
   const scrollToTop = () => {
-    if (orderCount > 0) {
-      // setOrderCount(0);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    console.log("WTF");
+    setOrderCount(0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -140,15 +125,23 @@ export default function Muro({ isMobile, userName }) {
         document.documentElement;
       if (scrollTop + clientHeight >= scrollHeight - 20) {
         loadMoreTweets();
+
+        setIsFetching(true);
+        setTimeout(() => {
+          setIsFetching(false);
+        }, 6000);
       }
     }
 
-    window.addEventListener("scroll", handleScroll);
+    if (!isFetching) {
+      window.addEventListener("scroll", handleScroll);
+    }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [tweets, loadingMore]);
+  }, [tweets, isFetching]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -159,6 +152,7 @@ export default function Muro({ isMobile, userName }) {
       SetAvatarSearch(avatar);
     }
   }, []);
+
   async function PostGetsf() {
     try {
       let token = window.localStorage.getItem("token");
@@ -184,6 +178,7 @@ export default function Muro({ isMobile, userName }) {
       setTweets(null);
     }
   }
+
   useEffect(() => {
     PostGetsf();
   }, []);
@@ -216,10 +211,12 @@ export default function Muro({ isMobile, userName }) {
       } catch (error) {}
     }
   }
+
   const clearImages = () => {
     setImage(null);
     setFile(null);
   };
+
   const handleChange = (file) => {
     setFile(file);
     const reader = new FileReader();
@@ -263,15 +260,8 @@ export default function Muro({ isMobile, userName }) {
             {userName?.NameUser && (
               <div
                 onDragEnterCapture={() => setOnDrag(true)}
-                /*onDragLeave={() => setOnDrag(false)}*/ className="muro-send-tweet"
+                className="muro-send-tweet"
               >
-                {/*<div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                              <div onClick={() => handleNewTweets()} className="muro-new-messages">
-                                  <h3 style={{fontSize: "15px"}}>Nuevos posteos</h3>
-                                  <i style={{marginLeft: "5px", fontSize: "12px"}} class="fas fa-sync-alt"/>
-                              </div>
-              </div>*/}
-
                 <div
                   style={{
                     display: "flex",
@@ -287,28 +277,11 @@ export default function Muro({ isMobile, userName }) {
                       style={{
                         width: "50px",
                         borderRadius: "100%",
-                        // padding: "10px",
                       }}
                       src={AvatarSearch ? AvatarSearch : "/images/search.svg"}
                     />
                   </div>
 
-                  {/* <div className="muro-send-tweet-input">
-
-                    <input
-                      type="text"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Búsqueda"
-                    />
-                     <textarea
-                      id="muro-textarea"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Qué estás pensando?"
-                      type="text"
-                    /> 
-                  </div> */}
                   <div
                     style={{
                       backgroundColor: "black",
@@ -428,7 +401,6 @@ export default function Muro({ isMobile, userName }) {
                             backgroundColor: "red",
                             width: "30px",
                             position: "absolute",
-
                             opacity: "0",
                           }}
                           type="file"
@@ -476,7 +448,6 @@ export default function Muro({ isMobile, userName }) {
                         )}
                       </div>
                     </Grid>
-                    {/*dropdownEmotes && <DropdownEmotes muro={true} clickEmoticon />*/}
 
                     <Grid
                       style={{
@@ -511,10 +482,6 @@ export default function Muro({ isMobile, userName }) {
               </div>
             )}
             <div className="muro-tweet-container">
-              {/*<div style={{height: "60px", cursor: "pointer", width: "100%", borderTop: "1px solid #ffffff1a", borderBottom: "1px solid #ffffff1a", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                  <p style={{color: "#ff60b2"}}>10 nuevos posteos</p>
-                              </div>*/}
-
               {tweets != null &&
                 tweets.map((tweet) => <TweetCard tweet={tweet} />)}
               {!tweets && (
@@ -529,17 +496,6 @@ export default function Muro({ isMobile, userName }) {
                   <ScaleLoader width={4} height={20} color="#f36197d7" />
                 </div>
               )}
-              {/* {hasMore === false && loading === false && (
-                <div style={{ textAlign: "center", marginTop: "20px" }}>
-                  <i
-                    style={{ color: "white", fontSize: "44px" }}
-                    class="fas fa-check-circle"
-                  />
-                  <h3 style={{ color: "white", marginTop: "10px" }}>
-                    ¡Parece que estas al día!
-                  </h3>
-                </div>
-              )} */}
             </div>
           </div>
 
@@ -556,7 +512,7 @@ export default function Muro({ isMobile, userName }) {
       className="muro-body"
       style={{ padding: isMobile && "0px 1rem 5rem", width: isMobile && "90%" }}
     >
-      {!showScrollButton && (
+      {showScrollButton && (
         <button onClick={scrollToTop} className="alprincipio">
           Nuevas Publicaciones
         </button>
