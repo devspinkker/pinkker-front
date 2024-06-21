@@ -7,16 +7,17 @@
 /* menu.css */
 .mobile-menu {
     position: fixed;
-    border-top: #2a2e38;
+    border-top: #0048ff;
     bottom: 0;
     left: 0;
     width: 100%;
     background-color: #121418;
+    gap:10px;
+
     color: white;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 10px 0;
     z-index: 1000; /* Asegura que el menú esté por encima de otros elementos */
 }
 
@@ -139,7 +140,7 @@
 }
 
 .img-bars:hover {
-    fill: rgb(119, 23, 255) !important;
+    fill: #ff69c4 !important;
     cursor: pointer;
 }
 

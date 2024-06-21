@@ -29,14 +29,14 @@ function SliderLayout(props) {
         flexDirection: "column-reverse",
         width: "100%",
       }}
-      spaceBetween={props.clipT ? 20 : 5}
+      spaceBetween={props.clipT ? 20 : 0}
       navigation={{
         nextEl: ".custom-next",
         prevEl: ".custom-prev",
       }}
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       slidesPerView={
-        props.isMobile ? (props.clipT ? 1 : 2) : props.clipT ? 4.5 : 9
+        props.isMobile ? (props.clipT ? 1 : 3) : props.clipT ? 4.5 : 9
       }
       Pagination
       onSlideChange={() => console.log("slide change")}

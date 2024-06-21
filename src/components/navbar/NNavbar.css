@@ -225,11 +225,11 @@
   transition: 200ms all;
 }
 .boton-comprar:hover{
-  background-color: #c76286ba !important;
+  background-color: #ff69c4 !important;
 }
 .button-purchase-pixels:hover {
   background-color: #343843;
-  border: 1px solid #856ffc
+  border: 1px solid #ff69c4
   ;
   /* border: 1px solid #7717ff; */
 }
@@ -269,8 +269,8 @@
 
 
 .button-navbar-register {
-  background-color: rgb(119, 23, 255);
-  border: 1px solid rgb(119, 23, 255);
+  background-color: #ff69c4;
+  border: 1px solid #ff69c4;
   display: flex;
   text-shadow: rgb(0, 0, 0) 0px 1px 0px;
   align-items: center;
@@ -290,7 +290,7 @@
 }
 
 .button-navbar-register:hover {
-  background-color: rgb(119, 23, 255);
+  background-color: #ff86e4;
 }
 
 .navbar-userlink {

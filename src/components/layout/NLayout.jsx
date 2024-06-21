@@ -26,6 +26,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { LiaSlidersHSolid } from "react-icons/lia";
 import { TbLogout2 } from "react-icons/tb";
 import { FaBullseye } from "react-icons/fa";
+import { FaLayerGroup } from "react-icons/fa6";
 function NLayout(props) {
   const [locationpath, setLocationPath] = useState();
   const [dashboard, setDashboard] = useState(false);
@@ -246,7 +247,7 @@ function NLayout(props) {
               >
                 <Link
                   style={{ textDecoration: "none", padding: 0 }}
-                  to="/plataform/clips"
+                  to="/plataform/explore"
                 >
                   <Grid
                     className="button-casino"
@@ -333,7 +334,7 @@ function NLayout(props) {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    backgroundColor: "rgb(119, 23, 255)",
+                    backgroundColor: "#ff69c4",
                     borderTopLeftRadius: ".375rem",
                     borderTopRightRadius: ".375rem",
                     padding: ".4rem",
@@ -351,7 +352,7 @@ function NLayout(props) {
                     }}
                     to="/"
                   >
-                    <ImDice />
+                    <AiOutlinePlayCircle style={{  fontSize: "20px", fontWeight: 600 }} />
                   </Link>
                 </Grid>
 
@@ -380,8 +381,8 @@ function NLayout(props) {
                     }}
                     to="/plataform/explore?tipo=categories"
                   >
-                    <CgTennis
-                      style={{ transform: "rotate(-45deg)", fontSize: "20px" }}
+                    <FaLayerGroup 
+                      style={{  fontSize: "20px" }}
                     />
                   </Link>
                 </Grid>
@@ -423,9 +424,9 @@ function NLayout(props) {
                   <div className="pixel-coming-soon-text-container">
                     <div className="pixel-coming-soon-text">
                       <span className="pixel-coming-soon-text-pixel">
-                        Pixel
+                        Pinkker Prime
                       </span>
-                      <span className="pixel-coming-soon-text-pxl">(PXL)</span>
+                      {/* <span className="pixel-coming-soon-text-pxl">(PXL)</span> */}
                     </div>
                     <span className="pixel-coming-soon-navbarLeft-Comming-soon">
                       Proximamente
@@ -720,13 +721,13 @@ function NLayout(props) {
                   onClick={() => togglePopupAuth(0)}
                   className="button-navbar-login"
                 >
-                  Login
+                  Ingresar
                 </h6>
                 <h6
                   onClick={() => togglePopupAuth(1)}
                   className="button-navbar-register"
                 >
-                  Register
+                  Registrarse
                 </h6>
               </Grid>
             </Grid>
@@ -802,64 +803,21 @@ function NLayout(props) {
                     </button>
                   </div>
                   {expandCartera && (
-                    <Grid
-                      className="expandedCartera"
-                      style={{
-                        backgroundColor: "#202329",
-                        zIndex: "9999999",
-                        position: "fixed",
-                        width: "10.5%",
-                        top: "9.5%",
-                        borderRadius: "5px",
-                        color: "white",
-                        paddingTop: "10px",
-                        paddingBottom: "10px",
-                      }}
-                      // onClick={() => handleExpandCartera()}
-                    >
-                      <Grid
-                        style={{
-                          borderTop: "1px solid #343843",
-                          borderBottom: "1px solid #343843",
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                        className="moneda"
-                      >
-                        <Grid
-                          style={{
-                            display: "flex",
-                            gap: "5px",
-                            alignItems: "center",
-                            padding: "10px",
-                          }}
-                        >
-                          <img
-                            src="/images/pixel.png"
-                            style={{ width: "30%" }}
-                          />
-                          <Typography>PXL</Typography>
-                          <DropdownPurchase />
-                        </Grid>
-                        <span style={{ fontSize: "14px", padding: "10px" }}>
-                          {props.user?.Pixeles != 0
-                            ? props.user?.Pixeles
-                            : "0.0000000"}
-                        </span>
-                      </Grid>
-                    </Grid>
+                    
+                    <DropdownPurchase />
+
                   )}
 
                   <Link to="/plataform/cartera">
                     <button
                       style={{
                         borderRadius: "5px",
-                        fontFamily: "inter",
+                        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
                         display: "flex",
                         alignItems: "center",
                         gap: "5px",
+                        backgroundColor: "transparent",
+                        border: "1px solid #f36196"
                       }}
                       className="boton-comprar"
                     >
@@ -1380,24 +1338,26 @@ function NLayout(props) {
               top: 0,
               zIndex: 9999,
               backgroundColor: "#080808",
-              width: "102%",
+              margin: '0 auto',
+              width: "100%",
+              height: "100px",
             }}
           >
-            <Link to="/" style={{ width: "15%" }}>
-              <img src="/images/pinkker.png" style={{ width: "100%" }} alt="" />
+            <Link to="/" style={{ width: "40%", padding: '0 !important', margin:'0 !important' }}>
+              <img src="https://res.cloudinary.com/dcj8krp42/image/upload/v1712283573/categorias/logo_trazado_pndioh.png" style={{width:'100%'}}  alt="" />
             </Link>
-            <Grid style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <Grid style={{ display: "flex", alignItems: "center", gap: "5px", width:'40%' }}>
               <h6
                 onClick={() => togglePopupAuth(0)}
                 className="button-navbar-login"
               >
-                Login
+                Ingresar
               </h6>
               <h6
                 onClick={() => togglePopupAuth(1)}
                 className="button-navbar-register"
               >
-                Register
+                Registrarse
               </h6>
             </Grid>
           </Grid>
@@ -1759,7 +1719,8 @@ function NLayout(props) {
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
-              padding: '10px 0px'
+              padding: '15px 10px 15px 10px',
+              borderRight: '1px solid #2a2e38 '
             }}
             className={
               location.pathname === "/" && "item-liActiveMobile"
@@ -1775,7 +1736,8 @@ function NLayout(props) {
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
-              padding: '10px 0px'
+              padding: '15px 10px 15px 10px',
+              borderRight: '1px solid #2a2e38 '
             }}
             className={
               location.pathname === "/plataform/clips" && "item-liActiveMobile"
@@ -1784,32 +1746,35 @@ function NLayout(props) {
             <GrHomeRounded style={{ fontSize: '26px' }}/>
             <span style={{ fontSize: '26px' }}>Explorar</span>
           </Link>
-          {/* <Link
-            to="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              flexDirection: "column",
-              padding: '10px 0px'
-            }}
-          >
-            <GrHomeRounded style={{ fontSize: '18px' }} />
-            <span style={{ fontSize: '18px' }}>Categorías</span>
-          </Link> */}
-          {/* <Link
+          <Link
             to="/plataform/clips"
             style={{
               display: "flex",
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
-              padding: '10px 0px'
+              padding: '15px 10px 15px 10px',
+              borderRight: '1px solid #2a2e38 '
             }}
           >
-            <GrHomeRounded style={{ fontSize: '18px' }}/>
-            <span style={{ fontSize: '18px' }}>Explorar</span>
-          </Link> */}
+            <GrHomeRounded style={{ fontSize: '26px' }}/>
+            <span style={{ fontSize: '26px' }}>Directos</span>
+          </Link>
+          <Link
+            to="/"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: "column",
+              padding: '15px 10px 15px 10px',
+              borderRight: '1px solid #2a2e38 '
+            }}
+          >
+            <GrHomeRounded style={{ fontSize: '26px' }} />
+            <span style={{ fontSize: '26px' }}>Categorías</span>
+          </Link>
+          
           <Link
             to="/plataform/muro"
             style={{
@@ -1817,7 +1782,8 @@ function NLayout(props) {
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
-              padding: '10px 0px'
+              padding: '15px 0px 15px 0px',
+              
             }}
             className={
               location.pathname === "/plataform/muro" && "item-liActiveMobile"

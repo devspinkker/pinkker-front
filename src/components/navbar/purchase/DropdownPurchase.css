@@ -2,9 +2,9 @@
 
 .dropdownpurchase-menu {
     position: absolute;
-    top: 58px;
+    top: 70px;
     display: flex;
-    background: #0a0a0afc;
+    background: #121418;
     border: 1px solid #2a2e38;
     box-shadow: 0px 5px 20px 5px black;
     border-radius: 5px;
@@ -79,7 +79,7 @@
 }
 
 .dropdownpurchase-news-card:hover {
-    background-color: #303030;
+    background-color: #202329;
 }
 
 

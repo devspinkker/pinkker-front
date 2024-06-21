@@ -2,16 +2,16 @@
 
 .dropdownsearch-menu {
   display: flex;
-  background: #0a0a0afc;
+  background: #080808;
   font-family: 'Roboto';
   border-radius: 5px;
 
-  margin-top: 2.5%;
+  margin-top: 2.7%;
   height: 270px;
   overflow: scroll;
-  border-bottom: 1px solid #ffffff1a;
-  border-left: 1px solid #ffffff1a;
-  border-right: 1px solid #ffffff1a;
+  border-bottom: 1px solid rgb(42, 46, 56);
+  border-left:1px solid rgb(42, 46, 56);
+  border-right: 1px solid rgb(42, 46, 56);
   position: fixed;
   z-index: 99999;
   width: 11.2%;
