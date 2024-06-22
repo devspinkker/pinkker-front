@@ -291,11 +291,13 @@ export function CreateClip() {
           {/* <div className="loading-spinner"></div> */}
           {isLoadingVideo && (
             <div id="loading-progress-bar">
-              <div
-                className="progress-bar"
-                style={{ width: `${loadingProgress}%` }}
-              ></div>
-              <span> {loadingProgress + "%"}</span>
+              <div className="progress-bar-container">
+                <div
+                  className="progress-bar"
+                  style={{ width: `${loadingProgress}%` }}
+                ></div>
+              </div>
+              <span>{loadingProgress + "%"}</span>
             </div>
           )}
         </div>
