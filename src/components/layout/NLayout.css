@@ -12,8 +12,6 @@
     left: 0;
     width: 100%;
     background-color: #121418;
-    gap:10px;
-
     color: white;
     display: flex;
     justify-content: space-around;

@@ -131,7 +131,9 @@
 
     .user_data_contain {
         display: flex;
-        margin-left: 12px;
+        margin-left: 12px !important;
+        width: 100% !important;
+        font-size: 18px !important;
     }
 }
 

@@ -149,7 +149,9 @@ function SliderLayout(props) {
             (categorie, index) => (
               <SwiperSlide style={{ color: "white" }}>
                 <CardCategorie
-                  width={"160px"}
+                  width={"180px"}
+                  height= {"100%"}
+
                   name={categorie.nombre}
                   image={categorie.img ?? "/images/pinkker-stream.png"}
                   spectators={categorie.spectators}
@@ -171,7 +173,8 @@ function SliderLayout(props) {
                 }}
               >
                 <CardCategorie
-                  width={"160px"}
+                  width={"180px"}
+                  height= {"100%"}
                   name={categorie.nombre}
                   titulo={"Ver Todos"}
                   image={categorie.img ?? "/images/pinkker-stream.png"}

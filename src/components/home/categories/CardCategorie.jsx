@@ -34,7 +34,7 @@ export default function CustomCard(props) {
           style={{
             position: props.isLoading && "absolute",
             opacity: props.isLoading && "0",
-            height: props?.height,
+            height: '100%',
           }}
           className="custom-categories-card"
         >
@@ -51,8 +51,8 @@ export default function CustomCard(props) {
               <img
                 style={{
                   border: `1px solid rgb(229, 224, 218)`,
-                  width: '140px',
-                  height: '190px',
+                  width: `${props.width}`,
+                  height: `${props.height}`,
                 }}
                 className= "img-categorie-card"
                 src={props.image}

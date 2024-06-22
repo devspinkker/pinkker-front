@@ -100,9 +100,9 @@
 @media screen and (max-width: 758px) {
 
     .dropdownpurchase-menu {
-        width: 100%;
-        right: 0;
-        top: 63px;
+        width: 50%;
+        right: 25%;
+        top: 80%;
 
     }
 

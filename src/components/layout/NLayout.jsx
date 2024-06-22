@@ -1410,6 +1410,7 @@ function NLayout(props) {
                         gap: "5px",
                         alignItems: "center",
                         width: "50%",
+                        
                       }}
                     >
                       <img
@@ -1430,51 +1431,10 @@ function NLayout(props) {
                   </button>
                 </div>
                 {expandCartera && (
-                  <Grid
-                    className="expandedCartera"
-                    style={{
-                      backgroundColor: "#202329",
-                      zIndex: "9999999",
-                      position: "fixed",
-                      width: "30%",
-                      top: "7%",
-                      borderRadius: "5px",
-                      color: "white",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                    }}
-                    onClick={() => handleExpandCartera()}
-                  >
-                    <Grid
-                      style={{
-                        borderTop: "1px solid #343843",
-                        borderBottom: "1px solid #343843",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                      className="moneda"
-                    >
-                      <Grid
-                        style={{
-                          display: "flex",
-                          gap: "5px",
-                          alignItems: "center",
-                          padding: "10px",
-                        }}
-                      >
-                        <img src="/images/pixel.png" style={{ width: "30%" }} />
-                        <Typography>PXL</Typography>
-                      </Grid>
-                      <span style={{ fontSize: "14px", padding: "10px" }}>
-                        {props.user?.Pixeles != 0
-                          ? props.user?.Pixeles
-                          : "0.0000000"}
-                      </span>
-                    </Grid>
-                  </Grid>
-                )}
+                    
+                    <DropdownPurchase />
+
+                  )}
 
                 <Link to="/plataform/cartera">
                   <button
@@ -1484,6 +1444,8 @@ function NLayout(props) {
                       display: "flex",
                       alignItems: "center",
                       gap: "5px",
+                      backgroundColor:'#f36196 !important'
+
                     }}
                     className="boton-comprar"
                   >
@@ -1573,9 +1535,10 @@ function NLayout(props) {
                         src={props.user?.Avatar ?? "/images/pixel.png"}
                         alt=""
                         style={{
-                          width: "20%",
-                          height: "20%",
+                          width: "50px",
+                          height: "50px",
                           borderRadius: "50%",
+                          objectFit: 'cover',
                         }}
                       />
                       <Grid
@@ -1719,7 +1682,8 @@ function NLayout(props) {
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
-              padding: '15px 10px 15px 10px',
+              padding: '0px 15px 0px 0px',            
+              
               borderRight: '1px solid #2a2e38 '
             }}
             className={
@@ -1736,7 +1700,8 @@ function NLayout(props) {
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
-              padding: '15px 10px 15px 10px',
+              padding: '0px 15px 0px 0px',            
+             
               borderRight: '1px solid #2a2e38 '
             }}
             className={
@@ -1753,7 +1718,8 @@ function NLayout(props) {
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
-              padding: '15px 10px 15px 10px',
+              padding: '0px 15px 0px 0px',            
+              
               borderRight: '1px solid #2a2e38 '
             }}
           >
@@ -1767,7 +1733,7 @@ function NLayout(props) {
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
-              padding: '15px 10px 15px 10px',
+              padding: '10px 10px',            
               borderRight: '1px solid #2a2e38 '
             }}
           >
@@ -1782,7 +1748,7 @@ function NLayout(props) {
               alignItems: "center",
               gap: "5px",
               flexDirection: "column",
-              padding: '15px 0px 15px 0px',
+              padding: '0px 0px 0px 15px'
               
             }}
             className={

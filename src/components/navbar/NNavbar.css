@@ -225,12 +225,12 @@
   transition: 200ms all;
 }
 .boton-comprar:hover{
-  background-color: #ff69c4 !important;
+  background-color: #4c0b39 !important;
+  border: 1px solid #4c0b39 !important;
 }
 .button-purchase-pixels:hover {
   background-color: #343843;
-  border: 1px solid #ff69c4
-  ;
+  border: 1px solid #4c0b39;
   /* border: 1px solid #7717ff; */
 }
 
@@ -582,7 +582,8 @@
 
   .navbar-image-avatar img {
     width: 50px;
-
+    height: 50px;
+    object-fit: cover;
   }
 
   .nav-links {
