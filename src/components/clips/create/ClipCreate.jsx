@@ -21,7 +21,7 @@ export function CreateClip() {
   const [isVideoEnded, setIsVideoEnded] = useState(false);
   const [isLoadingVideo, setIsLoadingVideo] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
-  const TOTAL_VIDEO_SIZE_KB = 50;
+  const TOTAL_VIDEO_SIZE_KB = 1000;
   const UPDATE_CHUNK_SIZE_KB = 10;
 
   useEffect(() => {
@@ -29,33 +29,32 @@ export function CreateClip() {
       try {
         const queryParams = new URLSearchParams(window.location.search);
         const totalKey = queryParams.get("totalKey");
-        let accumulatedLoadedKB = 0; // Acumulador de KB cargados
-        let previousLoadedBytes = 0; // Bytes cargados previamente
+        let accumulatedLoadedKB = 0;
+        let previousLoadedBytes = 0;
 
         const response = await GetBuffer(totalKey, {
           onDownloadProgress: (progressEvent) => {
             const loadedBytes = progressEvent.loaded;
-            const loadedKB = (loadedBytes - previousLoadedBytes) / 1024; // Diferencia de bytes a KB
-            previousLoadedBytes = loadedBytes; // Actualizar bytes cargados previamente
+            const loadedKB = (loadedBytes - previousLoadedBytes) / 1024;
+            previousLoadedBytes = loadedBytes;
 
-            accumulatedLoadedKB += loadedKB; // Acumular KB cargados
+            accumulatedLoadedKB += loadedKB;
 
-            console.log(accumulatedLoadedKB);
+            console.log(Math.floor(accumulatedLoadedKB));
 
             if (accumulatedLoadedKB >= UPDATE_CHUNK_SIZE_KB) {
               const totalLoadedKB = loadedBytes / 1024;
-              const progressPercent =
-                (totalLoadedKB / TOTAL_VIDEO_SIZE_KB) * 100;
+              let progressPercent = Math.floor(
+                (totalLoadedKB / TOTAL_VIDEO_SIZE_KB) * 100
+              );
 
-              console.log(`Total Loaded KB: ${totalLoadedKB}`);
-              console.log(`Progress Percent: ${progressPercent}`);
+              progressPercent = Math.min(progressPercent, 100);
 
               setLoadingProgress(progressPercent);
               accumulatedLoadedKB = 0;
             }
           },
         });
-
         const data = response.data;
         const blob = new Blob([data], { type: "video/mp4" });
         const videoURL = URL.createObjectURL(blob);
@@ -228,7 +227,7 @@ export function CreateClip() {
             {isPlaying === false && (
               <div
                 className="clipcard-muted"
-                style={{ left: "50%", top: "227px" }}
+                style={{ left: "55%", top: "311px" }}
               >
                 <i
                   onClick={playVideo}
@@ -291,11 +290,13 @@ export function CreateClip() {
           {/* <div className="loading-spinner"></div> */}
           {isLoadingVideo && (
             <div id="loading-progress-bar">
-              <div
-                className="progress-bar"
-                style={{ width: `${loadingProgress}%` }}
-              ></div>
-              <span> {loadingProgress + "%"}</span>
+              <div className="progress-bar-container">
+                <div
+                  className="progress-bar"
+                  style={{ width: `${loadingProgress}%` }}
+                ></div>
+              </div>
+              <span>{loadingProgress + "%"}</span>
             </div>
           )}
         </div>
