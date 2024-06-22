@@ -352,7 +352,7 @@ function NLayout(props) {
                     }}
                     to="/"
                   >
-                    <AiOutlinePlayCircle style={{  fontSize: "20px", fontWeight: 600 }} />
+                    <AiOutlinePlayCircle style={{ fontSize: "20px", fontWeight: 600 }} />
                   </Link>
                 </Grid>
 
@@ -381,8 +381,8 @@ function NLayout(props) {
                     }}
                     to="/plataform/explore?tipo=categories"
                   >
-                    <FaLayerGroup 
-                      style={{  fontSize: "20px" }}
+                    <FaLayerGroup
+                      style={{ fontSize: "20px" }}
                     />
                   </Link>
                 </Grid>
@@ -685,8 +685,8 @@ function NLayout(props) {
             width: props.tyExpanded
               ? "85%"
               : openNotification || openMessage
-              ? "80%"
-              : "95%",
+                ? "80%"
+                : "95%",
             display: "flex",
             flexDirection: "column",
             zIndex: 99999,
@@ -803,7 +803,7 @@ function NLayout(props) {
                     </button>
                   </div>
                   {expandCartera && (
-                    
+
                     <DropdownPurchase />
 
                   )}
@@ -1343,10 +1343,10 @@ function NLayout(props) {
               height: "100px",
             }}
           >
-            <Link to="/" style={{ width: "40%", padding: '0 !important', margin:'0 !important' }}>
-              <img src="https://res.cloudinary.com/dcj8krp42/image/upload/v1712283573/categorias/logo_trazado_pndioh.png" style={{width:'100%'}}  alt="" />
+            <Link to="/" style={{ width: "40%", padding: '0 !important', margin: '0 !important' }}>
+              <img src="https://res.cloudinary.com/dcj8krp42/image/upload/v1712283573/categorias/logo_trazado_pndioh.png" style={{ width: '100%' }} alt="" />
             </Link>
-            <Grid style={{ display: "flex", alignItems: "center", gap: "5px", width:'40%' }}>
+            <Grid style={{ display: "flex", alignItems: "center", gap: "5px", width: '40%' }}>
               <h6
                 onClick={() => togglePopupAuth(0)}
                 className="button-navbar-login"
@@ -1410,7 +1410,7 @@ function NLayout(props) {
                         gap: "5px",
                         alignItems: "center",
                         width: "50%",
-                        
+
                       }}
                     >
                       <img
@@ -1431,10 +1431,10 @@ function NLayout(props) {
                   </button>
                 </div>
                 {expandCartera && (
-                    
-                    <DropdownPurchase />
 
-                  )}
+                  <DropdownPurchase />
+
+                )}
 
                 <Link to="/plataform/cartera">
                   <button
@@ -1444,7 +1444,7 @@ function NLayout(props) {
                       display: "flex",
                       alignItems: "center",
                       gap: "5px",
-                      backgroundColor:'#f36196 !important'
+                      backgroundColor: '#f36196 !important'
 
                     }}
                     className="boton-comprar"
@@ -1671,94 +1671,44 @@ function NLayout(props) {
           )}
         </Grid>
 
-        <Grid
-          
-          className="mobile-menu"
-        >
+        <div className="mobile-menu">
           <Link
             to="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              flexDirection: "column",
-              padding: '0px 15px 0px 0px',            
-              
-              borderRight: '1px solid #2a2e38 '
-            }}
-            className={
-              location.pathname === "/" && "item-liActiveMobile"
-            }
+            className={location.pathname === "/" ? "active" : ""}
           >
-            <GrHomeRounded style={{ fontSize: '26px' }} />
-            <span style={{ fontSize: '26px' }}>Inicio</span>
+            <GrHomeRounded className="icon" />
+            <span>Inicio</span>
           </Link>
           <Link
             to="/plataform/clips"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              flexDirection: "column",
-              padding: '0px 15px 0px 0px',            
-             
-              borderRight: '1px solid #2a2e38 '
-            }}
-            className={
-              location.pathname === "/plataform/clips" && "item-liActiveMobile"
-            }
+            className={location.pathname === "/plataform/clips" ? "active" : ""}
           >
-            <GrHomeRounded style={{ fontSize: '26px' }}/>
-            <span style={{ fontSize: '26px' }}>Explorar</span>
+            <FiSearch className="icon"/>
+
+            <span>Explorar</span>
           </Link>
           <Link
-            to="/plataform/clips"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              flexDirection: "column",
-              padding: '0px 15px 0px 0px',            
-              
-              borderRight: '1px solid #2a2e38 '
-            }}
+            to="/plataform/explore?tipo=streams"
+            className={location.pathname === "/plataform/explore?tipo=streams" ? "active" : ""}
           >
-            <GrHomeRounded style={{ fontSize: '26px' }}/>
-            <span style={{ fontSize: '26px' }}>Directos</span>
+            <AiOutlinePlayCircle className="icon" />
+            <span>Directos</span>
           </Link>
           <Link
-            to="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              flexDirection: "column",
-              padding: '10px 10px',            
-              borderRight: '1px solid #2a2e38 '
-            }}
+            to="/plataform/explore?tipo=categories"
+            className={location.pathname === "/plataform/explore?tipo=categories" ? "active" : ""}
           >
-            <GrHomeRounded style={{ fontSize: '26px' }} />
-            <span style={{ fontSize: '26px' }}>Categorías</span>
+            <FaLayerGroup className="icon" />
+            <span>Categorías</span>
           </Link>
-          
           <Link
             to="/plataform/muro"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              flexDirection: "column",
-              padding: '0px 0px 0px 15px'
-              
-            }}
-            className={
-              location.pathname === "/plataform/muro" && "item-liActiveMobile"
-            }
+            className={location.pathname === "/plataform/muro" ? "active" : ""}
           >
-            <GrHomeRounded style={{ fontSize: '26px' }} />
-            <span style={{ fontSize: '26px' }}>Muro</span>
+            <BsChatSquareText className="icon" />
+            <span>Muro</span>
           </Link>
-        </Grid>
+        </div>
       </Grid>
     );
   };
