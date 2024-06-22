@@ -225,8 +225,8 @@
   transition: 200ms all;
 }
 .boton-comprar:hover{
-  background-color: #4c0b39 !important;
-  border: 1px solid #4c0b39 !important;
+  background-color: #762543 !important;
+  border: 1px solid #f36196 !important;
 }
 .button-purchase-pixels:hover {
   background-color: #343843;
