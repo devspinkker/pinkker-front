@@ -946,9 +946,10 @@ function NLayout(props) {
                           src={props.user?.Avatar ?? "/images/pixel.png"}
                           alt=""
                           style={{
-                            width: "20%",
-                            height: "20%",
-                            borderRadius: "50%",
+                            width: "40px",
+                          height: "40px",
+                          borderRadius: "50%",
+                          objectFit: 'cover',
                           }}
                         />
                         <Grid
@@ -1368,7 +1369,7 @@ function NLayout(props) {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              padding: "0rem 1rem",
+              padding: "1rem",
               position: "sticky",
               top: 0,
               zIndex: 9999,
@@ -1380,12 +1381,13 @@ function NLayout(props) {
               <img src="/images/pinkker.png" style={{ width: "100%" }} alt="" />
             </Link>
 
-            <Grid style={{ display: "flex", alignItems: "center" }}>
+            <Grid style={{ display: "flex", alignItems: "center", width:'60%', justifyContent:'center', height: '5rem !important' }}>
               <div
                 style={{
                   display: "flex",
                   gap: "5px",
                   alignItems: "center",
+                  height: '3rem !important'
                 }}
               >
                 <div
@@ -1393,6 +1395,7 @@ function NLayout(props) {
                     // width: "500px",
                     display: "flex",
                     justifyContent: "flex-end",
+                    height: "3rem !important" ,
                   }}
                   className="button-purchase-pixels"
                   onClick={() => handleExpandCartera()}
@@ -1444,12 +1447,12 @@ function NLayout(props) {
                       display: "flex",
                       alignItems: "center",
                       gap: "5px",
-                      backgroundColor: '#f36196 !important'
-
+                      backgroundColor: '#f36196 !important',
+                      padding: '20px 10px !important',
                     }}
                     className="boton-comprar"
                   >
-                    <BsWallet />
+                    <BsWallet style={{fontSize:'20px',  fontWeight:600}} />
                   </button>
                 </Link>
               </div>

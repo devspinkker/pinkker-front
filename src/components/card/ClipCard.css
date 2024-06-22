@@ -78,10 +78,7 @@
     
     border:'1px solid red'
 }
-.clipcard-image-preview img:hover{
-    transform: translate3d(0px, -9px, 0px);
 
-}
 
 .clipcard-video-preview {
     transition: 0.7s;

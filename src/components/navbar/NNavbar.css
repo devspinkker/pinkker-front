@@ -584,6 +584,7 @@
     width: 50px;
     height: 50px;
     object-fit: cover;
+    border-radius: 50%;
   }
 
   .nav-links {
@@ -605,6 +606,7 @@
 
   .button-purchase-pixels {
     width: 180px;
+    height: 3rem !important;
   }
 
   .nav-item-dark {

@@ -22,6 +22,25 @@ function SliderLayout(props) {
   const toggleSelect = () => {
     setSelectedVideo(!selectedVideo);
   };
+  const [isFullHD, setIsFullHD] = useState(false);
+  useEffect(() => {
+    const checkScreenResolution = () => {
+      if (window.innerWidth === 1920 && window.innerHeight === 1080) {
+        setIsFullHD(true);
+      } else {
+        setIsFullHD(false);
+      }
+    };
+
+    // Check the resolution on mount
+    checkScreenResolution();
+
+    // Add event listener to check resolution on resize
+    window.addEventListener('resize', checkScreenResolution);
+
+    // Clean up the event listener on unmount
+    return () => window.removeEventListener('resize', checkScreenResolution);
+  }, []);
   return (
     <Swiper
       style={{
@@ -36,8 +55,7 @@ function SliderLayout(props) {
       }}
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       slidesPerView={
-        props.isMobile ? (props.clipT ? 1 : 3) : props.clipT ? 4.5 : 9
-      }
+        props.isMobile ? (props.clipT ? 1 : 3) : props.clipT ? 4.5 : isFullHD ? 8.5 : 7}
       Pagination
       onSlideChange={() => console.log("slide change")}
       onSwiper={(swiper) => console.log(swiper)}
@@ -149,8 +167,8 @@ function SliderLayout(props) {
             (categorie, index) => (
               <SwiperSlide style={{ color: "white" }}>
                 <CardCategorie
-                  width={"180px"}
-                  height= {"100%"}
+                  width={props.isMobile ? "180px" : '160px'}
+                  height={props.isMobile ? "100%" : '180px'}
 
                   name={categorie.nombre}
                   image={categorie.img ?? "/images/pinkker-stream.png"}
@@ -174,7 +192,7 @@ function SliderLayout(props) {
               >
                 <CardCategorie
                   width={"180px"}
-                  height= {"100%"}
+                  height={"100%"}
                   name={categorie.nombre}
                   titulo={"Ver Todos"}
                   image={categorie.img ?? "/images/pinkker-stream.png"}
@@ -195,7 +213,7 @@ function SliderLayout(props) {
             .map((clip) => (
               <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
                 {/* <ClipCard video={clip} /> */}
-                
+
                 <ClipCard video={clip} />
               </SwiperSlide>
             ))}
