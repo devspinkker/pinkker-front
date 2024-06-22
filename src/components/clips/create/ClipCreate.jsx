@@ -16,40 +16,70 @@ export function CreateClip() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(1);
-  const [playerKey, setPlayerKey] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [videoHover, setVideoHover] = useState(false);
   const [isVideoEnded, setIsVideoEnded] = useState(false);
+  const [isLoadingVideo, setIsLoadingVideo] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const TOTAL_VIDEO_SIZE_KB = 50;
+  const UPDATE_CHUNK_SIZE_KB = 10;
 
   useEffect(() => {
     const fetchVideoData = async () => {
       try {
         const queryParams = new URLSearchParams(window.location.search);
         const totalKey = queryParams.get("totalKey");
-        const response = await GetBuffer(totalKey);
-        const data = await response.arrayBuffer();
+        let accumulatedLoadedKB = 0; // Acumulador de KB cargados
+        let previousLoadedBytes = 0; // Bytes cargados previamente
+
+        const response = await GetBuffer(totalKey, {
+          onDownloadProgress: (progressEvent) => {
+            const loadedBytes = progressEvent.loaded;
+            const loadedKB = (loadedBytes - previousLoadedBytes) / 1024; // Diferencia de bytes a KB
+            previousLoadedBytes = loadedBytes; // Actualizar bytes cargados previamente
+
+            accumulatedLoadedKB += loadedKB; // Acumular KB cargados
+
+            console.log(accumulatedLoadedKB);
+
+            if (accumulatedLoadedKB >= UPDATE_CHUNK_SIZE_KB) {
+              const totalLoadedKB = loadedBytes / 1024;
+              const progressPercent =
+                (totalLoadedKB / TOTAL_VIDEO_SIZE_KB) * 100;
+
+              console.log(`Total Loaded KB: ${totalLoadedKB}`);
+              console.log(`Progress Percent: ${progressPercent}`);
+
+              setLoadingProgress(progressPercent);
+              accumulatedLoadedKB = 0;
+            }
+          },
+        });
+
+        const data = response.data;
         const blob = new Blob([data], { type: "video/mp4" });
         const videoURL = URL.createObjectURL(blob);
 
-        const video = document.createElement("video");
-        video.src = videoURL;
-        video.onloadedmetadata = () => {
-          setDuration(video.duration);
-          setEndTime(video.duration);
+        const videoElement = document.createElement("video");
+        videoElement.src = videoURL;
+        videoElement.onloadedmetadata = () => {
+          setDuration(videoElement.duration);
+          setEndTime(videoElement.duration);
         };
 
         setVideoUrl(videoURL);
         setVideo({ blob, arrayBuffer: data });
-        videoRef.current = video;
+        videoRef.current = videoElement;
+
+        setIsLoadingVideo(false);
+        setLoadingProgress(100);
       } catch (error) {
-        console.error(error);
+        console.error("Error al cargar el video:", error);
       }
     };
 
     fetchVideoData();
   }, []);
-
   useEffect(() => {
     if (videoRef.current && videoRef.current.currentTime !== undefined) {
       videoRef.current.currentTime = startTime;
@@ -258,8 +288,16 @@ export function CreateClip() {
         </div>
       ) : (
         <div id="create_clip_videoUrl_loading">
-          <div className="loading-spinner"></div>
-          <p>Cargando video...</p>
+          {/* <div className="loading-spinner"></div> */}
+          {isLoadingVideo && (
+            <div id="loading-progress-bar">
+              <div
+                className="progress-bar"
+                style={{ width: `${loadingProgress}%` }}
+              ></div>
+              <span> {loadingProgress + "%"}</span>
+            </div>
+          )}
         </div>
       )}
     </div>

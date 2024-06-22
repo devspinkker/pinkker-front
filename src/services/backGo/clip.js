@@ -17,12 +17,12 @@ export const Create_Clip = async (videoBytes, start, end, totalKey, clipTitle, c
     );
     return response
 }
-export const GetBuffer = async (streamKey) => {
-
-    const response = await fetch(`${process.env.REACT_APP_BACKRTMP}/stream/${streamKey}`)
-    return response
-}
-
+export const GetBuffer = async (streamKey, config) => {
+    return axios.get(`${process.env.REACT_APP_BACKRTMP}/stream/${streamKey}`, {
+        responseType: 'arraybuffer',
+        ...config,
+    });
+};
 
 // export const GetBuffer = async (totalKey) => {
 
