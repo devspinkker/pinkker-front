@@ -1449,6 +1449,7 @@ function NLayout(props) {
                       gap: "5px",
                       backgroundColor: '#f36196 !important',
                       padding: '20px 10px !important',
+                      height: '60px !important'
                     }}
                     className="boton-comprar"
                   >

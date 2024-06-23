@@ -242,7 +242,7 @@ export default function Muro({ isMobile, userName }) {
         <div className="muro-container">
           <div
             style={{
-              width: "65%",
+              width: isMobile ? '100%' : "65%",
               display: "flex",
               flexDirection: "column",
               gap: "15px",
@@ -510,7 +510,7 @@ export default function Muro({ isMobile, userName }) {
   return (
     <div
       className="muro-body"
-      style={{ padding: isMobile && "0px 1rem 5rem", width: isMobile && "90%" }}
+      style={{ padding: isMobile && "1rem 1rem 5rem", width: isMobile && "90%", margin: isMobile && '0 auto' }}
     >
       {showScrollButton && (
         <button onClick={scrollToTop} className="alprincipio">

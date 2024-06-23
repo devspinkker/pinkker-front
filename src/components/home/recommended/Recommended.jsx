@@ -160,7 +160,7 @@ export default function DirectosRecommended({
     <div className="home-recommended">
       {streams?.length && <div className="manager-recommended">
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '80%' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '50%' }}>
           <GrGamepad style={{ color: '#ff69c4', fontSize: '20px' }} />
 
           <h2 style={{ fontFamily: 'Inter', color: 'white', fontSize: '20px' }}>Directos Recomendados</h2>
@@ -169,7 +169,7 @@ export default function DirectosRecommended({
         <div className="manager-recommended-actions">
           <div className="manager-recommended-actions-ver-todos">
             <Link to="/plataform/explore?tipo=streams" style={{ padding: 0 }}>
-              <span style={{ fontFamily: 'Signika Negative', fontSize: '14px' }} >Ver todos</span>
+              <span style={{ fontFamily: "Signika Negative", fontSize: "14px" }} >Ver todos</span>
             </Link>
           </div>
           <div className="manager-recommended-actions-arrow">
