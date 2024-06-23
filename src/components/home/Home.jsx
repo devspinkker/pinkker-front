@@ -240,8 +240,9 @@ const Home = ({
   return (
     <div
       style={{
-        padding: isMobile ? "0px 1rem 5rem 1rem" : "2rem 5.8rem",
-        width: "89%",
+        padding: isMobile ? "1rem 1rem 5rem 1rem" : "2rem 5.8rem",
+        width: isMobile ?  "89%" : '90%',
+        margin: '0 auto'
       }}
       className={"home-body-" + theme.theme}
     >

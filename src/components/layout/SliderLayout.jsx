@@ -167,7 +167,7 @@ function SliderLayout(props) {
             (categorie, index) => (
               <SwiperSlide style={{ color: "white" }}>
                 <CardCategorie
-                  width={props.isMobile ? "180px" : '160px'}
+                  width={props.isMobile ? "180px" : '140px'}
                   height={props.isMobile ? "100%" : '180px'}
 
                   name={categorie.nombre}
@@ -191,7 +191,7 @@ function SliderLayout(props) {
                 }}
               >
                 <CardCategorie
-                  width={"180px"}
+                  width={"140px"}
                   height={"100%"}
                   name={categorie.nombre}
                   titulo={"Ver Todos"}
