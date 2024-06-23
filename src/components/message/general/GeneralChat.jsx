@@ -5,7 +5,7 @@ import "./GeneralChat.css";
 import { useSelector } from "react-redux";
 
 import {
-  getMessages,
+  // getMessages,
   getGeneralMessages,
   sendMessage,
 } from "../../../services/messages";
@@ -54,19 +54,19 @@ export default function GeneralChat() {
   async function handleClick(user) {
     setSelectedUser(user);
 
-    const data = await getMessages(token, user.name);
-    if (data != null && data != undefined) {
-      setSelectedMessages(data);
-    }
+    // const data = await getMessages(token, user.name);
+    // if (data != null && data != undefined) {
+    //   setSelectedMessages(data);
+    // }
   }
 
   const [message, setMessage] = useState(null);
 
   const reloadData = async () => {
-    const data = await getMessages(token, selectedUser.name);
-    if (data != null && data != undefined) {
-      setSelectedMessages(data);
-    }
+    // const data = await getMessages(token, selectedUser.name);
+    // if (data != null && data != undefined) {
+    //   setSelectedMessages(data);
+    // }
   };
 
   async function handleSendMessage() {

@@ -27,6 +27,8 @@ import { LiaSlidersHSolid } from "react-icons/lia";
 import { TbLogout2 } from "react-icons/tb";
 import { FaBullseye } from "react-icons/fa";
 import { FaLayerGroup } from "react-icons/fa6";
+import Messages from "../dashboard/stream-manager/chat/Messages";
+import Message from "../message/Message";
 function NLayout(props) {
   const [locationpath, setLocationPath] = useState();
   const [dashboard, setDashboard] = useState(false);
@@ -37,7 +39,6 @@ function NLayout(props) {
   const [type, setType] = useState(0);
   const [openNotification, setOpenNotification] = useState(true);
   const [openMessage, setOpenMessage] = useState(false);
-  console.log("openMessage", openMessage);
   function clickPulsedButton() {
     setPulse(!pulse);
     props.setExpanded(!props.tyExpanded);
@@ -352,7 +353,9 @@ function NLayout(props) {
                     }}
                     to="/"
                   >
-                    <AiOutlinePlayCircle style={{ fontSize: "20px", fontWeight: 600 }} />
+                    <AiOutlinePlayCircle
+                      style={{ fontSize: "20px", fontWeight: 600 }}
+                    />
                   </Link>
                 </Grid>
 
@@ -381,9 +384,7 @@ function NLayout(props) {
                     }}
                     to="/plataform/explore?tipo=categories"
                   >
-                    <FaLayerGroup
-                      style={{ fontSize: "20px" }}
-                    />
+                    <FaLayerGroup style={{ fontSize: "20px" }} />
                   </Link>
                 </Grid>
               </Grid>
@@ -497,8 +498,11 @@ function NLayout(props) {
                       justifyContent: !props.tyExpanded && "center",
                       animation: !props.tyExpanded && "ease-in-out 1s linear",
                     }}
-                    className={location.pathname === '/plataform/clips' ? "item-liActive" : "item-li"}
-
+                    className={
+                      location.pathname === "/plataform/clips"
+                        ? "item-liActive"
+                        : "item-li"
+                    }
                   >
                     {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
@@ -685,8 +689,8 @@ function NLayout(props) {
             width: props.tyExpanded
               ? "85%"
               : openNotification || openMessage
-                ? "80%"
-                : "95%",
+              ? "80%"
+              : "95%",
             display: "flex",
             flexDirection: "column",
             zIndex: 99999,
@@ -802,22 +806,19 @@ function NLayout(props) {
                       {expandCartera ? <IoIosArrowUp /> : <IoIosArrowDown />}
                     </button>
                   </div>
-                  {expandCartera && (
-
-                    <DropdownPurchase />
-
-                  )}
+                  {expandCartera && <DropdownPurchase />}
 
                   <Link to="/plataform/cartera">
                     <button
                       style={{
                         borderRadius: "5px",
-                        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+                        fontFamily:
+                          "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
                         display: "flex",
                         alignItems: "center",
                         gap: "5px",
                         backgroundColor: "transparent",
-                        border: "1px solid #f36196"
+                        border: "1px solid #f36196",
                       }}
                       className="boton-comprar"
                     >
@@ -947,9 +948,9 @@ function NLayout(props) {
                           alt=""
                           style={{
                             width: "40px",
-                          height: "40px",
-                          borderRadius: "50%",
-                          objectFit: 'cover',
+                            height: "40px",
+                            borderRadius: "50%",
+                            objectFit: "cover",
                           }}
                         />
                         <Grid
@@ -1318,6 +1319,12 @@ function NLayout(props) {
                 {openMessage ? "Mensajes" : "Notificaciones"}
               </Typography>
             </Grid>
+            {openMessage && (
+              <div>
+                <Message />
+                <h1>ask</h1>
+              </div>
+            )}
           </Grid>
         )}
       </Grid>
@@ -1339,15 +1346,33 @@ function NLayout(props) {
               top: 0,
               zIndex: 9999,
               backgroundColor: "#080808",
-              margin: '0 auto',
+              margin: "0 auto",
               width: "100%",
               height: "100px",
             }}
           >
-            <Link to="/" style={{ width: "40%", padding: '0 !important', margin: '0 !important' }}>
-              <img src="https://res.cloudinary.com/dcj8krp42/image/upload/v1712283573/categorias/logo_trazado_pndioh.png" style={{ width: '100%' }} alt="" />
+            <Link
+              to="/"
+              style={{
+                width: "40%",
+                padding: "0 !important",
+                margin: "0 !important",
+              }}
+            >
+              <img
+                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1712283573/categorias/logo_trazado_pndioh.png"
+                style={{ width: "100%" }}
+                alt=""
+              />
             </Link>
-            <Grid style={{ display: "flex", alignItems: "center", gap: "5px", width: '40%' }}>
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                width: "40%",
+              }}
+            >
               <h6
                 onClick={() => togglePopupAuth(0)}
                 className="button-navbar-login"
@@ -1381,13 +1406,21 @@ function NLayout(props) {
               <img src="/images/pinkker.png" style={{ width: "100%" }} alt="" />
             </Link>
 
-            <Grid style={{ display: "flex", alignItems: "center", width:'60%', justifyContent:'center', height: '5rem !important' }}>
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                width: "60%",
+                justifyContent: "center",
+                height: "5rem !important",
+              }}
+            >
               <div
                 style={{
                   display: "flex",
                   gap: "5px",
                   alignItems: "center",
-                  height: '3rem !important'
+                  height: "3rem !important",
                 }}
               >
                 <div
@@ -1395,7 +1428,7 @@ function NLayout(props) {
                     // width: "500px",
                     display: "flex",
                     justifyContent: "flex-end",
-                    height: "3rem !important" ,
+                    height: "3rem !important",
                   }}
                   className="button-purchase-pixels"
                   onClick={() => handleExpandCartera()}
@@ -1413,7 +1446,6 @@ function NLayout(props) {
                         gap: "5px",
                         alignItems: "center",
                         width: "50%",
-
                       }}
                     >
                       <img
@@ -1433,11 +1465,7 @@ function NLayout(props) {
                     {expandCartera ? <IoIosArrowUp /> : <IoIosArrowDown />}
                   </button>
                 </div>
-                {expandCartera && (
-
-                  <DropdownPurchase />
-
-                )}
+                {expandCartera && <DropdownPurchase />}
 
                 <Link to="/plataform/cartera">
                   <button
@@ -1447,12 +1475,12 @@ function NLayout(props) {
                       display: "flex",
                       alignItems: "center",
                       gap: "5px",
-                      backgroundColor: '#f36196 !important',
-                      padding: '20px 10px !important',
+                      backgroundColor: "#f36196 !important",
+                      padding: "20px 10px !important",
                     }}
                     className="boton-comprar"
                   >
-                    <BsWallet style={{fontSize:'20px',  fontWeight:600}} />
+                    <BsWallet style={{ fontSize: "20px", fontWeight: 600 }} />
                   </button>
                 </Link>
               </div>
@@ -1541,7 +1569,7 @@ function NLayout(props) {
                           width: "50px",
                           height: "50px",
                           borderRadius: "50%",
-                          objectFit: 'cover',
+                          objectFit: "cover",
                         }}
                       />
                       <Grid
@@ -1675,10 +1703,7 @@ function NLayout(props) {
         </Grid>
 
         <div className="mobile-menu">
-          <Link
-            to="/"
-            className={location.pathname === "/" ? "active" : ""}
-          >
+          <Link to="/" className={location.pathname === "/" ? "active" : ""}>
             <GrHomeRounded className="icon" />
             <span>Inicio</span>
           </Link>
@@ -1686,20 +1711,28 @@ function NLayout(props) {
             to="/plataform/clips"
             className={location.pathname === "/plataform/clips" ? "active" : ""}
           >
-            <FiSearch className="icon"/>
+            <FiSearch className="icon" />
 
             <span>Explorar</span>
           </Link>
           <Link
             to="/plataform/explore?tipo=streams"
-            className={location.pathname === "/plataform/explore?tipo=streams" ? "active" : ""}
+            className={
+              location.pathname === "/plataform/explore?tipo=streams"
+                ? "active"
+                : ""
+            }
           >
             <AiOutlinePlayCircle className="icon" />
             <span>Directos</span>
           </Link>
           <Link
             to="/plataform/explore?tipo=categories"
-            className={location.pathname === "/plataform/explore?tipo=categories" ? "active" : ""}
+            className={
+              location.pathname === "/plataform/explore?tipo=categories"
+                ? "active"
+                : ""
+            }
           >
             <FaLayerGroup className="icon" />
             <span>Categorías</span>

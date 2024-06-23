@@ -272,3 +272,7 @@ export async function compradePixelesBiancePay(id, amount) {
         return error;
     }
 }
+export const SearchUser = async (search) => {
+    const res = await axios.get(`${baseURL}/user/getUserByNameUserIndex?nameUser=${search}`)
+    return res
+}
