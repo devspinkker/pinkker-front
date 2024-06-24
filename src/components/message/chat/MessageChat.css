@@ -39,7 +39,7 @@
 
 .messagechat-opened-messages {
     width: 100%;
-    height: 200px;
+    height: 93%;
     overflow: hidden;
     overflow-y: scroll;
 }
@@ -50,7 +50,7 @@
     margin: 0 auto;
     display: flex;
     text-align: center;
-    border-top: 1px solid #2b2b2b3f;   
+    border-top: 1px solid #2b2b2b3f;
     border-radius: 3px;
 }
 
@@ -61,9 +61,10 @@
     top: 8px;
     font-size: 10px;
     color: darkgray;
-}  
+    font-weight: bolder;
+}
 
-  
+
 
 .messagechat-date {
     text-align: center;
@@ -100,18 +101,26 @@
 }
 
 
-.message-chat-send-input:focus{
+.message-chat-send-input:focus {
     background-color: rgb(0, 0, 0);
     outline: 1px solid #ff60b2;
 }
 
 .message-chat-send-input::placeholder {
     color: rgb(255, 255, 255);
-  }
-  
+}
 
-@keyframes cambiarColor {   
-    0%   { background-color: #421440;}   
-    50%   { background-color: #8a2185;} 
-    100% { background-color: #421440;}  
- }
+
+@keyframes cambiarColor {
+    0% {
+        background-color: #421440;
+    }
+
+    50% {
+        background-color: #8a2185;
+    }
+
+    100% {
+        background-color: #421440;
+    }
+}

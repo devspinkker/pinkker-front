@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./MessageChat.css";
 import Loader from "react-loader-spinner";
 import { getMessages, sendMessage } from "../../../services/backGo/Chats";
@@ -7,41 +7,89 @@ export default function MessageChat({
   closeMessageChat,
   openedWindow,
   to,
+  chatID,
   selectedUser,
 }) {
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [opened, setOpened] = useState(openedWindow);
-  let id = window.localStorage.getItem("_id");
-  let token = window.localStorage.getItem("token");
+  const id = window.localStorage.getItem("_id");
+  const token = window.localStorage.getItem("token");
+  const Avatar = window.localStorage.getItem("avatar");
+  const [socket, setSocket] = useState(null);
+  const pingIntervalRef = useRef(null);
+  const messagesEndRef = useRef(null); // Referencia para el final de los mensajes
 
   useEffect(() => {
-    if (opened) {
-      const fetchData = async () => {
-        try {
-          const data = await getMessages(token, id, to);
-          console.log(data);
-          if (data != null && data != undefined) {
-            setMessages(data);
-          }
-        } catch (error) {
-          console.error("Error fetching messages:", error);
+    const connectWebSocket = () => {
+      const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCOMMERCIALWS;
+      const newSocket = new WebSocket(
+        `${REACT_APP_BACKCHATWS}/ws/chat/${chatID}/${token}`
+      );
+
+      newSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+
+      newSocket.onmessage = (event) => {
+        const receivedMessage = JSON.parse(event.data);
+        // console.log(receivedMessage);
+        console.log(receivedMessage);
+        console.log(receivedMessage.message);
+
+        if (receivedMessage.action === "new_message") {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            receivedMessage.message,
+          ]);
         }
       };
+
+      newSocket.onopen = () => {
+        console.log("WebSocket connected");
+      };
+
+      setSocket(newSocket);
+
+      return () => {
+        newSocket.close();
+        console.log("WebSocket disconnected");
+      };
+    };
+
+    if (opened && !socket) {
+      connectWebSocket();
+    }
+  }, [opened, chatID, token]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getMessages(token, id, to.ID);
+        if (data) {
+          console.log(data);
+          setMessages(data);
+        }
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      }
+    };
+
+    if (opened) {
       fetchData();
     }
-  }, [opened, to]);
+  }, [opened, to, id, token]);
+
+  useEffect(() => {
+    // Desplazarse al final de los mensajes cada vez que se actualicen
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   async function handleSendMessage() {
-    if (!selectedUser) {
-      console.error("No user selected to send message to.");
-      return;
-    }
-
     try {
-      let id = window.localStorage.getItem("_id");
-      const response = await sendMessage(token, id, selectedUser._id, message);
-      console.log("Message sent:", response);
+      const response = await sendMessage(token, id, to.ID, message);
       setMessage("");
     } catch (error) {
       console.error("Error sending message:", error);
@@ -53,15 +101,7 @@ export default function MessageChat({
     const hour = date.getHours();
     const minutes = date.getMinutes();
 
-    if (minutes < 10) {
-      return `${hour}:0${minutes}`;
-    } else {
-      return `${hour}:${minutes}`;
-    }
-  }
-
-  function handleOpened() {
-    setOpened(true);
+    return `${hour}:${minutes < 10 ? "0" + minutes : minutes}`;
   }
 
   function getType() {
@@ -72,9 +112,11 @@ export default function MessageChat({
             onClick={() => setOpened(false)}
             className="messagechat-opened-close"
           >
-            <h5 style={{ color: "#ededed", marginLeft: "10px" }}>{to}</h5>
+            <h5 style={{ color: "#ededed", marginLeft: "10px" }}>
+              {to.NameUser}
+            </h5>
             <i
-              onClick={() => closeMessageChat(to)}
+              // onClick={() => closeMessageChat(to.ID)}
               style={{
                 marginRight: "10px",
                 cursor: "pointer",
@@ -89,7 +131,7 @@ export default function MessageChat({
             id="messagechat-messages"
             className="messagechat-opened-messages"
           >
-            {messages != null ? (
+            {messages.length > 0 ? (
               messages.map((message, index) => (
                 <div key={index}>
                   {index === 0 && (
@@ -111,42 +153,48 @@ export default function MessageChat({
                     </div>
                   )}
                   <div
-                    style={{
-                      justifyContent: message._id === id && "right",
-                      color: "#ededed",
-                    }}
-                    className="general-chat-selected-message"
+                    className={`general-chat-selected-message${
+                      message.SenderID === id ? "right" : "left"
+                    }`}
                   >
-                    {message._id !== id && (
+                    {message.SenderID !== id && (
                       <div
+                        className="navbar-image-avatar-container"
                         style={{
                           width: "45px",
                           position: "relative",
                           left: "10px",
                           marginRight: "5px",
                         }}
-                        className="navbar-image-avatar-container"
                       >
-                        <div
-                          style={{ backgroundColor: "transparent" }}
-                          className="navbar-image-avatar"
-                        >
-                          <img src={message.avatar} alt="" />
+                        <div className="navbar-image-avatar">
+                          <img src={to.Avatar} alt="" />
+                        </div>
+                      </div>
+                    )}
+                    {message.SenderID === id && (
+                      <div
+                        className="navbar-image-avatar-container"
+                        style={{
+                          width: "45px",
+                          position: "relative",
+                          left: "10px",
+                          marginRight: "5px",
+                        }}
+                      >
+                        <div className="navbar-image-avatar">
+                          <img src={Avatar} alt="" />
                         </div>
                       </div>
                     )}
                     <div
-                      style={{
-                        backgroundColor:
-                          message._id === id ? "#005246" : "#363638",
-                        display: "flex",
-                        marginLeft: "5px",
-                      }}
-                      className="general-chat-selected-message-message"
+                      className={`general-chat-selected-message-message ${
+                        message.SenderID === id ? "own-message" : ""
+                      }`}
                     >
-                      <p>{message.message}</p>
+                      <p>{message.Content}</p>
                       <p className="messagechat-time">
-                        {formatHour(message.createdAt)}
+                        {formatHour(message.CreatedAt)}
                       </p>
                     </div>
                   </div>
@@ -170,6 +218,8 @@ export default function MessageChat({
                 />
               </div>
             )}
+            {/* Elemento vacío para scroll al final */}
+            <div ref={messagesEndRef} />
           </div>
           <div className="messagechat-opened-input">
             <input
@@ -184,7 +234,7 @@ export default function MessageChat({
             <button
               style={{ marginRight: "3px" }}
               className="config-button"
-              onClick={() => handleSendMessage()}
+              onClick={handleSendMessage}
             >
               <i className="fas fa-paper-plane" />
             </button>
@@ -193,10 +243,12 @@ export default function MessageChat({
       );
     } else {
       return (
-        <div onClick={() => handleOpened()} className={"messagechat-closed"}>
-          <h5 style={{ color: "#ededed", marginLeft: "10px" }}>{to}</h5>
+        <div onClick={() => setOpened(true)} className={"messagechat-closed"}>
+          <h5 style={{ color: "#ededed", marginLeft: "10px" }}>
+            {to.NameUser}
+          </h5>
           <i
-            onClick={() => closeMessageChat(to)}
+            // onClick={() => closeMessageChat(to)}
             style={{
               marginRight: "10px",
               cursor: "pointer",
@@ -212,8 +264,7 @@ export default function MessageChat({
   }
 
   return (
-    <div className={opened ? "message-chat-body-window" : "message-chat-body"}>
-      {getType()}
-    </div>
+    // opened ? "message-chat-body-window" :
+    <div className={"message-chat-body"}>{getType()}</div>
   );
 }
