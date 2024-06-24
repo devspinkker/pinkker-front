@@ -1319,12 +1319,7 @@ function NLayout(props) {
                 {openMessage ? "Mensajes" : "Notificaciones"}
               </Typography>
             </Grid>
-            {openMessage && (
-              <div>
-                <Message />
-                <h1>ask</h1>
-              </div>
-            )}
+            {openMessage && <Message />}
           </Grid>
         )}
       </Grid>

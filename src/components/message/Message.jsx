@@ -3,34 +3,49 @@ import "./Message.css";
 import MessageChat from "./chat/MessageChat";
 import Loader from "react-loader-spinner";
 import { getUserByNameUser } from "../../services/backGo/user";
-import { getMessages, sendMessage } from "../../services/backGo/Chats";
+import {
+  getChatsByUserID,
+  sendMessage,
+  getMessages,
+} from "../../services/backGo/Chats"; // Asegúrate de importar getMessages
 
 export default function Message({ socketMain, closeMessageChat }) {
   const [messagesOpen, setMessagesOpen] = useState([]); // Estado para almacenar los mensajes abiertos
   const [selectedUser, setSelectedUser] = useState(null); // Estado para almacenar el usuario seleccionado
   const [loading, setLoading] = useState(false); // Estado para manejar el estado de carga durante la búsqueda
   const [message, setMessage] = useState(""); // Estado para el mensaje a enviar
+  let userID = window.localStorage.getItem("_id");
 
   useEffect(() => {
     // Obtener token y _id del usuario desde el almacenamiento local
     let token = window.localStorage.getItem("token");
-    let userID = window.localStorage.getItem("_id");
 
     const fetchData = async () => {
       try {
-        const response = await getMessages(token, userID);
+        const response = await getChatsByUserID(token);
         console.log(response);
 
         // Actualizar el estado de los mensajes abiertos con los datos obtenidos
-        if (response && response.data) {
-          const updatedMessagesOpen = response.data.map((message) => ({
+        if (response) {
+          const updatedMessagesOpen = response.map((chat) => ({
             openedWindow: true,
-            streamer: message.streamer,
+            user1: chat.User1ID,
+            user2: chat.User2ID,
+            usersInfo: chat.Users,
+            messages: [], // Inicialmente vacío, se llenará con los mensajes
           }));
+
           setMessagesOpen(updatedMessagesOpen);
+          for (let chat of updatedMessagesOpen) {
+            const messages = await getMessages(
+              token,
+              chat.user1 === userID ? chat.user2 : chat.user1
+            );
+            chat.messages = messages || [];
+          }
         }
       } catch (error) {
-        console.error("Error fetching messages:", error);
+        console.error("Error fetching chats:", error);
       }
     };
 
@@ -61,12 +76,20 @@ export default function Message({ socketMain, closeMessageChat }) {
     try {
       let token = window.localStorage.getItem("token");
       let id = window.localStorage.getItem("_id");
-      console.log(selectedUser.id);
-      console.log(id);
-      console.log(token);
       const response = await sendMessage(token, id, selectedUser.id, message);
-      console.log("Message sent:", response);
       setMessage("");
+
+      // Actualizar los mensajes para el chat seleccionado
+      const updatedMessagesOpen = [...messagesOpen];
+      const chatIndex = updatedMessagesOpen.findIndex(
+        (chat) =>
+          chat.user1 === selectedUser.id || chat.user2 === selectedUser.id
+      );
+      if (chatIndex !== -1) {
+        const messages = await getMessages(token, selectedUser.id);
+        updatedMessagesOpen[chatIndex].messages = messages || [];
+        setMessagesOpen(updatedMessagesOpen);
+      }
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -104,16 +127,21 @@ export default function Message({ socketMain, closeMessageChat }) {
         )}
       </div>
       {/* Muestra todos los chats abiertos */}
-      {messagesOpen?.map((message, index) => (
-        <MessageChat
-          key={index}
-          socketMain={socketMain}
-          closeMessageChat={closeMessageChat}
-          openedWindow={message.openedWindow}
-          index={index}
-          to={message.streamer}
-          selectedUser={selectedUser} // Pasa el usuario seleccionado como prop
-        />
+      {messagesOpen.map((chat, index) => (
+        <div>
+          <h1>XD</h1>
+          <MessageChat
+            key={index}
+            socketMain={socketMain}
+            closeMessageChat={closeMessageChat}
+            openedWindow={chat.openedWindow}
+            index={index}
+            to={chat.user1 === userID ? chat.user2 : chat.user1}
+            selectedUser={selectedUser} // Pasa el usuario seleccionado como prop
+            usersInfo={chat.usersInfo} // Pasa la información de los usuarios como prop
+            messages={chat.messages} // Pasa los mensajes del chat como prop
+          />
+        </div>
       ))}
       {/* Input y botón para enviar mensaje */}
       <div style={{ marginTop: "20px", marginLeft: "10px" }}>

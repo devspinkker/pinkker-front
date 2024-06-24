@@ -2,10 +2,10 @@ import axios from "axios";
 
 const url = process.env.REACT_APP_BACKGO;
 
-export const getMessages = async (token, userID) => {
+export const getMessages = async (token, userID, receiver_id) => {
     try {
         const response = await axios.get(`${url}/chats/messages`, {
-            params: { sender_id: userID, receiver_id: userID },
+            params: { sender_id: userID, receiver_id: receiver_id },
             headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -33,5 +33,16 @@ export const sendMessage = async (token, id, recipientId, message) => {
         return response.data;
     } catch (error) {
         console.error("Error sending message:", error);
+    }
+};
+export const getChatsByUserID = async (token, userID) => {
+    try {
+        const response = await axios.get(`${url}/chats/GetChatsByUserID`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching chats:", error);
     }
 };

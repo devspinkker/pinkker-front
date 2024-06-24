@@ -4,17 +4,14 @@ import Loader from "react-loader-spinner";
 import { getMessages, sendMessage } from "../../../services/backGo/Chats";
 
 export default function MessageChat({
-  socketMain,
   closeMessageChat,
   openedWindow,
-  index,
   to,
-  selectedUser, // Recibe el usuario seleccionado como prop
+  selectedUser,
 }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState(null);
   const [opened, setOpened] = useState(openedWindow);
-  const [loading, setLoading] = useState(false);
   let id = window.localStorage.getItem("_id");
   let token = window.localStorage.getItem("token");
 
@@ -22,10 +19,9 @@ export default function MessageChat({
     if (opened) {
       const fetchData = async () => {
         try {
-          // Aquí obtienes los mensajes del usuario `to`
-          const data = await getMessages(token, to);
+          const data = await getMessages(token, id, to);
+          console.log(data);
           if (data != null && data != undefined) {
-            console.log(data);
             setMessages(data);
           }
         } catch (error) {
@@ -44,9 +40,8 @@ export default function MessageChat({
 
     try {
       let id = window.localStorage.getItem("_id");
-
-      const response = await sendMessage(token, id, selectedUser.id, message); // Envía el mensaje al usuario seleccionado
-      console.log("Message sent:", response); // Maneja la respuesta del backend si es necesario
+      const response = await sendMessage(token, id, selectedUser._id, message);
+      console.log("Message sent:", response);
       setMessage("");
     } catch (error) {
       console.error("Error sending message:", error);
@@ -143,7 +138,7 @@ export default function MessageChat({
                     <div
                       style={{
                         backgroundColor:
-                          message._id == id ? "#005246" : "#363638",
+                          message._id === id ? "#005246" : "#363638",
                         display: "flex",
                         marginLeft: "5px",
                       }}
