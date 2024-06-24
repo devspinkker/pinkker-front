@@ -25,10 +25,10 @@
     align-items: center;
     gap: 5px;
     flex: 1;
-    padding: 10px 0;
+    padding: 18px 0;
     text-decoration: none;
     color: inherit;
-    font-size: 14px;
+    font-size: 18px;
     position: relative;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .mobile-menu a span {
-    font-size: 12px; /* Ajuste del tamaño de la fuente del texto */
+    font-size: 18px; /* Ajuste del tamaño de la fuente del texto */
 }
 
 .mobile-menu a.active {
@@ -45,7 +45,7 @@
 }
 
 .mobile-menu a .icon {
-    font-size: 26px; /* Ajuste del tamaño del icono */
+    font-size: 40px; /* Ajuste del tamaño del icono */
 }
 
 .item-li {
