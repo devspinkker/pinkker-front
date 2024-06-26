@@ -4,7 +4,13 @@ import Loader from "react-loader-spinner";
 import { getMessages, sendMessage } from "../../../services/backGo/Chats";
 import Emblem from "../../emblem/Emblem";
 
-export default function MessageChat({ openedWindow, to, chatID }) {
+export default function MessageChat({
+  openedWindow,
+  to,
+  chatID,
+  NotifyA,
+  handleOpenChat,
+}) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [opened, setOpened] = useState(openedWindow);
@@ -12,7 +18,10 @@ export default function MessageChat({ openedWindow, to, chatID }) {
   const token = window.localStorage.getItem("token");
   const Avatar = window.localStorage.getItem("avatar");
   const [socket, setSocket] = useState(null);
-  const messagesEndRef = useRef(null); // Referencia para el final de los mensajes
+  const [NotifyState, setNotifyState] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false); // Estado para verificar si la imagen está cargada
+
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const connectWebSocket = () => {
@@ -53,9 +62,11 @@ export default function MessageChat({ openedWindow, to, chatID }) {
   }, [opened, chatID, token]);
 
   useEffect(() => {
+    setNotifyState(NotifyA === id);
+
     const fetchData = async () => {
       try {
-        const data = await getMessages(token, id, to.ID);
+        const data = await getMessages(token, to.ID);
         if (data) {
           setMessages(data);
         }
@@ -67,7 +78,7 @@ export default function MessageChat({ openedWindow, to, chatID }) {
     if (opened) {
       fetchData();
     }
-  }, [opened, to, id, token]);
+  }, [opened, to, id, token, NotifyA]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -78,8 +89,7 @@ export default function MessageChat({ openedWindow, to, chatID }) {
   async function handleSendMessage() {
     try {
       if (message.trim() !== "") {
-        // Verificar que el mensaje no esté vacío
-        const response = await sendMessage(token, id, to.ID, message);
+        const response = await sendMessage(token, to.ID, message);
         setMessage("");
       }
     } catch (error) {
@@ -95,9 +105,13 @@ export default function MessageChat({ openedWindow, to, chatID }) {
     return `${hour}:${minutes < 10 ? "0" + minutes : minutes}`;
   }
 
-  function getType() {
-    if (opened) {
-      return (
+  function handleImageLoaded() {
+    setImageLoaded(true);
+  }
+
+  return (
+    <div className="message-chat-body">
+      {opened ? (
         <div className="messagechat-opened">
           <div
             onClick={() => setOpened(false)}
@@ -117,7 +131,6 @@ export default function MessageChat({ openedWindow, to, chatID }) {
                 />
               )}
             </div>
-
             <i
               style={{
                 marginRight: "10px",
@@ -157,7 +170,22 @@ export default function MessageChat({ openedWindow, to, chatID }) {
                         }}
                       >
                         <div className="navbar-image-avatar">
-                          <img src={to.Avatar} alt="" />
+                          {!imageLoaded && (
+                            <div className="image-placeholder">
+                              <Loader
+                                type="TailSpin"
+                                color="#ff60b2"
+                                height={20}
+                                width={20}
+                              />
+                            </div>
+                          )}
+                          <img
+                            src={to.Avatar}
+                            alt=""
+                            onLoad={handleImageLoaded}
+                            style={{ display: imageLoaded ? "block" : "none" }}
+                          />
                         </div>
                       </div>
                     )}
@@ -172,7 +200,22 @@ export default function MessageChat({ openedWindow, to, chatID }) {
                         }}
                       >
                         <div className="navbar-image-avatar">
-                          <img src={Avatar} alt="" />
+                          {!imageLoaded && (
+                            <div className="image-placeholder">
+                              <Loader
+                                type="TailSpin"
+                                color="#ff60b2"
+                                height={20}
+                                width={20}
+                              />
+                            </div>
+                          )}
+                          <img
+                            src={Avatar}
+                            alt=""
+                            onLoad={handleImageLoaded}
+                            style={{ display: imageLoaded ? "block" : "none" }}
+                          />
                         </div>
                       </div>
                     )}
@@ -207,7 +250,6 @@ export default function MessageChat({ openedWindow, to, chatID }) {
                 />
               </div>
             )}
-            {/* Elemento vacío para scroll al final */}
             <div ref={messagesEndRef} />
           </div>
           <div className="messagechat-opened-input">
@@ -220,8 +262,8 @@ export default function MessageChat({ openedWindow, to, chatID }) {
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
-                  e.preventDefault(); // Evitar el comportamiento por defecto
-                  handleSendMessage(); // Llamar a la función para enviar el mensaje
+                  e.preventDefault();
+                  handleSendMessage();
                 }
               }}
               autoComplete="off"
@@ -235,16 +277,38 @@ export default function MessageChat({ openedWindow, to, chatID }) {
             </button>
           </div>
         </div>
-      );
-    } else {
-      return (
-        <div onClick={() => setOpened(true)} className={"messagechat-closed"}>
+      ) : (
+        <div
+          onClick={() => {
+            setOpened(true);
+            handleOpenChat();
+          }}
+          className="messagechat-closed"
+        >
           <div className="messagechat-InfoUserTo">
+            {NotifyState && (
+              <span className="messagechat-InfoUserTo-noti"></span>
+            )}
             <h5 style={{ color: "#ededed", marginLeft: "5px" }}>
               {to.NameUser}
             </h5>
             <div className="navbar-image-avatar-messagechat">
-              <img src={to.Avatar} alt="" />
+              {!imageLoaded && (
+                <div className="image-placeholder">
+                  <Loader
+                    type="TailSpin"
+                    color="#ff60b2"
+                    height={20}
+                    width={20}
+                  />
+                </div>
+              )}
+              <img
+                src={to.Avatar}
+                alt=""
+                onLoad={handleImageLoaded}
+                style={{ display: imageLoaded ? "block" : "none" }}
+              />
             </div>
           </div>
           {to.Partner.Active === true && (
@@ -257,9 +321,7 @@ export default function MessageChat({ openedWindow, to, chatID }) {
             />
           )}
         </div>
-      );
-    }
-  }
-
-  return <div className={"message-chat-body"}>{getType()}</div>;
+      )}
+    </div>
+  );
 }

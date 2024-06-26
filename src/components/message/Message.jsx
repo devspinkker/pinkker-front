@@ -33,6 +33,7 @@ export default function Message({ socketMain, closeMessageChat }) {
             user1: chat.User1ID,
             user2: chat.User2ID,
             usersInfo: chat.Users,
+            NotifyA: chat.NotifyA,
             messages: [],
           }));
           setMessagesOpen(updatedMessagesOpen);
@@ -106,6 +107,7 @@ export default function Message({ socketMain, closeMessageChat }) {
               user2: chat.User2ID,
               usersInfo: chat.Users,
               messages: chat.messages || [],
+              NotifyA: chat.NotifyA,
             },
             ...updatedMessagesOpen,
           ]);
@@ -127,6 +129,19 @@ export default function Message({ socketMain, closeMessageChat }) {
     );
 
     setOpenChatIndex(-1); // Restablecer el índice del chat abierto
+    const updatedMessagesOpen = messagesOpen.map((chat) => ({
+      ...chat,
+      NotifyA: chat.openedWindow ? null : chat.NotifyA,
+    }));
+    setMessagesOpen(updatedMessagesOpen);
+  };
+
+  const handleOpenChat = (index) => {
+    const updatedMessagesOpen = messagesOpen.map((chat, i) => ({
+      ...chat,
+      NotifyA: i === index ? null : chat.NotifyA,
+    }));
+    setMessagesOpen(updatedMessagesOpen);
   };
 
   return (
@@ -158,21 +173,31 @@ export default function Message({ socketMain, closeMessageChat }) {
           )}
         </div>
       </div>
-      {messagesOpen.map((chat, index) => (
-        <div key={index} className="MessageChatContent">
-          <MessageChat
-            socketMain={socketMain}
-            closeMessageChat={closeMessageChat}
-            openedWindow={chat.openedWindow}
-            index={index}
-            chatID={chat.chatID}
-            to={chat.usersInfo.find((user) => user.ID !== userID)}
-            usersInfo={chat.usersInfo}
-            messages={chat.messages}
-            handleCloseChat={handleCloseChat}
-          />
-        </div>
-      ))}
+      {messagesOpen.map((chat, index) => {
+        const otherUser = chat.usersInfo.find((user) => user.ID !== userID);
+
+        return (
+          <div key={index} className="MessageChatContent">
+            {otherUser ? (
+              <MessageChat
+                socketMain={socketMain}
+                closeMessageChat={closeMessageChat}
+                openedWindow={chat.openedWindow}
+                index={index}
+                chatID={chat.chatID}
+                NotifyA={chat.NotifyA}
+                to={otherUser}
+                usersInfo={chat.usersInfo}
+                messages={chat.messages}
+                handleCloseChat={handleCloseChat}
+                handleOpenChat={() => handleOpenChat(index)}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

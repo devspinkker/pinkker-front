@@ -2,10 +2,10 @@ import axios from "axios";
 
 const url = process.env.REACT_APP_BACKGO;
 
-export const getMessages = async (token, userID, receiver_id) => {
+export const getMessages = async (token, receiver_id) => {
     try {
         const response = await axios.get(`${url}/chats/messages`, {
-            params: { sender_id: userID, receiver_id: receiver_id },
+            params: { receiver_id: receiver_id },
             headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -15,12 +15,9 @@ export const getMessages = async (token, userID, receiver_id) => {
     }
 };
 
-export const sendMessage = async (token, id, recipientId, message) => {
+export const sendMessage = async (token, recipientId, message) => {
     try {
-        console.log(id);
-        console.log(recipientId);
         const response = await axios.post(`${url}/chats/send`, {
-            sender_id: id,
             receiver_id: recipientId,
             content: message,
         }, {
