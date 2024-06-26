@@ -14,13 +14,12 @@ export default function Message({ socketMain, closeMessageChat }) {
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [userID, setUserID] = useState(""); // Nuevo estado para almacenar el ID del usuario actual
+  const [userID, setUserID] = useState("");
 
   useEffect(() => {
-    // Obtener token y _id del usuario desde el almacenamiento local
     let token = window.localStorage.getItem("token");
     let userID = window.localStorage.getItem("_id");
-    setUserID(userID); // Guardar el ID del usuario actual en el estado
+    setUserID(userID);
 
     const fetchData = async () => {
       try {
@@ -34,10 +33,8 @@ export default function Message({ socketMain, closeMessageChat }) {
             usersInfo: chat.Users,
             messages: [],
           }));
-          console.log(updatedMessagesOpen);
           setMessagesOpen(updatedMessagesOpen);
 
-          // Cargar los mensajes para cada chat
           for (let chat of updatedMessagesOpen) {
             const messages = await getMessages(
               token,
@@ -52,11 +49,10 @@ export default function Message({ socketMain, closeMessageChat }) {
     };
 
     fetchData();
-  }, []); // Se ejecuta solo una vez al montar el componente
+  }, []);
 
   async function searchUserByName(nameUser) {
     setLoading(true);
-
     try {
       const userData = await getUserByNameUser(nameUser);
       setSelectedUser(userData.data);
@@ -87,10 +83,8 @@ export default function Message({ socketMain, closeMessageChat }) {
               usersInfo: chat.Users,
               messages: [],
             }));
-            console.log(updatedMessagesOpen);
             setMessagesOpen(updatedMessagesOpen);
 
-            // Cargar los mensajes para cada chat
             for (let chat of updatedMessagesOpen) {
               const messages = await getMessages(
                 token,
@@ -104,7 +98,6 @@ export default function Message({ socketMain, closeMessageChat }) {
         }
       };
 
-      // Llamar a fetchData para actualizar los chats después de enviar el mensaje
       fetchData();
     } catch (error) {
       console.error("Error sending message:", error);
@@ -113,51 +106,57 @@ export default function Message({ socketMain, closeMessageChat }) {
 
   return (
     <div className="message-body">
-      <div style={{ marginTop: "10px", marginLeft: "10px" }}>
-        <input
-          type="text"
-          placeholder="Buscar usuario por nombre..."
-          onChange={(e) => searchUserByName(e.target.value)}
-        />
-        {loading && (
-          <Loader
-            type="TailSpin"
-            color="#ff60b2"
-            height={20}
-            width={20}
-            style={{ marginLeft: "10px" }}
+      <div className="ContNewChat">
+        <div className="message-bodysearch-input">
+          <input
+            type="text"
+            // className="message-bodysearch-input"
+            placeholder="Buscar usuario por nombre..."
+            onChange={(e) => searchUserByName(e.target.value)}
           />
-        )}
-        {selectedUser && (
-          <div style={{ marginTop: "5px" }}>
-            <p>Usuario encontrado: {selectedUser.FullName}</p>
-            <button onClick={() => setSelectedUser(selectedUser)}>
-              Abrir Chat con {selectedUser.NameUser}
-            </button>
-          </div>
-        )}
-      </div>
-
-      <div style={{ marginTop: "20px", marginLeft: "10px" }}>
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Escribe tu mensaje..."
-        />
-        <button onClick={handleSendMessage}>Enviar</button>
+          {loading && (
+            <Loader
+              type="TailSpin"
+              color="#ff60b2"
+              height={20}
+              width={20}
+              className="loader"
+            />
+          )}
+          {selectedUser && (
+            <div className="user-info">
+              <p> {selectedUser.FullName}</p>
+              <button
+                className="open-chat-button"
+                onClick={() => setSelectedUser(selectedUser)}
+              >
+                Abrir Chat con {selectedUser.NameUser}
+              </button>
+            </div>
+          )}
+        </div>
+        <div className="message-input-container">
+          <input
+            type="text"
+            value={message}
+            className="message-input"
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Escribe tu mensaje..."
+          />
+          <button className="send-button" onClick={handleSendMessage}>
+            Enviar
+          </button>
+        </div>
       </div>
       {messagesOpen.map((chat, index) => (
-        <div>
-          {console.log(chat)}
+        <div key={index}>
           <MessageChat
-            key={index}
             socketMain={socketMain}
             closeMessageChat={closeMessageChat}
             openedWindow={chat.openedWindow}
             index={index}
-            chatID={chat.chatID} // Pasamos el ID del chat como prop
-            to={chat.usersInfo.find((user) => user.ID !== userID)} // Seleccionamos el usuario destinatario correcto
+            chatID={chat.chatID}
+            to={chat.usersInfo.find((user) => user.ID !== userID)}
             usersInfo={chat.usersInfo}
             messages={chat.messages}
           />

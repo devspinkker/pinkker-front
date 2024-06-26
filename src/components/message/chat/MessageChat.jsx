@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./MessageChat.css";
 import Loader from "react-loader-spinner";
 import { getMessages, sendMessage } from "../../../services/backGo/Chats";
+import Emblem from "../../emblem/Emblem";
 
 export default function MessageChat({
   closeMessageChat,
@@ -244,10 +245,27 @@ export default function MessageChat({
     } else {
       return (
         <div onClick={() => setOpened(true)} className={"messagechat-closed"}>
-          <h5 style={{ color: "#ededed", marginLeft: "10px" }}>
-            {to.NameUser}
-          </h5>
-          <i
+          <div className="messagechat-InfoUserTo">
+            <h5 style={{ color: "#ededed", marginLeft: "5px" }}>
+              {to.NameUser}
+            </h5>
+            <div className="navbar-image-avatar-messagechat">
+              <img src={to.Avatar} alt="" />
+            </div>
+          </div>
+          {to.Partner.Active === true && (
+            <Emblem
+              chat={true}
+              name="Pinkker Prime"
+              img={
+                "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+              }
+            />
+          )}
+          {/* <div className="navbar-image-avatar-messagechat">
+            <img src={to.Avatar} alt="" />
+          </div> */}
+          {/* <i
             // onClick={() => closeMessageChat(to)}
             style={{
               marginRight: "10px",
@@ -257,7 +275,7 @@ export default function MessageChat({
               borderRadius: "3px",
             }}
             className="fas fa-times gray-button"
-          />
+          /> */}
         </div>
       );
     }

@@ -1,5 +1,5 @@
 .message-chat-body {
-    width: 200px;
+    max-width: 148px;
     height: 35px;
     background-color: #26262c;
     border-radius: 3px;
@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: space-between;
     border: 1px solid rgba(136, 136, 136, 0.226);
-    margin-left: 10px;
+    /* margin-left: 10px; */
     transition: 0.3s;
 }
 
@@ -25,6 +25,7 @@
     background-image: url("../../../images/back-message.png");
     background-position: center;
     background-size: cover;
+    z-index: 100000;
 }
 
 .messagechat-opened-close {
@@ -110,6 +111,20 @@
     color: rgb(255, 255, 255);
 }
 
+.messagechat-InfoUserTo {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.navbar-image-avatar-messagechat>img {
+    width: 29px;
+    height: 30px;
+    border-radius: 20px;
+    position: relative;
+    object-fit: cover;
+}
 
 @keyframes cambiarColor {
     0% {
