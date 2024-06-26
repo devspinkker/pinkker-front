@@ -4,13 +4,7 @@ import Loader from "react-loader-spinner";
 import { getMessages, sendMessage } from "../../../services/backGo/Chats";
 import Emblem from "../../emblem/Emblem";
 
-export default function MessageChat({
-  closeMessageChat,
-  openedWindow,
-  to,
-  chatID,
-  selectedUser,
-}) {
+export default function MessageChat({ openedWindow, to, chatID }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [opened, setOpened] = useState(openedWindow);
@@ -18,7 +12,6 @@ export default function MessageChat({
   const token = window.localStorage.getItem("token");
   const Avatar = window.localStorage.getItem("avatar");
   const [socket, setSocket] = useState(null);
-  const pingIntervalRef = useRef(null);
   const messagesEndRef = useRef(null); // Referencia para el final de los mensajes
 
   useEffect(() => {
@@ -34,10 +27,6 @@ export default function MessageChat({
 
       newSocket.onmessage = (event) => {
         const receivedMessage = JSON.parse(event.data);
-        // console.log(receivedMessage);
-        console.log(receivedMessage);
-        console.log(receivedMessage.message);
-
         if (receivedMessage.action === "new_message") {
           setMessages((prevMessages) => [
             ...prevMessages,
@@ -68,7 +57,6 @@ export default function MessageChat({
       try {
         const data = await getMessages(token, id, to.ID);
         if (data) {
-          console.log(data);
           setMessages(data);
         }
       } catch (error) {
@@ -82,7 +70,6 @@ export default function MessageChat({
   }, [opened, to, id, token]);
 
   useEffect(() => {
-    // Desplazarse al final de los mensajes cada vez que se actualicen
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -90,8 +77,11 @@ export default function MessageChat({
 
   async function handleSendMessage() {
     try {
-      const response = await sendMessage(token, id, to.ID, message);
-      setMessage("");
+      if (message.trim() !== "") {
+        // Verificar que el mensaje no esté vacío
+        const response = await sendMessage(token, id, to.ID, message);
+        setMessage("");
+      }
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -113,11 +103,22 @@ export default function MessageChat({
             onClick={() => setOpened(false)}
             className="messagechat-opened-close"
           >
-            <h5 style={{ color: "#ededed", marginLeft: "10px" }}>
-              {to.NameUser}
-            </h5>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <h5 style={{ color: "#ededed", margin: "0px 10px" }}>
+                {to.NameUser}
+              </h5>
+              {to.Partner.Active === true && (
+                <Emblem
+                  chat={true}
+                  name="Pinkker Prime"
+                  img={
+                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                  }
+                />
+              )}
+            </div>
+
             <i
-              // onClick={() => closeMessageChat(to.ID)}
               style={{
                 marginRight: "10px",
                 cursor: "pointer",
@@ -137,20 +138,7 @@ export default function MessageChat({
                 <div key={index}>
                   {index === 0 && (
                     <div className="messagechat-date">
-                      <h3
-                        style={{
-                          color: "white",
-                          fontSize: "11px",
-                          backgroundColor: "rgba(27, 27, 27, 0.366)",
-                          padding: "3px",
-                          width: "50px",
-                          borderRadius: "3px",
-                          margin: "0 auto",
-                          marginTop: "3px",
-                        }}
-                      >
-                        hoy
-                      </h3>
+                      <h3>hoy</h3>
                     </div>
                   )}
                   <div
@@ -230,6 +218,12 @@ export default function MessageChat({
               className="message-chat-send-input"
               placeholder="Enviar un mensaje"
               onChange={(e) => setMessage(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault(); // Evitar el comportamiento por defecto
+                  handleSendMessage(); // Llamar a la función para enviar el mensaje
+                }
+              }}
               autoComplete="off"
             />
             <button
@@ -262,27 +256,10 @@ export default function MessageChat({
               }
             />
           )}
-          {/* <div className="navbar-image-avatar-messagechat">
-            <img src={to.Avatar} alt="" />
-          </div> */}
-          {/* <i
-            // onClick={() => closeMessageChat(to)}
-            style={{
-              marginRight: "10px",
-              cursor: "pointer",
-              color: "#ededed",
-              padding: "7px",
-              borderRadius: "3px",
-            }}
-            className="fas fa-times gray-button"
-          /> */}
         </div>
       );
     }
   }
 
-  return (
-    // opened ? "message-chat-body-window" :
-    <div className={"message-chat-body"}>{getType()}</div>
-  );
+  return <div className={"message-chat-body"}>{getType()}</div>;
 }

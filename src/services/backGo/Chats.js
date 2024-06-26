@@ -35,6 +35,22 @@ export const sendMessage = async (token, id, recipientId, message) => {
         console.error("Error sending message:", error);
     }
 };
+export const CreateChatOrGetChats = async (token, id) => {
+    try {
+        const response = await axios.post(`${url}/chats/CreateChatOrGetChats`, {
+            other_user_id: id,
+        }, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error sending message:", error);
+    }
+};
 export const getChatsByUserID = async (token, userID) => {
     try {
         const response = await axios.get(`${url}/chats/GetChatsByUserID`, {
