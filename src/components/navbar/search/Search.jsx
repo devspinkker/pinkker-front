@@ -19,6 +19,7 @@ import {
 } from "../../../helpers/searchHelper";
 
 import { useNotification } from "../../Notifications/NotificationProvider";
+import SearchPopup from "./SearchPopup";
 
 function useOnClickOutside(ref, handler) {
   useEffect(() => {
@@ -44,7 +45,7 @@ function useOnClickOutside(ref, handler) {
   }, [ref, handler]);
 }
 
-export default function Search({ isMobile, tyExpanded, setExpanded }) {
+export default function Search({ isMobile, tyExpanded, setExpanded, setHabilitar, habilitar }) {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const { user, isAdmin } = auth;
@@ -136,10 +137,8 @@ export default function Search({ isMobile, tyExpanded, setExpanded }) {
 
   const handleMouseEnter = (e) => {
     const history = getHistorySearch();
+    setSearch(true)
 
-    if (text === null) {
-      setSearch({ history: history });
-    }
   };
 
   return (
@@ -181,7 +180,7 @@ export default function Search({ isMobile, tyExpanded, setExpanded }) {
           <input
             style={{ fontSize: "16px" }}
             value={text}
-            onClickCapture={handleMouseEnter}
+            onClickCapture={() => setHabilitar(!habilitar)}
             onKeyDown={handleKey}
             onChange={handleChange}
             placeholder="Search"
@@ -191,7 +190,7 @@ export default function Search({ isMobile, tyExpanded, setExpanded }) {
         )}
       </div>
 
-      {search != null && (
+      {/* {search && (
         <SearchDropdown
           isMobile={isMobile}
           handleRemove={(e) => removeHistory(e)}
@@ -199,7 +198,8 @@ export default function Search({ isMobile, tyExpanded, setExpanded }) {
           search={search}
           text={text}
         />
-      )}
+        
+      )} */}
     </div>
   );
 }

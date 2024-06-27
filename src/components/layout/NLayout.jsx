@@ -1,5 +1,5 @@
-import { Grid, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, CardContent, CardMedia, Dialog, DialogContent, Grid, Tab, Tabs, TextField, Typography } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 import NavbarLeft from "../navbarLeft/NavbarLeft";
 import Search from "../navbar/search/Search";
 import "./NLayout.css";
@@ -29,6 +29,9 @@ import { FaBullseye } from "react-icons/fa";
 import { FaLayerGroup } from "react-icons/fa6";
 import Messages from "../dashboard/stream-manager/chat/Messages";
 import Message from "../message/Message";
+import logoPinkker from './LOGOPINKKER.png'
+import SearchPopup from "../navbar/search/SearchPopup";
+import Card from "../dashboard/stream-manager/card/Card";
 function NLayout(props) {
   const [locationpath, setLocationPath] = useState();
   const [dashboard, setDashboard] = useState(false);
@@ -159,6 +162,7 @@ function NLayout(props) {
 
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const [urlCat, setUrlCat] = useState();
+  const divRef = useRef();
 
   useEffect(() => {
     const handleLocationChange = () => {
@@ -174,7 +178,23 @@ function NLayout(props) {
       window.removeEventListener("popstate", handleLocationChange);
     };
   }, []);
+  const [open, setOpen] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [tabValue, setTabValue] = useState(0);
+  const [habilitar, setHabilitar] = useState(false)
+  const handleClose = () => setHabilitar(!habilitar);
+  const games = [
+    { title: 'Rich Wilde and the Tome of Insanity', image: '/path/to/image1.jpg' },
+    { title: 'Sweet Bonanza 1000', image: '/path/to/image2.jpg' },
+    // ... more game data
+  ];
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
   const getNavDesktop = () => {
     return (
       <Grid
@@ -248,7 +268,7 @@ function NLayout(props) {
               >
                 <Link
                   style={{ textDecoration: "none", padding: 0 }}
-                  to="/plataform/explore"
+                  to="/plataform/explore?tipo=streams"
                 >
                   <Grid
                     className="button-casino"
@@ -281,7 +301,7 @@ function NLayout(props) {
 
                 <Link
                   style={{ textDecoration: "none", padding: 0 }}
-                  to="/plataform/clips"
+                  to="/plataform/explore?tipo=categories"
                 >
                   <Grid
                     style={{
@@ -390,10 +410,51 @@ function NLayout(props) {
               </Grid>
             )}
 
-            <Search
-              tyExpanded={props.tyExpanded}
-              setExpanded={props.setExpanded}
-            />
+            <div
+              ref={divRef}
+              style={{
+                padding: props.tyExpanded && "0 0 0 1rem",
+                height: props.tyExpanded && "3rem",
+                lineHeight: props.tyExpanded && 2,
+                display: "flex",
+                width: props.tyExpanded && "88% !important",
+                cursor: "pointer",
+              }}
+              onClick={() => props.setExpanded(true)}
+              className={
+                "navbar-search-dark"
+              }
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: props.isMobile ? "50px" : "",
+                }}
+              >
+                <img
+                  src="/images/search.svg"
+                  style={{
+                    fontSize: props.tyExpanded ? "18px" : "16px",
+                    color: "rgb(89 89 89)",
+                    margin: props.tyExpanded ? "5px" : "8px",
+                  }}
+                />
+
+                {props.tyExpanded && (
+                  <input
+                    style={{ fontSize: "16px" }}
+                    onClickCapture={() => setHabilitar(!habilitar)}
+                    placeholder="Search"
+                    type="search"
+                    className="input-searchbar"
+                  />
+                )}
+              </div>
+
+
+            </div>
           </Grid>
 
           <Grid>
@@ -689,8 +750,8 @@ function NLayout(props) {
             width: props.tyExpanded
               ? "85%"
               : openNotification || openMessage
-              ? "80%"
-              : "95%",
+                ? "80%"
+                : "95%",
             display: "flex",
             flexDirection: "column",
             zIndex: 99999,
@@ -747,7 +808,7 @@ function NLayout(props) {
                 top: 0,
                 zIndex: 9999,
                 backgroundColor: "#080808",
-                width: "102%",
+                width: "103.5%",
               }}
             >
               <Link to="/" style={{ width: "200px" }}>
@@ -1069,8 +1130,107 @@ function NLayout(props) {
           )}
 
           <Grid style={{ width: "102%" }} onClick={() => setEsClick(false)}>
-            {props.children}
 
+            {props.children}
+            {habilitar && (
+              <div className="auth-body-container">
+                <div className={"auth-body"}>
+
+
+                  <div
+                    style={{  padding: '30px', height: "85% ", textAlign: "center", backgroundColor: "#121418", borderRadius: "5px", zIndex: 9999, display: 'flex', boxShadow: "5px 5px 20px 5px rgba(0, 0, 0, 0.651)", width:"70%"}}
+                    
+                  >
+
+                    <DialogContent>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Search"
+                        type="search"
+                        fullWidth
+                        variant="outlined"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        InputProps={{
+                          style: {
+                            color: 'white',
+                            borderColor: 'white',
+                          },
+                          classes: {
+                            notchedOutline: {
+                              borderColor: 'white',
+                            },
+                          },
+                        }}
+                        InputLabelProps={{
+                          style: { color: 'white' },
+                        }}
+                        inputProps={{
+                          style: {
+                            color: 'white',
+                            borderColor: 'white',
+                          },
+                          placeholder: 'Search',
+                        }}
+                        sx={{
+                          '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+                            borderColor: 'white',
+                          },
+                          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                            borderColor: 'white',
+                          },
+                          '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                            borderColor: 'white',
+                          },
+                          '& .MuiInputBase-input': {
+                            color: 'white',
+                          },
+                          '& .MuiInputLabel-outlined': {
+                            color: 'white',
+                          },
+                          '& .MuiInputBase-input::placeholder': {
+                            color: 'white',
+                            opacity: 1,
+                          },
+                        }}
+                      />
+                      
+                      <Box mt={2}>
+                        <Grid container spacing={2}>
+                          {games
+                            .filter((game) => game.title.toLowerCase().includes(searchTerm.toLowerCase()))
+                            .map((game, index) => (
+                              <Grid item xs={12} sm={6} md={4} key={index}>
+                                <Card>
+                                  <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image={game.image}
+                                    alt={game.title}
+                                  />
+                                  <CardContent>
+                                    <Typography variant="h6" style={{color:'white'}}>{game.title}</Typography>
+                                  </CardContent>
+                                </Card>
+                              </Grid>
+                            ))}
+                        </Grid>
+                      </Box>
+                    </DialogContent>
+
+                    <div className="auth-close">
+                      <button className="pinkker-button-more" onClick={() => setHabilitar(false)}>
+                        <i
+                          style={{ fontSize: props.isMobile && "20px" }}
+                          class="fas fa-times"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             {showPopupAuth === true && (
               <Auth
                 isMobile={props.isMobile}
@@ -1078,6 +1238,7 @@ function NLayout(props) {
                 closePopup={() => togglePopupAuth()}
               />
             )}
+
           </Grid>
           {/* FOOTER */}
           {/* 
@@ -1389,7 +1550,7 @@ function NLayout(props) {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              padding: "1rem",
+              padding: "1rem 2rem",
               position: "sticky",
               top: 0,
               zIndex: 9999,
@@ -1398,7 +1559,7 @@ function NLayout(props) {
             }}
           >
             <Link to="/" style={{ width: "15%" }}>
-              <img src="/images/pinkker.png" style={{ width: "100%" }} alt="" />
+              <img src={logoPinkker} style={{ width: "100%" }} alt="" />
             </Link>
 
             <Grid
