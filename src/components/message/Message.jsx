@@ -5,54 +5,71 @@ import Loader from "react-loader-spinner";
 import { getUserByNameUser } from "../../services/backGo/user";
 import {
   getChatsByUserID,
-  getMessages,
   CreateChatOrGetChats,
 } from "../../services/backGo/Chats";
 
-export default function Message({ socketMain, closeMessageChat }) {
-  const [messagesOpen, setMessagesOpen] = useState([]);
+export default function Message({
+  socketMain,
+  closeMessageChat,
+  messagesOpen1,
+}) {
+  const [messagesOpen, setMessagesOpen] = useState(messagesOpen1);
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [userID, setUserID] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [openChatIndex, setOpenChatIndex] = useState(-1); // Índice del chat abierto
+  const deepEqual = (a, b) => {
+    if (a === b) return true;
+    if (
+      typeof a !== "object" ||
+      typeof b !== "object" ||
+      a == null ||
+      b == null
+    )
+      return false;
 
-  useEffect(() => {
-    let token = window.localStorage.getItem("token");
-    let userID = window.localStorage.getItem("_id");
-    setUserID(userID);
+    let keysA = Object.keys(a);
+    let keysB = Object.keys(b);
 
-    const fetchData = async () => {
-      try {
-        const response = await getChatsByUserID(token);
-        if (response) {
-          const updatedMessagesOpen = response.map((chat) => ({
-            chatID: chat.ID,
-            openedWindow: false,
-            user1: chat.User1ID,
-            user2: chat.User2ID,
-            usersInfo: chat.Users,
-            NotifyA: chat.NotifyA,
-            messages: [],
-          }));
-          setMessagesOpen(updatedMessagesOpen);
+    if (keysA.length !== keysB.length) return false;
 
-          for (let chat of updatedMessagesOpen) {
-            const messages = await getMessages(
-              token,
-              chat.user1 === userID ? chat.user2 : chat.user1
-            );
-            chat.messages = messages || [];
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching chats:", error);
-      }
-    };
+    for (let key of keysA) {
+      if (!keysB.includes(key)) return false;
+      if (!deepEqual(a[key], b[key])) return false;
+    }
 
-    fetchData();
-  }, []);
+    return true;
+  };
+  let userID = window.localStorage.getItem("_id");
+
+  // useEffect(() => {
+  //   let token = window.localStorage.getItem("token");
+
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await getChatsByUserID(token);
+  //       if (response) {
+  //         const updatedMessagesOpen = response.map((chat) => ({
+  //           chatID: chat.ID,
+  //           openedWindow: false,
+  //           user1: chat.User1ID,
+  //           user2: chat.User2ID,
+  //           usersInfo: chat.Users,
+  //           NotifyA: chat.NotifyA,
+  //           messages: [],
+  //         }));
+  //         if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
+  //         }
+  //         setMessagesOpen(updatedMessagesOpen);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching chats:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {

@@ -29,6 +29,7 @@ import { FaBullseye } from "react-icons/fa";
 import { FaLayerGroup } from "react-icons/fa6";
 import Messages from "../dashboard/stream-manager/chat/Messages";
 import Message from "../message/Message";
+import { getChatsByUserID } from "../../services/backGo/Chats";
 function NLayout(props) {
   const [locationpath, setLocationPath] = useState();
   const [dashboard, setDashboard] = useState(false);
@@ -39,6 +40,67 @@ function NLayout(props) {
   const [type, setType] = useState(0);
   const [openNotification, setOpenNotification] = useState(true);
   const [openMessage, setOpenMessage] = useState(false);
+
+  const [messagesOpen, setMessagesOpen] = useState([]);
+  const [notificacion, setNotificacion] = useState(false);
+  useEffect(() => {
+    fetchData(); // Llamada inicial para obtener los datos
+    const intervalId = setInterval(fetchData, 6000);
+
+    return () => clearInterval(intervalId);
+  }, [messagesOpen]);
+  const deepEqual = (a, b) => {
+    if (a === b) return true;
+    if (
+      typeof a !== "object" ||
+      typeof b !== "object" ||
+      a == null ||
+      b == null
+    )
+      return false;
+
+    let keysA = Object.keys(a);
+    let keysB = Object.keys(b);
+
+    if (keysA.length !== keysB.length) return false;
+
+    for (let key of keysA) {
+      if (!keysB.includes(key)) return false;
+      if (!deepEqual(a[key], b[key])) return false;
+    }
+
+    return true;
+  };
+  const fetchData = async () => {
+    let token = window.localStorage.getItem("token");
+    let userID = window.localStorage.getItem("_id");
+    if (token && userID) {
+      try {
+        const response = await getChatsByUserID(token);
+        if (response) {
+          const updatedMessagesOpen = response.map((chat) => ({
+            chatID: chat.ID,
+            openedWindow: false,
+            user1: chat.User1ID,
+            user2: chat.User2ID,
+            usersInfo: chat.Users,
+            NotifyA: chat.NotifyA,
+            messages: [],
+          }));
+          if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
+            setMessagesOpen(updatedMessagesOpen);
+            const hasNotification = updatedMessagesOpen.some(
+              (chat) => chat.NotifyA === userID
+            );
+            setNotificacion(hasNotification);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching chats:", error);
+      }
+    }
+  };
+
   function clickPulsedButton() {
     setPulse(!pulse);
     props.setExpanded(!props.tyExpanded);
@@ -865,7 +927,14 @@ function NLayout(props) {
                       }}
                       className="navbar-image-avatar"
                     >
-                      {/* <img src={"/images/iconos/mensaje.png"} alt="" style={{ width: '60%' }} /> */}
+                      {/* <img
+                        src={"/images/iconos/mensaje.png"}
+                        alt=""
+                        style={{ width: "60%" }}
+                      /> */}
+                      {notificacion && (
+                        <span className="messagechat-InfoUserTo-notiNav"></span>
+                      )}
                       <BsChatDots
                         style={{ fontSize: "20px", color: "white" }}
                         onClick={() => habilitarMensaje()}
@@ -1319,7 +1388,7 @@ function NLayout(props) {
                 {openMessage ? "Mensajes" : "Notificaciones"}
               </Typography>
             </Grid>
-            {openMessage && <Message />}
+            {openMessage && <Message messagesOpen1={messagesOpen} />}
           </Grid>
         )}
       </Grid>
