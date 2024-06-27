@@ -277,19 +277,19 @@ const Home = ({
               gap: "10px",
             }}
           >
-            {[...Array(9)].map((_, index) => (
+            {[...Array( isMobile ?  3 :9)].map((_, index) => (
               <div
                 style={{
                   marginTop: "30px",
                   display: "flex",
                   alignItems: "center",
-                  gap: "15px",
+                  gap: "50px",
                 }}
                 key={index}
               >
                 <Skeleton
                   variant="rectangular"
-                  width={150}
+                  width={180}
                   height={199}
                   style={{
                     backgroundColor: "#" + color,

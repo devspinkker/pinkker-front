@@ -9,7 +9,7 @@ const games = [
 ];
 
 const SearchPopup = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [tabValue, setTabValue] = useState(0);
 
@@ -27,7 +27,7 @@ const SearchPopup = () => {
   return (
     <div>
       
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md" className='popup'>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md" className='popup' style={{background:'red'}}>
         <DialogContent>
           <TextField
             autoFocus
