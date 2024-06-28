@@ -313,7 +313,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
           controls={false}
           playsInline
           ref={commercialRef}
-          onEnded={handleCommercialEnded}
+          onPlay={handleCommercialEnded}
           onClick={() => window.open(Commercial?.LinkReference, '_blank')}
         />
       )}
