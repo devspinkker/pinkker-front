@@ -244,14 +244,18 @@ export async function editAvatar(token, avatarData) {
 
 
 
-export async function compradePixeles(id, amount) {
+export async function compradePixeles(token, amount) {
     try {
         const response = await axios.post(
             `${mercadopago}/create-order`,
             {
-                idUser: id,
                 amount: amount
             },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
         );
         return response.data;
     } catch (error) {

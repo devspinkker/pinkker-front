@@ -31,9 +31,9 @@ export default function PurchasePopup({ amountt, closePopup }) {
   //   }, [token]);
 
   async function handleSubmit() {
-    const iduser = window.localStorage.getItem("_id");
     try {
-      const data = await compradePixeles(iduser, amount);
+      let token = window.localStorage.getItem("token");
+      const data = await compradePixeles(token, amount);
       if (data?.init_point) {
         window.location.href = data.init_point;
       }

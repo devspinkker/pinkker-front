@@ -29,7 +29,8 @@ import { FaBullseye } from "react-icons/fa";
 import { FaLayerGroup } from "react-icons/fa6";
 import Messages from "../dashboard/stream-manager/chat/Messages";
 import Message from "../message/Message";
-import logoPinkker from './LOGOPINKKER.png'
+import { getChatsByUserID } from "../../services/backGo/Chats";
+import logoPinkker from "./LOGOPINKKER.png";
 import SearchPopup from "../navbar/search/SearchPopup";
 import { fetchSearch } from "../../redux/actions/searchAction";
 
@@ -45,6 +46,67 @@ function NLayout(props) {
   const [type, setType] = useState(0);
   const [openNotification, setOpenNotification] = useState(true);
   const [openMessage, setOpenMessage] = useState(false);
+
+  const [messagesOpen, setMessagesOpen] = useState([]);
+  const [notificacion, setNotificacion] = useState(false);
+  useEffect(() => {
+    fetchData(); // Llamada inicial para obtener los datos
+    const intervalId = setInterval(fetchData, 6000);
+
+    return () => clearInterval(intervalId);
+  }, [messagesOpen]);
+  const deepEqual = (a, b) => {
+    if (a === b) return true;
+    if (
+      typeof a !== "object" ||
+      typeof b !== "object" ||
+      a == null ||
+      b == null
+    )
+      return false;
+
+    let keysA = Object.keys(a);
+    let keysB = Object.keys(b);
+
+    if (keysA.length !== keysB.length) return false;
+
+    for (let key of keysA) {
+      if (!keysB.includes(key)) return false;
+      if (!deepEqual(a[key], b[key])) return false;
+    }
+
+    return true;
+  };
+  const fetchData = async () => {
+    let token = window.localStorage.getItem("token");
+    let userID = window.localStorage.getItem("_id");
+    if (token && userID) {
+      try {
+        const response = await getChatsByUserID(token);
+        if (response) {
+          const updatedMessagesOpen = response.map((chat) => ({
+            chatID: chat.ID,
+            openedWindow: false,
+            user1: chat.User1ID,
+            user2: chat.User2ID,
+            usersInfo: chat.Users,
+            NotifyA: chat.NotifyA,
+            messages: [],
+          }));
+          if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
+            setMessagesOpen(updatedMessagesOpen);
+            const hasNotification = updatedMessagesOpen.some(
+              (chat) => chat.NotifyA === userID
+            );
+            setNotificacion(hasNotification);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching chats:", error);
+      }
+    }
+  };
+
   function clickPulsedButton() {
     setPulse(!pulse);
     props.setExpanded(!props.tyExpanded);
@@ -184,13 +246,16 @@ function NLayout(props) {
   const [open, setOpen] = useState(true);
   const [search, setSearch] = useState('');
   const [tabValue, setTabValue] = useState(0);
-  const [habilitar, setHabilitar] = useState(false)
+  const [habilitar, setHabilitar] = useState(false);
   const handleClose = () => setHabilitar(!habilitar);
   const [text, setText] = useState(null);
 
   const games = [
-    { title: 'Rich Wilde and the Tome of Insanity', image: '/path/to/image1.jpg' },
-    { title: 'Sweet Bonanza 1000', image: '/path/to/image2.jpg' },
+    {
+      title: "Rich Wilde and the Tome of Insanity",
+      image: "/path/to/image1.jpg",
+    },
+    { title: "Sweet Bonanza 1000", image: "/path/to/image2.jpg" },
     // ... more game data
   ];
 
@@ -441,9 +506,7 @@ console.log('===', search);
                 cursor: "pointer",
               }}
               onClick={() => props.setExpanded(true)}
-              className={
-                "navbar-search-dark"
-              }
+              className={"navbar-search-dark"}
             >
               <div
                 style={{
@@ -473,8 +536,6 @@ console.log('===', search);
                   />
                 )}
               </div>
-
-
             </div>
           </Grid>
 
@@ -771,8 +832,8 @@ console.log('===', search);
             width: props.tyExpanded
               ? "85%"
               : openNotification || openMessage
-                ? "80%"
-                : "95%",
+              ? "80%"
+              : "95%",
             display: "flex",
             flexDirection: "column",
             zIndex: 99999,
@@ -947,7 +1008,14 @@ console.log('===', search);
                       }}
                       className="navbar-image-avatar"
                     >
-                      {/* <img src={"/images/iconos/mensaje.png"} alt="" style={{ width: '60%' }} /> */}
+                      {/* <img
+                        src={"/images/iconos/mensaje.png"}
+                        alt=""
+                        style={{ width: "60%" }}
+                      /> */}
+                      {notificacion && (
+                        <span className="messagechat-InfoUserTo-notiNav"></span>
+                      )}
                       <BsChatDots
                         style={{ fontSize: "20px", color: "white" }}
                         onClick={() => habilitarMensaje()}
@@ -1151,18 +1219,23 @@ console.log('===', search);
           )}
 
           <Grid style={{ width: "102%" }} onClick={() => setEsClick(false)}>
-
             {props.children}
             {habilitar && (
               <div className="auth-body-container">
                 <div className={"auth-body"}>
-
-
                   <div
-                    style={{ padding: '30px', height: "85% ", textAlign: "center", backgroundColor: "#121418", borderRadius: "5px", zIndex: 9999, display: 'flex', boxShadow: "5px 5px 20px 5px rgba(0, 0, 0, 0.651)", width: "70%" }}
-
+                    style={{
+                      padding: "30px",
+                      height: "85% ",
+                      textAlign: "center",
+                      backgroundColor: "#121418",
+                      borderRadius: "5px",
+                      zIndex: 9999,
+                      display: "flex",
+                      boxShadow: "5px 5px 20px 5px rgba(0, 0, 0, 0.651)",
+                      width: "70%",
+                    }}
                   >
-
                     <DialogContent>
                       <TextField
                         autoFocus
@@ -1175,43 +1248,46 @@ console.log('===', search);
                         onChange={handleChange}
                         InputProps={{
                           style: {
-                            color: 'white',
-                            borderColor: 'white',
+                            color: "white",
+                            borderColor: "white",
                           },
                           classes: {
                             notchedOutline: {
-                              borderColor: 'white',
+                              borderColor: "white",
                             },
                           },
                         }}
                         InputLabelProps={{
-                          style: { color: 'white' },
+                          style: { color: "white" },
                         }}
                         inputProps={{
                           style: {
-                            color: 'white',
-                            borderColor: 'white',
+                            color: "white",
+                            borderColor: "white",
                           },
-                          placeholder: 'Search',
+                          placeholder: "Search",
                         }}
                         sx={{
-                          '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-                            borderColor: 'white',
+                          "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                            {
+                              borderColor: "white",
+                            },
+                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                            {
+                              borderColor: "white",
+                            },
+                          "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                            {
+                              borderColor: "white",
+                            },
+                          "& .MuiInputBase-input": {
+                            color: "white",
                           },
-                          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: 'white',
+                          "& .MuiInputLabel-outlined": {
+                            color: "white",
                           },
-                          '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                            borderColor: 'white',
-                          },
-                          '& .MuiInputBase-input': {
-                            color: 'white',
-                          },
-                          '& .MuiInputLabel-outlined': {
-                            color: 'white',
-                          },
-                          '& .MuiInputBase-input::placeholder': {
-                            color: 'white',
+                          "& .MuiInputBase-input::placeholder": {
+                            color: "white",
                             opacity: 1,
                           },
                         }}
@@ -1239,7 +1315,10 @@ console.log('===', search);
                     </DialogContent>
 
                     <div className="auth-close">
-                      <button className="pinkker-button-more" onClick={() => setHabilitar(false)}>
+                      <button
+                        className="pinkker-button-more"
+                        onClick={() => setHabilitar(false)}
+                      >
                         <i
                           style={{ fontSize: props.isMobile && "20px" }}
                           class="fas fa-times"
@@ -1257,7 +1336,6 @@ console.log('===', search);
                 closePopup={() => togglePopupAuth()}
               />
             )}
-
           </Grid>
           {/* FOOTER */}
           {/* 
@@ -1499,7 +1577,7 @@ console.log('===', search);
                 {openMessage ? "Mensajes" : "Notificaciones"}
               </Typography>
             </Grid>
-            {openMessage && <Message />}
+            {openMessage && <Message messagesOpen1={messagesOpen} />}
           </Grid>
         )}
       </Grid>

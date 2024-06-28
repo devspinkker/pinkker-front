@@ -7,7 +7,8 @@
 /* menu.css */
 .mobile-menu {
     position: fixed;
-    border-top: 2px solid #2a2e38; /* Ajuste del borde superior */
+    border-top: 2px solid #2a2e38;
+    /* Ajuste del borde superior */
     bottom: 0;
     left: 0;
     width: 100%;
@@ -16,7 +17,8 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 1000; /* Asegura que el menú esté por encima de otros elementos */
+    z-index: 1000;
+    /* Asegura que el menú esté por encima de otros elementos */
 }
 
 .mobile-menu a {
@@ -33,19 +35,23 @@
 }
 
 .mobile-menu a:not(:last-child) {
-    border-right: 1px solid #2a2e38; /* Borde derecho entre elementos */
+    border-right: 1px solid #2a2e38;
+    /* Borde derecho entre elementos */
 }
 
 .mobile-menu a span {
-    font-size: 18px; /* Ajuste del tamaño de la fuente del texto */
+    font-size: 18px;
+    /* Ajuste del tamaño de la fuente del texto */
 }
 
 .mobile-menu a.active {
-    color: #ff69c4; /* Color activo para el enlace */
+    color: #ff69c4;
+    /* Color activo para el enlace */
 }
 
 .mobile-menu a .icon {
-    font-size: 40px; /* Ajuste del tamaño del icono */
+    font-size: 40px;
+    /* Ajuste del tamaño del icono */
 }
 
 .item-li {
@@ -119,6 +125,7 @@
     left: 0;
     top: 0;
 }
+
 .item-liActive {
     width: 100%;
     height: 3rem;
@@ -129,10 +136,12 @@
     color: #ff69c4 !important;
     cursor: pointer;
 }
-.item-liActiveMobile{
+
+.item-liActiveMobile {
     color: #ff69c4 !important;
 }
-.item-liActive::after{
+
+.item-liActive::after {
     background-color: #ff69c4;
     position: absolute;
     content: '';
@@ -145,18 +154,35 @@
     left: 0;
     top: 0;
 }
-.expandedCartera{
-    animation: bounce .1s both ;
+
+.expandedCartera {
+    animation: bounce .1s both;
 }
-.moneda:hover{
+
+.moneda:hover {
     background-color: #2a2e38;
     cursor: pointer;
 }
+
 @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
-    40% {transform: translateY(-5px);} 
-    60% {transform: translateY(-5px);} 
- } 
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-5px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
 .item-li:hover::after {
     opacity: 1;
     /* Mostrar el contenido al hacer hover */
@@ -178,8 +204,36 @@
 }
 
 .button-casino:hover {
-    background: url("/public/images/BOTON-DIRECTO.jpg")!important;
+    background: url("/public/images/BOTON-DIRECTO.jpg") !important;
     background-size: cover !important;
 
     cursor: pointer;
+}
+
+.messagechat-InfoUserTo-notiNav {
+    position: absolute;
+    top: 8px;
+    left: 19px;
+    width: 7px;
+    height: 7px;
+    background-color: #ff00eb;
+    border-radius: 50%;
+    margin-top: 2px;
+    margin-left: 5px;
+    margin-right: 7px;
+    animation: shadowPulseAnimationNoti 1s infinite ease-out;
+}
+
+@keyframes shadowPulseAnimationNoti {
+    0% {
+        box-shadow: 0 0 00e70166;
+    }
+
+    30% {
+        box-shadow: 0 0 2px 2px #ff00eb
+    }
+
+    70% {
+        box-shadow: 0 0 2px 2px #ff00eb;
+    }
 }
