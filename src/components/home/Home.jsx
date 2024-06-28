@@ -236,7 +236,25 @@ const Home = ({
   setTimeout(() => {
     setIsLoading(false);
   }, 200);
+  const [isFullHD, setIsFullHD] = useState(false);
+  useEffect(() => {
+    const checkScreenResolution = () => {
+      if (window.innerWidth === 1920 && window.innerHeight === 1080) {
+        setIsFullHD(true);
+      } else {
+        setIsFullHD(false);
+      }
+    };
 
+    // Check the resolution on mount
+    checkScreenResolution();
+
+    // Add event listener to check resolution on resize
+    window.addEventListener('resize', checkScreenResolution);
+
+    // Clean up the event listener on unmount
+    return () => window.removeEventListener('resize', checkScreenResolution);
+  }, []);
   return (
     <div
       style={{
@@ -246,7 +264,7 @@ const Home = ({
       }}
       className={"home-body-" + theme.theme}
     >
-      {isLoading && (
+      {/* {isLoading && (
         <div
           style={{
             height: "800px",
@@ -257,7 +275,7 @@ const Home = ({
         >
           <BarLoader color="#36d7b7" />
         </div>
-      )}
+      )} */}
       <DirectosRecommended
         isMobile={isMobile}
         socketMain={socketMain}
@@ -266,7 +284,7 @@ const Home = ({
       />
 
       <div className="categories-home-manager"></div>
-      <div className="categories-home">
+      {/* <div className="categories-home">
         {Categories && !Categories[1] && (
           <div
             style={{
@@ -277,22 +295,23 @@ const Home = ({
               gap: "10px",
             }}
           >
-            {[...Array( isMobile ?  3 :9)].map((_, index) => (
+            {[...Array( isMobile ?  3 : isFullHD ? 8 : 7)].map((_, index) => (
               <div
                 style={{
                   marginTop: "30px",
                   display: "flex",
                   alignItems: "center",
-                  gap: "50px",
+                  gap: "3rem",
                 }}
                 key={index}
               >
                 <Skeleton
                   variant="rectangular"
-                  width={180}
-                  height={199}
+                  width={140}
+                  height={180}
                   style={{
-                    backgroundColor: "#" + color,
+                    backgroundColor: "#202329",
+                    border: `1px solid #${color}`,
                     borderRadius: "5px",
                   }}
                 />
@@ -300,7 +319,7 @@ const Home = ({
             ))}
           </div>
         )}
-      </div>
+      </div> */}
 
       <SliderLayout
         Categories={Categories}
@@ -310,7 +329,7 @@ const Home = ({
       ></SliderLayout>
       {<Clips isMobile={isMobile} />}
 
-      <Vods isMobile={isMobile} />
+      {<Vods isMobile={isMobile} />}
 
       {/* {<Clips isMobile={isMobile} titulo={"Vods"} />} */}
 

@@ -1,4 +1,4 @@
-import { Box, CardContent, CardMedia, Dialog, DialogContent, Grid, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Dialog, DialogContent, Grid, Tab, Tabs, TextField, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import NavbarLeft from "../navbarLeft/NavbarLeft";
 import Search from "../navbar/search/Search";
@@ -31,7 +31,10 @@ import Messages from "../dashboard/stream-manager/chat/Messages";
 import Message from "../message/Message";
 import logoPinkker from './LOGOPINKKER.png'
 import SearchPopup from "../navbar/search/SearchPopup";
-import Card from "../dashboard/stream-manager/card/Card";
+import { fetchSearch } from "../../redux/actions/searchAction";
+
+import zIndex from "@mui/material/styles/zIndex";
+
 function NLayout(props) {
   const [locationpath, setLocationPath] = useState();
   const [dashboard, setDashboard] = useState(false);
@@ -179,21 +182,38 @@ function NLayout(props) {
     };
   }, []);
   const [open, setOpen] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [search, setSearch] = useState('');
   const [tabValue, setTabValue] = useState(0);
   const [habilitar, setHabilitar] = useState(false)
   const handleClose = () => setHabilitar(!habilitar);
+  const [text, setText] = useState(null);
+
   const games = [
     { title: 'Rich Wilde and the Tome of Insanity', image: '/path/to/image1.jpg' },
     { title: 'Sweet Bonanza 1000', image: '/path/to/image2.jpg' },
     // ... more game data
   ];
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
 
+console.log('===', search);
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
+  };
+  const handleChange = (e) => {
+    const value = e.target.value;
+
+    if (value.length <= 0) {
+      setSearch(null);
+      setText(null);
+    } else {
+      setText(value);
+
+      const getUser = () => {
+        return fetchSearch(value).then((res) => {
+          setSearch(res.data);
+        });
+      };
+      getUser();
+    }
   };
   const getNavDesktop = () => {
     return (
@@ -446,6 +466,7 @@ function NLayout(props) {
                   <input
                     style={{ fontSize: "16px" }}
                     onClickCapture={() => setHabilitar(!habilitar)}
+
                     placeholder="Search"
                     type="search"
                     className="input-searchbar"
@@ -1138,8 +1159,8 @@ function NLayout(props) {
 
 
                   <div
-                    style={{  padding: '30px', height: "85% ", textAlign: "center", backgroundColor: "#121418", borderRadius: "5px", zIndex: 9999, display: 'flex', boxShadow: "5px 5px 20px 5px rgba(0, 0, 0, 0.651)", width:"70%"}}
-                    
+                    style={{ padding: '30px', height: "85% ", textAlign: "center", backgroundColor: "#121418", borderRadius: "5px", zIndex: 9999, display: 'flex', boxShadow: "5px 5px 20px 5px rgba(0, 0, 0, 0.651)", width: "70%" }}
+
                   >
 
                     <DialogContent>
@@ -1150,8 +1171,8 @@ function NLayout(props) {
                         type="search"
                         fullWidth
                         variant="outlined"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
+                        value={text}
+                        onChange={handleChange}
                         InputProps={{
                           style: {
                             color: 'white',
@@ -1195,22 +1216,20 @@ function NLayout(props) {
                           },
                         }}
                       />
-                      
+
                       <Box mt={2}>
                         <Grid container spacing={2}>
-                          {games
-                            .filter((game) => game.title.toLowerCase().includes(searchTerm.toLowerCase()))
-                            .map((game, index) => (
-                              <Grid item xs={12} sm={6} md={4} key={index}>
-                                <Card>
+                          {search?.data?.map((game, index) => (
+                              <Grid item xs={12} sm={6} md={4} key={index} >
+                                <Card style={{ zIndex: 99999}}>
                                   <CardMedia
                                     component="img"
                                     height="140"
-                                    image={game.image}
-                                    alt={game.title}
+                                    image={game?.Avatar}
+                                    alt={game?.NameUser}
                                   />
                                   <CardContent>
-                                    <Typography variant="h6" style={{color:'white'}}>{game.title}</Typography>
+                                    <Typography variant="h6" style={{ color: 'black' }}>{game?.NameUser?.toUpperCase()}</Typography>
                                   </CardContent>
                                 </Card>
                               </Grid>
