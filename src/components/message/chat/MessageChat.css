@@ -70,7 +70,22 @@
 
 
 .messagechat-date {
+    display: flex;
     text-align: center;
+    width: 100%;
+    color: #fff;
+    height: 30px;
+    font-family: Inter;
+    font-weight: bolder;
+    align-items: center;
+    justify-content: center;
+}
+
+.messagechat-date>span {
+    background: #182229;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: 12px;
 }
 
 .messagechat-closed-window {

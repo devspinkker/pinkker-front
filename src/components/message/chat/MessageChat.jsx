@@ -19,7 +19,7 @@ export default function MessageChat({
   const Avatar = window.localStorage.getItem("avatar");
   const [socket, setSocket] = useState(null);
   const [NotifyState, setNotifyState] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false); // Estado para verificar si la imagen está cargada
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const messagesEndRef = useRef(null);
 
@@ -104,9 +104,37 @@ export default function MessageChat({
 
     return `${hour}:${minutes < 10 ? "0" + minutes : minutes}`;
   }
+  function formatDate(dateString) {
+    const messageDate = new Date(dateString);
+    const today = new Date();
+    const dayOfWeek = [
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+    ];
 
-  function handleImageLoaded() {
-    setImageLoaded(true);
+    const diffTime = today - messageDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    if (
+      messageDate.getDate() === today.getDate() &&
+      messageDate.getMonth() === today.getMonth() &&
+      messageDate.getFullYear() === today.getFullYear()
+    ) {
+      return "hoy";
+    } else if (diffDays === 1) {
+      return "ayer";
+    } else if (diffDays < 7) {
+      return dayOfWeek[messageDate.getDay()];
+    } else {
+      return `${messageDate.getDate()}/${
+        messageDate.getMonth() + 1
+      }/${messageDate.getFullYear()}`;
+    }
   }
 
   return (
@@ -149,9 +177,11 @@ export default function MessageChat({
             {messages.length > 0 ? (
               messages.map((message, index) => (
                 <div key={index}>
-                  {index === 0 && (
+                  {(index === 0 ||
+                    formatDate(message.CreatedAt) !==
+                      formatDate(messages[index - 1].CreatedAt)) && (
                     <div className="messagechat-date">
-                      <h3>hoy</h3>
+                      <span>{formatDate(message.CreatedAt)}</span>
                     </div>
                   )}
                   <div
@@ -183,7 +213,7 @@ export default function MessageChat({
                           <img
                             src={to.Avatar}
                             alt=""
-                            onLoad={handleImageLoaded}
+                            onLoad={() => setImageLoaded(true)}
                             style={{ display: imageLoaded ? "block" : "none" }}
                           />
                         </div>
@@ -213,7 +243,7 @@ export default function MessageChat({
                           <img
                             src={Avatar}
                             alt=""
-                            onLoad={handleImageLoaded}
+                            onLoad={() => setImageLoaded(true)}
                             style={{ display: imageLoaded ? "block" : "none" }}
                           />
                         </div>
@@ -306,7 +336,7 @@ export default function MessageChat({
               <img
                 src={to.Avatar}
                 alt=""
-                onLoad={handleImageLoaded}
+                onLoad={() => setImageLoaded(true)}
                 style={{ display: imageLoaded ? "block" : "none" }}
               />
             </div>

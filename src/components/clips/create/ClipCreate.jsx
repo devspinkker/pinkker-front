@@ -21,7 +21,7 @@ export function CreateClip() {
   const [isVideoEnded, setIsVideoEnded] = useState(false);
   const [isLoadingVideo, setIsLoadingVideo] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
-  const TOTAL_VIDEO_SIZE_KB = 1000;
+  const TOTAL_VIDEO_SIZE_KB = 6000;
   const UPDATE_CHUNK_SIZE_KB = 10;
 
   useEffect(() => {
