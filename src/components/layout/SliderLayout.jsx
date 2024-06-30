@@ -193,31 +193,35 @@ function SliderLayout(props) {
               )
 
               :
-              <div style={{ display: 'flex', gap: '2.5rem' }}>
+
+              <SwiperSlide className="hoverSwiper" style={{ color: "white", display: 'flex', gap: props.isMobile ? '.8rem': '2rem', }}>
 
                 {[...Array(props.isMobile ? 3 : isFullHD ? 9 : 7)].map((_, index) => (
                   <div
                     style={{
                       marginTop: "30px",
                       display: "flex",
-                      alignItems: "center",
-                      gap: "3rem",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      gap: "10px",
                     }}
                     key={index}
                   >
                     <Skeleton
                       variant="rectangular"
-                      width={140}
-                      height={180}
+                      width={ props.isMobile ? 182 :142}
+                      height={props.isMobile ? 241 :182}
                       style={{
                         backgroundColor: "#202329",
                         border: `1px solid #${color}`,
                         borderRadius: "5px",
                       }}
                     />
+                    <Skeleton variant="text" width={100} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
+
                   </div>
                 ))}
-              </div>
+              </SwiperSlide>
 
 
           }
@@ -264,21 +268,22 @@ function SliderLayout(props) {
                 ))
 
               :
-              <div style={{ display: 'flex', gap: '2.5rem' }}>
+              <SwiperSlide className="hoverSwiper" style={{ color: "white", display: 'flex', gap: '2rem', width: '100%' }}>
 
-                {[...Array(props.isMobile ? 1 : isFullHD ? 5 : 4)].map((_, index) => (
-                  <div style={{ margin: "2px", marginTop: "15px" }}>
-                    <Skeleton variant="rectangular" width={"350px"} height={"180px"} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                    <div style={{ display: "flex", alignItems: "center" }}>
+                {[...Array(props.isMobile ? 1 : 5)].map((_, index) => (
+                  <div style={{ margin: "2px", marginTop: "15px", width: props.isMobile && '100%' }}>
+                    <Skeleton variant="rectangular" width={props.isMobile ? '570px' : '260px'} height={props.isMobile ? "280px" : '150px'} style={{ backgroundColor: "rgb(32, 32, 31)", borderRadius: '5px' }} />
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: '5px', marginTop: '10px' }}>
+                      <Skeleton variant="circular" width={40} height={40} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
                       <div>
-                        <Skeleton variant="text" width={100} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                        <Skeleton variant="text" width={50} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                        <Skeleton variant="text" width={100} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
+                        <Skeleton variant="text" width={100} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
+                        <Skeleton variant="text" width={50} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
+                        <Skeleton variant="text" width={100} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
                       </div>
                     </div>
                   </div>
                 ))}
-              </div>
+              </SwiperSlide>
           }
         </>
       )}
@@ -302,16 +307,17 @@ function SliderLayout(props) {
                   </SwiperSlide>
                 ))
               :
-              <SwiperSlide className="hoverSwiper" style={{ color: "white", display:'flex', gap:'2.5rem', width:'100%' }}>
+              <SwiperSlide className="hoverSwiper" style={{ color: "white", display: 'flex', gap: '2rem', width: '100%' }}>
 
-                {[...Array(props.isMobile ? 1 : isFullHD ? 5 : 4)].map((_, index) => (
-                  <div style={{ margin: "2px", marginTop: "15px", width:'100%' }}>
-                    <Skeleton variant="rectangular" width={'570px'} height={"280px"} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                    <div style={{ display: "flex", alignItems: "center" }}>
+                {[...Array(props.isMobile ? 1 : 6)].map((_, index) => (
+                  <div style={{ margin: "2px", marginTop: "15px", width: props.isMobile && '100%' }}>
+                    <Skeleton variant="rectangular" width={props.isMobile ? '570px' : isFullHD ? '320px' :'260px'} height={props.isMobile ? "280px" : isFullHD ? '180px' :'150px'} style={{ backgroundColor: "rgb(32, 32, 31)", borderRadius: '5px' }} />
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: '5px', marginTop: '10px' }}>
+                      <Skeleton variant="circular" width={40} height={40} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
                       <div>
-                        <Skeleton variant="text" width={100} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                        <Skeleton variant="text" width={50} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                        <Skeleton variant="text" width={100} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
+                        <Skeleton variant="text" width={100} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
+                        <Skeleton variant="text" width={50} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
+                        <Skeleton variant="text" width={100} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
                       </div>
                     </div>
                   </div>

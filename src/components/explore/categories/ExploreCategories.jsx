@@ -38,10 +38,16 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
   const [clips, setclipss] = useState(null);
   const [barPosition, setBarPosition] = useState(0);
   const [progress, setProgress] = useState(0);
-
+  const [ruta, setRuta] = useState();
+  const [filtros, setFiltros] = useState({
+    clips: false,
+    streams: false,
+    categories: false,
+  });
   const toggleSelect = () => {
     setSelectedVideo(!selectedVideo);
   };
+  console.log('ruta', ruta);
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tipo = params.get("tipo");
@@ -52,9 +58,12 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
     } else if (tipo === "streams") {
       setBarPosition(0);
       setFiltros({ clips: false, streams: true, categories: false });
+      setRuta("streams");
     } else if (tipo === "categories") {
       setBarPosition(2);
       setFiltros({ clips: false, streams: false, categories: true });
+      setRuta("categories");
+
     } else {
       setFiltros({ clips: false, streams: true, categories: false });
     }
@@ -93,11 +102,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
     }
   };
 
-  const [filtros, setFiltros] = useState({
-    clips: false,
-    streams: true,
-    categories: false,
-  });
+
 
   const filter = (e, position) => {
     history.push(`/plataform/explore?tipo=${e}`);
@@ -164,17 +169,22 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           alignItems: "center",
           justifyContent: "space-between",
           borderBottom: "1px solid rgb(42, 46, 56)",
-          padding: "0px  5.8rem",
-          margin: "3.4rem 0px",
+          padding: isMobile ? "5px  5.8rem" :"0px  5.8rem",
+          margin: "1.5rem 0px 1.8rem 0px",
         }}
       >
         <h3 style={{ color: "white", fontSize: "30px" }}>
           {barPosition == 0 ? "Directos" : "Categorias"}
         </h3>
-        <img
-          src={"/images/ESTRELLA_PINKKER_ROSA.png"}
-          style={{ width: "10%" }}
-        />
+        {
+          !isMobile && (
+
+            <img
+              src={"/images/ESTRELLA_PINKKER_ROSA.png"}
+              style={{ width: "10%" }}
+            />
+          )
+        }
       </Grid>
       <div>{isMobile && <Search isMobile={isMobile} />}</div>
 
@@ -213,44 +223,49 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
         ></div> */}
 
       <div className="explorecategories-card-container">
-        {filtros?.categories && (
+
+        {filtros?.categories &&(
           <>
             <div
               style={{
                 width: "100%",
               }}
             >
-              <div className="explorecategories-card-container-filters">
-                <div className="explorecategories-card-container-filter-input">
-                  <img
-                    src="/images/search.svg"
-                    style={{
-                      fontSize: "16px",
-                      color: "rgb(89 89 89)",
-                      margin: "8px",
-                    }}
-                  />
-                  <input
-                    type="text"
-                    value={filterValue}
-                    onChange={(e) => setFilterValue(e.target.value)}
-                    placeholder="Búsqueda"
-                  />
-                  {filterValue && (
-                    <AiOutlineCloseCircle
-                      style={{ color: "white", cursor: "pointer" }}
-                      onClick={(e) => setFilterValue("")}
+              {!isMobile && (
+                <div className="explorecategories-card-container-filters">
+                  <div className="explorecategories-card-container-filter-input">
+                    <img
+                      src="/images/search.svg"
+                      style={{
+                        fontSize: "16px",
+                        color: "rgb(89 89 89)",
+                        margin: "8px",
+                      }}
                     />
-                  )}
+                    <input
+                      type="text"
+                      value={filterValue}
+                      onChange={(e) => setFilterValue(e.target.value)}
+                      placeholder="Búsqueda"
+                    />
+                    {filterValue && (
+                      <AiOutlineCloseCircle
+                        style={{ color: "white", cursor: "pointer" }}
+                        onClick={(e) => setFilterValue("")}
+                      />
+                    )}
+                  </div>
+                  <div>
+                    <CustomSelect
+                      options={["Random", "Mas visto", "Menos visto"]}
+                      defaultValue="Mas visto"
+                      onChange={(value) => handleSortByChange(value)}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <CustomSelect
-                    options={["Random", "Mas visto", "Menos visto"]}
-                    defaultValue="Mas visto"
-                    onChange={(value) => handleSortByChange(value)}
-                  />
-                </div>
-              </div>
+              )}
+
+
               <div
                 className={
                   !sortedCategories()?.length
@@ -305,57 +320,61 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           </>
         )}
 
-        {barPosition == 0 && filtros?.streams && streams ? (
-          streams.map((stream) => (
-            <CardStream
-              width={
-                stream?.streamer && isMobile
-                  ? "100%"
-                  : stream?.streamer && !isMobile
-                  ? "30%"
-                  : "160px"
-              }
-              isLoading={isLoading}
-              name={stream.streamer}
-              avatarStreamer={stream.streamer_avatar}
-              image={stream.stream_thumbnail ?? "/images/pinkker-stream.png"}
-              ViewerCount={stream.ViewerCount}
-              tags={stream.stream_tag}
-              title={stream.stream_title}
-              categorie={stream.stream_category}
-            />
-          ))
-        ) : (
-          <Grid
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "15px",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              height: "300px",
-              backgroundColor: "#121418",
-              border: "1px dashed #2a2e38",
-              marginBottom: "20%",
-              marginTop: "1%",
-              borderRadius: "5px",
-            }}
-          >
-            <ImCross style={{ color: "red", fontSize: "3.5rem" }} />
-            <Typography
+        
+
+        {ruta === "streams" ?
+
+          streams ? (
+            streams.map((stream) => (
+              <CardStream
+                width={
+                  stream?.streamer && isMobile
+                    ? "100%"
+                    : stream?.streamer && !isMobile
+                      ? "30%"
+                      : "160px"
+                }
+                isLoading={isLoading}
+                name={stream.streamer}
+                avatarStreamer={stream.streamer_avatar}
+                image={stream.stream_thumbnail ?? "/images/pinkker-stream.png"}
+                ViewerCount={stream.ViewerCount}
+                tags={stream.stream_tag}
+                title={stream.stream_title}
+                categorie={stream.stream_category}
+              />
+            ))
+          ) : (
+            <Grid
               style={{
-                fontFamily: "Inter",
-                fontWeight: 600,
-                color: "white",
+                display: "flex",
+                flexDirection: "column",
+                gap: "15px",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                height: "300px",
+                backgroundColor: "#121418",
+                border: "1px dashed #2a2e38",
+                marginBottom: "20%",
+                marginTop: "1%",
+                borderRadius: "5px",
               }}
             >
-              No hay Directos para mostrar
-            </Typography>
-          </Grid>
-        )}
+              <ImCross style={{ color: "red", fontSize: "3.5rem" }} />
+              <Typography
+                style={{
+                  fontFamily: "Inter",
+                  fontWeight: 600,
+                  color: "white",
+                }}
+              >
+                No hay Directos para mostrar
+              </Typography>
+            </Grid>
+          ) : null}
 
-        {filtros?.clips &&
+        {filtros?.clips && ruta === "streams" &&
           clips &&
           clips.map((clips, index) => (
             <div

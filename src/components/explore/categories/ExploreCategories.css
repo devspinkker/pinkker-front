@@ -30,14 +30,14 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid rgb(42, 46, 56);
-    padding: 0px  5.8rem 18px 5.8rem;
+    padding: 1.6%  5.8rem 18px 5.8rem;
     margin : -34px 0px 18px 0px;
 }
 
 .explorecategories-card-container-sorted-content {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    padding: 1.2rem  5.8rem;
+    padding: .5rem  5.8rem;
 }
 
 .explore-card-not-results{
@@ -183,5 +183,11 @@ input {
         width: 102%;
         flex-direction: row;
         flex-wrap: wrap;
+    }
+
+    .explorecategories-card-container-sorted-content {
+        display: grid !important;;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+        padding: 1rem 0px 25% 0px !important;
     }
 }
