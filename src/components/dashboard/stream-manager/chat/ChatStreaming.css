@@ -266,6 +266,7 @@
 
 .divinput-chat {
     width: 95%;
+    display: flex;
     height: 38px;
     overflow: hidden;
     border-radius: 0px 0px 0px 0px;
@@ -278,6 +279,7 @@
     padding: 0px 0px 0px 15px;
     font-weight: bold;
     outline: none;
+    align-items: center;
 }
 
 .divinput-chat:empty:before {
