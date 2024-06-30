@@ -1218,7 +1218,7 @@ console.log('===', search);
             </Grid>
           )}
 
-          <Grid style={{ width: "102%" }} onClick={() => setEsClick(false)}>
+          <Grid style={{ width: "102%" , padding: props.isMobile && '0px 0px 25% 0px' }} onClick={() => setEsClick(false)}>
             {props.children}
             {habilitar && (
               <div className="auth-body-container">
