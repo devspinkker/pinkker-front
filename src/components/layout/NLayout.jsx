@@ -1,4 +1,16 @@
-import { Box, Card, CardContent, CardMedia, Dialog, DialogContent, Grid, Tab, Tabs, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Dialog,
+  DialogContent,
+  Grid,
+  Tab,
+  Tabs,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import NavbarLeft from "../navbarLeft/NavbarLeft";
 import Search from "../navbar/search/Search";
@@ -35,6 +47,7 @@ import SearchPopup from "../navbar/search/SearchPopup";
 import { fetchSearch } from "../../redux/actions/searchAction";
 
 import zIndex from "@mui/material/styles/zIndex";
+import Notificaciones from "../Notificaciones/Notificaciones";
 
 function NLayout(props) {
   const [locationpath, setLocationPath] = useState();
@@ -244,7 +257,7 @@ function NLayout(props) {
     };
   }, []);
   const [open, setOpen] = useState(true);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [tabValue, setTabValue] = useState(0);
   const [habilitar, setHabilitar] = useState(false);
   const handleClose = () => setHabilitar(!habilitar);
@@ -259,7 +272,7 @@ function NLayout(props) {
     // ... more game data
   ];
 
-console.log('===', search);
+  console.log("===", search);
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
@@ -529,7 +542,6 @@ console.log('===', search);
                   <input
                     style={{ fontSize: "16px" }}
                     onClickCapture={() => setHabilitar(!habilitar)}
-
                     placeholder="Search"
                     type="search"
                     className="input-searchbar"
@@ -1218,7 +1230,13 @@ console.log('===', search);
             </Grid>
           )}
 
-          <Grid style={{ width: "102%" , padding: props.isMobile && '0px 0px 25% 0px' }} onClick={() => setEsClick(false)}>
+          <Grid
+            style={{
+              width: "102%",
+              padding: props.isMobile && "0px 0px 25% 0px",
+            }}
+            onClick={() => setEsClick(false)}
+          >
             {props.children}
             {habilitar && (
               <div className="auth-body-container">
@@ -1296,20 +1314,25 @@ console.log('===', search);
                       <Box mt={2}>
                         <Grid container spacing={2}>
                           {search?.data?.map((game, index) => (
-                              <Grid item xs={12} sm={6} md={4} key={index} >
-                                <Card style={{ zIndex: 99999}}>
-                                  <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={game?.Avatar}
-                                    alt={game?.NameUser}
-                                  />
-                                  <CardContent>
-                                    <Typography variant="h6" style={{ color: 'black' }}>{game?.NameUser?.toUpperCase()}</Typography>
-                                  </CardContent>
-                                </Card>
-                              </Grid>
-                            ))}
+                            <Grid item xs={12} sm={6} md={4} key={index}>
+                              <Card style={{ zIndex: 99999 }}>
+                                <CardMedia
+                                  component="img"
+                                  height="140"
+                                  image={game?.Avatar}
+                                  alt={game?.NameUser}
+                                />
+                                <CardContent>
+                                  <Typography
+                                    variant="h6"
+                                    style={{ color: "black" }}
+                                  >
+                                    {game?.NameUser?.toUpperCase()}
+                                  </Typography>
+                                </CardContent>
+                              </Card>
+                            </Grid>
+                          ))}
                         </Grid>
                       </Box>
                     </DialogContent>
@@ -1577,7 +1600,11 @@ console.log('===', search);
                 {openMessage ? "Mensajes" : "Notificaciones"}
               </Typography>
             </Grid>
-            {openMessage && <Message messagesOpen1={messagesOpen} />}
+            {openMessage ? (
+              <Message messagesOpen1={messagesOpen} />
+            ) : (
+              <Notificaciones messagesOpen1={messagesOpen} />
+            )}
           </Grid>
         )}
       </Grid>
