@@ -168,16 +168,17 @@ export default function CustomPlayer({
   };
 
   const toggleFullScreen = () => {
-    var el = document.getElementById("pinkker-player");
-    if (el) {
-      if (el.requestFullscreen) {
-        el.requestFullscreen();
-      } else if (el.msRequestFullscreen) {
-        el.msRequestFullscreen();
-      } else if (el.mozRequestFullScreen) {
-        el.mozRequestFullScreen();
-      } else if (el.webkitRequestFullscreen) {
-        el.webkitRequestFullscreen();
+    const videoPlayer = videoRef.current;
+
+    if (videoPlayer) {
+      if (videoPlayer.requestFullscreen) {
+        videoPlayer.requestFullscreen();
+      } else if (videoPlayer.msRequestFullscreen) {
+        videoPlayer.msRequestFullscreen();
+      } else if (videoPlayer.mozRequestFullScreen) {
+        videoPlayer.mozRequestFullScreen();
+      } else if (videoPlayer.webkitRequestFullscreen) {
+        videoPlayer.webkitRequestFullscreen();
       }
     }
   };
