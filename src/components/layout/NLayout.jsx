@@ -62,6 +62,7 @@ function NLayout(props) {
 
   const [messagesOpen, setMessagesOpen] = useState([]);
   const [notificacion, setNotificacion] = useState(false);
+  // Message
   useEffect(() => {
     fetchData(); // Llamada inicial para obtener los datos
     const intervalId = setInterval(fetchData, 6000);
@@ -135,6 +136,62 @@ function NLayout(props) {
       }
     }, 500);
   }
+  // Notificaciones
+  const [socket, setSocket] = useState(null);
+  const [PinkerNotifications, setPinkerNotifications] = useState([]);
+  const token = window.localStorage.getItem("token");
+  const anySeenNotifications = PinkerNotifications.some(
+    (notification) => !notification.visto
+  );
+
+  useEffect(() => {
+    if (token) {
+      const connectWebSocket = () => {
+        const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCOMMERCIALWS;
+        const newSocket = new WebSocket(
+          `${REACT_APP_BACKCHATWS}/ws/pinker_notifications/${token}`
+        );
+
+        newSocket.onerror = (error) => {
+          console.error("WebSocket error:", error);
+        };
+
+        newSocket.onmessage = (event) => {
+          const receivedMessage = JSON.parse(event.data);
+          console.log(receivedMessage);
+
+          setPinkerNotifications((prevNotifications) => [
+            ...prevNotifications,
+            { ...receivedMessage, visto: false },
+          ]);
+          // SetanySeenNotifications();
+        };
+
+        newSocket.onopen = () => {
+          console.log("WebSocket connected");
+        };
+
+        setSocket(newSocket);
+
+        return () => {
+          newSocket.close();
+          console.log("WebSocket disconnected");
+        };
+      };
+
+      if (!socket) {
+        connectWebSocket();
+      }
+    }
+  }, [token, socket]);
+  const markAllAsSeen = () => {
+    setPinkerNotifications((prevNotifications) =>
+      prevNotifications.map((notification) => ({
+        ...notification,
+        visto: true,
+      }))
+    );
+  };
 
   function cerrarCanalesRecomendados() {
     setAbrir(!abrir);
@@ -188,13 +245,16 @@ function NLayout(props) {
     setOpenNotification(false);
     props.setExpanded(false);
   };
-
   const habilitarNotificaciones = () => {
     if (openNotification) {
       setOpenNotification(false);
     } else {
       setOpenNotification(true);
+      markAllAsSeen();
     }
+    // SetanySeenNotifications(
+    //   PinkerNotifications.some((notification) => notification.visto)
+    // );
     setOpenMessage(false);
     props.setExpanded(false);
   };
@@ -990,7 +1050,10 @@ function NLayout(props) {
                 <Grid
                   style={{ display: "flex", alignItems: "center", gap: "10px" }}
                 >
-                  <div className="navbar-image-avatar-container">
+                  <div
+                    onClick={() => habilitarNotificaciones()}
+                    className="navbar-image-avatar-container"
+                  >
                     <div
                       style={{
                         width: "40px",
@@ -1002,14 +1065,19 @@ function NLayout(props) {
                       className="navbar-image-avatar"
                     >
                       {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
+                      {anySeenNotifications && (
+                        <span className="messagechat-InfoUserTo-notiNav"></span>
+                      )}
                       <IoMdNotificationsOutline
                         style={{ fontSize: "20px", color: "white" }}
                         name="notificaciones"
-                        onClick={() => habilitarNotificaciones()}
                       />
                     </div>
                   </div>
-                  <div className="navbar-image-avatar-container">
+                  <div
+                    onClick={() => habilitarMensaje()}
+                    className="navbar-image-avatar-container"
+                  >
                     <div
                       style={{
                         width: "40px",
@@ -1030,7 +1098,6 @@ function NLayout(props) {
                       )}
                       <BsChatDots
                         style={{ fontSize: "20px", color: "white" }}
-                        onClick={() => habilitarMensaje()}
                       />
                     </div>
                   </div>
@@ -1603,7 +1670,7 @@ function NLayout(props) {
             {openMessage ? (
               <Message messagesOpen1={messagesOpen} />
             ) : (
-              <Notificaciones messagesOpen1={messagesOpen} />
+              <Notificaciones PinkerNotifications={PinkerNotifications} />
             )}
           </Grid>
         )}

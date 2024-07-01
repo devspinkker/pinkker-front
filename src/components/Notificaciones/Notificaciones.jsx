@@ -1,44 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./Notificaciones.css";
 
-export default function Notificaciones({}) {
-  const [socket, setSocket] = useState(null);
+export default function Notificaciones({ PinkerNotifications }) {
   useEffect(() => {
-    const connectWebSocket = () => {
-      console.log("AS");
-      const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCOMMERCIALWS;
-      const newSocket = new WebSocket(
-        `${REACT_APP_BACKCHATWS}/ws/pinker_notifications/${"token"}`
-      );
+    console.log(PinkerNotifications);
+  }, [PinkerNotifications]);
 
-      newSocket.onerror = (error) => {
-        console.error("WebSocket error:", error);
-      };
-
-      newSocket.onmessage = (event) => {
-        const receivedMessage = JSON.parse(event.data);
-        console.log(receivedMessage);
-      };
-
-      newSocket.onopen = () => {
-        console.log("WebSocket connected");
-      };
-
-      setSocket(newSocket);
-
-      return () => {
-        newSocket.close();
-        console.log("WebSocket disconnected");
-      };
-    };
-
-    if (!socket) {
-      connectWebSocket();
+  const truncateTitle = (title, length) => {
+    if (title.length > length) {
+      return `${title.substring(0, length)}...`;
     }
-  }, []);
+    return title;
+  };
 
   return (
-    <div>
-      <h1>als</h1>
+    <div className="notifications-container">
+      <ul className="notifications-list">
+        {PinkerNotifications.map((notification, index) => (
+          <Link to={`/${notification.Nameuser}`} className="notification-link">
+            <li key={index} className="notification-item">
+              <img
+                className="notification-avatar"
+                src={notification.Avatar}
+                alt={`${notification.Nameuser}'s avatar`}
+                width={50}
+              />
+              <div className="notification-content">
+                <p className="notification-user" title={notification.Title}>
+                  {notification.Nameuser} -{" "}
+                  {truncateTitle(notification.Title, 20)}
+                </p>
+              </div>
+            </li>
+          </Link>
+        ))}
+      </ul>
     </div>
   );
 }
