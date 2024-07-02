@@ -92,10 +92,12 @@ export function ChatStreaming({
 
     const range = window.getSelection().getRangeAt(0);
     const selectedNode = range.commonAncestorContainer;
+
     if (!inputRef.current) {
       console.error("inputRef.current is null");
       return;
     }
+
     if (selectedNode.nodeType === Node.TEXT_NODE) {
       const text = selectedNode.textContent;
       const beforeText = text.substring(0, range.startOffset);
@@ -108,9 +110,24 @@ export function ChatStreaming({
       inputRef.current.insertBefore(textNodeAfter, selectedNode);
 
       inputRef.current.removeChild(selectedNode);
+
+      const newRange = document.createRange();
+      newRange.setStart(textNodeAfter, 0);
+      newRange.collapse(true);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(newRange);
     } else {
-      console.log(el?.firstChild);
-      inputRef?.current?.appendChild(el?.firstChild);
+      const nodeToInsert = el.firstChild;
+      if (nodeToInsert) {
+        inputRef.current.appendChild(nodeToInsert);
+        const newRange = document.createRange();
+        newRange.setStartAfter(nodeToInsert);
+        newRange.collapse(true);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(newRange);
+      }
     }
 
     setMessage(inputRef.current.innerHTML);
@@ -121,37 +138,15 @@ export function ChatStreaming({
     insertHTMLAtCaret(imgHTML);
   };
 
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-      const selection = window.getSelection();
-      const range = document.createRange();
-      const node = inputRef.current.childNodes[0];
-      if (node) {
-        const offset = Math.min(cursorIndex, node.textContent.length);
-        range.setStart(node, offset);
-        range.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(range);
-      }
-    }
-  }, [cursorIndex]);
-
   const handleInput = () => {
-    const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      setCursorIndex(range.startOffset);
-      setMessage(inputRef.current.innerText);
-    }
+    setMessage(inputRef.current.innerHTML);
   };
+
   const getPlainTextMessage = () => {
-    console.log(SubStateAct);
     const inputElement = inputRef.current;
-    const imgTags = inputElement.getElementsByTagName("img");
     let messageWithImages = "";
 
-    for (let node of inputElement.childNodes) {
+    inputElement.childNodes.forEach((node) => {
       if (node.nodeType === Node.TEXT_NODE) {
         messageWithImages += node.textContent;
       } else if (
@@ -164,24 +159,34 @@ export function ChatStreaming({
           src.includes("subs")
         ) {
           if (!SubStateAct) {
-            continue;
+            return;
           }
         }
         messageWithImages += " " + src + " ";
       }
-    }
+    });
 
-    console.log(messageWithImages.trim());
     return messageWithImages.trim();
   };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      handleSubmit(event);
+      sendMessage();
+      CleansendMessage();
     }
   };
-
+  const CleansendMessage = () => {
+    if (inputRef.current) {
+      inputRef.current.innerHTML = "";
+      setMessage("");
+    }
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendMessage();
+    CleansendMessage();
+  };
   // ws para las conexiones de lo msj que entran y las acciones que hay en el chat
   let stopIteration = true;
   useEffect(() => {
@@ -746,10 +751,6 @@ export function ChatStreaming({
 
   const [firstClick, setFirstClick] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    sendMessage();
-  };
   const [Modolento, setModolento] = useState(null);
   async function ActionSendMessageComando(action, nameUser) {
     const streamerId = window.localStorage.getItem("_id");
@@ -1957,14 +1958,14 @@ export function ChatStreaming({
                 //   placeholder="Enviar un mensaje"
                 //   onChange={handleChange}
                 // />
+
                 <div
                   contentEditable
                   className="divinput-chat"
                   ref={inputRef}
                   onInput={handleInput}
-                  dangerouslySetInnerHTML={{ __html: message }}
-                  color="#fff"
-                  placeholder="Type a message..."
+                  style={{ color: "#fff" }}
+                  placeholder="Enviar un mensaje..."
                   onKeyPress={handleKeyPress}
                 />
               )}
@@ -2143,9 +2144,8 @@ export function ChatStreaming({
                 className="divinput-chat"
                 ref={inputRef}
                 onInput={handleInput}
-                dangerouslySetInnerHTML={{ __html: message }}
-                color="#fff"
-                placeholder="Type a message..."
+                style={{ color: "#fff" }}
+                placeholder="Enviar un mensaje..."
                 onKeyPress={handleKeyPress}
               />
             )}
@@ -2323,9 +2323,8 @@ export function ChatStreaming({
                 className="divinput-chat"
                 ref={inputRef}
                 onInput={handleInput}
-                dangerouslySetInnerHTML={{ __html: message }}
-                color="#fff"
-                placeholder="Type a message..."
+                style={{ color: "#fff" }}
+                placeholder="Enviar un mensaje..."
                 onKeyPress={handleKeyPress}
               />
             )}
