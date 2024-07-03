@@ -22,6 +22,7 @@ const App = () => {
   const token = useSelector(state => state.token)
   const auth = useSelector(state => state.auth)
   const { isLogged } = auth;
+  console.log('isLogged', isLogged)
   const [expanded, setExpanded] = useState(true);
 
   const [width, setWidth] = useState(window.innerWidth);

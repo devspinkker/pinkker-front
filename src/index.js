@@ -7,13 +7,15 @@ import ThemeProvider from "./theme/ThemeProvider";
 
 import DataProvider from './redux/store'
 import ChatMessageProvider from './hooks/chatmessage/ChatMessageProvider'
-
+import { AuthProvider } from "./components/AuthContext";
 
 ReactDOM.render(
   <NotificationProvider>
     <ThemeProvider>
       <DataProvider>
-        <App />
+        <AuthProvider>
+          <App />
+          </AuthProvider>
       </DataProvider>
     </ThemeProvider>
   </NotificationProvider>

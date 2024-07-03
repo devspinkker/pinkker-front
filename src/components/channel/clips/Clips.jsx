@@ -63,6 +63,8 @@ export default function Clips(props) {
       const data = await GetClipsNameUser(props.streamer, "1");
       if (data != null && data != undefined) {
         setVideos(data.data.data);
+      }else{
+        setVideos(props?.video)
       }
     };
     fetchData();

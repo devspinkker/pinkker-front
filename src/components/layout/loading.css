@@ -1,0 +1,39 @@
+/* Loading.css */
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0; /* Puedes ajustar el color de fondo según el diseño de tu aplicación */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999; /* Asegúrate de que esté en un z-index alto para que esté por encima de otros elementos */
+    opacity: 1;
+    transition: opacity 0.5s ease; /* Define la transición de opacidad */
+}
+
+.logo {
+    width: 200px;
+    height: 200px;
+}
+
+.blink-animation {
+    animation: blink 1s infinite alternate; /* Define la animación de parpadeo */
+}
+
+@keyframes blink {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.5;
+    }
+}
+
+.loading-container.fade-out {
+    opacity: 0;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -60,11 +60,15 @@ import ViewTweet from "../components/muro/popup/ViewTweet";
 import HashtagPost from "../components/muro/HashtagPost";
 import NAnalytics from "../components/dashboard/analytics/NAnalytics";
 import Main from "../components/panelAdminPinkker/Main";
+import AuthContext from "../components/AuthContext";
+
 
 const AppRouter = () => {
+  const { user } = useContext(AuthContext);
+
   const [expanded, setExpanded] = useState(true);
   const [socketMain, setSocketMain] = useState(null);
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState();
 
   function toggleExpanded() {
     setExpanded(!expanded);
@@ -87,13 +91,13 @@ const AppRouter = () => {
   const isMobile = width <= 768;
 
   useEffect(() => {
-    if (user.name != null && user.name != undefined) {
+    if (user?.name != null && user?.name != undefined) {
       loadDataOnlyOnce();
     }
   }, [user]);
 
   const loadDataOnlyOnce = () => {
-    const name = user.name;
+    const name = user?.name;
 
     if (name != undefined && name != null) {
       socketMain.emit(
@@ -116,16 +120,17 @@ const AppRouter = () => {
     }
   }, [socketMain]);
 
-  useEffect(() => {
-    async function getUser() {
-      let token = window.localStorage.getItem("token");
-      let res = await getUserByIdTheToken(token);
-      if (res.message == "ok") {
-        setUser(res.data);
-      }
-    }
-    getUser();
-  }, []);
+  // useEffect(() => {
+  //   async function getUser() {
+  //     let token = window.localStorage.getItem("token");
+  //     let res = await getUserByIdTheToken(token);
+  //     if (res.message == "ok") {
+  //       setUser(res.data);
+  //     }
+  //   }
+  //   getUser();
+  // }, []);
+
   const [openMessage, setOpenMessage] = useState(false);
   const [openMessageStreamer, setOpenMessageStreamer] = useState(null);
 
@@ -238,6 +243,7 @@ const AppRouter = () => {
           ></NavbarLeft>
           <Community />
         </Route>
+        
         <NLayout
           isMobile={isMobile}
           tyExpanded={expanded}
