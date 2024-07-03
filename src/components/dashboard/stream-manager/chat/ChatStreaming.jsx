@@ -72,6 +72,7 @@ export function ChatStreaming({
   const hostTimeoutRef = useRef(null);
   const alert = useNotification();
   const history = useHistory();
+
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isNavbarOpenDropdownEmotes, setisNavbarOpenDropdownEmotes] =
     useState(false);
@@ -84,6 +85,7 @@ export function ChatStreaming({
   };
   // manejo de los msj en el chat
   const [message, setMessage] = useState("");
+
   const [cursorIndex, setCursorIndex] = useState(0);
   const inputRef = useRef(null);
   const insertHTMLAtCaret = (html) => {
@@ -305,6 +307,11 @@ export function ChatStreaming({
               SetNewHost(null);
             }, 90000);
           }
+          console.log(receivedMessage);
+          if (receivedMessage?.action === "DonatePixels" || "Subs") {
+            setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+            scrollToBottom();
+          }
         } catch (error) {
           console.error("Error al analizar el mensaje JSON:", error);
         }
@@ -452,14 +459,6 @@ export function ChatStreaming({
     };
     setGetInfoUserInRoomAsync();
     gets();
-
-    const intervalId = setInterval(() => {
-      gets();
-    }, 10000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
   }, []);
 
   const onMouseEnterPoints = () => {
@@ -1719,122 +1718,134 @@ export function ChatStreaming({
             <div />
           </div>
         )}
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className="Message"
-            onClick={() => GetUserTheChatFunc(message)}
-            style={{ cursor: "pointer" }}
-          >
-            {message.ResMessage != "" && (
-              <div className="ResMessage">
-                <FaReply className="grey-icon" />
-                <span> Respondio </span>
-                <span> @{message.ResNameUser}:</span>
-                <span> {parseMessage(message.ResMessage)}</span>
-              </div>
-            )}
-            <div className="ChatStreaming-message-main">
-              <div className="badges">
-                {message.Identidad && <img src={message.Identidad} alt="" />}
-                {message.EmotesChat.Moderator && (
-                  <img src={message.EmotesChat.Moderator} alt="" />
-                )}
-                {message.EmotesChat.Verified && (
-                  <img src={message.EmotesChat.Verified} alt="" />
-                )}
-                {message.EmotesChat.Vip && (
-                  <img src={message.EmotesChat.Vip} alt="" />
-                )}
-                {isSubscriptor(message) && (
-                  <img src={isSubscriptor(message)} alt="" />
-                )}
-                {message?.StreamerChannelOwner && (
-                  <img
-                    src={
-                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
-                    }
-                    alt="StreamerChannelOwner"
-                  />
-                )}
-              </div>
-              <div className="MessagesChat">
-                <div className="content-info-message">
-                  <div className="content-info-message-2">
-                    <p
-                      className="content-info-message-2-nameUser"
-                      style={{
-                        color: message.Color,
-                        fontSize: changeTextSizeState,
-                      }}
-                    >
-                      {message.nameUser}:{" "}
-                      <span style={{ color: "#ffff" }}>
-                        {parseMessage(message.message)}
-                      </span>
-                    </p>
-                  </div>
+        {messages.map((message, index) => {
+          console.log(message);
+          return message.action ? (
+            <div className="donacion-chat-message-Ite">
+              <span>{message.data}</span>
+              <span>
+                {message.action == "DonatePixels" ? "Donacion" : "suscripción"}
+              </span>
+              <span>{message.Pixeles}</span>
+              <span>{message.text}</span>
+            </div>
+          ) : (
+            <div
+              key={index}
+              className="Message"
+              onClick={() => GetUserTheChatFunc(message)}
+              style={{ cursor: "pointer" }}
+            >
+              {message.ResMessage != "" && (
+                <div className="ResMessage">
+                  <FaReply className="grey-icon" />
+                  <span> Respondio </span>
+                  <span> @{message.ResNameUser}:</span>
+                  <span> {parseMessage(message.ResMessage)}</span>
                 </div>
-                {GetInfoUserInRoom &&
-                (GetInfoUserInRoom.Moderator ||
-                  streamerChat.streamerId ==
-                    window.localStorage.getItem("_id")) ? (
-                  <div
-                    className="hover-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteMessageschat(message);
-                      }}
-                      className="hover-btn"
-                    >
-                      <BsFillTrashFill />
-                    </button>{" "}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        anclarMessageschat(message);
-                      }}
-                      className="hover-btn"
-                    >
-                      <BsPin />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        ResMessageschat(message);
-                      }}
-                      className="hover-btn"
-                    >
-                      <FaReply />
-                    </button>
+              )}
+              <div className="ChatStreaming-message-main">
+                <div className="badges">
+                  {message.Identidad && <img src={message.Identidad} alt="" />}
+                  {message.EmotesChat.Moderator && (
+                    <img src={message.EmotesChat.Moderator} alt="" />
+                  )}
+                  {message.EmotesChat.Verified && (
+                    <img src={message.EmotesChat.Verified} alt="" />
+                  )}
+                  {message.EmotesChat.Vip && (
+                    <img src={message.EmotesChat.Vip} alt="" />
+                  )}
+                  {isSubscriptor(message) && (
+                    <img src={isSubscriptor(message)} alt="" />
+                  )}
+                  {message?.StreamerChannelOwner && (
+                    <img
+                      src={
+                        "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
+                      }
+                      alt="StreamerChannelOwner"
+                    />
+                  )}
+                </div>
+                <div className="MessagesChat">
+                  <div className="content-info-message">
+                    <div className="content-info-message-2">
+                      <p
+                        className="content-info-message-2-nameUser"
+                        style={{
+                          color: message.Color,
+                          fontSize: changeTextSizeState,
+                        }}
+                      >
+                        {message.nameUser}:{" "}
+                        <span style={{ color: "#ffff" }}>
+                          {parseMessage(message.message)}
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                ) : (
-                  <div
-                    className="hover-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <button
+                  {GetInfoUserInRoom &&
+                  (GetInfoUserInRoom.Moderator ||
+                    streamerChat.streamerId ==
+                      window.localStorage.getItem("_id")) ? (
+                    <div
+                      className="hover-button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        ResMessageschat(message);
                       }}
-                      className="hover-btn"
                     >
-                      <FaReply />
-                    </button>
-                  </div>
-                )}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteMessageschat(message);
+                        }}
+                        className="hover-btn"
+                      >
+                        <BsFillTrashFill />
+                      </button>{" "}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          anclarMessageschat(message);
+                        }}
+                        className="hover-btn"
+                      >
+                        <BsPin />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          ResMessageschat(message);
+                        }}
+                        className="hover-btn"
+                      >
+                        <FaReply />
+                      </button>
+                    </div>
+                  ) : (
+                    <div
+                      className="hover-button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          ResMessageschat(message);
+                        }}
+                        className="hover-btn"
+                      >
+                        <FaReply />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <div className="actions-chat-conteiner">
         {ResMessageschatState != null && (
