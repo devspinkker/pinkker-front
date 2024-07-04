@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "./WithdrawalRequest.css";
 import {
   PanelAdminPinkkerbanStreamer,
   PanelAdminPinkkerRemoveBanStreamer,
   PanelAdminPinkkerPartnerUser,
+  PanelAdminPinkkerCreateAdmin,
 } from "../../services/backGo/user";
 
 export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
+  const [showPartnerPanel, setShowPartnerPanel] = useState(false);
+  const [newCode, setNewCode] = useState("");
+  const [level, setLevel] = useState(0);
+
   const handleBanStreamerClick = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
@@ -21,6 +26,7 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
       }
     }
   };
+
   const handlePanelAdminPinkkerPartnerUser = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
@@ -31,10 +37,11 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
           token
         );
       } catch (error) {
-        console.error("Error unbanning streamer:", error);
+        console.error("Error changing partner status:", error);
       }
     }
   };
+
   const handleRemoveBanStreamerClick = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
@@ -46,6 +53,30 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
         );
       } catch (error) {
         console.error("Error unbanning streamer:", error);
+      }
+    }
+  };
+
+  const handleCreatePartnerClick = () => {
+    setShowPartnerPanel(true);
+  };
+
+  const handleCreatePartnerSubmit = async () => {
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      try {
+        const res = await PanelAdminPinkkerCreateAdmin(
+          Code,
+          userInfo.id,
+          Number(level),
+          newCode,
+          token
+        );
+        setShowPartnerPanel(false);
+        setNewCode("");
+        setLevel("");
+      } catch (error) {
+        console.error("Error creating partner:", error);
       }
     }
   };
@@ -103,16 +134,19 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
               className="banButton"
               onClick={handlePanelAdminPinkkerPartnerUser}
             >
-              dar Parner
+              Dar Partner
             </button>
           ) : (
             <button
               className="banButton"
               onClick={handlePanelAdminPinkkerPartnerUser}
             >
-              quitar Parner
+              Quitar Partner
             </button>
           )}
+          <button className="banButton" onClick={handleCreatePartnerClick}>
+            Crear Partner
+          </button>
         </div>
       </section>
       <section className="streamInfoSection">
@@ -133,6 +167,31 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
           </p>
         </div>
       </section>
+      {showPartnerPanel && (
+        <div className="partnerPanel">
+          <h3>Crear Partner</h3>
+          <label>
+            Nuevo Código:
+            <input
+              type="text"
+              value={newCode}
+              placeholder="Code"
+              onChange={(e) => setNewCode(e.target.value)}
+            />
+          </label>
+          <label>
+            Nivel:
+            <input
+              placeholder="level"
+              type="number"
+              value={level}
+              onChange={(e) => setLevel(e.target.value)}
+            />
+          </label>
+          <button onClick={handleCreatePartnerSubmit}>Enviar</button>
+          <button onClick={() => setShowPartnerPanel(false)}>Cancelar</button>
+        </div>
+      )}
     </div>
   );
 }
