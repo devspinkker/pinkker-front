@@ -1719,15 +1719,32 @@ export function ChatStreaming({
           </div>
         )}
         {messages.map((message, index) => {
-          console.log(message);
           return message.action ? (
             <div className="donacion-chat-message-Ite">
-              <span>{message.data}</span>
-              <span>
-                {message.action == "DonatePixels" ? "Donacion" : "suscripción"}
-              </span>
-              <span>{message.Pixeles}</span>
-              <span>{message.text}</span>
+              {message.action === "DonatePixels" ? (
+                <>
+                  <div className="donacion-header">
+                    <span className="donacion-user">{message.data}</span>
+                    {/* <span className="donacion-action">ha donado</span> */}
+                    <span className="donacion-amount">
+                      {message.Pixeles > 1000
+                        ? `${(message.Pixeles / 1000).toFixed(1)}k`
+                        : message.Pixeles}{" "}
+                      píxeles
+                    </span>
+                  </div>
+                  <div className="donacion-text">
+                    <span>{message.text}</span>
+                  </div>
+                </>
+              ) : (
+                <div className="suscripcion-header">
+                  <span className="suscripcion-user">{message.data}</span>
+                  <span className="suscripcion-action">
+                    ha realizado una suscripción
+                  </span>
+                </div>
+              )}
             </div>
           ) : (
             <div

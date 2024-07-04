@@ -568,14 +568,56 @@
 }
 
 .donacion-chat-message-Ite {
+    border: 1px solid #ff69c4;
+    padding: 10px;
+    margin: 9px 0px 2px 12px;
+    /* margin: 10px 0; */
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 87%;
+    box-shadow: inset 0px 0px 11px #ff69c4;
+    background: #080808;
+
+}
+
+.donacion-header>span {
+    padding: 3px;
+    font-weight: bolder;
+}
+
+.donacion-header,
+.suscripcion-header {
     display: flex;
-    align-items: stretch;
-    width: 100%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    padding: 2px 5px;
-    margin: 5px 7px;
-    border-radius: 7px;
-    position: relative;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.donacion-user,
+.suscripcion-user {
+    font-weight: bold;
+    color: #4a90e2;
+    padding: 5px;
+}
+
+.donacion-action,
+.suscripcion-action {
+    font-style: italic;
+    color: #333;
+    font-weight: bold;
+}
+
+.donacion-amount {
+    font-weight: bold;
+    color: #f36196;
+
+}
+
+.donacion-text>span {
+    padding: 3px;
+    font-weight: bold;
+}
+
+.donacion-text {
+    margin-top: 5px;
+    color: #555;
 }
