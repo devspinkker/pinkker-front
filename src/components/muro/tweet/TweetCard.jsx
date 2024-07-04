@@ -161,7 +161,7 @@ export default function TweetCard({ tweet }) {
   }, [tweet]);
 
   return (
-    <div style={{ borderBottom: "1px solid #3a3b3c", padding: "5px" }}>
+    <div style={{ borderBottom: "1px solid #2a2e38", padding: "5px" }}>
       {tweet.Type === "RePost" && (
         <div
           style={{ display: "flex", alignItems: "center", color: "aliceblue" }}
@@ -195,6 +195,8 @@ export default function TweetCard({ tweet }) {
               <img
                 style={{
                   width: "50px",
+                  height: "50px",
+                  objectFit: 'cover',
                   borderRadius: "100%",
                   position: "relative",
                   left: "-10px",

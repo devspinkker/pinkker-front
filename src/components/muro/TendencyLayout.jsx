@@ -93,7 +93,7 @@ export default function Tendency() {
                 </p>
               )}
               <Link to={`/hashtag/${trend.hashtag}`}>
-                <h3 style={{ color: "#f36196" }}>#{trend.hashtag}</h3>
+                <h3 style={{ color: "#f36196", textShadow: 'rgb(0, 0, 0) 0px 1px 0px' }}>#{trend.hashtag}</h3>
               </Link>
               <p
                 style={{
@@ -116,7 +116,7 @@ export default function Tendency() {
       </div>
 
       <div className="muro-tweet-secondary-follow">
-        <div className="muro-tweet-secondary-follow">
+        <div>
           <h3>A quien seguir</h3>
 
           {userFollows &&

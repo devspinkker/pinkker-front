@@ -242,7 +242,7 @@ export default function Muro({ isMobile, userName }) {
         <div className="muro-container">
           <div
             style={{
-              width: isMobile ? '100%' : "65%",
+              width: isMobile ? '100%' : "60%",
               display: "flex",
               flexDirection: "column",
               gap: "15px",
@@ -276,6 +276,8 @@ export default function Muro({ isMobile, userName }) {
                     <img
                       style={{
                         width: "50px",
+                        height:'50px',
+                        objectFit:'cover',
                         borderRadius: "100%",
                       }}
                       src={AvatarSearch ? AvatarSearch : "/images/search.svg"}

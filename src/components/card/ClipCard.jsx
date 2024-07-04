@@ -1,23 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import "./ClipCard.css";
 import { Link } from "react-router-dom";
 import SelectVideoClip from "../home/clips/SelectVideoClip";
-
+import Modal from 'react-modal';
 export default function ClipCard({ video, ...props }) {
   const [mouseEnter, setMouseEnter] = useState(false);
   const [viewVideo, setViewVideo] = useState(false);
-
+  const videoRef = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const toggleSelect = () => {
     setSelectedVideo(!selectedVideo);
   };
 
   const handleEnter = () => {
-    setMouseEnter(true);
-    setTimeout(() => {
-      setViewVideo(true);
-    }, 1000);
+    setMouseEnter(!mouseEnter);
+    
   };
 
   const handleLeave = () => {
@@ -79,7 +77,17 @@ export default function ClipCard({ video, ...props }) {
       </div>
     );
   }
+  const playVideo = () => {
+    videoRef.current.play();
+  };
 
+  const pauseVideo = () => {
+    videoRef.current.pause();
+  };
+
+  const handleVolumeChange = (e) => {
+    videoRef.current.volume = e.target.value;
+  };
   function getImagePreview() {
     return (
       <div
@@ -123,8 +131,8 @@ export default function ClipCard({ video, ...props }) {
 
   return (
     <div
-      onMouseOver={() => handleEnter()}
-      onMouseLeave={() => handleLeave()}
+      onClick={() => handleEnter()}
+      // onMouseLeave={() => handleLeave()}
       style={{
         width: "100%",
         height: "maxContent",
@@ -146,10 +154,35 @@ export default function ClipCard({ video, ...props }) {
       </div>
 
       {selectedVideo && (
-        <SelectVideoClip
-          clip={selectedVideo.video}
-          toggleSelect={toggleSelect}
-        />
+        <Modal
+          isOpen={mouseEnter}
+          ariaHideApp={false}
+          onRequestClose={toggleSelect}
+          contentLabel="Video Modal"
+          className="video-modal"
+          overlayClassName="video-overlay"
+        >
+          {selectedVideo?.video?.url && (
+            <div className="video-container">
+              <video ref={videoRef} src={selectedVideo?.video.url} controls autoPlay />
+              {/* <div className="video-controls">
+              <button onClick={playVideo}>Play</button>
+              <button onClick={pauseVideo}>Pause</button>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                onChange={handleVolumeChange}
+              />
+            </div> */}
+            </div>
+          )}
+        </Modal>
+        // <SelectVideoClip
+        //   clip={selectedVideo.video}
+        //   toggleSelect={toggleSelect}
+        // />
       )}
     </div>
   );

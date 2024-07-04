@@ -37,7 +37,8 @@
 }
 
 .tweetcard-body:hover {
-    background-color: #141414a7;
+    background-color: rgb(32, 35, 41);
+    border-radius: 5px;
 }
 
 .tweetcard-avatar {
