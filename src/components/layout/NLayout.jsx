@@ -928,9 +928,11 @@ function NLayout(props) {
             width:
               props.tyExpanded && props.txExpandedLeft
                 ? "72%"
-                : !props.tyExpanded || !props.txExpandedLeft
+                : props.tyExpanded && !props.txExpandedLeft
                 ? "85%"
-                : "95",
+                : !props.tyExpanded && props.txExpandedLeft
+                ? "85%"
+                : "95%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
