@@ -235,24 +235,27 @@ function NLayout(props) {
   const habilitarMensaje = () => {
     if (openMessage) {
       setOpenMessage(false);
+      props.setExpandedLeft(false);
     } else {
       setOpenMessage(true);
+      props.setExpandedLeft(true);
     }
     setOpenNotification(false);
-    props.setExpandedLeft(false);
   };
   const habilitarNotificaciones = () => {
     if (openNotification) {
       setOpenNotification(false);
+      props.setExpandedLeft(false);
     } else {
       setOpenNotification(true);
+      props.setExpandedLeft(true);
+
       markAllAsSeen();
     }
     // SetanySeenNotifications(
     //   PinkerNotifications.some((notification) => notification.visto)
     // );
     setOpenMessage(false);
-    props.setExpandedLeft(false);
   };
   const habilitarSubMenu = (valor, e) => {
     if (e?.type === "click") {
@@ -922,11 +925,12 @@ function NLayout(props) {
 
         <Grid
           style={{
-            width: props.tyExpanded
-              ? "85%"
-              : openNotification || openMessage
-              ? "80%"
-              : "95%",
+            width:
+              props.tyExpanded && props.txExpandedLeft
+                ? "72%"
+                : !props.tyExpanded || !props.txExpandedLeft
+                ? "85%"
+                : "95",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",

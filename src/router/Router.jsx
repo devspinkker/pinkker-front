@@ -367,19 +367,14 @@ const AppRouter = () => {
             </Route>
 
             <Route exact path="/">
-              <div
-                style={{
-                  width: "20px",
-                }}
-              >
-                <Home
-                  isMobile={isMobile}
-                  socketMain={socketMain}
-                  handleMessage={(e) => addOpenMessage(e)}
-                  cancelExpand={(e) => setExpanded(e)}
-                  expanded={expanded}
-                />
-              </div>
+              <Home
+                isMobile={isMobile}
+                socketMain={socketMain}
+                handleMessage={(e) => addOpenMessage(e)}
+                cancelExpand={(e) => setExpanded(e)}
+                expanded={expanded}
+                expandedLeft={expandedLeft}
+              />
             </Route>
             <Route
               exact
