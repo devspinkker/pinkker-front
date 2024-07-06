@@ -62,11 +62,12 @@ import NAnalytics from "../components/dashboard/analytics/NAnalytics";
 import Main from "../components/panelAdminPinkker/Main";
 import AuthContext from "../components/AuthContext";
 
-
 const AppRouter = () => {
   const { user } = useContext(AuthContext);
 
   const [expanded, setExpanded] = useState(true);
+  const [expandedLeft, setexpandedLeft] = useState(true);
+
   const [socketMain, setSocketMain] = useState(null);
   // const [user, setUser] = useState();
 
@@ -243,15 +244,17 @@ const AppRouter = () => {
           ></NavbarLeft>
           <Community />
         </Route>
-        
+
         <NLayout
           isMobile={isMobile}
-          tyExpanded={expanded}
           user={user}
           tyDashboard={
             window.location.pathname.includes("/dashboard") ? true : false
           }
+          tyExpanded={expanded}
           setExpanded={setExpanded}
+          txExpandedLeft={expandedLeft}
+          setExpandedLeft={setexpandedLeft}
         >
           <Switch>
             <Route exact path="/panel/PaneldminPinkker">
@@ -363,14 +366,20 @@ const AppRouter = () => {
               <ClipView />
             </Route>
 
-            <Route exact path="/" component={Home}>
-              <Home
-                isMobile={isMobile}
-                socketMain={socketMain}
-                handleMessage={(e) => addOpenMessage(e)}
-                cancelExpand={(e) => setExpanded(e)}
-                expanded={expanded}
-              />
+            <Route exact path="/">
+              <div
+                style={{
+                  width: "20px",
+                }}
+              >
+                <Home
+                  isMobile={isMobile}
+                  socketMain={socketMain}
+                  handleMessage={(e) => addOpenMessage(e)}
+                  cancelExpand={(e) => setExpanded(e)}
+                  expanded={expanded}
+                />
+              </div>
             </Route>
             <Route
               exact
