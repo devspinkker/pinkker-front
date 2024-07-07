@@ -8,7 +8,6 @@
 .clipmain-card-main {
     display: flex;
     justify-content: center;
-    min-height: 852px;
     transition: 5s all;
     background: #080808;
 
@@ -25,15 +24,13 @@
 }
 
 .clipsmain-video {
-
     display: flex;
-    justify-content: space-between;
     align-items: center;
     scroll-behavior: smooth;
     transition: 5s all;
     flex-direction: column;
-width: 320px;
-height: 570px;
+    width: 500px;
+    height: 570px;
 
 }
 
