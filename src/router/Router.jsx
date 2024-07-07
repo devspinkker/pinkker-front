@@ -66,7 +66,7 @@ const AppRouter = () => {
   const { user } = useContext(AuthContext);
 
   const [expanded, setExpanded] = useState(true);
-  const [expandedLeft, setexpandedLeft] = useState(true);
+  const [expandedLeft, setexpandedLeft] = useState(false);
 
   const [socketMain, setSocketMain] = useState(null);
   // const [user, setUser] = useState();

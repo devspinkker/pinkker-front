@@ -238,7 +238,7 @@ export default function ClipCard({ video, ...props }) {
             <h4 style={{ color: "white", fontSize: "14px" }}>
               {video?.clipTitle}
             </h4>
-            <p style={{ fontSize: "12px" }}>{video?.streamerId}</p>
+            <p style={{ fontSize: "12px" }}>{video?.NameUser}</p>
             <p style={{ fontSize: "10px" }}>
               Clipeado por {video?.nameUserCreator}
             </p>
@@ -283,7 +283,7 @@ export default function ClipCard({ video, ...props }) {
             <div className="video-container">
               <div className="video-header">
                 <div className="video-user-info">
-                  <Link to={"/" + selectedVideo?.video?.streamerId}>
+                  <Link to={"/" + selectedVideo?.video?.NameUser}>
                     <img
                       src={selectedVideo?.video?.Avatar}
                       alt=""
@@ -306,10 +306,10 @@ export default function ClipCard({ video, ...props }) {
                       style={{
                         padding: "0px",
                       }}
-                      to={"/" + selectedVideo?.video?.streamerId}
+                      to={"/" + selectedVideo?.video?.NameUser}
                     >
                       <span className="video-username">
-                        {selectedVideo?.video?.streamerId}
+                        {selectedVideo?.video?.NameUser}
                       </span>
                     </Link>
                     <span className="video-views">
@@ -403,7 +403,7 @@ export default function ClipCard({ video, ...props }) {
                       padding: "0px",
                       color: "#6b7280",
                     }}
-                    to={"/" + selectedVideo?.video?.streamerId}
+                    to={"/" + selectedVideo?.video?.NameUser}
                   >
                     <p>
                       Clipped by{" "}

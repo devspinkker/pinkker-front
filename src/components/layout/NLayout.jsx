@@ -58,7 +58,7 @@ function NLayout(props) {
   const [aparecer, setAparcer] = useState(false);
   const [showPopupAuth, setShowPopupAuth] = useState(false);
   const [type, setType] = useState(0);
-  const [openNotification, setOpenNotification] = useState(true);
+  const [openNotification, setOpenNotification] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
 
   const [messagesOpen, setMessagesOpen] = useState([]);
@@ -387,7 +387,7 @@ function NLayout(props) {
         {/* GRID ASIDE */}
         <Grid
           style={{
-            width: props.tyExpanded ? "13%" : "4%",
+            width: props.tyExpanded ? "16rem" : "4rem",
             transition: "width .2s ease-in-out",
             border: "1px solid #2a2e38",
             height: "100vh",
@@ -398,8 +398,8 @@ function NLayout(props) {
         >
           <Grid
             style={{
-              padding: props.tyExpanded ? ".98rem 20px" : "1.72rem 5px",
-              width: "100%",
+              padding: props.tyExpanded ? "14.97px 14.5px" : "26.72px 0px",
+              width: "222px",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -419,12 +419,12 @@ function NLayout(props) {
             className="fas fa-bars"
           /> */}
             {/* <img  src="/images/menu.svg" className="img-bars" /> */}
-
             <AiOutlineMenu
               style={{
+                display: "flex",
                 color: "white",
                 fontSize: "26px",
-                width: !props.tyExpanded && "100%",
+                padding: !props.tyExpanded && "0px 14.5px",
               }}
               onClick={() => clickPulsedButton()}
               className="img-bars"
@@ -985,7 +985,7 @@ function NLayout(props) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                padding: "1rem 5.8rem",
+                padding: "15.5px 5.8rem",
                 position: "sticky",
                 top: 0,
                 zIndex: 9999,

@@ -157,34 +157,45 @@ export default function ClipCard({ clip }) {
             alignItems: "flex-start",
           }}
         >
-          <Grid style={{ display: "flex", alignItems: "center", gap: "10px", width:'100%', justifyContent:'space-between' }}>
-            <Grid style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-
-              <img
-                style={{
-                  width: "45px",
-                  height: "45px",
-                  borderRadius: "100px",
-                }}
-                src={clip.Avatar}
-              />
-
+          <Grid
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              width: "100%",
+              justifyContent: "space-between",
+            }}
+          >
+            <Link to={`/${clip.NameUser}`}>
               <Grid
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "5px",
-                  alignItems: "flex-start",
-                }}
+                style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
-                <Typography style={{ color: "white" }}>
+                <img
+                  style={{
+                    width: "45px",
+                    height: "45px",
+                    borderRadius: "100px",
+                  }}
+                  src={clip.Avatar}
+                />
+
+                <Grid
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "5px",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <Typography style={{ color: "white" }}>
+                    {clip.NameUser}
+                  </Typography>
+                  {/* <Typography style={{ color: "white" }}>
                   {clip.nameUserCreator}
-                </Typography>
-                <Typography style={{ color: "white" }}>
-                  {clip.nameUserCreator}
-                </Typography>
+                </Typography> */}
+                </Grid>
               </Grid>
-            </Grid>
+            </Link>
 
             <button
               // onClick={() => followUser()}
@@ -222,8 +233,9 @@ export default function ClipCard({ clip }) {
               >
                 <i
                   onClick={handleMute}
-                  className={`fas ${muted ? "fa-volume-mute" : "fa-volume-up"
-                    } button-more-player`}
+                  className={`fas ${
+                    muted ? "fa-volume-mute" : "fa-volume-up"
+                  } button-more-player`}
                 />
               </Tippy>
             </div>
@@ -283,7 +295,7 @@ export default function ClipCard({ clip }) {
               <div className="channel-v2-info">
                 <div className="channel-v2-primary">
                   <div className="channel-v2-categorie">
-                    <Link to={`/${clip.streamerId}`}>
+                    <Link to={`/${clip.NameUser}`}>
                       <Tippy
                         theme="pinkker"
                         content={
@@ -320,7 +332,7 @@ export default function ClipCard({ clip }) {
                         style={{
                           color: "#ededed",
                           padding: 0,
-                          fontSize:'14px'
+                          fontSize: "14px",
                         }}
                       >
                         {clip.clipTitle}
@@ -553,7 +565,7 @@ export default function ClipCard({ clip }) {
                   justifyContent: "center",
                 }}
               >
-                <h4 style={{color:'white'}}>No hay comentarios!</h4>
+                <h4 style={{ color: "white" }}>No hay comentarios!</h4>
                 {/* <ScaleLoader width={4} height={20} color="#f36197d7" /> */}
               </div>
             )}
@@ -566,28 +578,23 @@ export default function ClipCard({ clip }) {
               marginTop: "5px",
               marginBottom: "10px",
               backgroundColor: "#151515",
-              justifyContent:'space-between'
+              justifyContent: "space-between",
             }}
             className="clipcard-send-comment"
           >
             <div>
               <img
-                style={{ width: "30px", borderRadius: "50%", height: "30px"}}
+                style={{ width: "30px", borderRadius: "50%", height: "30px" }}
                 src={clip.Avatar}
                 alt=""
               />
             </div>
 
-            <div
-             
-              className="-input"
-            >
+            <div className="-input">
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 style={{
-                  
-                  
                   fontSize: "16px",
                 }}
                 placeholder="Comenta el clip..."
@@ -601,7 +608,6 @@ export default function ClipCard({ clip }) {
                 className="viewtweet-button-reply"
               >
                 <IoMdSend />
-
               </button>
             </div>
           </div>

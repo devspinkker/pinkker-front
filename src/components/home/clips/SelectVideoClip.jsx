@@ -7,9 +7,8 @@ import { MoreViewOfTheClip } from "../../../services/backGo/clip";
 import Tippy from "@tippyjs/react";
 
 export default function SelectVideoClip({ clip, toggleSelect }) {
-
-  console.log('clip', clip)
-  console.log('toggleSelect', toggleSelect)
+  console.log("clip", clip);
+  console.log("toggleSelect", toggleSelect);
   const [progress, setProgress] = useState(0);
   const [showLoader, setShowLoader] = useState(true);
   const [playing, setPlaying] = useState(true);
@@ -247,12 +246,12 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
           }}
         >
           <div className="container_data_user">
-            <Link to={"/" + clip.streamerId}>
+            <Link to={"/" + clip.NameUser}>
               <img src={clip.Avatar} alt="" />
             </Link>
             <div>
-              <Link to={"/" + clip.streamerId}>
-                <h1 style={{ fontWeight: "bolder" }}>{clip.streamerId}</h1>
+              <Link to={"/" + clip.NameUser}>
+                <h1 style={{ fontWeight: "bolder" }}>{clip.NameUser}</h1>
               </Link>
               <span style={{ color: "#fff", paddingLeft: "4px" }}>
                 <span style={{ fontSize: "20px", paddingRight: "5px" }}>
