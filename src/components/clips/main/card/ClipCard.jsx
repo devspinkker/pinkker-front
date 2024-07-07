@@ -15,6 +15,7 @@ import {
 import { Grid, Typography } from "@mui/material";
 import { retweet } from "../../../../services/tweet";
 import { IoMdSend } from "react-icons/io";
+import ShareDropdown from "../../../channel/dropdown/ShareDropdown";
 
 export default function ClipCard({ clip }) {
   const [playing, setPlaying] = useState(true);
@@ -28,7 +29,14 @@ export default function ClipCard({ clip }) {
   const [comments, setComments] = useState(null);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const [dropdownShare, setDropdownShare] = useState(false);
+  const onMouseEnterShare = () => {
+    if (dropdownShare === true) {
+      setDropdownShare(false);
+    } else {
+      setDropdownShare(true);
+    }
+  };
   async function getCommentsClipAndShow() {
     const response = await GetClipComments(1, clip?.id);
     SetshowComment(!showComment);
@@ -470,7 +478,12 @@ export default function ClipCard({ clip }) {
                 {clip.likes.length}
               </h3>
             </div>
-
+            {dropdownShare && (
+              <ShareDropdown
+                title={clip.clipTitle}
+                streamer={"clips/getId/?videoUrl=" + clip.id}
+              />
+            )}
             <div
               onClick={() => getCommentsClipAndShow()}
               className="clipcard-icon-comment"
@@ -495,6 +508,7 @@ export default function ClipCard({ clip }) {
 
             <div className="clipcard-icon-share">
               <i
+                onClick={() => onMouseEnterShare()}
                 style={{
                   backgroundColor: "#303030",
                   width: "40px",

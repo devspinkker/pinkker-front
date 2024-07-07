@@ -3,6 +3,7 @@ import "./ClipCard.css";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import Tippy from "@tippyjs/react";
+import ShareDropdown from "../channel/dropdown/ShareDropdown";
 
 export default function ClipCard({ video, ...props }) {
   const [viewVideo, setViewVideo] = useState(false);
@@ -37,7 +38,14 @@ export default function ClipCard({ video, ...props }) {
     videoRef.current.pause();
     setPlaying(false);
   };
-
+  const [dropdownShare, setDropdownShare] = useState(false);
+  const onMouseEnterShare = () => {
+    if (dropdownShare === true) {
+      setDropdownShare(false);
+    } else {
+      setDropdownShare(true);
+    }
+  };
   const handleVolumeChange = (e) => {
     videoRef.current.volume = e.target.value;
     if (videoRef.current.volume === 0) {
@@ -226,6 +234,7 @@ export default function ClipCard({ video, ...props }) {
             style={{ width: "35px", height: "35px", borderRadius: "50%" }}
             src={video?.Avatar}
           />
+
           <div
             style={{
               marginTop: "10px",
@@ -295,6 +304,14 @@ export default function ClipCard({ video, ...props }) {
                       }}
                     />
                   </Link>
+                  {dropdownShare && (
+                    <ShareDropdown
+                      title={selectedVideo.video.clipTitle}
+                      streamer={
+                        "clips/getId/?videoUrl=" + selectedVideo.video.id
+                      }
+                    />
+                  )}
                   <div
                     style={{
                       display: "flex",
@@ -425,12 +442,44 @@ export default function ClipCard({ video, ...props }) {
                       selectedVideo?.video?.timestamps.createdAt
                     )}
                   </span>
-                  <a
-                    href={selectedVideo?.video?.url}
-                    className="download-button"
+
+                  <div
+                    style={{
+                      display: "flex",
+                    }}
                   >
-                    Download
-                  </a>
+                    <button
+                      onClick={() => onMouseEnterShare()}
+                      className="Select-bottom-v2-button-icon"
+                    >
+                      <i class="fas fa-share-alt" />
+                    </button>
+
+                    <div
+                      style={{
+                        cursor: "pointer",
+                        background: "#3f4448",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        borderRadius: "5px",
+                        marginTop: "2px",
+                        height: "35px",
+                      }}
+                    >
+                      <span>
+                        <a
+                          href={selectedVideo?.video?.url}
+                          className="download-button"
+                          // href={clip.url}
+                          download
+                          style={{ color: "#fff", textDecoration: "none" }}
+                        >
+                          Download
+                        </a>
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -125,7 +125,7 @@ function ShareDropdown({ closeNavbar, title, streamer, clip, clipId }) {
               </li>
             </a>
 
-            <a
+            {/* <a
               style={{ textDecoration: "none" }}
               target={"_blank"}
               href={instagramStoriesLink}
@@ -139,7 +139,7 @@ function ShareDropdown({ closeNavbar, title, streamer, clip, clipId }) {
                   <p style={{ marginTop: "5px" }}>Instagram Stories</p>
                 </div>
               </li>
-            </a>
+            </a> */}
 
             <li onClick={() => copy()}>
               <div className="dropdownshare-content">
@@ -163,7 +163,7 @@ function ShareDropdown({ closeNavbar, title, streamer, clip, clipId }) {
   return (
     <>
       <ul
-        style={{ left: clip === true && "0%" }}
+        style={{ left: clip === true && "0%", zIndex: "100000" }}
         className={click ? "dropdownshare-menu clicked" : "dropdownshare-menu"}
       >
         <div style={{ width: "99%" }} className="dropdownshare-container">
