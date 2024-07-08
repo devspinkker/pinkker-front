@@ -320,7 +320,7 @@ const AppRouter = () => {
             </Route>
 
             <Route exact path="/plataform/clips">
-              <ClipsMain tyExpanded={expanded} />
+              <ClipsMain expandedLeft={expandedLeft} tyExpanded={expanded} />
             </Route>
 
             <Route exact path="/plataform/muro">

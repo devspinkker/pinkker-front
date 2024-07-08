@@ -7,17 +7,18 @@ import {
   ClipsRecommended,
   GetClipsCategory,
 } from "../../../services/backGo/clip";
-import { ScaleLoader, BarLoader } from "react-spinners";
+import { BarLoader } from "react-spinners";
 
-export default function ClipsMain({ tyExpanded }) {
+export default function ClipsMain({ tyExpanded, expandedLeft }) {
   const auth = useSelector((state) => state.auth);
   const { isLogged } = auth;
 
-  const [clips, setClips] = useState(null);
+  const [clips, setClips] = useState([]);
   const [viewedClip, setViewedClip] = useState(0);
   const [viewAuth, setViewAuth] = useState(false);
   const [loadingMoreClips, setLoadingMoreClips] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [transitionDirection, setTransitionDirection] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -47,11 +48,15 @@ export default function ClipsMain({ tyExpanded }) {
           setClips(res.data.data);
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const loadMoreClips = async () => {
-    if (!isLogged && clips) {
+    if (!isLogged && clips.length > 0) {
       try {
         let token = window.localStorage.getItem("token");
         if (token) {
@@ -66,10 +71,12 @@ export default function ClipsMain({ tyExpanded }) {
             setClips((prevClips) => [...prevClips, ...res.data.data]);
           }
         }
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoadingMoreClips(false);
+      }
     }
-
-    setLoadingMoreClips(false);
   };
 
   const handleScroll = async () => {
@@ -95,14 +102,8 @@ export default function ClipsMain({ tyExpanded }) {
       scrollTop + windowHeight + offset >= documentHeight &&
       !loadingMoreClips
     ) {
-      setLoadingMoreClips((prevLoading) => {
-        if (!prevLoading) {
-          loadMoreClips().then(() => {
-            setLoadingMoreClips(false);
-          });
-        }
-        return true;
-      });
+      setLoadingMoreClips(true);
+      await loadMoreClips();
     }
   };
 
@@ -115,28 +116,43 @@ export default function ClipsMain({ tyExpanded }) {
   };
 
   const nextClip = () => {
-    setViewedClip((prevViewedClip) => prevViewedClip + 1);
-    var pos = window.pageYOffset;
-    window.scrollTo(0, pos + 855);
+    if (viewedClip < clips.length - 1) {
+      // Primero, establecemos la dirección de transición hacia abajo
+      setTransitionDirection("down");
+
+      setTimeout(() => {
+        // Luego, cambiamos el clip visto y establecemos la dirección hacia arriba para la animación inversa
+        setViewedClip((prevViewedClip) => prevViewedClip + 1);
+        setTransitionDirection("up");
+      }, 300); // Esperamos un tiempo para que termine la primera animación
+
+      setTimeout(() => {
+        // Finalmente, reseteamos la dirección de transición
+        setTransitionDirection(null);
+      }, 400); // Esperamos el doble del tiempo de la animación para asegurar que termine completamente
+    }
   };
 
   const previewClip = () => {
-    setViewedClip((prevViewedClip) => prevViewedClip - 1);
-    var pos = window.pageYOffset;
-    window.scrollTo(0, pos - 855);
+    if (viewedClip > 0) {
+      // Primero, establecemos la dirección de transición hacia arriba
+      setTransitionDirection("up");
+
+      setTimeout(() => {
+        // Luego, cambiamos el clip visto y establecemos la dirección hacia abajo para la animación inversa
+        setViewedClip((prevViewedClip) => prevViewedClip - 1);
+        setTransitionDirection("down");
+      }, 300); // Esperamos un tiempo para que termine la primera animación
+
+      setTimeout(() => {
+        // Finalmente, reseteamos la dirección de transición
+        setTransitionDirection(null);
+      }, 300); // Esperamos el doble del tiempo de la animación para asegurar que termine completamente
+    }
   };
 
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 500);
-
   return (
-    <div
-      className="clipsmain-body"
-      style={{
-        padding: "0px",
-      }}
-    >
+    <div className="clipsmain-body" style={{ padding: "0px" }}>
       {isLoading ? (
         <div
           style={{
@@ -150,28 +166,31 @@ export default function ClipsMain({ tyExpanded }) {
         </div>
       ) : (
         <>
-          <div>
-            {clips &&
-              clips.map((clip, index) =>
-                index <= 0 ? (
-                  <ClipCard
-                    tyExpanded={tyExpanded}
-                    key={clip.id}
-                    type={0}
-                    clip={clip}
-                  />
-                ) : (
-                  <ClipCard
-                    tyExpanded={tyExpanded}
-                    key={clip.id}
-                    type={1}
-                    clip={clip}
-                  />
-                )
-              )}
+          <div className={`clips-container ${transitionDirection}`}>
+            {clips.map((clip, index) => (
+              <div
+                key={clip.id}
+                className={`clip-wrapper ${
+                  index === viewedClip ? "active" : ""
+                }`}
+              >
+                <ClipCard
+                  tyExpanded={tyExpanded}
+                  type={index === 0 ? 0 : 1}
+                  clip={clip}
+                />
+              </div>
+            ))}
           </div>
 
-          <div style={{ top: "120px" }} className="clipsmain-right-buttons">
+          <div
+            className="clipsmain-right-buttons"
+            style={{
+              transition: "width 0.2s ease-in-out 0s",
+              right: expandedLeft && "15%",
+              top: "120px",
+            }}
+          >
             <div
               style={{
                 height: "40%",
@@ -183,6 +202,7 @@ export default function ClipsMain({ tyExpanded }) {
               <i
                 onClick={previewClip}
                 style={{
+                  cursor: "pointer",
                   backgroundColor: "#303030",
                   width: "40px",
                   height: "40px",
@@ -207,6 +227,7 @@ export default function ClipsMain({ tyExpanded }) {
               <i
                 onClick={nextClip}
                 style={{
+                  cursor: "pointer",
                   backgroundColor: "#303030",
                   width: "40px",
                   height: "40px",

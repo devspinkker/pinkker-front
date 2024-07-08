@@ -436,6 +436,7 @@ export default function ClipCard({ clip }) {
             position: "relative",
             left: showComment && "-55px",
             opacity: "1",
+            top: "-110px",
           }}
           className="clipsmain-right-buttons"
         >
