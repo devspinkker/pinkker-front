@@ -5,7 +5,9 @@ import {
   CardMedia,
   Dialog,
   DialogContent,
+  Drawer,
   Grid,
+  IconButton,
   Tab,
   Tabs,
   TextField,
@@ -45,7 +47,14 @@ import { getChatsByUserID } from "../../services/backGo/Chats";
 import logoPinkker from "./LOGOPINKKER.png";
 import SearchPopup from "../navbar/search/SearchPopup";
 import { fetchSearch } from "../../redux/actions/searchAction";
-
+import {
+  PostCreate,
+  setToken,
+  PostGets,
+  GetTweetsRecommended,
+} from "../../services/backGo/tweet";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import zIndex from "@mui/material/styles/zIndex";
 import Notificaciones from "../Notificaciones/Notificaciones";
 import Loading from "./Loading";
@@ -60,7 +69,9 @@ function NLayout(props) {
   const [type, setType] = useState(0);
   const [openNotification, setOpenNotification] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
-
+  const [openTweet, setOpenTweet] = useState(false);
+  const [tweets, setTweets] = useState(null);
+  const [message, setMessage] = useState("");
   const [messagesOpen, setMessagesOpen] = useState([]);
   const [notificacion, setNotificacion] = useState(false);
   // Message
@@ -367,6 +378,36 @@ function NLayout(props) {
       }
     }, 500);
   }
+
+  async function handlePost() {
+    if (message != "") {
+      const formData = new FormData();
+      formData.append("Status", message);
+
+      try {
+        let loggedUser = window.localStorage.getItem("token");
+        if (loggedUser) {
+          setToken(loggedUser);
+          setMessage("");
+          const res = await PostCreate(formData);
+          if (res?.message === "StatusCreated") {
+            setTweets([res.post, ...tweets]);
+
+          }
+        }
+        setOpenTweet(false);
+      } catch (error) {
+        setOpenTweet(false);
+        console.error(error);
+      }
+    }
+  };
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setOpenTweet(open);
+  };
   const getNavDesktop = () => {
     return loading ? (
       <div className={`loading-overlay ${loading ? "fade-out" : ""}`}>
@@ -929,10 +970,10 @@ function NLayout(props) {
               props.tyExpanded && props.txExpandedLeft
                 ? "72%"
                 : props.tyExpanded && !props.txExpandedLeft
-                ? "85%"
-                : !props.tyExpanded && props.txExpandedLeft
-                ? "85%"
-                : "95%",
+                  ? "85%"
+                  : !props.tyExpanded && props.txExpandedLeft
+                    ? "85%"
+                    : "95%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1382,17 +1423,17 @@ function NLayout(props) {
                         }}
                         sx={{
                           "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                          {
+                            borderColor: "white",
+                          },
                           "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                          {
+                            borderColor: "white",
+                          },
                           "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                          {
+                            borderColor: "white",
+                          },
                           "& .MuiInputBase-input": {
                             color: "white",
                           },
@@ -1882,7 +1923,61 @@ function NLayout(props) {
               </div>
             </Grid>
 
-            <Grid>
+            <Grid style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Grid style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                <div
+                  onClick={() => habilitarNotificaciones()}
+                  className="navbar-image-avatar-container"
+                >
+                  <div
+                    style={{
+                      width: "40px",
+                      background: "#2a2e38",
+                      position: "relative",
+                      left: "  ",
+                      top: "2px",
+                    }}
+                    className="navbar-image-avatar"
+                  >
+                    {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
+                    {anySeenNotifications && (
+                      <span className="messagechat-InfoUserTo-notiNav"></span>
+                    )}
+                    <IoMdNotificationsOutline
+                      style={{ fontSize: "20px", color: "white" }}
+                      name="notificaciones"
+                    />
+                  </div>
+                </div>
+                <div
+                  onClick={() => habilitarMensaje()}
+                  className="navbar-image-avatar-container"
+                >
+                  <div
+                    style={{
+                      width: "40px",
+                      background: "#2a2e38",
+                      position: "relative",
+                      left: "  ",
+                      top: "2px",
+                    }}
+                    className="navbar-image-avatar"
+                  >
+                    {/* <img
+                        src={"/images/iconos/mensaje.png"}
+                        alt=""
+                        style={{ width: "60%" }}
+                      /> */}
+                    {notificacion && (
+                      <span className="messagechat-InfoUserTo-notiNav"></span>
+                    )}
+                    <BsChatDots
+                      style={{ fontSize: "20px", color: "white" }}
+                    />
+                  </div>
+                </div>
+
+              </Grid>
               <Grid
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
@@ -2087,6 +2182,113 @@ function NLayout(props) {
           style={{ width: "100%", height: "100vh" }}
           onClick={() => setEsClick(false)}
         >
+          <IconButton style={{ color: '#fff', position: 'fixed', bottom: '10%', right: '3%', backgroundColor: '#ff69c4', zIndex: 99999999 }} aria-label="fingerprint" color="secondary" onClick={() => setOpenTweet(!openTweet)}>
+            <AddCircleOutlineIcon style={{ fontSize: '4.5rem' }} />
+
+          </IconButton>
+          {
+
+            <Drawer
+              anchor="bottom"
+              open={openTweet}
+              onClose={toggleDrawer(false)}
+              transitionDuration={{ enter: 500, exit: 500 }}
+              PaperProps={{ style: { height: '93%', backgroundColor: '#080808' } }} // Esto asegura que el Drawer ocupe todo el alto
+            >
+              <Box
+                sx={{ padding: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '2rem' }}
+                role="presentation"
+
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+                  <IoArrowBackCircleOutline style={{ color: 'white', fontSize: '2.5rem' }} onClick={() => setOpenTweet(false)} />
+                  <button
+                    onClick={() => handlePost()}
+                    className="muro-send-tweet-button"
+                  >
+                    Postear
+                  </button>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <div>
+                    <img
+                      style={{
+                        width: "50px",
+                        height: '50px',
+                        objectFit: 'cover',
+                        borderRadius: "100%",
+                      }}
+                      src={props.user?.Avatar ? props.user?.Avatar : "/images/search.svg"}
+                    />
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+
+                    <TextField
+                      label="¿Qué está pasando?"
+                      variant="outlined"
+                      fullWidth
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      multiline
+                      rows={4}
+                      InputProps={{
+                        style: {
+                          color: "white",
+                          borderColor: "white",
+                        },
+                        classes: {
+                          notchedOutline: {
+                            borderColor: "white",
+                          },
+                        },
+                      }}
+                      InputLabelProps={{
+                        style: { color: "white" },
+                      }}
+
+                      sx={{
+                        "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "white",
+                        },
+                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "white",
+                        },
+                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "white",
+                        },
+                        "& .MuiInputBase-input": {
+                          color: "white",
+                        },
+                        "& .MuiInputLabel-outlined": {
+                          color: "white",
+                        },
+                        "& .MuiInputBase-input::placeholder": {
+                          color: "white",
+                          opacity: 1,
+                        },
+                      }}
+                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                    />
+                    <Typography
+                      variant="subtitle1"
+                      style={{
+                        marginTop: '10px',
+                        color: message?.length > 100 ? 'red' : 'white',
+                        textAlign: 'right'
+                      }}
+                    >
+                      {message.length}/100
+                    </Typography>
+                  </div>
+
+                </div>
+
+              </Box>
+            </Drawer>
+          }
           {props.children}
 
           {showPopupAuth === true && (

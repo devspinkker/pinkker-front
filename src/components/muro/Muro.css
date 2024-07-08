@@ -38,7 +38,7 @@
     min-height: 70px;
     border: 1px solid #2a2e38;
     border-radius: 5px;
-    background-color: #121418;
+    background-color: #080808;
     padding: 10px;
 }
 
@@ -119,7 +119,7 @@
 }
 
 .muro-tweet-secondary-search input {
-    background-color: #131313;
+    background-color: #080808;
     width: 100%;
     padding: 7.5px;
     height: 35px;
@@ -134,7 +134,7 @@
 
 
 .muro-tweet-secondary-tendency {
-    background-color: #131313;
+    background-color: #080808;
     margin-top: 15px;
     border-radius: 5px;
     padding: 20px;
@@ -157,7 +157,7 @@
 }
 
 .muro-tweet-secondary-follow {
-    background-color: #131313;
+    background-color: #080808;
     margin-top: 30px;
     border-radius: 5px;
     padding: 20px;
