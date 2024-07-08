@@ -18,7 +18,7 @@ import Auth from "../auth/Auth";
 import { render } from "react-dom";
 import { follow, unfollow } from "../../services/follow";
 import FollowCard from "./FollowCard";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 
@@ -92,7 +92,7 @@ export default function Muro({ isMobile, userName }) {
           if (
             referenceTweet &&
             new Date(uniqueNewTweets[0]?.TimeStamp) >
-            new Date(referenceTweet.TimeStamp)
+              new Date(referenceTweet.TimeStamp)
           ) {
             let allTweets = [...currentTweets, ...uniqueNewTweets];
             allTweets.sort(
@@ -216,7 +216,7 @@ export default function Muro({ isMobile, userName }) {
             alert({ type: "SUCCESS" });
           }
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   }
 
@@ -244,9 +244,12 @@ export default function Muro({ isMobile, userName }) {
     reader.readAsDataURL(fileT);
   };
   const [open, setOpen] = useState(false);
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
     setOpen(open);
@@ -265,7 +268,6 @@ export default function Muro({ isMobile, userName }) {
           const res = await PostCreate(formData);
           if (res?.message === "StatusCreated") {
             setTweets([res.post, ...tweets]);
-
           }
         }
         setOpen(false);
@@ -274,7 +276,7 @@ export default function Muro({ isMobile, userName }) {
         console.error(error);
       }
     }
-  };
+  }
 
   function renderMuro() {
     if (true) {
@@ -282,7 +284,7 @@ export default function Muro({ isMobile, userName }) {
         <div className="muro-container">
           <div
             style={{
-              width: isMobile ? '100%' : "60%",
+              width: isMobile ? "100%" : "60%",
               display: "flex",
               flexDirection: "column",
               gap: "15px",
@@ -297,32 +299,54 @@ export default function Muro({ isMobile, userName }) {
               </Grid>
             )}
 
-            {
-              isMobile && (
-
-                <IconButton style={{ color: '#fff', position: 'fixed', bottom: '10%', right: '3%', backgroundColor: '#ff69c4', zIndex: 99999999 }} aria-label="fingerprint" color="secondary" onClick={toggleDrawer(true)}>
-                  <AddCircleOutlineIcon style={{ fontSize: '4.5rem' }} />
-
-                </IconButton>
-
-              )
-            }
-            {
-              isMobile &&
+            {isMobile && (
+              <IconButton
+                style={{
+                  color: "#fff",
+                  position: "fixed",
+                  bottom: "10%",
+                  right: "3%",
+                  backgroundColor: "#ff69c4",
+                  zIndex: 99999999,
+                }}
+                aria-label="fingerprint"
+                color="secondary"
+                onClick={toggleDrawer(true)}
+              >
+                <AddCircleOutlineIcon style={{ fontSize: "4.5rem" }} />
+              </IconButton>
+            )}
+            {isMobile && (
               <Drawer
                 anchor="bottom"
                 open={open}
                 onClose={toggleDrawer(false)}
                 transitionDuration={{ enter: 500, exit: 500 }}
-                PaperProps={{ style: { height: '93%', backgroundColor: '#080808' } }} // Esto asegura que el Drawer ocupe todo el alto
+                PaperProps={{
+                  style: { height: "93%", backgroundColor: "#080808" },
+                }} // Esto asegura que el Drawer ocupe todo el alto
               >
                 <Box
-                  sx={{ padding: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '2rem' }}
+                  sx={{
+                    padding: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    gap: "2rem",
+                  }}
                   role="presentation"
-
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-                    <IoArrowBackCircleOutline style={{ color: 'white', fontSize: '2.5rem' }} onClick={() => setOpen(false)} />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: "10px",
+                    }}
+                  >
+                    <IoArrowBackCircleOutline
+                      style={{ color: "white", fontSize: "2.5rem" }}
+                      onClick={() => setOpen(false)}
+                    />
                     <button
                       onClick={() => handlePost()}
                       className="muro-send-tweet-button"
@@ -330,20 +354,31 @@ export default function Muro({ isMobile, userName }) {
                       Postear
                     </button>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: "10px",
+                    }}
+                  >
                     <div>
                       <img
                         style={{
                           width: "50px",
-                          height: '50px',
-                          objectFit: 'cover',
+                          height: "50px",
+                          objectFit: "cover",
                           borderRadius: "100%",
                         }}
                         src={AvatarSearch ? AvatarSearch : "/images/search.svg"}
                       />
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "100%",
+                      }}
+                    >
                       <TextField
                         label="¿Qué está pasando?"
                         variant="outlined"
@@ -366,20 +401,19 @@ export default function Muro({ isMobile, userName }) {
                         InputLabelProps={{
                           style: { color: "white" },
                         }}
-
                         sx={{
                           "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                            {
+                              borderColor: "white",
+                            },
                           "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                            {
+                              borderColor: "white",
+                            },
                           "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                            {
+                              borderColor: "white",
+                            },
                           "& .MuiInputBase-input": {
                             color: "white",
                           },
@@ -391,25 +425,23 @@ export default function Muro({ isMobile, userName }) {
                             opacity: 1,
                           },
                         }}
-                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                        // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                       />
                       <Typography
                         variant="subtitle1"
                         style={{
-                          marginTop: '10px',
-                          color: message?.length > 100 ? 'red' : 'white',
-                          textAlign: 'right'
+                          marginTop: "10px",
+                          color: message?.length > 100 ? "red" : "white",
+                          textAlign: "right",
                         }}
                       >
                         {message.length}/100
                       </Typography>
                     </div>
-
                   </div>
-
                 </Box>
               </Drawer>
-            }
+            )}
             {userName?.NameUser && !isMobile && (
               <div
                 onDragEnterCapture={() => setOnDrag(true)}
@@ -423,21 +455,20 @@ export default function Muro({ isMobile, userName }) {
                     padding: "10px 0px ",
                     width: "90%",
                     margin: "0 auto",
-                    gap: "15px"
+                    gap: "15px",
                   }}
                 >
                   <div className="tweetcard-avatar">
                     <img
                       style={{
                         width: "50px",
-                        height: '50px',
-                        objectFit: 'cover',
+                        height: "50px",
+                        objectFit: "cover",
                         borderRadius: "100%",
                       }}
                       src={AvatarSearch ? AvatarSearch : "/images/search.svg"}
                     />
                   </div>
-
 
                   {/* <img
                       src={"/images/search.svg"}
@@ -447,8 +478,13 @@ export default function Muro({ isMobile, userName }) {
                         margin: "8px",
                       }}
                     /> */}
-                  <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "100%",
+                    }}
+                  >
                     <TextField
                       label="¿Qué está pasando?"
                       variant="outlined"
@@ -471,20 +507,19 @@ export default function Muro({ isMobile, userName }) {
                       InputLabelProps={{
                         style: { color: "white" },
                       }}
-
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -496,19 +531,18 @@ export default function Muro({ isMobile, userName }) {
                           opacity: 1,
                         },
                       }}
-                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
                       style={{
-                        marginTop: '10px',
-                        color: message?.length > 100 ? 'red' : 'white',
-                        textAlign: 'right'
+                        marginTop: "10px",
+                        color: message?.length > 100 ? "red" : "white",
+                        textAlign: "right",
                       }}
                     >
                       {message.length}/100
                     </Typography>
-
                   </div>
                 </div>
 
@@ -686,7 +720,9 @@ export default function Muro({ isMobile, userName }) {
 
             <div className="muro-tweet-container">
               {tweets != null &&
-                tweets.map((tweet) => <TweetCard isMobile={isMobile} tweet={tweet} />)}
+                tweets.map((tweet) => (
+                  <TweetCard isMobile={isMobile} tweet={tweet} />
+                ))}
               {!tweets && (
                 <div
                   style={{
@@ -700,8 +736,6 @@ export default function Muro({ isMobile, userName }) {
                 </div>
               )}
             </div>
-
-
           </div>
 
           {!isMobile && <Tendency />}
@@ -715,7 +749,11 @@ export default function Muro({ isMobile, userName }) {
   return (
     <div
       className="muro-body"
-      style={{ padding: isMobile && "1rem 1rem 5rem", width: isMobile && "90%", margin: isMobile && '0 auto' }}
+      style={{
+        padding: isMobile && "1rem 1rem 5rem",
+        width: isMobile && "90%",
+        margin: isMobile && "0 auto",
+      }}
     >
       {showScrollButton && (
         <button onClick={scrollToTop} className="alprincipio">

@@ -6,6 +6,7 @@ import Auth from "../../auth/Auth";
 import {
   ClipsRecommended,
   GetClipsCategory,
+  GetClipsMostViewed,
 } from "../../../services/backGo/clip";
 import { BarLoader } from "react-spinners";
 
@@ -24,11 +25,9 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
     window.scrollTo(0, 0);
     loadClips();
 
-    window.addEventListener("scroll", handleScroll);
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
@@ -36,17 +35,17 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
   const loadClips = async () => {
     try {
       let token = window.localStorage.getItem("token");
+      const ExcludeIDs = clips.map((clips) => clips.id);
+      let res;
       if (token) {
-        const idsExclude = [];
-        const res = await ClipsRecommended(token, idsExclude);
-        if (res.data.message === "ok") {
-          setClips(res.data.data);
-        }
+        res = await ClipsRecommended(token, ExcludeIDs);
       } else {
-        const res = await GetClipsCategory("", 1, "");
-        if (res.data.message === "ok") {
-          setClips(res.data.data);
-        }
+        res = await GetClipsMostViewed(1);
+      }
+
+      if (res.data.message === "ok") {
+        const newClips = res.data.data;
+        setClips(newClips);
       }
     } catch (error) {
       console.error(error);
@@ -59,51 +58,24 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
     if (!isLogged && clips.length > 0) {
       try {
         let token = window.localStorage.getItem("token");
+
+        let res;
         if (token) {
-          const idsExclude = clips.map((clip) => clip._id);
-          const res = await ClipsRecommended(token, idsExclude);
-          if (res.data.message === "ok") {
-            setClips((prevClips) => [...prevClips, ...res.data.data]);
-          }
+          const ExcludeIDs = clips.map((clips) => clips.id);
+          res = await ClipsRecommended(token, ExcludeIDs);
         } else {
-          const res = await GetClipsCategory("", 1, "");
-          if (res.data.message === "ok") {
-            setClips((prevClips) => [...prevClips, ...res.data.data]);
-          }
+          res = await GetClipsCategory("", 1, "");
+        }
+
+        if (res.data.message === "ok") {
+          const newClips = res.data.data;
+          setClips([...clips, ...newClips]);
         }
       } catch (error) {
         console.error(error);
       } finally {
         setLoadingMoreClips(false);
       }
-    }
-  };
-
-  const handleScroll = async () => {
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const windowHeight =
-      "innerHeight" in window
-        ? window.innerHeight
-        : document.documentElement.offsetHeight;
-
-    const body = document.body;
-    const html = document.documentElement;
-    const documentHeight = Math.max(
-      body.scrollHeight,
-      body.offsetHeight,
-      html.clientHeight,
-      html.scrollHeight,
-      html.offsetHeight
-    );
-
-    const offset = 100;
-
-    if (
-      scrollTop + windowHeight + offset >= documentHeight &&
-      !loadingMoreClips
-    ) {
-      setLoadingMoreClips(true);
-      await loadMoreClips();
     }
   };
 
@@ -130,6 +102,12 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
         // Finalmente, reseteamos la dirección de transición
         setTransitionDirection(null);
       }, 400); // Esperamos el doble del tiempo de la animación para asegurar que termine completamente
+
+      // Verificamos si estamos viendo el antepenúltimo clip
+      if (viewedClip === clips.length - 3) {
+        // Cargamos más clips
+        loadMoreClips();
+      }
     }
   };
 
