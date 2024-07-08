@@ -178,6 +178,7 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
                   tyExpanded={tyExpanded}
                   type={index === 0 ? 0 : 1}
                   clip={clip}
+                  isActive={index === viewedClip ? 2 : 1}
                 />
               </div>
             ))}

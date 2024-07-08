@@ -17,7 +17,7 @@ import { retweet } from "../../../../services/tweet";
 import { IoMdSend } from "react-icons/io";
 import ShareDropdown from "../../../channel/dropdown/ShareDropdown";
 
-export default function ClipCard({ clip }) {
+export default function ClipCard({ clip, isActive = 0 }) {
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -30,6 +30,18 @@ export default function ClipCard({ clip }) {
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(true);
   const [dropdownShare, setDropdownShare] = useState(false);
+  useEffect(() => {
+    if (isActive === 2) {
+      playerRef.current.play();
+      playerRef.current.muted = true;
+      setMuted(true);
+    } else if (isActive === 1) {
+      playerRef.current.pause();
+      playerRef.current.muted = true;
+      setMuted(true);
+    }
+  }, [isActive]);
+
   const onMouseEnterShare = () => {
     if (dropdownShare === true) {
       setDropdownShare(false);
@@ -172,16 +184,19 @@ export default function ClipCard({ clip }) {
               gap: "10px",
               width: "100%",
               justifyContent: "space-between",
+              position: "absolute",
+              top: "28px",
+              left: "9px",
             }}
           >
             <Link to={`/${clip.NameUser}`}>
               <Grid
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                style={{ display: "flex", alignItems: "center", gap: "4px" }}
               >
                 <img
                   style={{
-                    width: "45px",
-                    height: "45px",
+                    width: "35px",
+                    height: "35px",
                     borderRadius: "100px",
                   }}
                   src={clip.Avatar}
@@ -195,23 +210,23 @@ export default function ClipCard({ clip }) {
                     alignItems: "flex-start",
                   }}
                 >
-                  <Typography style={{ color: "white" }}>
-                    {clip.NameUser}
+                  <Typography style={{ color: "white", fontWeight: "bolder" }}>
+                    @{clip.NameUser}
                   </Typography>
                   {/* <Typography style={{ color: "white" }}>
-                  {clip.nameUserCreator}
-                </Typography> */}
+                    {clip.nameUserCreator}
+                  </Typography> */}
                 </Grid>
               </Grid>
             </Link>
 
-            <button
+            {/* <button
               // onClick={() => followUser()}
               style={{ marginLeft: "5px" }}
               className="channel-bottom-v2-button-follow"
             >
               Seguir
-            </button>
+            </button> */}
           </Grid>
 
           <div
@@ -282,9 +297,8 @@ export default function ClipCard({ clip }) {
                 onLoadStart={() => setLoading(true)}
                 onLoadedData={handleLoadedData}
               />
-              {getButtonDuration()}
             </div>
-
+            {getButtonDuration()}
             {playing === false && (
               <div className="clipcard-muted">
                 <i
@@ -298,10 +312,14 @@ export default function ClipCard({ clip }) {
                 />
               </div>
             )}
-
             <div className="clipsmain-bottom-buttons">
               <div className="channel-v2-info">
-                <div className="channel-v2-primary">
+                <div
+                  className="channel-v2-primary"
+                  style={{
+                    height: "38px",
+                  }}
+                >
                   <div className="channel-v2-categorie">
                     <Link to={`/${clip.NameUser}`}>
                       <Tippy
@@ -319,14 +337,14 @@ export default function ClipCard({ clip }) {
                           </>
                         }
                       >
-                        <img
+                        {/* <img
                           style={{
                             width: "45px",
                             height: "45px",
                             borderRadius: "100px",
                           }}
                           src={clip?.Avatar}
-                        />
+                        /> */}
                       </Tippy>
                     </Link>
                     <Grid
@@ -347,20 +365,8 @@ export default function ClipCard({ clip }) {
                       </h4>
                     </Grid>
                   </div>
-                  {/* {!isMobile && (
-            <img
-              width={"250px"}
-              src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710372554/Emblemas/logo4fixfix_h5afxo.png"
-              alt=""
-            />
-          )} */}
-                  <div className="channel-v2-content">
-                    {/* <div style={{ display: "flex" }}>
-              {stream.stream_tag.map((tag) => (
-                <p className="channel-title-tag">#{tag}</p>
-              ))}
-            </div> */}
 
+                  <div className="channel-v2-content">
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <div
                         style={{
@@ -390,35 +396,7 @@ export default function ClipCard({ clip }) {
                             {clip.views} Vistas
                           </p>
                         </Grid>
-                        {/* • */}
-                        {/* <h6
-                          style={{
-                            color: "darkgray",
-                            fontSize: "12px",
-                            fontFamily: "Montserrat",
-                          }}
-                        >
-                          Clipeado por {clip.nameUserCreator}
-                        </h6> */}
                       </div>
-
-                      {/* {!isMobile && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    height: "25px",
-                    color: "darkgray",
-                    marginLeft: "10px",
-                  }}
-                >
-                  <i
-                    style={{ marginRight: "8px", fontSize: "12px" }}
-                    class="fas fa-clock"
-                  />
-                  
-                </div>
-              )} */}
                     </div>
                   </div>
                 </div>
@@ -436,7 +414,7 @@ export default function ClipCard({ clip }) {
             position: "relative",
             left: showComment && "-55px",
             opacity: "1",
-            top: "-110px",
+            top: "-134px",
           }}
           className="clipsmain-right-buttons"
         >
@@ -569,7 +547,11 @@ export default function ClipCard({ clip }) {
             </div>
             {comments != null ? (
               comments?.map((comment) => {
-                return <CommentCard comment={comment} />;
+                return (
+                  <div>
+                    <CommentCard comment={comment} />;
+                  </div>
+                );
               })
             ) : (
               <div
