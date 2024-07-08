@@ -20,7 +20,7 @@ a {
 
 .clipcard-muted {
     position: absolute;
-    top: 50%;
+    top: 31%;
     z-index: 99999;
     animation: opacityAnimation 0.4s;
 }

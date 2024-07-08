@@ -250,17 +250,17 @@ const Home = ({
     checkScreenResolution();
 
     // Add event listener to check resolution on resize
-    window.addEventListener('resize', checkScreenResolution);
+    window.addEventListener("resize", checkScreenResolution);
 
     // Clean up the event listener on unmount
-    return () => window.removeEventListener('resize', checkScreenResolution);
+    return () => window.removeEventListener("resize", checkScreenResolution);
   }, []);
   return (
     <div
       style={{
         padding: isMobile ? "1rem 1rem 5rem 1rem" : "2rem 5.8rem",
-        width: isMobile ?  "89%" : '90%',
-        margin: '0 auto'
+        width: isMobile ? "89%" : "90%",
+        margin: "0 auto",
       }}
       className={"home-body-" + theme.theme}
     >

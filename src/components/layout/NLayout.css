@@ -189,7 +189,7 @@
 }
 
 .img-bars {
-    transition: all .3s ease-in-out;
+    /* transition: all .3s ease-in-out; */
 }
 
 .img-bars:hover {

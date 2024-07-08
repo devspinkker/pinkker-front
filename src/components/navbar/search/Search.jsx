@@ -45,7 +45,13 @@ function useOnClickOutside(ref, handler) {
   }, [ref, handler]);
 }
 
-export default function Search({ isMobile, tyExpanded, setExpanded, setHabilitar, habilitar }) {
+export default function Search({
+  isMobile,
+  tyExpanded,
+  setExpanded,
+  setHabilitar,
+  habilitar,
+}) {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const { user, isAdmin } = auth;
@@ -137,8 +143,7 @@ export default function Search({ isMobile, tyExpanded, setExpanded, setHabilitar
 
   const handleMouseEnter = (e) => {
     const history = getHistorySearch();
-    setSearch(true)
-
+    setSearch(true);
   };
 
   return (

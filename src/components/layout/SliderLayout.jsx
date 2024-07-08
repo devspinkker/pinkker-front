@@ -36,10 +36,10 @@ function SliderLayout(props) {
     checkScreenResolution();
 
     // Add event listener to check resolution on resize
-    window.addEventListener('resize', checkScreenResolution);
+    window.addEventListener("resize", checkScreenResolution);
 
     // Clean up the event listener on unmount
-    return () => window.removeEventListener('resize', checkScreenResolution);
+    return () => window.removeEventListener("resize", checkScreenResolution);
   }, []);
   const [color, setColor] = useState("");
 
@@ -64,7 +64,16 @@ function SliderLayout(props) {
       }}
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       slidesPerView={
-        props.isMobile ? (props.clipT ? 1 : 3) : props.clipT ? 4.5 : isFullHD ? 9.5 : 7}
+        props.isMobile
+          ? props.clipT
+            ? 1
+            : 3
+          : props.clipT
+          ? 4.5
+          : isFullHD
+          ? 9.5
+          : 7
+      }
       Pagination
       onSlideChange={() => console.log("slide change")}
       onSwiper={(swiper) => console.log(swiper)}
@@ -109,8 +118,8 @@ function SliderLayout(props) {
               {props.titulo
                 ? "Vods más vistos"
                 : props.isMobile
-                  ? "Clips"
-                  : "Clips más vistos"}{" "}
+                ? "Clips"
+                : "Clips más vistos"}{" "}
             </h2>
           </Grid>
         )}
@@ -127,9 +136,7 @@ function SliderLayout(props) {
               style={{ color: "#ff69c4", fontSize: "20px" }}
             />
             <h2 style={{ color: "white", fontSize: "20px" }}>
-              {props.isMobile
-                ? "Vods"
-                : "Vods más vistos"}{" "}
+              {props.isMobile ? "Vods" : "Vods más vistos"}{" "}
             </h2>
           </Grid>
         )}
@@ -171,32 +178,34 @@ function SliderLayout(props) {
       </Grid>
 
       {props.Categoria && (
-
         <>
-          {
-            props.Categories?.length ?
-              props?.Categories?.filter((categorie, index) => index < 10).map(
-                (categorie, index) => (
-                  <SwiperSlide style={{ color: "white" }}>
-                    <CardCategorie
-                      width={props.isMobile ? "180px" : '140px'}
-                      height={props.isMobile ? "100%" : '180px'}
-
-                      name={categorie.nombre}
-                      image={categorie.img ?? "/images/pinkker-stream.png"}
-                      spectators={categorie.spectators}
-                      tags={categorie.tags}
-                      TopColor={categorie.TopColor}
-                    />
-                  </SwiperSlide>
-                )
+          {props.Categories?.length ? (
+            props?.Categories?.filter((categorie, index) => index < 10).map(
+              (categorie, index) => (
+                <SwiperSlide style={{ color: "white" }}>
+                  <CardCategorie
+                    width={props.isMobile ? "180px" : "140px"}
+                    height={props.isMobile ? "100%" : "180px"}
+                    name={categorie.nombre}
+                    image={categorie.img ?? "/images/pinkker-stream.png"}
+                    spectators={categorie.spectators}
+                    tags={categorie.tags}
+                    TopColor={categorie.TopColor}
+                  />
+                </SwiperSlide>
               )
-
-              :
-
-              <SwiperSlide className="hoverSwiper" style={{ color: "white", display: 'flex', gap: props.isMobile ? '.8rem': '2rem', }}>
-
-                {[...Array(props.isMobile ? 3 : isFullHD ? 9 : 7)].map((_, index) => (
+            )
+          ) : (
+            <SwiperSlide
+              className="hoverSwiper"
+              style={{
+                color: "white",
+                display: "flex",
+                gap: props.isMobile ? ".8rem" : "2rem",
+              }}
+            >
+              {[...Array(props.isMobile ? 3 : isFullHD ? 9 : 7)].map(
+                (_, index) => (
                   <div
                     style={{
                       marginTop: "30px",
@@ -209,23 +218,25 @@ function SliderLayout(props) {
                   >
                     <Skeleton
                       variant="rectangular"
-                      width={ props.isMobile ? 182 :142}
-                      height={props.isMobile ? 241 :182}
+                      width={props.isMobile ? 182 : 142}
+                      height={props.isMobile ? 241 : 182}
                       style={{
                         backgroundColor: "#202329",
                         border: `1px solid #${color}`,
                         borderRadius: "5px",
                       }}
                     />
-                    <Skeleton variant="text" width={100} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-
+                    <Skeleton
+                      variant="text"
+                      width={100}
+                      height={15}
+                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                    />
                   </div>
-                ))}
-              </SwiperSlide>
-
-
-          }
-
+                )
+              )}
+            </SwiperSlide>
+          )}
 
           {props?.Categories?.filter((categorie, index) => index === 36).map(
             (categorie) => (
@@ -251,84 +262,181 @@ function SliderLayout(props) {
             )
           )}
         </>
-      )
-      }
+      )}
 
       {props.clipT && (
         <>
-          {
-            props?.clips?.length ?
-              props?.clips?.filter((clip, index) => index < 10)
-                .map((clip) => (
-                  <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
-                    {/* <ClipCard video={clip} /> */}
+          {props?.clips?.length ? (
+            props?.clips
+              ?.filter((clip, index) => index < 10)
+              .map((clip) => (
+                <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
+                  {/* <ClipCard video={clip} /> */}
 
-                    <ClipCard video={clip} />
-                  </SwiperSlide>
-                ))
-
-              :
-              <SwiperSlide className="hoverSwiper" style={{ color: "white", display: 'flex', gap: '2rem', width: '100%' }}>
-
-                {[...Array(props.isMobile ? 1 : 5)].map((_, index) => (
-                  <div style={{ margin: "2px", marginTop: "15px", width: props.isMobile && '100%' }}>
-                    <Skeleton variant="rectangular" width={props.isMobile ? '570px' : '260px'} height={props.isMobile ? "280px" : '150px'} style={{ backgroundColor: "rgb(32, 32, 31)", borderRadius: '5px' }} />
-                    <div style={{ display: "flex", alignItems: "flex-start", gap: '5px', marginTop: '10px' }}>
-                      <Skeleton variant="circular" width={40} height={40} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                      <div>
-                        <Skeleton variant="text" width={100} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                        <Skeleton variant="text" width={50} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                        <Skeleton variant="text" width={100} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                      </div>
+                  <ClipCard video={clip} />
+                </SwiperSlide>
+              ))
+          ) : (
+            <SwiperSlide
+              className="hoverSwiper"
+              style={{
+                color: "white",
+                display: "flex",
+                gap: "2rem",
+                width: "100%",
+              }}
+            >
+              {[...Array(props.isMobile ? 1 : 5)].map((_, index) => (
+                <div
+                  style={{
+                    margin: "2px",
+                    marginTop: "15px",
+                    width: props.isMobile && "100%",
+                  }}
+                >
+                  <Skeleton
+                    variant="rectangular"
+                    width={props.isMobile ? "570px" : "260px"}
+                    height={props.isMobile ? "280px" : "150px"}
+                    style={{
+                      backgroundColor: "rgb(32, 32, 31)",
+                      borderRadius: "5px",
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: "5px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <Skeleton
+                      variant="circular"
+                      width={40}
+                      height={40}
+                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                    />
+                    <div>
+                      <Skeleton
+                        variant="text"
+                        width={100}
+                        height={15}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
+                      <Skeleton
+                        variant="text"
+                        width={50}
+                        height={15}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
+                      <Skeleton
+                        variant="text"
+                        width={100}
+                        height={15}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
                     </div>
                   </div>
-                ))}
-              </SwiperSlide>
-          }
+                </div>
+              ))}
+            </SwiperSlide>
+          )}
         </>
       )}
       {props.Vods && (
         <>
-          {
-            props?.clips?.length ?
-              props?.clips?.filter((clip, index) => index < 10)
-                .map((clip) => (
-                  <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
-                    <VodCard
-                      width={"300px"}
-                      views={clip.views}
-                      createdAt={clip.createdAt}
-                      duration={clip.duration}
-                      image={"https://res.cloudinary.com/pinkker/image/upload/v1669407676/min/jpikyrdltculevcxkstj.png"}
-                      title={clip.clipName}
-                      categorie={clip.stream.stream_category}
-                      tags={clip.stream.stream_tag}
+          {props?.clips?.length ? (
+            props?.clips
+              ?.filter((clip, index) => index < 10)
+              .map((clip) => (
+                <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
+                  <VodCard
+                    width={"300px"}
+                    views={clip.views}
+                    createdAt={clip.createdAt}
+                    duration={clip.duration}
+                    image={
+                      "https://res.cloudinary.com/pinkker/image/upload/v1669407676/min/jpikyrdltculevcxkstj.png"
+                    }
+                    title={clip.clipName}
+                    categorie={clip.stream.stream_category}
+                    tags={clip.stream.stream_tag}
+                  />
+                </SwiperSlide>
+              ))
+          ) : (
+            <SwiperSlide
+              className="hoverSwiper"
+              style={{
+                color: "white",
+                display: "flex",
+                gap: "2rem",
+                width: "100%",
+              }}
+            >
+              {[...Array(props.isMobile ? 1 : 6)].map((_, index) => (
+                <div
+                  style={{
+                    margin: "2px",
+                    marginTop: "15px",
+                    width: props.isMobile && "100%",
+                  }}
+                >
+                  <Skeleton
+                    variant="rectangular"
+                    width={
+                      props.isMobile ? "570px" : isFullHD ? "320px" : "260px"
+                    }
+                    height={
+                      props.isMobile ? "280px" : isFullHD ? "180px" : "150px"
+                    }
+                    style={{
+                      backgroundColor: "rgb(32, 32, 31)",
+                      borderRadius: "5px",
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: "5px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <Skeleton
+                      variant="circular"
+                      width={40}
+                      height={40}
+                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
                     />
-                  </SwiperSlide>
-                ))
-              :
-              <SwiperSlide className="hoverSwiper" style={{ color: "white", display: 'flex', gap: '2rem', width: '100%' }}>
-
-                {[...Array(props.isMobile ? 1 : 6)].map((_, index) => (
-                  <div style={{ margin: "2px", marginTop: "15px", width: props.isMobile && '100%' }}>
-                    <Skeleton variant="rectangular" width={props.isMobile ? '570px' : isFullHD ? '320px' :'260px'} height={props.isMobile ? "280px" : isFullHD ? '180px' :'150px'} style={{ backgroundColor: "rgb(32, 32, 31)", borderRadius: '5px' }} />
-                    <div style={{ display: "flex", alignItems: "flex-start", gap: '5px', marginTop: '10px' }}>
-                      <Skeleton variant="circular" width={40} height={40} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                      <div>
-                        <Skeleton variant="text" width={100} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                        <Skeleton variant="text" width={50} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                        <Skeleton variant="text" width={100} height={15} style={{ backgroundColor: "rgb(32, 32, 31)" }} />
-                      </div>
+                    <div>
+                      <Skeleton
+                        variant="text"
+                        width={100}
+                        height={15}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
+                      <Skeleton
+                        variant="text"
+                        width={50}
+                        height={15}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
+                      <Skeleton
+                        variant="text"
+                        width={100}
+                        height={15}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
                     </div>
                   </div>
-                ))}
-              </SwiperSlide>
-          }
+                </div>
+              ))}
+            </SwiperSlide>
+          )}
         </>
       )}
-
-
-
     </Swiper>
   );
 }
