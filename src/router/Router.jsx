@@ -243,7 +243,7 @@ const AppRouter = () => {
           ></NavbarLeft>
           <Community />
         </Route>
-        
+
         <NLayout
           isMobile={isMobile}
           tyExpanded={expanded}
@@ -329,10 +329,12 @@ const AppRouter = () => {
                   display: "flex",
                   flexDirection: "row-reverse",
                   padding: "22px",
+                  borderRadius: "5px",
                 }}
               >
-                <TendencyMuro />
-                <ViewTweet />
+                {!isMobile && <TendencyMuro />}
+
+                <ViewTweet  isMobile={isMobile}/>
               </div>
             </Route>
             <Route path="/hashtag/:hashtag">
@@ -345,7 +347,7 @@ const AppRouter = () => {
                   justifyContent: "flex-end",
                 }}
               >
-                <TendencyMuro />
+                {!isMobile && <TendencyMuro />}
                 <HashtagPost />
               </div>
             </Route>

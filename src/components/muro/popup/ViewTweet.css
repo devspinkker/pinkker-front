@@ -30,6 +30,37 @@
     box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
 }
 
+/* Dispositivos pequeños (teléfonos en modo vertical) */
+@media (max-width: 575.98px) {
+    /* Estilos para dispositivos pequeños */
+    .viewtweet-popup-container {
+        width: 100%;
+        min-height: 800px;
+        overflow: scroll;
+        /* margin: auto; */
+        margin-top: 10px;
+        padding: 3px 30px;
+        text-align: center;
+        background: #121418;
+        box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+    }
+  }
+  
+  /* Dispositivos pequeños (teléfonos en modo horizontal) */
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    /* Estilos para dispositivos pequeños en modo horizontal */
+    .viewtweet-popup-container {
+        width: 100%;
+        min-height: 800px;
+        overflow: scroll;
+        /* margin: auto; */
+        margin-top: 10px;
+        padding: 3px 30px;
+        text-align: center;
+        background: #121418;
+        box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+    }
+  }
 .tweetcard-avatar-pop {
 
     width: 5%;

@@ -7,7 +7,7 @@ import './loading.css'
 const Loading = () => {
     return (
         <div className="loading-container">
-            <img src={logo} alt="Logo de pinkker"  className="logo blink-animation" />
+            <img src='https://res.cloudinary.com/dcj8krp42/image/upload/v1712283573/categorias/logo_trazado_pndioh.png' alt="Logo de pinkker"  className="logo blink-animation" />
         </div>
     );
 };

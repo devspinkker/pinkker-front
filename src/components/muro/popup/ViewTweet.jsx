@@ -15,7 +15,7 @@ import {
 import { useParams } from "react-router-dom";
 import TweetCard from "../tweet/TweetCard";
 
-export default function ViewTweet({ closePopup }) {
+export default function ViewTweet({ closePopup, isMobile }) {
   const [Avatar, setAvatar] = useState("");
 
   const alert = useNotification();
@@ -234,7 +234,7 @@ export default function ViewTweet({ closePopup }) {
           alignItems: "center",
         }}
       >
-        <div className={"viewtweet-popup-container"}>
+        <div className={"viewtweet-popup-container"} >
           {renderTweet()}
           <div
             style={{

@@ -18,13 +18,21 @@ import Auth from "../auth/Auth";
 import { render } from "react-dom";
 import { follow, unfollow } from "../../services/follow";
 import FollowCard from "./FollowCard";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EmojiPicker, { Theme } from "emoji-picker-react";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
+
 import {
+  Box,
+  Button,
+  Drawer,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
+  TextField,
   Typography,
 } from "@mui/material";
 import Tendency from "./TendencyLayout";
@@ -84,7 +92,7 @@ export default function Muro({ isMobile, userName }) {
           if (
             referenceTweet &&
             new Date(uniqueNewTweets[0]?.TimeStamp) >
-              new Date(referenceTweet.TimeStamp)
+            new Date(referenceTweet.TimeStamp)
           ) {
             let allTweets = [...currentTweets, ...uniqueNewTweets];
             allTweets.sort(
@@ -208,7 +216,7 @@ export default function Muro({ isMobile, userName }) {
             alert({ type: "SUCCESS" });
           }
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   }
 
@@ -235,6 +243,38 @@ export default function Muro({ isMobile, userName }) {
     });
     reader.readAsDataURL(fileT);
   };
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState('');
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setOpen(open);
+  };
+  async function handlePost() {
+    if (message != "") {
+      const formData = new FormData();
+      formData.append("Status", message);
+      formData.append("imgPost", file);
+      try {
+        let loggedUser = window.localStorage.getItem("token");
+        if (loggedUser) {
+          setToken(loggedUser);
+          setMessage("");
+          setImage(null);
+          const res = await PostCreate(formData);
+          if (res?.message === "StatusCreated") {
+            setTweets([res.post, ...tweets]);
+
+          }
+        }
+        setOpen(false);
+      } catch (error) {
+        setOpen(false);
+        console.error(error);
+      }
+    }
+  };
 
   function renderMuro() {
     if (true) {
@@ -257,7 +297,120 @@ export default function Muro({ isMobile, userName }) {
               </Grid>
             )}
 
-            {userName?.NameUser && (
+            {
+              isMobile && (
+
+                <IconButton style={{ color: '#fff', position: 'fixed', bottom: '10%', right: '3%', backgroundColor: '#ff69c4', zIndex: 99999999 }} aria-label="fingerprint" color="secondary" onClick={toggleDrawer(true)}>
+                  <AddCircleOutlineIcon style={{ fontSize: '4.5rem' }} />
+
+                </IconButton>
+
+              )
+            }
+            {
+              isMobile &&
+              <Drawer
+                anchor="bottom"
+                open={open}
+                onClose={toggleDrawer(false)}
+                transitionDuration={{ enter: 500, exit: 500 }}
+                PaperProps={{ style: { height: '93%', backgroundColor: '#080808' } }} // Esto asegura que el Drawer ocupe todo el alto
+              >
+                <Box
+                  sx={{ padding: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '2rem' }}
+                  role="presentation"
+
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+                    <IoArrowBackCircleOutline style={{ color: 'white', fontSize: '2.5rem' }} onClick={() => setOpen(false)} />
+                    <button
+                      onClick={() => handlePost()}
+                      className="muro-send-tweet-button"
+                    >
+                      Postear
+                    </button>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                    <div>
+                      <img
+                        style={{
+                          width: "50px",
+                          height: '50px',
+                          objectFit: 'cover',
+                          borderRadius: "100%",
+                        }}
+                        src={AvatarSearch ? AvatarSearch : "/images/search.svg"}
+                      />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+
+                      <TextField
+                        label="¿Qué está pasando?"
+                        variant="outlined"
+                        fullWidth
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        multiline
+                        rows={4}
+                        InputProps={{
+                          style: {
+                            color: "white",
+                            borderColor: "white",
+                          },
+                          classes: {
+                            notchedOutline: {
+                              borderColor: "white",
+                            },
+                          },
+                        }}
+                        InputLabelProps={{
+                          style: { color: "white" },
+                        }}
+
+                        sx={{
+                          "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                          {
+                            borderColor: "white",
+                          },
+                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                          {
+                            borderColor: "white",
+                          },
+                          "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                          {
+                            borderColor: "white",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "white",
+                          },
+                          "& .MuiInputLabel-outlined": {
+                            color: "white",
+                          },
+                          "& .MuiInputBase-input::placeholder": {
+                            color: "white",
+                            opacity: 1,
+                          },
+                        }}
+                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                      />
+                      <Typography
+                        variant="subtitle1"
+                        style={{
+                          marginTop: '10px',
+                          color: message?.length > 100 ? 'red' : 'white',
+                          textAlign: 'right'
+                        }}
+                      >
+                        {message.length}/100
+                      </Typography>
+                    </div>
+
+                  </div>
+
+                </Box>
+              </Drawer>
+            }
+            {userName?.NameUser && !isMobile && (
               <div
                 onDragEnterCapture={() => setOnDrag(true)}
                 className="muro-send-tweet"
@@ -265,50 +418,97 @@ export default function Muro({ isMobile, userName }) {
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "flex-start",
                     justifyContent: "center",
                     padding: "10px 0px ",
                     width: "90%",
                     margin: "0 auto",
+                    gap: "15px"
                   }}
                 >
                   <div className="tweetcard-avatar">
                     <img
                       style={{
                         width: "50px",
-                        height:'50px',
-                        objectFit:'cover',
+                        height: '50px',
+                        objectFit: 'cover',
                         borderRadius: "100%",
                       }}
                       src={AvatarSearch ? AvatarSearch : "/images/search.svg"}
                     />
                   </div>
 
-                  <div
-                    style={{
-                      backgroundColor: "black",
-                      display: "flex",
-                      alignItems: "center",
-                      height: "40px",
-                      margin: "0px 10px",
-                      borderRadius: "5px",
-                      width: "90%",
-                    }}
-                  >
-                    <img
+
+                  {/* <img
                       src={"/images/search.svg"}
                       style={{
                         fontSize: "16px",
                         color: "rgb(89 89 89)",
                         margin: "8px",
                       }}
-                    />
-                    <input
-                      type="text"
+                    /> */}
+                  <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+
+                    <TextField
+                      label="¿Qué está pasando?"
+                      variant="outlined"
+                      fullWidth
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Que esta pasando?"
+                      multiline
+                      rows={1}
+                      InputProps={{
+                        style: {
+                          color: "white",
+                          borderColor: "white",
+                        },
+                        classes: {
+                          notchedOutline: {
+                            borderColor: "white",
+                          },
+                        },
+                      }}
+                      InputLabelProps={{
+                        style: { color: "white" },
+                      }}
+
+                      sx={{
+                        "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "white",
+                        },
+                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "white",
+                        },
+                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "white",
+                        },
+                        "& .MuiInputBase-input": {
+                          color: "white",
+                        },
+                        "& .MuiInputLabel-outlined": {
+                          color: "white",
+                        },
+                        "& .MuiInputBase-input::placeholder": {
+                          color: "white",
+                          opacity: 1,
+                        },
+                      }}
+                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
+                    <Typography
+                      variant="subtitle1"
+                      style={{
+                        marginTop: '10px',
+                        color: message?.length > 100 ? 'red' : 'white',
+                        textAlign: 'right'
+                      }}
+                    >
+                      {message.length}/100
+                    </Typography>
+
                   </div>
                 </div>
 
@@ -483,9 +683,10 @@ export default function Muro({ isMobile, userName }) {
                 </div>
               </div>
             )}
+
             <div className="muro-tweet-container">
               {tweets != null &&
-                tweets.map((tweet) => <TweetCard tweet={tweet} />)}
+                tweets.map((tweet) => <TweetCard isMobile={isMobile} tweet={tweet} />)}
               {!tweets && (
                 <div
                   style={{
@@ -499,6 +700,8 @@ export default function Muro({ isMobile, userName }) {
                 </div>
               )}
             </div>
+
+
           </div>
 
           {!isMobile && <Tendency />}
