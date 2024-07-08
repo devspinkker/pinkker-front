@@ -60,7 +60,7 @@ function NLayout(props) {
   const [aparecer, setAparcer] = useState(false);
   const [showPopupAuth, setShowPopupAuth] = useState(false);
   const [type, setType] = useState(0);
-  const [openNotification, setOpenNotification] = useState(false);
+  const [openNotification, setOpenNotification] = useState(true);
   const [openMessage, setOpenMessage] = useState(false);
 
   const [messagesOpen, setMessagesOpen] = useState([]);
@@ -125,7 +125,12 @@ function NLayout(props) {
   };
 
   function clickPulsedButton() {
+    setPulse(!pulse);
     props.setExpanded(!props.tyExpanded);
+    if (props.expanded) {
+      setOpenMessage(false);
+      setOpenNotification(false);
+    }
     setTimeout(() => {
       if (pulse) {
         setAparcer(true);
@@ -237,27 +242,24 @@ function NLayout(props) {
   const habilitarMensaje = () => {
     if (openMessage) {
       setOpenMessage(false);
-      props.setExpandedLeft(false);
     } else {
       setOpenMessage(true);
-      props.setExpandedLeft(true);
     }
     setOpenNotification(false);
+    props.setExpanded(false);
   };
   const habilitarNotificaciones = () => {
     if (openNotification) {
       setOpenNotification(false);
-      props.setExpandedLeft(false);
     } else {
       setOpenNotification(true);
-      props.setExpandedLeft(true);
-
       markAllAsSeen();
     }
     // SetanySeenNotifications(
     //   PinkerNotifications.some((notification) => notification.visto)
     // );
     setOpenMessage(false);
+    props.setExpanded(false);
   };
   const habilitarSubMenu = (valor, e) => {
     if (e?.type === "click") {
@@ -324,6 +326,8 @@ function NLayout(props) {
   const handleClose = () => setHabilitar(!habilitar);
   const [text, setText] = useState(null);
 
+
+
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
@@ -345,30 +349,15 @@ function NLayout(props) {
     }
   };
   const [loading, setLoading] = useState(true);
-  // sacar
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 400);
+    }, 1500); // Espera 3 segundos antes de quitar el loading
 
     return () => clearTimeout(timeout);
   }, []);
-  //
-  function clickPulsedButtonExpandedLeft() {
-    setPulse(!pulse);
-    props.setExpandedLeft(!props.txExpandedLeft);
-    if (props.txExpandedLeft) {
-      setOpenMessage(false);
-      setOpenNotification(false);
-    }
-    setTimeout(() => {
-      if (pulse) {
-        setAparcer(true);
-      } else {
-        setAparcer(false);
-      }
-    }, 500);
-  }
+
   const getNavDesktop = () => {
     return (
       loading ?

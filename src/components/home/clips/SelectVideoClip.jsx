@@ -5,9 +5,11 @@ import ReactPlayer from "react-player";
 import { MoreViewOfTheClip } from "../../../services/backGo/clip";
 
 import Tippy from "@tippyjs/react";
-import ShareDropdown from "../../channel/dropdown/ShareDropdown";
 
 export default function SelectVideoClip({ clip, toggleSelect }) {
+
+  console.log('clip', clip)
+  console.log('toggleSelect', toggleSelect)
   const [progress, setProgress] = useState(0);
   const [showLoader, setShowLoader] = useState(true);
   const [playing, setPlaying] = useState(true);
@@ -15,14 +17,6 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
   const [muted, setMuted] = useState(false);
   const player = useRef(null);
   const [showVolumeControls, setShowVolumeControls] = useState(false);
-  const [dropdownShare, setDropdownShare] = useState(false);
-  const onMouseEnterShare = () => {
-    if (dropdownShare === true) {
-      setDropdownShare(false);
-    } else {
-      setDropdownShare(true);
-    }
-  };
   const handleProgress = async (e) => {
     if (e.target) {
       const { duration, currentTime } = e.target;
@@ -252,19 +246,13 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
             justifyContent: "space-between",
           }}
         >
-          {dropdownShare && (
-            <ShareDropdown
-              title={clip.clipTitle}
-              streamer={"clips/getId/?videoUrl=" + clip.id}
-            />
-          )}
           <div className="container_data_user">
-            <Link to={"/" + clip.NameUser}>
+            <Link to={"/" + clip.streamerId}>
               <img src={clip.Avatar} alt="" />
             </Link>
             <div>
-              <Link to={"/" + clip.NameUser}>
-                <h1 style={{ fontWeight: "bolder" }}>{clip.NameUser}</h1>
+              <Link to={"/" + clip.streamerId}>
+                <h1 style={{ fontWeight: "bolder" }}>{clip.streamerId}</h1>
               </Link>
               <span style={{ color: "#fff", paddingLeft: "4px" }}>
                 <span style={{ fontSize: "20px", paddingRight: "5px" }}>
@@ -344,50 +332,31 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
                   </p>
                 </Link>
               </div>
-
               <div
                 className=""
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-end",
-                }}
+                style={{ display: "flex", flexDirection: "column" }}
               >
                 <span>{formatTimestamp(clip.timestamps.createdAt)}</span>
                 <div
                   style={{
+                    cursor: "pointer",
+                    background: "#3f4448",
                     display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: "5px",
+                    marginTop: "2px",
                   }}
                 >
-                  <button
-                    onClick={() => onMouseEnterShare()}
-                    className="Select-bottom-v2-button-icon"
-                  >
-                    <i class="fas fa-share-alt" />
-                  </button>
-
-                  <div
-                    style={{
-                      cursor: "pointer",
-                      background: "#3f4448",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      borderRadius: "5px",
-                      marginTop: "2px",
-                      height: "35px",
-                    }}
-                  >
-                    <span>
-                      <a
-                        href={clip.url}
-                        download
-                        style={{ color: "#fff", textDecoration: "none" }}
-                      >
-                        Download
-                      </a>
-                    </span>
-                  </div>
+                  <span>
+                    <a
+                      href={clip.url}
+                      download
+                      style={{ color: "#fff", textDecoration: "none" }}
+                    >
+                      Download
+                    </a>
+                  </span>
                 </div>
               </div>
             </div>

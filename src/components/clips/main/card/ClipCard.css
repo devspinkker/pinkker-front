@@ -21,8 +21,6 @@ a {
 .clipcard-muted {
     position: absolute;
     top: 27%;
-    z-index: 99999;
-    animation: opacityAnimation 0.4s;
 }
 
 .clipcard-progress-body {

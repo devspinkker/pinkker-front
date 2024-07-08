@@ -11,7 +11,7 @@ export const Create_Clip = async (videoBytes, start, end, totalKey, clipTitle, c
         start: 1,
         end: 60,
         clipTitle: clipTitle,
-        totalKey: "live" + totalKey,
+        totalKey: totalKey,
     },
         config
     );

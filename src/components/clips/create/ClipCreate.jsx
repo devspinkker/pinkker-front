@@ -23,13 +23,12 @@ export function CreateClip() {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const TOTAL_VIDEO_SIZE_KB = 6000;
   const UPDATE_CHUNK_SIZE_KB = 10;
-  const queryParams = new URLSearchParams(window.location.search);
-
-  const totalKey = queryParams.get("totalKey");
 
   useEffect(() => {
     const fetchVideoData = async () => {
       try {
+        const queryParams = new URLSearchParams(window.location.search);
+        const totalKey = queryParams.get("totalKey");
         let accumulatedLoadedKB = 0;
         let previousLoadedBytes = 0;
 
@@ -40,6 +39,8 @@ export function CreateClip() {
             previousLoadedBytes = loadedBytes;
 
             accumulatedLoadedKB += loadedKB;
+
+            console.log(Math.floor(accumulatedLoadedKB));
 
             if (accumulatedLoadedKB >= UPDATE_CHUNK_SIZE_KB) {
               const totalLoadedKB = loadedBytes / 1024;
@@ -107,6 +108,7 @@ export function CreateClip() {
       const videoBytes = video
         ? Array.from(new Uint8Array(video.arrayBuffer))
         : null;
+      let totalKey = window.localStorage.getItem("keyTransmission");
       if (!token || !totalKey) {
         alert("logueate");
         return;

@@ -21,6 +21,7 @@
     transition: 5s all;
     scroll-behavior: smooth;
     justify-content: center;
+    width: 900px;
 }
 
 .clipsmain-video {
@@ -29,7 +30,7 @@
     scroll-behavior: smooth;
     transition: 5s all;
     flex-direction: column;
-    width: 500px;
+    /* width: 500px; */
     height: 570px;
 
 }
@@ -107,5 +108,4 @@
 
 .clips-container.down .clip-wrapper {
     transform: translateY(-100%);
-
 }

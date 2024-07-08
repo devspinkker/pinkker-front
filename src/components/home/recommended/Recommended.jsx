@@ -158,49 +158,35 @@ export default function DirectosRecommended({
 
   return (
     <div className="home-recommended">
-      {streams?.length && (
-        <div className="manager-recommended">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              width: "50%",
-            }}
-          >
-            <GrGamepad style={{ color: "#ff69c4", fontSize: "20px" }} />
+      {streams?.length && <div className="manager-recommended">
 
-            <h2
-              style={{ fontFamily: "Inter", color: "white", fontSize: "20px" }}
-            >
-              Directos Recomendados
-            </h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '50%' }}>
+          <GrGamepad style={{ color: '#ff69c4', fontSize: '20px' }} />
+
+          <h2 style={{ fontFamily: 'Inter', color: 'white', fontSize: '20px' }}>Directos Recomendados</h2>
+
+        </div>
+        <div className="manager-recommended-actions">
+          <div className="manager-recommended-actions-ver-todos">
+            <Link to="/plataform/explore?tipo=streams" style={{ padding: 0 }}>
+              <span style={{ fontFamily: "Signika Negative", fontSize: "14px" }} >Ver todos</span>
+            </Link>
           </div>
-          <div className="manager-recommended-actions">
-            <div className="manager-recommended-actions-ver-todos">
-              <Link to="/plataform/explore?tipo=streams" style={{ padding: 0 }}>
-                <span
-                  style={{ fontFamily: "Signika Negative", fontSize: "14px" }}
-                >
-                  Ver todos
-                </span>
-              </Link>
-            </div>
-            <div className="manager-recommended-actions-arrow">
-              <i
-                style={{ margin: "0px 10px", cursor: "pointer" }}
-                className="fas fa-chevron-left"
-                onClick={() => fetchMoreData("left")}
-              ></i>
-              <i
-                style={{ cursor: "pointer" }}
-                className="fas fa-chevron-right"
-                onClick={() => fetchMoreData("right")}
-              ></i>
-            </div>
+          <div className="manager-recommended-actions-arrow">
+            <i
+              style={{ margin: "0px 10px", cursor: "pointer" }}
+              className="fas fa-chevron-left"
+              onClick={() => fetchMoreData("left")}
+            ></i>
+            <i
+              style={{ cursor: "pointer" }}
+              className="fas fa-chevron-right"
+              onClick={() => fetchMoreData("right")}
+            ></i>
           </div>
         </div>
-      )}
+      </div>}
+
 
       {/* {isMobile && (
         <div style={{ display: "flex", marginTop: "20px" }}>
@@ -232,71 +218,69 @@ export default function DirectosRecommended({
             transform: `translateX(${currentIndex * -20}%)`,
           }}
         >
-          {streams == null && isLoading == true
-            ? [...Array(3)]?.map((_, index) => (
-                <div style={{ marginRight: "9px" }} key={index}>
+          {streams == null && isLoading == true ? (
+            [...Array(3)]?.map((_, index) => (
+              <div
+                style={{ marginRight: "9px" }}
+                key={index}
+              >
+                
+                <Skeleton
+                  variant="rectangular"
+                  width={500}
+                  height={250}
+                  style={{ backgroundColor: "rgb(32, 32, 31)", marginBottom: '10px' }}
+                />
+                <Grid style={{ display: 'flex', gap: '5px', alignItems: 'flex-start' }} >
                   <Skeleton
-                    variant="rectangular"
-                    width={500}
-                    height={250}
-                    style={{
-                      backgroundColor: "rgb(32, 32, 31)",
-                      marginBottom: "10px",
-                    }}
+                    variant="circular"
+                    width={50}
+                    height={50}
+
+                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
                   />
-                  <Grid
-                    style={{
-                      display: "flex",
-                      gap: "5px",
-                      alignItems: "flex-start",
-                    }}
-                  >
+                  <Grid style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+
                     <Skeleton
-                      variant="circular"
-                      width={50}
-                      height={50}
+                      variant="text"
+                      width={120}
                       style={{ backgroundColor: "rgb(32, 32, 31)" }}
                     />
-                    <Grid
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "3px",
-                      }}
-                    >
-                      <Skeleton
-                        variant="text"
-                        width={120}
-                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                      />
-                      <Skeleton
-                        variant="text"
-                        width={100}
-                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                      />
-                    </Grid>
-                  </Grid>
-                </div>
-              ))
-            : streams?.map((stream, index) => (
-                <div style={{ marginRight: "9px" }} key={index}>
-                  <CardStreamRecomendado
-                    tags={stream.stream_tag}
-                    isMobile={isMobile}
-                    streamer={stream.streamer}
-                    categorie={stream.stream_category}
-                    title={stream.stream_title}
-                    viewers={stream.ViewerCount}
-                    name={stream.streamer}
-                    isLoading={false}
-                    avatarStreamer={stream.streamer_avatar}
-                    image={
-                      stream.stream_thumbnail ?? "/images/pinkker-stream.png"
-                    }
-                    ViewerCount={stream.ViewerCount}
-                  />
+                    <Skeleton
+                      variant="text"
+                      width={100}
+                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                    />
 
-                  {/* <VideoCard
+                  </Grid>
+                </Grid>
+
+              </div>
+            ))
+
+          ) : (
+            streams?.map((stream, index) => (
+              <div
+                style={{ marginRight: "9px" }}
+                key={index}
+              >
+                <CardStreamRecomendado
+                  tags={stream.stream_tag}
+                  isMobile={isMobile}
+                  streamer={stream.streamer}
+                  categorie={stream.stream_category}
+                  title={stream.stream_title}
+                  viewers={stream.ViewerCount}
+                  name={stream.streamer}
+                  isLoading={false}
+                  avatarStreamer={stream.streamer_avatar}
+                  image={
+                    stream.stream_thumbnail ?? "/images/pinkker-stream.png"
+                  }
+                  ViewerCount={stream.ViewerCount}
+                />
+
+                {/* <VideoCard
                   tags={stream.stream_tag}
                   isMobile={isMobile}
                   streamerImage={stream.streamer_avatar}
@@ -306,10 +290,11 @@ export default function DirectosRecommended({
                   viewers={stream.ViewerCount}
                   image={stream.stream_thumbnail}
                 /> */}
-                </div>
-              ))}
+              </div>
+            ))
+          )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }

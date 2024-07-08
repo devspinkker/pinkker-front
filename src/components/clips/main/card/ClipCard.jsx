@@ -31,14 +31,47 @@ export default function ClipCard({ clip, isActive = 0 }) {
   const [loading, setLoading] = useState(true);
   const [dropdownShare, setDropdownShare] = useState(false);
   useEffect(() => {
+    const player = playerRef.current;
+
+    if (!player) return;
+
     if (isActive === 2) {
-      playerRef.current.play();
-      playerRef.current.muted = true;
+      player.pause();
+      player.muted = true;
       setMuted(true);
+
+      setTimeout(() => {
+        player
+          .play()
+          .then(() => {
+            setTimeout(() => {
+              player.muted = false;
+              setMuted(false);
+            }, 200);
+          })
+          .catch((error) => {
+            console.error("Error playing video:", error);
+          });
+      }, 200);
     } else if (isActive === 1) {
-      playerRef.current.pause();
-      playerRef.current.muted = true;
-      setMuted(true);
+      player.pause();
+      setTimeout(() => {
+        player.muted = true;
+        setMuted(true);
+      }, 200);
+    } else {
+      player
+        .play()
+        .then(() => {
+          setPlaying(false);
+          setTimeout(() => {
+            player.muted = false;
+            setMuted(false);
+          }, 200);
+        })
+        .catch((error) => {
+          console.error("Error playing video:", error);
+        });
     }
   }, [isActive]);
 

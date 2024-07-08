@@ -139,19 +139,3 @@
 .customPlayer-card-selectClips {
     margin: 10px;
 }
-
-.Select-bottom-v2-button-icon {
-    display: flex;
-    width: 40px;
-    background-color: transparent;
-    padding: 5px;
-    color: #ededed;
-    cursor: pointer;
-    margin-right: 5px;
-    border-radius: 3px;
-    margin-top: 3px;
-    margin-left: initial;
-    align-items: center;
-    font-size: 22px;
-    justify-content: center;
-}
