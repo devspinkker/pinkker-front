@@ -633,6 +633,12 @@ export default function ClipCard({ clip, isActive = 0 }) {
                 }}
                 placeholder="Comenta el clip..."
                 type="text"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    createComment();
+                  }
+                }}
               />
             </div>
 
