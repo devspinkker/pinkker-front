@@ -16,6 +16,7 @@ import { Grid, Typography } from "@mui/material";
 import { retweet } from "../../../../services/tweet";
 import { IoMdSend } from "react-icons/io";
 import ShareDropdown from "../../../channel/dropdown/ShareDropdown";
+import { useNotification } from "../../../Notifications/NotificationProvider";
 
 export default function ClipCard({ clip, isActive = 0 }) {
   const [playing, setPlaying] = useState(true);
@@ -26,10 +27,11 @@ export default function ClipCard({ clip, isActive = 0 }) {
   const [videoHover, setVideoHover] = useState(false);
 
   const [showComment, SetshowComment] = useState(false);
-  const [comments, setComments] = useState(null);
+  const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(true);
   const [dropdownShare, setDropdownShare] = useState(false);
+  const alert = useNotification();
   useEffect(() => {
     const player = playerRef.current;
 
@@ -189,9 +191,14 @@ export default function ClipCard({ clip, isActive = 0 }) {
     const token = window.localStorage.getItem("token");
     if (comment.trim() != "") {
       CommentClip(token, clip?.id, comment).then((res) => {
-        if (res.data != null && res.data != undefined) {
-          // alert({ type: "SUCCESS", message: res.data.msg });
+        if (res.data != null && res.data != undefined && res.data.data._id) {
+          if (comments) {
+            setComments([res.data.data, ...comments]);
+          } else {
+            setComments([res.data.data]);
+          }
           setComment("");
+          alert({ type: "SUCCESS" });
         }
       });
     }
@@ -302,34 +309,24 @@ export default function ClipCard({ clip, isActive = 0 }) {
                 width: "100%",
               }}
             >
-              {/* {!loading ? (
-              <div className="video-placeholder"></div>
-            ) : (
-              <video
-                onTimeUpdate={handleProgress}
-                onClick={handlePlay}
-                ref={playerRef}
-                loop={true}
-                autoPlay={true}
-                muted={muted}
-                controls={true}
-                src={clip.url}
-                onLoadStart={() => setLoading(true)}
-                onLoadedData={handleLoadedData}
-              />
-            )} */}
-              <video
-                onTimeUpdate={handleProgress}
-                onClick={handlePlay}
-                ref={playerRef}
-                loop={true}
-                autoPlay={true}
-                muted={muted}
-                controls={true}
-                src={clip.url}
-                onLoadStart={() => setLoading(true)}
-                onLoadedData={handleLoadedData}
-              />
+              {!loading ? (
+                <div className="video-placeholder-loading">
+                  <ScaleLoader width={4} height={20} color="#f36197d7" />
+                </div>
+              ) : (
+                <video
+                  onTimeUpdate={handleProgress}
+                  onClick={handlePlay}
+                  ref={playerRef}
+                  loop={true}
+                  autoPlay={true}
+                  muted={muted}
+                  controls={true}
+                  src={clip.url}
+                  onLoadStart={() => setLoading(true)}
+                  // onLoadedData={handleLoadedData}
+                />
+              )}
             </div>
             {getButtonDuration()}
             {playing === false && (
@@ -491,10 +488,17 @@ export default function ClipCard({ clip, isActive = 0 }) {
               </h3>
             </div>
             {dropdownShare && (
-              <ShareDropdown
-                title={clip.clipTitle}
-                streamer={"clips/getId/?videoUrl=" + clip.id}
-              />
+              <div
+                style={{
+                  position: "relative",
+                  right: "364px",
+                }}
+              >
+                <ShareDropdown
+                  title={clip.clipTitle}
+                  streamer={"clips/getId/?videoUrl=" + clip.id}
+                />
+              </div>
             )}
             <div
               onClick={() => getCommentsClipAndShow()}
