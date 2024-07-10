@@ -1,4 +1,5 @@
 import {
+  AppBar,
   Box,
   Card,
   CardContent,
@@ -332,9 +333,11 @@ function NLayout(props) {
   const [habilitar, setHabilitar] = useState(false);
   const handleClose = () => setHabilitar(!habilitar);
   const [text, setText] = useState(null);
+  const [tabIndex, setTabIndex] = useState(0);
 
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
+ console.log('search', search)
+  const handleTabChange = (event, newIndex) => {
+    setTabIndex(newIndex);
   };
   const handleChange = (e) => {
     const value = e.target.value;
@@ -408,6 +411,8 @@ function NLayout(props) {
     }
     setOpenTweet(open);
   };
+
+
   const getNavDesktop = () => {
     return loading ? (
       <div className={`loading-overlay ${loading ? "fade-out" : ""}`}>
@@ -661,7 +666,7 @@ function NLayout(props) {
                   <input
                     style={{ fontSize: "16px" }}
                     onClickCapture={() => setHabilitar(!habilitar)}
-                    placeholder="Search"
+                    placeholder="Buscar.."
                     type="search"
                     className="input-searchbar"
                   />
@@ -1390,11 +1395,20 @@ function NLayout(props) {
                       width: "70%",
                     }}
                   >
-                    <DialogContent>
+                    <DialogContent
+                      style={{
+                        backgroundColor: "#1E1E1E", // Fondo oscuro
+                        padding: "20px", // Espaciado interno
+                        borderRadius: "8px", // Bordes redondeados
+                        color: "white",
+                      }}
+                    >
+
+
                       <TextField
                         autoFocus
                         margin="dense"
-                        label="Search"
+                        label="Buscar"
                         type="search"
                         fullWidth
                         variant="outlined"
@@ -1419,19 +1433,16 @@ function NLayout(props) {
                             color: "white",
                             borderColor: "white",
                           },
-                          placeholder: "Search",
+                          placeholder: "Buscar...",
                         }}
                         sx={{
-                          "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                          {
+                          "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                             borderColor: "white",
                           },
-                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                          {
+                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
                             borderColor: "white",
                           },
-                          "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                          {
+                          "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
                             borderColor: "white",
                           },
                           "& .MuiInputBase-input": {
@@ -1446,30 +1457,46 @@ function NLayout(props) {
                           },
                         }}
                       />
-
+                      <AppBar position="static" style={{ backgroundColor: "#333", marginTop: '15px', borderRadius: '10px' }}>
+                        <Tabs value={tabIndex} onChange={handleTabChange} variant="fullWidth" >
+                          <Tab label="Todos" style={{ color: tabIndex === 0 ? "#fff" : "#aaa", borderRadius: '10px' }} />
+                          <Tab label="Usuarios" style={{ color: tabIndex === 1 ? "#fff" : "#aaa", borderRadius: '10px' }} />
+                          <Tab label="Clips" style={{ color: tabIndex === 2 ? "#fff" : "#aaa", borderRadius: '10px' }} />
+                          <Tab label="Vods" style={{ color: tabIndex === 3 ? "#fff" : "#aaa", borderRadius: '10px' }} />
+                        </Tabs>
+                      </AppBar>
                       <Box mt={2}>
                         <Grid container spacing={2}>
                           {search?.data?.map((game, index) => (
-                            <Grid item xs={12} sm={6} md={4} key={index}>
+                            <Grid item xs={12} sm={6} md={3} key={index}>
                               <Link
                                 key={index}
                                 to={`/${game?.NameUser}`}
                                 onClick={() => setHabilitar(false)}
+                                style={{ textDecoration: 'none', width:'33%'}}
                               >
-                                <Card style={{ zIndex: 99999 }}>
-                                  <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={game?.Avatar}
-                                    alt={game?.NameUser}
-                                  />
+                                <Card style={{ backgroundColor: "transparent", color: "white", borderRadius: "50%", textAlign: "center", padding: "20px", boxShadow: "none" }}>
+                                  <div style={{ position: "relative", width: "150px", height: "150px", margin: "0 auto" }}>
+                                    <CardMedia
+                                      component="img"
+                                      style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+                                      image={game?.Avatar}
+                                      alt={game?.NameUser}
+                                    />
+                                  </div>
                                   <CardContent>
                                     <Typography
-                                      variant="h6"
-                                      style={{ color: "black" }}
+                                      variant="body1"
+                                      style={{ color: "white", fontWeight: "bold", marginTop: "10px" }}
                                     >
-                                      {game?.NameUser?.toUpperCase()}
+                                      {game?.NameUser}
                                     </Typography>
+                                    {/* <Typography
+                                      variant="body2"
+                                      style={{ color: "grey" }}
+                                    >
+                                      Artista
+                                    </Typography> */}
                                   </CardContent>
                                 </Card>
                               </Link>
@@ -1479,7 +1506,7 @@ function NLayout(props) {
                       </Box>
                     </DialogContent>
 
-                    <div className="auth-close">
+                    <div  style={{display:'flex', justifyContent:'right', right:'14%', height:'25px', position:'fixed'}}>
                       <button
                         className="pinkker-button-more"
                         onClick={() => setHabilitar(false)}
