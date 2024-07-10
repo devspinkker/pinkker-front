@@ -43,9 +43,14 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
         res = await GetClipsMostViewed(1);
       }
 
-      if (res.data.message === "ok") {
+      if (res.data.message === "ok" && res.data.data != null) {
         const newClips = res.data.data;
         setClips(newClips);
+      } else {
+        res = await GetClipsMostViewed(1);
+        if (res.data.message === "ok") {
+          setClips([...clips, ...res.data.data]);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -67,9 +72,14 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
           res = await GetClipsCategory("", 1, "");
         }
 
-        if (res.data.message === "ok") {
+        if (res.data.message === "ok" && res.data.data != null) {
           const newClips = res.data.data;
           setClips([...clips, ...newClips]);
+        } else {
+          res = await GetClipsMostViewed(1);
+          if (res.data.message === "ok") {
+            setClips([...clips, ...res.data.data]);
+          }
         }
       } catch (error) {
         console.error(error);
