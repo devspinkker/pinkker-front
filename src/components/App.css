@@ -10,7 +10,9 @@
   padding: 0;
   
 }
-
+.css-hip9hq-MuiPaper-root-MuiAppBar-root{
+  background-color: transparent  !important;
+}
 html {
   scroll-behavior: smooth;
 }

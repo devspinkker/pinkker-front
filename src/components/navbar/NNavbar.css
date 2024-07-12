@@ -606,9 +606,12 @@
 
   .button-purchase-pixels {
     width: 180px;
-    height: 3rem !important;
+    height: 2rem !important;
   }
 
+  .boton-comprar{
+    height: 100% !important;
+  }
   .nav-item-dark {
     margin: 5px;
     width: 100%;

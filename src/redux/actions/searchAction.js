@@ -14,6 +14,10 @@ export const fetchSearchPage = async (search) => {
     })
     return res
 }
+export const GetClipsByTitle = async (search) => {
+    const res = await axios.get(`${url}/clips/GetClipsByTitle?title=${ search }`)
+    return res
+}
 
 export const dispatchGetSearch = (res) => {
     return {
