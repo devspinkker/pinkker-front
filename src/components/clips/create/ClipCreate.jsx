@@ -116,7 +116,7 @@ export function CreateClip() {
           videoBytes,
           startTime,
           endTime,
-          totalKey,
+          "live" + totalKey,
           clipTitle,
           config
         );
