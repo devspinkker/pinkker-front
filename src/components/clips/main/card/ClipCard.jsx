@@ -30,6 +30,13 @@ export default function ClipCard({ clip, isActive = 0 }) {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const [videoPlaying, setVideoPlaying] = useState(false);
+
+  const handleVideoPlay = () => {
+    setVideoPlaying(true);
+  };
+
   const [dropdownShare, setDropdownShare] = useState(false);
   const alert = useNotification();
   useEffect(() => {
@@ -309,24 +316,25 @@ export default function ClipCard({ clip, isActive = 0 }) {
                 width: "100%",
               }}
             >
-              {!loading ? (
+              {!videoPlaying ? (
                 <div className="video-placeholder-loading">
-                  <ScaleLoader width={4} height={20} color="#f36197d7" />
+                  <img src={clip.streamThumbnail} alt="" />
                 </div>
-              ) : (
-                <video
-                  onTimeUpdate={handleProgress}
-                  onClick={handlePlay}
-                  ref={playerRef}
-                  loop={true}
-                  autoPlay={true}
-                  muted={muted}
-                  controls={true}
-                  src={clip.url}
-                  onLoadStart={() => setLoading(true)}
-                  // onLoadedData={handleLoadedData}
-                />
-              )}
+              ) : null}
+
+              <video
+                style={{ display: videoPlaying ? "" : "none" }}
+                onTimeUpdate={handleProgress}
+                onClick={handlePlay}
+                ref={playerRef}
+                loop={true}
+                autoPlay={true}
+                muted={muted}
+                controls={true}
+                src={clip.url}
+                onPlay={handleVideoPlay} // Llama al handler cuando el video comienza a reproducirse
+                onLoadStart={() => setLoading(true)}
+              />
             </div>
             {getButtonDuration()}
             {playing === false && (

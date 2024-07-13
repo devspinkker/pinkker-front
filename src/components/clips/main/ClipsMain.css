@@ -167,8 +167,6 @@
     background-color: #e8508b;
 }
 
-.video-placeholder-loading {
-    width: 50rem;
-    height: 10rem;
-    background: black;
+.video-placeholder-loading>img {
+    width: 100%;
 }
