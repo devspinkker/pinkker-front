@@ -6,6 +6,9 @@
 .css-hip9hq-MuiPaper-root-MuiAppBar-root{
     background-color: transparent !important;
 }
+.css-ypiqx9-MuiDialogContent-root{
+    padding: 0px !important;
+}
 /* menu.css */
 .mobile-menu {
     position: fixed;

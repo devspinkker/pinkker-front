@@ -63,6 +63,8 @@ import zIndex from "@mui/material/styles/zIndex";
 import Notificaciones from "../Notificaciones/Notificaciones";
 import Loading from "./Loading";
 import axios from "axios";
+import { MdManageSearch, MdOndemandVideo } from "react-icons/md";
+import { RiUserSearchLine } from "react-icons/ri";
 
 function NLayout(props) {
   const [locationpath, setLocationPath] = useState();
@@ -357,34 +359,73 @@ function NLayout(props) {
   const handleTabChange = (event, newIndex) => {
     setTabIndex(newIndex);
   };
-  console.log('search', search)
+
   const handleChange = (e) => {
     const value = e.target.value;
-
+  
     if (value.length <= 0) {
-      setSearch(null);
+      setSearch([]);
       setText(null);
     } else {
       setText(value);
-
+  
       const getUser = () => {
         return fetchSearch(value).then((res) => {
-          setSearch(res.data);
+          console.log("fetchSearch result:", res.data.data);
+          return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
         });
       };
+  
       const getClip = () => {
         return GetClipsByTitle(value).then((res) => {
-          setSearch(res.data);
+          
+          return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
         });
       };
+  
       if (tabIndex === 2) {
-
-        getClip();
+        getClip()
+          .then((data) => {
+            
+            setSearch(data);
+          })
+          .catch((error) => {
+            console.error("Error getting clips:", error);
+          });
+      } else if (tabIndex === 0) {
+        Promise.all([getUser(), getClip()])
+          .then((results) => {
+            
+  
+            const userResults = Array.isArray(results[0]) ? results[0] : [];
+            const clipResults = Array.isArray(results[1]) ? results[1] : [];
+  
+            const combinedResults = [...userResults, ...clipResults];
+            
+            setSearch(combinedResults);
+          })
+          .catch((error) => {
+            console.error("Error combining results:", error);
+          });
       } else {
         getUser()
+          .then((data) => {
+            
+            setSearch(data);
+          })
+          .catch((error) => {
+            console.error("Error getting user:", error);
+          });
       }
     }
   };
+  useEffect(() => {
+    if (text?.length > 0) {
+      handleChange({ target: { value: text } });
+    }
+  }, [tabIndex]);
+  
+  console.log('search', search);
   const [loading, setLoading] = useState(true);
   // sacar
   useEffect(() => {
@@ -1413,86 +1454,103 @@ function NLayout(props) {
                 <div className={"auth-body"}>
                   <div
                     style={{
-                      padding: "30px",
-                      height: "85% ",
+
+                      height: "95% ",
                       textAlign: "center",
                       backgroundColor: "#121418",
                       borderRadius: "5px",
                       zIndex: 9999,
                       display: "flex",
                       boxShadow: "5px 5px 20px 5px rgba(0, 0, 0, 0.651)",
-                      width: "70%",
+                      width: "85%",
                     }}
                   >
                     <DialogContent
                       style={{
-                        backgroundColor: "#1E1E1E", // Fondo oscuro
-                        padding: "20px", // Espaciado interno
+                        backgroundColor: "#131418", // Fondo oscuro
+                        padding: "0px !important", // Espaciado interno
                         borderRadius: "8px", // Bordes redondeados
                         color: "white",
                       }}
                     >
 
+                      <Grid style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#080808', padding: '15px' }}>
 
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        label="Buscar"
-                        type="search"
-                        fullWidth
-                        variant="outlined"
-                        value={text}
-                        onChange={handleChange}
-                        InputProps={{
-                          style: {
-                            color: "white",
-                            borderColor: "white",
-                          },
-                          classes: {
-                            notchedOutline: {
+                        <TextField
+                          autoFocus
+                          margin="dense"
+                          label="Buscar"
+                          type="search"
+                          fullWidth
+                          variant="outlined"
+                          value={text}
+                          onChange={handleChange}
+                          style={{ width: '97%' }}
+                          InputProps={{
+                            style: {
+                              color: "white",
+                              borderColor: "white",
+                              borderRadius: '1000px',
+                              backgroundColor: "#212129"
+                            },
+                            classes: {
+                              notchedOutline: {
+                                borderColor: "white",
+                                borderRadius: '1000px'
+                              },
+                            },
+                          }}
+                          InputLabelProps={{
+                            style: { color: "white" },
+                          }}
+                          inputProps={{
+                            style: {
+                              color: "white",
+                              borderColor: "white",
+                              borderRadius: '1000px'
+                            },
+                            placeholder: "Buscar...",
+                          }}
+                          sx={{
+                            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                               borderColor: "white",
                             },
-                          },
-                        }}
-                        InputLabelProps={{
-                          style: { color: "white" },
-                        }}
-                        inputProps={{
-                          style: {
-                            color: "white",
-                            borderColor: "white",
-                          },
-                          placeholder: "Buscar...",
-                        }}
-                        sx={{
-                          "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "white",
-                          },
-                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "white",
-                          },
-                          "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "white",
-                          },
-                          "& .MuiInputBase-input": {
-                            color: "white",
-                          },
-                          "& .MuiInputLabel-outlined": {
-                            color: "white",
-                          },
-                          "& .MuiInputBase-input::placeholder": {
-                            color: "white",
-                            opacity: 1,
-                          },
-                        }}
-                      />
+                            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                              borderColor: "white",
+                            },
+                            "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+                              borderColor: "white",
+                            },
+                            "& .MuiInputBase-input": {
+                              color: "white",
+                              backgroundColor: "#212129"
+                            },
+                            "& .MuiInputLabel-outlined": {
+                              color: "white",
+                            },
+                            "& .MuiInputBase-input::placeholder": {
+                              color: "white",
+                              opacity: 1,
+                            },
+                          }}
+                        />
+
+
+                        <i
+                          onClick={() => setHabilitar(false)}
+                          style={{ fontSize: props.isMobile ? "20px" : '24px', cursor: "pointer" }}
+                          class="fas fa-times"
+                        />
+
+
+                      </Grid>
+
                       <Grid
                         position="static"
                         style={{
 
-                          marginTop: '15px',
-                          borderRadius: '10px',
-                          border: 'none'
+                          borderTop: '2px solid #2a2e37',
+                          padding: '24px'
                         }}
                       >
                         <Tabs
@@ -1500,13 +1558,24 @@ function NLayout(props) {
                           onChange={handleTabChange}
                           variant="fullWidth"
                           TabIndicatorProps={{ style: { display: 'none' } }}
+                          sx={{
+                            '& .MuiTab-root': {
+                              minWidth: 'auto', // para que el ancho mínimo no sea forzado por Material-UI
+                              width: 'auto', // ancho automático basado en el contenido
+                              padding: '0 10px', // ajusta el padding según sea necesario
+                            }
+                          }}
                         >
                           <Tab
-                            label="Todos"
-                            disabled={text?.length > 0 && tabIndex !== 0}
+                            label={
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <MdManageSearch style={{ fontSize: '32px' }} />
+                                Todos
+                              </div>
+                            }
                             style={{
-                              color: tabIndex === 0 ? "#f16397" : "#aaa",
-                              backgroundColor: tabIndex === 0 ? "#303030" : "#20232a",
+                              color: tabIndex === 0 ? "#f16397" : "#fff",
+                              backgroundColor: "#202329",
                               border: tabIndex === 0 ? "1px solid #f16397" : 'inherit',
 
                               borderRadius: '10px',
@@ -1516,12 +1585,16 @@ function NLayout(props) {
                             }}
                           />
                           <Tab
-                            label="Usuarios"
-                            disabled={text?.length > 0 && tabIndex !== 1}
+                            label={
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <RiUserSearchLine style={{ fontSize: '32px' }} />
+                                Usuarios
+                              </div>
+                            }
 
                             style={{
-                              color: tabIndex === 1 ? "#f16397" : "#aaa",
-                              backgroundColor: tabIndex === 1 ? "#303030" : "#20232a",
+                              color: tabIndex === 1 ? "#f16397" : "#fff",
+                              backgroundColor: "#202329",
                               border: tabIndex === 1 ? "1px solid #f16397" : 'inherit',
                               borderRadius: '10px',
                               margin: '0 5px',
@@ -1530,12 +1603,15 @@ function NLayout(props) {
                             }}
                           />
                           <Tab
-                            label="Clips"
-                            disabled={text?.length > 0 && tabIndex !== 2}
-
+                            label={
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <MdOndemandVideo style={{ fontSize: '32px' }} />
+                                Clips
+                              </div>
+                            }
                             style={{
-                              color: tabIndex === 2 ? "#f16397" : "#aaa",
-                              backgroundColor: tabIndex === 2 ? "#303030" : "#20232a",
+                              color: tabIndex === 2 ? "#f16397" : "#fff",
+                              backgroundColor: "#202329",
                               border: tabIndex === 2 ? "1px solid #f16397" : 'inherit',
                               borderRadius: '10px',
                               margin: '0 5px',
@@ -1544,12 +1620,15 @@ function NLayout(props) {
                             }}
                           />
                           <Tab
-                            label="Vods"
-                            disabled={text?.length > 0 && tabIndex !== 3}
-
+                            label={
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <MdOndemandVideo style={{ fontSize: '32px' }} />
+                                Vods
+                              </div>
+                            }
                             style={{
-                              color: tabIndex === 3 ? "#f16397" : "#aaa",
-                              backgroundColor: tabIndex === 3 ? "#303030" : "#20232a",
+                              color: tabIndex === 3 ? "#f16397" : "#fff",
+                              backgroundColor: "#202329",
                               border: tabIndex === 3 ? "1px solid #f16397" : 'inherit',
                               borderRadius: '10px',
 
@@ -1560,10 +1639,10 @@ function NLayout(props) {
                           />
                         </Tabs>
                       </Grid>
-                      <Box mt={2}>
-                        <Grid container spacing={2}>
-                          {search?.data?.map((game, index) => (
-                            <Grid item xs={12} sm={6} md={3} key={index}>
+                      <Box mt={2} style={{ backgroundColor: '#080808', height: '100%' }}>
+                        <Grid container spacing={2} style={{backgroundColor: '#080808'}}>
+                          { Array.isArray(search) && search.length > 0 && search?.map((game, index) => (
+                            <Grid item xs={12} sm={6} md={3} key={index} style={{backgroundColor: '#080808'}}>
                               {
                                 !game?.streamThumbnail ?
 
@@ -1601,7 +1680,7 @@ function NLayout(props) {
 
                                   :
 
-                                  <Box sx={{ maxWidth: 400, margin: '0 auto', backgroundColor: '#1c1c1c', color: 'white', borderRadius: 2, overflow: 'hidden' }} onClick={() => handleItemClick(game?.url)}>
+                                  <Box style={{backgroundColor: '#080808'}} sx={{ maxWidth: 400, margin: '0 auto', backgroundColor: '#1c1c1c', color: 'white', borderRadius: 2, overflow: 'hidden' }} onClick={() => handleItemClick(game?.url)}>
                                     <Box
                                       component="img"
                                       src={game?.streamThumbnail}
@@ -1635,17 +1714,7 @@ function NLayout(props) {
                       </Box>
                     </DialogContent>
 
-                    <div style={{ display: 'flex', justifyContent: 'right', right: '14%', height: '25px', position: 'fixed' }}>
-                      <button
-                        className="pinkker-button-more"
-                        onClick={() => setHabilitar(false)}
-                      >
-                        <i
-                          style={{ fontSize: props.isMobile && "20px" }}
-                          class="fas fa-times"
-                        />
-                      </button>
-                    </div>
+
                   </div>
                 </div>
               </div>
@@ -1676,11 +1745,11 @@ function NLayout(props) {
                         >
                           <IoCloseCircleOutline />
                         </IconButton>
-                        <video  src={videoUrl} autoPlay controls sx={{ width: '85% !important', height: 'auto' }} />
+                        <video src={videoUrl} autoPlay controls sx={{ width: '85% !important', height: 'auto' }} />
                       </Box>
                     </DialogContent>
 
-                    
+
                   </div>
                 </div>
               </div>
