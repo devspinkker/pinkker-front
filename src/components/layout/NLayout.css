@@ -3,7 +3,9 @@
     transition: all .2s ease-in-out;
     position: relative;
 }
-
+.css-hip9hq-MuiPaper-root-MuiAppBar-root{
+    background-color: transparent !important;
+}
 /* menu.css */
 .mobile-menu {
     position: fixed;

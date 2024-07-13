@@ -1,6 +1,8 @@
 import {
   AppBar,
+  Avatar,
   Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
@@ -48,17 +50,19 @@ import { getChatsByUserID } from "../../services/backGo/Chats";
 import logoPinkker from "./LOGOPINKKER.png";
 import SearchPopup from "../navbar/search/SearchPopup";
 import { fetchSearch } from "../../redux/actions/searchAction";
+import { GetClipsByTitle } from "../../redux/actions/searchAction";
 import {
   PostCreate,
   setToken,
   PostGets,
   GetTweetsRecommended,
 } from "../../services/backGo/tweet";
-import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { IoArrowBackCircleOutline, IoCloseCircleOutline } from "react-icons/io5";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import zIndex from "@mui/material/styles/zIndex";
 import Notificaciones from "../Notificaciones/Notificaciones";
 import Loading from "./Loading";
+import axios from "axios";
 
 function NLayout(props) {
   const [locationpath, setLocationPath] = useState();
@@ -75,6 +79,9 @@ function NLayout(props) {
   const [message, setMessage] = useState("");
   const [messagesOpen, setMessagesOpen] = useState([]);
   const [notificacion, setNotificacion] = useState(false);
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_DEV_API_URL,
+  });
   // Message
   useEffect(() => {
     fetchData(); // Llamada inicial para obtener los datos
@@ -334,11 +341,23 @@ function NLayout(props) {
   const handleClose = () => setHabilitar(!habilitar);
   const [text, setText] = useState(null);
   const [tabIndex, setTabIndex] = useState(0);
+  const [openVideo, setOpenVideo] = useState(false);
+  const [videoUrl, setVideoUrl] = useState('');
 
- console.log('search', search)
+  const handleItemClick = (url) => {
+    setHabilitar(false)
+    setVideoUrl(url);
+    setOpenVideo(true);
+  };
+
+  const handleCloseVideo = () => {
+    setOpenVideo(false);
+    setVideoUrl('');
+  };
   const handleTabChange = (event, newIndex) => {
     setTabIndex(newIndex);
   };
+  console.log('search', search)
   const handleChange = (e) => {
     const value = e.target.value;
 
@@ -353,7 +372,17 @@ function NLayout(props) {
           setSearch(res.data);
         });
       };
-      getUser();
+      const getClip = () => {
+        return GetClipsByTitle(value).then((res) => {
+          setSearch(res.data);
+        });
+      };
+      if (tabIndex === 2) {
+
+        getClip();
+      } else {
+        getUser()
+      }
     }
   };
   const [loading, setLoading] = useState(true);
@@ -1082,7 +1111,7 @@ function NLayout(props) {
                           style={{
                             width: props.isMobile ? "25px" : "17px",
                           }}
-                          src="/images/usdt.svg"
+                          src="/images/pixel.png"
                           alt=""
                         />{" "}
                         <span style={{ fontSize: "14px" }}>
@@ -1457,56 +1486,156 @@ function NLayout(props) {
                           },
                         }}
                       />
-                      <AppBar position="static" style={{ backgroundColor: "#333", marginTop: '15px', borderRadius: '10px' }}>
-                        <Tabs value={tabIndex} onChange={handleTabChange} variant="fullWidth" >
-                          <Tab label="Todos" style={{ color: tabIndex === 0 ? "#fff" : "#aaa", borderRadius: '10px' }} />
-                          <Tab label="Usuarios" style={{ color: tabIndex === 1 ? "#fff" : "#aaa", borderRadius: '10px' }} />
-                          <Tab label="Clips" style={{ color: tabIndex === 2 ? "#fff" : "#aaa", borderRadius: '10px' }} />
-                          <Tab label="Vods" style={{ color: tabIndex === 3 ? "#fff" : "#aaa", borderRadius: '10px' }} />
+                      <Grid
+                        position="static"
+                        style={{
+
+                          marginTop: '15px',
+                          borderRadius: '10px',
+                          border: 'none'
+                        }}
+                      >
+                        <Tabs
+                          value={tabIndex}
+                          onChange={handleTabChange}
+                          variant="fullWidth"
+                          TabIndicatorProps={{ style: { display: 'none' } }}
+                        >
+                          <Tab
+                            label="Todos"
+                            disabled={text?.length > 0 && tabIndex !== 0}
+                            style={{
+                              color: tabIndex === 0 ? "#f16397" : "#aaa",
+                              backgroundColor: tabIndex === 0 ? "#303030" : "#20232a",
+                              border: tabIndex === 0 ? "1px solid #f16397" : 'inherit',
+
+                              borderRadius: '10px',
+                              margin: '0 5px',
+                              textTransform: 'none',
+                              fontWeight: 'bold'
+                            }}
+                          />
+                          <Tab
+                            label="Usuarios"
+                            disabled={text?.length > 0 && tabIndex !== 1}
+
+                            style={{
+                              color: tabIndex === 1 ? "#f16397" : "#aaa",
+                              backgroundColor: tabIndex === 1 ? "#303030" : "#20232a",
+                              border: tabIndex === 1 ? "1px solid #f16397" : 'inherit',
+                              borderRadius: '10px',
+                              margin: '0 5px',
+                              textTransform: 'none',
+                              fontWeight: 'bold'
+                            }}
+                          />
+                          <Tab
+                            label="Clips"
+                            disabled={text?.length > 0 && tabIndex !== 2}
+
+                            style={{
+                              color: tabIndex === 2 ? "#f16397" : "#aaa",
+                              backgroundColor: tabIndex === 2 ? "#303030" : "#20232a",
+                              border: tabIndex === 2 ? "1px solid #f16397" : 'inherit',
+                              borderRadius: '10px',
+                              margin: '0 5px',
+                              textTransform: 'none',
+                              fontWeight: 'bold'
+                            }}
+                          />
+                          <Tab
+                            label="Vods"
+                            disabled={text?.length > 0 && tabIndex !== 3}
+
+                            style={{
+                              color: tabIndex === 3 ? "#f16397" : "#aaa",
+                              backgroundColor: tabIndex === 3 ? "#303030" : "#20232a",
+                              border: tabIndex === 3 ? "1px solid #f16397" : 'inherit',
+                              borderRadius: '10px',
+
+                              margin: '0 5px',
+                              textTransform: 'none',
+                              fontWeight: 'bold'
+                            }}
+                          />
                         </Tabs>
-                      </AppBar>
+                      </Grid>
                       <Box mt={2}>
                         <Grid container spacing={2}>
                           {search?.data?.map((game, index) => (
                             <Grid item xs={12} sm={6} md={3} key={index}>
-                              <Link
-                                key={index}
-                                to={`/${game?.NameUser}`}
-                                onClick={() => setHabilitar(false)}
-                                style={{ textDecoration: 'none', width:'33%'}}
-                              >
-                                <Card style={{ backgroundColor: "transparent", color: "white", borderRadius: "50%", textAlign: "center", padding: "20px", boxShadow: "none" }}>
-                                  <div style={{ position: "relative", width: "150px", height: "150px", margin: "0 auto" }}>
-                                    <CardMedia
-                                      component="img"
-                                      style={{ width: "100%", height: "100%", borderRadius: "50%" }}
-                                      image={game?.Avatar}
-                                      alt={game?.NameUser}
-                                    />
-                                  </div>
-                                  <CardContent>
-                                    <Typography
-                                      variant="body1"
-                                      style={{ color: "white", fontWeight: "bold", marginTop: "10px" }}
-                                    >
-                                      {game?.NameUser}
-                                    </Typography>
-                                    {/* <Typography
+                              {
+                                !game?.streamThumbnail ?
+
+                                  <Link
+                                    key={index}
+                                    to={`/${game?.NameUser}`}
+                                    onClick={() => setHabilitar(false)}
+                                    style={{ textDecoration: 'none', width: '33%' }}
+                                  >
+                                    <Card style={{ backgroundColor: "transparent", color: "white", borderRadius: "50%", textAlign: "center", padding: "20px", boxShadow: "none" }}>
+                                      <div style={{ position: "relative", width: "150px", height: "150px", margin: "0 auto" }}>
+                                        <CardMedia
+                                          component="img"
+                                          style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+                                          image={game?.Avatar}
+                                          alt={game?.NameUser}
+                                        />
+                                      </div>
+                                      <CardContent>
+                                        <Typography
+                                          variant="body1"
+                                          style={{ color: "white", fontWeight: "bold", marginTop: "10px" }}
+                                        >
+                                          {game?.NameUser}
+                                        </Typography>
+                                        {/* <Typography
                                       variant="body2"
                                       style={{ color: "grey" }}
                                     >
                                       Artista
                                     </Typography> */}
-                                  </CardContent>
-                                </Card>
-                              </Link>
+                                      </CardContent>
+                                    </Card>
+                                  </Link>
+
+                                  :
+
+                                  <Box sx={{ maxWidth: 400, margin: '0 auto', backgroundColor: '#1c1c1c', color: 'white', borderRadius: 2, overflow: 'hidden' }} onClick={() => handleItemClick(game?.url)}>
+                                    <Box
+                                      component="img"
+                                      src={game?.streamThumbnail}
+                                      alt="Workout"
+                                      sx={{ width: '100%', height: 'auto' }}
+                                    />
+                                    <Box sx={{ p: 2 }}>
+                                      <Typography variant="body" fontWeight="bold">
+                                        {game?.clipTitle}
+                                      </Typography>
+                                      <Grid container alignItems="center" sx={{ mt: 2 }} style={{ gap: '5px' }}>
+                                        <Avatar src={game?.Avatar} alt={`Clipeado por ${game?.nameUserCreator}`} sx={{ width: 40, height: 40 }} /> {/* Add avatar image path */}
+                                        <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }} >
+                                          <Typography variant="body" style={{ fontSize: '14px' }}>
+                                            clipeado por {game?.nameUserCreator}
+                                          </Typography>
+                                          <Typography variant="body2" color="gray">
+                                            {game?.views} Visitas • {game?.category}
+                                          </Typography>
+                                        </Box>
+                                      </Grid>
+                                    </Box>
+                                  </Box>
+
+
+
+                              }
                             </Grid>
                           ))}
                         </Grid>
                       </Box>
                     </DialogContent>
 
-                    <div  style={{display:'flex', justifyContent:'right', right:'14%', height:'25px', position:'fixed'}}>
+                    <div style={{ display: 'flex', justifyContent: 'right', right: '14%', height: '25px', position: 'fixed' }}>
                       <button
                         className="pinkker-button-more"
                         onClick={() => setHabilitar(false)}
@@ -1521,6 +1650,47 @@ function NLayout(props) {
                 </div>
               </div>
             )}
+
+            {
+              openVideo &&
+              <div className="auth-body-container">
+                <div className={"auth-body"}>
+                  <div
+                    style={{
+                      padding: "10px",
+                      height: "85% ",
+                      textAlign: "center",
+                      backgroundColor: "#121418",
+                      borderRadius: "5px",
+                      zIndex: 9999,
+                      display: "flex",
+                      boxShadow: "5px 5px 20px 5px rgba(0, 0, 0, 0.651)",
+                      width: "70%",
+                    }}
+                  >
+                    <DialogContent onClose={handleCloseVideo} maxWidth="md" fullWidth>
+                      <Box sx={{ position: 'relative', padding: 2 }}>
+                        <IconButton
+                          onClick={handleCloseVideo}
+                          sx={{ position: 'absolute', top: 10, right: 10, color: 'white' }}
+                        >
+                          <IoCloseCircleOutline />
+                        </IconButton>
+                        <video  src={videoUrl} autoPlay controls sx={{ width: '85% !important', height: 'auto' }} />
+                      </Box>
+                    </DialogContent>
+
+                    
+                  </div>
+                </div>
+              </div>
+
+            }
+
+
+
+
+
             {showPopupAuth === true && (
               <Auth
                 isMobile={props.isMobile}
@@ -1913,7 +2083,7 @@ function NLayout(props) {
                         style={{
                           width: props.isMobile ? "25px" : "17px",
                         }}
-                        src="/images/usdt.svg"
+                        src="/images/pixel.png"
                         alt=""
                       />{" "}
                       <span style={{ fontSize: "14px" }}>
@@ -1971,7 +2141,7 @@ function NLayout(props) {
                       <span className="messagechat-InfoUserTo-notiNav"></span>
                     )}
                     <IoMdNotificationsOutline
-                      style={{ fontSize: "20px", color: "white" }}
+                      style={{ fontSize: "24px", color: "white" }}
                       name="notificaciones"
                     />
                   </div>
@@ -1999,7 +2169,7 @@ function NLayout(props) {
                       <span className="messagechat-InfoUserTo-notiNav"></span>
                     )}
                     <BsChatDots
-                      style={{ fontSize: "20px", color: "white" }}
+                      style={{ fontSize: "24px", color: "white" }}
                     />
                   </div>
                 </div>
@@ -2316,6 +2486,8 @@ function NLayout(props) {
               </Box>
             </Drawer>
           }
+
+
           {props.children}
 
           {showPopupAuth === true && (
