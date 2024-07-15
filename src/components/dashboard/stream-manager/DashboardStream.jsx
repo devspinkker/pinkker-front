@@ -86,7 +86,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
         }
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
 
       setSocket(newSocket);
 
@@ -289,7 +289,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     }
   }, []);
 
-
   const [subMenu, setSubMenu] = useState(false);
 
   const [esClick, setEsClick] = useState(false);
@@ -326,7 +325,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     window.location.href = "/";
   };
 
-
   const alert = useNotification();
   const [showKey, setShowKey] = useState(false);
 
@@ -340,25 +338,24 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     alert({ type: "SUCCESS", message: "Copiado correctamente!" });
   };
   const [expanded, setExpanded] = useState(true);
-  console.log('expand', expanded)
+  console.log("expand", expanded);
   return (
-
-    <Grid style={{ display: 'flex' }}>
-      
-      <NavbarLeft isMobile={isMobile}
+    <Grid style={{ display: "flex" }}>
+      <NavbarLeft
+        isMobile={isMobile}
         tyExpanded={expanded}
         user={user}
         tyDashboard={true}
-        setExpanded={setExpanded} 
-        />
+        setExpanded={setExpanded}
+      />
 
       <Grid
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          height: '100vh',
-          padding: expanded ? '0vh 0rem 0rem 10rem' : '0rem 0rem 0rem 0rem' ,
-          width: expanded ? '95%' : '95%'
+          display: "flex",
+          flexDirection: "row",
+          height: "100vh",
+          padding: expanded ? "0vh 0rem 0rem 10rem" : "0rem 0rem 0rem 0rem",
+          width: expanded ? "95%" : "95%",
         }}
       >
         {mostrarditInfoStream && (
@@ -377,25 +374,17 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 style={{
                   display: "flex",
                   justifyContent: "flex-start",
-                  alignItems: 'center',
-                  padding: '1rem 5.8rem',
-                  
+                  alignItems: "center",
+                  padding: "1rem 5.8rem",
                 }}
               >
-
-
-
-                <a href="/" style={{ width: '20%' }}>
-
+                <a href="/" style={{ width: "20%" }}>
                   <img
-                    style={{ width: '65%' }}
+                    style={{ width: "65%" }}
                     src="https://res.cloudinary.com/dcj8krp42/image/upload/v1712283573/categorias/logo_trazado_pndioh.png"
                     alt="Avatar"
                   />
-
                 </a>
-
-
 
                 <Grid>
                   <div className="session-info">
@@ -415,7 +404,8 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                     </div>
                     <div className="stats-container">
                       <span className="data">
-                        - {userData && Object.keys(userData.Followers).length}{" "}
+                        {/* - {userData && Object.keys(userData.FollowersCount)}{" "} */}
+                        1
                       </span>
                       <span className="label"> seguidores</span>
                     </div>
@@ -589,10 +579,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                           : () => habilitarSubMenu(false)
                       }
                     >
-                      <img
-                        src={user?.Avatar ?? "/images/pixel.png"}
-                        alt=""
-                      />
+                      <img src={user?.Avatar ?? "/images/pixel.png"} alt="" />
                     </div>
                   </div>
                 </Grid>
@@ -842,8 +829,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
             {/* Parte 2 */}
             <div className="part-two">
               <div className="column">
-
-
                 <div
                   style={{
                     display: showComandosList && "none",
@@ -854,7 +839,9 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                     title="Información de sesión"
                     className="vista-previa-stream-p1"
                   >
-                    <MdOutlineOndemandVideo style={{ color: 'white', fontSize: '30px' }} />
+                    <MdOutlineOndemandVideo
+                      style={{ color: "white", fontSize: "30px" }}
+                    />
 
                     <span
                       style={{
@@ -881,17 +868,15 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                       height={"100%"}
                     />
                   ) : (
-
                     <div
                       style={{
                         width: "100%",
                         height: "100%",
                         display: "flex",
-                        flexDirection: 'column',
-                        padding: "5px"
+                        flexDirection: "column",
+                        padding: "5px",
                       }}
                     >
-
                       <img
                         style={{
                           width: "90%",
@@ -904,31 +889,52 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                         style={{
                           position: "relative",
                           display: streamerData?.online ? "none" : "",
-                          top: '-75%',
-                          zIndex: 99999
+                          top: "-75%",
+                          zIndex: 99999,
                         }}
                         className="sin-conexion-s3"
                       >
                         SIN CONEXIÓN
                       </span>
 
-                      <Grid style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                        <Grid style={{ width: '10%' }}>
-                          <img src={'/images/pixel.png'} style={{ width: '100%' }} />
+                      <Grid
+                        style={{
+                          display: "flex",
+                          gap: "10px",
+                          marginTop: "10px",
+                        }}
+                      >
+                        <Grid style={{ width: "10%" }}>
+                          <img
+                            src={"/images/pixel.png"}
+                            style={{ width: "100%" }}
+                          />
                         </Grid>
-                        <Grid style={{ display: 'flex', justifyContent: 'space-between', width: '79%' }}>
-                          <Typography style={{ fontWeight: 'bold', color: 'white' }}>{streamerData?.stream_title}</Typography>
-                          <TbEdit style={{ color: 'white', fontSize: '25px', cursor: 'pointer' }} onClick={toggleEditInfoStream} />
+                        <Grid
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            width: "79%",
+                          }}
+                        >
+                          <Typography
+                            style={{ fontWeight: "bold", color: "white" }}
+                          >
+                            {streamerData?.stream_title}
+                          </Typography>
+                          <TbEdit
+                            style={{
+                              color: "white",
+                              fontSize: "25px",
+                              cursor: "pointer",
+                            }}
+                            onClick={toggleEditInfoStream}
+                          />
                         </Grid>
                       </Grid>
-
-
                     </div>
                   )}
-
                 </div>
-
-
 
                 <div
                   className="Información-sesión"
@@ -942,7 +948,9 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                         title="Información de sesión"
                         className="flex flex-row items-center gap-1"
                       >
-                        <CiStreamOn style={{ color: 'white', fontSize: '30px' }} />
+                        <CiStreamOn
+                          style={{ color: "white", fontSize: "30px" }}
+                        />
 
                         <span
                           style={{
@@ -954,7 +962,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                         </span>
                       </div>
                       <Grid>
-
                         <input
                           value={process.env.REACT_APP_RTMPSTARTSTREAM}
                           className="settingstream-input"
@@ -994,14 +1001,10 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                             <button className="button-copy">Restablecer</button>
                           </div>
                         </div>
-
                       </Grid>
                     </div>
-
                   </section>
                 </div>
-
-
 
                 {/* <div
                 style={{
@@ -1017,18 +1020,20 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
               </div>
             </div>
 
-
-
-            <Grid style={{ width: '35%', display: 'flex', flexDirection: 'column', gap:'10%' }}>
-
-
+            <Grid
+              style={{
+                width: "35%",
+                display: "flex",
+                flexDirection: "column",
+                gap: "10%",
+              }}
+            >
               <div className="base-card-act">
                 <div className="Feeddeactividades_container">
                   <div
                     title="Feed de actividades"
                     className="Feeddeactividades"
                   >
-
                     <span className="max-w-full shrink truncate text-base font-bold text-white">
                       Notificaciones en vivo
                     </span>
@@ -1043,7 +1048,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                             className="base-icon icon"
                             style={{ width: "20px", height: "20px" }}
                           >
-                            <GoHeartFill style={{ color: '#ff69c4' }} />
+                            <GoHeartFill style={{ color: "#ff69c4" }} />
                           </div>
                           {/* )} */}
                           <div className="activity-feed-item__info">
@@ -1076,37 +1081,94 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                     </div>
                   </div>
                 </div>
-
-
-
               </div>
 
-
-
-
-
-
-
               <div>
-
-
                 <div className="right-panel flex flex-col bg-[#171C1E] grow">
-                  <div className="right-panel__header flex flex-row items-center justify-between gap-2 px-6" style={{ display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'flex-start' }}>
+                  <div
+                    className="right-panel__header flex flex-row items-center justify-between gap-2 px-6"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "5px",
+                      alignItems: "flex-start",
+                    }}
+                  >
                     <div className="flex flex-row items-center">
-                      <span className="text-base font-bold">Acciones rápidas</span>
+                      <span className="text-base font-bold">
+                        Acciones rápidas
+                      </span>
                     </div>
-                    <Grid style={{ display: 'flex', justifyContent: 'center', width: '100%', gap: '15px' }}>
-                      <SlUserFollow style={{ color: 'white', fontSize: '35px', borderRadius: '5px', backgroundColor: ChatOnliFollowers ? '#fe68c3' : '#171C1E', width: '30%', padding: '10px', cursor: 'pointer' }} onClick={() => toggleChatOnliFollowers()} />
-                      <FaGratipay style={{ color: 'white', fontSize: '35px', borderRadius: '5px', backgroundColor: ChatOnliSubs ? '#fe68c3' : '#171C1E', width: '30%', padding: '10px', cursor: 'pointer' }} onClick={() => toggleChatOnliSubs()} />
-                      <MdSlowMotionVideo style={{ color: 'white', fontSize: '35px', borderRadius: '5px', backgroundColor: '#171C1E', width: '30%', padding: '10px', cursor: 'pointer' }} onClick={() => { togglemenuModChatSlowMode(); }} />
-                      <Typography style={{ color: 'white', fontSize: '25px', borderRadius: '5px', backgroundColor: '#171C1E', width: '30%', padding: '10px', cursor: 'pointer', textAlign:'center', fontWeight:600 }} onClick={() => {CommercialInStreamFunc();}} >ADS</Typography>
-                      
+                    <Grid
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        width: "100%",
+                        gap: "15px",
+                      }}
+                    >
+                      <SlUserFollow
+                        style={{
+                          color: "white",
+                          fontSize: "35px",
+                          borderRadius: "5px",
+                          backgroundColor: ChatOnliFollowers
+                            ? "#fe68c3"
+                            : "#171C1E",
+                          width: "30%",
+                          padding: "10px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => toggleChatOnliFollowers()}
+                      />
+                      <FaGratipay
+                        style={{
+                          color: "white",
+                          fontSize: "35px",
+                          borderRadius: "5px",
+                          backgroundColor: ChatOnliSubs ? "#fe68c3" : "#171C1E",
+                          width: "30%",
+                          padding: "10px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => toggleChatOnliSubs()}
+                      />
+                      <MdSlowMotionVideo
+                        style={{
+                          color: "white",
+                          fontSize: "35px",
+                          borderRadius: "5px",
+                          backgroundColor: "#171C1E",
+                          width: "30%",
+                          padding: "10px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          togglemenuModChatSlowMode();
+                        }}
+                      />
+                      <Typography
+                        style={{
+                          color: "white",
+                          fontSize: "25px",
+                          borderRadius: "5px",
+                          backgroundColor: "#171C1E",
+                          width: "30%",
+                          padding: "10px",
+                          cursor: "pointer",
+                          textAlign: "center",
+                          fontWeight: 600,
+                        }}
+                        onClick={() => {
+                          CommercialInStreamFunc();
+                        }}
+                      >
+                        ADS
+                      </Typography>
                     </Grid>
                   </div>
                   <div className="right-panel__content">
-
                     <div className="flex shrinkS2 grow flex-col gap-2 overflow-y-hidden p-2.5">
-
                       <div
                         style={{
                           animation: "200ms all",
@@ -1135,14 +1197,17 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                                   </div>
                                   <div
                                     className="toggle-size-sm"
-                                    onClick={() => updateModChatSlowMode(seconds)}
+                                    onClick={() =>
+                                      updateModChatSlowMode(seconds)
+                                    }
                                   ></div>
                                   <div className="base-toggle">
                                     <div
                                       className="base-toggle-indicator"
                                       style={{
                                         left:
-                                          SecondModChatSlowMode === seconds && "16.4px",
+                                          SecondModChatSlowMode === seconds &&
+                                          "16.4px",
                                         background:
                                           SecondModChatSlowMode === seconds &&
                                           "#53fc18",
@@ -1191,13 +1256,10 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 DashboardStream={true}
               />
             )}
-
           </div>
-        </div >
+        </div>
         {/* Segunda sección */}
-
-      </Grid >
-    </Grid >
-
+      </Grid>
+    </Grid>
   );
 }
