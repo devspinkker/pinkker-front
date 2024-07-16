@@ -356,7 +356,7 @@ function SliderLayout(props) {
                   duration={Vods.StartOfStream}
                   image={Vods.StreamThumbnail}
                   title={Vods.Title}
-                  categorie={Vods.StreamCategory}
+                  categorie={Vods.stream_category}
                   User={Vods.UserInfo}
                   id={Vods.id}
                 />

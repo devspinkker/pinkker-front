@@ -57,7 +57,6 @@ export default function Vods(props) {
   useEffect(() => {
     const fetchData = async () => {
       const response = await GetTopVodsLast48Hours();
-      console.log(response);
       if (response != null && response.data) {
         setVods(response.data);
       }
