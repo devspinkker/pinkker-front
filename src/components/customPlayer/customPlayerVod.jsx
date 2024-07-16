@@ -214,8 +214,8 @@ export default function CustomPlayerVod({
         streamerData.keyTransmission.length
       );
 
-      // const rtmp = process.env.REACT_APP_BACKRTMP;
-      const rtmp = "http://localhost:8002";
+      const rtmp = process.env.REACT_APP_BACKRTMP;
+      // const rtmp = "http://localhost:8002";
       var url = `${rtmp}/stream/vod/${Vod.id}/index.m3u8`;
       return url;
     }
