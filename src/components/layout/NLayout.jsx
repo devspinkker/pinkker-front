@@ -25,7 +25,10 @@ import DropdownPurchase from "../navbar/purchase/DropdownPurchase";
 import CanalesRecomendados from "./CanalesRecomendados";
 import Auth from "../auth/Auth";
 import { Link, useLocation } from "react-router-dom";
-import { GetAllsStreamsOnline } from "../../services/backGo/streams";
+import {
+  GetAllsStreamsOnline,
+  getStreamSummariesByTitle,
+} from "../../services/backGo/streams";
 import { GrHomeRounded } from "react-icons/gr";
 import { FiSearch } from "react-icons/fi";
 import { AiOutlineMenu, AiOutlinePlayCircle } from "react-icons/ai";
@@ -57,8 +60,11 @@ import {
   PostGets,
   GetTweetsRecommended,
 } from "../../services/backGo/tweet";
-import { IoArrowBackCircleOutline, IoCloseCircleOutline } from "react-icons/io5";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import {
+  IoArrowBackCircleOutline,
+  IoCloseCircleOutline,
+} from "react-icons/io5";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import zIndex from "@mui/material/styles/zIndex";
 import Notificaciones from "../Notificaciones/Notificaciones";
 import Loading from "./Loading";
@@ -344,17 +350,17 @@ function NLayout(props) {
   const [text, setText] = useState(null);
   const [tabIndex, setTabIndex] = useState(0);
   const [openVideo, setOpenVideo] = useState(false);
-  const [videoUrl, setVideoUrl] = useState('');
+  const [videoUrl, setVideoUrl] = useState("");
 
   const handleItemClick = (url) => {
-    setHabilitar(false)
+    setHabilitar(false);
     setVideoUrl(url);
     setOpenVideo(true);
   };
 
   const handleCloseVideo = () => {
     setOpenVideo(false);
-    setVideoUrl('');
+    setVideoUrl("");
   };
   const handleTabChange = (event, newIndex) => {
     setTabIndex(newIndex);
@@ -362,46 +368,60 @@ function NLayout(props) {
 
   const handleChange = (e) => {
     const value = e.target.value;
-  
+
     if (value.length <= 0) {
       setSearch([]);
       setText(null);
     } else {
       setText(value);
-  
+
       const getUser = () => {
         return fetchSearch(value).then((res) => {
           console.log("fetchSearch result:", res.data.data);
           return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
         });
       };
-  
+
       const getClip = () => {
         return GetClipsByTitle(value).then((res) => {
-          
           return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
         });
       };
-  
-      if (tabIndex === 2) {
+      const getVods = () => {
+        return getStreamSummariesByTitle(value).then((res) => {
+          return Array.isArray(res.data) ? res.data : []; // Asegurarse de que es un array
+        });
+      };
+
+      if (tabIndex === 3) {
         getClip()
           .then((data) => {
-            
+            setSearch(data);
+          })
+          .catch((error) => {
+            console.error("Error getting clips:", error);
+          });
+      } else if (tabIndex === 2) {
+        getClip()
+          .then((data) => {
             setSearch(data);
           })
           .catch((error) => {
             console.error("Error getting clips:", error);
           });
       } else if (tabIndex === 0) {
-        Promise.all([getUser(), getClip()])
+        Promise.all([getUser(), getClip(), getVods()])
           .then((results) => {
-            
-  
             const userResults = Array.isArray(results[0]) ? results[0] : [];
             const clipResults = Array.isArray(results[1]) ? results[1] : [];
-  
-            const combinedResults = [...userResults, ...clipResults];
-            
+            const VodsResults = Array.isArray(results[2]) ? results[2] : [];
+
+            const combinedResults = [
+              ...userResults,
+              ...clipResults,
+              ...VodsResults,
+            ];
+
             setSearch(combinedResults);
           })
           .catch((error) => {
@@ -410,7 +430,6 @@ function NLayout(props) {
       } else {
         getUser()
           .then((data) => {
-            
             setSearch(data);
           })
           .catch((error) => {
@@ -424,8 +443,8 @@ function NLayout(props) {
       handleChange({ target: { value: text } });
     }
   }, [tabIndex]);
-  
-  console.log('search', search);
+
+  console.log("search", search);
   const [loading, setLoading] = useState(true);
   // sacar
   useEffect(() => {
@@ -465,7 +484,6 @@ function NLayout(props) {
           const res = await PostCreate(formData);
           if (res?.message === "StatusCreated") {
             setTweets([res.post, ...tweets]);
-
           }
         }
         setOpenTweet(false);
@@ -474,14 +492,16 @@ function NLayout(props) {
         console.error(error);
       }
     }
-  };
+  }
   const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
     setOpenTweet(open);
   };
-
 
   const getNavDesktop = () => {
     return loading ? (
@@ -1045,10 +1065,10 @@ function NLayout(props) {
               props.tyExpanded && props.txExpandedLeft
                 ? "72%"
                 : props.tyExpanded && !props.txExpandedLeft
-                  ? "85%"
-                  : !props.tyExpanded && props.txExpandedLeft
-                    ? "85%"
-                    : "95%",
+                ? "85%"
+                : !props.tyExpanded && props.txExpandedLeft
+                ? "85%"
+                : "95%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1454,7 +1474,6 @@ function NLayout(props) {
                 <div className={"auth-body"}>
                   <div
                     style={{
-
                       height: "95% ",
                       textAlign: "center",
                       backgroundColor: "#121418",
@@ -1473,9 +1492,16 @@ function NLayout(props) {
                         color: "white",
                       }}
                     >
-
-                      <Grid style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#080808', padding: '15px' }}>
-
+                      <Grid
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          backgroundColor: "#080808",
+                          padding: "15px",
+                        }}
+                      >
                         <TextField
                           autoFocus
                           margin="dense"
@@ -1485,18 +1511,18 @@ function NLayout(props) {
                           variant="outlined"
                           value={text}
                           onChange={handleChange}
-                          style={{ width: '97%' }}
+                          style={{ width: "97%" }}
                           InputProps={{
                             style: {
                               color: "white",
                               borderColor: "white",
-                              borderRadius: '1000px',
-                              backgroundColor: "#212129"
+                              borderRadius: "1000px",
+                              backgroundColor: "#212129",
                             },
                             classes: {
                               notchedOutline: {
                                 borderColor: "white",
-                                borderRadius: '1000px'
+                                borderRadius: "1000px",
                               },
                             },
                           }}
@@ -1507,23 +1533,26 @@ function NLayout(props) {
                             style: {
                               color: "white",
                               borderColor: "white",
-                              borderRadius: '1000px'
+                              borderRadius: "1000px",
                             },
                             placeholder: "Buscar...",
                           }}
                           sx={{
-                            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "white",
-                            },
-                            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "white",
-                            },
-                            "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "white",
-                            },
+                            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                              {
+                                borderColor: "white",
+                              },
+                            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                              {
+                                borderColor: "white",
+                              },
+                            "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                              {
+                                borderColor: "white",
+                              },
                             "& .MuiInputBase-input": {
                               color: "white",
-                              backgroundColor: "#212129"
+                              backgroundColor: "#212129",
                             },
                             "& .MuiInputLabel-outlined": {
                               color: "white",
@@ -1535,128 +1564,201 @@ function NLayout(props) {
                           }}
                         />
 
-
                         <i
                           onClick={() => setHabilitar(false)}
-                          style={{ fontSize: props.isMobile ? "20px" : '24px', cursor: "pointer" }}
+                          style={{
+                            fontSize: props.isMobile ? "20px" : "24px",
+                            cursor: "pointer",
+                          }}
                           class="fas fa-times"
                         />
-
-
                       </Grid>
 
                       <Grid
                         position="static"
                         style={{
-
-                          borderTop: '2px solid #2a2e37',
-                          padding: '24px'
+                          borderTop: "2px solid #2a2e37",
+                          padding: "24px",
                         }}
                       >
                         <Tabs
                           value={tabIndex}
                           onChange={handleTabChange}
                           variant="fullWidth"
-                          TabIndicatorProps={{ style: { display: 'none' } }}
+                          TabIndicatorProps={{ style: { display: "none" } }}
                           sx={{
-                            '& .MuiTab-root': {
-                              minWidth: 'auto', // para que el ancho mínimo no sea forzado por Material-UI
-                              width: 'auto', // ancho automático basado en el contenido
-                              padding: '0 10px', // ajusta el padding según sea necesario
-                            }
+                            "& .MuiTab-root": {
+                              minWidth: "auto", // para que el ancho mínimo no sea forzado por Material-UI
+                              width: "auto", // ancho automático basado en el contenido
+                              padding: "0 10px", // ajusta el padding según sea necesario
+                            },
                           }}
                         >
                           <Tab
                             label={
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <MdManageSearch style={{ fontSize: '32px' }} />
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "5px",
+                                }}
+                              >
+                                <MdManageSearch style={{ fontSize: "32px" }} />
                                 Todos
                               </div>
                             }
                             style={{
                               color: tabIndex === 0 ? "#f16397" : "#fff",
                               backgroundColor: "#202329",
-                              border: tabIndex === 0 ? "1px solid #f16397" : 'inherit',
+                              border:
+                                tabIndex === 0
+                                  ? "1px solid #f16397"
+                                  : "inherit",
 
-                              borderRadius: '10px',
-                              margin: '0 5px',
-                              textTransform: 'none',
-                              fontWeight: 'bold'
+                              borderRadius: "10px",
+                              margin: "0 5px",
+                              textTransform: "none",
+                              fontWeight: "bold",
                             }}
                           />
                           <Tab
                             label={
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <RiUserSearchLine style={{ fontSize: '32px' }} />
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "5px",
+                                }}
+                              >
+                                <RiUserSearchLine
+                                  style={{ fontSize: "32px" }}
+                                />
                                 Usuarios
                               </div>
                             }
-
                             style={{
                               color: tabIndex === 1 ? "#f16397" : "#fff",
                               backgroundColor: "#202329",
-                              border: tabIndex === 1 ? "1px solid #f16397" : 'inherit',
-                              borderRadius: '10px',
-                              margin: '0 5px',
-                              textTransform: 'none',
-                              fontWeight: 'bold'
+                              border:
+                                tabIndex === 1
+                                  ? "1px solid #f16397"
+                                  : "inherit",
+                              borderRadius: "10px",
+                              margin: "0 5px",
+                              textTransform: "none",
+                              fontWeight: "bold",
                             }}
                           />
                           <Tab
                             label={
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <MdOndemandVideo style={{ fontSize: '32px' }} />
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "5px",
+                                }}
+                              >
+                                <MdOndemandVideo style={{ fontSize: "32px" }} />
                                 Clips
                               </div>
                             }
                             style={{
                               color: tabIndex === 2 ? "#f16397" : "#fff",
                               backgroundColor: "#202329",
-                              border: tabIndex === 2 ? "1px solid #f16397" : 'inherit',
-                              borderRadius: '10px',
-                              margin: '0 5px',
-                              textTransform: 'none',
-                              fontWeight: 'bold'
+                              border:
+                                tabIndex === 2
+                                  ? "1px solid #f16397"
+                                  : "inherit",
+                              borderRadius: "10px",
+                              margin: "0 5px",
+                              textTransform: "none",
+                              fontWeight: "bold",
                             }}
                           />
                           <Tab
                             label={
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <MdOndemandVideo style={{ fontSize: '32px' }} />
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "5px",
+                                }}
+                              >
+                                <MdOndemandVideo style={{ fontSize: "32px" }} />
                                 Vods
                               </div>
                             }
                             style={{
                               color: tabIndex === 3 ? "#f16397" : "#fff",
                               backgroundColor: "#202329",
-                              border: tabIndex === 3 ? "1px solid #f16397" : 'inherit',
-                              borderRadius: '10px',
+                              border:
+                                tabIndex === 3
+                                  ? "1px solid #f16397"
+                                  : "inherit",
+                              borderRadius: "10px",
 
-                              margin: '0 5px',
-                              textTransform: 'none',
-                              fontWeight: 'bold'
+                              margin: "0 5px",
+                              textTransform: "none",
+                              fontWeight: "bold",
                             }}
                           />
                         </Tabs>
                       </Grid>
-                      <Box mt={2} style={{ backgroundColor: '#080808', height: '100%' }}>
-                        <Grid container spacing={2} style={{backgroundColor: '#080808'}}>
-                          { Array.isArray(search) && search.length > 0 && search?.map((game, index) => (
-                            <Grid item xs={12} sm={6} md={3} key={index} style={{backgroundColor: '#080808'}}>
-                              {
-                                !game?.streamThumbnail ?
-
+                      <Box
+                        mt={2}
+                        style={{ backgroundColor: "#080808", height: "100%" }}
+                      >
+                        <Grid
+                          container
+                          spacing={2}
+                          style={{ backgroundColor: "#080808" }}
+                        >
+                          {Array.isArray(search) &&
+                            search.length > 0 &&
+                            search?.map((game, index) => (
+                              <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                md={3}
+                                key={index}
+                                style={{ backgroundColor: "#080808" }}
+                              >
+                                {!game?.streamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
                                     onClick={() => setHabilitar(false)}
-                                    style={{ textDecoration: 'none', width: '33%' }}
+                                    style={{
+                                      textDecoration: "none",
+                                      width: "33%",
+                                    }}
                                   >
-                                    <Card style={{ backgroundColor: "transparent", color: "white", borderRadius: "50%", textAlign: "center", padding: "20px", boxShadow: "none" }}>
-                                      <div style={{ position: "relative", width: "150px", height: "150px", margin: "0 auto" }}>
+                                    <Card
+                                      style={{
+                                        backgroundColor: "transparent",
+                                        color: "white",
+                                        borderRadius: "50%",
+                                        textAlign: "center",
+                                        padding: "20px",
+                                        boxShadow: "none",
+                                      }}
+                                    >
+                                      <div
+                                        style={{
+                                          position: "relative",
+                                          width: "150px",
+                                          height: "150px",
+                                          margin: "0 auto",
+                                        }}
+                                      >
                                         <CardMedia
                                           component="img"
-                                          style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+                                          style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            borderRadius: "50%",
+                                          }}
                                           image={game?.Avatar}
                                           alt={game?.NameUser}
                                         />
@@ -1664,7 +1766,11 @@ function NLayout(props) {
                                       <CardContent>
                                         <Typography
                                           variant="body1"
-                                          style={{ color: "white", fontWeight: "bold", marginTop: "10px" }}
+                                          style={{
+                                            color: "white",
+                                            fontWeight: "bold",
+                                            marginTop: "10px",
+                                          }}
                                         >
                                           {game?.NameUser}
                                         </Typography>
@@ -1677,51 +1783,80 @@ function NLayout(props) {
                                       </CardContent>
                                     </Card>
                                   </Link>
-
-                                  :
-
-                                  <Box style={{backgroundColor: '#080808'}} sx={{ maxWidth: 400, margin: '0 auto', backgroundColor: '#1c1c1c', color: 'white', borderRadius: 2, overflow: 'hidden' }} onClick={() => handleItemClick(game?.url)}>
+                                ) : (
+                                  <Box
+                                    style={{ backgroundColor: "#080808" }}
+                                    sx={{
+                                      maxWidth: 400,
+                                      margin: "0 auto",
+                                      backgroundColor: "#1c1c1c",
+                                      color: "white",
+                                      borderRadius: 2,
+                                      overflow: "hidden",
+                                    }}
+                                    onClick={() => handleItemClick(game?.url)}
+                                  >
                                     <Box
                                       component="img"
                                       src={game?.streamThumbnail}
                                       alt="Workout"
-                                      sx={{ width: '100%', height: 'auto' }}
+                                      sx={{ width: "100%", height: "auto" }}
                                     />
                                     <Box sx={{ p: 2 }}>
-                                      <Typography variant="body" fontWeight="bold">
+                                      <Typography
+                                        variant="body"
+                                        fontWeight="bold"
+                                      >
                                         {game?.clipTitle}
                                       </Typography>
-                                      <Grid container alignItems="center" sx={{ mt: 2 }} style={{ gap: '5px' }}>
-                                        <Avatar src={game?.Avatar} alt={`Clipeado por ${game?.nameUserCreator}`} sx={{ width: 40, height: 40 }} /> {/* Add avatar image path */}
-                                        <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }} >
-                                          <Typography variant="body" style={{ fontSize: '14px' }}>
+                                      <Grid
+                                        container
+                                        alignItems="center"
+                                        sx={{ mt: 2 }}
+                                        style={{ gap: "5px" }}
+                                      >
+                                        <Avatar
+                                          src={game?.Avatar}
+                                          alt={`Clipeado por ${game?.nameUserCreator}`}
+                                          sx={{ width: 40, height: 40 }}
+                                        />{" "}
+                                        {/* Add avatar image path */}
+                                        <Box
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "flex-start",
+                                          }}
+                                        >
+                                          <Typography
+                                            variant="body"
+                                            style={{ fontSize: "14px" }}
+                                          >
                                             clipeado por {game?.nameUserCreator}
                                           </Typography>
-                                          <Typography variant="body2" color="gray">
-                                            {game?.views} Visitas • {game?.category}
+                                          <Typography
+                                            variant="body2"
+                                            color="gray"
+                                          >
+                                            {game?.views} Visitas •{" "}
+                                            {game?.category}
                                           </Typography>
                                         </Box>
                                       </Grid>
                                     </Box>
                                   </Box>
-
-
-
-                              }
-                            </Grid>
-                          ))}
+                                )}
+                              </Grid>
+                            ))}
                         </Grid>
                       </Box>
                     </DialogContent>
-
-
                   </div>
                 </div>
               </div>
             )}
 
-            {
-              openVideo &&
+            {openVideo && (
               <div className="auth-body-container">
                 <div className={"auth-body"}>
                   <div
@@ -1737,28 +1872,35 @@ function NLayout(props) {
                       width: "70%",
                     }}
                   >
-                    <DialogContent onClose={handleCloseVideo} maxWidth="md" fullWidth>
-                      <Box sx={{ position: 'relative', padding: 2 }}>
+                    <DialogContent
+                      onClose={handleCloseVideo}
+                      maxWidth="md"
+                      fullWidth
+                    >
+                      <Box sx={{ position: "relative", padding: 2 }}>
                         <IconButton
                           onClick={handleCloseVideo}
-                          sx={{ position: 'absolute', top: 10, right: 10, color: 'white' }}
+                          sx={{
+                            position: "absolute",
+                            top: 10,
+                            right: 10,
+                            color: "white",
+                          }}
                         >
                           <IoCloseCircleOutline />
                         </IconButton>
-                        <video src={videoUrl} autoPlay controls sx={{ width: '85% !important', height: 'auto' }} />
+                        <video
+                          src={videoUrl}
+                          autoPlay
+                          controls
+                          sx={{ width: "85% !important", height: "auto" }}
+                        />
                       </Box>
                     </DialogContent>
-
-
                   </div>
                 </div>
               </div>
-
-            }
-
-
-
-
+            )}
 
             {showPopupAuth === true && (
               <Auth
@@ -2189,8 +2331,12 @@ function NLayout(props) {
               </div>
             </Grid>
 
-            <Grid style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <Grid style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <Grid
+              style={{ display: "flex", alignItems: "center", gap: "10px" }}
+            >
+              <Grid
+                style={{ display: "flex", alignItems: "center", gap: "5px" }}
+              >
                 <div
                   onClick={() => habilitarNotificaciones()}
                   className="navbar-image-avatar-container"
@@ -2237,12 +2383,9 @@ function NLayout(props) {
                     {notificacion && (
                       <span className="messagechat-InfoUserTo-notiNav"></span>
                     )}
-                    <BsChatDots
-                      style={{ fontSize: "24px", color: "white" }}
-                    />
+                    <BsChatDots style={{ fontSize: "24px", color: "white" }} />
                   </div>
                 </div>
-
               </Grid>
               <Grid
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
@@ -2448,26 +2591,52 @@ function NLayout(props) {
           style={{ width: "100%", height: "100vh" }}
           onClick={() => setEsClick(false)}
         >
-          <IconButton style={{ color: '#fff', position: 'fixed', bottom: '10%', right: '3%', backgroundColor: '#ff69c4', zIndex: 99999999 }} aria-label="fingerprint" color="secondary" onClick={() => setOpenTweet(!openTweet)}>
-            <AddCircleOutlineIcon style={{ fontSize: '4.5rem' }} />
-
+          <IconButton
+            style={{
+              color: "#fff",
+              position: "fixed",
+              bottom: "10%",
+              right: "3%",
+              backgroundColor: "#ff69c4",
+              zIndex: 99999999,
+            }}
+            aria-label="fingerprint"
+            color="secondary"
+            onClick={() => setOpenTweet(!openTweet)}
+          >
+            <AddCircleOutlineIcon style={{ fontSize: "4.5rem" }} />
           </IconButton>
           {
-
             <Drawer
               anchor="bottom"
               open={openTweet}
               onClose={toggleDrawer(false)}
               transitionDuration={{ enter: 500, exit: 500 }}
-              PaperProps={{ style: { height: '93%', backgroundColor: '#080808' } }} // Esto asegura que el Drawer ocupe todo el alto
+              PaperProps={{
+                style: { height: "93%", backgroundColor: "#080808" },
+              }} // Esto asegura que el Drawer ocupe todo el alto
             >
               <Box
-                sx={{ padding: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '2rem' }}
+                sx={{
+                  padding: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  gap: "2rem",
+                }}
                 role="presentation"
-
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-                  <IoArrowBackCircleOutline style={{ color: 'white', fontSize: '2.5rem' }} onClick={() => setOpenTweet(false)} />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: "10px",
+                  }}
+                >
+                  <IoArrowBackCircleOutline
+                    style={{ color: "white", fontSize: "2.5rem" }}
+                    onClick={() => setOpenTweet(false)}
+                  />
                   <button
                     onClick={() => handlePost()}
                     className="muro-send-tweet-button"
@@ -2475,20 +2644,35 @@ function NLayout(props) {
                     Postear
                   </button>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "10px",
+                  }}
+                >
                   <div>
                     <img
                       style={{
                         width: "50px",
-                        height: '50px',
-                        objectFit: 'cover',
+                        height: "50px",
+                        objectFit: "cover",
                         borderRadius: "100%",
                       }}
-                      src={props.user?.Avatar ? props.user?.Avatar : "/images/search.svg"}
+                      src={
+                        props.user?.Avatar
+                          ? props.user?.Avatar
+                          : "/images/search.svg"
+                      }
                     />
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "100%",
+                    }}
+                  >
                     <TextField
                       label="¿Qué está pasando?"
                       variant="outlined"
@@ -2511,20 +2695,19 @@ function NLayout(props) {
                       InputLabelProps={{
                         style: { color: "white" },
                       }}
-
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2536,26 +2719,23 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
                       style={{
-                        marginTop: '10px',
-                        color: message?.length > 100 ? 'red' : 'white',
-                        textAlign: 'right'
+                        marginTop: "10px",
+                        color: message?.length > 100 ? "red" : "white",
+                        textAlign: "right",
                       }}
                     >
                       {message.length}/100
                     </Typography>
                   </div>
-
                 </div>
-
               </Box>
             </Drawer>
           }
-
 
           {props.children}
 
