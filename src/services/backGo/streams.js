@@ -63,6 +63,16 @@ export async function getStreamSummariesByID(id) {
 		return error;
 	}
 }
+export async function GetTopVodsLast48Hours() {
+	try {
+		const response = await axios.get(
+			`${baseURL}/StreamSummary/GetTopVodsLast48Hours`
+		);
+		return response.data;
+	} catch (error) {
+		return error;
+	}
+}
 export async function getStreamSummariesByTitle(title) {
 	try {
 		const response = await axios.get(
