@@ -1,258 +1,328 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 
-import "./Disconnected.css"
-import { useParams } from "react-router-dom"
-import { useSelector } from 'react-redux'
+import "./Disconnected.css";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { follow, unfollow, userFollowUser, getStreamerFollowers, getUser } from "../../services/follow"
+import {
+  follow,
+  unfollow,
+  userFollowUser,
+  getStreamerFollowers,
+  getUser,
+} from "../../services/follow";
 
-import { getStreamerStream } from "../../services/stream"
+import { getStreamerStream } from "../../services/stream";
 
-import Featured from "./featured/Featured"
+import Featured from "./featured/Featured";
 
-import Vod from "./vod/Vod"
+import Vod from "./vod/Vod";
 
-import Clips from "./clips/Clips"
-import Gallery from "./gallery/Gallery"
-import Muro from "./muro/Muro"
-import About from "./about/About"
+import Clips from "./clips/Clips";
+import Gallery from "./gallery/Gallery";
+import Muro from "./muro/Muro";
+import About from "./about/About";
 
-import Tippy from '@tippyjs/react';
+import Tippy from "@tippyjs/react";
 
-import { Link } from "react-router-dom"
-import Community from "./community/Community"
+import { Link } from "react-router-dom";
+import Community from "./community/Community";
 
-import OptionsDropdown from "./disconnected/dropdown/OptionsDropdown"
+import OptionsDropdown from "./disconnected/dropdown/OptionsDropdown";
 
-import { FastAverageColor } from 'fast-average-color';
+import { FastAverageColor } from "fast-average-color";
 
-import Emblem from "../emblem/Emblem"
+import Emblem from "../emblem/Emblem";
 
-import { useNotification } from "../Notifications/NotificationProvider"
+import { useNotification } from "../Notifications/NotificationProvider";
 
-import PopupFollowers from "../popup/PopupFollowers/PopupFollowers"
-import useImageColor from 'use-image-color'
-import { Button } from "@mui/material"
-
+import PopupFollowers from "../popup/PopupFollowers/PopupFollowers";
+import useImageColor from "use-image-color";
+import { Button } from "@mui/material";
 
 export default function Disconnected({ isMobile }) {
+  const auth = useSelector((state) => state.auth);
+  const { user, isLogged } = auth;
+  const token = useSelector((state) => state.token);
 
-    const auth = useSelector(state => state.auth)
-    const { user, isLogged } = auth
-    const token = useSelector(state => state.token)
+  const [type, setType] = useState(0);
+  const { streamer } = useParams();
 
+  const [streamerData, setStreamerData] = useState(null);
+  const [streamerFollowers, setStreamerFollowers] = useState(0);
+  const [followParam, setFollowParam] = useState(false);
 
-    const [type, setType] = useState(0)
-    const { streamer } = useParams();
+  const [stream, setStream] = useState(null);
 
-    const [streamerData, setStreamerData] = useState(null);
-    const [streamerFollowers, setStreamerFollowers] = useState(0);
-    const [followParam, setFollowParam] = useState(false)
+  const [gallerys, setGallerys] = useState(null);
+  const [unlocked, setUnlocked] = useState(false);
 
-    const [stream, setStream] = useState(null);
+  const [dropdownOptions, setDropdownOptions] = useState(false);
+  const [showPopupFollowers, setShowPopupFollowers] = useState(false);
+  const [typeFollowers, setTypeFollowers] = useState(0);
 
-    const [gallerys, setGallerys] = useState(null)
-    const [unlocked, setUnlocked] = useState(false)
+  const fac = new FastAverageColor();
+  const [hoverSubscriber, setHoverSubscriber] = useState(false);
 
-    const [dropdownOptions, setDropdownOptions] = useState(false);
-    const [showPopupFollowers, setShowPopupFollowers] = useState(false);
-    const [typeFollowers, setTypeFollowers] = useState(0);
+  const alert = useNotification();
+  const [nameD, setNameD] = useState("Siguiendo");
 
-    const fac = new FastAverageColor();
-    const [hoverSubscriber, setHoverSubscriber] = useState(false);
+  function togglePopupFollowers(typeDefault) {
+    setTypeFollowers(typeDefault);
+    setShowPopupFollowers(!showPopupFollowers);
+  }
 
-    const alert = useNotification()
-    const [nameD, setNameD] = useState("Siguiendo");
+  const onMouseEnterOptions = () => {
+    if (dropdownOptions === true) {
+      setDropdownOptions(false);
+    } else {
+      setDropdownOptions(true);
+    }
+  };
 
-    function togglePopupFollowers(typeDefault) {
-        setTypeFollowers(typeDefault)
-        setShowPopupFollowers(!showPopupFollowers)
+  useEffect(async () => {
+    window.scrollTo(0, 0);
+
+    const dataStreamer = await getUser(streamer);
+    if (dataStreamer != null && dataStreamer != undefined) {
+      setStreamerData(dataStreamer);
     }
 
+    const dataFollowers = await getStreamerFollowers(streamer);
+    if (dataFollowers != null && dataFollowers != undefined) {
+      setStreamerFollowers(dataFollowers);
+    }
 
-    const onMouseEnterOptions = () => {
-        if (dropdownOptions === true) {
-            setDropdownOptions(false);
-        } else {
-            setDropdownOptions(true);
-        }
-    };
-
-
-    useEffect(async () => {
-
-        window.scrollTo(0, 0);
-
-        const dataStreamer = await getUser(streamer);
-        if (dataStreamer != null && dataStreamer != undefined) {
-            setStreamerData(dataStreamer);
+    if (token != null && token != undefined && token != "") {
+      const fetchData = async () => {
+        const dataFollowParam = await userFollowUser(token, streamer);
+        if (dataFollowParam != null && dataFollowParam != undefined) {
+          setFollowParam(dataFollowParam.data);
         }
 
-        const dataFollowers = await getStreamerFollowers(streamer);
-        if (dataFollowers != null && dataFollowers != undefined) {
-            setStreamerFollowers(dataFollowers);
+        const dataStream = await getStreamerStream(token, streamer);
+        if (dataStream != null && dataStream != undefined) {
+          setStream(dataStream);
         }
+      };
 
-        if (token != null && token != undefined && token != "") {
-            const fetchData = async () => {
-                const dataFollowParam = await userFollowUser(token, streamer);
-                if (dataFollowParam != null && dataFollowParam != undefined) {
-                    setFollowParam(dataFollowParam.data);
-                }
+      fetchData();
+    }
+  }, [token]);
 
-                const dataStream = await getStreamerStream(token, streamer);
-                if (dataStream != null && dataStream != undefined) {
-                    setStream(dataStream);
-                }
+  const container = document.querySelector(".disconnected-top");
 
+  const [colorAverage, setColorAverage] = useState(null);
+  let { colors } = useImageColor(
+    "https://res.cloudinary.com/pinkker/image/upload/v1678831125/banners/Sin-t%C3%ADtulo-1_buahi3.png",
+    { cors: true, colors: 2 }
+  );
 
+  useEffect(async () => {
+    if (
+      streamerData != null &&
+      streamerData != undefined &&
+      streamerData != ""
+    ) {
+      if (container != null && container != undefined) {
+        //const color = await fac.getColorAsync(streamerData.banner);
+        //container.style.backgroundColor = color.rgba;
+
+        if (colors != null && colors != undefined && colors.length > 0) {
+          setColorAverage(colors[0]);
+        }
+      }
+    }
+  }, [streamerData, container]);
+
+  async function followUser() {
+    const data = await follow(token, streamer);
+    if (data != null) {
+      alert({ type: "SUCCESS", message: data.data.msg });
+      setFollowParam(true);
+    } else {
+      alert({ type: "ERROR", message: data });
+    }
+  }
+
+  async function unfollowUser() {
+    const data = await unfollow(token, streamer);
+    if (data != null) {
+      alert({ type: "SUCCESS", message: data.data.msg });
+      setFollowParam(false);
+    } else {
+      alert({ type: "ERROR", message: data });
+    }
+  }
+
+  function getFollowButton() {
+    if (followParam != null && followParam != undefined) {
+      if (followParam) {
+        return (
+          <Tippy
+            theme="pinkker"
+            content={
+              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                Dejar de seguir
+              </h1>
             }
-
-            fetchData();
-        }
-    }, [token])
-
-    const container = document.querySelector('.disconnected-top');
-
-    const [colorAverage, setColorAverage] = useState(null);
-    let { colors } = useImageColor("https://res.cloudinary.com/pinkker/image/upload/v1678831125/banners/Sin-t%C3%ADtulo-1_buahi3.png", { cors: true, colors: 2 })
-
-    useEffect(async () => {
-
-        if (streamerData != null && streamerData != undefined && streamerData != "") {
-            if (container != null && container != undefined) {
-
-                //const color = await fac.getColorAsync(streamerData.banner);
-                //container.style.backgroundColor = color.rgba;
-
-
-                if (colors != null && colors != undefined && colors.length > 0) {
-                    setColorAverage(colors[0]);
-                }
-
+          >
+            <button
+              style={{
+                marginTop: "0px",
+                width: "100px",
+                marginLeft: "5px",
+                marginRight: "5px",
+                backgroundColor: nameD === "Siguiendo" && "#762543",
+              }}
+              onMouseEnter={() => setNameD("Dejar de seguir")}
+              onMouseLeave={() => setNameD("Siguiendo")}
+              onClick={() => unfollowUser()}
+              className="followerscard-button-unfollow"
+            >
+              {nameD}
+            </button>
+          </Tippy>
+        );
+      } else {
+        return (
+          <Tippy
+            theme="pinkker"
+            content={
+              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                Empezar a seguir
+              </h1>
             }
-        }
+          >
+            <button
+              onClick={() => followUser()}
+              style={{ marginLeft: "5px", marginTop: "0px" }}
+              className="channel-bottom-v2-button-follow"
+            >
+              Seguir
+            </button>
+          </Tippy>
+        );
+      }
+    }
+  }
 
-    }, [streamerData, container])
-
-
-    async function followUser() {
-        const data = await follow(token, streamer);
-        if (data != null) {
-            alert({ type: "SUCCESS", message: data.data.msg })
-            setFollowParam(true);
-
-        } else {
-            alert({ type: "ERROR", message: data })
-        }
+  function getLeftForType() {
+    if (type === 0) {
+      return "42px";
     }
 
-    async function unfollowUser() {
-        const data = await unfollow(token, streamer);
-        if (data != null) {
-            alert({ type: "SUCCESS", message: data.data.msg })
-            setFollowParam(false);
-        } else {
-            alert({ type: "ERROR", message: data })
-        }
+    if (type === 1) {
+      return "137px";
     }
 
-    function getFollowButton() {
-        if (followParam != null && followParam != undefined) {
-            if (followParam) {
-                return (
-                    <Tippy theme="pinkker" content={<h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>Dejar de seguir</h1>}>
-                        <button style={{ marginTop: "0px", width: "100px", marginLeft: "5px", marginRight: "5px", backgroundColor: nameD === "Siguiendo" && "#762543" }} onMouseEnter={() => setNameD("Dejar de seguir")} onMouseLeave={() => setNameD("Siguiendo")} onClick={() => unfollowUser()} className="followerscard-button-unfollow">{nameD}</button>
-                    </Tippy>
-                )
-            } else {
-                return (
-                    <Tippy theme="pinkker" content={<h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>Empezar a seguir</h1>}>
-                        <button onClick={() => followUser()} style={{ marginLeft: "5px", marginTop: "0px" }} className="channel-bottom-v2-button-follow">Seguir</button>
-                    </Tippy>
-                )
-            }
-        }
-
+    if (type === 2) {
+      return "229px";
     }
 
+    if (type === 3) {
+      return "322px";
+    }
+  }
 
-    function getLeftForType() {
-
-        if (type === 0) {
-            return "42px"
-        }
-
-        if (type === 1) {
-            return "137px"
-        }
-
-        if (type === 2) {
-            return "229px"
-        }
-
-        if (type === 3) {
-            return "322px"
-        }
+  function getType() {
+    if (type === 0) {
+      return <Muro streamer={streamer} limit={4} sort={1} />;
     }
 
-    function getType() {
-        if (type === 0) {
-            return (
-                <Muro streamer={streamer} limit={4} sort={1} />
-            )
-        }
-
-        if (type === 1) {
-            return (
-                <Gallery unlocked={unlocked} gallerys={gallerys} streamer={streamer} />
-            )
-        }
-
-        if (type === 2) {
-            return (
-                <Clips unlocked={unlocked} gallerys={gallerys} streamer={streamer} />
-            )
-        }
-
-        if (type === 3) {
-            return (
-                <About streamer={streamerData} limit={4} sort={1} />
-            )
-        }
+    if (type === 1) {
+      return (
+        <Gallery unlocked={unlocked} gallerys={gallerys} streamer={streamer} />
+      );
     }
 
-    function getColor() {
-
+    if (type === 2) {
+      return (
+        <Clips unlocked={unlocked} gallerys={gallerys} streamer={streamer} />
+      );
     }
 
-    function getDateFormat(date) {
-        const dateObject = new Date(date);
-        const month = dateObject.toLocaleString('default', { month: 'long' });
-        const day = dateObject.getDate();
-        const year = dateObject.getFullYear();
-
-        return `${day} de ${month} de ${year}`
+    if (type === 3) {
+      return <About streamer={streamerData} limit={4} sort={1} />;
     }
+  }
 
+  function getColor() {}
 
-    function renderProfile() {
-        if (streamerData != null) {
-            return (
-                <div>
-                    <div style={{ display: 'flex', flexDirection: 'column' }} >
-                        {/*BANNER*/}
-                        <div style={{ background: `right cover no-repeat url(../../images/headerarriba.png)`, height: '150px' }}></div>
-                        {/* perfil */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', alignItems:'top' }}>
-                            <div style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}}>
-                                <img className="disconnected-user-avatar" style={{ width: isMobile ? "100px" : "200px", borderRadius: '50%' }} src={streamerData.avatar} />
-                                <h1 style={{ fontFamily: "Poppins", fontSize: isMobile ? "24px" : "30px", lineHeight: "73px", display: "flex", alignItems: "center", color:'white' }}>{streamerData.name} {streamerData && streamerData.verified && <Emblem style={{ marginLeft: "10px", marginTop: "-15px", borderRadius: "2px" }} imageWidth={"25px"} name="Verificado" img="/images/emblem/verificado.jpg" />}</h1>
-                            </div>
-                            <Button>Editar perfil</Button>
-                        </div>
-                    </div>
-                    {/* <div style={{background: `url(../../images/headerarriba.png)`}} className="disconnected-top">
+  function getDateFormat(date) {
+    const dateObject = new Date(date);
+    const month = dateObject.toLocaleString("default", { month: "long" });
+    const day = dateObject.getDate();
+    const year = dateObject.getFullYear();
+
+    return `${day} de ${month} de ${year}`;
+  }
+
+  function renderProfile() {
+    if (streamerData != null) {
+      return (
+        <div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {/*BANNER*/}
+            <div
+              style={{
+                background: `right cover no-repeat url(../../images/headerarriba.png)`,
+                height: "150px",
+              }}
+            ></div>
+            {/* perfil */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "10px",
+                alignItems: "top",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                }}
+              >
+                <img
+                  className="disconnected-user-avatar"
+                  style={{
+                    width: isMobile ? "100px" : "200px",
+                    borderRadius: "50%",
+                  }}
+                  src={streamerData.avatar}
+                />
+                <h1
+                  style={{
+                    fontFamily: "Poppins",
+                    fontSize: isMobile ? "24px" : "30px",
+                    lineHeight: "73px",
+                    display: "flex",
+                    alignItems: "center",
+                    color: "white",
+                  }}
+                >
+                  {streamerData.name}{" "}
+                  {streamerData && streamerData.verified && (
+                    <Emblem
+                      style={{
+                        marginLeft: "10px",
+                        marginTop: "-15px",
+                        borderRadius: "2px",
+                      }}
+                      imageWidth={"25px"}
+                      name="Verificado"
+                      img="/images/emblem/verificado.jpg"
+                    />
+                  )}
+                </h1>
+              </div>
+              <Button>Editar perfil</Button>
+            </div>
+          </div>
+          {/* <div style={{background: `url(../../images/headerarriba.png)`}} className="disconnected-top">
                     <div className="disconnected-top-image">
                         <img className="disconnected-user-avatar" style={{ width: isMobile ? "150px" : "200px"}} src={streamerData.avatar} />
                     </div>
@@ -333,20 +403,22 @@ export default function Disconnected({ isMobile }) {
                     {getType()}
                     
                 </div> */}
-                </div>
-            )
-        }
-    }
-
-
-
-    return (
-        <div className="disconnected-body">
-
-            {renderProfile()}
-
-            {showPopupFollowers === true && <PopupFollowers typeDefault={typeFollowers} closePopup={() => togglePopupFollowers()} streamer={streamer} />}
-
         </div>
-    )
+      );
+    }
+  }
+
+  return (
+    <div className="disconnected-body">
+      {renderProfile()}
+
+      {showPopupFollowers === true && (
+        <PopupFollowers
+          typeDefault={typeFollowers}
+          closePopup={() => togglePopupFollowers()}
+          streamer={streamer}
+        />
+      )}
+    </div>
+  );
 }

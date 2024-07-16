@@ -61,6 +61,7 @@ import HashtagPost from "../components/muro/HashtagPost";
 import NAnalytics from "../components/dashboard/analytics/NAnalytics";
 import Main from "../components/panelAdminPinkker/Main";
 import AuthContext from "../components/AuthContext";
+import ChannelVods from "../components/channel/ChannelVods";
 
 const AppRouter = () => {
   const { user } = useContext(AuthContext);
@@ -412,6 +413,17 @@ const AppRouter = () => {
                 tyExpanded={expanded}
               />
             </Route>
+
+            <Route exact path="/:streamer/:vod">
+              <ChannelVods
+                isMobile={isMobile}
+                socketMain={socketMain}
+                handleMessage={(e) => addOpenMessage(e)}
+                expanded={() => setExpanded(false)}
+                tyExpanded={expanded}
+              />
+            </Route>
+
             <Route exact path="/clips/create">
               <CreateClip />
             </Route>
