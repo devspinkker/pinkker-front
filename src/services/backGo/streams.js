@@ -53,6 +53,37 @@ export async function AdsAddStreamSummary(token, StreamerID, AdvertisementsId) {
 	}
 }
 
+export async function getStreamSummariesByID(id) {
+	try {
+		const response = await axios.get(
+			`${baseURL}/StreamSummary/GeStreamSummaries?id=${id}`
+		);
+		return response.data;
+	} catch (error) {
+		return error;
+	}
+}
+export async function getStreamSummariesByTitle(title) {
+	try {
+		const response = await axios.get(
+			`${baseURL}/StreamSummary/GetStreamSummaryByTitle?title=${title}`
+		);
+		return response.data;
+	} catch (error) {
+		return error;
+	}
+}
+export async function getStreamSummariesByStreamerIDLast30Days(streamerID) {
+	try {
+		const response = await axios.get(
+			`${baseURL}/StreamSummary/GetStreamSummariesByStreamerIDLast30Days?Streamer=${streamerID}`
+		);
+		return response.data;
+	} catch (error) {
+		return error;
+	}
+}
+
 // Función para obtener streams por categoría
 export async function getStreamsByCategory(category, page) {
 	try {

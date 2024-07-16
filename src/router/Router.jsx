@@ -414,7 +414,7 @@ const AppRouter = () => {
               />
             </Route>
 
-            <Route exact path="/:streamer/:vod">
+            <Route exact path="/:streamer/:idVod">
               <ChannelVods
                 isMobile={isMobile}
                 socketMain={socketMain}

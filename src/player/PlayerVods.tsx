@@ -128,32 +128,32 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
 
   useEffect(() => {
     let hls: Hls | null = null;
-  
+
     async function initializePlayer() {
       try {
         if (hlsRef.current) {
           hlsRef.current.destroy();
         }
-  
+
         hls = new Hls();
         hlsRef.current = hls;
-  
+
         if (videoRef.current) {
           hls.loadSource(src);
           hls.attachMedia(videoRef.current);
-  
+
           videoRef.current.addEventListener('click', () => {
             if (!isPlaying) {
               videoRef.current?.play();
               setIsPlaying(true);
             }
           });
-  
+
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             console.log('Manifest parsed');
             videoRef.current?.play(); // Asegúrate de que el video comience después de cargar el manifiesto
           });
-  
+
           hls.on(Hls.Events.ERROR, (event, data) => {
             console.error('HLS Error:', data);
           });
@@ -162,16 +162,15 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
         console.error('Error initializing video player:', error);
       }
     }
-  
+
     initializePlayer();
-  
+
     return () => {
       if (hlsRef.current) {
         hlsRef.current.destroy();
       }
     };
   }, [src]);
-  
 
   function isMobile() {
     var check = false;
@@ -206,6 +205,18 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
 
   const handleRedirectHome = () => {
     history.push("/");
+  };
+
+  const skipForward = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime += 10;
+    }
+  };
+
+  const skipBackward = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime -= 10;
+    }
   };
 
   return (
@@ -276,6 +287,10 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
         playsInline
         ref={videoRef}
       />
+      {/* <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+        <button onClick={skipBackward}>Retroceder 10 segundos</button>
+        <button onClick={skipForward}>Adelantar 10 segundos</button>
+      </div> */}
     </>
   );
 }

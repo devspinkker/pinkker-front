@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 
 import { useParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
+import { getStreamSummariesByID } from "../../services/backGo/streams";
 export default function CustomPlayerVod({
   isMobile,
   expanded,
@@ -31,7 +32,7 @@ export default function CustomPlayerVod({
   streamerData,
   stream,
 }) {
-  const { streamer } = useParams();
+  const { streamer, idVod } = useParams();
 
   const videoRef = useRef();
   const [playing, setPlaying] = useState(true);
@@ -53,7 +54,7 @@ export default function CustomPlayerVod({
 
   const [showScreenMute, setShowScreenMute] = useState(true);
 
-  const [currentTime, setCurrentTime] = useState(null);
+  const [currentTime, setCurrentTime] = useState(0);
 
   const togglePopupClipCreator = (video) => {
     setVideo(video);
@@ -100,19 +101,27 @@ export default function CustomPlayerVod({
       }
     }
   }, []);
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+    }
+  };
 
-  // useEffect(() => {
-  //   if (
-  //     videoRef.current?.currentTime != NaN &&
-  //     videoRef.current?.currentTime != undefined &&
-  //     videoRef.current?.currentTime != null &&
-  //     videoRef.current?.currentTime != 0
-  //   ) {
-  //     if (videoRef.current?.duration - videoRef.current?.currentTime > 60) {
-  //       videoRef.current.currentTime = videoRef.current.duration - 30;
-  //     }
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.addEventListener("timeupdate", handleTimeUpdate);
+      return () => {
+        videoRef.current.removeEventListener("timeupdate", handleTimeUpdate);
+      };
+    }
+  }, []);
+
+  const handleSeek = (event, newValue) => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = newValue;
+      setCurrentTime(newValue);
+    }
+  };
 
   const onMouseEnterSettings = () => {
     if (dropdownSettings === true) {
@@ -182,18 +191,34 @@ export default function CustomPlayerVod({
       }
     }
   };
+  const [Vod, SetVod] = useState(null);
+  useEffect(() => {
+    async function getVodId() {
+      try {
+        const res = await getStreamSummariesByID(idVod);
+        if (res.data?.id) {
+          SetVod(res.data);
+        }
+      } catch (error) {
+        SetVod(null);
+      }
+    }
+    getVodId();
+  }, [idVod]);
 
   function getHlsSrc() {
-    var keyTransmission;
-    keyTransmission = streamerData?.keyTransmission.substring(
-      4,
-      streamerData.keyTransmission.length
-    );
+    if (Vod) {
+      var keyTransmission;
+      keyTransmission = streamerData?.keyTransmission.substring(
+        4,
+        streamerData.keyTransmission.length
+      );
 
-    // const rtmp = process.env.REACT_APP_BACKRTMP;
-    const rtmp = "http://localhost:8002";
-    var url = `${rtmp}/stream/vod/6695cfc44dbe19f69fc8ce44/index.m3u8`;
-    return url;
+      // const rtmp = process.env.REACT_APP_BACKRTMP;
+      const rtmp = "http://localhost:8002";
+      var url = `${rtmp}/stream/vod/${Vod.id}/index.m3u8`;
+      return url;
+    }
   }
 
   function getHlsPlayer() {
@@ -559,7 +584,25 @@ export default function CustomPlayerVod({
                                     <i onClick={() => setMultiverse(true)} style={{cursor: "pointer"}} class="fas fa-hotel button-more-player"/>
                                 </Tippy>
                                 </div>*/}
-
+                <div
+                  className="position-absolute"
+                  style={{
+                    bottom: 10,
+                    width: "90%",
+                    left: "5%",
+                    right: "5%",
+                    zIndex: 999,
+                  }}
+                >
+                  <Slider
+                    value={currentTime}
+                    onChange={handleSeek}
+                    min={0}
+                    max={videoRef.current?.duration || 100}
+                    step={1}
+                    aria-labelledby="continuous-slider"
+                  />
+                </div>
                 <div className="customPlayer-card">
                   <Tippy
                     theme="pinkker"
