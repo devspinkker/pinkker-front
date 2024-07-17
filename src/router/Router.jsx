@@ -414,6 +414,12 @@ const AppRouter = () => {
               />
             </Route>
 
+            <Route exact path="/clips/create">
+              <CreateClip />
+            </Route>
+            <Route exact path="/clips/getId">
+              <GetClip />
+            </Route>
             <Route exact path="/:streamer/:idVod">
               <ChannelVods
                 isMobile={isMobile}
@@ -422,13 +428,6 @@ const AppRouter = () => {
                 expanded={() => setExpanded(false)}
                 tyExpanded={expanded}
               />
-            </Route>
-
-            <Route exact path="/clips/create">
-              <CreateClip />
-            </Route>
-            <Route exact path="/clips/getId">
-              <GetClip />
             </Route>
           </Switch>
         </NLayout>
