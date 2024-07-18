@@ -27,12 +27,14 @@ export function CreateClip() {
   const queryParams = new URLSearchParams(window.location.search);
   const totalKey = queryParams.get("totalKey");
   useEffect(() => {
+    let token = window.localStorage.getItem("token");
     const fetchVideoData = async () => {
       try {
         let accumulatedLoadedKB = 0;
         let previousLoadedBytes = 0;
 
         const response = await GetBuffer(totalKey, {
+          headers: { Authorization: `Bearer ${token}` },
           onDownloadProgress: (progressEvent) => {
             const loadedBytes = progressEvent.loaded;
             const loadedKB = (loadedBytes - previousLoadedBytes) / 1024;
@@ -76,8 +78,9 @@ export function CreateClip() {
         console.error("Error al cargar el video:", error);
       }
     };
-
-    fetchVideoData();
+    if (token) {
+      fetchVideoData();
+    }
   }, []);
   useEffect(() => {
     if (videoRef.current && videoRef.current.currentTime !== undefined) {
