@@ -78,6 +78,45 @@ export async function PanelAdminPinkkerCreateAdmin(Code, IdUser, Level, NewCode,
         return error
     }
 }
+
+export async function PanelAdminPinkkerChangeNameUser(Code, NameUserRemove, NameUserNew, token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/PanelAdminPinkker/ChangeNameUserCodeAdmin`,
+            {
+                Code,
+                NameUserRemove,
+                NameUserNew,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
+export async function ChangeNameUser(token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/ChangeNameUser`,
+            {
+                NameUserNew,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
 export async function PanelAdminPinkkerRemoveBanStreamer(Code, IdUser, token) {
     try {
         const response = await axios.post(

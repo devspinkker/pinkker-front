@@ -5,11 +5,13 @@ import {
   PanelAdminPinkkerRemoveBanStreamer,
   PanelAdminPinkkerPartnerUser,
   PanelAdminPinkkerCreateAdmin,
+  PanelAdminPinkkerChangeNameUser,
 } from "../../services/backGo/user";
 
 export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
   const [showPartnerPanel, setShowPartnerPanel] = useState(false);
   const [newCode, setNewCode] = useState("");
+  const [NameUserNew, setNameUserNew] = useState("");
   const [level, setLevel] = useState(0);
 
   const handleBanStreamerClick = async () => {
@@ -26,7 +28,6 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
       }
     }
   };
-
   const handlePanelAdminPinkkerPartnerUser = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
@@ -41,7 +42,21 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
       }
     }
   };
-
+  const handlePanelAdminPinkkerChangeNameUser = async () => {
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      try {
+        await PanelAdminPinkkerChangeNameUser(
+          Code,
+          userInfo.NameUser,
+          NameUserNew,
+          token
+        );
+      } catch (error) {
+        console.error("Error changing username:", error);
+      }
+    }
+  };
   const handleRemoveBanStreamerClick = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
@@ -111,7 +126,7 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
           </p>
           <p>
             <strong>Followers:</strong>{" "}
-            {Object.keys(userInfo?.Followers).length}
+            {/* {Object.keys(userInfo?.Followers).length} */}
           </p>
           <p>
             <strong>Email:</strong> {userInfo?.Email}
@@ -146,6 +161,21 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
           )}
           <button className="banButton" onClick={handleCreatePartnerClick}>
             Crear Partner
+          </button>
+          <label className="banButton">
+            Nombre de Usuario a Remover:
+            <input
+              type="text"
+              value={NameUserNew}
+              placeholder="Nombre de Usuario a Remover"
+              onChange={(e) => setNameUserNew(e.target.value)}
+            />
+          </label>
+          <button
+            className="banButton"
+            onClick={handlePanelAdminPinkkerChangeNameUser}
+          >
+            Cambiar Nombre de Usuario
           </button>
         </div>
       </section>
