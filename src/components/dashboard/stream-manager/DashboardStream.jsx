@@ -404,8 +404,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                     </div>
                     <div className="stats-container">
                       <span className="data">
-                        {/* - {userData && Object.keys(userData.FollowersCount)}{" "} */}
-                        1
+                        - {userData && userData.FollowersCount}{" "}
                       </span>
                       <span className="label"> seguidores</span>
                     </div>
