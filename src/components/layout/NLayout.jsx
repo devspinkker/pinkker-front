@@ -1177,8 +1177,8 @@ function NLayout(props) {
                         />{" "}
                         <span style={{ fontSize: "14px" }}>
                           {props.user?.Pixeles != 0
-                            ? props.user?.Pixeles
-                            : "0.0000000"}
+                            ? props.user?.Pixeles.toFixed(2)
+                            : "0.00"}
                         </span>
                       </Grid>
 

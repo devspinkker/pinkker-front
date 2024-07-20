@@ -47,12 +47,12 @@ function Navbar({
   const [isLoading, setIsLoading] = useState(true);
   setTimeout(() => {
     setIsLoading(false);
-  }, 1500);
+  }, 300);
 
   const [isLoadingMain, setIsLoadingMain] = useState(true);
   setTimeout(() => {
     setIsLoadingMain(false);
-  }, 400);
+  }, 300);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => {

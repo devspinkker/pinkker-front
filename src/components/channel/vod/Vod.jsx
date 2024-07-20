@@ -12,7 +12,7 @@ export default function Vod(props) {
   const [isLoading, setIsLoading] = useState(true);
   setTimeout(() => {
     setIsLoading(false);
-  }, 1500);
+  }, 300);
 
   const [videos, setVideos] = useState();
 

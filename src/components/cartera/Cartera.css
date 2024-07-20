@@ -48,6 +48,8 @@
     background-color: #151515;
     margin-top: 20px;
     border-radius: 5px;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 .cartera-history-card {

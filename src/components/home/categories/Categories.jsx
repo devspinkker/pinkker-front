@@ -21,7 +21,7 @@ export default function Categories({ isMobile }) {
   const [isLoading, setIsLoading] = useState(true);
   setTimeout(() => {
     setIsLoading(false);
-  }, 1500);
+  }, 200);
 
   const auth = useSelector((state) => state.auth);
   const { user, isLogged } = auth;

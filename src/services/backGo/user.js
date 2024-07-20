@@ -99,7 +99,7 @@ export async function PanelAdminPinkkerChangeNameUser(Code, NameUserRemove, Name
         return error
     }
 }
-export async function ChangeNameUser(token) {
+export async function ChangeNameUser(NameUserNew, token) {
     try {
         const response = await axios.post(
             `${baseURL}/user/ChangeNameUser`,

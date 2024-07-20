@@ -278,7 +278,7 @@ export default function Cartera({ user }) {
             <div>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <h1 style={{ color: "white", marginRight: "10px" }}>
-                  {user.Pixeles}
+                  {user?.Pixeles}
                 </h1>
                 <img style={{ width: "30px" }} src="/images/pixel.png" />
               </div>
