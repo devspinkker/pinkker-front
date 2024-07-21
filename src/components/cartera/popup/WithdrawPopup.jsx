@@ -10,6 +10,8 @@ export default function WithdrawPopup({ closePopup, reloadData, user }) {
   const [methodPay, setMethodPay] = useState(0);
   const [email, setEmail] = useState(null);
   const [amount, setAmount] = useState(null);
+  const [totpCode, settotpCode] = useState(null);
+
   const [cbu, setCbu] = useState(null);
 
   const alert = useNotification();
@@ -83,10 +85,6 @@ export default function WithdrawPopup({ closePopup, reloadData, user }) {
 
     let token = window.localStorage.getItem("token");
 
-    // Solicitar el código TOTP al usuario
-    const totpCode = prompt("Ingrese el código TOTP");
-
-    // Si el código TOTP no es proporcionado, aborta la solicitud
     if (!totpCode) {
       alert({ type: "ERROR", message: "El código TOTP es requerido" });
       return;
@@ -126,6 +124,17 @@ export default function WithdrawPopup({ closePopup, reloadData, user }) {
               className="withdraw-popup-input"
               type="number"
               placeholder="Monto"
+            />
+          </div>
+          <div style={{ marginTop: "25px" }}>
+            <h3 style={{ color: "#ededed", fontSize: "14px" }}>
+              Google Authenticator
+            </h3>
+            <input
+              onChange={(e) => settotpCode(e.target.value)}
+              className="withdraw-popup-input"
+              type="number"
+              placeholder="Code"
             />
           </div>
         </div>

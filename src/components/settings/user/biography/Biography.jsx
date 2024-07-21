@@ -26,6 +26,7 @@ export default function Biography(props) {
   const [totpSecret, setTotpSecret] = useState(null);
   const [showTotpModal, setShowTotpModal] = useState(false);
   let token = window.localStorage.getItem("token");
+  let GoogleAuthenticator = window.localStorage.getItem("GoogleAuthenticator");
 
   async function handleSubmit() {
     const birthDate = `${rYear}-${rMonth}-${String(rDay).padStart(2, "0")}`;
@@ -49,10 +50,17 @@ export default function Biography(props) {
   }
 
   async function handleGenerateTotp() {
+    if (GoogleAuthenticator == "ok") {
+      alert({ type: "SUCCESS", message: "ya existe" });
+
+      return;
+    }
+
     const result = await generateTotpKey(token);
     if (result.message === "StatusOK") {
       setTotpSecret(result.secret);
       setShowTotpModal(true);
+      window.localStorage.setItem("GoogleAuthenticator", "ok");
     } else {
       alert({ type: "ERROR", message: result.message });
     }
@@ -60,8 +68,8 @@ export default function Biography(props) {
 
   async function handleValidateTotp() {
     const result = await validateTotpCode(token, totpCode);
-    if (result.success) {
-      handleSubmit();
+    if (result.message === "StatusOK") {
+      alert({ type: "SUCCESS" });
     } else {
       alert({ type: "ERROR", message: result.message });
     }
