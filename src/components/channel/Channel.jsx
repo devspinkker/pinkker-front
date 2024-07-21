@@ -204,7 +204,6 @@ export default function Channel({
     }
     loadDataOnlyOnce();
   }, [streamer]);
-
   useEffect(() => {
     if (isMobile) {
       document.body.style.overflow = "hidden";

@@ -337,12 +337,7 @@ export default function Channel({
       if (dataStreamer?.message == "ok") {
         setStreamerData(dataStreamer.data);
       }
-      let loggedUser = window.localStorage.getItem("_id");
-      if (dataStreamer.data?.Followers.hasOwnProperty(loggedUser)) {
-        setFollowParam(true);
-      } else {
-        setFollowParam(false);
-      }
+
       const dataStream = await getStreamByUserName(streamer);
 
       if (dataStream != null && dataStream != undefined) {
@@ -386,7 +381,12 @@ export default function Channel({
       //     getUser();
       //   }
       // }, 30000);
-
+      if (user?.Following.hasOwnProperty(dataStreamer?.data?.id)) {
+        setFollowParam(true);
+        console.log("AAAAAAAA");
+      } else {
+        setFollowParam(false);
+      }
       const timer2 = setInterval(async () => {
         if (dataStream != null && dataStream != undefined) {
           var dateNow = new Date().getTime();
@@ -1179,12 +1179,11 @@ export default function Channel({
                 >
                   {" "}
                   <a onClick={() => togglePopupFollowers(0)}>
-                    {streamerData && Object.keys(streamerData.Followers).length}{" "}
-                    seguidores
+                    {streamerData && streamerData.FollowersCount} seguidores
                   </a>{" "}
                   <a style={{ marginLeft: "10px", marginRight: "10px" }}>•</a>{" "}
                   <a onClick={() => togglePopupFollowers(1)}>
-                    {streamerData && Object.keys(streamerData.Followers).length}{" "}
+                    {streamerData && Object.keys(streamerData.Following).length}{" "}
                     seguidos
                   </a>{" "}
                   {/* <a style={{ marginLeft: "10px", marginRight: "10px" }}>•</a>{" "} */}
