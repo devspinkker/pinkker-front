@@ -8,13 +8,14 @@ export const setToken = (newObject) => {
 const baseURL = process.env.REACT_APP_BACKGO
 
 
-export async function withdrawalRequest(token, amount, cbu) {
+export async function withdrawalRequest(token, amount, cbu, totpCode) {
     try {
         const response = await axios.post(
             `${baseURL}/Withdraw/WithdrawalRequest`,
             {
                 amount,
-                cbu
+                cbu,
+                totp_code: totpCode,
             },
             {
                 headers: {
@@ -27,6 +28,7 @@ export async function withdrawalRequest(token, amount, cbu) {
         return error
     }
 }
+
 export async function AcceptWithdrawal(Code, WithdrawalRequestsId, token) {
     try {
         const response = await axios.post(

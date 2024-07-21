@@ -1,44 +1,33 @@
-import React, { useState, useEffect } from "react";
-
-import "./Biography.css";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-
-import { updateBiography } from "../../../../services/user";
-import { editProfile } from "../../../../services/backGo/user";
 import { useNotification } from "../../../Notifications/NotificationProvider";
 import { TbEdit } from "react-icons/tb";
 import { Grid } from "@mui/material";
+import {
+  generateTotpKey,
+  validateTotpCode,
+} from "../../../../services/backGo/totpService";
+import "./Biography.css";
+import { editProfile } from "../../../../services/backGo/user";
+
 export default function Biography(props) {
   const auth = useSelector((state) => state.auth);
-  const { user, isLogged } = auth;
-  const token = useSelector((state) => state.token);
+  const { user } = auth;
   const alert = useNotification();
   const [biography, setBiography] = useState(null);
   const [country, setCountry] = useState(null);
   const [phone, setPhone] = useState(null);
   const [website, setWebsite] = useState(null);
-  const [sex, setSex] = useState(null);
+  const [sentimental, setSentimental] = useState(null);
   const [rDay, setrDay] = useState(20);
   const [rMonth, setrMonth] = useState(12);
   const [rYear, setrYear] = useState(2000);
-  const [sentimental, setSentimental] = useState(null);
-
-  useEffect(() => {
-    // if (user != null && user != undefined && user != []) {
-    //   setBiography(user.biography);
-    //   setCountry(user.countryInfo?.country);
-    //   setPhone(user.phone);
-    //   setWebsite(user.website);
-    //   setSentimental(user.situation);
-    //   let birthDate = new Date(user.birthDate);
-    //   setrDay(birthDate.getDate());
-    //   setrMonth(birthDate.getMonth());
-    //   setrYear(birthDate.getFullYear());
-    // }
-  }, [user]);
+  const [totpCode, setTotpCode] = useState("");
+  const [totpSecret, setTotpSecret] = useState(null);
+  const [showTotpModal, setShowTotpModal] = useState(false);
+  let token = window.localStorage.getItem("token");
 
   async function handleSubmit() {
-    let token = window.localStorage.getItem("token");
     const birthDate = `${rYear}-${rMonth}-${String(rDay).padStart(2, "0")}`;
     const data = await editProfile(token, {
       biography,
@@ -53,9 +42,28 @@ export default function Biography(props) {
       alert({ type: "ERROR", message: "error" });
       return;
     }
-    if (data.data.message == "ok") {
+    if (data.data.message === "ok") {
       window.scrollTo(0, 0);
       alert({ type: "SUCCESS", message: data.data.msg });
+    }
+  }
+
+  async function handleGenerateTotp() {
+    const result = await generateTotpKey(token);
+    if (result.message === "StatusOK") {
+      setTotpSecret(result.secret);
+      setShowTotpModal(true);
+    } else {
+      alert({ type: "ERROR", message: result.message });
+    }
+  }
+
+  async function handleValidateTotp() {
+    const result = await validateTotpCode(token, totpCode);
+    if (result.success) {
+      handleSubmit();
+    } else {
+      alert({ type: "ERROR", message: result.message });
     }
   }
 
@@ -69,25 +77,31 @@ export default function Biography(props) {
             <h4>Nombre de usuario</h4>
           </div>
           <div className="biography-input">
-            <p>{props.user.NameUser}</p>
-            <Grid style={{ fontSize: '24px', cursor: 'pointer' }}>
-
+            <p>{props.user?.NameUser}</p>
+            <Grid style={{ fontSize: "24px", cursor: "pointer" }}>
               <TbEdit />
             </Grid>
-            {/* <input disabled={true} type="text" placeholder={props.user.NameUser} /> */}
-
           </div>
         </div>
 
         <div className="biography-content">
-          <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%'}} >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
             <h4>Biografía y Usuario </h4>
-            <TbEdit style={{ fontSize: '24px', cursor: 'pointer' }} />
-
+            <TbEdit style={{ fontSize: "24px", cursor: "pointer" }} />
           </div>
-          <div className="biography-input" style={{display:'flex', flexDirection:'column', gap:'5px'}}>
+          <div
+            className="biography-input"
+            style={{ display: "flex", flexDirection: "column", gap: "5px" }}
+          >
             <input
-              placeholder={props.user.biography}
+              placeholder={props.user?.biography}
               type="text"
               onChange={(e) => setBiography(e.target.value)}
             />
@@ -98,7 +112,39 @@ export default function Biography(props) {
           </div>
         </div>
 
-        <div style={{ textAlign: "right", padding: '5px 0px' }}>
+        <div style={{ textAlign: "right", padding: "5px 0px" }}>
+          <button
+            style={{ width: "105px" }}
+            onClick={() => handleGenerateTotp()}
+            className="biography-button pink-button"
+          >
+            Generar TOTP
+          </button>
+
+          {showTotpModal && (
+            <div className="totp-modal">
+              <h3>Verificación TOTP</h3>
+              <img
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
+                  `otpauth://totp/YourAppName:YOUR_USER_ID?algorithm=SHA1&digits=6&issuer=YourAppName&period=30&secret=${totpSecret}`
+                )}`}
+                alt="TOTP QR Code"
+              />
+              <input
+                type="text"
+                placeholder="Ingrese el código TOTP"
+                value={totpCode}
+                onChange={(e) => setTotpCode(e.target.value)}
+              />
+              <button
+                onClick={handleValidateTotp}
+                className="biography-button pink-button"
+              >
+                Validar Código
+              </button>
+            </div>
+          )}
+
           <button
             style={{ width: "105px" }}
             onClick={() => handleSubmit()}

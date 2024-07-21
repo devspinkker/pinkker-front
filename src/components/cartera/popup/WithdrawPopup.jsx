@@ -19,6 +19,7 @@ export default function WithdrawPopup({ closePopup, reloadData, user }) {
   }
 
   async function handleSubmit() {
+    // Validaciones previas
     if (methodPay === null || methodPay === undefined || methodPay === "") {
       alert({ type: "ERROR", message: "Debe seleccionar un metodo de pago" });
       return;
@@ -79,8 +80,20 @@ export default function WithdrawPopup({ closePopup, reloadData, user }) {
         return;
       }
     }
+
     let token = window.localStorage.getItem("token");
-    const res = await withdrawalRequest(token, amount, cbu);
+
+    // Solicitar el código TOTP al usuario
+    const totpCode = prompt("Ingrese el código TOTP");
+
+    // Si el código TOTP no es proporcionado, aborta la solicitud
+    if (!totpCode) {
+      alert({ type: "ERROR", message: "El código TOTP es requerido" });
+      return;
+    }
+
+    // Llamar a la función de solicitud de retiro
+    const res = await withdrawalRequest(token, amount, cbu, totpCode);
     if (res != null && res != undefined) {
       alert({ type: "SUCCESS" });
       reloadData();
