@@ -78,7 +78,7 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
 
           <hr style={{ border: "1px solid #4b4b4b8f", margin: "10px auto" }} />
 
-          <li onClick={() => setType(1)}>
+          {/* <li onClick={() => setType(1)}>
             <div className="dropdownsettings-content">
               <div>
                 <h4>Calidad</h4>
@@ -93,7 +93,7 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
                 </h4>
               </div>
             </div>
-          </li>
+          </li> */}
 
           <li>
             <div className="dropdownsettings-content">

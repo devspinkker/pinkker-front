@@ -232,7 +232,7 @@ export function ChatStreaming({
         newSocket.send("closing");
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
       setSocket(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -317,7 +317,7 @@ export function ChatStreaming({
         }
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
       setsocketDeleteMsj(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -638,19 +638,19 @@ export function ChatStreaming({
           {donationsSubscriptions.length >= 1
             ? getDonationSubscriptionCard(donationsSubscriptions)
             : !chatExpandeds && (
-                <h3
-                  style={{
-                    color: "#f36196",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                  }}
-                  // onClick={() => {
-                  //   onMouseEnterPoints();
-                  // }}
-                >
-                  Regalá una suscripción
-                </h3>
-              )}
+              <h3
+                style={{
+                  color: "#f36196",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+              // onClick={() => {
+              //   onMouseEnterPoints();
+              // }}
+              >
+                Regalá una suscripción
+              </h3>
+            )}
         </div>
         <div
           className={
@@ -675,48 +675,48 @@ export function ChatStreaming({
           >
             {displayDonations[0] !== undefined
               ? [...displayDonations].map((donation, index) => (
-                  <Donation
-                    key={index}
-                    donation={donation}
-                    index={index}
-                    callback={() => {
-                      toggleDonationCard(
-                        donation?.Pixeles,
-                        donation?.FromUserInfo.NameUser,
-                        donation?.FromUserInfo.Avatar,
-                        donation?.Text,
-                        donation?.userLook,
-                        donation?.userColor
-                      );
-                      setShowAllDonations(true);
-                      setDonationCardVisible(donationCardVisible);
-                      setSelectedDonation(donation);
+                <Donation
+                  key={index}
+                  donation={donation}
+                  index={index}
+                  callback={() => {
+                    toggleDonationCard(
+                      donation?.Pixeles,
+                      donation?.FromUserInfo.NameUser,
+                      donation?.FromUserInfo.Avatar,
+                      donation?.Text,
+                      donation?.userLook,
+                      donation?.userColor
+                    );
+                    setShowAllDonations(true);
+                    setDonationCardVisible(donationCardVisible);
+                    setSelectedDonation(donation);
 
-                      setClickCount((prevCount) => prevCount + 1);
+                    setClickCount((prevCount) => prevCount + 1);
 
-                      if (clickCount >= 1) {
-                        setFirstClick(true);
-                      }
+                    if (clickCount >= 1) {
+                      setFirstClick(true);
+                    }
 
-                      setAllDonationsExpanded(true);
-                    }}
-                    ShowAllDonations={setShowAllDonations}
-                  />
-                ))
+                    setAllDonationsExpanded(true);
+                  }}
+                  ShowAllDonations={setShowAllDonations}
+                />
+              ))
               : !chatExpandeds && (
-                  <h3
-                    style={{
-                      color: "#f36196",
-                      cursor: "pointer",
-                      fontWeight: "bold",
-                    }}
-                    onClick={() => {
-                      onMouseEnterPoints();
-                    }}
-                  >
-                    Envia pixeles
-                  </h3>
-                )}
+                <h3
+                  style={{
+                    color: "#f36196",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                  }}
+                  onClick={() => {
+                    onMouseEnterPoints();
+                  }}
+                >
+                  Envia pixeles
+                </h3>
+              )}
           </div>
           <button
             style={{
@@ -1168,66 +1168,61 @@ export function ChatStreaming({
         position: DashboardStream && "relative",
       }}
     >
-      {chatExpandeds == true && !isMobile && !DashboardStream && (
-        <img
-          onClick={ToggleChat}
-          style={{
-            width: "12px",
-            cursor: "pointer",
-            textAlign: "center",
-            color: "white",
-            position: "fixed",
-            right: "10px",
-            top: "139px",
-            transform: "rotate(180deg)",
-            zIndex: "99999",
-          }}
-          className="chat-button-more"
-          src="/images/iconos/contraer.png"
-        />
-      )}
-      {chatExpandeds == false && !isMobile && (
-        <img
-          onClick={ToggleChat}
-          style={{
-            width: "12px",
-            cursor: "pointer",
-            textAlign: "center",
-            color: "white",
-            position: "fixed",
-            right: "24%",
-            top: "96px",
-            zIndex: "99999",
-          }}
-          className="chat-button-more"
-          src="/images/iconos/contraer.png"
-        />
-      )}
-      {isMobile && (
-        <img
-          onClick={ToggleChat}
-          style={{
-            width: "12px",
-            cursor: "pointer",
-            textAlign: "center",
-            color: "white",
-            position: "fixed",
-            // right: "24%",
-            top: "80px",
-            right: "20px",
-            zIndex: "99999",
-          }}
-          className="chat-button-more"
-          src="/images/iconos/contraer.png"
-        />
-      )}
+
       <div className="info_chat_extra">
-        <div style={{ height: "50px", display: "flex", alignItems: "center" }}>
+
+        <div style={{ height: "50px", display: "flex", alignItems: "center", justifyContent:'space-between', width:'100%' }}>
+          {chatExpandeds == true && !isMobile && !DashboardStream && (
+            <img
+              onClick={ToggleChat}
+              style={{
+                width: "1%",
+                cursor: "pointer",
+                textAlign: "center",
+                color: "white",
+                position:'fixed',
+                right: '1%',
+                transform: "rotate(180deg)",
+                zIndex: "99999",
+              }}
+              className="chat-button-more"
+              src="/images/iconos/contraer.png"
+            />
+          )}
+          {chatExpandeds == false && !isMobile && (
+            <img
+              onClick={ToggleChat}
+              style={{
+                width: "12px",
+                cursor: "pointer",
+                textAlign: "center",
+                color: "white",
+                
+                zIndex: "99999",
+              }}
+              className="chat-button-more"
+              src="/images/iconos/contraer.png"
+            />
+          )}
+          {isMobile && (
+            <img
+              onClick={ToggleChat}
+              style={{
+                width: "12px",
+                cursor: "pointer",
+                textAlign: "center",
+                color: "white",            
+                zIndex: "99999",
+              }}
+              className="chat-button-more"
+              src="/images/iconos/contraer.png"
+            />
+          )}
           <h4
             style={{
               fontSize: "17px",
               fontWeight: "bolder",
-              width: "290px",
+              
               textAlign: "center",
               letterSpacing: "0.5px",
               color: "#ffff",
@@ -1239,6 +1234,9 @@ export function ChatStreaming({
           >
             Chat
           </h4>
+          <div>
+            <br></br>
+          </div>
         </div>
 
         <div
@@ -1335,7 +1333,7 @@ export function ChatStreaming({
                 {GetInfoUserInRoom &&
                   (GetInfoUserInRoom.Moderator ||
                     streamerChat.streamerId ==
-                      window.localStorage.getItem("_id")) && (
+                    window.localStorage.getItem("_id")) && (
                     <div
                       className="hover-button"
                       onClick={(e) => {
@@ -1467,8 +1465,8 @@ export function ChatStreaming({
               )}
             </div>
             {GetInfoUserInRoom &&
-            GetInfoUserInRoom.Moderator &&
-            streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
+              GetInfoUserInRoom.Moderator &&
+              streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
               <div className="ShowGetUserTheChat-actions-Moderator">
                 <div
                   onClick={() =>
@@ -1651,8 +1649,8 @@ export function ChatStreaming({
                   </div>
                 </div>
                 {GetInfoUserInRoom &&
-                (GetInfoUserInRoom.Moderator ||
-                  streamerChat.streamerId ==
+                  (GetInfoUserInRoom.Moderator ||
+                    streamerChat.streamerId ==
                     window.localStorage.getItem("_id")) ? (
                   <div
                     className="hover-button"
@@ -1803,8 +1801,8 @@ export function ChatStreaming({
                     </div>
                   </div>
                   {GetInfoUserInRoom &&
-                  (GetInfoUserInRoom.Moderator ||
-                    streamerChat.streamerId ==
+                    (GetInfoUserInRoom.Moderator ||
+                      streamerChat.streamerId ==
                       window.localStorage.getItem("_id")) ? (
                     <div
                       className="hover-button"
@@ -2088,7 +2086,7 @@ export function ChatStreaming({
                 type="text"
                 // value={message}
                 placeholder="solo seguidores"
-                // onChange={handleChange}
+              // onChange={handleChange}
               />
               <Tippy
                 theme="pinkker"
@@ -2266,7 +2264,7 @@ export function ChatStreaming({
               type="text"
               // value={message}
               placeholder="solo suscriptores"
-              // onChange={handleChange}
+            // onChange={handleChange}
             />
             <Tippy
               theme="pinkker"

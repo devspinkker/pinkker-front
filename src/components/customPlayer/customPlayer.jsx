@@ -15,6 +15,8 @@ import { Link } from "react-router-dom";
 
 import { useParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
+import { LuClapperboard } from "react-icons/lu";
+import { MdHd } from "react-icons/md";
 export default function CustomPlayer({
   isMobile,
   expanded,
@@ -52,7 +54,7 @@ export default function CustomPlayer({
   const [quality, setQuality] = useState("auto");
 
   const [showScreenMute, setShowScreenMute] = useState(true);
-
+  const [enableQuality, setEnableQuality] = useState(false);
   const [currentTime, setCurrentTime] = useState(null);
 
   const togglePopupClipCreator = (video) => {
@@ -420,13 +422,13 @@ export default function CustomPlayer({
       url,
       title,
       "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=" +
-        w +
-        ", height=" +
-        h +
-        ", top=" +
-        y +
-        ", left=" +
-        x
+      w +
+      ", height=" +
+      h +
+      ", top=" +
+      y +
+      ", left=" +
+      x
     );
   }
 
@@ -598,11 +600,23 @@ export default function CustomPlayer({
                       </h1>
                     }
                   >
-                    <i
-                      onClick={() => handleClip()}
-                      style={{ cursor: "pointer" }}
-                      class="fas fa-cut pinkker-button-more button-more-player"
-                    />
+                    <LuClapperboard class=" pinkker-button-more button-more-player" onClick={() => handleClip()}
+                      style={{ cursor: "pointer", fontSize: '18px !important' }} />
+                  </Tippy>
+                </div>
+                <div className="customPlayer-card">
+                  <Tippy
+                    theme="pinkker"
+                    content={
+                      <h1
+                        style={{ fontSize: "12px", fontFamily: "Montserrat" }}
+                      >
+                        Calidad
+                      </h1>
+                    }
+                  >
+                    <MdHd class=" pinkker-button-more button-more-player" onClick={() => setEnableQuality(!enableQuality)}
+                      style={{ cursor: "pointer", fontSize: '18px !important' }} />
                   </Tippy>
                 </div>
 
@@ -684,6 +698,94 @@ export default function CustomPlayer({
           closePopup={() => togglePopupClipCreator()}
           video={video}
         />
+      )}
+      {enableQuality && (
+        <ul
+
+          className={
+            "dropdownsettings-menu"
+          }
+        >
+          <div className="dropdownsettings-container">
+            <div>
+              <li>
+                <div className="dropdownsettings-content">
+                  <div onClick={() => setEnableQuality(false)}>
+                    <h4>
+                      <i
+                        style={{ marginRight: "5px" }}
+                        class="fas fa-chevron-left"
+                      ></i>{" "}
+                      Calidad de video
+                    </h4>
+                  </div>
+                </div>
+              </li>
+
+              <hr style={{ border: "1px solid #4b4b4b8f", margin: "10px auto" }} />
+
+              {/* <li onClick={() => changeQuality("auto")}>
+                <div className="dropdownsettings-content">
+                  <div
+                    className="dropdownsettings-radio"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <input type="radio" />
+                    <span style={{ marginLeft: "5px" }}>Automática</span>
+                  </div>
+                </div>
+              </li> */}
+              <li onClick={() => setQuality("1080")}>
+                <div className="dropdownsettings-content">
+                  <div
+                    className="dropdownsettings-radio"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <input type="radio" checked={quality === "1080"} />
+                    <span style={{ marginLeft: "5px" }}>1080p</span>
+                  </div>
+                </div>
+              </li>
+              <li onClick={() => setQuality("720")}>
+                <div className="dropdownsettings-content">
+                  <div
+                    className="dropdownsettings-radio"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <input type="radio" checked={quality === "720"} />
+                    <span style={{ marginLeft: "5px" }}>720p</span>
+                  </div>
+                </div>
+              </li>
+
+              <li onClick={() => setQuality("480")}>
+                <div className="dropdownsettings-content">
+                  <div
+                    className="dropdownsettings-radio"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <input type="radio" checked={quality === "480"} />
+                    <span style={{ marginLeft: "5px" }}>480p</span>
+                  </div>
+                </div>
+              </li>
+
+              <li onClick={() => setQuality("360")}>
+                <div className="dropdownsettings-content">
+                  <div
+                    className="dropdownsettings-radio"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <input type="radio" checked={quality === "360"} />
+                    <span style={{ marginLeft: "5px" }}>360p</span>
+                  </div>
+                </div>
+              </li>
+            </div>
+          </div>
+        </ul>
+
+
       )}
     </div>
   );

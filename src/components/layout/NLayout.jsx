@@ -24,7 +24,7 @@ import DropdownBalance from "../navbar/balance/DropdownBalance";
 import DropdownPurchase from "../navbar/purchase/DropdownPurchase";
 import CanalesRecomendados from "./CanalesRecomendados";
 import Auth from "../auth/Auth";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import {
   GetAllsStreamsOnline,
   getStreamSummariesByTitle,
@@ -73,6 +73,7 @@ import { MdManageSearch, MdOndemandVideo } from "react-icons/md";
 import { RiUserSearchLine } from "react-icons/ri";
 
 function NLayout(props) {
+  const { streamer } = useParams();
   const [locationpath, setLocationPath] = useState();
   const [dashboard, setDashboard] = useState(false);
   const [pulse, setPulse] = useState(false);
@@ -232,6 +233,7 @@ function NLayout(props) {
   let expandido = pulse;
   const [streams, setStreams] = useState(null);
   let location = useLocation();
+  const isStreamerPath = /^\/[^\/]+$/.test(location.pathname);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -332,6 +334,7 @@ function NLayout(props) {
     const handleLocationChange = () => {
       setCurrentPath(window.location.pathname);
     };
+    
 
     // Agrega un event listener para detectar cambios en la ubicación
     window.addEventListener("popstate", handleLocationChange);
@@ -2591,7 +2594,9 @@ function NLayout(props) {
           style={{ width: "100%", height: "100vh" }}
           onClick={() => setEsClick(false)}
         >
-          <IconButton
+          {
+            !isStreamerPath &&
+            <IconButton
             style={{
               color: "#fff",
               position: "fixed",
@@ -2606,10 +2611,13 @@ function NLayout(props) {
           >
             <AddCircleOutlineIcon style={{ fontSize: "4.5rem" }} />
           </IconButton>
+          }
+          
+
           {
             <Drawer
               anchor="bottom"
-              open={openTweet}
+              open={openTweet }
               onClose={toggleDrawer(false)}
               transitionDuration={{ enter: 500, exit: 500 }}
               PaperProps={{

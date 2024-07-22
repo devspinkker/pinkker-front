@@ -311,7 +311,8 @@
         align-items: center;
         position: absolute;
         width: 100%;
-        padding: 10px 0px;
+        left: 0;
+        height: 47%;
     }
 
     .channel-chat {

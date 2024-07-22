@@ -406,6 +406,7 @@ const AppRouter = () => {
 
             <Route exact path="/:streamer">
               <Channel
+                
                 isMobile={isMobile}
                 socketMain={socketMain}
                 handleMessage={(e) => addOpenMessage(e)}

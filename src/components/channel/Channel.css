@@ -488,31 +488,31 @@
 
 .channel-v2-info {
     /* width: 60%;  */
-    background-color: #131418;
-    position: relative;
+    /* background-color: #131418;
+    position: relative; */
     /* margin: 0 auto; */
     /* padding: 2px; */
     /* padding-bottom: 7px; */
-    display: flex;
+    /* display: flex;
     align-items: center;
     top: -4px;
     transition: 0.35s all;
     justify-content: space-between;
     border-radius: 0px 0px 10px 10px;
-    border-top: 1px solid #2a2e38;
+    border-top: 1px solid #2a2e38; */
 }
 
 .channel-v2-primary {
-    width: 97%;
+    width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-top: 3px;
     justify-content: space-between;
 }
 
 .channel-v2-categorie {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
 }
 
@@ -589,8 +589,6 @@
 }
 
 .channel-bottom-v2-secondary {
-    width: 45%;
-    height: 71px;
     display: flex;
     justify-content: right;
     align-items: center;
@@ -598,7 +596,6 @@
 
 
 .channel-bottom-v2-button-follow {
-    margin-top: 20px;
     width: 80px;
     padding: 5px;
     background-color: transparent;
@@ -619,7 +616,6 @@
 
 
 .channel-bottom-v2-button-sub {
-    margin-top: 20px;
     width: 95px;
     display: flex;
     align-items: center;
@@ -661,15 +657,11 @@
 }
 
 .channel-bottom-v2-button-icon {
-    width: 30px;
+
     background-color: transparent;
-    border: 1px solid #262626;
-    padding: 5px;
     color: #ededed;
     cursor: pointer;
-    margin-right: 5px;
     border-radius: 3px;
-    margin-top: 20px;
     margin-left: initial;
 }
 
@@ -679,8 +671,6 @@
 
 .channel-bottom-v2-button-icon:hover i {
     transition: 0.3s;
-    background-color: #303030;
-    transform: translateY(-1px);
 }
 
 .channel-bottom-avatar-text a {

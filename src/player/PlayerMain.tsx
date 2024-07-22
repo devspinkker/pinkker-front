@@ -261,7 +261,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
     <>
       {showWarning && (
         <div
-          style={{ width, height, background: "#080808", paddingTop: "100px", display: "flex", justifyContent: "center" }}
+          style={{ width, height, background: "#080808", display: "flex", justifyContent: "center", alignItems:'center' }}
         >
           <div className="base-dialog">
             <div className="dialog-icon-holder">
