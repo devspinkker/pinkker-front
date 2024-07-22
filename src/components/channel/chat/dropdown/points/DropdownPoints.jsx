@@ -38,6 +38,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
 
   const [selectedAmount, setSelectedAmount] = useState(0);
   const [textDonation, setTextDonation] = useState(null);
+  const [totpCode, setTotpCode] = useState(null);
 
   async function handleSend() {
     const token = window.localStorage.getItem("token");
@@ -48,14 +49,23 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
           token,
           streamer?.id,
           selectedAmount,
-          textDonation
+          textDonation,
+          totpCode
         );
         // callback(selectedAmount, textDonation, data.data.donation);
-        closeNavbar();
-        alert({
-          type: "SUCCESS",
-          message: "Se ha enviado la donacion correctamente!",
-        });
+        console.log(data);
+        if (data.message === "ok") {
+          closeNavbar();
+          alert({
+            type: "SUCCESS",
+            message: "Se ha enviado la donacion correctamente!",
+          });
+        } else {
+          alert({
+            type: "ERROR",
+            message: "Invalid  code",
+          });
+        }
       } catch (error) {
         alert({ type: "ERROR", message: "Error" });
       }
@@ -230,6 +240,14 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
               onChange={(e) => setTextDonation(e.target.value)}
               placeholder="Escribe tu mensaje aquí.."
               type="text"
+            />
+          )}
+          {selectedAmount != 0 && (
+            <input
+              className="dropdownpoints-input"
+              onChange={(e) => setTotpCode(e.target.value)}
+              placeholder="Google Authenticator"
+              type="number"
             />
           )}
           {selectedAmount != 0 && (

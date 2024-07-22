@@ -10,11 +10,11 @@ export async function GetPixelesDonationsChat(Toid) {
         return error
     }
 }
-export async function CreateDonation(token, ToUser, Pixeles, Text) {
+export async function CreateDonation(token, ToUser, Pixeles, Text, totpCode) {
 
     try {
         const response = await axios.post(`${baseURL}/pixel/DonatePixel`, {
-            ToUser, Pixeles, Text
+            ToUser, Pixeles, Text, totp_code: totpCode,
         }, {
             headers: {
                 Authorization: `Bearer ${token}`,

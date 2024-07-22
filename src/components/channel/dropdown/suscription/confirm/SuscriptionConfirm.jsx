@@ -17,7 +17,7 @@ function SuscriptionConfirm({ closeNavbar, title, streamer, streamerData }) {
   const [click, setClick] = useState(false);
 
   const handleClick = () => setClick(!click);
-
+  const [totpCode, setTotpCode] = useState(null);
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.token);
   const { user, isLogged } = auth;
@@ -34,7 +34,7 @@ function SuscriptionConfirm({ closeNavbar, title, streamer, streamerData }) {
       return alert("logueate");
     }
     try {
-      const res = await suscribirse(token, streamerData.id);
+      const res = await suscribirse(token, streamerData.id, totpCode);
       if (res?.message === "ok") {
         alert({ type: "SUCCESS", message: "te suscribiste" });
         closeNavbar();
@@ -225,13 +225,21 @@ function SuscriptionConfirm({ closeNavbar, title, streamer, streamerData }) {
                   </h1>
                 }
               >
-                <button
-                  onClick={() => handleSubmit()}
-                  className="dropdownconfirm-button-sub"
-                >
-                  {" "}
-                  Confirmar
-                </button>
+                <div>
+                  <input
+                    className="dropdownpoints-input"
+                    onChange={(e) => setTotpCode(e.target.value)}
+                    placeholder="Google Authenticator"
+                    type="number"
+                  />
+                  <button
+                    onClick={() => handleSubmit()}
+                    className="dropdownconfirm-button-sub"
+                  >
+                    {" "}
+                    Confirmar
+                  </button>
+                </div>
               </Tippy>
             </div>
           </div>

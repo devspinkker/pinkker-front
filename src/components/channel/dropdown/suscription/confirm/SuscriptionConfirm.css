@@ -1,144 +1,145 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 .dropdownconfirm-menu {
-    position: absolute;
-    width: 420px;
-    height: 650px;
-    display: flex;
-    background: #18181b;
-    box-shadow: 0px 5px 20px 5px black;
-    border-radius: 5px;
-    z-index: 2000;
-    }
-    
-    .dropdownconfirm-menu li {
-      cursor: pointer;
-      display: flex;
-      text-align: center;
-      font-size: 12px;
-      border-radius: 5px;
-    }
-    
-    .dropdownconfirm-menu i {
-      transition: 0.3s all;
+  position: absolute;
+  width: 420px;
+  height: 650px;
+  display: flex;
+  background: #18181b;
+  box-shadow: 0px 5px 20px 5px black;
+  border-radius: 5px;
+  z-index: 2000;
+}
 
-    }
+.dropdownconfirm-menu li {
+  cursor: pointer;
+  display: flex;
+  text-align: center;
+  font-size: 12px;
+  border-radius: 5px;
+}
 
-    .dropdownconfirm-menu li:hover .dropdownconfirm-content i{
-      transform: translateY(-3px);
-    }
+.dropdownconfirm-menu i {
+  transition: 0.3s all;
 
-    .dropdownconfirm-menu li:hover {
-      background: #0e0e0e;
-    }
-    
-    .dropdownconfirm-menu.clicked {
-      display: none;
-    }
-    
-    .dropdownconfirm-link {
-      display: flex;
-      height: 100%;
-      width: 100%;
-      text-decoration: none;
-      color: #fff;
-      padding: 12px;
-    }
+}
 
-    .dropdownconfirm-button {
-      background: none;
-      border: none;
-      width: 80%;
-      font-family: 'Montserrat';
-      font-weight: 800;
-      height: 100%;
-      padding: 16px;
-      color: #ededed;
-      cursor: pointer;
+.dropdownconfirm-menu li:hover .dropdownconfirm-content i {
+  transform: translateY(-3px);
+}
 
-    }
+.dropdownconfirm-menu li:hover {
+  background: #0e0e0e;
+}
 
-    .dropdownconfirm-content {
-      width: 100%;
-      padding: 10px;
-      border-radius: 5px;
-      justify-content: space-between;
-      color: #ededed;
-      font-family: 'Montserrat';
-      font-weight: 800;
-    }
+.dropdownconfirm-menu.clicked {
+  display: none;
+}
 
+.dropdownconfirm-link {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: #fff;
+  padding: 12px;
+}
 
+.dropdownconfirm-button {
+  background: none;
+  border: none;
+  width: 80%;
+  font-family: 'Montserrat';
+  font-weight: 800;
+  height: 100%;
+  padding: 16px;
+  color: #ededed;
+  cursor: pointer;
+
+}
+
+.dropdownconfirm-content {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  justify-content: space-between;
+  color: #ededed;
+  font-family: 'Montserrat';
+  font-weight: 800;
+}
 
 
-    .dropdownconfirm-radio input[type="radio"] {
-      background-color: rgb(105, 105, 105);
-      border-radius: 10px;
-      cursor: pointer;
-      display: inline-block;
-      height: 15px;
-      margin-right: 5px;
-      position: relative;
-      width: 15px;
-      -webkit-appearance: none;
+
+
+.dropdownconfirm-radio input[type="radio"] {
+  background-color: rgb(105, 105, 105);
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-block;
+  height: 15px;
+  margin-right: 5px;
+  position: relative;
+  width: 15px;
+  -webkit-appearance: none;
+}
+
+.dropdownconfirm-radio input[type="radio"]:after {
+  border-radius: 25px;
+  background-color: rgb(71, 71, 71);
+  content: '';
+  display: block;
+  height: 9px;
+  left: 3px;
+  position: relative;
+  top: 3px;
+  width: 9px;
+}
+
+.dropdownconfirm-radio input[type="radio"]:checked:after {
+  background-color: #ff60b2;
+}
+
+.dropdownconfirm-streamer {
+  display: flex;
+}
+
+.dropdownconfirm-button-sub {
+  margin-top: 15px;
+  width: 185px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  background-color: #9147ff;
+  border: none;
+  color: #ededed;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dropdownconfirm-button-sub:hover {
+  background-color: #5b12c9;
+}
+
+.dropdownconfirm-total {
+  width: 100%;
+  height: 375px;
+}
+
+
+@media screen and (max-width: 960px) {
+
+  .dropdownconfirm-menu {
+    width: 220%;
+    top: 60px;
+    z-index: 200;
+
   }
-  .dropdownconfirm-radio input[type="radio"]:after {
-      border-radius: 25px;
-      background-color: rgb(71, 71, 71);
-      content: '';
-      display: block;
-      height: 9px;
-      left: 3px;
-      position: relative;
-      top: 3px;
-      width: 9px;
-  }
-  .dropdownconfirm-radio input[type="radio"]:checked:after {
-      background-color: #ff60b2;
-  }
 
-  .dropdownconfirm-streamer {
-    display: flex;
+  .fa-caret-down {
+    display: none;
   }
-
-  .dropdownconfirm-button-sub {
-    margin-top: 20px;
-    width: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
-    background-color: #9147ff;
-    border: none;
-    color: #ededed;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .dropdownconfirm-button-sub:hover {
-    background-color: #5b12c9;
-  }
-
-  .dropdownconfirm-total {
-    width: 100%;
-    height: 375px;
-  }
-
-    
-    @media screen and (max-width: 960px) {
-  
-      .dropdownconfirm-menu {
-        width: 220%;
-        top: 60px;
-        z-index: 200;
-  
-      }
-  
-      .fa-caret-down {
-        display: none;
-      }
-    }
+}

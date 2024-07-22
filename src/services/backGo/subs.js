@@ -4,11 +4,14 @@ const axios = require('axios');
 const baseURL = process.env.REACT_APP_BACKGO
 
 
-export async function suscribirse(token, ToUser) {
+export async function suscribirse(token, ToUser, totpCode) {
     try {
         const response = await axios.post(
             `${baseURL}/Subs/suscribirse`,
-            { ToUser: ToUser },
+            {
+                ToUser: ToUser,
+                totp_code: totpCode,
+            },
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
