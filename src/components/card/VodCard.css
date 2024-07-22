@@ -1,8 +1,9 @@
-
 .vodcard-body {
     position: relative;
     margin: 2px;
     margin-right: 20px;
+    padding: 2rem 0rem;
+    width: 400px;
 }
 
 .vodcard-online {
@@ -22,7 +23,7 @@
 
 }
 
-.vodcard-spectator{ 
+.vodcard-spectator {
     font-size: 14px;
     position: relative;
     top: 165px;
@@ -45,25 +46,25 @@
 }
 
 
-.vodcard-body .vodcard-image{
+.vodcard-body .vodcard-image {
     transition: 0.5s all;
-    height: 168px;
+    height: 210px;
 }
 
 
-.vodcard-container:hover .vodcard-image{
+.vodcard-container:hover .vodcard-image {
     font-weight: bold;
     border-radius: 5px;
-    box-shadow:  #f36196 -6px 6px;
+    box-shadow: #f36196 -6px 6px;
     transform: translate3d(6px, -6px, 0);
     cursor: pointer;
 }
 
-.vodcard-body .vodcard-spectator{
+.vodcard-body .vodcard-spectator {
     transition: 0.5s all;
 }
 
-.vodcard-container:hover .vodcard-spectator{
+.vodcard-container:hover .vodcard-spectator {
     transform: translate3d(6px, -6px, 0);
     transition: 0.1s all;
 }

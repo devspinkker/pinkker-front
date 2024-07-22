@@ -12,20 +12,13 @@ export default function VodCard(props) {
   };
 
   return (
-    <div
-      onClick={handleCardClick}
-      style={{
-        minWidth: props.width ? props.width : "250px",
-        maxWidth: props.width ? props.width : "250px",
-      }}
-      className="vodcard-body"
-    >
+    <div onClick={handleCardClick} className="vodcard-body">
       <div className="vodcard-container">
         <div className="vodcard-image">
           <img
             className="img-video"
             style={{
-              width: props.width ? props.width : "250px",
+              width: "344px",
               borderRadius: "5px",
             }}
             src={

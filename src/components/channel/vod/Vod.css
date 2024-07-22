@@ -1,13 +1,7 @@
-
 .channel-vod-body {
-    width: 96%;
-    margin: 0 auto;
+    width: 95%;
+    min-height: 500px;
+    padding: 0% 0% 0% 4%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px;
-    margin-left: 10px;
-    position: relative;
-    left: -6px;
-    min-height: 600px;
 }

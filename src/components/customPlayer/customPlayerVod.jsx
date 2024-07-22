@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import "./customPlayer.css";
-import ReactVideoPlayerVod from "../../player/PlayerVods";
 
 import DropdownSettings from "./DropdownSettings";
 
@@ -15,8 +14,11 @@ import { Link } from "react-router-dom";
 
 import { useParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
+import { LuClapperboard } from "react-icons/lu";
+import { MdHd } from "react-icons/md";
+import ReactVideoPlayerVod from "../../player/PlayerVods";
 import { getStreamSummariesByID } from "../../services/backGo/streams";
-export default function CustomPlayerVod({
+export default function CustomPlayer({
   isMobile,
   expanded,
   dashboard,
@@ -32,8 +34,6 @@ export default function CustomPlayerVod({
   streamerData,
   stream,
 }) {
-  const { streamer, idVod } = useParams();
-
   const videoRef = useRef();
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(false);
@@ -53,8 +53,8 @@ export default function CustomPlayerVod({
   const [quality, setQuality] = useState("auto");
 
   const [showScreenMute, setShowScreenMute] = useState(true);
-
-  const [currentTime, setCurrentTime] = useState(0);
+  const [enableQuality, setEnableQuality] = useState(false);
+  const [currentTime, setCurrentTime] = useState(null);
 
   const togglePopupClipCreator = (video) => {
     setVideo(video);
@@ -62,7 +62,21 @@ export default function CustomPlayerVod({
   };
 
   const [videoLoading, setVideoLoading] = useState(true);
-
+  const [Vod, SetVod] = useState(null);
+  const { streamer, idVod } = useParams();
+  useEffect(() => {
+    async function getVodId() {
+      try {
+        const res = await getStreamSummariesByID(idVod);
+        if (res.data?.id) {
+          SetVod(res.data);
+        }
+      } catch (error) {
+        SetVod(null);
+      }
+    }
+    getVodId();
+  }, [idVod]);
   useEffect(() => {
     if (videoRef.current != null && videoRef.current != undefined) {
       const videoPlayer = videoRef.current;
@@ -101,27 +115,19 @@ export default function CustomPlayerVod({
       }
     }
   }, []);
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime);
-    }
-  };
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.addEventListener("timeupdate", handleTimeUpdate);
-      return () => {
-        videoRef.current.removeEventListener("timeupdate", handleTimeUpdate);
-      };
-    }
-  }, []);
-
-  const handleSeek = (event, newValue) => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = newValue;
-      setCurrentTime(newValue);
-    }
-  };
+  // useEffect(() => {
+  //   if (
+  //     videoRef.current?.currentTime != NaN &&
+  //     videoRef.current?.currentTime != undefined &&
+  //     videoRef.current?.currentTime != null &&
+  //     videoRef.current?.currentTime != 0
+  //   ) {
+  //     if (videoRef.current?.duration - videoRef.current?.currentTime > 60) {
+  //       videoRef.current.currentTime = videoRef.current.duration - 30;
+  //     }
+  //   }
+  // }, []);
 
   const onMouseEnterSettings = () => {
     if (dropdownSettings === true) {
@@ -191,20 +197,6 @@ export default function CustomPlayerVod({
       }
     }
   };
-  const [Vod, SetVod] = useState(null);
-  useEffect(() => {
-    async function getVodId() {
-      try {
-        const res = await getStreamSummariesByID(idVod);
-        if (res.data?.id) {
-          SetVod(res.data);
-        }
-      } catch (error) {
-        SetVod(null);
-      }
-    }
-    getVodId();
-  }, [idVod]);
 
   function getHlsSrc() {
     if (Vod) {
@@ -222,18 +214,21 @@ export default function CustomPlayerVod({
   }
 
   function getHlsPlayer() {
-    console.log(getHlsSrc());
-    // return (
-    //   <video
-    //     id="pinkker-player"
-    //     style={{ position: "relative", top: "60px" }}
-    //     controls={isMobile}
-    //     autoPlay={true}
-    //     // onPlaying={handlePlaying} // Considera usar onPlay o un listener de eventos similar
-    //   >
-    //     <source src={getHlsSrc()} type="application/x-mpegURL" />
-    //   </video>
-    // );
+    // console.log(getHlsSrc());
+    // if (isMobile) {
+    //   alert("mobile es true");
+    //   return (
+    //     <video
+    //       id="pinkker-player"
+    //       style={{ position: "relative", top: "60px" }}
+    //       controls={isMobile}
+    //       autoPlay={true}
+    //       onPlaying={true}
+    //     >
+    //       <source src={getHlsSrc()} type="application/x-mpegURL" />
+    //     </video>
+    //   );
+    // }
     return (
       <ReactVideoPlayerVod
         allowFullScreen
@@ -584,25 +579,7 @@ export default function CustomPlayerVod({
                                     <i onClick={() => setMultiverse(true)} style={{cursor: "pointer"}} class="fas fa-hotel button-more-player"/>
                                 </Tippy>
                                 </div>*/}
-                <div
-                  className="position-absolute"
-                  style={{
-                    bottom: 10,
-                    width: "90%",
-                    left: "5%",
-                    right: "5%",
-                    zIndex: 999,
-                  }}
-                >
-                  <Slider
-                    value={currentTime}
-                    onChange={handleSeek}
-                    min={0}
-                    max={videoRef.current?.duration || 100}
-                    step={1}
-                    aria-labelledby="continuous-slider"
-                  />
-                </div>
+
                 <div className="customPlayer-card">
                   <Tippy
                     theme="pinkker"
@@ -614,10 +591,28 @@ export default function CustomPlayerVod({
                       </h1>
                     }
                   >
-                    <i
+                    <LuClapperboard
+                      class=" pinkker-button-more button-more-player"
                       onClick={() => handleClip()}
-                      style={{ cursor: "pointer" }}
-                      class="fas fa-cut pinkker-button-more button-more-player"
+                      style={{ cursor: "pointer", fontSize: "18px !important" }}
+                    />
+                  </Tippy>
+                </div>
+                <div className="customPlayer-card">
+                  <Tippy
+                    theme="pinkker"
+                    content={
+                      <h1
+                        style={{ fontSize: "12px", fontFamily: "Montserrat" }}
+                      >
+                        Calidad
+                      </h1>
+                    }
+                  >
+                    <MdHd
+                      class=" pinkker-button-more button-more-player"
+                      onClick={() => setEnableQuality(!enableQuality)}
+                      style={{ cursor: "pointer", fontSize: "18px !important" }}
                     />
                   </Tippy>
                 </div>
@@ -700,6 +695,89 @@ export default function CustomPlayerVod({
           closePopup={() => togglePopupClipCreator()}
           video={video}
         />
+      )}
+      {enableQuality && (
+        <ul className={"dropdownsettings-menu"}>
+          <div className="dropdownsettings-container">
+            <div>
+              <li>
+                <div className="dropdownsettings-content">
+                  <div onClick={() => setEnableQuality(false)}>
+                    <h4>
+                      <i
+                        style={{ marginRight: "5px" }}
+                        class="fas fa-chevron-left"
+                      ></i>{" "}
+                      Calidad de video
+                    </h4>
+                  </div>
+                </div>
+              </li>
+
+              <hr
+                style={{ border: "1px solid #4b4b4b8f", margin: "10px auto" }}
+              />
+
+              {/* <li onClick={() => changeQuality("auto")}>
+                <div className="dropdownsettings-content">
+                  <div
+                    className="dropdownsettings-radio"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <input type="radio" />
+                    <span style={{ marginLeft: "5px" }}>Automática</span>
+                  </div>
+                </div>
+              </li> */}
+              <li onClick={() => setQuality("1080")}>
+                <div className="dropdownsettings-content">
+                  <div
+                    className="dropdownsettings-radio"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <input type="radio" checked={quality === "1080"} />
+                    <span style={{ marginLeft: "5px" }}>1080p</span>
+                  </div>
+                </div>
+              </li>
+              <li onClick={() => setQuality("720")}>
+                <div className="dropdownsettings-content">
+                  <div
+                    className="dropdownsettings-radio"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <input type="radio" checked={quality === "720"} />
+                    <span style={{ marginLeft: "5px" }}>720p</span>
+                  </div>
+                </div>
+              </li>
+
+              <li onClick={() => setQuality("480")}>
+                <div className="dropdownsettings-content">
+                  <div
+                    className="dropdownsettings-radio"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <input type="radio" checked={quality === "480"} />
+                    <span style={{ marginLeft: "5px" }}>480p</span>
+                  </div>
+                </div>
+              </li>
+
+              <li onClick={() => setQuality("360")}>
+                <div className="dropdownsettings-content">
+                  <div
+                    className="dropdownsettings-radio"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <input type="radio" checked={quality === "360"} />
+                    <span style={{ marginLeft: "5px" }}>360p</span>
+                  </div>
+                </div>
+              </li>
+            </div>
+          </div>
+        </ul>
       )}
     </div>
   );
