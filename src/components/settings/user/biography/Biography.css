@@ -51,7 +51,7 @@
     margin-top: 0px;
     position: relative;
     top: -10px;
-    width: 80px;
+    /* font-size: 32px; */
     padding: 5px;
     background-color: transparent;
     border: 1px solid #f36196;
@@ -59,9 +59,27 @@
     border-radius: 5px;
     cursor: pointer;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     margin-right: 5px;
+}
+
+.biography-button-2FA {
+    margin-top: 0px;
+    position: relative;
+    /* top: -10px; */
+    /* font-size: 32px; */
+    padding: 5px;
+    background-color: transparent;
+    border: 1px solid #f36196;
+    color: #ededed;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 5px;
+    margin: 0;
 }
 
 @media screen and (max-width: 758px) {
@@ -73,6 +91,8 @@
 .totp-modal {
     position: fixed;
     top: 50%;
+    display: flex;
+    width: 302px;
     left: 50%;
     transform: translate(-50%, -50%);
     background: #121418;
@@ -80,6 +100,8 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     border-radius: 8px;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .totp-modal input {
@@ -90,5 +112,22 @@
 }
 
 .totp-modal button {
-    margin-right: 10px;
+    margin: 10px 0px;
+}
+
+.totp-modal p {
+    text-align: left;
+    padding: 15px 0px;
+    font-weight: bolder;
+
+}
+
+.biography-2FA {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #191b1f;
+    border-radius: 5px;
+    padding: 15px;
+
 }

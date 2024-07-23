@@ -11,7 +11,8 @@ export async function generateTotpKey(token) {
         });
         return response.data;
     } catch (error) {
-        console.log(error)
+        return error
+
     }
 }
 
@@ -24,6 +25,34 @@ export async function validateTotpCode(token, code) {
         });
         return response.data;
     } catch (error) {
-        console.log(error)
+        return error
+
+    }
+}
+export async function ChangeGoogleAuthenticator(token) {
+    console.log(token);
+    try {
+        const response = await axios.post(`${baseURL}/user/ChangeGoogleAuthenticator`, {}, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        return error
+
+    }
+}
+export async function DeleteGoogleAuthenticator(token, code) {
+    try {
+        const response = await axios.post(`${baseURL}/user/DeleteGoogleAuthenticator`, { code }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        return error
+
     }
 }

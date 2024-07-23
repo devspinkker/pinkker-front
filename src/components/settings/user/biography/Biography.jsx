@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNotification } from "../../../Notifications/NotificationProvider";
 import { TbEdit } from "react-icons/tb";
@@ -6,6 +6,8 @@ import { Grid } from "@mui/material";
 import {
   generateTotpKey,
   validateTotpCode,
+  ChangeGoogleAuthenticator,
+  DeleteGoogleAuthenticator,
 } from "../../../../services/backGo/totpService";
 import "./Biography.css";
 import { editProfile } from "../../../../services/backGo/user";
@@ -25,8 +27,16 @@ export default function Biography(props) {
   const [totpCode, setTotpCode] = useState("");
   const [totpSecret, setTotpSecret] = useState(null);
   const [showTotpModal, setShowTotpModal] = useState(false);
+  const [showChangeTotp, setShowChangeTotp] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
   let token = window.localStorage.getItem("token");
   let GoogleAuthenticator = window.localStorage.getItem("GoogleAuthenticator");
+
+  useEffect(() => {
+    if (GoogleAuthenticator === "ok") {
+      setShowChangeTotp(true);
+    }
+  }, [GoogleAuthenticator]);
 
   async function handleSubmit() {
     const birthDate = `${rYear}-${rMonth}-${String(rDay).padStart(2, "0")}`;
@@ -50,11 +60,6 @@ export default function Biography(props) {
   }
 
   async function handleGenerateTotp() {
-    if (GoogleAuthenticator === "ok") {
-      alert({ type: "SUCCESS", message: "ya existe" });
-      return;
-    }
-
     const result = await generateTotpKey(token);
     if (result.message === "StatusOK") {
       setTotpSecret(result.secret);
@@ -69,8 +74,31 @@ export default function Biography(props) {
     const result = await validateTotpCode(token, totpCode);
     if (result.message === "StatusOK") {
       alert({ type: "SUCCESS" });
+      setShowTotpModal(false);
     } else {
       alert({ type: "ERROR" });
+    }
+  }
+
+  async function handleChangeTotp() {
+    const result = await ChangeGoogleAuthenticator(token);
+
+    if (result && result.message === "StatusOK") {
+      setShowEmailModal(true);
+    } else {
+      alert({ type: "ERROR", message: result.message });
+    }
+  }
+
+  async function handleDeleteTotp() {
+    const result = await DeleteGoogleAuthenticator(token, totpCode);
+    if (result.message === "StatusOK") {
+      alert({ type: "SUCCESS", message: "Google Authenticator eliminado" });
+      window.localStorage.removeItem("GoogleAuthenticator");
+      setShowChangeTotp(false);
+      setShowEmailModal(false);
+    } else {
+      alert({ type: "ERROR", message: result.message });
     }
   }
 
@@ -118,16 +146,24 @@ export default function Biography(props) {
             </p>
           </div>
         </div>
-
+        <div className="biography-2FA">
+          {showChangeTotp ? (
+            <button
+              onClick={handleChangeTotp}
+              className="biography-button-2FA pink-button"
+            >
+              Cambiar Autenticación De Dos Factores (2FA)
+            </button>
+          ) : (
+            <button
+              onClick={handleGenerateTotp}
+              className="biography-button-2FA pink-button"
+            >
+              Generar Autenticación De Dos Factores (2FA)
+            </button>
+          )}
+        </div>
         <div style={{ textAlign: "right", padding: "5px 0px" }}>
-          <button
-            style={{ width: "105px" }}
-            onClick={() => handleGenerateTotp()}
-            className="biography-button pink-button"
-          >
-            Generar TOTP
-          </button>
-
           {showTotpModal && (
             <div className="totp-modal">
               <h3>Verificación TOTP</h3>
@@ -141,6 +177,9 @@ export default function Biography(props) {
                     "Pinkker"
                   )}&period=30&secret=${encodeURIComponent(totpSecret)}`
                 )}`}
+                style={{
+                  padding: "10px 0px",
+                }}
                 alt="TOTP QR Code"
               />
               <input
@@ -158,9 +197,28 @@ export default function Biography(props) {
             </div>
           )}
 
+          {showEmailModal && (
+            <div className="totp-modal">
+              <h3>Revise su mail</h3>
+              <p>Introduzca el número enviado a su correo electrónico.</p>
+              <input
+                type="text"
+                placeholder="Ingrese el código"
+                value={totpCode}
+                onChange={(e) => setTotpCode(e.target.value)}
+              />
+              <button
+                onClick={handleDeleteTotp}
+                className="biography-button pink-button"
+              >
+                Eliminar Autenticación De Dos Factores (2FA)
+              </button>
+            </div>
+          )}
+
           <button
             style={{ width: "105px" }}
-            onClick={() => handleSubmit()}
+            onClick={handleSubmit}
             className="biography-button pink-button"
           >
             Guardar
