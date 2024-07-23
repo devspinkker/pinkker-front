@@ -26,7 +26,7 @@ export default function UserSettings({ isMobile, user }) {
   const [type, setType] = useState(0);
   const [file, setFile] = useState(null);
 
-  console.log('user', user)
+  console.log("user", user);
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.token);
 
@@ -53,32 +53,57 @@ export default function UserSettings({ isMobile, user }) {
       formData.append("avatar", file);
       let token = window.localStorage.getItem("token");
       const res = await editAvatar(token, formData);
-    } catch (err) { }
+    } catch (err) {}
   };
 
   function getType() {
     if (type === 0) {
       return (
-        <div style={{ padding: '1.1rem 5.3rem' }}>
+        <div style={{ padding: "1.1rem 5.3rem" }}>
           <div className="usersettings-settings">
             <div className="usersettings-change-avatar">
               <h3>Foto de Perfil</h3>
               <div className="usersettings-card">
-                <div style={{ textAlign: "center", display: 'flex', alignItems: 'center', gap: '10px', width: '100%', justifyContent: 'space-between', padding: '15px 15px' }}>
-                  <Grid style={{ display: 'flex', gap: '10px', alignItems: 'center', padding: '0px 15px' }}>
-
+                <div
+                  style={{
+                    textAlign: "center",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    width: "100%",
+                    justifyContent: "space-between",
+                    padding: "15px 15px",
+                  }}
+                >
+                  <Grid
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      alignItems: "center",
+                      padding: "0px 15px",
+                    }}
+                  >
                     <img
                       src={user?.Avatar}
-                      style={{ borderRadius: "50%", width: "50px", height: "50px" }}
+                      style={{
+                        borderRadius: "50%",
+                        width: "50px",
+                        height: "50px",
+                      }}
                       alt=""
                     />
-                    <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                      {user.NameUser}
+                    <Grid
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      {user?.NameUser}
                       <p
                         style={{
                           fontSize: "13px",
                           color: "darkgray",
-
                         }}
                       >
                         Debe ser un archivo JPEG, PNG o GIF de máximo 10 MB.
@@ -86,13 +111,16 @@ export default function UserSettings({ isMobile, user }) {
                     </Grid>
                   </Grid>
 
-                  <Grid style={{padding: '0px 15px 0px 0px', fontSize:'24px', cursor:'pointer'}}>
-
+                  <Grid
+                    style={{
+                      padding: "0px 15px 0px 0px",
+                      fontSize: "24px",
+                      cursor: "pointer",
+                    }}
+                  >
                     <TbEdit onClick={() => togglePopupSettings()} />
                   </Grid>
-
                 </div>
-
               </div>
             </div>
 
@@ -101,42 +129,73 @@ export default function UserSettings({ isMobile, user }) {
             <div className="usersettings-change-avatar">
               <h3>Banner de Perfil</h3>
               <div className="usersettings-card">
-                <div style={{ textAlign: "center", display: 'flex', alignItems: 'center', gap: '10px', width: '100%', justifyContent: 'space-between', padding: '15px 15px' }}>
-                  <Grid style={{ display: 'flex', gap: '10px', alignItems: 'center', padding: '0px 15px' }}>
-
+                <div
+                  style={{
+                    textAlign: "center",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    width: "100%",
+                    justifyContent: "space-between",
+                    padding: "15px 15px",
+                  }}
+                >
+                  <Grid
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      alignItems: "center",
+                      padding: "0px 15px",
+                    }}
+                  >
                     <img
                       src={user?.Avatar}
-                      style={{ borderRadius: "50%", width: "50px", height: "50px" }}
+                      style={{
+                        borderRadius: "50%",
+                        width: "50px",
+                        height: "50px",
+                      }}
                       alt=""
                     />
-                    <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                      
+                    <Grid
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                      }}
+                    >
                       <p
                         style={{
                           fontSize: "13px",
                           color: "darkgray",
-
                         }}
                       >
-                       Formato de archivo: JPEG, PNG, GIF (200 x 480 recomendado, 10MB máx)
+                        Formato de archivo: JPEG, PNG, GIF (200 x 480
+                        recomendado, 10MB máx)
                       </p>
                     </Grid>
                   </Grid>
 
-                  <Grid style={{padding: '0px 15px 0px 0px', fontSize:'24px', cursor:'pointer'}}>
-
+                  <Grid
+                    style={{
+                      padding: "0px 15px 0px 0px",
+                      fontSize: "24px",
+                      cursor: "pointer",
+                    }}
+                  >
                     <TbEdit onClick={() => togglePopupSettings()} />
                   </Grid>
-
                 </div>
-
               </div>
             </div>
             <Biography user={user} />
             {/* <SocialNetwork user={user} /> */}
           </div>
           {showPopupSettings === true && (
-            <UserSettingsPopup usuario={user} closePopup={() => togglePopupSettings()} />
+            <UserSettingsPopup
+              usuario={user}
+              closePopup={() => togglePopupSettings()}
+            />
           )}
         </div>
       );
@@ -194,41 +253,96 @@ export default function UserSettings({ isMobile, user }) {
   return (
     <div className={"usersettings-body-" + theme.theme}>
       <div className="usersettings-navbar">
-
-        <Grid style={{ borderBottom: '1px solid rgb(42, 46, 56)', padding: '0px 5.3rem 1.45%' }}>
-          <h3 style={{ color: 'white', fontSize: '30px' }}>Configuración</h3>
+        <Grid
+          style={{
+            borderBottom: "1px solid rgb(42, 46, 56)",
+            padding: "0px 5.3rem 1.45%",
+          }}
+        >
+          <h3 style={{ color: "white", fontSize: "30px" }}>Configuración</h3>
         </Grid>
-        <Grid style={{ borderBottom: '1px solid rgb(42, 46, 56)', padding: '.75% 5.3rem' }}>
-
-
-          <Grid style={{ display: 'flex', padding: '5px 5px', backgroundColor: '#2a2e38', borderRadius: '5px', gap: '15px', width: '44%' }}>
-
-            <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px' }} className={type === 0 ? "item-config-active" : "item-config"} onClick={() => setType(0)}>
+        <Grid
+          style={{
+            borderBottom: "1px solid rgb(42, 46, 56)",
+            padding: ".75% 5.3rem",
+          }}
+        >
+          <Grid
+            style={{
+              display: "flex",
+              padding: "5px 5px",
+              backgroundColor: "#2a2e38",
+              borderRadius: "5px",
+              gap: "15px",
+              width: "44%",
+            }}
+          >
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "10px",
+              }}
+              className={type === 0 ? "item-config-active" : "item-config"}
+              onClick={() => setType(0)}
+            >
               <GrHomeRounded />
               <Typography>Cuenta</Typography>
             </Grid>
 
-            <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px' }} className="item-config">
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "10px",
+              }}
+              className="item-config"
+            >
               <GrHomeRounded />
               <Typography>Verificar</Typography>
             </Grid>
-            <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px' }} className={type === 4 ? "item-config-active" : "item-config"} onClick={() => setType(4)}>
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "10px",
+              }}
+              className={type === 4 ? "item-config-active" : "item-config"}
+              onClick={() => setType(4)}
+            >
               <GrHomeRounded />
               <Typography>Seguridad</Typography>
             </Grid>
-            <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px' }} className="item-config">
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "10px",
+              }}
+              className="item-config"
+            >
               <GrHomeRounded />
               <Typography>Sesiones</Typography>
             </Grid>
-            <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px' }} className={type === 1 ? "item-config-active" : "item-config"} onClick={() => setType(1)}>
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "10px",
+              }}
+              className={type === 1 ? "item-config-active" : "item-config"}
+              onClick={() => setType(1)}
+            >
               <GrHomeRounded />
               <Typography>Pinkker Prime</Typography>
             </Grid>
           </Grid>
-
         </Grid>
-
-
       </div>
 
       {getType()}
