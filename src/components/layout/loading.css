@@ -18,8 +18,8 @@
 }
 
 .logo {
-    width: 50%;
-    height: 100%;
+    width: 25%;
+   
 }
 
 
@@ -27,8 +27,8 @@
 @media (max-width: 575.98px) {
     /* Estilos para dispositivos pequeños */
     .logo {
-        width: 100% !important;
-        height: 50% !important;
+        width: 50% !important;
+       
     }
   }
   
@@ -36,21 +36,21 @@
   @media (min-width: 576px) and (max-width: 767.98px) {
     /* Estilos para dispositivos pequeños en modo horizontal */
     .logo {
-        width: 100% !important;
-        height: 50% !important;
+        width: 50% !important;
+        
         
     }
   }
-.blink-animation {
-    animation: blink 1s infinite alternate; /* Define la animación de parpadeo */
+  .rotate-animation {
+    animation: rotate 1s infinite linear; /* Define la animación de giro */
 }
 
-@keyframes blink {
+@keyframes rotate {
     from {
-        opacity: 1;
+        transform: rotate(0deg);
     }
     to {
-        opacity: 0.5;
+        transform: rotate(360deg);
     }
 }
 

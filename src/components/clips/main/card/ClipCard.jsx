@@ -32,7 +32,34 @@ export default function ClipCard({ clip, isActive = 0 }) {
   const [loading, setLoading] = useState(true);
 
   const [videoPlaying, setVideoPlaying] = useState(false);
+  const canvasRef = useRef(null);
 
+  useEffect(() => {
+    const video = playerRef.current;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+
+    const drawAmbilight = () => {
+      const width = canvas.width;
+      const height = canvas.height;
+      const vw = video.videoWidth;
+      const vh = video.videoHeight;
+
+      ctx.clearRect(0, 0, width, height);
+
+      ctx.drawImage(video, 0, 0, width, height);
+
+      // Apply a blur effect
+      ctx.globalAlpha = 0.5;
+      ctx.filter = "blur(50px)";
+      ctx.drawImage(canvas, -25, -25, width + 50, height + 50);
+      ctx.filter = "none";
+      ctx.globalAlpha = 1.0;
+    };
+
+    const interval = setInterval(drawAmbilight, 30);
+    return () => clearInterval(interval);
+  }, [videoHover]);
   const handleVideoPlay = () => {
     setVideoPlaying(true);
   };
@@ -191,7 +218,7 @@ export default function ClipCard({ clip, isActive = 0 }) {
           }
         }
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const createComment = () => {
@@ -212,10 +239,12 @@ export default function ClipCard({ clip, isActive = 0 }) {
   };
   return (
     <div className="clipmain-card-main">
+
       <div
         className="clipsmain-container"
         style={{ margin: showComment ?? "0 auto" }}
       >
+
         <Grid
           style={{
             display: "flex",
@@ -281,6 +310,7 @@ export default function ClipCard({ clip, isActive = 0 }) {
             onMouseLeave={() => setVideoHover(false)}
             className="clipsmain-video"
           >
+
             <div className="clipsmain-top-buttons">
               {playing ? (
                 <i
@@ -303,12 +333,12 @@ export default function ClipCard({ clip, isActive = 0 }) {
               >
                 <i
                   onClick={handleMute}
-                  className={`fas ${
-                    muted ? "fa-volume-mute" : "fa-volume-up"
-                  } button-more-player`}
+                  className={`fas ${muted ? "fa-volume-mute" : "fa-volume-up"
+                    } button-more-player`}
                 />
               </Tippy>
             </div>
+
             <div
               style={{
                 display: "flex",
@@ -321,8 +351,10 @@ export default function ClipCard({ clip, isActive = 0 }) {
                   <img src={clip.streamThumbnail} alt="" />
                 </div>
               ) : null}
+              <canvas ref={canvasRef} width="400" height="300" id="ambilight" />
 
               <video
+                crossOrigin="anonymous"
                 style={{ display: videoPlaying ? "" : "none" }}
                 onTimeUpdate={handleProgress}
                 onClick={handlePlay}

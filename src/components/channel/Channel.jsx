@@ -1403,7 +1403,7 @@ export default function Channel({
     if (isMobile) {
       return "100%";
     }
-    return chatExpanded ? "80%" : tyExpanded ? '74%' : "80%";
+    return !chatExpanded ? "80%" : tyExpanded ? '74%' : chatExpanded ? "100%" : '80%' ;
   }
   function getChannel() {
     if (stream?.streamer) {

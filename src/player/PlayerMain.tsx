@@ -27,15 +27,45 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const reconnectIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  const playerRef = useRef();
+  const canvasRef = useRef(null);
+  const [videoHover, setVideoHover] = useState(false);
+
   const handleCommercialEnded = async () => {
     let token = window.localStorage.getItem("token");
-    await AdsAddStreamSummary(token, streamerDataID,Commercial._id);
+    await AdsAddStreamSummary(token, streamerDataID, Commercial._id);
     setCommercial(null);
   };
 
+  // useEffect(() => {
+  //   const video = videoRef.current;
+  //   const canvas = canvasRef.current;
+  //   const ctx = canvas.getContext('2d');
+
+  //   const drawAmbilight = () => {
+  //     const width = canvas.width;
+  //     const height = canvas.height;
+  //     const vw = video.videoWidth;
+  //     const vh = video.videoHeight;
+
+  //     ctx.clearRect(0, 0, width, height);
+
+  //     ctx.drawImage(video, 0, 0, width, height);
+
+  //     // Apply a blur effect
+  //     ctx.globalAlpha = 0.5;
+  //     ctx.filter = "blur(50px)";
+  //     ctx.drawImage(canvas, -25, -25, width + 50, height + 50);
+  //     ctx.filter = "none";
+  //     ctx.globalAlpha = 1.0;
+  //   };
+
+  //   const interval = setInterval(drawAmbilight, 30);
+  //   return () => clearInterval(interval);
+  // }, [videoHover]);
   const playCommercial = () => {
     if (commercialRef.current) {
-      commercialRef.current.src = Commercial.UrlVideo; 
+      commercialRef.current.src = Commercial.UrlVideo;
       commercialRef.current.muted = false;
       commercialRef.current.play().catch(error => {
         console.error('Error playing commercial:', error);
@@ -261,7 +291,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
     <>
       {showWarning && (
         <div
-          style={{ width, height, background: "#080808", display: "flex", justifyContent: "center", alignItems:'center' }}
+          style={{ width, height, background: "#080808", display: "flex", justifyContent: "center", alignItems: 'center' }}
         >
           <div className="base-dialog">
             <div className="dialog-icon-holder">
@@ -317,13 +347,18 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
           onClick={() => window.open(Commercial?.LinkReference, '_blank')}
         />
       )}
+      <canvas ref={canvasRef} width="400" height="300" id="ambilight" />
+
       <video
+        crossOrigin="anonymous"
         style={{ width, height, display: Commercial || Player ? "none" : "" }}
         id='video-player'
         muted={true}
         controls={false}
         playsInline
         ref={videoRef}
+        
+
       />
     </>
   );

@@ -7,7 +7,7 @@ import loader from './loaderpinkker.png'
 const Loading = () => {
     return (
         <div className="loading-container">
-            <img src={loader} alt="Logo de pinkker"  className="logo blink-animation" />
+            <img src={loader} alt="Logo de pinkker"  className="logo rotate-animation" />
         </div>
     );
 };

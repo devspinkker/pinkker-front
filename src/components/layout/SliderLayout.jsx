@@ -57,7 +57,7 @@ function SliderLayout(props) {
         flexDirection: "column-reverse",
         width: "100%",
       }}
-      spaceBetween={props.clipT ? 20 : 0}
+      spaceBetween={props.clipT || props.Vod ? 20 : 0}
       navigation={{
         nextEl: ".custom-next",
         prevEl: ".custom-prev",
@@ -69,10 +69,10 @@ function SliderLayout(props) {
             ? 1
             : 3
           : props.clipT
-          ? 4.5
-          : isFullHD
-          ? 9.5
-          : 7
+            ? 4.5
+            : isFullHD
+              ? 9.5
+              : props.Vod ?  props.isMobile ? 1 :3.5 : 7
       }
       Pagination
       onSlideChange={() => console.log("slide change")}
@@ -118,8 +118,8 @@ function SliderLayout(props) {
               {props.titulo
                 ? "Vods más vistos"
                 : props.isMobile
-                ? "Clips"
-                : "Clips más vistos"}{" "}
+                  ? "Clips"
+                  : "Clips más vistos"}{" "}
             </h2>
           </Grid>
         )}
@@ -372,7 +372,7 @@ function SliderLayout(props) {
                 width: "100%",
               }}
             >
-              {[...Array(props.isMobile ? 1 : 6)].map((_, index) => (
+              {[...Array(props.isMobile ? 1 : 5)].map((_, index) => (
                 <div
                   style={{
                     margin: "2px",

@@ -16,7 +16,7 @@ export default function Emblem({name, img, style, chat, imageWidth}) {
     return (
         <div style={style} className="emblem-img">
             <Tippy theme="pinkker" content={<h1 style={{fontSize: "12px", fontFamily: "Montserrat"}}>{name}</h1>}>
-                <img onClick={() => setEmblemInfo(!emblemInfo)} style={{width: imageWidth ? imageWidth : "17px", borderRadius: "2px", position: "relative", top: "2px", cursor: "pointer"}} src={img} alt="" />
+                <img onClick={() => setEmblemInfo(!emblemInfo)} style={{width: imageWidth ? imageWidth : "17px", borderRadius: "2px", position: "relative", top: "2px", cursor: "pointer", height:'17px'}} src={img} alt="" />
             </Tippy>
 
             <div style={{position: "absolute"}}>
