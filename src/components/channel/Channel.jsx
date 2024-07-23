@@ -194,7 +194,7 @@ export default function Channel({
           if (res?.message === "ok" && res?.data?.id) {
             setUser(res.data);
           }
-        } catch (error) { }
+        } catch (error) {}
       }
     }
     let loggedUser = window.localStorage.getItem("_id");
@@ -255,7 +255,7 @@ export default function Channel({
     }
   }, []);
 
-  const loadDataOnlyOnce = () => { };
+  const loadDataOnlyOnce = () => {};
 
   function togglePopupFollowers(typeDefault) {
     setTypeFollowers(typeDefault);
@@ -310,8 +310,8 @@ export default function Channel({
     setReadMore(false);
     setTimeCount(null);
 
-    const interval_id = window.setInterval(function () { },
-      Number.MAX_SAFE_INTEGER);
+    const interval_id = window.setInterval(function () {},
+    Number.MAX_SAFE_INTEGER);
     for (let i = 1; i < interval_id; i++) {
       window.clearInterval(i);
     }
@@ -497,7 +497,6 @@ export default function Channel({
           {loadingFollow ? (
             <button
               style={{
-
                 width: "100px",
                 marginLeft: "5px",
                 marginRight: "5px",
@@ -509,7 +508,6 @@ export default function Channel({
           ) : (
             <button
               style={{
-
                 width: "100px",
                 marginLeft: "5px",
                 marginRight: "5px",
@@ -603,13 +601,10 @@ export default function Channel({
   function getStream() {
     return (
       <div className="channel-v2-info">
-
-
         <div className="channel-v2-primary">
           <div className="channel-v2-categorie">
             <Link to={"/categorie/" + stream.stream_category}>
               <div>
-
                 <Tippy
                   theme="pinkker"
                   content={
@@ -623,11 +618,10 @@ export default function Channel({
                       width: "5.3rem",
                       height: "5.3rem",
                       borderRadius: "100px",
-                      objectFit: 'cover',
+                      objectFit: "cover",
                     }}
                     src={streamerData && streamerData.Avatar}
                   />
-
                 </Tippy>
                 {stream.online ? (
                   <h5
@@ -649,36 +643,39 @@ export default function Channel({
                 )}
               </div>
             </Link>
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', gap: '5px' }}>
-
-              <div
-                style={{ display: "flex", alignItems: "center" }}
-              >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                gap: "5px",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
                 <div className="channel-bottom-avatar-text">
                   <h2
                     onClick={() => setUserInfoDiv(true)}
                     style={{
-
                       display: "flex",
                       cursor: "pointer",
                       alignItems: "center",
                       fontSize: "18px",
                       color: "#ededed",
-
                     }}
                   >
                     {streamer} <a style={{ marginRight: "5px" }}></a>{" "}
                     {streamerData && streamerData.Partner.active && (
-                      <Emblem
+                      <img
                         name={"Verificado"}
-                        img={
+                        style={{
+                          width: "57px",
+                        }}
+                        src={
                           "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
                         }
                       />
                     )}{" "}
                   </h2>
-
-
                 </div>
               </div>
               <h4
@@ -690,9 +687,11 @@ export default function Channel({
               >
                 {stream.stream_title}
               </h4>
-              <h6 style={{
-                color: "#d76995",
-              }}>
+              <h6
+                style={{
+                  color: "#d76995",
+                }}
+              >
                 {stream.stream_category}
               </h6>
             </div>
@@ -704,9 +703,18 @@ export default function Channel({
                 <p className="channel-title-tag">#{tag}</p>
               ))}
             </div> */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+                gap: "5px",
+              }}
+            >
               {getButtonsFromChannel()}
-              <div style={{ display: "flex", alignItems: "center", gap: '15px' }}>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "15px" }}
+              >
                 <div
                   style={{
                     display: "flex",
@@ -764,36 +772,49 @@ export default function Channel({
                     </p>
                   </div>
                 )}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "5px" }}
+                >
                   <Tippy
                     theme="pinkker"
                     content={
-                      <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                      <h1
+                        style={{ fontSize: "12px", fontFamily: "Montserrat" }}
+                      >
                         Compartir
                       </h1>
                     }
                   >
-
-                    <LuShare style={{ color: 'white', fontSize: '18px', padding: '5px' }} onClick={() => onMouseEnterShare()} />
-
-
+                    <LuShare
+                      style={{
+                        color: "white",
+                        fontSize: "18px",
+                        padding: "5px",
+                      }}
+                      onClick={() => onMouseEnterShare()}
+                    />
                   </Tippy>
                   <Tippy
                     theme="pinkker"
                     content={
-                      <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                      <h1
+                        style={{ fontSize: "12px", fontFamily: "Montserrat" }}
+                      >
                         Opciones
                       </h1>
                     }
                   >
-                    <FaEllipsisVertical style={{ color: 'white', fontSize: '18px', padding: '5px' }} />
+                    <FaEllipsisVertical
+                      style={{
+                        color: "white",
+                        fontSize: "18px",
+                        padding: "5px",
+                      }}
+                    />
                   </Tippy>
                 </div>
-
               </div>
             </div>
-
           </div>
         </div>
 
@@ -1009,9 +1030,6 @@ export default function Channel({
               streamer={streamer}
             />
           )}
-
-
-
         </div>
       );
     }
@@ -1132,8 +1150,6 @@ export default function Channel({
             streamer={streamer}
           />
         )}
-
-
       </div>
     );
   }
@@ -1243,7 +1259,7 @@ export default function Channel({
 
   function getType() {
     if (type === 0) {
-      return <Vod streamer={streamer} limit={4} sort={1} />;
+      return <Vod streamer={streamerData} limit={4} sort={1} />;
     }
 
     if (type === 1) {
@@ -1434,8 +1450,6 @@ export default function Channel({
 
                 {renderAnnoucement()}
                 {stream.online && getStream()}
-
-
               </div>
 
               <div
@@ -1447,8 +1461,6 @@ export default function Channel({
                 }}
               >
                 {!isMobile && (
-
-
                   <div
                     style={{
                       display: "flex",
@@ -1490,35 +1502,27 @@ export default function Channel({
                     >
                       <h3>Acerca de</h3>
                     </div>
-
                   </div>
                 )}
                 <div style={{ width: "100%", margin: "0 auto" }}>
                   {streamerData && !isMobile && getType()}
                 </div>
-                {
-                  isMobile && (
-                    <div style={{ width: "100%", margin: "0 auto" }}>
-                      {streamerData && !isMobile && getType(9)}
-                    </div>
-
-                  )
-                }
                 {isMobile && (
-                  
-
-                    <ChatStreaming
-                      openChatWindow={openChatWindow}
-                      streamerChat={stream}
-                      chatExpandeds={chatExpanded}
-                      ToggleChat={handleToggleChatMobile}
-                      streamerData={streamerData}
-                      user={user}
-                      isMobile={isMobile}
-                      followParam={followParam}
-                    />
-                  
-
+                  <div style={{ width: "100%", margin: "0 auto" }}>
+                    {streamerData && !isMobile && getType(9)}
+                  </div>
+                )}
+                {isMobile && (
+                  <ChatStreaming
+                    openChatWindow={openChatWindow}
+                    streamerChat={stream}
+                    chatExpandeds={chatExpanded}
+                    ToggleChat={handleToggleChatMobile}
+                    streamerData={streamerData}
+                    user={user}
+                    isMobile={isMobile}
+                    followParam={followParam}
+                  />
                 )}
               </div>
             </div>

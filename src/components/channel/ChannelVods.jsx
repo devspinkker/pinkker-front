@@ -14,7 +14,7 @@ import Disconnected from "./Disconnected";
 
 import Loader from "react-loader-spinner";
 
-import CustomPlayer from "../customPlayer/customPlayer";
+import CustomPlayer from "../customPlayer/customPlayerVod";
 
 import PopupFollowers from "../popup/PopupFollowers/PopupFollowers";
 
@@ -53,7 +53,8 @@ import "../../components/dashboard/stream-manager/chat/ChatStreaming.css";
 import ReactDOM from "react-dom";
 import { MemoryRouter } from "react-router-dom";
 import NotificationProvider from "../../components/Notifications/NotificationProvider";
-import CustomPlayerVod from "../customPlayer/customPlayerVod";
+import { LuShare } from "react-icons/lu";
+import { FaEllipsisVertical } from "react-icons/fa6";
 
 export default function Channel({
   isMobile,
@@ -63,7 +64,7 @@ export default function Channel({
 }) {
   const [user, setUser] = useState(null);
   const token = useSelector((state) => state.token);
-  const { streamer, idVod } = useParams();
+  const { streamer } = useParams();
   const usersOnline = useSelector((state) => state.streamers);
 
   const [followParam, setFollowParam] = useState(false);
@@ -205,7 +206,6 @@ export default function Channel({
     }
     loadDataOnlyOnce();
   }, [streamer]);
-
   useEffect(() => {
     if (isMobile) {
       document.body.style.overflow = "hidden";
@@ -337,6 +337,7 @@ export default function Channel({
       if (dataStreamer?.message == "ok") {
         setStreamerData(dataStreamer.data);
       }
+      let loggedUser = window.localStorage.getItem("_id");
 
       const dataStream = await getStreamByUserName(streamer);
 
@@ -357,7 +358,12 @@ export default function Channel({
           setCategorie(dataCategorie);
         }
       }
-
+      if (user?.Following.hasOwnProperty(dataStreamer?.data?.id)) {
+        setFollowParam(true);
+        console.log("AAAAAAAA");
+      } else {
+        setFollowParam(false);
+      }
       const dataGallery = await getStreamerGallery(token, streamer);
       if (dataGallery != null && dataGallery != undefined) {
         setUnlocked(dataGallery.suscribed);
@@ -381,12 +387,7 @@ export default function Channel({
       //     getUser();
       //   }
       // }, 30000);
-      if (user?.Following.hasOwnProperty(dataStreamer?.data?.id)) {
-        setFollowParam(true);
-        console.log("AAAAAAAA");
-      } else {
-        setFollowParam(false);
-      }
+
       const timer2 = setInterval(async () => {
         if (dataStream != null && dataStream != undefined) {
           var dateNow = new Date().getTime();
@@ -496,7 +497,6 @@ export default function Channel({
           {loadingFollow ? (
             <button
               style={{
-                marginTop: "20px",
                 width: "100px",
                 marginLeft: "5px",
                 marginRight: "5px",
@@ -508,7 +508,6 @@ export default function Channel({
           ) : (
             <button
               style={{
-                marginTop: "20px",
                 width: "100px",
                 marginLeft: "5px",
                 marginRight: "5px",
@@ -605,106 +604,216 @@ export default function Channel({
         <div className="channel-v2-primary">
           <div className="channel-v2-categorie">
             <Link to={"/categorie/" + stream.stream_category}>
-              <Tippy
-                theme="pinkker"
-                content={
-                  <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-                    {stream && stream.stream_category}
-                  </h1>
-                }
-              >
-                <img
-                  style={{
-                    width: "45px",
-                    height: "45px",
-                    borderRadius: "100px",
-                  }}
-                  src={stream?.ImageCategorie}
-                />
-              </Tippy>
+              <div>
+                <Tippy
+                  theme="pinkker"
+                  content={
+                    <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                      {stream && stream.stream_category}
+                    </h1>
+                  }
+                >
+                  <img
+                    style={{
+                      width: "5.3rem",
+                      height: "5.3rem",
+                      borderRadius: "100px",
+                      objectFit: "cover",
+                    }}
+                    src={streamerData && streamerData.Avatar}
+                  />
+                </Tippy>
+                {stream.online ? (
+                  <h5
+                    className="channel-avatar-text"
+                    style={{
+                      color: "#ededed",
+                      padding: "2px",
+                      borderRadius: "5px",
+                      position: "relative",
+                      left: "0px",
+                      top: "-20px",
+                      width: "85px",
+                    }}
+                  >
+                    EN DIRECTO
+                  </h5>
+                ) : (
+                  <div></div>
+                )}
+              </div>
             </Link>
-            <h4
+            <div
               style={{
-                color: "#ededed",
-                marginBottom: "4px",
-                marginTop: "4px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                gap: "5px",
               }}
             >
-              {stream.stream_title}
-            </h4>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div className="channel-bottom-avatar-text">
+                  <h2
+                    onClick={() => setUserInfoDiv(true)}
+                    style={{
+                      display: "flex",
+                      cursor: "pointer",
+                      alignItems: "center",
+                      fontSize: "18px",
+                      color: "#ededed",
+                    }}
+                  >
+                    {streamer} <a style={{ marginRight: "5px" }}></a>{" "}
+                    {streamerData && streamerData.Partner.active && (
+                      <img
+                        name={"Verificado"}
+                        style={{
+                          width: "57px",
+                        }}
+                        src={
+                          "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                        }
+                      />
+                    )}{" "}
+                  </h2>
+                </div>
+              </div>
+              <h4
+                style={{
+                  color: "#ededed",
+                  marginBottom: "4px",
+                  marginTop: "4px",
+                }}
+              >
+                {stream.stream_title}
+              </h4>
+              <h6
+                style={{
+                  color: "#d76995",
+                }}
+              >
+                {stream.stream_category}
+              </h6>
+            </div>
           </div>
-          {!isMobile && (
-            <img
-              width={"250px"}
-              src="https://res.cloudinary.com/dcj8krp42/image/upload/v1710372554/Emblemas/logo4fixfix_h5afxo.png"
-              alt=""
-            />
-          )}
+
           <div className="channel-v2-content">
             {/* <div style={{ display: "flex" }}>
               {stream.stream_tag.map((tag) => (
                 <p className="channel-title-tag">#{tag}</p>
               ))}
             </div> */}
-
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+                gap: "5px",
+              }}
+            >
+              {getButtonsFromChannel()}
               <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  height: "25px",
-                  marginRight: "0px",
-                }}
-                z
+                style={{ display: "flex", alignItems: "center", gap: "15px" }}
               >
-                <i
-                  style={{
-                    marginRight: "7px",
-                    color: "darkgray",
-                    fontSize: "12px",
-                  }}
-                  class="fas fa-user"
-                />
-                <p
-                  style={{
-                    color: "darkgray",
-                    fontSize: "15px",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {stream.ViewerCount} espectadores
-                </p>
-              </div>
-              <a
-                style={{
-                  marginLeft: "10px",
-                  marginRight: "3px",
-                  color: "#ededed",
-                }}
-              >
-                •
-              </a>
-              {!isMobile && (
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
                     height: "25px",
-                    color: "darkgray",
-                    marginLeft: "10px",
+                    marginRight: "0px",
                   }}
+                  z
                 >
                   <i
-                    style={{ marginRight: "8px", fontSize: "12px" }}
-                    class="fas fa-clock"
+                    style={{
+                      marginRight: "7px",
+                      color: "darkgray",
+                      fontSize: "12px",
+                    }}
+                    class="fas fa-user"
                   />
-                  <p className="elapsedTime">
-                    {`${formatNumber(elapsedTime.hours)}`}
-                    {`: ${formatNumber(elapsedTime.minutes)}`}
-                    {`: ${formatNumber(elapsedTime.seconds)}`}
+                  <p
+                    style={{
+                      color: "darkgray",
+                      fontSize: "15px",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {stream.ViewerCount}
                   </p>
                 </div>
-              )}
+                <a
+                  style={{
+                    marginLeft: "10px",
+                    marginRight: "3px",
+                    color: "#ededed",
+                  }}
+                >
+                  •
+                </a>
+                {!isMobile && (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      height: "25px",
+                      color: "darkgray",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    <i
+                      style={{ marginRight: "8px", fontSize: "12px" }}
+                      class="fas fa-clock"
+                    />
+                    <p className="elapsedTime">
+                      {`${formatNumber(elapsedTime.hours)}`}
+                      {`: ${formatNumber(elapsedTime.minutes)}`}
+                      {`: ${formatNumber(elapsedTime.seconds)}`}
+                    </p>
+                  </div>
+                )}
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "5px" }}
+                >
+                  <Tippy
+                    theme="pinkker"
+                    content={
+                      <h1
+                        style={{ fontSize: "12px", fontFamily: "Montserrat" }}
+                      >
+                        Compartir
+                      </h1>
+                    }
+                  >
+                    <LuShare
+                      style={{
+                        color: "white",
+                        fontSize: "18px",
+                        padding: "5px",
+                      }}
+                      onClick={() => onMouseEnterShare()}
+                    />
+                  </Tippy>
+                  <Tippy
+                    theme="pinkker"
+                    content={
+                      <h1
+                        style={{ fontSize: "12px", fontFamily: "Montserrat" }}
+                      >
+                        Opciones
+                      </h1>
+                    }
+                  >
+                    <FaEllipsisVertical
+                      style={{
+                        color: "white",
+                        fontSize: "18px",
+                        padding: "5px",
+                      }}
+                    />
+                  </Tippy>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -921,34 +1030,6 @@ export default function Channel({
               streamer={streamer}
             />
           )}
-          <Tippy
-            theme="pinkker"
-            content={
-              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-                Compartir
-              </h1>
-            }
-          >
-            <button
-              onClick={() => onMouseEnterShare()}
-              className="channel-bottom-v2-button-icon"
-            >
-              <i class="fas fa-share-alt" />
-            </button>
-          </Tippy>
-
-          <Tippy
-            theme="pinkker"
-            content={
-              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-                Opciones
-              </h1>
-            }
-          >
-            <button className="channel-bottom-v2-button-icon">
-              <i class="fas fa-ellipsis-v" />
-            </button>
-          </Tippy>
         </div>
       );
     }
@@ -1069,35 +1150,6 @@ export default function Channel({
             streamer={streamer}
           />
         )}
-
-        <Tippy
-          theme="pinkker"
-          content={
-            <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-              Compartir
-            </h1>
-          }
-        >
-          <button
-            onClick={() => onMouseEnterShare()}
-            className="channel-bottom-v2-button-icon"
-          >
-            <i class="fas fa-share-alt" />
-          </button>
-        </Tippy>
-
-        <Tippy
-          theme="pinkker"
-          content={
-            <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-              Opciones
-            </h1>
-          }
-        >
-          <button className="channel-bottom-v2-button-icon">
-            <i class="fas fa-ellipsis-v" />
-          </button>
-        </Tippy>
       </div>
     );
   }
@@ -1207,7 +1259,7 @@ export default function Channel({
 
   function getType() {
     if (type === 0) {
-      return <Vod streamer={streamer} limit={4} sort={1} />;
+      return <Vod streamer={streamerData} limit={4} sort={1} />;
     }
 
     if (type === 1) {
@@ -1306,7 +1358,7 @@ export default function Channel({
 
   function renderPlayer() {
     return (
-      <CustomPlayerVod
+      <CustomPlayer
         dashboard={false}
         isMobile={isMobile}
         expanded={tyExpanded}
@@ -1318,7 +1370,7 @@ export default function Channel({
         time={stream && stream.start_date}
         streamerData={streamerData}
         stream={stream}
-      ></CustomPlayerVod>
+      ></CustomPlayer>
     );
   }
 
@@ -1367,7 +1419,7 @@ export default function Channel({
     if (isMobile) {
       return "100%";
     }
-    return chatExpanded ? "100%" : "72.5%";
+    return chatExpanded ? "80%" : tyExpanded ? "74%" : "80%";
   }
   function getChannel() {
     if (stream?.streamer) {
@@ -1388,13 +1440,12 @@ export default function Channel({
               className="channel-video"
             >
               <div className="conteiner-streamer-online-infoStream">
-                {getBottomStream()}
                 <div className="channel-custom-player-main-div">
                   {streamerData && announce === false && renderPlayer()}
                 </div>
 
                 {renderAnnoucement()}
-                {stream.online && getStream()}
+                {getStream()}
               </div>
 
               <div
@@ -1405,87 +1456,76 @@ export default function Channel({
                   marginTop: stream?.Online ? "" : "22px",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-around",
-                    width: !tyExpanded ? "96.5%" : "95.5%",
-                    marginLeft: !isMobile ? "1.4rem" : "1rem",
-                    // margin: "0 auto",
-                    borderTop: "1px solid #2a2e38",
-                  }}
-                  className="type-set"
-                >
+                {!isMobile && (
                   <div
-                    onClick={() => changeType(1)}
-                    className={type === 1 ? "type-card active" : "type-card"}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                      width: !tyExpanded ? "96.5%" : "95.5%",
+                      marginLeft: !isMobile ? "1.4rem" : "1rem",
+                      // margin: "0 auto",
+                      borderTop: "1px solid #2a2e38",
+                    }}
+                    className="type-set"
                   >
-                    <h3>Muro</h3>
-                  </div>
-                  <div
-                    onClick={() => changeType(3)}
-                    className={type === 3 ? "type-card active" : "type-card"}
-                  >
-                    <h3>Galeria</h3>
-                  </div>
-                  <div
-                    onClick={() => changeType(0)}
-                    className={type === 0 ? "type-card active" : "type-card"}
-                  >
-                    <h3>Vods</h3>
-                  </div>
-                  <div
-                    onClick={() => changeType(4)}
-                    className={type === 4 ? "type-card active" : "type-card"}
-                  >
-                    <h3>Clips</h3>
-                  </div>
-                  <div
-                    onClick={() => changeType(2)}
-                    className={type === 2 ? "type-card active" : "type-card"}
-                  >
-                    <h3>Acerca de</h3>
-                  </div>
-                  {isMobile && (
                     <div
-                      onClick={() => changeType(9)}
-                      className={type === 9 ? "type-card active" : "type-card"}
+                      onClick={() => changeType(1)}
+                      className={type === 1 ? "type-card active" : "type-card"}
                     >
-                      <h3>chat</h3>
+                      <h3>Muro</h3>
                     </div>
-                  )}
-                </div>
-
+                    <div
+                      onClick={() => changeType(3)}
+                      className={type === 3 ? "type-card active" : "type-card"}
+                    >
+                      <h3>Galeria</h3>
+                    </div>
+                    <div
+                      onClick={() => changeType(0)}
+                      className={type === 0 ? "type-card active" : "type-card"}
+                    >
+                      <h3>Vods</h3>
+                    </div>
+                    <div
+                      onClick={() => changeType(4)}
+                      className={type === 4 ? "type-card active" : "type-card"}
+                    >
+                      <h3>Clips</h3>
+                    </div>
+                    <div
+                      onClick={() => changeType(2)}
+                      className={type === 2 ? "type-card active" : "type-card"}
+                    >
+                      <h3>Acerca de</h3>
+                    </div>
+                  </div>
+                )}
                 <div style={{ width: "100%", margin: "0 auto" }}>
-                  {streamerData && getType()}
+                  {streamerData && !isMobile && getType()}
                 </div>
-
-                <div
-                  style={{
-                    width: chatExpanded ? "100%" : "100%",
-                    display: chatExpandedMobile ? "" : "none",
-                  }}
-                  className="channel-chat"
-                >
-                  {isMobile && (
-                    <ChatStreaming
-                      openChatWindow={openChatWindow}
-                      streamerChat={stream}
-                      chatExpandeds={chatExpanded}
-                      ToggleChat={handleToggleChatMobile}
-                      streamerData={streamerData}
-                      user={user}
-                      isMobile={isMobile}
-                      followParam={followParam}
-                    />
-                  )}
-                </div>
+                {isMobile && (
+                  <div style={{ width: "100%", margin: "0 auto" }}>
+                    {streamerData && !isMobile && getType(9)}
+                  </div>
+                )}
+                {isMobile && (
+                  <ChatStreaming
+                    openChatWindow={openChatWindow}
+                    streamerChat={stream}
+                    chatExpandeds={chatExpanded}
+                    ToggleChat={handleToggleChatMobile}
+                    streamerData={streamerData}
+                    user={user}
+                    isMobile={isMobile}
+                    followParam={followParam}
+                  />
+                )}
               </div>
             </div>
 
             {!isMobile && (
               <div
-                style={{ width: chatExpanded ? "0" : "26.4%" }}
+                style={{ width: chatExpanded ? "0" : "22%" }}
                 className="channel-chat"
               >
                 {announce === true && (

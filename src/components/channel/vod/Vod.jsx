@@ -7,8 +7,9 @@ import VodCard from "../../card/VodCard";
 import Skeleton from "@mui/material/Skeleton";
 
 import { Link } from "react-router-dom";
+import { getStreamSummariesByStreamerIDLast30Days } from "../../../services/backGo/streams";
 
-export default function Vod(props) {
+export default function Vod({ streamer }) {
   const [isLoading, setIsLoading] = useState(true);
   setTimeout(() => {
     setIsLoading(false);
@@ -18,17 +19,14 @@ export default function Vod(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getStreamerVod(
-        props.streamer,
-        props.limit,
-        props.sort
-      );
-      if (data != null && data != undefined) {
-        setVideos(data);
+      const data = await getStreamSummariesByStreamerIDLast30Days(streamer?.id);
+      if (data.message == "ok" && data.data) {
+        console.log(data.data);
+        setVideos(data.data);
       }
     };
     fetchData();
-  }, [props.streamer]);
+  }, [streamer]);
 
   function CardSkeleto() {
     return (
@@ -64,22 +62,21 @@ export default function Vod(props) {
 
   return (
     <div className="channel-vod-body">
-      {videos != null &&
-        videos != undefined &&
+      {videos &&
         videos.length > 0 &&
         videos.map((video) =>
           isLoading ? (
             <CardSkeleto />
           ) : (
-            <Link style={{ textDecoration: "none" }} to={"/vod/" + video._id}>
-              <VodCard
-                width="260px"
-                image={video.stream_thumbnail}
-                title={video.stream_title}
-                categorie={video.stream_category}
-                tags={video.stream_tag}
-              />
-            </Link>
+            <VodCard
+              width="260px"
+              image={video.StreamThumbnail}
+              title={video.Title}
+              categorie={video.stream_category}
+              tags={video.stream_tag}
+              User={video.UserInfo}
+              id={video.id}
+            />
           )
         )}
     </div>

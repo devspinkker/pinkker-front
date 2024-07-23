@@ -50,9 +50,8 @@ export default function Biography(props) {
   }
 
   async function handleGenerateTotp() {
-    if (GoogleAuthenticator == "ok") {
+    if (GoogleAuthenticator === "ok") {
       alert({ type: "SUCCESS", message: "ya existe" });
-
       return;
     }
 
@@ -71,7 +70,7 @@ export default function Biography(props) {
     if (result.message === "StatusOK") {
       alert({ type: "SUCCESS" });
     } else {
-      alert({ type: "ERROR", message: result.message });
+      alert({ type: "ERROR" });
     }
   }
 
@@ -134,7 +133,13 @@ export default function Biography(props) {
               <h3>Verificación TOTP</h3>
               <img
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
-                  `otpauth://totp/YourAppName:YOUR_USER_ID?algorithm=SHA1&digits=6&issuer=YourAppName&period=30&secret=${totpSecret}`
+                  `otpauth://totp/${encodeURIComponent(
+                    "Pinkker"
+                  )}:${encodeURIComponent(
+                    props.user?.NameUser
+                  )}?algorithm=SHA1&digits=6&issuer=${encodeURIComponent(
+                    "Pinkker"
+                  )}&period=30&secret=${encodeURIComponent(totpSecret)}`
                 )}`}
                 alt="TOTP QR Code"
               />
