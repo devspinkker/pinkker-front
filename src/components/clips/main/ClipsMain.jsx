@@ -25,17 +25,38 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
     window.scrollTo(0, 0);
     loadClips();
 
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        previewClip();
+      } else if (event.key === "ArrowDown") {
+        event.preventDefault();
+        nextClip();
+      }
+    };
+
+    const handleWheel = (event) => {
+      event.preventDefault();
+      if (event.deltaY < 0) {
+        previewClip();
+      } else if (event.deltaY > 0) {
+        nextClip();
+      }
+    };
+
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("wheel", handleWheel);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("wheel", handleWheel);
     };
   }, []);
 
   const loadClips = async () => {
     try {
       let token = window.localStorage.getItem("token");
-      const ExcludeIDs = clips.map((clips) => clips.id);
+      const ExcludeIDs = clips.map((clip) => clip.id);
       let res;
       if (token) {
         res = await ClipsRecommended(token, ExcludeIDs);
@@ -66,7 +87,7 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
 
         let res;
         if (token) {
-          const ExcludeIDs = clips.map((clips) => clips.id);
+          const ExcludeIDs = clips.map((clip) => clip.id);
           res = await ClipsRecommended(token, ExcludeIDs);
         } else {
           res = await GetClipsCategory("", 1, "");
@@ -89,33 +110,20 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
     }
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "ArrowUp") {
-      previewClip();
-    } else if (event.key === "ArrowDown") {
-      nextClip();
-    }
-  };
-
   const nextClip = () => {
     if (viewedClip < clips.length - 1) {
-      // Primero, establecemos la dirección de transición hacia abajo
       setTransitionDirection("down");
 
       setTimeout(() => {
-        // Luego, cambiamos el clip visto y establecemos la dirección hacia arriba para la animación inversa
         setViewedClip((prevViewedClip) => prevViewedClip + 1);
         setTransitionDirection("up");
-      }, 300); // Esperamos un tiempo para que termine la primera animación
+      }, 300);
 
       setTimeout(() => {
-        // Finalmente, reseteamos la dirección de transición
         setTransitionDirection(null);
-      }, 400); // Esperamos el doble del tiempo de la animación para asegurar que termine completamente
+      }, 400);
 
-      // Verificamos si estamos viendo el antepenúltimo clip
       if (viewedClip === clips.length - 3) {
-        // Cargamos más clips
         loadMoreClips();
       }
     }
@@ -123,19 +131,16 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
 
   const previewClip = () => {
     if (viewedClip > 0) {
-      // Primero, establecemos la dirección de transición hacia arriba
       setTransitionDirection("up");
 
       setTimeout(() => {
-        // Luego, cambiamos el clip visto y establecemos la dirección hacia abajo para la animación inversa
         setViewedClip((prevViewedClip) => prevViewedClip - 1);
         setTransitionDirection("down");
-      }, 300); // Esperamos un tiempo para que termine la primera animación
+      }, 300);
 
       setTimeout(() => {
-        // Finalmente, reseteamos la dirección de transición
         setTransitionDirection(null);
-      }, 300); // Esperamos el doble del tiempo de la animación para asegurar que termine completamente
+      }, 300);
     }
   };
 

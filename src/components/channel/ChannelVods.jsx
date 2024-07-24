@@ -668,7 +668,8 @@ export default function Channel({
                       <img
                         name={"Verificado"}
                         style={{
-                          width: "57px",
+                          width: "17px",
+                          height: '17px'
                         }}
                         src={
                           "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
@@ -1419,7 +1420,13 @@ export default function Channel({
     if (isMobile) {
       return "100%";
     }
-    return chatExpanded ? "80%" : tyExpanded ? "74%" : "80%";
+    return tyExpanded 
+    ? chatExpanded 
+      ? "97%" 
+      : "72.5%" 
+    : chatExpanded 
+      ? "100%" 
+      : "80%";
   }
   function getChannel() {
     if (stream?.streamer) {

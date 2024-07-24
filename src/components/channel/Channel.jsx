@@ -1419,7 +1419,13 @@ export default function Channel({
     if (isMobile) {
       return "100%";
     }
-    return !chatExpanded ? "80%" : tyExpanded ? '74%' : chatExpanded ? "100%" : '80%' ;
+    return tyExpanded 
+    ? chatExpanded 
+      ? "97%" 
+      : "72.5%" 
+    : chatExpanded 
+      ? "100%" 
+      : "80%";
   }
   function getChannel() {
     if (stream?.streamer) {
@@ -1445,7 +1451,9 @@ export default function Channel({
                     {streamerData && announce === false && renderPlayer()}
                   </div>
                 ) : (
-                  <></>
+                  <>
+                  { renderPlayer()}
+                  </>
                 )}
 
                 {renderAnnoucement()}

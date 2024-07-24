@@ -19,7 +19,6 @@ import Pagos from "./pagos/Pagos";
 import SocialNetwork from "./socialnetwork/SocialNetwork";
 import { editAvatar, editProfile } from "../../../services/backGo/user";
 import { Grid, Typography } from "@mui/material";
-import { GrHomeRounded } from "react-icons/gr";
 import { TbEdit } from "react-icons/tb";
 
 export default function UserSettings({ isMobile, user }) {
@@ -89,6 +88,7 @@ export default function UserSettings({ isMobile, user }) {
                         borderRadius: "50%",
                         width: "50px",
                         height: "50px",
+                        objectFit:'cover'
                       }}
                       alt=""
                     />
@@ -154,6 +154,8 @@ export default function UserSettings({ isMobile, user }) {
                         borderRadius: "50%",
                         width: "50px",
                         height: "50px",
+                        objectFit:'cover'
+
                       }}
                       alt=""
                     />
@@ -287,7 +289,7 @@ export default function UserSettings({ isMobile, user }) {
               className={type === 0 ? "item-config-active" : "item-config"}
               onClick={() => setType(0)}
             >
-              <GrHomeRounded />
+              
               <Typography>Cuenta</Typography>
             </Grid>
 
@@ -300,7 +302,7 @@ export default function UserSettings({ isMobile, user }) {
               }}
               className="item-config"
             >
-              <GrHomeRounded />
+              
               <Typography>Verificar</Typography>
             </Grid>
             <Grid
@@ -313,7 +315,7 @@ export default function UserSettings({ isMobile, user }) {
               className={type === 4 ? "item-config-active" : "item-config"}
               onClick={() => setType(4)}
             >
-              <GrHomeRounded />
+              
               <Typography>Seguridad</Typography>
             </Grid>
             <Grid
@@ -325,7 +327,7 @@ export default function UserSettings({ isMobile, user }) {
               }}
               className="item-config"
             >
-              <GrHomeRounded />
+             
               <Typography>Sesiones</Typography>
             </Grid>
             <Grid
@@ -338,7 +340,7 @@ export default function UserSettings({ isMobile, user }) {
               className={type === 1 ? "item-config-active" : "item-config"}
               onClick={() => setType(1)}
             >
-              <GrHomeRounded />
+              
               <Typography>Pinkker Prime</Typography>
             </Grid>
           </Grid>

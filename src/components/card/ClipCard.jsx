@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import Tippy from "@tippyjs/react";
 
 export default function ClipCard({ video, ...props }) {
+
   const [viewVideo, setViewVideo] = useState(false);
   const videoRef = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -204,14 +205,26 @@ export default function ClipCard({ video, ...props }) {
       </div>
     );
   }
-
+  const handleCardClick = () => {
+    if (props.User && props.id) {
+      const url = `/${props.User.NameUser}/${props.id}`;
+      window.open(url, "_blank");
+    } else {
+      console.error("User or id is missing");
+    }
+  };
   function getImagePreview() {
     return (
       <div
         className="clipcard-image-preview"
         onClick={() => {
-          setSelectedVideo({ video });
-          handleEnter();
+          if (video.StreamThumbnail) {
+            handleCardClick();
+          } else {
+            setSelectedVideo({ video });
+            handleEnter();
+          }
+
         }}
       >
         <img
@@ -219,13 +232,13 @@ export default function ClipCard({ video, ...props }) {
             borderRadius: "5px",
             width: "100%",
           }}
-          src={video?.streamThumbnail}
+          src={video?.streamThumbnail ?? video?.StreamThumbnail}
           alt=""
         />
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
-            style={{ width: "35px", height: "35px", borderRadius: "50%" }}
-            src={video?.Avatar}
+            style={{ width: "35px", height: "35px", borderRadius: "50%", objectFit: 'cover' }}
+            src={video?.Avatar ?? video?.UserInfo?.Avatar}
           />
           <div
             style={{
@@ -237,11 +250,17 @@ export default function ClipCard({ video, ...props }) {
             }}
           >
             <h4 style={{ color: "white", fontSize: "14px" }}>
-              {video?.clipTitle}
+              {video?.clipTitle ?? video?.Title}
             </h4>
             <p style={{ fontSize: "12px" }}>{video?.streamerId}</p>
             <p style={{ fontSize: "10px" }}>
-              Clipeado por {video?.nameUserCreator}
+              {
+                video?.nameUserCreator &&
+                <>
+                  Clipeado por {video?.nameUserCreator}
+                </>
+
+              }
             </p>
           </div>
         </div>

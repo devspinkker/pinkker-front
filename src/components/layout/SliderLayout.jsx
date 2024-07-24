@@ -63,17 +63,19 @@ function SliderLayout(props) {
         prevEl: ".custom-prev",
       }}
       modules={[Navigation, Pagination, Scrollbar, A11y]}
-      slidesPerView={
+      slidesPerView = {
         props.isMobile
-          ? props.clipT
+          ? props.Vod || props.clipT
             ? 1
             : 3
-          : props.clipT
+          : props.Vod || props.clipT
             ? 4.5
             : isFullHD
               ? 9.5
-              : props.Vod ?  props.isMobile ? 1 :3.5 : 7
+              : 7
       }
+      
+      
       Pagination
       onSlideChange={() => console.log("slide change")}
       onSwiper={(swiper) => console.log(swiper)}
@@ -349,7 +351,7 @@ function SliderLayout(props) {
           {props?.Vods?.length ? (
             props?.Vods?.filter((Vods, index) => index < 10).map((Vods) => (
               <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
-                <VodCard
+                {/* <VodCard
                   width={"300px"}
                   views={Vods.views}
                   createdAt={Vods.StartOfStream}
@@ -359,7 +361,8 @@ function SliderLayout(props) {
                   categorie={Vods.stream_category}
                   User={Vods.UserInfo}
                   id={Vods.id}
-                />
+                /> */}
+                <ClipCard video={Vods} id={Vods.id}  User={Vods.UserInfo}/>
               </SwiperSlide>
             ))
           ) : (

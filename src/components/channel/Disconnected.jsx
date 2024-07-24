@@ -311,8 +311,9 @@ export default function Disconnected({ isMobile }) {
                         marginLeft: "10px",
                         marginTop: "-15px",
                         borderRadius: "2px",
+                        height: "17px"
                       }}
-                      imageWidth={"25px"}
+                      
                       name="Verificado"
                       img="/images/emblem/verificado.jpg"
                     />
