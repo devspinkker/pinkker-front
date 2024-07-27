@@ -1532,44 +1532,43 @@ export default function Channel({
               </div>
             </div>
 
-            {!isMobile &&
-              user(
-                <div
-                  style={{ width: chatExpanded ? "0" : "22%" }}
-                  className="channel-chat"
-                >
-                  {announce === true && (
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "200px",
-                        backgroundColor: "black",
-                      }}
-                    >
-                      {streamerData && (
-                        <CustomPlayer
-                          isMobile={isMobile}
-                          height={"200px"}
-                          vod={false}
-                          streamerName={streamer}
-                          time={stream && stream.start_date}
-                        ></CustomPlayer>
-                      )}
-                    </div>
-                  )}
+            {!isMobile && user && (
+              <div
+                style={{ width: chatExpanded ? "0" : "22%" }}
+                className="channel-chat"
+              >
+                {announce === true && (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "200px",
+                      backgroundColor: "black",
+                    }}
+                  >
+                    {streamerData && (
+                      <CustomPlayer
+                        isMobile={isMobile}
+                        height={"200px"}
+                        vod={false}
+                        streamerName={streamer}
+                        time={stream && stream.start_date}
+                      ></CustomPlayer>
+                    )}
+                  </div>
+                )}
 
-                  <ChatStreaming
-                    openChatWindow={openChatWindow}
-                    streamerChat={stream}
-                    chatExpandeds={chatExpanded}
-                    ToggleChat={handleToggleChat}
-                    streamerData={streamerData}
-                    user={user}
-                    isMobile={isMobile}
-                    followParam={followParam}
-                  />
-                </div>
-              )}
+                <ChatStreaming
+                  openChatWindow={openChatWindow}
+                  streamerChat={stream}
+                  chatExpandeds={chatExpanded}
+                  ToggleChat={handleToggleChat}
+                  streamerData={streamerData}
+                  user={user}
+                  isMobile={isMobile}
+                  followParam={followParam}
+                />
+              </div>
+            )}
           </div>
         </div>
       );
