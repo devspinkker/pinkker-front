@@ -936,7 +936,8 @@ export function ChatStreaming({
     }
   };
 
-  const [secondsRemaining, setSecondsRemaining] = useState(0);
+  const [secondsRemaining, setSecondsRemaining] = useState(-1);
+
   const countdownSeconds = () => {
     if (user?.id === streamerData?.id) {
       return 0;
@@ -961,12 +962,14 @@ export function ChatStreaming({
     }
   }, [Modolento]);
   useEffect(() => {
-    const currentDate = new Date();
-    const newDate = new Date(
-      currentDate.getTime() + streamerChat.ModSlowMode * 1000
-    );
-    setModolento(newDate);
-  }, [streamerChat]);
+    if (secondsRemaining !== -1) {
+      const currentDate = new Date();
+      const newDate = new Date(
+        currentDate.getTime() + streamerChat.ModSlowMode * 1000
+      );
+      setModolento(newDate);
+    }
+  }, [streamerChat.ModSlowMode]);
   const [GetUserTheChatFollowing, setGetUserTheChatFollowing] = useState(false);
   const [InfoUserChatSelect, setInfoUserChatSelect] = useState({});
   const [followingFrom, setFollowingFrom] = useState(null);
