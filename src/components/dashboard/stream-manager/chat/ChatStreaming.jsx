@@ -232,7 +232,7 @@ export function ChatStreaming({
         newSocket.send("closing");
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
       setSocket(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -317,7 +317,7 @@ export function ChatStreaming({
         }
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
       setsocketDeleteMsj(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -638,19 +638,19 @@ export function ChatStreaming({
           {donationsSubscriptions.length >= 1
             ? getDonationSubscriptionCard(donationsSubscriptions)
             : !chatExpandeds && (
-              <h3
-                style={{
-                  color: "#f36196",
-                  cursor: "pointer",
-                  fontWeight: "bold",
-                }}
-              // onClick={() => {
-              //   onMouseEnterPoints();
-              // }}
-              >
-                Regalá una suscripción
-              </h3>
-            )}
+                <h3
+                  style={{
+                    color: "#f36196",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                  }}
+                  // onClick={() => {
+                  //   onMouseEnterPoints();
+                  // }}
+                >
+                  Regalá una suscripción
+                </h3>
+              )}
         </div>
         <div
           className={
@@ -675,48 +675,48 @@ export function ChatStreaming({
           >
             {displayDonations[0] !== undefined
               ? [...displayDonations].map((donation, index) => (
-                <Donation
-                  key={index}
-                  donation={donation}
-                  index={index}
-                  callback={() => {
-                    toggleDonationCard(
-                      donation?.Pixeles,
-                      donation?.FromUserInfo.NameUser,
-                      donation?.FromUserInfo.Avatar,
-                      donation?.Text,
-                      donation?.userLook,
-                      donation?.userColor
-                    );
-                    setShowAllDonations(true);
-                    setDonationCardVisible(donationCardVisible);
-                    setSelectedDonation(donation);
+                  <Donation
+                    key={index}
+                    donation={donation}
+                    index={index}
+                    callback={() => {
+                      toggleDonationCard(
+                        donation?.Pixeles,
+                        donation?.FromUserInfo.NameUser,
+                        donation?.FromUserInfo.Avatar,
+                        donation?.Text,
+                        donation?.userLook,
+                        donation?.userColor
+                      );
+                      setShowAllDonations(true);
+                      setDonationCardVisible(donationCardVisible);
+                      setSelectedDonation(donation);
 
-                    setClickCount((prevCount) => prevCount + 1);
+                      setClickCount((prevCount) => prevCount + 1);
 
-                    if (clickCount >= 1) {
-                      setFirstClick(true);
-                    }
+                      if (clickCount >= 1) {
+                        setFirstClick(true);
+                      }
 
-                    setAllDonationsExpanded(true);
-                  }}
-                  ShowAllDonations={setShowAllDonations}
-                />
-              ))
+                      setAllDonationsExpanded(true);
+                    }}
+                    ShowAllDonations={setShowAllDonations}
+                  />
+                ))
               : !chatExpandeds && (
-                <h3
-                  style={{
-                    color: "#f36196",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                  }}
-                  onClick={() => {
-                    onMouseEnterPoints();
-                  }}
-                >
-                  Envia pixeles
-                </h3>
-              )}
+                  <h3
+                    style={{
+                      color: "#f36196",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                    }}
+                    onClick={() => {
+                      onMouseEnterPoints();
+                    }}
+                  >
+                    Envia pixeles
+                  </h3>
+                )}
           </div>
           <button
             style={{
@@ -796,7 +796,6 @@ export function ChatStreaming({
       setMessage("");
       return;
     }
-    console.log(message);
 
     if (message.startsWith("/unvip")) {
       const regex = /\/unvip\s+(\S+)\s*(.*)/;
@@ -916,7 +915,7 @@ export function ChatStreaming({
         const newDate = new Date(
           currentDate.getTime() + streamerChat.ModSlowMode * 1000
         );
-
+        console.log(newDate);
         setModolento(newDate);
       } catch (error) {
         console.log(error);
@@ -951,7 +950,8 @@ export function ChatStreaming({
         const newDate = new Date(
           currentDate.getTime() + streamerChat.ModSlowMode * 1000
         );
-
+        console.log(newDate);
+        console.log("AA");
         setModolento(newDate);
       } catch (error) {
         console.log(error);
@@ -979,10 +979,31 @@ export function ChatStreaming({
       return "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/SUBSCRIPTOR.jpg_pxzloq.png";
     }
   };
+
+  const [secondsRemaining, setSecondsRemaining] = useState(0);
   const countdownSeconds = () => {
+    if (user?.id === streamerData?.id) {
+      return 0;
+    }
     const difference = (Modolento - new Date()) / 1000;
-    return Math.floor(difference);
+
+    return Math.max(0, Math.floor(difference));
   };
+
+  useEffect(() => {
+    if (Modolento) {
+      setSecondsRemaining(countdownSeconds());
+      const interval = setInterval(() => {
+        setSecondsRemaining(countdownSeconds());
+
+        if (countdownSeconds() <= 0) {
+          clearInterval(interval);
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [Modolento]);
 
   const [GetUserTheChatFollowing, setGetUserTheChatFollowing] = useState(false);
   const [InfoUserChatSelect, setInfoUserChatSelect] = useState({});
@@ -1168,10 +1189,16 @@ export function ChatStreaming({
         position: DashboardStream && "relative",
       }}
     >
-
       <div className="info_chat_extra">
-
-        <div style={{ height: "50px", display: "flex", alignItems: "center", justifyContent:'space-between', width:'100%' }}>
+        <div
+          style={{
+            height: "50px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
           {chatExpandeds == true && !isMobile && !DashboardStream && (
             <img
               onClick={ToggleChat}
@@ -1180,8 +1207,8 @@ export function ChatStreaming({
                 cursor: "pointer",
                 textAlign: "center",
                 color: "white",
-                position:'fixed',
-                right: '1%',
+                position: "fixed",
+                right: "1%",
                 transform: "rotate(180deg)",
                 zIndex: "99999",
               }}
@@ -1197,7 +1224,7 @@ export function ChatStreaming({
                 cursor: "pointer",
                 textAlign: "center",
                 color: "white",
-                
+
                 zIndex: "99999",
               }}
               className="chat-button-more"
@@ -1211,7 +1238,7 @@ export function ChatStreaming({
                 width: "12px",
                 cursor: "pointer",
                 textAlign: "center",
-                color: "white",            
+                color: "white",
                 zIndex: "99999",
               }}
               className="chat-button-more"
@@ -1222,7 +1249,7 @@ export function ChatStreaming({
             style={{
               fontSize: "17px",
               fontWeight: "bolder",
-              
+
               textAlign: "center",
               letterSpacing: "0.5px",
               color: "#ffff",
@@ -1333,7 +1360,7 @@ export function ChatStreaming({
                 {GetInfoUserInRoom &&
                   (GetInfoUserInRoom.Moderator ||
                     streamerChat.streamerId ==
-                    window.localStorage.getItem("_id")) && (
+                      window.localStorage.getItem("_id")) && (
                     <div
                       className="hover-button"
                       onClick={(e) => {
@@ -1465,8 +1492,8 @@ export function ChatStreaming({
               )}
             </div>
             {GetInfoUserInRoom &&
-              GetInfoUserInRoom.Moderator &&
-              streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
+            GetInfoUserInRoom.Moderator &&
+            streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
               <div className="ShowGetUserTheChat-actions-Moderator">
                 <div
                   onClick={() =>
@@ -1649,8 +1676,8 @@ export function ChatStreaming({
                   </div>
                 </div>
                 {GetInfoUserInRoom &&
-                  (GetInfoUserInRoom.Moderator ||
-                    streamerChat.streamerId ==
+                (GetInfoUserInRoom.Moderator ||
+                  streamerChat.streamerId ==
                     window.localStorage.getItem("_id")) ? (
                   <div
                     className="hover-button"
@@ -1801,8 +1828,8 @@ export function ChatStreaming({
                     </div>
                   </div>
                   {GetInfoUserInRoom &&
-                    (GetInfoUserInRoom.Moderator ||
-                      streamerChat.streamerId ==
+                  (GetInfoUserInRoom.Moderator ||
+                    streamerChat.streamerId ==
                       window.localStorage.getItem("_id")) ? (
                     <div
                       className="hover-button"
@@ -1971,11 +1998,14 @@ export function ChatStreaming({
                   user={user}
                 />
               )}
-              {Modolento >= new Date() ? (
+              {Modolento && Modolento >= new Date() && secondsRemaining > 0 ? (
                 <input
                   type="text"
-                  value={message}
-                  placeholder={`Faltan ${countdownSeconds()} segundos`}
+                  style={{
+                    height: "38px",
+                  }}
+                  value={`Faltan ${secondsRemaining} segundos`}
+                  readOnly
                 />
               ) : (
                 // <input
@@ -2086,7 +2116,7 @@ export function ChatStreaming({
                 type="text"
                 // value={message}
                 placeholder="solo seguidores"
-              // onChange={handleChange}
+                // onChange={handleChange}
               />
               <Tippy
                 theme="pinkker"
@@ -2152,11 +2182,14 @@ export function ChatStreaming({
                 user={user}
               />
             )}
-            {Modolento >= new Date() ? (
+            {Modolento && Modolento >= new Date() && secondsRemaining > 0 ? (
               <input
                 type="text"
-                value={message}
-                placeholder={`Faltan ${countdownSeconds()} segundos`}
+                style={{
+                  height: "38px",
+                }}
+                value={`Faltan ${secondsRemaining} segundos`}
+                readOnly
               />
             ) : (
               // <input
@@ -2264,7 +2297,7 @@ export function ChatStreaming({
               type="text"
               // value={message}
               placeholder="solo suscriptores"
-            // onChange={handleChange}
+              // onChange={handleChange}
             />
             <Tippy
               theme="pinkker"
@@ -2330,11 +2363,14 @@ export function ChatStreaming({
                 user={user}
               />
             )}
-            {Modolento >= new Date() ? (
+            {Modolento && Modolento >= new Date() && secondsRemaining > 0 ? (
               <input
                 type="text"
-                value={message}
-                placeholder={`Faltan ${countdownSeconds()} segundos`}
+                style={{
+                  height: "38px",
+                }}
+                value={`Faltan ${secondsRemaining} segundos`}
+                readOnly
               />
             ) : (
               // <input
