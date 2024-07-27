@@ -35,6 +35,9 @@ export async function GetSubssChat(Toid) {
     }
 }
 export async function GetSubsAct(source, Desti) {
+    console.log(source);
+    console.log(Desti);
+
     try {
         const response = await axios.get(
             `${baseURL}/Subs/GetSubsAct?Source=${source}&Desti=${Desti}`

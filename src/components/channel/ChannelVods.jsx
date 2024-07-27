@@ -146,7 +146,7 @@ export default function Channel({
     }
   };
   useEffect(() => {
-    if (chatWindow) {
+    if (chatWindow && user ) {
       const chatContainer = chatWindow.document.createElement("div");
       chatWindow.document.body.appendChild(chatContainer);
       ReactDOM.render(
@@ -185,25 +185,6 @@ export default function Channel({
 
   //  get usuario
   useEffect(() => {
-    async function getUserToken() {
-      let token = window.localStorage.getItem("token");
-
-      if (token) {
-        try {
-          const res = await getUserByIdTheToken(token);
-          if (res?.message === "ok" && res?.data?.id) {
-            setUser(res.data);
-          }
-        } catch (error) {}
-      }
-    }
-    let loggedUser = window.localStorage.getItem("_id");
-    if (loggedUser) {
-      setusuarioID(loggedUser);
-      getUserToken();
-    } else {
-      setusuarioID("no _id");
-    }
     loadDataOnlyOnce();
   }, [streamer]);
   useEffect(() => {
@@ -285,7 +266,19 @@ export default function Channel({
       setDropdownGiftSub(true);
     }
   };
+  async function getUserToken() {
+    let token = window.localStorage.getItem("token");
 
+    if (token) {
+      try {
+        const res = await getUserByIdTheToken(token);
+        if (res?.message === "ok" && res?.data?.id) {
+          setUser(res.data);
+          return res.data;
+        }
+      } catch (error) {}
+    }
+  }
   useEffect(() => {
     document.body.classList.add("hide-scrollbar");
     document.title = streamer + " - Pinkker";
@@ -358,9 +351,15 @@ export default function Channel({
           setCategorie(dataCategorie);
         }
       }
-      if (user?.Following.hasOwnProperty(dataStreamer?.data?.id)) {
+      let dataUser;
+      if (loggedUser) {
+        setusuarioID(loggedUser);
+        dataUser = await getUserToken();
+      } else {
+        setusuarioID("no _id");
+      }
+      if (dataUser?.Following?.hasOwnProperty(dataStreamer?.data?.id)) {
         setFollowParam(true);
-        console.log("AAAAAAAA");
       } else {
         setFollowParam(false);
       }
@@ -416,11 +415,11 @@ export default function Channel({
           stream?.ModChat !== dataStream?.data?.ModChat ||
           stream?.ModSlowMode !== dataStream?.data.ModSlowMode
         ) {
-          // setStream((prevStream) => ({
-          //   ...prevStream,
-          //   ModChat: dataStream?.data?.ModChat,
-          //   ModSlowMode: dataStream?.data?.ModSlowMode,
-          // }));
+          setStream((prevStream) => ({
+            ...prevStream,
+            ModChat: dataStream?.data?.ModChat,
+            ModSlowMode: dataStream?.data?.ModSlowMode,
+          }));
         }
         if (dataStream.data.online) {
           expanded();
@@ -669,7 +668,7 @@ export default function Channel({
                         name={"Verificado"}
                         style={{
                           width: "17px",
-                          height: '17px'
+                          height: "17px",
                         }}
                         src={
                           "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
@@ -1420,12 +1419,12 @@ export default function Channel({
     if (isMobile) {
       return "100%";
     }
-    return tyExpanded 
-    ? chatExpanded 
-      ? "97%" 
-      : "72.5%" 
-    : chatExpanded 
-      ? "100%" 
+    return tyExpanded
+      ? chatExpanded
+        ? "97%"
+        : "72.5%"
+      : chatExpanded
+      ? "100%"
       : "80%";
   }
   function getChannel() {
@@ -1515,7 +1514,7 @@ export default function Channel({
                     {streamerData && !isMobile && getType(9)}
                   </div>
                 )}
-                {isMobile && (
+                {isMobile && user &&(
                   <ChatStreaming
                     openChatWindow={openChatWindow}
                     streamerChat={stream}
@@ -1530,7 +1529,7 @@ export default function Channel({
               </div>
             </div>
 
-            {!isMobile && (
+            {!isMobile && user && (
               <div
                 style={{ width: chatExpanded ? "0" : "22%" }}
                 className="channel-chat"

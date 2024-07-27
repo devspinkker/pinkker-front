@@ -146,7 +146,7 @@ export default function Channel({
     }
   };
   useEffect(() => {
-    if (chatWindow) {
+    if (chatWindow && user) {
       const chatContainer = chatWindow.document.createElement("div");
       chatWindow.document.body.appendChild(chatContainer);
       ReactDOM.render(
@@ -183,27 +183,7 @@ export default function Channel({
     }
   }, [chatWindow]);
 
-  //  get usuario
   useEffect(() => {
-    async function getUserToken() {
-      let token = window.localStorage.getItem("token");
-
-      if (token) {
-        try {
-          const res = await getUserByIdTheToken(token);
-          if (res?.message === "ok" && res?.data?.id) {
-            setUser(res.data);
-          }
-        } catch (error) {}
-      }
-    }
-    let loggedUser = window.localStorage.getItem("_id");
-    if (loggedUser) {
-      setusuarioID(loggedUser);
-      getUserToken();
-    } else {
-      setusuarioID("no _id");
-    }
     loadDataOnlyOnce();
   }, [streamer]);
   useEffect(() => {
@@ -286,6 +266,19 @@ export default function Channel({
     }
   };
 
+  async function getUserToken() {
+    let token = window.localStorage.getItem("token");
+
+    if (token) {
+      try {
+        const res = await getUserByIdTheToken(token);
+        if (res?.message === "ok" && res?.data?.id) {
+          setUser(res.data);
+          return res.data;
+        }
+      } catch (error) {}
+    }
+  }
   useEffect(() => {
     document.body.classList.add("hide-scrollbar");
     document.title = streamer + " - Pinkker";
@@ -358,9 +351,15 @@ export default function Channel({
           setCategorie(dataCategorie);
         }
       }
-      if (user?.Following.hasOwnProperty(dataStreamer?.data?.id)) {
+      let dataUser;
+      if (loggedUser) {
+        setusuarioID(loggedUser);
+        dataUser = await getUserToken();
+      } else {
+        setusuarioID("no _id");
+      }
+      if (dataUser?.Following?.hasOwnProperty(dataStreamer?.data?.id)) {
         setFollowParam(true);
-        console.log("AAAAAAAA");
       } else {
         setFollowParam(false);
       }
@@ -416,11 +415,11 @@ export default function Channel({
           stream?.ModChat !== dataStream?.data?.ModChat ||
           stream?.ModSlowMode !== dataStream?.data.ModSlowMode
         ) {
-          // setStream((prevStream) => ({
-          //   ...prevStream,
-          //   ModChat: dataStream?.data?.ModChat,
-          //   ModSlowMode: dataStream?.data?.ModSlowMode,
-          // }));
+          setStream((prevStream) => ({
+            ...prevStream,
+            ModChat: dataStream?.data?.ModChat,
+            ModSlowMode: dataStream?.data?.ModSlowMode,
+          }));
         }
         if (dataStream.data.online) {
           expanded();
@@ -1419,12 +1418,12 @@ export default function Channel({
     if (isMobile) {
       return "100%";
     }
-    return tyExpanded 
-    ? chatExpanded 
-      ? "97%" 
-      : "72.5%" 
-    : chatExpanded 
-      ? "100%" 
+    return tyExpanded
+      ? chatExpanded
+        ? "97%"
+        : "72.5%"
+      : chatExpanded
+      ? "100%"
       : "80%";
   }
   function getChannel() {
@@ -1451,9 +1450,7 @@ export default function Channel({
                     {streamerData && announce === false && renderPlayer()}
                   </div>
                 ) : (
-                  <>
-                  { renderPlayer()}
-                  </>
+                  <>{renderPlayer()}</>
                 )}
 
                 {renderAnnoucement()}
@@ -1520,7 +1517,7 @@ export default function Channel({
                     {streamerData && !isMobile && getType(9)}
                   </div>
                 )}
-                {isMobile && (
+                {isMobile && user && (
                   <ChatStreaming
                     openChatWindow={openChatWindow}
                     streamerChat={stream}
@@ -1535,43 +1532,44 @@ export default function Channel({
               </div>
             </div>
 
-            {!isMobile && (
-              <div
-                style={{ width: chatExpanded ? "0" : "22%" }}
-                className="channel-chat"
-              >
-                {announce === true && (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "200px",
-                      backgroundColor: "black",
-                    }}
-                  >
-                    {streamerData && (
-                      <CustomPlayer
-                        isMobile={isMobile}
-                        height={"200px"}
-                        vod={false}
-                        streamerName={streamer}
-                        time={stream && stream.start_date}
-                      ></CustomPlayer>
-                    )}
-                  </div>
-                )}
+            {!isMobile &&
+              user(
+                <div
+                  style={{ width: chatExpanded ? "0" : "22%" }}
+                  className="channel-chat"
+                >
+                  {announce === true && (
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "200px",
+                        backgroundColor: "black",
+                      }}
+                    >
+                      {streamerData && (
+                        <CustomPlayer
+                          isMobile={isMobile}
+                          height={"200px"}
+                          vod={false}
+                          streamerName={streamer}
+                          time={stream && stream.start_date}
+                        ></CustomPlayer>
+                      )}
+                    </div>
+                  )}
 
-                <ChatStreaming
-                  openChatWindow={openChatWindow}
-                  streamerChat={stream}
-                  chatExpandeds={chatExpanded}
-                  ToggleChat={handleToggleChat}
-                  streamerData={streamerData}
-                  user={user}
-                  isMobile={isMobile}
-                  followParam={followParam}
-                />
-              </div>
-            )}
+                  <ChatStreaming
+                    openChatWindow={openChatWindow}
+                    streamerChat={stream}
+                    chatExpandeds={chatExpanded}
+                    ToggleChat={handleToggleChat}
+                    streamerData={streamerData}
+                    user={user}
+                    isMobile={isMobile}
+                    followParam={followParam}
+                  />
+                </div>
+              )}
           </div>
         </div>
       );

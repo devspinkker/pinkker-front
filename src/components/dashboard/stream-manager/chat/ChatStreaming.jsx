@@ -99,7 +99,6 @@ export function ChatStreaming({
       console.error("inputRef.current is null");
       return;
     }
-
     if (selectedNode.nodeType === Node.TEXT_NODE) {
       const text = selectedNode.textContent;
       const beforeText = text.substring(0, range.startOffset);
@@ -148,8 +147,8 @@ export function ChatStreaming({
     const inputElement = inputRef.current;
     let messageWithImages = "";
 
-    inputElement.childNodes.forEach((node) => {
-      if (node.nodeType === Node.TEXT_NODE) {
+    inputElement?.childNodes?.forEach((node) => {
+      if (node?.nodeType === Node?.TEXT_NODE) {
         messageWithImages += node.textContent;
       } else if (
         node.nodeType === Node.ELEMENT_NODE &&
@@ -796,7 +795,6 @@ export function ChatStreaming({
       setMessage("");
       return;
     }
-
     if (message.startsWith("/unvip")) {
       const regex = /\/unvip\s+(\S+)\s*(.*)/;
       const match = message.match(regex);
@@ -881,82 +879,40 @@ export function ChatStreaming({
     setResMessageschat(null);
     setMessage("");
     const textplain = getPlainTextMessage();
-    if (
-      streamerChat?.ModChat == "Following" &&
-      (followParam || FollowParamOwnner)
-    ) {
-      try {
-        const token = window.localStorage.getItem("token");
-        if (!token) {
-          alert("no logueado");
-          return;
-        }
-        let config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
 
-        const REACT_APP_BACKCHAT = process.env.REACT_APP_BACKCHAT;
-        let ResNameUser = "";
-        let ResMessage = "";
-
-        if (ResMessageschatState != null) {
-          ResNameUser = ResMessageschatState.nameUser;
-          ResMessage = ResMessageschatState.message;
-        }
-
-        const res = await axios.post(
-          `${REACT_APP_BACKCHAT}/chatStreaming/${streamerChat.id}`,
-          { message: textplain, ResNameUser, ResMessage },
-          config
-        );
-        const currentDate = new Date();
-        const newDate = new Date(
-          currentDate.getTime() + streamerChat.ModSlowMode * 1000
-        );
-        console.log(newDate);
-        setModolento(newDate);
-      } catch (error) {
-        console.log(error);
+    try {
+      const token = window.localStorage.getItem("token");
+      if (!token) {
+        alert("no logueado");
+        return;
       }
-    } else if (streamerChat?.ModChat == "") {
-      try {
-        const token = window.localStorage.getItem("token");
-        if (!token) {
-          alert("no logueado");
-          return;
-        }
-        let config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        const REACT_APP_BACKCHAT = process.env.REACT_APP_BACKCHAT;
-        let ResNameUser = "";
-        let ResMessage = "";
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
-        if (ResMessageschatState != null) {
-          ResNameUser = ResMessageschatState.nameUser;
-          ResMessage = ResMessageschatState.message;
-        }
+      const REACT_APP_BACKCHAT = process.env.REACT_APP_BACKCHAT;
+      let ResNameUser = "";
+      let ResMessage = "";
 
-        const res = await axios.post(
-          `${REACT_APP_BACKCHAT}/chatStreaming/${streamerChat.id}`,
-          { message: textplain, ResNameUser, ResMessage },
-          config
-        );
-        const currentDate = new Date();
-        const newDate = new Date(
-          currentDate.getTime() + streamerChat.ModSlowMode * 1000
-        );
-        console.log(newDate);
-        console.log("AA");
-        setModolento(newDate);
-      } catch (error) {
-        console.log(error);
+      if (ResMessageschatState != null) {
+        ResNameUser = ResMessageschatState.nameUser;
+        ResMessage = ResMessageschatState.message;
       }
-    } else {
+
+      const res = await axios.post(
+        `${REACT_APP_BACKCHAT}/chatStreaming/${streamerChat.id}`,
+        { message: textplain, ResNameUser, ResMessage },
+        config
+      );
+      const currentDate = new Date();
+      const newDate = new Date(
+        currentDate.getTime() + streamerChat.ModSlowMode * 1000
+      );
+      setModolento(newDate);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -1004,7 +960,13 @@ export function ChatStreaming({
       return () => clearInterval(interval);
     }
   }, [Modolento]);
-
+  useEffect(() => {
+    const currentDate = new Date();
+    const newDate = new Date(
+      currentDate.getTime() + streamerChat.ModSlowMode * 1000
+    );
+    setModolento(newDate);
+  }, [streamerChat]);
   const [GetUserTheChatFollowing, setGetUserTheChatFollowing] = useState(false);
   const [InfoUserChatSelect, setInfoUserChatSelect] = useState({});
   const [followingFrom, setFollowingFrom] = useState(null);
