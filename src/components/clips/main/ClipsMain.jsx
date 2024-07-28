@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "./ClipsMain.css";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import ClipCard from "./card/ClipCard";
 import Auth from "../../auth/Auth";
 import {
   ClipsRecommended,
-  GetClipsCategory,
   GetClipsMostViewed,
+  GetClipId,
 } from "../../../services/backGo/clip";
 import { BarLoader } from "react-spinners";
 
 export default function ClipsMain({ tyExpanded, expandedLeft }) {
   const auth = useSelector((state) => state.auth);
   const { isLogged } = auth;
+  const { clipId } = useParams(); // Usa useParams para obtener el clipId
 
   const [clips, setClips] = useState([]);
-  const [viewedClip, setViewedClip] = useState(0);
+  const [viewedClip, setViewedClip] = useState(null);
   const [viewAuth, setViewAuth] = useState(false);
   const [loadingMoreClips, setLoadingMoreClips] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -45,7 +47,7 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("wheel", handleWheel);
+    window.addEventListener("wheel", handleWheel, { passive: false });
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
@@ -53,11 +55,32 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (clipId) {
+      setViewedClip(clipId);
+    } else if (clips.length > 0) {
+      setViewedClip(clips[0].id); // Set the first clip as default if no parameter is found
+    }
+  }, [clipId, clips]);
+
   const loadClips = async () => {
     try {
-      let token = window.localStorage.getItem("token");
-      const ExcludeIDs = clips.map((clip) => clip.id);
       let res;
+      let newClips = [];
+      let token = window.localStorage.getItem("token");
+
+      // Obtén el clip por clipId si está presente
+      if (clipId) {
+        const resClipById = await GetClipId(clipId); // Asegúrate de que esta función existe
+        console.log('resClipById', resClipById)
+        if (resClipById.data.message === "StatusOK" && resClipById.data.dataClip != null) {
+          newClips.push(resClipById.data.dataClip);
+        }
+      }
+      
+      const ExcludeIDs = newClips.map((clip) => clip.id);
+
+      // Obtén los clips recomendados si existe token, sino obtén los clips más vistos
       if (token) {
         res = await ClipsRecommended(token, ExcludeIDs);
       } else {
@@ -65,14 +88,10 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
       }
 
       if (res.data.message === "ok" && res.data.data != null) {
-        const newClips = res.data.data;
-        setClips(newClips);
-      } else {
-        res = await GetClipsMostViewed(1);
-        if (res.data.message === "ok") {
-          setClips([...clips, ...res.data.data]);
-        }
+        newClips = [...newClips, ...res.data.data];
       }
+
+      setClips(newClips);
     } catch (error) {
       console.error(error);
     } finally {
@@ -90,17 +109,12 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
           const ExcludeIDs = clips.map((clip) => clip.id);
           res = await ClipsRecommended(token, ExcludeIDs);
         } else {
-          res = await GetClipsCategory("", 1, "");
+          res = await GetClipsMostViewed(1);
         }
 
         if (res.data.message === "ok" && res.data.data != null) {
           const newClips = res.data.data;
           setClips([...clips, ...newClips]);
-        } else {
-          res = await GetClipsMostViewed(1);
-          if (res.data.message === "ok") {
-            setClips([...clips, ...res.data.data]);
-          }
         }
       } catch (error) {
         console.error(error);
@@ -111,11 +125,12 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
   };
 
   const nextClip = () => {
-    if (viewedClip < clips.length - 1) {
+    const currentIndex = clips.findIndex(clip => clip.id === viewedClip);
+    if (currentIndex < clips.length - 1) {
       setTransitionDirection("down");
 
       setTimeout(() => {
-        setViewedClip((prevViewedClip) => prevViewedClip + 1);
+        setViewedClip(clips[currentIndex + 1].id);
         setTransitionDirection("up");
       }, 300);
 
@@ -123,18 +138,19 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
         setTransitionDirection(null);
       }, 400);
 
-      if (viewedClip === clips.length - 3) {
+      if (currentIndex === clips.length - 3) {
         loadMoreClips();
       }
     }
   };
 
   const previewClip = () => {
-    if (viewedClip > 0) {
+    const currentIndex = clips.findIndex(clip => clip.id === viewedClip);
+    if (currentIndex > 0) {
       setTransitionDirection("up");
 
       setTimeout(() => {
-        setViewedClip((prevViewedClip) => prevViewedClip - 1);
+        setViewedClip(clips[currentIndex - 1].id);
         setTransitionDirection("down");
       }, 300);
 
@@ -163,15 +179,14 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
             {clips.map((clip, index) => (
               <div
                 key={clip.id}
-                className={`clip-wrapper ${
-                  index === viewedClip ? "active" : ""
-                }`}
+                className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
+                id={clip.id}
               >
                 <ClipCard
                   tyExpanded={tyExpanded}
                   type={index === 0 ? 0 : 1}
                   clip={clip}
-                  isActive={index === viewedClip ? 2 : 1}
+                  isActive={clip.id === viewedClip ? 2 : 1}
                 />
               </div>
             ))}

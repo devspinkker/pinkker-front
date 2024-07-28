@@ -208,10 +208,15 @@ export default function ClipCard({ video, ...props }) {
   const handleCardClick = () => {
     if (props.User && props.id) {
       const url = `/${props.User.NameUser}/${props.id}`;
-      window.open(url, "_blank");
+      window.location.href = url;
     } else {
       console.error("User or id is missing");
     }
+  };
+  const handleCardClickClip = () => {
+      const url = `/plataform/clips/${props.id}`;
+      window.location.href = url;
+    
   };
   function getImagePreview() {
     return (
@@ -221,8 +226,7 @@ export default function ClipCard({ video, ...props }) {
           if (video.StreamThumbnail) {
             handleCardClick();
           } else {
-            setSelectedVideo({ video });
-            handleEnter();
+            handleCardClickClip()
           }
 
         }}

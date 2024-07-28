@@ -320,7 +320,7 @@ const AppRouter = () => {
               <Achievement />
             </Route>
 
-            <Route exact path="/plataform/clips">
+            <Route exact path="/plataform/clips/:clipId?">
               <ClipsMain tyExpanded={expanded} expandedLeft={expandedLeft} />
             </Route>
 
@@ -410,7 +410,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 socketMain={socketMain}
                 handleMessage={(e) => addOpenMessage(e)}
-                expanded={() => setExpanded(false)}
+                expanded={expanded}
                 tyExpanded={expanded}
               />
             </Route>
@@ -426,7 +426,7 @@ const AppRouter = () => {
                 isMobile={isMobile}
                 socketMain={socketMain}
                 handleMessage={(e) => addOpenMessage(e)}
-                expanded={() => setExpanded(false)}
+                expanded={expanded}
                 tyExpanded={expanded}
               />
             </Route>

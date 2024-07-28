@@ -275,7 +275,7 @@ function SliderLayout(props) {
                 <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
                   {/* <ClipCard video={clip} /> */}
 
-                  <ClipCard video={clip} />
+                  <ClipCard video={clip} id={clip.id} />
                 </SwiperSlide>
               ))
           ) : (
