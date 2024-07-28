@@ -63,6 +63,7 @@ export default function Channel({
   handleMessage,
 }) {
   const [user, setUser] = useState(null);
+  console.log('user', user)
   const token = useSelector((state) => state.token);
   const { streamer } = useParams();
   const usersOnline = useSelector((state) => state.streamers);
@@ -235,7 +236,7 @@ export default function Channel({
     }
   }, []);
 
-  const loadDataOnlyOnce = () => {};
+  const loadDataOnlyOnce = () => { };
 
   function togglePopupFollowers(typeDefault) {
     setTypeFollowers(typeDefault);
@@ -276,7 +277,7 @@ export default function Channel({
           setUser(res.data);
           return res.data;
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   }
   useEffect(() => {
@@ -303,8 +304,8 @@ export default function Channel({
     setReadMore(false);
     setTimeCount(null);
 
-    const interval_id = window.setInterval(function () {},
-    Number.MAX_SAFE_INTEGER);
+    const interval_id = window.setInterval(function () { },
+      Number.MAX_SAFE_INTEGER);
     for (let i = 1; i < interval_id; i++) {
       window.clearInterval(i);
     }
@@ -1423,8 +1424,8 @@ export default function Channel({
         ? "97%"
         : "72.5%"
       : chatExpanded
-      ? "100%"
-      : "80%";
+        ? "100%"
+        : "80%";
   }
   function getChannel() {
     if (stream?.streamer) {
@@ -1450,7 +1451,7 @@ export default function Channel({
                     {streamerData && announce === false && renderPlayer()}
                   </div>
                 ) : (
-                  <>{renderPlayer()}</>
+                  <img  style={{width:'100%'}} src={user?.Banner}></img>
                 )}
 
                 {renderAnnoucement()}
