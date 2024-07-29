@@ -9,8 +9,8 @@ import {
   ChangeGoogleAuthenticator,
   DeleteGoogleAuthenticator,
 } from "../../../../services/backGo/totpService";
+import { editProfile, ChangeNameUser } from "../../../../services/backGo/user";
 import "./Biography.css";
-import { editProfile } from "../../../../services/backGo/user";
 
 export default function Biography(props) {
   const auth = useSelector((state) => state.auth);
@@ -29,6 +29,9 @@ export default function Biography(props) {
   const [showTotpModal, setShowTotpModal] = useState(false);
   const [showChangeTotp, setShowChangeTotp] = useState(false);
   const [showEmailModal, setShowEmailModal] = useState(false);
+  const [newUserName, setNewUserName] = useState(""); // Estado para el nuevo nombre de usuario
+  const [isTotpValid, setIsTotpValid] = useState(false); // Estado para la validez del código TOTP
+
   let token = window.localStorage.getItem("token");
   let GoogleAuthenticator = window.localStorage.getItem("GoogleAuthenticator");
 
@@ -59,6 +62,29 @@ export default function Biography(props) {
     }
   }
 
+  async function handleChangeName() {
+    if (!newUserName) {
+      alert({
+        type: "ERROR",
+        message: "Por favor, ingrese un nombre de usuario válido.",
+      });
+      return;
+    }
+
+    // Si el código es válido, proceder a cambiar el nombre de usuario
+    const changeResult = await ChangeNameUser(newUserName, token, totpCode);
+    if (changeResult.message === "StatusOK") {
+      alert({
+        type: "SUCCESS",
+        message: "Nombre de usuario cambiado exitosamente.",
+      });
+      window.localStorage.setItem("token", "");
+      window.location.reload();
+    } else {
+      alert({ type: "ERROR", message: changeResult.message });
+    }
+  }
+
   async function handleGenerateTotp() {
     const result = await generateTotpKey(token);
     if (result.message === "StatusOK") {
@@ -73,16 +99,17 @@ export default function Biography(props) {
   async function handleValidateTotp() {
     const result = await validateTotpCode(token, totpCode);
     if (result.message === "StatusOK") {
+      setIsTotpValid(true);
       alert({ type: "SUCCESS" });
       setShowTotpModal(false);
     } else {
-      alert({ type: "ERROR" });
+      setIsTotpValid(false);
+      alert({ type: "ERROR", message: "Código TOTP inválido." });
     }
   }
 
   async function handleChangeTotp() {
     const result = await ChangeGoogleAuthenticator(token);
-
     if (result && result.message === "StatusOK") {
       setShowEmailModal(true);
     } else {
@@ -104,10 +131,10 @@ export default function Biography(props) {
 
   return (
     <div className="biography-body">
-      <h3>Acerca de</h3>
+      {/* <h3>Acerca de</h3> */}
 
       <div className="biography-container">
-        <div className="biography-content">
+        {/* <div className="biography-content">
           <div style={{ textAlign: "left" }}>
             <h4>Nombre de usuario</h4>
           </div>
@@ -116,6 +143,54 @@ export default function Biography(props) {
             <Grid style={{ fontSize: "24px", cursor: "pointer" }}>
               <TbEdit />
             </Grid>
+          </div>
+        </div> */}
+
+        <div className="biography-content">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <h4>Cambiar Nombre de Usuario</h4>
+          </div>
+          <div
+            className="biography-input"
+            style={{ display: "flex", flexDirection: "column", gap: "5px" }}
+          >
+            <input
+              placeholder={props.user?.NameUser}
+              type="text"
+              value={newUserName}
+              onChange={(e) => setNewUserName(e.target.value)}
+            />
+            {showChangeTotp ? (
+              <input
+                placeholder="Autenticación De Dos Factores (2FA)"
+                type="text"
+                value={totpCode}
+                onChange={(e) => setTotpCode(e.target.value)}
+              />
+            ) : (
+              <input
+                placeholder="Genera Autenticación De Dos Factores (2FA)"
+                type="text"
+                value={totpCode}
+                onChange={(e) => setTotpCode(e.target.value)}
+              />
+            )}
+            <button
+              onClick={handleChangeName}
+              style={{
+                marginTop: "20px",
+              }}
+              className="biography-button pink-button"
+            >
+              Cambiar Nombre
+            </button>
           </div>
         </div>
 
@@ -178,13 +253,18 @@ export default function Biography(props) {
                   )}&period=30&secret=${encodeURIComponent(totpSecret)}`
                 )}`}
                 style={{
-                  padding: "10px 0px",
+                  padding: "10px",
+                  width: "150px",
+                  height: "150px",
+                  borderRadius: "5px",
+                  border: "1px solid lightgray",
                 }}
-                alt="TOTP QR Code"
+                alt="QR Code"
               />
+              <p>Escanee el código QR con su aplicación TOTP.</p>
               <input
                 type="text"
-                placeholder="Ingrese el código TOTP"
+                placeholder="Ingrese el código"
                 value={totpCode}
                 onChange={(e) => setTotpCode(e.target.value)}
               />

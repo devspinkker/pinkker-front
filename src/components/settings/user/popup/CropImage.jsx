@@ -1,23 +1,15 @@
 import React, { useState, useCallback } from "react";
-
 import Cropper from "react-easy-crop";
-import axios from "axios";
-import { useSelector } from "react-redux";
 import { getCroppedImg } from "./canvasUtils";
-import { editAvatar, editProfile } from "../../../../services/backGo/user";
+import { editAvatar, editBanner } from "../../../../services/backGo/user";
 import { useNotification } from "../../../Notifications/NotificationProvider";
 
-export default function CropImage({ closePopup, image }) {
-  const auth = useSelector((state) => state.auth);
-  const { user, isAdmin } = auth;
-  const token = useSelector((state) => state.token);
-
+export default function CropImage({ closePopup, image, changeType }) {
   const [cropper, setCropper] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [croppedImage, setCroppedImage] = useState(null);
 
   const alert = useNotification();
 
@@ -25,7 +17,7 @@ export default function CropImage({ closePopup, image }) {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
-  const changeAvatar = async (e) => {
+  const changeImage = async (e) => {
     e.preventDefault();
     try {
       const fileCropped = await getCroppedImg(
@@ -34,31 +26,30 @@ export default function CropImage({ closePopup, image }) {
         rotation
       );
 
-      const file = new File([fileCropped], "avatar.png", {
-        lastModified: 1534584790000,
+      const file = new File([fileCropped], `${changeType}.png`, {
+        lastModified: new Date().getTime(),
         type: "image/png",
       });
       let formData = new FormData();
-      formData.append("avatar", file);
+      formData.append(changeType, file);
 
-      let token = window.localStorage.getItem("token");
-      const res = await editAvatar(token, formData);
-      if (res.message == "StatusOK") {
-        window.localStorage.setItem("avatar", res.avatar);
+      const token = window.localStorage.getItem("token");
+      const res =
+        changeType === "avatar"
+          ? await editAvatar(token, formData)
+          : await editBanner(token, formData);
+
+      if (res.message === "StatusOK") {
+        window.localStorage.setItem(changeType, res[changeType]);
         alert({ type: "SUCCESS", message: res.message });
         closePopup();
       } else {
         alert({ type: "ERROR", message: res });
       }
-    } catch (err) {}
+    } catch (err) {
+      alert({ type: "ERROR", message: "Error al procesar la imagen" });
+    }
   };
-
-  function blobToFile(theBlob, fileName) {
-    //A Blob() is almost a File() - it's just missing the two properties below which we will add
-    theBlob.lastModifiedDate = new Date();
-    theBlob.name = fileName;
-    return theBlob;
-  }
 
   return (
     <div
@@ -77,7 +68,7 @@ export default function CropImage({ closePopup, image }) {
           crop={crop}
           rotation={rotation}
           zoom={zoom}
-          aspect={4 / 3}
+          aspect={changeType === "avatar" ? 1 / 1 : 4 / 1}
           onCropChange={setCrop}
           onRotationChange={setRotation}
           onCropComplete={onCropComplete}
@@ -88,7 +79,7 @@ export default function CropImage({ closePopup, image }) {
       <div className="usersettings-crop-input-container">
         <i
           style={{ color: "darkgray", marginRight: "10px" }}
-          class="fas fa-search-minus"
+          className="fas fa-search-minus"
         ></i>
         <input
           value={zoom}
@@ -96,18 +87,18 @@ export default function CropImage({ closePopup, image }) {
           min={1}
           max={3}
           step={0.1}
-          onChange={(e) => setZoom(e.target.value)}
+          onChange={(e) => setZoom(parseFloat(e.target.value))}
         />
         <i
           style={{ color: "darkgray", marginLeft: "10px" }}
-          class="fas fa-search-plus"
+          className="fas fa-search-plus"
         ></i>
       </div>
 
       <div className="usersettings-crop-input-container">
         <i
           style={{ color: "darkgray", marginRight: "10px" }}
-          class="fas fa-undo"
+          className="fas fa-undo"
         ></i>
         <input
           value={rotation}
@@ -115,7 +106,7 @@ export default function CropImage({ closePopup, image }) {
           min={0}
           max={360}
           step={1}
-          onChange={(e) => setRotation(e.target.value)}
+          onChange={(e) => setRotation(parseFloat(e.target.value))}
         />
       </div>
 
@@ -123,7 +114,7 @@ export default function CropImage({ closePopup, image }) {
         <button onClick={closePopup} className="usersettings-popup-cancel">
           Cancelar
         </button>
-        <button onClick={changeAvatar} className="usersettings-popup-save">
+        <button onClick={changeImage} className="usersettings-popup-save">
           Guardar
         </button>
       </div>

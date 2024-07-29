@@ -99,12 +99,13 @@ export async function PanelAdminPinkkerChangeNameUser(Code, NameUserRemove, Name
         return error
     }
 }
-export async function ChangeNameUser(NameUserNew, token) {
+export async function ChangeNameUser(NameUserNew, token, totp_code) {
     try {
         const response = await axios.post(
             `${baseURL}/user/ChangeNameUser`,
             {
                 NameUserNew,
+                totp_code
             },
             {
                 headers: {
@@ -290,6 +291,23 @@ export async function editAvatar(token, avatarData) {
     try {
         const response = await axios.post(
             `${baseURL}/user/EditAvatar`,
+            avatarData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function editBanner(token, avatarData) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/EditBanner`,
             avatarData,
             {
                 headers: {

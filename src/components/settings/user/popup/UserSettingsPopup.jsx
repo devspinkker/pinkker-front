@@ -1,29 +1,19 @@
-import React, { useState, useEffect } from "react";
-
-import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { dispatchLogin } from "../../../../redux/actions/authAction";
-import { Link, useHistory, useLocation } from "react-router-dom";
-
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import "./UserSettingsPopup.css";
 import CropImage from "./CropImage";
-import { getCroppedImg, getRotatedImage } from "./canvasUtils";
+import { getRotatedImage } from "./canvasUtils";
 import { getOrientation } from "get-orientation/browser";
-
 import { updateCustomAvatar } from "../../../../services/user";
 import { Grid } from "@mui/material";
 
-export default function UserSettingsPopup({ closePopup, usuario }) {
+export default function UserSettingsPopup({ closePopup, usuario, changeType }) {
   const auth = useSelector((state) => state.auth);
-  const { user, isAdmin } = auth;
+  const { user } = auth;
   const token = useSelector((state) => state.token);
 
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
-
   const [showPopupCrop, setShowpopupCrop] = useState(false);
-  const [imageSrc, setImageSrc] = React.useState(null);
+  const [imageSrc, setImageSrc] = useState(null);
 
   function togglePopupCrop() {
     setShowpopupCrop(!showPopupCrop);
@@ -40,7 +30,7 @@ export default function UserSettingsPopup({ closePopup, usuario }) {
       const file = e.target.files[0];
       let imageDataUrl = await readFile(file);
 
-      // apply rotation if needed
+      // Apply rotation if needed
       const orientation = await getOrientation(file);
       const rotation = ORIENTATION_TO_ANGLE[orientation];
       if (rotation) {
@@ -48,7 +38,6 @@ export default function UserSettingsPopup({ closePopup, usuario }) {
       }
 
       setImageSrc(imageDataUrl);
-
       togglePopupCrop();
     }
   };
@@ -75,17 +64,38 @@ export default function UserSettingsPopup({ closePopup, usuario }) {
           </button>
         </div>
 
-        <Grid style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:'15px'}}>
+        <Grid
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "15px",
+          }}
+        >
+          <h2 style={{ textAlign: "center" }}>
+            {changeType === "avatar"
+              ? "Editar foto de perfil"
+              : "Editar banner"}
+          </h2>
 
-          <h2 style={{ textAlign: 'center' }}>Editar foto de perfil</h2>
-
-          <img src={usuario.Avatar} style={{ width: '80px', height: '80px', borderRadius: '50%', margin: '0 auto', display: 'flex' }} />
-          <div  className="usersettingspopup-card">
-
+          <img
+            src={changeType === "avatar" ? usuario.Avatar : usuario.Banner}
+            style={{
+              width: "80px",
+              height: "80px",
+              borderRadius: changeType === "avatar" ? "50%" : "0",
+              margin: "0 auto",
+              display: "flex",
+            }}
+          />
+          <div className="usersettingspopup-card">
             <div style={{ cursor: "pointer" }}>
-              {/* <i style={{ fontSize: "24px" }} class="fas fa-upload"></i> */}
-              <h4>Cambiar foto de perfil</h4>
-
+              <h4>
+                {changeType === "avatar"
+                  ? "Cambiar foto de perfil"
+                  : "Cambiar banner"}
+              </h4>
               <input
                 className="usersettings-loadfile"
                 type="file"
@@ -95,24 +105,13 @@ export default function UserSettingsPopup({ closePopup, usuario }) {
             </div>
           </div>
         </Grid>
-
-
-        {/* <div onClick={onEditAvatar} className="usersettingspopup-card">
-          <div>
-            <i style={{ fontSize: "24px" }} class="fas fa-edit"></i>
-            <h4>Editar foto</h4>
-          </div>
-        </div> */}
-
-        {/*<div onClick={() => handleCustomAvatar()} className="usersettingspopup-card">
-                    <div>
-                      <img style={{width: "50px"}} src={user.lookImage} />
-                      <h4>Seleccionar tu avatar</h4>
-                    </div>
-    </div>*/}
       </div>
-      {showPopupCrop === true && (
-        <CropImage image={imageSrc} closePopup={() => togglePopupCrop()} />
+      {showPopupCrop && (
+        <CropImage
+          image={imageSrc}
+          closePopup={() => togglePopupCrop()}
+          changeType={changeType}
+        />
       )}
     </div>
   );

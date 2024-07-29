@@ -25,15 +25,17 @@ export default function UserSettings({ isMobile, user }) {
   const [type, setType] = useState(0);
   const [file, setFile] = useState(null);
 
-  console.log("user", user);
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.token);
+
+  const [Open, setOpen] = useState("");
 
   const [showPopupSettings, shopPopupSettings] = useState(false);
 
   const theme = useTheme();
 
-  function togglePopupSettings() {
+  function togglePopupSettings(a) {
+    setOpen(a);
     shopPopupSettings(!showPopupSettings);
   }
 
@@ -88,7 +90,7 @@ export default function UserSettings({ isMobile, user }) {
                         borderRadius: "50%",
                         width: "50px",
                         height: "50px",
-                        objectFit:'cover'
+                        objectFit: "cover",
                       }}
                       alt=""
                     />
@@ -118,7 +120,7 @@ export default function UserSettings({ isMobile, user }) {
                       cursor: "pointer",
                     }}
                   >
-                    <TbEdit onClick={() => togglePopupSettings()} />
+                    <TbEdit onClick={() => togglePopupSettings("avatar")} />
                   </Grid>
                 </div>
               </div>
@@ -149,13 +151,12 @@ export default function UserSettings({ isMobile, user }) {
                     }}
                   >
                     <img
-                      src={user?.Avatar}
+                      src={user?.Banner}
                       style={{
-                        borderRadius: "50%",
-                        width: "50px",
+                        borderRadius: "2%",
+                        width: "60%",
                         height: "50px",
-                        objectFit:'cover'
-
+                        objectFit: "cover",
                       }}
                       alt=""
                     />
@@ -185,7 +186,7 @@ export default function UserSettings({ isMobile, user }) {
                       cursor: "pointer",
                     }}
                   >
-                    <TbEdit onClick={() => togglePopupSettings()} />
+                    <TbEdit onClick={() => togglePopupSettings("Banner")} />
                   </Grid>
                 </div>
               </div>
@@ -196,7 +197,8 @@ export default function UserSettings({ isMobile, user }) {
           {showPopupSettings === true && (
             <UserSettingsPopup
               usuario={user}
-              closePopup={() => togglePopupSettings()}
+              closePopup={() => togglePopupSettings("")}
+              changeType={Open}
             />
           )}
         </div>
@@ -289,7 +291,6 @@ export default function UserSettings({ isMobile, user }) {
               className={type === 0 ? "item-config-active" : "item-config"}
               onClick={() => setType(0)}
             >
-              
               <Typography>Cuenta</Typography>
             </Grid>
 
@@ -302,7 +303,6 @@ export default function UserSettings({ isMobile, user }) {
               }}
               className="item-config"
             >
-              
               <Typography>Verificar</Typography>
             </Grid>
             <Grid
@@ -315,7 +315,6 @@ export default function UserSettings({ isMobile, user }) {
               className={type === 4 ? "item-config-active" : "item-config"}
               onClick={() => setType(4)}
             >
-              
               <Typography>Seguridad</Typography>
             </Grid>
             <Grid
@@ -327,7 +326,6 @@ export default function UserSettings({ isMobile, user }) {
               }}
               className="item-config"
             >
-             
               <Typography>Sesiones</Typography>
             </Grid>
             <Grid
@@ -340,7 +338,6 @@ export default function UserSettings({ isMobile, user }) {
               className={type === 1 ? "item-config-active" : "item-config"}
               onClick={() => setType(1)}
             >
-              
               <Typography>Pinkker Prime</Typography>
             </Grid>
           </Grid>
