@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import "./ClipsMain.css";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -11,10 +11,10 @@ import {
 } from "../../../services/backGo/clip";
 import { BarLoader } from "react-spinners";
 
-export default function ClipsMain({ tyExpanded, expandedLeft }) {
+const ClipsMain = ({ tyExpanded, expandedLeft }) => {
   const auth = useSelector((state) => state.auth);
   const { isLogged } = auth;
-  const { clipId } = useParams(); // Usa useParams para obtener el clipId
+  const { clipId } = useParams();
 
   const [clips, setClips] = useState([]);
   const [viewedClip, setViewedClip] = useState(null);
@@ -22,88 +22,10 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
   const [loadingMoreClips, setLoadingMoreClips] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [transitionDirection, setTransitionDirection] = useState(null);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    loadClips();
-
-    const handleKeyDown = (event) => {
-      if (event.key === "ArrowUp") {
-        event.preventDefault();
-        previewClip();
-      } else if (event.key === "ArrowDown") {
-        event.preventDefault();
-        nextClip();
-      }
-    };
-
-    const handleWheel = (event) => {
-      event.preventDefault();
-      if (event.deltaY < 0) {
-        previewClip();
-      } else if (event.deltaY > 0) {
-        nextClip();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("wheel", handleWheel, { passive: false });
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("wheel", handleWheel);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (clipId) {
-      setViewedClip(clipId);
-    } else if (clips.length > 0) {
-      setViewedClip(clips[0].id); // Set the first clip as default if no parameter is found
-    }
-  }, [clipId, clips]);
-
-  const loadClips = async () => {
-    try {
-      let res;
-      let newClips = [];
-      let token = window.localStorage.getItem("token");
-
-      // Obtén el clip por clipId si está presente
-      if (clipId) {
-        const resClipById = await GetClipId(clipId); // Asegúrate de que esta función existe
-        console.log('resClipById', resClipById)
-        if (resClipById.data.message === "StatusOK" && resClipById.data.dataClip != null) {
-          newClips.push(resClipById.data.dataClip);
-        }
-      }
-      
-      const ExcludeIDs = newClips.map((clip) => clip.id);
-
-      // Obtén los clips recomendados si existe token, sino obtén los clips más vistos
-      if (token) {
-        res = await ClipsRecommended(token, ExcludeIDs);
-      } else {
-        res = await GetClipsMostViewed(1);
-      }
-
-      if (res.data.message === "ok" && res.data.data != null) {
-        newClips = [...newClips, ...res.data.data];
-      }
-
-      setClips(newClips);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const loadMoreClips = async () => {
+  const loadMoreClips = useCallback(async () => {
     if (!isLogged && clips.length > 0) {
       try {
         let token = window.localStorage.getItem("token");
-
         let res;
         if (token) {
           const ExcludeIDs = clips.map((clip) => clip.id);
@@ -122,10 +44,9 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
         setLoadingMoreClips(false);
       }
     }
-  };
-
-  const nextClip = () => {
-    const currentIndex = clips.findIndex(clip => clip.id === viewedClip);
+  }, [clips, isLogged]);
+  const nextClip = useCallback(() => {
+    const currentIndex = clips.findIndex((clip) => clip.id === viewedClip);
     if (currentIndex < clips.length - 1) {
       setTransitionDirection("down");
 
@@ -142,10 +63,10 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
         loadMoreClips();
       }
     }
-  };
+  }, [clips, viewedClip, loadMoreClips]);
 
-  const previewClip = () => {
-    const currentIndex = clips.findIndex(clip => clip.id === viewedClip);
+  const previewClip = useCallback(() => {
+    const currentIndex = clips.findIndex((clip) => clip.id === viewedClip);
     if (currentIndex > 0) {
       setTransitionDirection("up");
 
@@ -158,7 +79,99 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
         setTransitionDirection(null);
       }, 300);
     }
+  }, [clips, viewedClip]);
+
+  useEffect(() => {
+    const handleScroll = (e) => {
+      if (e.deltaY > 0) {
+        nextClip();
+      } else if (e.deltaY < 0) {
+        previewClip();
+      }
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowDown") {
+        nextClip();
+      } else if (e.key === "ArrowUp") {
+        previewClip();
+      }
+    };
+
+    window.addEventListener("wheel", handleScroll);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("wheel", handleScroll);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [nextClip, previewClip]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    loadClips();
+  }, []);
+
+  useEffect(() => {
+    if (clipId) {
+      setViewedClip(clipId);
+    } else if (clips.length > 0) {
+      setViewedClip(clips[0].id);
+    }
+  }, [clipId, clips]);
+
+  const loadClips = async () => {
+    try {
+      let res;
+      let newClips = [];
+      let token = window.localStorage.getItem("token");
+
+      if (clipId) {
+        const resClipById = await GetClipId(clipId);
+        if (
+          resClipById.data.message === "StatusOK" &&
+          resClipById.data.dataClip != null
+        ) {
+          newClips.push(resClipById.data.dataClip);
+        }
+      }
+
+      const ExcludeIDs = newClips.map((clip) => clip.id);
+
+      if (token) {
+        res = await ClipsRecommended(token, ExcludeIDs);
+      } else {
+        res = await GetClipsMostViewed(1);
+      }
+
+      if (res.data.message === "ok" && res.data.data != null) {
+        newClips = [...newClips, ...res.data.data];
+      }
+
+      setClips(newClips);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const memoizedClips = useMemo(() => {
+    return clips.map((clip, index) => (
+      <div
+        key={clip.id}
+        className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
+        id={clip.id}
+      >
+        <MemoizedClipCard
+          tyExpanded={tyExpanded}
+          type={index === 0 ? 0 : 1}
+          clip={clip}
+          isActive={clip.id === viewedClip ? 2 : 1}
+        />
+      </div>
+    ));
+  }, [clips, viewedClip, tyExpanded]);
 
   return (
     <div className="clipsmain-body" style={{ padding: "0px" }}>
@@ -176,20 +189,7 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
       ) : (
         <>
           <div className={`clips-container ${transitionDirection}`}>
-            {clips.map((clip, index) => (
-              <div
-                key={clip.id}
-                className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
-                id={clip.id}
-              >
-                <ClipCard
-                  tyExpanded={tyExpanded}
-                  type={index === 0 ? 0 : 1}
-                  clip={clip}
-                  isActive={clip.id === viewedClip ? 2 : 1}
-                />
-              </div>
-            ))}
+            {memoizedClips}
           </div>
 
           <div
@@ -259,4 +259,8 @@ export default function ClipsMain({ tyExpanded, expandedLeft }) {
       )}
     </div>
   );
-}
+};
+
+const MemoizedClipCard = React.memo(ClipCard);
+
+export default ClipsMain;
