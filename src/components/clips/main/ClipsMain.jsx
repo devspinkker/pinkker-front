@@ -260,7 +260,6 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
     </div>
   );
 };
-
 const MemoizedClipCard = React.memo(ClipCard);
 
 export default ClipsMain;
