@@ -1,4 +1,12 @@
 .clipsmain-body {
+    display: flex;
+    position: relative;
+    top: 0%;
+    height: 100%;
+    width: 102%;
+    justify-content: center;
+    padding: 0px;
+    align-items: center;
     max-width: 100%;
     scroll-behavior: smooth;
     transition: 5s all;

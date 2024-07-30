@@ -22,6 +22,9 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
   const [loadingMoreClips, setLoadingMoreClips] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [transitionDirection, setTransitionDirection] = useState(null);
+
+  let startY = 0;
+
   const loadMoreClips = useCallback(async () => {
     if (!isLogged && clips.length > 0) {
       try {
@@ -45,6 +48,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
       }
     }
   }, [clips, isLogged]);
+
   const nextClip = useCallback(() => {
     const currentIndex = clips.findIndex((clip) => clip.id === viewedClip);
     if (currentIndex < clips.length - 1) {
@@ -98,12 +102,31 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
       }
     };
 
+    const handleTouchStart = (e) => {
+      startY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e) => {
+      const endY = e.touches[0].clientY;
+      const deltaY = startY - endY;
+
+      if (deltaY > 50) {
+        nextClip();
+      } else if (deltaY < -50) {
+        previewClip();
+      }
+    };
+
     window.addEventListener("wheel", handleScroll);
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchmove", handleTouchMove);
 
     return () => {
       window.removeEventListener("wheel", handleScroll);
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
     };
   }, [nextClip, previewClip]);
 
