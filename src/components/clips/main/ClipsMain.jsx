@@ -158,7 +158,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
         ) {
           newClips.push(resClipById.data.dataClip);
         }
-      } else {
+      } else if (clipId && token) {
         const resClipById = await GetClipIdlogeado(clipId, token);
         if (
           resClipById.data.message === "StatusOK" &&

@@ -45,7 +45,7 @@ export function GetClip() {
         .catch((error) => {
           console.error("Error en la solicitud GetClipId:", error);
         });
-    } else {
+    } else if (videoUrlParam && token) {
       GetClipIdlogeado(videoUrlParam, token)
         .then((response) => {
           const data = response.data;
