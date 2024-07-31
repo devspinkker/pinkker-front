@@ -40,6 +40,13 @@ export const GetClipId = async (videoUrlParam) => {
 
     return response
 }
+export const GetClipIdlogeado = async (videoUrlParam, token) => {
+    const response = await axios.get(`${url}/clips/GetClipIdLogueado?clipId=${videoUrlParam}`, {
+        headers: { Authorization: token },
+    })
+
+    return response
+}
 export const GetClipsNameUser = async (nameUserCeator, page) => {
     const response = await axios.get(`${url}/clips/GetClipsNameUser?page=${page}&NameUser=${nameUserCeator}`)
 

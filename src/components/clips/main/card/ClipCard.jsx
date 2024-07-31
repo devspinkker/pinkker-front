@@ -129,7 +129,7 @@ export default function ClipCard({ clip, isActive = 0 }) {
   useEffect(() => {
     let id = window.localStorage.getItem("_id");
     if (id) {
-      setIsLiked(clip.likes?.includes(id));
+      setIsLiked(clip?.isLikedByID);
     }
   }, [clip]);
 
@@ -203,7 +203,7 @@ export default function ClipCard({ clip, isActive = 0 }) {
         if (token && id) {
           const res = await DislikeClip(token, clip.id);
           if (res?.data?.message === "Dislike") {
-            clip.likes = clip.likes.filter((userId) => userId !== id);
+            clip.likeCount -= 1;
           }
         }
       } else {
@@ -214,7 +214,7 @@ export default function ClipCard({ clip, isActive = 0 }) {
         if (token && id) {
           const res = await likeClip(token, clip.id);
           if (res?.data?.message === "Like") {
-            clip.likes.push(id);
+            clip.likeCount += 1;
           }
         }
       }

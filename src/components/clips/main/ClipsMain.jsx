@@ -8,6 +8,7 @@ import {
   ClipsRecommended,
   GetClipsMostViewed,
   GetClipId,
+  GetClipIdlogeado,
 } from "../../../services/backGo/clip";
 import { BarLoader } from "react-spinners";
 
@@ -149,8 +150,16 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
       let newClips = [];
       let token = window.localStorage.getItem("token");
 
-      if (clipId) {
+      if (clipId && !token) {
         const resClipById = await GetClipId(clipId);
+        if (
+          resClipById.data.message === "StatusOK" &&
+          resClipById.data.dataClip != null
+        ) {
+          newClips.push(resClipById.data.dataClip);
+        }
+      } else {
+        const resClipById = await GetClipIdlogeado(clipId, token);
         if (
           resClipById.data.message === "StatusOK" &&
           resClipById.data.dataClip != null

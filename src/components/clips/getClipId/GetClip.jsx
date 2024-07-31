@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Clip.css";
-import { GetClipId } from "../../../services/backGo/clip";
+import { GetClipId, GetClipIdlogeado } from "../../../services/backGo/clip";
 import ClipCard from "../main/card/ClipCard";
 
 const formatTimestamp = (timestamp) => {
@@ -29,9 +29,24 @@ export function GetClip() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const videoUrlParam = urlParams.get("videoUrl");
+    let token = window.localStorage.getItem("token");
 
-    if (videoUrlParam) {
+    if (videoUrlParam && !token) {
       GetClipId(videoUrlParam)
+        .then((response) => {
+          const data = response.data;
+          setDataClip(data.dataClip);
+          if (data.videoURL) {
+            setVideoUrl(data.dataClip.url);
+          } else {
+            alert("No disponible");
+          }
+        })
+        .catch((error) => {
+          console.error("Error en la solicitud GetClipId:", error);
+        });
+    } else {
+      GetClipIdlogeado(videoUrlParam, token)
         .then((response) => {
           const data = response.data;
           setDataClip(data.dataClip);
