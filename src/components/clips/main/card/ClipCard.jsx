@@ -37,7 +37,7 @@ export default function ClipCard({ clip, isActive = 0 }) {
   useEffect(() => {
     const video = playerRef.current;
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
     const drawAmbilight = () => {
       const width = canvas.width;
@@ -218,7 +218,7 @@ export default function ClipCard({ clip, isActive = 0 }) {
           }
         }
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const createComment = () => {
@@ -239,12 +239,10 @@ export default function ClipCard({ clip, isActive = 0 }) {
   };
   return (
     <div className="clipmain-card-main">
-
       <div
         className="clipsmain-container"
         style={{ margin: showComment ?? "0 auto" }}
       >
-
         <Grid
           style={{
             display: "flex",
@@ -310,7 +308,6 @@ export default function ClipCard({ clip, isActive = 0 }) {
             onMouseLeave={() => setVideoHover(false)}
             className="clipsmain-video"
           >
-
             <div className="clipsmain-top-buttons">
               {playing ? (
                 <i
@@ -333,8 +330,9 @@ export default function ClipCard({ clip, isActive = 0 }) {
               >
                 <i
                   onClick={handleMute}
-                  className={`fas ${muted ? "fa-volume-mute" : "fa-volume-up"
-                    } button-more-player`}
+                  className={`fas ${
+                    muted ? "fa-volume-mute" : "fa-volume-up"
+                  } button-more-player`}
                 />
               </Tippy>
             </div>
@@ -524,7 +522,7 @@ export default function ClipCard({ clip, isActive = 0 }) {
                 />
               )}
               <h3 style={{ fontSize: "15px", marginTop: "5px" }}>
-                {clip.likes.length}
+                {clip?.likeCount}
               </h3>
             </div>
             {dropdownShare && (
