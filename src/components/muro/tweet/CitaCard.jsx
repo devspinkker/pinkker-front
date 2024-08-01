@@ -16,7 +16,7 @@ import {
 import { Grid, Typography, Skeleton } from "@mui/material";
 import { FaEllipsis } from "react-icons/fa6";
 
-export default function CitaCard({ tweet }) {
+export default function CitaCard({ tweet, isMobile }) {
   const [popupTweetView, setPopupTweetView] = useState(false);
   const [popupCiteTweet, setPopupCiteTweet] = useState(false);
   const [showDropdownRetweet, setShowDropdownRetweet] = useState(false);
@@ -259,7 +259,7 @@ export default function CitaCard({ tweet }) {
               {tweet.PostImage !== "" && (
                 <div style={{ marginTop: "10px" }}>
                   <img
-                    style={{ borderRadius: "20px", maxWidth: "350px" }}
+                    style={{ borderRadius: "20px", maxWidth: !isMobile && "350px" }}
                     src={tweet.PostImage}
                     alt="Post image"
                   />

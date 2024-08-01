@@ -3,7 +3,7 @@ import "./ViewTweet.css";
 import { useSelector } from "react-redux";
 import { useNotification } from "../../Notifications/NotificationProvider";
 import { ScaleLoader } from "react-spinners";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import {
   CommentPost,
   setToken,
@@ -14,17 +14,32 @@ import {
 } from "../../../services/backGo/tweet";
 import { useParams } from "react-router-dom";
 import TweetCard from "../tweet/TweetCard";
+import { Box, Drawer, IconButton, TextField, Typography } from "@mui/material";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { HiChatBubbleLeftEllipsis } from "react-icons/hi2";
 
 export default function ViewTweet({ closePopup, isMobile }) {
   const [Avatar, setAvatar] = useState("");
+  let location = useLocation();
 
   const alert = useNotification();
   const [tweet, setTweet] = useState(null);
   const [comment, setComment] = useState("");
   const [isLiked, setIsLiked] = useState(false);
   const [comments, setComments] = useState(null);
+  const [openTweet, setOpenTweet] = useState(false);
+  const token = window.localStorage.getItem("token");
 
   const { IdPost } = useParams();
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setOpenTweet(open);
+  };
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -67,6 +82,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
     const loggedUser = window.localStorage.getItem("_id");
     setIsLiked(tweet && tweet?.Likes?.includes(loggedUser));
     const Avatar = window.localStorage.getItem("avatar");
+    
 
     setAvatar(Avatar);
   }, [tweet]);
@@ -82,7 +98,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
           await LikePost({ idPost: tweet?._id });
         }
         setIsLiked(!isLiked);
-      } catch (error) {}
+      } catch (error) { }
     } else {
       alert("Inicia sesión para dar like");
     }
@@ -102,7 +118,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
           alert({ type: "SUCCESS" });
           setComment("");
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   }
 
@@ -112,7 +128,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
     }
 
     return (
-      <TweetCard tweet={tweet} />
+      <TweetCard tweet={tweet} isMobile={isMobile} />
       // <div>
       //   <Link to={"/" + tweet?.UserInfo.NameUser}>
       //     <div style={{ display: "flex", marginTop: "10px" }}>
@@ -219,11 +235,17 @@ export default function ViewTweet({ closePopup, isMobile }) {
       <div className="viewtweet-comments-container">
         {comments?.length > 0 &&
           comments?.map((comment) => (
-            <TweetCard key={comment._id} tweet={comment} />
+            <TweetCard key={comment._id} tweet={comment} isMobile={isMobile} />
           ))}
       </div>
     );
   }
+
+  let history = useHistory();
+
+  const goBack = () => {
+    history.push('/plataform/muro');
+  };
   return (
     <div className="viewtweet-popup-body">
       <div
@@ -235,44 +257,230 @@ export default function ViewTweet({ closePopup, isMobile }) {
         }}
       >
         <div className={"viewtweet-popup-container"} >
-          {renderTweet()}
           <div
             style={{
               display: "flex",
+              justifyContent: "flex-start",
+              gap: "10px",
               alignItems: "center",
-              marginTop: "20px",
-              marginBottom: "10px",
+              padding: '5px',
+              cursor: "pointer"
             }}
           >
-            <div>
-              <img
-                style={{ width: "45px", borderRadius: "100px" }}
-                src={Avatar}
-              />
-            </div>
-            <div
-              style={{ marginLeft: "10px", height: "50px" }}
-              className="muro-send-tweet-input"
-            >
-              <textarea
-                className="muro-send-tweet-input-respuesta"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Postea tu respuesta"
-                type="text"
-              />
-            </div>
+            <IoArrowBackCircleOutline
+              style={{ color: "white", fontSize: "2rem" }}
+              onClick={goBack}
+            />
+            <Typography style={{ color: "white", fontSize: "1.5rem" }}>
+              Volver
+
+            </Typography>
           </div>
-          <div className="usersettings-popup-close">
-            <button
-              onClick={createComment}
-              className="viewtweet-button-reply"
-              style={{ backgroundColor: "#770443" }}
+          {renderTweet()}
+          {
+            !isMobile &&
+            <>
+
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: '10px',
+                  marginTop: "20px",
+                  marginBottom: "10px",
+                  borderBottom: "1px solid rgb(42, 46, 56)",
+                  paddingBottom: "10px"
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: "center", }}>
+
+                  <div>
+                    <img
+                      style={{ width: "50px", height: '50px', objectFit: 'cover', borderRadius: "100px" }}
+                      src={Avatar}
+                    />
+                  </div>
+                  <div
+
+                    className="muro-send-tweet-input"
+                  >
+                    <textarea
+                      className="muro-send-tweet-input-respuesta"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      placeholder="Postea tu respuesta"
+                      type="text"
+                    />
+                  </div>
+                </div>
+
+                <div className="usersettings-popup-close">
+                  <button
+                    onClick={createComment}
+                    disabled={comment?.length <= 0}
+                    className="viewtweet-button-reply"
+                    style={{ backgroundColor: comment.length <= 0 ? 'gray' : "rgb(255, 105, 196)", cursor: comment.length <= 0 ? 'not-allowed' : 'pointer' }}
+
+                  >
+                    <Typography style={{ fontSize: '14px' }}>
+                      Responder
+                    </Typography>
+                  </button>
+                </div>
+              </div>
+
+            </>
+          }
+
+          {
+            location.pathname?.includes('/post') && isMobile &&  token?.length &&
+            <IconButton
+              style={{
+                color: "#fff",
+                position: "fixed",
+                bottom: "10%",
+                right: "3%",
+                backgroundColor: "#ff69c4",
+                zIndex: 99999999,
+              }}
+              aria-label="fingerprint"
+              color="secondary"
+              onClick={() => setOpenTweet(!openTweet)}
             >
-              Responder
-            </button>
-          </div>
+              {<HiChatBubbleLeftEllipsis style={{ fontSize: "3.5rem" }} />}
+            </IconButton>
+          }
+          {
+            <Drawer
+              anchor="bottom"
+              open={openTweet}
+              onClose={toggleDrawer(false)}
+              transitionDuration={{ enter: 500, exit: 500 }}
+              PaperProps={{
+                style: { height: "93%", backgroundColor: "#080808" },
+              }} // Esto asegura que el Drawer ocupe todo el alto
+            >
+              <Box
+                sx={{
+                  padding: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  gap: "2rem",
+                }}
+                role="presentation"
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: "10px",
+                  }}
+                >
+                  <IoArrowBackCircleOutline
+                    style={{ color: "white", fontSize: "2.5rem" }}
+                    onClick={() => setOpenTweet(false)}
+                  />
+                  <button
+                    onClick={() => createComment()}
+                    className="muro-send-tweet-button"
+                  >
+                    {location.pathname.includes('/post') ? 'Responder' : 'Postear'}
+                  </button>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "10px",
+                  }}
+                >
+                  <div>
+                    <img
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        objectFit: "cover",
+                        borderRadius: "100%",
+                      }}
+                      src={
+                        Avatar
+                      }
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "100%",
+                    }}
+                  >
+                    <TextField
+                      label='Publica tu respuesta'
+                      variant="outlined"
+                      fullWidth
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      multiline
+                      rows={4}
+                      InputProps={{
+                        style: {
+                          color: "white",
+                          borderColor: "white",
+                        },
+                        classes: {
+                          notchedOutline: {
+                            borderColor: "white",
+                          },
+                        },
+                      }}
+                      InputLabelProps={{
+                        style: { color: "white" },
+                      }}
+                      sx={{
+                        "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "white",
+                        },
+                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "white",
+                        },
+                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "white",
+                        },
+                        "& .MuiInputBase-input": {
+                          color: "white",
+                        },
+                        "& .MuiInputLabel-outlined": {
+                          color: "white",
+                        },
+                        "& .MuiInputBase-input::placeholder": {
+                          color: "white",
+                          opacity: 1,
+                        },
+                      }}
+                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                    />
+                    <Typography
+                      variant="subtitle1"
+                      style={{
+                        marginTop: "10px",
+                        color: comment?.length > 100 ? "red" : "white",
+                        textAlign: "right",
+                      }}
+                    >
+                      {comment.length}/100
+                    </Typography>
+                  </div>
+                </div>
+              </Box>
+            </Drawer>
+          }
           {renderComments()}
+
         </div>
       </div>
     </div>

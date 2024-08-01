@@ -41,6 +41,8 @@ import {
   IoIosArrowUp,
   IoMdNotificationsOutline,
 } from "react-icons/io";
+import { HiChatBubbleLeftEllipsis } from "react-icons/hi2";
+
 import { TfiWallet } from "react-icons/tfi";
 import { AiOutlineUser } from "react-icons/ai";
 import { LiaSlidersHSolid } from "react-icons/lia";
@@ -62,6 +64,7 @@ import {
 } from "../../services/backGo/tweet";
 import {
   IoArrowBackCircleOutline,
+  IoChatbubbleOutline,
   IoCloseCircleOutline,
 } from "react-icons/io5";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -512,6 +515,7 @@ function NLayout(props) {
     }
     setOpenTweet(open);
   };
+
 
   const getNavDesktop = () => {
     return loading ? (
@@ -2605,11 +2609,11 @@ function NLayout(props) {
         )}
 
         <Grid
-          style={{ width: "100%", height: "100vh" }}
+          style={{ width: "100%", height: !window.location.pathname?.includes('/post') && "100vh" }}
           onClick={() => setEsClick(false)}
         >
           {
-            !isStreamerPath &&
+           ( !isStreamerPath || location.pathname.includes('/post')) && props.user?.NameUser?.length &&
             <IconButton
               style={{
                 color: "#fff",
@@ -2623,7 +2627,7 @@ function NLayout(props) {
               color="secondary"
               onClick={() => setOpenTweet(!openTweet)}
             >
-              <AddCircleOutlineIcon style={{ fontSize: "4.5rem" }} />
+               <AddCircleOutlineIcon style={{ fontSize: "4.5rem" }} />
             </IconButton>
           }
 
@@ -2696,7 +2700,7 @@ function NLayout(props) {
                     }}
                   >
                     <TextField
-                      label="¿Qué está pasando?"
+                      label='¿Qué está pasando' 
                       variant="outlined"
                       fullWidth
                       value={message}

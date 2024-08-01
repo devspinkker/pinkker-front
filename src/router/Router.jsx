@@ -332,11 +332,11 @@ const AppRouter = () => {
                 style={{
                   display: "flex",
                   flexDirection: "row-reverse",
-                  padding: "22px",
+                  padding: !isMobile && "22px",
                 }}
               >
-                <TendencyMuro />
-                <ViewTweet />
+                {!isMobile && <TendencyMuro />}
+                <ViewTweet isMobile={isMobile} />
               </div>
             </Route>
             <Route path="/hashtag/:hashtag">
