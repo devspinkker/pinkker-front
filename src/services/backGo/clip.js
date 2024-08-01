@@ -183,6 +183,16 @@ export const GetClipComments = async (page, IdClip) => {
     } catch (error) {
         return error
     }
+}
+export const GetClipCommentsLoguedo = async (page, IdClip, token) => {
+    try {
+        const response = await axios.get(`${url}/clips/GetClipCommentsLoguedo?page=${page}&IdClip=${IdClip}`, {
+            headers: { Authorization: token },
+        })
+        return response;
+    } catch (error) {
+        return error
+    }
 };
 export const MoreViewOfTheClip = async (ClipId) => {
     try {

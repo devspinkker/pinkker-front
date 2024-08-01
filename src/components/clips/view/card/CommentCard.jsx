@@ -24,7 +24,7 @@ export default function CommentCard({ comment }) {
     setIsLiked(true);
     let id = window.localStorage.getItem("_id");
     if (id) {
-      setIsLiked(comment.likes?.includes(id));
+      setIsLiked(comment?.isLikedByID);
     }
   }, []);
   const handleLike = async () => {
@@ -36,7 +36,7 @@ export default function CommentCard({ comment }) {
         if (token && id) {
           const res = await UnlikeComment(token, comment._id);
           if (res?.data?.message === "Dislike") {
-            comment.likes = comment.likes.filter((userId) => userId !== id);
+            comment.likeCount -= 1;
           }
         }
       } else {
@@ -47,7 +47,7 @@ export default function CommentCard({ comment }) {
         if (token && id) {
           const res = await LikeCommentClip(token, comment._id);
           if (res?.data?.message === "Like") {
-            comment.likes.push(id);
+            comment.likeCount += 1;
           }
         }
       }
@@ -127,7 +127,7 @@ export default function CommentCard({ comment }) {
           </div>
           <div className="tweetcard-icon-like">
             <p style={{ marginLeft: "10px", fontSize: "13px" }}>
-              {comment.likes?.length} Me gustas
+              {comment.likeCount} Me gustas
             </p>
           </div>
           <div style={{ color: "lightgray", marginLeft: "10px" }}>

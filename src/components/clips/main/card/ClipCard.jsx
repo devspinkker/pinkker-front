@@ -10,6 +10,7 @@ import {
   CommentClip,
   DislikeClip,
   GetClipComments,
+  GetClipCommentsLoguedo,
   likeClip,
 } from "../../../../services/backGo/clip";
 import { Grid, Typography } from "@mui/material";
@@ -119,10 +120,19 @@ export default function ClipCard({ clip, isActive = 0 }) {
     }
   };
   async function getCommentsClipAndShow() {
-    const response = await GetClipComments(1, clip?.id);
-    SetshowComment(!showComment);
-    if (response?.data?.message === "ok") {
-      setComments(response.data.data);
+    let token = window.localStorage.getItem("token");
+    if (!token) {
+      const response = await GetClipComments(1, clip?.id);
+      SetshowComment(!showComment);
+      if (response?.data?.message === "ok") {
+        setComments(response.data.data);
+      }
+    } else {
+      const response = await GetClipCommentsLoguedo(1, clip?.id, token);
+      SetshowComment(!showComment);
+      if (response?.data?.message === "ok") {
+        setComments(response.data.data);
+      }
     }
   }
 
