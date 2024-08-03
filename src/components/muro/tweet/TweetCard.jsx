@@ -152,6 +152,7 @@ export default function TweetCard({ tweet, isMobile }) {
     }
   }, [tweet]);
 
+
   return (
     <div
       style={{
@@ -175,7 +176,7 @@ export default function TweetCard({ tweet, isMobile }) {
         (location.pathname !== "/plataform/muro" ||
           tweet?.OriginalPostData?.Type === "Post" ||
           tweet?.OriginalPostData?.Type === "RePost") && (
-          <PostComment tweet={tweet?.OriginalPostData} />
+          <PostComment tweet={tweet?.OriginalPostData} isMobile={isMobile} />
         )}
       <div className="tweetcard-body">
         <div
@@ -188,6 +189,10 @@ export default function TweetCard({ tweet, isMobile }) {
               className="hoverLink"
               onClick={(e) => {
                 e.stopPropagation();
+              }}
+              style={{
+                width: "50px",
+                height: "50px",
               }}
             >
               <img
@@ -229,6 +234,7 @@ export default function TweetCard({ tweet, isMobile }) {
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
+                        
                       >
                         <h3>{tweet.UserInfo.FullName}</h3>
                       </Link>
@@ -297,7 +303,7 @@ export default function TweetCard({ tweet, isMobile }) {
                   }}
                 >
                   {tweet.Type === "CitaPost" && (
-                    <CitaCard tweet={tweet?.OriginalPostData} />
+                    <CitaCard tweet={tweet?.OriginalPostData} isMobile={isMobile} />
                   )}
                 </div>
               </div>
@@ -389,7 +395,7 @@ export default function TweetCard({ tweet, isMobile }) {
                 }}
               >
                 {tweet.Type === "CitaPost" && (
-                  <CitaCard tweet={tweet?.OriginalPostData} />
+                  <CitaCard tweet={tweet?.OriginalPostData} isMobile={isMobile} />
                 )}
               </div>
               {!isMobile && (

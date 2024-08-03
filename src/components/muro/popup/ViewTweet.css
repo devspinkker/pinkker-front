@@ -8,7 +8,7 @@
     bottom: 0;
     margin: auto;
     background-color: rgba(0, 0, 0, 0.0);
-    z-index: 9999;
+
     margin: 0px;
 
 }
@@ -26,7 +26,7 @@
     margin-top: 10px;
     padding: 3px 30px;
     text-align: center;
-    background: #121418;
+    background: #000;
     box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
 }
 
@@ -41,7 +41,7 @@
         margin-top: 10px;
         padding: 3px 30px;
         text-align: center;
-        background: #121418;
+        background: #000;
         box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
     }
   }
@@ -57,7 +57,7 @@
         margin-top: 10px;
         padding: 3px 30px;
         text-align: center;
-        background: #121418;
+        background: #000;
         box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
     }
   }
@@ -129,10 +129,8 @@
 
 .viewtweet-comments-container {
     width: 100%;
-    height: 470px;
     overflow: scroll;
     overflow-x: hidden;
-    box-shadow: inset 1px -2px 9px 0px #1e2127;
 }
 
 .popupgallery-view-input-container {
