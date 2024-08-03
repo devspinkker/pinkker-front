@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import "./ClipsMain.css";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ClipCard from "./card/ClipCard";
-import Auth from "../../auth/Auth";
 import {
   ClipsRecommended,
   GetClipsMostViewed,
@@ -13,21 +11,22 @@ import {
 import { BarLoader } from "react-spinners";
 
 const ClipsMain = ({ tyExpanded, expandedLeft }) => {
-  const auth = useSelector((state) => state.auth);
-  const { isLogged } = auth;
   const { clipId } = useParams();
 
   const [clips, setClips] = useState([]);
   const [viewedClip, setViewedClip] = useState(null);
-  const [viewAuth, setViewAuth] = useState(false);
   const [loadingMoreClips, setLoadingMoreClips] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [transitionDirection, setTransitionDirection] = useState(null);
 
   let startY = 0;
 
-  const loadMoreClips = useCallback(async () => {
-    if (!isLogged && clips.length > 0) {
+  const loadMoreClips = useCallback(
+    async (dt) => {
+      if (loadingMoreClips) return;
+
+      setLoadingMoreClips(true);
+
       try {
         let token = window.localStorage.getItem("token");
         let res;
@@ -40,23 +39,26 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
 
         if (res.data.message === "ok" && res.data.data != null) {
           const newClips = res.data.data;
-          setClips([...clips, ...newClips]);
+          setClips((prevClips) => [...prevClips, ...newClips]);
+
+          setViewedClip(dt);
         }
       } catch (error) {
         console.error(error);
       } finally {
         setLoadingMoreClips(false);
       }
-    }
-  }, [clips, isLogged]);
+    },
+    [clips, loadingMoreClips]
+  );
 
   const nextClip = useCallback(() => {
     const currentIndex = clips.findIndex((clip) => clip.id === viewedClip);
+    let dt = clips[currentIndex + 1].id;
     if (currentIndex < clips.length - 1) {
       setTransitionDirection("down");
-
       setTimeout(() => {
-        setViewedClip(clips[currentIndex + 1].id);
+        setViewedClip(dt);
         setTransitionDirection("up");
       }, 300);
 
@@ -64,8 +66,8 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
         setTransitionDirection(null);
       }, 400);
 
-      if (currentIndex === clips.length - 3) {
-        loadMoreClips();
+      if (currentIndex === clips.length - 2) {
+        loadMoreClips(dt);
       }
     }
   }, [clips, viewedClip, loadMoreClips]);
@@ -131,20 +133,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
     };
   }, [nextClip, previewClip]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    loadClips();
-  }, []);
-
-  useEffect(() => {
-    if (clipId) {
-      setViewedClip(clipId);
-    } else if (clips.length > 0) {
-      setViewedClip(clips[0].id);
-    }
-  }, [clipId, clips]);
-
-  const loadClips = async () => {
+  const loadClips = useCallback(async () => {
     try {
       let res;
       let newClips = [];
@@ -181,28 +170,46 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
       }
 
       setClips(newClips);
+      setViewedClip(newClips[0]?.id);
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [clipId]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    loadClips();
+  }, [loadClips]);
+
+  // useEffect(() => {
+  //   if (clipId) {
+  //     setViewedClip(clipId);
+  //   } else if (clips.length > 0) {
+  //     setViewedClip(clips[0].id);
+  //   }
+  //   console.log(clips);
+  //   console.log("HIIII");
+  // }, [clipId]);
 
   const memoizedClips = useMemo(() => {
-    return clips.map((clip, index) => (
+    if (!viewedClip) return null;
+    const clip = clips.find((clip) => clip.id === viewedClip);
+    return clip ? (
       <div
         key={clip.id}
         className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
         id={clip.id}
       >
-        <MemoizedClipCard
+        <ClipCard
           tyExpanded={tyExpanded}
-          type={index === 0 ? 0 : 1}
+          type={0}
           clip={clip}
           isActive={clip.id === viewedClip ? 2 : 1}
         />
       </div>
-    ));
+    ) : null;
   }, [clips, viewedClip, tyExpanded]);
 
   return (
@@ -259,9 +266,9 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
             </div>
             <div
               style={{
-                height: "40%",
+                height: "20%",
                 display: "flex",
-                alignItems: "end",
+                alignItems: "start",
                 justifyContent: "center",
               }}
             >
@@ -283,15 +290,10 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
               />
             </div>
           </div>
-
-          {viewAuth && (
-            <Auth typeDefault={0} closePopup={() => setViewAuth(false)} />
-          )}
         </>
       )}
     </div>
   );
 };
-const MemoizedClipCard = React.memo(ClipCard);
 
 export default ClipsMain;
