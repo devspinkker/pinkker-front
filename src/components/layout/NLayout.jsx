@@ -238,6 +238,10 @@ function NLayout(props) {
   let location = useLocation();
   const isStreamerPath = /^\/[^\/]+$/.test(location.pathname);
 
+  console.log('props.user?.NameUser?.length', props.user?.NameUser?.length)
+  console.log('location.pathname.includes', location.pathname.includes('/post'))
+  console.log('isStreamerPath', isStreamerPath)
+  console.log('( !isStreamerPath || !location.pathname.includes())', ( !isStreamerPath || location.pathname.includes('/post')))
   useEffect(() => {
     const fetchData = async () => {
       const response = await GetAllsStreamsOnline();
@@ -2613,7 +2617,7 @@ function NLayout(props) {
           onClick={() => setEsClick(false)}
         >
           {
-           ( !isStreamerPath || location.pathname.includes('/post')) && props.user?.NameUser?.length &&
+            !isStreamerPath && !location.pathname.includes('/post') && props.user?.NameUser?.length &&
             <IconButton
               style={{
                 color: "#fff",

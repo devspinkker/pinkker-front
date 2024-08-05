@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Muro.css";
 import TweetCard from "./tweet/TweetCard";
 import {
@@ -62,6 +62,7 @@ export default function Muro({ isMobile, userName }) {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [isFetching, setIsFetching] = useState(false); // nuevo estado para manejar la espera
   let token = window.localStorage.getItem("token");
+  let location = useLocation();
 
   async function loadMoreTweets() {
     try {
@@ -311,7 +312,7 @@ export default function Muro({ isMobile, userName }) {
               </Grid>
             )}
 
-            {isMobile && token?.length && (
+            {isMobile && token?.length &&  !location.pathname.includes('/post') &&(
               <IconButton
                 style={{
                   color: "#fff",

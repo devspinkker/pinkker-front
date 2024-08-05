@@ -13,8 +13,9 @@ import {
   DislikePost,
   setToken,
   RePost,
+  CommentPost,
 } from "../../../services/backGo/tweet";
-import { Grid, Typography, Skeleton, Drawer, Box, Button, Dialog } from "@mui/material";
+import { Grid, Typography, Skeleton, Drawer, Box, Button, Dialog, TextField } from "@mui/material";
 import { FaChartSimple, FaEllipsis, FaFacebook, FaHeart, FaLinkedin, FaRegComment, FaRegCopy, FaRetweet, FaTwitter } from "react-icons/fa6";
 import CitaCard from "./CitaCard";
 import PostComment from "./PostComment";
@@ -22,6 +23,7 @@ import { TbLocationShare } from "react-icons/tb";
 import { CiHeart } from "react-icons/ci";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 
 
 export default function TweetCard({ tweet, isMobile }) {
@@ -47,6 +49,7 @@ export default function TweetCard({ tweet, isMobile }) {
     history.push(`/post/${tweet?.UserInfo?.NameUser}/${id}`);
   }
 
+  console.log('tweet', tweet);
   function togglePopupCiteTweet() {
     setPopupCiteTweet(!popupCiteTweet);
   }
@@ -157,6 +160,7 @@ export default function TweetCard({ tweet, isMobile }) {
 
   const [copied, setCopied] = useState(false);
   const [share, setShare] = useState(false);
+  const [response, setResponse] = useState(false);
   const url = window.location.href;
 
   const toggleDrawer = (open) => (event) => {
@@ -167,6 +171,15 @@ export default function TweetCard({ tweet, isMobile }) {
       return;
     }
     setShare(open);
+  };
+  const toggleDrawerResponse = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setResponse(open);
   };
 
   const handleShare = (platform, tweet) => {
@@ -206,6 +219,27 @@ export default function TweetCard({ tweet, isMobile }) {
   const handleCloseImg = () => {
     setOpenImg(false);
   };
+  const [comments, setComments] = useState(null);
+  const [comment, setComment] = useState("");
+
+  async function createComment() {
+    if (comment.trim() !== "") {
+      const token = window.localStorage.getItem("token");
+      setToken(token);
+      try {
+        const res = await CommentPost({
+          status: comment,
+          OriginalPost: tweet?._id,
+        });
+        if (res?.message == "StatusCreated") {
+          setComments([res?.post, ...comments]);
+          alert({ type: "SUCCESS" });
+          setComment("");
+        }
+      } catch (error) { }
+    }
+  }
+  const Avatar = window.localStorage.getItem("avatar");
 
   return (
     <div
@@ -350,7 +384,7 @@ export default function TweetCard({ tweet, isMobile }) {
                         anchor="bottom"
                         open={openImg}
                         onClose={handleClickOpenImg(false)}
-                        
+
                         transitionDuration={{ enter: 500, exit: 500 }}
                         PaperProps={{
                           style: { height: "99%", backgroundColor: "rgba(53, 49, 51, 0.33)" },
@@ -367,31 +401,34 @@ export default function TweetCard({ tweet, isMobile }) {
                           style={{ margin: '0 auto', height: '100%' }}
                           role="presentation"
                         >
-                          <div style={{ display: 'flex', flexDirection:'column',alignItems: 'center', gap: '10px', justifyContent: 'center', height: '100%' }}>
-                            <IoMdCloseCircleOutline onClick={handleClickOpenImg(false)} style={{float:'right', color:'white', fontSize:'32px', width:'100%'}} />
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', justifyContent: 'center', height: '100%' }}>
+                            <IoMdCloseCircleOutline onClick={handleClickOpenImg(false)} style={{ float: 'right', color: 'white', fontSize: '32px', width: '100%' }} />
                             <img
                               style={{ width: '100%', height: '60%', objectFit: 'cover' }}
                               src={tweet.PostImage}
                               alt="Expanded post image"
                             />
 
-                            <div className="tweetcard-icons" style={{backgroundColor:'#0000'}}>
-                              <Tippy
-                                placement="bottom"
-                                theme="pinkker"
-                                content={<h1>Responder</h1>}
-                              >
-                                <div className="tweetcard-icon-comment">
-                                  <FaRegComment style={{ fontSize: '22px' }} />
-                                  <p style={{ marginLeft: "5px", fontSize: "14px" }}>
-                                    {tweet.Type == "RePost" ? (
-                                      <p>{tweet?.OriginalPostData?.Comments?.length}</p>
-                                    ) : (
-                                      <p>{tweet?.Comments?.length}</p>
-                                    )}
-                                  </p>
-                                </div>
-                              </Tippy>
+                            <div className="tweetcard-icons" style={{ backgroundColor: '#0000' }}>
+
+                              <div className="tweetcard-icon-comment" onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleDrawerResponse(true)(e)
+                                    }} >
+                                <FaRegComment style={{ fontSize: '22px' }}  onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleDrawerResponse(true)(e)
+                                    }}/>
+                                <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                                  {tweet.Type == "RePost" ? (
+                                    <p>{tweet?.OriginalPostData?.Comments?.length}</p>
+                                  ) : (
+                                    <p>{tweet?.Comments?.length}</p>
+                                  )}
+                                </p>
+                              </div>
+
+
 
                               <Tippy
                                 placement="bottom"
@@ -509,6 +546,139 @@ export default function TweetCard({ tweet, isMobile }) {
                     )}
                   </div>
                 )}
+
+                { (
+
+
+                  <Drawer
+                    anchor="bottom"
+                    open={response}
+                    onClose={toggleDrawerResponse(false)}
+                    transitionDuration={{ enter: 500, exit: 500 }}
+                    PaperProps={{
+                      style: { height: "93%", backgroundColor: "#080808" },
+                    }} // Esto asegura que el Drawer ocupe todo el alto
+                  >
+                    <Box
+                      sx={{
+                        padding: 2,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        gap: "2rem",
+                      }}
+                      role="presentation"
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: "10px",
+                        }}
+                      >
+                        <IoArrowBackCircleOutline
+                          style={{ color: "white", fontSize: "2.5rem" }}
+                          onClick={() => toggleDrawerResponse(false)}
+                        />
+                        <button
+                          onClick={() => createComment()}
+                          className="muro-send-tweet-button"
+                        >
+                          {location.pathname.includes('/post') ? 'Responder' : 'Postear'}
+                        </button>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: "10px",
+                        }}
+                      >
+                        <div>
+                          <img
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              objectFit: "cover",
+                              borderRadius: "100%",
+                            }}
+                            src={
+                              Avatar
+                            }
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            width: "100%",
+                          }}
+                        >
+                          <TextField
+                            label='Publica tu respuesta'
+                            variant="outlined"
+                            fullWidth
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                            multiline
+                            rows={4}
+                            InputProps={{
+                              style: {
+                                color: "white",
+                                borderColor: "white",
+                              },
+                              classes: {
+                                notchedOutline: {
+                                  borderColor: "white",
+                                },
+                              },
+                            }}
+                            InputLabelProps={{
+                              style: { color: "white" },
+                            }}
+                            sx={{
+                              "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                              {
+                                borderColor: "white",
+                              },
+                              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                              {
+                                borderColor: "white",
+                              },
+                              "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                              {
+                                borderColor: "white",
+                              },
+                              "& .MuiInputBase-input": {
+                                color: "white",
+                              },
+                              "& .MuiInputLabel-outlined": {
+                                color: "white",
+                              },
+                              "& .MuiInputBase-input::placeholder": {
+                                color: "white",
+                                opacity: 1,
+                              },
+                            }}
+                          // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                          />
+                          <Typography
+                            variant="subtitle1"
+                            style={{
+                              marginTop: "10px",
+                              color: comment?.length > 100 ? "red" : "white",
+                              textAlign: "right",
+                            }}
+                          >
+                            {comment.length}/100
+                          </Typography>
+                        </div>
+                      </div>
+                    </Box>
+                  </Drawer>
+                )}
+
+
                 {tweet.gallery === true && (
                   <div style={{ marginTop: "10px" }}>
                     <img
