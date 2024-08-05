@@ -10,7 +10,7 @@ import {
 } from "../../../services/backGo/clip";
 import { BarLoader } from "react-spinners";
 
-const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
+const ClipsMain = ({ tyExpanded, expandedLeft }) => {
   const { clipId } = useParams();
 
   const [clips, setClips] = useState([]);
@@ -53,8 +53,8 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
   );
 
   const nextClip = useCallback(() => {
-    const currentIndex = clips.findIndex((clip) => clip.id === viewedClip);
-    let dt = clips[currentIndex + 1].id;
+    const currentIndex = clips.findIndex((clip) => clip?.id === viewedClip);
+    let dt = clips[currentIndex + 1]?.id;
     if (currentIndex < clips.length - 1) {
       setTransitionDirection("down");
       setTimeout(() => {
@@ -192,11 +192,20 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
   //   console.log(clips);
   //   console.log("HIIII");
   // }, [clipId]);
-
   const memoizedClips = useMemo(() => {
-    if (!viewedClip) return null;
-    const clip = clips.find((clip) => clip.id === viewedClip);
-    return clip ? (
+    if (!viewedClip || clips.length === 0) return null;
+
+    const clipIndex = clips.findIndex((clip) => clip.id === viewedClip);
+
+    // Si no se encuentra el clip, no se renderiza nada
+    if (clipIndex === -1) return null;
+
+    const clipsToRender = clips.slice(
+      Math.max(clipIndex - 1, 0),
+      Math.min(clipIndex + 3, clips.length)
+    );
+
+    return clipsToRender.map((clip) => (
       <div
         key={clip.id}
         className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
@@ -207,10 +216,9 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
           type={0}
           clip={clip}
           isActive={clip.id === viewedClip ? 2 : 1}
-          isMobile={isMobile}
         />
       </div>
-    ) : null;
+    ));
   }, [clips, viewedClip, tyExpanded]);
 
   return (
@@ -238,7 +246,6 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
               transition: "width 0.2s ease-in-out 0s",
               right: expandedLeft && "15%",
               top: "120px",
-              display: isMobile && 'none'
             }}
           >
             <div
