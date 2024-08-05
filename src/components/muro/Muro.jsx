@@ -297,8 +297,8 @@ export default function Muro({ isMobile, userName }) {
           >
             <Box sx={{ width: '100%' }}>
               <Tabs value={valorTab} aria-label="basic tabs example">
-                <Tab label="Para Ti" style={{ color: 'white', padding: '0 !important', borderBottom: valorTab === 'parati' && '1px solid #f06fc0' }} onClick={() => setValorTab('parati')} />
-                <Tab label="Grupos" style={{ color: 'white', padding: '0 !important', borderBottom: valorTab === 'grupos' && '1px solid #f06fc0' }} onClick={() => setValorTab('grupos')} />
+                <Tab label="Para Ti" style={{ width:'50%',color: 'white', padding: '0 !important', borderBottom: valorTab === 'parati' && '1px solid #f06fc0', fontSize:isMobile ? '22px' : '18px' }} onClick={() => setValorTab('parati')} />
+                <Tab label="Grupos" style={{  width:'50%',color: 'white', padding: '0 !important', borderBottom: valorTab === 'grupos' && '1px solid #f06fc0', fontSize: isMobile ? '22px' : '18px' }} onClick={() => setValorTab('grupos')} />
               </Tabs>
 
             </Box>

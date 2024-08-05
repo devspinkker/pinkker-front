@@ -10,7 +10,7 @@ import {
 } from "../../../services/backGo/clip";
 import { BarLoader } from "react-spinners";
 
-const ClipsMain = ({ tyExpanded, expandedLeft }) => {
+const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
   const { clipId } = useParams();
 
   const [clips, setClips] = useState([]);
@@ -207,6 +207,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
           type={0}
           clip={clip}
           isActive={clip.id === viewedClip ? 2 : 1}
+          isMobile={isMobile}
         />
       </div>
     ) : null;
@@ -237,6 +238,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
               transition: "width 0.2s ease-in-out 0s",
               right: expandedLeft && "15%",
               top: "120px",
+              display: isMobile && 'none'
             }}
           >
             <div

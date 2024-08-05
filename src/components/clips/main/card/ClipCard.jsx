@@ -19,7 +19,7 @@ import { IoMdSend } from "react-icons/io";
 import ShareDropdown from "../../../channel/dropdown/ShareDropdown";
 import { useNotification } from "../../../Notifications/NotificationProvider";
 
-export default function ClipCard({ clip, isActive = 0 }) {
+export default function ClipCard({ clip, isActive = 0, isMobile }) {
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -317,6 +317,7 @@ export default function ClipCard({ clip, isActive = 0 }) {
             onMouseEnter={() => setVideoHover(true)}
             onMouseLeave={() => setVideoHover(false)}
             className="clipsmain-video"
+            style={{width: isMobile && '75%', margin: isMobile && '0 auto'}}
           >
             <div className="clipsmain-top-buttons">
               {playing ? (
@@ -435,8 +436,8 @@ export default function ClipCard({ clip, isActive = 0 }) {
                       <h4
                         style={{
                           color: "#ededed",
-                          padding: 0,
-                          fontSize: "14px",
+                          padding: 10,
+                          fontSize: "24px",
                         }}
                       >
                         {clip.clipTitle}

@@ -32,6 +32,7 @@
     "react-bubble": "^1.0.5",
     "react-chartjs-2": "^5.2.0",
     "react-confetti": "^6.1.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^17.0.2",
     "react-drag-drop-files": "^2.3.7",
     "react-draggable": "^4.4.5",

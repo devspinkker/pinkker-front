@@ -24,6 +24,7 @@
 .tweetcard-container {
     width: 100%;
     min-height: 75px;
+    gap: 10px;
     display: flex;
     z-index: 1000;
     cursor: pointer;

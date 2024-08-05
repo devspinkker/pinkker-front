@@ -22,7 +22,7 @@ import EmojiPicker, { Theme } from "emoji-picker-react";
 import { createTweet } from "../../../services/tweet";
 import { CitaPost } from "../../../services/backGo/tweet";
 
-export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
+export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet, isMobile }) {
   const [file, setFile] = useState(null);
   const [image, setImage] = useState(null);
 
@@ -93,7 +93,7 @@ export default function CiteTweet({ closePopup, tweet, isLiked, isRetweet }) {
           alignItems: "center",
         }}
       >
-        <div className={"citetweet-popup-container"}>
+        <div className={"citetweet-popup-container"} style={{width: isMobile && '100% !important'}}>
           <div className="usersettings-popup-close">
             <button onClick={closePopup}>
               <i style={{ fontSize: "24px" }} className="fas fa-times" />
