@@ -3,6 +3,7 @@ import "./StreamSummaryAnalytics.css";
 import { GetLastSixStreamSummaries } from "../../../services/backGo/streams";
 import { Chart } from "react-google-charts";
 import { TbBoxMargin } from "react-icons/tb";
+import NavbarLeft from "../../navbarLeft/NavbarLeft";
 
 export default function StreamSummaryAnalytics() {
   const [streamSummaries, setStreamSummaries] = useState([]);
@@ -16,7 +17,8 @@ export default function StreamSummaryAnalytics() {
         const res = await GetLastSixStreamSummaries(token, date);
 
         if (res && res.data && res.data.length > 0) {
-          setStreamSummaries(res.data);
+          const renamedData = res.data.map(renameProperties);
+          setStreamSummaries(renamedData);
           setCurrentIndex(0);
         }
       } catch (error) {
@@ -26,6 +28,30 @@ export default function StreamSummaryAnalytics() {
 
     fetchData();
   }, []);
+  const renameProperties = (item) => {
+    const {
+      Admoney,
+      stream_category,
+      Title,
+      Advertisements,
+      MaxViewers,
+      AverageViewers,
+      NewSubscriptions,
+      ...rest
+    } = item;
+
+    return {
+      ...rest,
+      "Ganancia de anuncios":
+        Admoney !== undefined && Admoney !== null ? Admoney : 0,
+      categoria: stream_category,
+      titulo: Title,
+      impresiones: Advertisements,
+      "maximo de espectadores": MaxViewers,
+      "promedio de espectadores": AverageViewers,
+      "nuevas subscriptions": NewSubscriptions,
+    };
+  };
 
   const navigatePrevious = () => {
     if (currentIndex > 0) {
@@ -77,6 +103,7 @@ export default function StreamSummaryAnalytics() {
               key === "StartFollowersCount" ||
               key == "StartOfStream" ||
               key == "EndOfStream"
+              // key == "Admoney"
             ) {
               return null;
             }
@@ -93,7 +120,7 @@ export default function StreamSummaryAnalytics() {
               <div className="summary-details-item" key={key}>
                 <div className="property-name">
                   <span>{key}</span>
-                  {difference !== null && (
+                  {/* {difference !== null && (
                     <div>
                       <span
                         className={
@@ -107,7 +134,7 @@ export default function StreamSummaryAnalytics() {
                       </span>
                       <span className="comparisonLast">Ultimo Stream</span>
                     </div>
-                  )}
+                  )} */}
                 </div>
 
                 <div className="property-value">

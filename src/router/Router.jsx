@@ -62,6 +62,7 @@ import NAnalytics from "../components/dashboard/analytics/NAnalytics";
 import Main from "../components/panelAdminPinkker/Main";
 import AuthContext from "../components/AuthContext";
 import ChannelVods from "../components/channel/ChannelVods";
+import StreamSummaryAnalytics from "../components/dashboard/analytics/StreamSummaryAnalytics";
 
 const AppRouter = () => {
   const { user } = useContext(AuthContext);
@@ -233,7 +234,15 @@ const AppRouter = () => {
           <Dashboard isMobile={isMobile} />
         </Route>
         <Route exact path="/:streamer/dashboard/analytics">
-          <NAnalytics user={user} />
+          <NavbarLeft
+            isMobile={isMobile}
+            tyExpanded={expanded}
+            user={user}
+            tyDashboard={true}
+            setExpanded={setExpanded}
+          ></NavbarLeft>
+          {/* <NAnalytics user={user} /> */}
+          <StreamSummaryAnalytics />
         </Route>
         <Route exact path="/:streamer/dashboard/community">
           <NavbarLeft
@@ -321,7 +330,11 @@ const AppRouter = () => {
             </Route>
 
             <Route exact path="/plataform/clips/:clipId?">
-              <ClipsMain tyExpanded={expanded} expandedLeft={expandedLeft} isMobile={isMobile}/>
+              <ClipsMain
+                tyExpanded={expanded}
+                expandedLeft={expandedLeft}
+                isMobile={isMobile}
+              />
             </Route>
 
             <Route exact path="/plataform/muro">
@@ -406,7 +419,6 @@ const AppRouter = () => {
 
             <Route exact path="/:streamer">
               <Channel
-                
                 isMobile={isMobile}
                 socketMain={socketMain}
                 handleMessage={(e) => addOpenMessage(e)}
