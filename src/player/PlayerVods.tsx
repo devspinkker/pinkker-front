@@ -26,7 +26,7 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
   const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const reconnectIntervalRef = useRef<NodeJS.Timeout | null>(null);
-
+  const [countdown, setCountdown] = useState(3); // Estado para la cuenta regresiva
   const handleCommercialEnded = async () => {
     let token = window.localStorage.getItem("token");
     await AdsAddStreamSummary(token, streamerDataID, Commercial._id);
@@ -46,8 +46,16 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
   useEffect(() => {
     if (Commercial) {
       playCommercial();
+      setCountdown(3); // Reiniciar la cuenta regresiva cuando empieza el comercial
     }
   }, [Commercial]);
+
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [countdown]);
 
   const initializeWebSocket = () => {
     const newSocket = new WebSocket(`wss://www.pinkker.tv/8084/ws/commercialInStream/${stream}`);
@@ -259,23 +267,37 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
             ref={commercialRef}
             onClick={() => window.open(Commercial?.LinkReference, '_blank')}
           />
-             <button
-            onClick={handleCommercialEnded}
-            style={{
-              position: 'relative',
-              top: '-130px',
-              left: "17px",
-              padding: '5px 10px',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              zIndex:"10000"
-            }}
-          >
-            Cerrar anuncio
-          </button>
+              {countdown > 0 ? (
+                <div style={{ 
+                  position: 'relative',
+                  top: '-130px',
+                  left: "17px",
+                  zIndex:"10000",
+                  padding: '5px 10px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  color: 'white',
+                  width: "100px",
+                }}>
+                  omitir en {countdown}...
+                </div>
+              ) : (
+                <button
+                onClick={handleCommercialEnded}
+                style={{
+                  position: 'relative',
+                  top: '-130px',
+                  left: "17px",
+                  padding: '5px 10px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  zIndex:"10000"
+                }}
+              >
+                Cerrar anuncio
+              </button>
+              )}
         </div>
         
       )}

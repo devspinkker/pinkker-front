@@ -16,12 +16,13 @@ interface ReactVideoPlayerProps {
   stream_thumbnail: string;
 }
 
-function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID,stream_thumbnail }: ReactVideoPlayerProps) {
+function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID, stream_thumbnail }: ReactVideoPlayerProps) {
   const history = useHistory();
   const [isPlaying, setIsPlaying] = useState(false);
   const [Commercial, setCommercial] = useState<any>(null);
   const [showWarning, setShowWarning] = useState(true);
   const [Player, setPlayer] = useState(true);
+  const [countdown, setCountdown] = useState(3); // Estado para la cuenta regresiva
   const commercialRef = useRef<HTMLVideoElement | null>(null);
   const hlsRef = useRef<Hls | null>(null);
   const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -35,36 +36,9 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   const handleCommercialEnded = async () => {
     let token = window.localStorage.getItem("token");
     await AdsAddStreamSummary(token, streamerDataID, Commercial._id);
-  setCommercial(null)
-
+    setCommercial(null);
   };
 
-  // useEffect(() => {
-  //   const video = videoRef.current;
-  //   const canvas = canvasRef.current;
-  //   const ctx = canvas.getContext('2d');
-
-  //   const drawAmbilight = () => {
-  //     const width = canvas.width;
-  //     const height = canvas.height;
-  //     const vw = video.videoWidth;
-  //     const vh = video.videoHeight;
-
-  //     ctx.clearRect(0, 0, width, height);
-
-  //     ctx.drawImage(video, 0, 0, width, height);
-
-  //     // Apply a blur effect
-  //     ctx.globalAlpha = 0.5;
-  //     ctx.filter = "blur(50px)";
-  //     ctx.drawImage(canvas, -25, -25, width + 50, height + 50);
-  //     ctx.filter = "none";
-  //     ctx.globalAlpha = 1.0;
-  //   };
-
-  //   const interval = setInterval(drawAmbilight, 30);
-  //   return () => clearInterval(interval);
-  // }, [videoHover]);
   const playCommercial = () => {
     if (commercialRef.current) {
       commercialRef.current.src = Commercial.UrlVideo;
@@ -78,8 +52,16 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   useEffect(() => {
     if (Commercial) {
       playCommercial();
+      setCountdown(3); // Reiniciar la cuenta regresiva cuando empieza el comercial
     }
   }, [Commercial]);
+
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [countdown]);
 
   const initializeWebSocket = () => {
     const newSocket = new WebSocket(`wss://www.pinkker.tv/8084/ws/commercialInStream/${stream}`);
@@ -313,52 +295,59 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
     </div>
   </div>
 )}
-
-
-      {Commercial && (
-        <div>
-
-          <video
-          style={{ width, height }}
-            id='commercial-player'
-            muted={true}
-            controls={false}
-            playsInline
-            ref={commercialRef}
-            onClick={() => window.open(Commercial?.LinkReference, '_blank')}
-          />
-             <button
-            onClick={handleCommercialEnded}
-            style={{
-              position: 'relative',
-              top: '-130px',
-              left: "17px",
-              padding: '5px 10px',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              zIndex:"10000"
-            }}
-          >
-            Cerrar anuncio
-          </button>
-        </div>
-        
-      )}
-      <canvas ref={canvasRef} width="400" height="300" id="ambilight" />
-
+ 
+          {Commercial && (
+            <div style={{ textAlign: 'center' }}>
+              <video
+               id='commercial-player'
+                ref={commercialRef}
+                width={width}
+                height={height}
+                onEnded={handleCommercialEnded}
+                controls={false}
+                style={{ objectFit: 'contain' }}
+              />
+              {countdown > 0 ? (
+                <div style={{
+                  position: 'relative',
+                  top: '-130px',
+                  left: "17px",
+                  zIndex:"10000",
+                  padding: '5px 10px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  color: 'white',
+                  width: "100px", }}>
+                  Cargando en {countdown}...
+                </div>
+              ) : (
+                <button
+                onClick={handleCommercialEnded}
+                style={{
+                  position: 'relative',
+                  top: '-130px',
+                  left: "17px",
+                  padding: '5px 10px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  zIndex:"10000"
+                }}
+                >
+                  Cerrar anuncio
+                </button>
+              )}
+            </div>
+          ) }
       <video
-        crossOrigin="anonymous"
-        style={{ width, height, display: Commercial || Player ? "none" : "" }}
-        id='video-player'
-        muted={true}
-        controls={false}
-        playsInline
         ref={videoRef}
-        
-
+        style={{ width, height, display: Commercial ||  Player ? "none" : "" }}
+        height={HeightVideo()}
+        width={width}
+        controls
+        muted={Player}
+    
+        className={`video-player`}
       />
     </>
   );
