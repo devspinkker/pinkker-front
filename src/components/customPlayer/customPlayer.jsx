@@ -256,6 +256,7 @@ export default function CustomPlayer({
         quality={quality}
         stream={stream?.id}
         streamerDataID={streamerData.id}
+        stream_thumbnail={stream?.stream_thumbnail}
       />
     );
   }
@@ -422,13 +423,13 @@ export default function CustomPlayer({
       url,
       title,
       "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=" +
-      w +
-      ", height=" +
-      h +
-      ", top=" +
-      y +
-      ", left=" +
-      x
+        w +
+        ", height=" +
+        h +
+        ", top=" +
+        y +
+        ", left=" +
+        x
     );
   }
 
@@ -600,8 +601,11 @@ export default function CustomPlayer({
                       </h1>
                     }
                   >
-                    <LuClapperboard class=" pinkker-button-more button-more-player" onClick={() => handleClip()}
-                      style={{ cursor: "pointer", fontSize: '18px !important' }} />
+                    <LuClapperboard
+                      class=" pinkker-button-more button-more-player"
+                      onClick={() => handleClip()}
+                      style={{ cursor: "pointer", fontSize: "18px !important" }}
+                    />
                   </Tippy>
                 </div>
                 <div className="customPlayer-card">
@@ -615,8 +619,11 @@ export default function CustomPlayer({
                       </h1>
                     }
                   >
-                    <MdHd class=" pinkker-button-more button-more-player" onClick={() => setEnableQuality(!enableQuality)}
-                      style={{ cursor: "pointer", fontSize: '18px !important' }} />
+                    <MdHd
+                      class=" pinkker-button-more button-more-player"
+                      onClick={() => setEnableQuality(!enableQuality)}
+                      style={{ cursor: "pointer", fontSize: "18px !important" }}
+                    />
                   </Tippy>
                 </div>
 
@@ -700,12 +707,7 @@ export default function CustomPlayer({
         />
       )}
       {enableQuality && (
-        <ul
-
-          className={
-            "dropdownsettings-menu"
-          }
-        >
+        <ul className={"dropdownsettings-menu"}>
           <div className="dropdownsettings-container">
             <div>
               <li>
@@ -722,7 +724,9 @@ export default function CustomPlayer({
                 </div>
               </li>
 
-              <hr style={{ border: "1px solid #4b4b4b8f", margin: "10px auto" }} />
+              <hr
+                style={{ border: "1px solid #4b4b4b8f", margin: "10px auto" }}
+              />
 
               {/* <li onClick={() => changeQuality("auto")}>
                 <div className="dropdownsettings-content">
@@ -784,8 +788,6 @@ export default function CustomPlayer({
             </div>
           </div>
         </ul>
-
-
       )}
     </div>
   );

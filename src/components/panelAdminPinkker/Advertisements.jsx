@@ -17,7 +17,7 @@ export default function Advertisements({ Code }) {
     Impressions: 0,
     UrlVideo: "",
     ReferenceLink: "",
-    PayPerPrint: 0.0,
+    ImpressionsMax: 0.0,
     Code,
   });
 
@@ -41,7 +41,7 @@ export default function Advertisements({ Code }) {
       [name]:
         name === "Impressions"
           ? parseInt(value)
-          : name === "PayPerPrint"
+          : name === "ImpressionsMax"
           ? parseFloat(value)
           : value,
     }));
@@ -53,7 +53,7 @@ export default function Advertisements({ Code }) {
         ...form,
         Code,
         Impressions: parseInt(form.Impressions),
-        PayPerPrint: parseFloat(form.PayPerPrint),
+        ImpressionsMax: parseFloat(form.ImpressionsMax),
       };
       const res = form.id
         ? await UpdateAdvertisement(token, adData)
@@ -68,7 +68,7 @@ export default function Advertisements({ Code }) {
           Impressions: 0,
           UrlVideo: "",
           ReferenceLink: "",
-          PayPerPrint: 0.0,
+          ImpressionsMax: 0.0,
           Code,
         });
       } else {
@@ -138,9 +138,9 @@ export default function Advertisements({ Code }) {
         <input
           type="number"
           step="0.01"
-          name="PayPerPrint"
-          placeholder="PayPerPrint"
-          value={form.PayPerPrint}
+          name="ImpressionsMax"
+          placeholder="ImpressionsMax"
+          value={form.ImpressionsMax}
           onChange={handleInputChange}
         />
         <button type="button" onClick={handleCreateOrUpdate}>
@@ -155,7 +155,7 @@ export default function Advertisements({ Code }) {
             <p>Category: {ad.Categorie}</p>
             <p>Destination: {ad.Destination}</p>
             <p>Impressions: {ad.Impressions}</p>
-            <p>Pay Per Print: {ad.PayPerPrint}</p>
+            <p>ImpressionsMax: {ad.ImpressionsMax}</p>
             <a
               href={ad.ReferenceLink}
               target="_blank"

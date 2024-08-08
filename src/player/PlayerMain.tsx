@@ -12,10 +12,11 @@ interface ReactVideoPlayerProps {
   width: string;
   quality: string;
   stream: string;
-  streamerDataID: string;
+  streamerDataID: string;  
+  stream_thumbnail: string;
 }
 
-function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID }: ReactVideoPlayerProps) {
+function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID,stream_thumbnail }: ReactVideoPlayerProps) {
   const history = useHistory();
   const [isPlaying, setIsPlaying] = useState(false);
   const [Commercial, setCommercial] = useState<any>(null);
@@ -34,6 +35,8 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   const handleCommercialEnded = async () => {
     let token = window.localStorage.getItem("token");
     await AdsAddStreamSummary(token, streamerDataID, Commercial._id);
+  setCommercial(null)
+
   };
 
   // useEffect(() => {
@@ -287,64 +290,62 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
 
   return (
     <>
-      {showWarning && (
-        <div
-          style={{ width, height, background: "#080808", display: "flex", justifyContent: "center", alignItems: 'center' }}
-        >
-          <div className="base-dialog">
-            <div className="dialog-icon-holder">
-              <svg
-                width="70px"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-                className="stroke-white"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                ></path>
-              </svg>
-            </div>
-            <div className="base-dialogo-Adver">
-              Advertencia, contenido para mayores de 18 años
-            </div>
-            <div className="base-dialogo-transmisión">
-              <p>
-                Esta transmisión tiene contenido para adultos. Debes tener 18 años de edad o más para poder ver este contenido.
-              </p>
-            </div>
-            <div className="dialog-actions">
-              <button onClick={handleRedirectHome}>
-                <div>
-                  <div>Cancelar</div>
-                </div>
-              </button>
-              <button onClick={handleStartWatchingClick}>
-                <div>
-                  <div>Comenzar a mirar</div>
-                </div>
-              </button>
-            </div>
-          </div>
+    {showWarning && (
+  <div
+    style={{
+      width,
+      height,
+      backgroundImage: `url(${stream_thumbnail})`,
+      backgroundSize: 'contain',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}
+  >
+    <div className="base-dialog-player">
+      <button onClick={handleStartWatchingClick}>
+        <div>
+          <i className='fas fa-play pinkker-button-more' ></i>
         </div>
-      )}
+      </button>
+    </div>
+  </div>
+)}
+
+
       {Commercial && (
-        <video
+        <div>
+
+          <video
           style={{ width, height }}
-          id='commercial-player'
-          muted={true}
-          controls={false}
-          playsInline
-          ref={commercialRef}
-          onPlay={handleCommercialEnded}
-           onEnded={()=>    setCommercial(null)}
-          onClick={() => window.open(Commercial?.LinkReference, '_blank')}
-        />
+            id='commercial-player'
+            muted={true}
+            controls={false}
+            playsInline
+            ref={commercialRef}
+            onClick={() => window.open(Commercial?.LinkReference, '_blank')}
+          />
+             <button
+            onClick={handleCommercialEnded}
+            style={{
+              position: 'relative',
+              top: '-130px',
+              left: "17px",
+              padding: '5px 10px',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              zIndex:"10000"
+            }}
+          >
+            Cerrar anuncio
+          </button>
+        </div>
+        
       )}
       <canvas ref={canvasRef} width="400" height="300" id="ambilight" />
 

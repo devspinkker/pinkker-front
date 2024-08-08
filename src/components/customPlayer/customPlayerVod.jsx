@@ -246,6 +246,7 @@ export default function CustomPlayer({
         expanded={expanded}
         quality={quality}
         stream={stream?.id}
+        stream_thumbnail={stream?.stream_thumbnail}
         streamerDataID={streamerData.id}
       />
     );
