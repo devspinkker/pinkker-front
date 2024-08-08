@@ -358,7 +358,7 @@
 .actions-chat-conteiner {
     padding: 14px;
     width: 88.5%;
-    border-top: 1px solid #2a2e38;
+    /* border-top: 1px solid #2a2e38; */
     background: #0f1214;
 }
 
