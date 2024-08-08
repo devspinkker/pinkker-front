@@ -193,7 +193,7 @@
     flex: 1 1;
     max-height: 77%;
     overflow-y: auto;
-    background: #0f1214;
+    background: #080808;
 }
 
 .Conversation::-webkit-scrollbar {
@@ -251,17 +251,18 @@
 }
 
 .config-buttoncloseNavbarDropdownEmotes {
-    padding: 5px;
-    border-radius: 0px 5px 5px 0px;
-    font-size: 16px;
-    border: #545658 1px solid;
+    align-items: center;
+    background: #171a1f;
+    border: 1px solid #545658;
     border-left: none;
+    border-radius: 0 5px 5px 0;
     color: #ededed;
     cursor: pointer;
-    height: 28px;
-    background: #171a1f;
     display: flex;
-    align-items: center;
+    font-size: 16px;
+    height: 28px;
+    padding: 5px;
+    padding-right: 11px;
 }
 
 .divinput-chat {
@@ -285,10 +286,15 @@
 .divinput-chat:empty:before {
     content: attr(placeholder);
     color: #aaa;
+    font-size: 13px;
 }
 
 .divinput-chat:focus {
     /* border: none; */
+}
+
+.content-info-message-2-nameUser-span {
+    font-weight: bolder;
 }
 
 .ChatStreaming_form>button {
@@ -346,12 +352,12 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    background: #0f1214;
+    background: #080808;
 }
 
 .actions-chat-conteiner {
     padding: 14px;
-    width: 93.5%;
+    width: 88.5%;
     border-top: 1px solid #2a2e38;
     background: #0f1214;
 }

@@ -7,13 +7,13 @@
     height: -webkit-fill-available;
     position: fixed;
     right: 0;
-    top: 85px;
+    top: 74px;
     background-color: #131418;
     transition: 0.15s;
     overflow-y: unset;
     z-index: 8888;
     padding: 0rem;
-    ;
+
 }
 
 .streammanager-body {

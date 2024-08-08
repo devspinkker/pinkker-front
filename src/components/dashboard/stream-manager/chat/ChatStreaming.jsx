@@ -307,7 +307,7 @@ export function ChatStreaming({
             }, 90000);
           }
           console.log(receivedMessage);
-          if (receivedMessage?.action === "DonatePixels" || "Subs") {
+          if (receivedMessage?.action === ("DonatePixels" || "Suscribirse")) {
             setMessages((prevMessages) => [...prevMessages, receivedMessage]);
             scrollToBottom();
           }
@@ -1235,19 +1235,19 @@ export function ChatStreaming({
           style={{
             width: "100%",
             height: "1px",
-            backgroundColor: "#2b2b2b3f",
+            backgroundColor: "#2a2e38",
             marginTop: "19px auto",
           }}
         />
 
-        <div
+        {/* <div
           style={{
             width: "100%",
             height: "1px",
-            backgroundColor: "#2b2b2b3f",
+            backgroundColor: "#2a2e38",
             marginTop: "19px auto",
           }}
-        />
+        /> */}
         {donations && donationsSubscriptions && getDonation()}
         {showAllDonations && firstClick && donationCard && (
           <DonationCard
@@ -1281,7 +1281,11 @@ export function ChatStreaming({
               key={MsjChatAnclado.Id}
               className="Message"
               onClick={() => GetUserTheChatFunc(MsjChatAnclado)}
-              style={{ cursor: "pointer" }}
+              style={{
+                cursor: "pointer",
+                display: "flex",
+                flexDirection: "row",
+              }}
             >
               <div className="badges">
                 {MsjChatAnclado.Identidad && (
@@ -1315,7 +1319,9 @@ export function ChatStreaming({
                       className="content-info-message-2-nameUser"
                       style={{ color: MsjChatAnclado.Color }}
                     >
-                      {MsjChatAnclado.nameUser}:{" "}
+                      <span className="content-info-message-2-nameUser-span">
+                        {MsjChatAnclado.nameUser}:{" "}
+                      </span>
                       <span style={{ color: "#ffff" }}>
                         {parseMessage(MsjChatAnclado.message)}
                       </span>
@@ -1633,7 +1639,9 @@ export function ChatStreaming({
                         fontSize: changeTextSizeState,
                       }}
                     >
-                      {message.nameUser}:{" "}
+                      <span className="content-info-message-2-nameUser-span">
+                        {message.nameUser}:{" "}
+                      </span>
                       <span style={{ color: "#ffff" }}>
                         {parseMessage(message.message)}
                       </span>
@@ -1728,12 +1736,14 @@ export function ChatStreaming({
                   </div>
                 </>
               ) : (
-                <div className="suscripcion-header">
-                  <span className="suscripcion-user">{message.data}</span>
-                  <span className="suscripcion-action">
-                    ha realizado una suscripción
-                  </span>
-                </div>
+                message.action === "Suscribirse" && (
+                  <div className="suscripcion-header">
+                    <span className="suscripcion-user">{message.data}</span>
+                    <span className="suscripcion-action">
+                      ha realizado una suscripción
+                    </span>
+                  </div>
+                )
               )}
             </div>
           ) : (
@@ -1785,7 +1795,9 @@ export function ChatStreaming({
                           fontSize: changeTextSizeState,
                         }}
                       >
-                        {message.nameUser}:{" "}
+                        <span className="content-info-message-2-nameUser-span">
+                          {message.nameUser}:{" "}
+                        </span>
                         <span style={{ color: "#ffff" }}>
                           {parseMessage(message.message)}
                         </span>
@@ -1860,7 +1872,11 @@ export function ChatStreaming({
             key={ResMessageschatState.Id}
             className="Message"
             onClick={() => GetUserTheChatFunc(ResMessageschatState)}
-            style={{ cursor: "pointer", flexDirection: "row" }}
+            style={{
+              cursor: "pointer",
+              flexDirection: "row",
+              margin: "-3px -8px 12px 0px",
+            }}
           >
             <div className="badges">
               {ResMessageschatState.EmotesChat.Moderator && (
@@ -1893,7 +1909,9 @@ export function ChatStreaming({
                       color: ResMessageschatState.Color,
                     }}
                   >
-                    {ResMessageschatState.nameUser}:{" "}
+                    <span className="content-info-message-2-nameUser-span">
+                      {ResMessageschatState.nameUser}:{" "}
+                    </span>
                     <span style={{ color: "#ffff" }}>
                       {parseMessage(ResMessageschatState.message)}
                     </span>
