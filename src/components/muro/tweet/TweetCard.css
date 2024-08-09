@@ -42,6 +42,19 @@
     border-radius: 5px;
 }
 
+.PostimageLinkPromocionado {
+    position: absolute;
+    left: 21px;
+    top: 73%;
+    background: #0000005e;
+    padding: 4px;
+    border-radius: 10px;
+}
+
+.PostLinkPromocionado {
+    color: white;
+}
+
 .tweetcard-avatar {
     width: 50px;
     text-align: center;
@@ -222,10 +235,15 @@
         z-index: 1000;
     }
 
-    .tweetcard-avatar{
+    .tweetcard-avatar {
         width: 100% !important;
         display: flex;
         text-align: center;
+    }
+
+    .PostimageLinkPromocionado {
+        position: absolute;
+        top: 77%;
     }
 
     .tweetcard-container {
@@ -236,7 +254,7 @@
         justify-content: space-between;
         z-index: 1000;
         cursor: pointer;
-    
+
     }
 
     .tweetcard-icons {

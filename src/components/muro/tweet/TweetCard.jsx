@@ -14,6 +14,7 @@ import {
   setToken,
   RePost,
   CommentPost,
+  IdOfTheUsersWhoClicked,
 } from "../../../services/backGo/tweet";
 import {
   Grid,
@@ -70,6 +71,13 @@ export default function TweetCard({ tweet, isMobile }) {
   console.log("tweet", tweet);
   function togglePopupCiteTweet() {
     setPopupCiteTweet(!popupCiteTweet);
+  }
+
+  async function IdOfTheUsersWhoClickedFunc(id) {
+    let token = window.localStorage.getItem("token");
+    if (token) {
+      await IdOfTheUsersWhoClicked(id, token);
+    }
   }
 
   function calculateTimeDifference(postDate) {
@@ -398,6 +406,23 @@ export default function TweetCard({ tweet, isMobile }) {
                         handleClickOpenImg()(e);
                       }}
                     />
+                    {tweet.AdvertisementsId && (
+                      <span
+                        className="PostimageLinkPromocionado"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          IdOfTheUsersWhoClickedFunc(tweet.AdvertisementsId);
+                          if (tweet.ReferenceLink) {
+                            window.open(tweet.ReferenceLink, "_blank");
+                          }
+                        }}
+                      >
+                        {tweet.ReferenceLink
+                          ? new URL(tweet.ReferenceLink).hostname +
+                            new URL(tweet.ReferenceLink).pathname
+                          : "Promocionado"}
+                      </span>
+                    )}
                     {isMobile && (
                       <Drawer
                         anchor="bottom"
@@ -876,6 +901,23 @@ export default function TweetCard({ tweet, isMobile }) {
                     }}
                     alt="Post image"
                   />
+                  {tweet.AdvertisementsId && (
+                    <span
+                      className="PostimageLinkPromocionado"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        IdOfTheUsersWhoClickedFunc(tweet.AdvertisementsId);
+                        if (tweet.ReferenceLink) {
+                          window.open(tweet.ReferenceLink, "_blank");
+                        }
+                      }}
+                    >
+                      {tweet.ReferenceLink
+                        ? new URL(tweet.ReferenceLink).hostname +
+                          new URL(tweet.ReferenceLink).pathname
+                        : "Promocionado"}
+                    </span>
+                  )}
                 </div>
               )}
               {tweet.gallery === true && (
@@ -1038,6 +1080,7 @@ export default function TweetCard({ tweet, isMobile }) {
                 <span
                   onClick={(e) => {
                     e.stopPropagation();
+                    IdOfTheUsersWhoClickedFunc(tweet.AdvertisementsId);
                     if (tweet.ReferenceLink) {
                       window.open(tweet.ReferenceLink, "_blank");
                     }
@@ -1172,7 +1215,20 @@ export default function TweetCard({ tweet, isMobile }) {
                   />
                 </div>
               </Tippy>
-              <h1>Promocionado</h1>
+              {tweet.AdvertisementsId && (
+                <span
+                className="PostLinkPromocionado"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    IdOfTheUsersWhoClickedFunc(tweet.AdvertisementsId);
+                    if (tweet.ReferenceLink) {
+                      window.open(tweet.ReferenceLink, "_blank");
+                    }
+                  }}
+                >
+                  Promocionado
+                </span>
+              )}
             </div>
           )}
         </div>
