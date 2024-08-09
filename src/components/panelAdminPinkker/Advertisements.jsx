@@ -12,12 +12,14 @@ export default function Advertisements({ Code }) {
   const [form, setForm] = useState({
     id: "",
     Name: "",
-    Destination: "",
+    Destination: "Muro", // Valor por defecto
     Categorie: "",
     Impressions: 0,
     UrlVideo: "",
     ReferenceLink: "",
     ImpressionsMax: 0.0,
+    ClicksMax: 0,
+    DocumentToBeAnnounced: "",
     Code,
   });
 
@@ -39,7 +41,7 @@ export default function Advertisements({ Code }) {
     setForm((prevForm) => ({
       ...prevForm,
       [name]:
-        name === "Impressions"
+        name === "Impressions" || name === "ClicksMax"
           ? parseInt(value)
           : name === "ImpressionsMax"
           ? parseFloat(value)
@@ -54,6 +56,7 @@ export default function Advertisements({ Code }) {
         Code,
         Impressions: parseInt(form.Impressions),
         ImpressionsMax: parseFloat(form.ImpressionsMax),
+        ClicksMax: parseInt(form.ClicksMax),
       };
       const res = form.id
         ? await UpdateAdvertisement(token, adData)
@@ -63,12 +66,14 @@ export default function Advertisements({ Code }) {
         setForm({
           id: "",
           Name: "",
-          Destination: "",
+          Destination: "Muro",
           Categorie: "",
           Impressions: 0,
           UrlVideo: "",
           ReferenceLink: "",
           ImpressionsMax: 0.0,
+          ClicksMax: 0,
+          DocumentToBeAnnounced: "",
           Code,
         });
       } else {
@@ -106,13 +111,14 @@ export default function Advertisements({ Code }) {
           value={form.Name}
           onChange={handleInputChange}
         />
-        <input
-          type="text"
+        <select
           name="Destination"
-          placeholder="Destination"
           value={form.Destination}
           onChange={handleInputChange}
-        />
+        >
+          <option value="Muro">Muro</option>
+          <option value="Streams">Streams</option>
+        </select>
         <input
           type="text"
           name="Categorie"
@@ -120,7 +126,6 @@ export default function Advertisements({ Code }) {
           value={form.Categorie}
           onChange={handleInputChange}
         />
-
         <input
           type="text"
           name="UrlVideo"
@@ -137,10 +142,32 @@ export default function Advertisements({ Code }) {
         />
         <input
           type="number"
+          name="Impressions"
+          placeholder="Impressions"
+          value={form.Impressions}
+          onChange={handleInputChange}
+        />
+        <input
+          type="number"
           step="0.01"
           name="ImpressionsMax"
           placeholder="ImpressionsMax"
           value={form.ImpressionsMax}
+          onChange={handleInputChange}
+        />
+        <input
+          type="number"
+          name="ClicksMax"
+          placeholder="ClicksMax"
+          value={form.ClicksMax}
+          onChange={handleInputChange}
+        />
+
+        <input
+          type="text"
+          name="DocumentToBeAnnounced"
+          placeholder="Document to be announced"
+          value={form.DocumentToBeAnnounced}
           onChange={handleInputChange}
         />
         <button type="button" onClick={handleCreateOrUpdate}>
@@ -156,6 +183,9 @@ export default function Advertisements({ Code }) {
             <p>Destination: {ad.Destination}</p>
             <p>Impressions: {ad.Impressions}</p>
             <p>ImpressionsMax: {ad.ImpressionsMax}</p>
+            <p>Clicks: {ad.Clicks}</p>
+            <p>ClicksMax: {ad.ClicksMax}</p>
+            <p>Document to be announced: {ad.DocumentToBeAnnounced}</p>
             <a
               href={ad.ReferenceLink}
               target="_blank"
