@@ -14,12 +14,11 @@ export default function Advertisements({ Code }) {
     Name: "",
     Destination: "Muro", // Valor por defecto
     Categorie: "",
-    Impressions: 0,
     UrlVideo: "",
     ReferenceLink: "",
     ImpressionsMax: 0.0,
     ClicksMax: 0,
-    DocumentToBeAnnounced: "",
+    DocumentToBeAnnounced: "000000000000000000000000",
     Code,
   });
 
@@ -41,7 +40,7 @@ export default function Advertisements({ Code }) {
     setForm((prevForm) => ({
       ...prevForm,
       [name]:
-        name === "Impressions" || name === "ClicksMax"
+        name === "ClicksMax"
           ? parseInt(value)
           : name === "ImpressionsMax"
           ? parseFloat(value)
@@ -54,7 +53,6 @@ export default function Advertisements({ Code }) {
       const adData = {
         ...form,
         Code,
-        Impressions: parseInt(form.Impressions),
         ImpressionsMax: parseFloat(form.ImpressionsMax),
         ClicksMax: parseInt(form.ClicksMax),
       };
@@ -68,7 +66,6 @@ export default function Advertisements({ Code }) {
           Name: "",
           Destination: "Muro",
           Categorie: "",
-          Impressions: 0,
           UrlVideo: "",
           ReferenceLink: "",
           ImpressionsMax: 0.0,
@@ -140,13 +137,7 @@ export default function Advertisements({ Code }) {
           value={form.ReferenceLink}
           onChange={handleInputChange}
         />
-        <input
-          type="number"
-          name="Impressions"
-          placeholder="Impressions"
-          value={form.Impressions}
-          onChange={handleInputChange}
-        />
+
         <input
           type="number"
           step="0.01"
