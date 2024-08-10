@@ -3,6 +3,7 @@ import "./Clips.css";
 import ClipCard from "../../card/ClipCard";
 import Skeleton from "@mui/material/Skeleton";
 import {
+  ClipsRecommended,
   GetClipsMostViewed,
   MoreViewOfTheClip,
 } from "../../../services/backGo/clip";
@@ -35,7 +36,14 @@ export default function Clips(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await GetClipsMostViewed(1);
+        let token = window.localStorage.getItem("token");
+        let response;
+        if (token) {
+          const ExcludeIDs = clips.map((clip) => clip.id);
+          response = await ClipsRecommended(token, ExcludeIDs);
+        } else {
+          response = await GetClipsMostViewed(1);
+        }
         if (response.data?.message === "ok" && response.data?.data.length > 1) {
           setClips(response.data.data);
         }
