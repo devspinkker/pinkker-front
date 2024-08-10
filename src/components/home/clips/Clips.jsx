@@ -39,7 +39,7 @@ export default function Clips(props) {
         let token = window.localStorage.getItem("token");
         let response;
         if (token) {
-          const ExcludeIDs = clips.map((clip) => clip.id);
+          const ExcludeIDs = [];
           response = await ClipsRecommended(token, ExcludeIDs);
         } else {
           response = await GetClipsMostViewed(1);
