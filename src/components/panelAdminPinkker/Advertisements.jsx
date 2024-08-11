@@ -12,6 +12,7 @@ export default function Advertisements({ Code }) {
   const [form, setForm] = useState({
     id: "",
     Name: "",
+    NameUser: "",
     Destination: "Muro", // Valor por defecto
     Categorie: "",
     UrlVideo: "",
@@ -64,6 +65,7 @@ export default function Advertisements({ Code }) {
         setForm({
           id: "",
           Name: "",
+          NameUser: "",
           Destination: "Muro",
           Categorie: "",
           UrlVideo: "",
@@ -106,6 +108,13 @@ export default function Advertisements({ Code }) {
           name="Name"
           placeholder="Name"
           value={form.Name}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="NameUser"
+          placeholder="NameUser"
+          value={form.NameUser}
           onChange={handleInputChange}
         />
         <select
@@ -170,6 +179,7 @@ export default function Advertisements({ Code }) {
         advertisements.map((ad) => (
           <div key={ad.id} className="advertisement">
             <h2>{ad.Name}</h2>
+            <p>NameUser: {ad.NameUser}</p>
             <p>Category: {ad.Categorie}</p>
             <p>Destination: {ad.Destination}</p>
             <p>Impressions: {ad.Impressions}</p>
