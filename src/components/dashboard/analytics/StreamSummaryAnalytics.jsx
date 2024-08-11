@@ -215,7 +215,7 @@ export default function StreamSummaryAnalytics() {
           <Chart
             width={"100%"}
             height={"400px"}
-            chartType="ColumnChart"
+            chartType="LineChart"
             loader={<div>Loading Chart</div>}
             data={transformDataForChart()}
             options={{
@@ -243,6 +243,7 @@ export default function StreamSummaryAnalytics() {
                 },
                 format: "HH:mm:ss",
               },
+
               vAxis: {
                 title: "Average Viewers",
                 titleTextStyle: {
@@ -269,12 +270,16 @@ export default function StreamSummaryAnalytics() {
                   strokeWidth: 1,
                 },
               },
-              chartArea: {
-                left: 100,
-                top: 50,
-                width: "80%",
-                height: "70%",
-              },
+              // chartArea: {
+              //   left: 100,
+              //   top: 50,
+              //   width: "80%",
+              //   height: "70%",
+              // },
+              chartArea: { width: "70%", height: "70%" },
+              backgroundColor: "#333", // Fondo oscuro para el gráfico
+              colors: ["#FF69B4"], // Color de la línea
+              titleTextStyle: { color: "#fff" }, // Color del título
             }}
             chartEvents={[
               {

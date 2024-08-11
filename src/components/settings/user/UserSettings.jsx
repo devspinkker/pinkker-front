@@ -20,6 +20,7 @@ import SocialNetwork from "./socialnetwork/SocialNetwork";
 import { editAvatar, editProfile } from "../../../services/backGo/user";
 import { Grid, Typography } from "@mui/material";
 import { TbEdit } from "react-icons/tb";
+import AdsAnalytics from "./statisticalAnnouncement/AdsAnalytics";
 
 export default function UserSettings({ isMobile, user }) {
   const [type, setType] = useState(0);
@@ -222,13 +223,13 @@ export default function UserSettings({ isMobile, user }) {
     }
 
     {
-      /*if(type === 4) {
-            return (
-                <div>
-                    <Pagos/>
-                </div>
-            )
-        }*/
+      if (type === 7) {
+        return (
+          <div>
+            <AdsAnalytics />
+          </div>
+        );
+      }
     }
   }
 
@@ -339,6 +340,18 @@ export default function UserSettings({ isMobile, user }) {
               onClick={() => setType(1)}
             >
               <Typography>Pinkker Prime</Typography>
+            </Grid>
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "10px",
+              }}
+              className={type === 1 ? "item-config-active" : "item-config"}
+              onClick={() => setType(7)}
+            >
+              <Typography>mis anuncios</Typography>
             </Grid>
           </Grid>
         </Grid>

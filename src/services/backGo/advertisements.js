@@ -57,6 +57,21 @@ export async function CreateAdvertisement(token, advertisement) {
         return error;
     }
 }
+export async function GetAdsUser(token) {
+    try {
+        const response = await axios.get(
+            `${baseURL}/advertisements/GetAdsUser`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
 export async function DeleteAdvertisement(token, ID, Code) {
     try {
         const response = await axios.post(
