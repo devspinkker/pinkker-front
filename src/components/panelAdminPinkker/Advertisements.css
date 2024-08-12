@@ -1,3 +1,9 @@
+.advertisementShow {
+    display: flex;
+    font-weight: bolder;
+    height: 728px;
+}
+
 .update-categorie-container {
     padding: 20px;
     background-color: #121418;
@@ -5,47 +11,50 @@
     width: 700px;
 }
 
-.advertisement {
-    border: 1px solid #ccc;
+.advertisementIter {
+    border: 1px solid #121418;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
-    background-color: #ffffff;
+    background-color: #121418;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
+    width: 700px;
+
 }
 
-.advertisement:hover {
+.advertisementIter:hover {
     transform: translateY(-5px);
 }
 
-.advertisement h2 {
+.advertisementIter h2 {
     margin-top: 0;
     font-size: 1.5em;
     color: #333;
 }
 
-.advertisement p {
+.advertisementIter p {
     font-size: 1em;
     color: #666;
 }
 
-.advertisement a {
+.advertisementIter a {
     color: #1a73e8;
     text-decoration: none;
 }
 
-.advertisement a:hover {
+.advertisementIter a:hover {
     text-decoration: underline;
 }
 
-.advertisement video {
+.advertisementIter video {
     max-width: 100%;
     border-radius: 8px;
     margin-top: 10px;
+    height: 300px !important
 }
 
-.advertisement button {
+.advertisementIter button {
     background-color: #1a73e8;
     border: none;
     color: white;
@@ -57,11 +66,11 @@
     transition: background-color 0.3s ease;
 }
 
-.advertisement button:hover {
+.advertisementIter button:hover {
     background-color: #155bb5;
 }
 
-.advertisement-form {
+.advertisementIter-form {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
@@ -71,8 +80,8 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.advertisement-form input,
-.advertisement-form button {
+.advertisementIter-form input,
+.advertisementIter-form button {
     margin-bottom: 10px;
     padding: 10px;
     font-size: 16px;
@@ -82,14 +91,14 @@
     width: 590px;
 }
 
-.advertisement-form button {
+.advertisementIter-form button {
     background-color: #1a73e8;
     color: white;
     border: none;
     transition: background-color 0.3s ease;
 }
 
-.advertisement-form button:hover {
+.advertisementIter-form button:hover {
     background-color: #155bb5;
 }
 
@@ -101,46 +110,54 @@
     align-items: center;
 }
 
-.advertisement-form {
+.advertisementIter-form {
     display: flex;
     flex-direction: column;
     width: 600px;
     margin-bottom: 20px;
 }
 
-.advertisement-form input {
+.advertisementIter-form input {
     margin-bottom: 10px;
     padding: 10px;
     font-size: 16px;
 }
 
-.advertisement-form input::placeholder {
+.advertisementIter-form input::placeholder {
     color: #888;
     /* Color del placeholder */
 }
 
-.advertisement {
-    border: 1px solid #ddd;
+.advertisementIter {
     padding: 10px;
     margin-bottom: 10px;
     width: 700px;
 }
 
-.advertisement h2 {
+.advertisementIter h2 {
     margin: 0 0 10px 0;
 }
 
-.advertisement p {
+.advertisementIter p {
     margin: 5px 0;
 }
 
-.advertisement a {
+.advertisementIter a {
     color: blue;
     text-decoration: underline;
 }
 
-.advertisement button {
+.advertisementIter button {
     margin-right: 10px;
     padding: 5px 10px;
     cursor: pointer;
+}
+
+.search-container-advertisement {
+    display: flex;
+    margin: 17px;
+    position: relative;
+    /* top: 69px; */
+    left: 20px;
+    width: 96%;
 }

@@ -63,6 +63,9 @@ export default function AdsAnalytics() {
                   textStyle: { color: "#fff" },
                   titleTextStyle: { color: "#fff" },
                 },
+                series: {
+                  0: { color: "#fff" }, // Cambia el color de la serie 0
+                },
                 chartArea: { width: "70%", height: "70%" },
                 backgroundColor: "#333", // Fondo oscuro para el gráfico
                 colors: ["#FF69B4"], // Color de la línea
