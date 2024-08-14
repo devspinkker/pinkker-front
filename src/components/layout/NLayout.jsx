@@ -97,9 +97,9 @@ function NLayout(props) {
   // Message
   useEffect(() => {
     fetchData(); // Llamada inicial para obtener los datos
-    const intervalId = setInterval(fetchData, 6000);
+    // const intervalId = setInterval(fetchData, 6000);
 
-    return () => clearInterval(intervalId);
+    // return () => clearInterval(intervalId);
   }, [messagesOpen]);
   const deepEqual = (a, b) => {
     if (a === b) return true;
@@ -238,10 +238,16 @@ function NLayout(props) {
   let location = useLocation();
   const isStreamerPath = /^\/[^\/]+$/.test(location.pathname);
 
-  console.log('props.user?.NameUser?.length', props.user?.NameUser?.length)
-  console.log('location.pathname.includes', location.pathname.includes('/post'))
-  console.log('isStreamerPath', isStreamerPath)
-  console.log('( !isStreamerPath || !location.pathname.includes())', ( !isStreamerPath || location.pathname.includes('/post')))
+  // console.log("props.user?.NameUser?.length", props.user?.NameUser?.length);
+  // console.log(
+  //   "location.pathname.includes",
+  //   location.pathname.includes("/post")
+  // );
+  // console.log("isStreamerPath", isStreamerPath);
+  // console.log(
+  //   "( !isStreamerPath || !location.pathname.includes())",
+  //   !isStreamerPath || location.pathname.includes("/post")
+  // );
   useEffect(() => {
     const fetchData = async () => {
       const response = await GetAllsStreamsOnline();
@@ -342,7 +348,6 @@ function NLayout(props) {
       setCurrentPath(window.location.pathname);
     };
 
-
     // Agrega un event listener para detectar cambios en la ubicación
     window.addEventListener("popstate", handleLocationChange);
     setUrlCat(currentPath?.includes("/categorie/"));
@@ -411,14 +416,13 @@ function NLayout(props) {
       if (tabIndex === 3) {
         getVods()
           .then((data) => {
-            console.log("Vods:", data)
+            console.log("Vods:", data);
             setSearch(data);
           })
           .catch((error) => {
             console.error("Error getting clips:", error);
           });
-      }
-      else if (tabIndex === 2) {
+      } else if (tabIndex === 2) {
         getClip()
           .then((data) => {
             setSearch(data);
@@ -460,7 +464,7 @@ function NLayout(props) {
       handleChange({ target: { value: text } });
     }
   }, [tabIndex]);
-  console.log(tabIndex)
+  console.log(tabIndex);
 
   const [loading, setLoading] = useState(true);
   // sacar
@@ -519,7 +523,6 @@ function NLayout(props) {
     }
     setOpenTweet(open);
   };
-
 
   const getNavDesktop = () => {
     return loading ? (
@@ -1083,10 +1086,10 @@ function NLayout(props) {
               props.tyExpanded && props.txExpandedLeft
                 ? "72%"
                 : props.tyExpanded && !props.txExpandedLeft
-                  ? "85%"
-                  : !props.tyExpanded && props.txExpandedLeft
-                    ? "85%"
-                    : "95%",
+                ? "85%"
+                : !props.tyExpanded && props.txExpandedLeft
+                ? "85%"
+                : "95%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1557,17 +1560,17 @@ function NLayout(props) {
                           }}
                           sx={{
                             "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                              {
+                                borderColor: "white",
+                              },
                             "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                              {
+                                borderColor: "white",
+                              },
                             "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                              {
+                                borderColor: "white",
+                              },
                             "& .MuiInputBase-input": {
                               color: "white",
                               backgroundColor: "#212129",
@@ -1742,7 +1745,8 @@ function NLayout(props) {
                                 key={index}
                                 style={{ backgroundColor: "#080808" }}
                               >
-                                {!game?.streamThumbnail && !game?.StreamThumbnail ? (
+                                {!game?.streamThumbnail &&
+                                !game?.StreamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
@@ -1812,11 +1816,22 @@ function NLayout(props) {
                                       borderRadius: 2,
                                       overflow: "hidden",
                                     }}
-                                    onClick={() => handleItemClick(game?.url, game?.StreamThumbnail && true, game?.StreamThumbnail && game?.UserInfo?.NameUser, game?.StreamThumbnail && game?.id)}
+                                    onClick={() =>
+                                      handleItemClick(
+                                        game?.url,
+                                        game?.StreamThumbnail && true,
+                                        game?.StreamThumbnail &&
+                                          game?.UserInfo?.NameUser,
+                                        game?.StreamThumbnail && game?.id
+                                      )
+                                    }
                                   >
                                     <Box
                                       component="img"
-                                      src={game?.streamThumbnail || game?.StreamThumbnail}
+                                      src={
+                                        game?.streamThumbnail ||
+                                        game?.StreamThumbnail
+                                      }
                                       alt="Workout"
                                       sx={{ width: "100%", height: "auto" }}
                                     />
@@ -1834,7 +1849,10 @@ function NLayout(props) {
                                         style={{ gap: "5px" }}
                                       >
                                         <Avatar
-                                          src={game?.Avatar || game?.UserInfo?.Avatar}
+                                          src={
+                                            game?.Avatar ||
+                                            game?.UserInfo?.Avatar
+                                          }
                                           alt={`Clipeado por ${game?.nameUserCreator}`}
                                           sx={{ width: 40, height: 40 }}
                                         />{" "}
@@ -1850,21 +1868,19 @@ function NLayout(props) {
                                             variant="body"
                                             style={{ fontSize: "14px" }}
                                           >
-                                            {
-                                              game?.streamThumbnail &&
-                                              (`clipeado por ${game?.nameUserCreator}`)
-                                            }
-                                            {
-                                              game?.StreamThumbnail &&
-                                              (`${game?.UserInfo?.FullName}`)
-                                            }
+                                            {game?.streamThumbnail &&
+                                              `clipeado por ${game?.nameUserCreator}`}
+                                            {game?.StreamThumbnail &&
+                                              `${game?.UserInfo?.FullName}`}
                                           </Typography>
                                           <Typography
                                             variant="body2"
                                             color="gray"
                                           >
-                                            {game?.views || game?.MaxViewers} Visitas •{" "}
-                                            {game?.category || game?.stream_category}
+                                            {game?.views || game?.MaxViewers}{" "}
+                                            Visitas •{" "}
+                                            {game?.category ||
+                                              game?.stream_category}
                                           </Typography>
                                         </Box>
                                       </Grid>
@@ -2613,28 +2629,31 @@ function NLayout(props) {
         )}
 
         <Grid
-          style={{ width: "100%", height: !window.location.pathname?.includes('/post') && "100vh" }}
+          style={{
+            width: "100%",
+            height: !window.location.pathname?.includes("/post") && "100vh",
+          }}
           onClick={() => setEsClick(false)}
         >
-          {
-            !isStreamerPath && !location.pathname.includes('/post') && props.user?.NameUser?.length &&
-            <IconButton
-              style={{
-                color: "#fff",
-                position: "fixed",
-                bottom: "10%",
-                right: "3%",
-                backgroundColor: "#ff69c4",
-                zIndex: 99999999,
-              }}
-              aria-label="fingerprint"
-              color="secondary"
-              onClick={() => setOpenTweet(!openTweet)}
-            >
-               <AddCircleOutlineIcon style={{ fontSize: "4.5rem" }} />
-            </IconButton>
-          }
-
+          {!isStreamerPath &&
+            !location.pathname.includes("/post") &&
+            props.user?.NameUser?.length && (
+              <IconButton
+                style={{
+                  color: "#fff",
+                  position: "fixed",
+                  bottom: "10%",
+                  right: "3%",
+                  backgroundColor: "#ff69c4",
+                  zIndex: 99999999,
+                }}
+                aria-label="fingerprint"
+                color="secondary"
+                onClick={() => setOpenTweet(!openTweet)}
+              >
+                <AddCircleOutlineIcon style={{ fontSize: "4.5rem" }} />
+              </IconButton>
+            )}
 
           {
             <Drawer
@@ -2704,7 +2723,7 @@ function NLayout(props) {
                     }}
                   >
                     <TextField
-                      label='¿Qué está pasando' 
+                      label="¿Qué está pasando"
                       variant="outlined"
                       fullWidth
                       value={message}
@@ -2727,17 +2746,17 @@ function NLayout(props) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2749,7 +2768,7 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"

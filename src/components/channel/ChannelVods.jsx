@@ -146,7 +146,7 @@ export default function Channel({
     }
   };
   useEffect(() => {
-    if (chatWindow && user ) {
+    if (chatWindow && user) {
       const chatContainer = chatWindow.document.createElement("div");
       chatWindow.document.body.appendChild(chatContainer);
       ReactDOM.render(
@@ -407,33 +407,6 @@ export default function Channel({
       }
     }
   }, [stream]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const dataStream = await getStreamByUserName(streamer);
-        if (
-          stream?.ModChat !== dataStream?.data?.ModChat ||
-          stream?.ModSlowMode !== dataStream?.data.ModSlowMode
-        ) {
-          setStream((prevStream) => ({
-            ...prevStream,
-            ModChat: dataStream?.data?.ModChat,
-            ModSlowMode: dataStream?.data?.ModSlowMode,
-          }));
-        }
-        if (dataStream.data.online) {
-          expanded();
-        }
-      } catch (error) {
-        console.error("Error fetching stream data:", error);
-      }
-    };
-
-    fetchData();
-    const interval = setInterval(fetchData, 6000);
-
-    return () => clearInterval(interval);
-  }, [streamer]);
 
   const [nameD, setNameD] = useState("Siguiendo");
 
@@ -1514,7 +1487,7 @@ export default function Channel({
                     {streamerData && !isMobile && getType(9)}
                   </div>
                 )}
-                {isMobile && user &&(
+                {isMobile && user && (
                   <ChatStreaming
                     openChatWindow={openChatWindow}
                     streamerChat={stream}

@@ -69,6 +69,10 @@ export function ChatStreaming({
   const [FollowParamOwnner, SetFollowParamOwner] = useState(false);
   const [MsjChatAnclado, SetMsjChatAnclado] = useState(null);
   const [NewHost, SetNewHost] = useState(null);
+
+  const [ModSlowMode, SetModSlowMode] = useState("");
+  const [ModChat, SetModChat] = useState("");
+
   const hostTimeoutRef = useRef(null);
   const alert = useNotification();
   const history = useHistory();
@@ -306,7 +310,12 @@ export function ChatStreaming({
               SetNewHost(null);
             }, 90000);
           }
-          console.log(receivedMessage);
+          if (receivedMessage?.action === "ModSlowMode") {
+            SetModSlowMode(receivedMessage?.ModSlowMode);
+          }
+          if (receivedMessage?.action === "ModChat") {
+            SetModChat(receivedMessage?.ModChat);
+          }
           if (receivedMessage?.action === ("DonatePixels" || "Suscribirse")) {
             setMessages((prevMessages) => [...prevMessages, receivedMessage]);
             scrollToBottom();
@@ -397,11 +406,14 @@ export function ChatStreaming({
   };
 
   useEffect(() => {
+    SetModSlowMode(streamerChat?.ModSlowMode);
+    SetModChat(streamerChat?.ModChat);
+
     const fetchGetSubsAct = async () => {
       const res = await GetSubsAct(user?.id, streamerData?.id);
-
       if (res?.data && res?.message === "ok") {
-        SetSubStateAct(true);
+        const subQue = isSubscriptorGetSubsAct(res.data);
+        SetSubStateAct(subQue);
       } else {
         SetSubStateAct(false);
       }
@@ -907,9 +919,7 @@ export function ChatStreaming({
         config
       );
       const currentDate = new Date();
-      const newDate = new Date(
-        currentDate.getTime() + streamerChat.ModSlowMode * 1000
-      );
+      const newDate = new Date(currentDate.getTime() + ModSlowMode * 1000);
       setModolento(newDate);
     } catch (error) {
       console.log(error);
@@ -918,6 +928,20 @@ export function ChatStreaming({
 
   const handleChange = (e) => {
     setMessage(e.target.value);
+  };
+  const isSubscriptorGetSubsAct = (data) => {
+    const currentTimestamp = Date.now();
+    const subscriptionEndTimestamp = Date.parse(data?.SubscriptionEnd);
+
+    if (subscriptionEndTimestamp <= 0 || isNaN(subscriptionEndTimestamp)) {
+      return false;
+    }
+
+    if (subscriptionEndTimestamp < currentTimestamp) {
+      return false;
+    } else {
+      return true;
+    }
   };
   const isSubscriptor = (message) => {
     const currentTimestamp = Date.now();
@@ -964,12 +988,10 @@ export function ChatStreaming({
   useEffect(() => {
     if (secondsRemaining !== -1) {
       const currentDate = new Date();
-      const newDate = new Date(
-        currentDate.getTime() + streamerChat.ModSlowMode * 1000
-      );
+      const newDate = new Date(currentDate.getTime() + ModSlowMode * 1000);
       setModolento(newDate);
     }
-  }, [streamerChat.ModSlowMode]);
+  }, [ModSlowMode]);
   const [GetUserTheChatFollowing, setGetUserTheChatFollowing] = useState(false);
   const [InfoUserChatSelect, setInfoUserChatSelect] = useState({});
   const [followingFrom, setFollowingFrom] = useState(null);
@@ -1937,192 +1959,189 @@ export function ChatStreaming({
             </div>
           </div>
         )}
-        {streamerChat?.ModChat === "Following" &&
-          (followParam || FollowParamOwnner) && (
-            <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-              <span
-                style={{
-                  cursor: "pointer",
-                  display: "flex",
-                }}
-                onClick={() => closeNavbar()}
-              >
-                <svg
-                  style={{
-                    padding: "3px",
-                  }}
-                  width="25"
-                  height="25"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fill="grey"
-                    fillRule="evenodd"
-                    d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-              {isNavbarOpen && (
-                <DropdownChatIdentity
-                  closeNavbar={closeNavbar}
-                  chatData={GetInfoUserInRoom}
-                  user={user}
-                />
-              )}
-              {isNavbarOpenDropdownEmotes && (
-                <DropdownEmotes
-                  ImgStreamer={streamerChat.streamer_avatar}
-                  SubStateAct={SubStateAct}
-                  idStreamer={streamerChat.streamerId}
-                  clickEmoticon={clickEmoticon}
-                  closeNavbar={closeNavbarDropdownEmotes}
-                  chatData={GetInfoUserInRoom}
-                  user={user}
-                />
-              )}
-              {Modolento && Modolento >= new Date() && secondsRemaining > 0 ? (
-                <input
-                  type="text"
-                  style={{
-                    height: "38px",
-                  }}
-                  value={`Faltan ${secondsRemaining} segundos`}
-                  readOnly
-                />
-              ) : (
-                // <input
-                //   type="text"
-                //   value={message}
-                //   placeholder="Enviar un mensaje"
-                //   onChange={handleChange}
-                // />
-
-                <div
-                  contentEditable
-                  className="divinput-chat"
-                  ref={inputRef}
-                  onInput={handleInput}
-                  style={{ color: "#fff" }}
-                  placeholder="Enviar un mensaje..."
-                  onKeyPress={handleKeyPress}
-                />
-              )}
-              <Tippy
-                theme="pinkker"
-                content={
-                  <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-                    Emoticonos
-                  </h1>
-                }
-              >
-                <div
-                  style={{ marginRight: "3px" }}
-                  onClick={() => closeNavbarDropdownEmotes()}
-                  className="config-buttoncloseNavbarDropdownEmotes"
-                >
-                  <i
-                    style={{ fontSize: isMobile && "24px" }}
-                    class="fas fa-laugh"
-                  />
-                </div>
-              </Tippy>
-            </form>
-          )}
-        {streamerChat?.ModChat === "Following" &&
-          !followParam &&
-          !FollowParamOwnner && (
-            <form className="ChatStreaming_form" onSubmit={handleSubmit}>
-              <span
-                style={{
-                  cursor: "pointer",
-                  display: "flex",
-                }}
-                onClick={() => closeNavbar()}
-              >
-                <svg
-                  style={{
-                    padding: "3px",
-                  }}
-                  width="25"
-                  height="25"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fill="grey"
-                    fillRule="evenodd"
-                    d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-              {isNavbarOpen && (
-                <DropdownChatIdentity
-                  closeNavbar={closeNavbar}
-                  chatData={GetInfoUserInRoom}
-                  user={user}
-                />
-              )}
-              {isNavbarOpenDropdownEmotes && (
-                <DropdownEmotes
-                  ImgStreamer={streamerChat.streamer_avatar}
-                  SubStateAct={SubStateAct}
-                  idStreamer={streamerChat.streamerId}
-                  clickEmoticon={clickEmoticon}
-                  closeNavbar={closeNavbarDropdownEmotes}
-                  chatData={GetInfoUserInRoom}
-                  user={user}
-                />
-              )}
+        {ModChat === "Following" && (followParam || FollowParamOwnner) && (
+          <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+            <span
+              style={{
+                cursor: "pointer",
+                display: "flex",
+              }}
+              onClick={() => closeNavbar()}
+            >
               <svg
-                width="20"
-                height="20"
-                viewBox="0 0 16 16"
-                xmlns="http://www.w3.org/2000/svg"
                 style={{
-                  padding: "9px",
-                  background: "#171a1f",
-                  border: "#545658 1px solid",
-                  borderRight: "none",
+                  padding: "3px",
                 }}
+                width="25"
+                height="25"
+                viewBox="0 0 20 20"
               >
                 <path
-                  d="M11.75 6.25V1H4.75V6.25H3V15H13.5V6.25H11.75ZM6.5 2.75H10V6.25H6.5V2.75ZM10.4375 10.625H9.125V12.375H7.375V10.625H6.0625V8.875H10.4375V10.625Z"
-                  fill="#ffff"
-                ></path>
+                  fill="grey"
+                  fillRule="evenodd"
+                  d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
+                  clipRule="evenodd"
+                />
               </svg>
-              <input
-                style={{
-                  borderRadius: "0px 5px 5px 0px",
-                  borderLeft: "none",
-                }}
-                type="text"
-                // value={message}
-                placeholder="solo seguidores"
-                // onChange={handleChange}
+            </span>
+            {isNavbarOpen && (
+              <DropdownChatIdentity
+                closeNavbar={closeNavbar}
+                chatData={GetInfoUserInRoom}
+                user={user}
               />
-              <Tippy
-                theme="pinkker"
-                content={
-                  <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-                    Emoticonos
-                  </h1>
-                }
+            )}
+            {isNavbarOpenDropdownEmotes && (
+              <DropdownEmotes
+                ImgStreamer={streamerChat.streamer_avatar}
+                SubStateAct={SubStateAct}
+                idStreamer={streamerChat.streamerId}
+                clickEmoticon={clickEmoticon}
+                closeNavbar={closeNavbarDropdownEmotes}
+                chatData={GetInfoUserInRoom}
+                user={user}
+              />
+            )}
+            {Modolento && Modolento >= new Date() && secondsRemaining > 0 ? (
+              <input
+                type="text"
+                style={{
+                  height: "38px",
+                }}
+                value={`Faltan ${secondsRemaining} segundos`}
+                readOnly
+              />
+            ) : (
+              // <input
+              //   type="text"
+              //   value={message}
+              //   placeholder="Enviar un mensaje"
+              //   onChange={handleChange}
+              // />
+
+              <div
+                contentEditable
+                className="divinput-chat"
+                ref={inputRef}
+                onInput={handleInput}
+                style={{ color: "#fff" }}
+                placeholder="Enviar un mensaje..."
+                onKeyPress={handleKeyPress}
+              />
+            )}
+            <Tippy
+              theme="pinkker"
+              content={
+                <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                  Emoticonos
+                </h1>
+              }
+            >
+              <div
+                style={{ marginRight: "3px" }}
+                onClick={() => closeNavbarDropdownEmotes()}
+                className="config-buttoncloseNavbarDropdownEmotes"
               >
-                <div
-                  style={{ marginRight: "3px" }}
-                  onClick={() => closeNavbarDropdownEmotes()}
-                  className="config-buttoncloseNavbarDropdownEmotes"
-                >
-                  <i
-                    style={{ fontSize: isMobile && "24px" }}
-                    class="fas fa-laugh"
-                  />
-                </div>
-              </Tippy>
-            </form>
-          )}
-        {streamerChat?.ModChat === "Subscriptions" && SubStateAct && (
+                <i
+                  style={{ fontSize: isMobile && "24px" }}
+                  class="fas fa-laugh"
+                />
+              </div>
+            </Tippy>
+          </form>
+        )}
+        {ModChat === "Following" && !followParam && !FollowParamOwnner && (
+          <form className="ChatStreaming_form" onSubmit={handleSubmit}>
+            <span
+              style={{
+                cursor: "pointer",
+                display: "flex",
+              }}
+              onClick={() => closeNavbar()}
+            >
+              <svg
+                style={{
+                  padding: "3px",
+                }}
+                width="25"
+                height="25"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill="grey"
+                  fillRule="evenodd"
+                  d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </span>
+            {isNavbarOpen && (
+              <DropdownChatIdentity
+                closeNavbar={closeNavbar}
+                chatData={GetInfoUserInRoom}
+                user={user}
+              />
+            )}
+            {isNavbarOpenDropdownEmotes && (
+              <DropdownEmotes
+                ImgStreamer={streamerChat.streamer_avatar}
+                SubStateAct={SubStateAct}
+                idStreamer={streamerChat.streamerId}
+                clickEmoticon={clickEmoticon}
+                closeNavbar={closeNavbarDropdownEmotes}
+                chatData={GetInfoUserInRoom}
+                user={user}
+              />
+            )}
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{
+                padding: "9px",
+                background: "#171a1f",
+                border: "#545658 1px solid",
+                borderRight: "none",
+              }}
+            >
+              <path
+                d="M11.75 6.25V1H4.75V6.25H3V15H13.5V6.25H11.75ZM6.5 2.75H10V6.25H6.5V2.75ZM10.4375 10.625H9.125V12.375H7.375V10.625H6.0625V8.875H10.4375V10.625Z"
+                fill="#ffff"
+              ></path>
+            </svg>
+            <input
+              style={{
+                borderRadius: "0px 5px 5px 0px",
+                borderLeft: "none",
+              }}
+              type="text"
+              // value={message}
+              placeholder="solo seguidores"
+              // onChange={handleChange}
+            />
+            <Tippy
+              theme="pinkker"
+              content={
+                <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                  Emoticonos
+                </h1>
+              }
+            >
+              <div
+                style={{ marginRight: "3px" }}
+                onClick={() => closeNavbarDropdownEmotes()}
+                className="config-buttoncloseNavbarDropdownEmotes"
+              >
+                <i
+                  style={{ fontSize: isMobile && "24px" }}
+                  class="fas fa-laugh"
+                />
+              </div>
+            </Tippy>
+          </form>
+        )}
+        {ModChat === "Subscriptions" && SubStateAct && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
             <span
               style={{
@@ -2212,7 +2231,7 @@ export function ChatStreaming({
             </Tippy>{" "}
           </form>
         )}
-        {streamerChat?.ModChat === "Subscriptions" && !SubStateAct && (
+        {ModChat === "Subscriptions" && !SubStateAct && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
             <span
               style={{
@@ -2303,7 +2322,7 @@ export function ChatStreaming({
             </Tippy>
           </form>
         )}
-        {streamerChat?.ModChat === "" && (
+        {ModChat === "" && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
             <span
               style={{
