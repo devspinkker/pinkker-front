@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./StreamSummaryAnalytics.css";
-import { GetLastSixStreamSummaries } from "../../../services/backGo/streams";
+import {
+  GetLastSixStreamSummaries,
+  AWeekOfStreaming,
+} from "../../../services/backGo/streams";
 import { Chart } from "react-google-charts";
 import { TbBoxMargin } from "react-icons/tb";
 import NavbarLeft from "../../navbarLeft/NavbarLeft";
@@ -13,6 +16,8 @@ export default function StreamSummaryAnalytics() {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
+        const a = await AWeekOfStreaming(token, 1);
+        console.log(a);
         const date = new Date();
         const res = await GetLastSixStreamSummaries(token, date);
 

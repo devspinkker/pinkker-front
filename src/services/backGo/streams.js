@@ -323,3 +323,22 @@ export async function GetLastSixStreamSummaries(token, date) {
 		return error
 	}
 }
+export async function AWeekOfStreaming(token, page) {
+	try {
+		const response = await axios.get(
+			`${baseURL}/StreamSummary/AWeekOfStreaming`,
+			{
+				params: {
+					page: page,
+				},
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		return response.data;
+	} catch (error) {
+		return error.response ? error.response.data : error.message;
+	}
+}
+
