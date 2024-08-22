@@ -3,20 +3,33 @@ import "./StreamSummaryAnalytics.css";
 import {
   GetLastSixStreamSummaries,
   AWeekOfStreaming,
+  getStreamById,
 } from "../../../services/backGo/streams";
 import { Chart } from "react-google-charts";
-import { TbBoxMargin } from "react-icons/tb";
+import { TbBoxMargin, TbLogout2 } from "react-icons/tb";
 import NavbarLeft from "../../navbarLeft/NavbarLeft";
-
-export default function StreamSummaryAnalytics() {
+import { Button, Grid, Typography } from "@mui/material";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { BsChatDots } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { AiOutlineSetting, AiOutlineUser } from "react-icons/ai";
+import { LiaSlidersHSolid } from "react-icons/lia";
+import { TfiWallet } from "react-icons/tfi";
+import { getUserByIdTheToken } from "../../../services/backGo/user";
+import { getStream } from "../../../services/stream";
+import DashboarLayout from "../DashboarLayout";
+import bg from './bg.jpg'
+import Graphics from "./Graphics";
+import Estadistica from "./Estadistica";
+export default function StreamSummaryAnalytics({ user, tyExpanded, isMobile }) {
   const [streamSummaries, setStreamSummaries] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  const[filtro, setFiltro] = useState(1);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const a = await AWeekOfStreaming(token, 1);
+        const a = await AWeekOfStreaming(token, filtro);
         console.log(a);
         const date = new Date();
         const res = await GetLastSixStreamSummaries(token, date);
@@ -32,7 +45,8 @@ export default function StreamSummaryAnalytics() {
     };
 
     fetchData();
-  }, []);
+  }, [filtro]);
+
   const renameProperties = (item) => {
     const {
       Admoney,
@@ -47,14 +61,14 @@ export default function StreamSummaryAnalytics() {
 
     return {
       ...rest,
-      "Ganancia de anuncios":
+      "Admoney":
         Admoney !== undefined && Admoney !== null ? Admoney : 0,
       categoria: stream_category,
       titulo: Title,
       impresiones: Advertisements,
-      "maximo de espectadores": MaxViewers,
-      "promedio de espectadores": AverageViewers,
-      "nuevas subscriptions": NewSubscriptions,
+      "MaxViewers": MaxViewers,
+      "AverageViewers": AverageViewers,
+      "NewSubscriptions": NewSubscriptions,
     };
   };
 
@@ -193,9 +207,140 @@ export default function StreamSummaryAnalytics() {
     return data;
   };
 
+
   return (
-    <div className="analytics">
-      <div className="summary-container">
+
+
+    <DashboarLayout user={user} isMobile={isMobile} >
+
+      <Grid style={{
+        display: 'flex', alignItems: 'center', width: '100%', gap: '15px', backgroundImage: `url(${bg})`, // Imagen de fondo
+        backgroundSize: 'cover', // Escala la imagen para cubrir completamente el contenedor
+        backgroundPosition: 'center', // Centra la imagen de fondo
+        backgroundRepeat: 'no-repeat', // Evita que la imagen se repita
+
+        padding: '20px', // Espaciado interno opcional
+        height: '30%',
+        boxShadow: '0 0 8px 2px #000'
+      }}>
+        {/* Imagen de perfil circular */}
+        <img
+          src={user?.Avatar}
+          style={{
+            width: '100px', // Ajusta este tamaño según tu preferencia
+            height: '100px',
+            borderRadius: '50%',
+            border: '2px solid white', // Borde blanco alrededor de la imagen
+          }}
+        />
+
+        {/* Contenedor de Nombre y Botones */}
+        <Grid style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {/* Nombre del usuario */}
+          <Typography style={{
+            color: 'white',
+            fontWeight: 800,
+            fontSize: '28px', // Tamaño grande como en la imagen
+            marginBottom: '8px'
+          }}>
+            {user?.NameUser?.toUpperCase()}
+          </Typography>
+
+          {/* Contenedor de los botones */}
+          <Grid style={{ display: 'flex', gap: '10px' }}>
+            <Button style={{
+              backgroundColor: '#123456', // Un color oscuro para los botones
+              color: 'white',
+              borderRadius: '10px', // Botones redondeados
+              padding: '10px 20px', // Espaciado interno
+              fontWeight: 600,
+            }}>
+              Streams
+            </Button>
+            {/* <Button style={{
+              backgroundColor: '#123456',
+              color: 'white',
+              borderRadius: '10px',
+              padding: '10px 20px',
+              fontWeight: 600,
+            }}>
+              Clips
+            </Button>
+            <Button style={{
+              backgroundColor: '#123456',
+              color: 'white',
+              borderRadius: '10px',
+              padding: '10px 20px',
+              fontWeight: 600,
+            }}>
+              Posteos
+            </Button> */}
+
+
+          </Grid>
+        </Grid>
+
+
+      </Grid>
+
+      <Grid style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', flexDirection: 'column', paddingTop: '1rem' }}>
+        <Grid style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+
+          <Typography style={{ color: 'white', fontWeight: 800, textAlign: 'left', fontSize: '1.5rem' }}>Último Stream [{streamSummaries[0]?.titulo}]</Typography>
+
+          <Grid style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Button style={{
+              backgroundColor: '#123456', // Un color oscuro para los botones
+              color: 'white',
+              borderRadius: '10px', // Botones redondeados
+              padding: '10px 20px', // Espaciado interno
+              fontWeight: 600,
+              
+            }}
+            onClick={() => setFiltro(1)}
+            >
+              Último Stream
+            </Button>
+            <Button style={{
+              backgroundColor: '#123456', // Un color oscuro para los botones
+              color: 'white',
+              borderRadius: '10px', // Botones redondeados
+              padding: '10px 20px', // Espaciado interno
+              fontWeight: 600,
+            }}
+            onClick={() => setFiltro(1)}
+            >
+              7 días
+            </Button>
+            <Button style={{
+              backgroundColor: '#123456', // Un color oscuro para los botones
+              color: 'white',
+              borderRadius: '10px', // Botones redondeados
+              padding: '10px 20px', // Espaciado interno
+              fontWeight: 600,
+            }}
+            onClick={() => setFiltro(2)}
+            >
+              14 días
+            </Button>
+            <Button style={{
+              backgroundColor: '#123456', // Un color oscuro para los botones
+              color: 'white',
+              borderRadius: '10px', // Botones redondeados
+              padding: '10px 20px', // Espaciado interno
+              fontWeight: 600,
+            }}
+            onClick={() => setFiltro(4)}
+            >
+              30 Días
+            </Button>
+          </Grid>
+        </Grid>
+        <Estadistica streamSummaries={streamSummaries} />
+
+      </Grid>
+
+      {/* <div className="summary-container">
         <div className="summary-header">
           <div className="navigation">
             <span className="navigation-arrow" onClick={navigatePrevious}>
@@ -322,7 +467,11 @@ export default function StreamSummaryAnalytics() {
             }}
           />
         )}
-      </div>
-    </div>
+      </div> */}
+
+
+
+
+    </DashboarLayout >
   );
 }

@@ -23,26 +23,20 @@
 
 
 .main-menu-dark {
-  position: fixed;
+  position: sticky;
   top: 0px;
-  left: 0px;
   width: 5rem;
   height: 100vh;
   background-color: #131418;
-  z-index: 9999;
 }
 
 .main-menu-dark.expanded {
-  position: fixed;
+  position: sticky;
   top: 0px;
-  left: 0px;
-  width: 13%;
-
+  width: 16rem;
   height: 100vh;
   background-color: #131418;
-  z-index: 1000000000;
   border-right: 1px solid #2a2e38;
-
 }
 
 .container-search-navbarleft {

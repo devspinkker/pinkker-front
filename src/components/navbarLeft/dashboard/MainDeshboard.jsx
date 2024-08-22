@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./MainDeshboard.css";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Grid } from "@mui/material";
 import { GrHomeRounded } from "react-icons/gr";
+import { HiStatusOnline } from "react-icons/hi";
+import { SiSimpleanalytics } from "react-icons/si";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { MdOndemandVideo } from "react-icons/md";
 
 export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
   const [expandedMenus, setExpandedMenus] = useState({
@@ -16,7 +20,8 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
   const toggleexpandedMenu = () => {
     setExpanded(!tyExpanded);
   };
-
+  const location = useLocation()
+  
   const handleItemClick = (title) => {
     if (title !== "Stream") {
       setExpandedMenus({
@@ -109,9 +114,13 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                   justifyContent: !tyExpanded ? "center" : "flex-start",
                   animation: !tyExpanded && "ease-in-out 1s linear",
                 }}
-                className="item-li"
+                className={
+                  location.pathname === `/${user?.NameUser}/dashboard/stream`
+                    ? "item-liActive"
+                    : "item-li"
+                }
               >
-                <GrHomeRounded />
+                <HiStatusOnline />
                 {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
@@ -119,6 +128,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                 {tyExpanded && <span>{"Stream"}</span>}
               </li>
             </Link>
+
             <Link
               style={{ textDecoration: "none" }}
               className="menu-aside-option"
@@ -135,9 +145,14 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                   justifyContent: !tyExpanded ? "center" : "flex-start",
                   animation: !tyExpanded && "ease-in-out 1s linear",
                 }}
-                className="item-li"
+
+                className={
+                  location.pathname === `/${user?.NameUser}/dashboard/contenido`
+                    ? "item-liActive"
+                    : "item-li"
+                }
               >
-                <GrHomeRounded />
+                <MdOndemandVideo />
                 {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
@@ -161,9 +176,13 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                   justifyContent: !tyExpanded ? "center" : "flex-start",
                   animation: !tyExpanded && "ease-in-out 1s linear",
                 }}
-                className="item-li"
+                className={
+                  location.pathname === `/${user?.NameUser}/dashboard/analytics`
+                    ? "item-liActive"
+                    : "item-li"
+                }
               >
-                <GrHomeRounded />
+                <SiSimpleanalytics />
                 {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
@@ -171,32 +190,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                 {tyExpanded && <span>{"Analytics"}</span>}
               </li>
             </Link>
-            <Link
-              style={{ textDecoration: "none" }}
-              className="menu-aside-option"
-              to="/"
-            >
-              <li
-                style={{
-                  color: "white",
-                  display: "flex",
-                  gap: "10px",
-                  alignItems: "center",
-                  width: "100% !important",
-                  padding: tyExpanded ? "0rem 15px" : "0px",
-                  justifyContent: !tyExpanded ? "center" : "flex-start",
-                  animation: !tyExpanded && "ease-in-out 1s linear",
-                }}
-                className="item-li"
-              >
-                <GrHomeRounded />
-                {/* <i
-                    style={{ position: "relative", fontSize: "20px" }}
-                    class="fa fa-home"
-                  /> */}
-                {tyExpanded && <span>{"Comentarios"}</span>}
-              </li>
-            </Link>
+
             <Link
               style={{ textDecoration: "none" }}
               className="menu-aside-option"
@@ -213,9 +207,13 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                   justifyContent: !tyExpanded ? "center" : "flex-start",
                   animation: !tyExpanded && "ease-in-out 1s linear",
                 }}
-                className="item-li"
+                className={
+                  location.pathname === `/${user?.NameUser}/dashboard/ingresos`
+                    ? "item-liActive"
+                    : "item-li"
+                }
               >
-                <GrHomeRounded />
+                <RiMoneyDollarCircleFill />
                 {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
@@ -223,32 +221,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                 {tyExpanded && <span>{"Ingresos"}</span>}
               </li>
             </Link>
-            <Link
-              style={{ textDecoration: "none" }}
-              className="menu-aside-option"
-              to={"/" + user?.NameUser + "/dashboard/community"}
-            >
-              <li
-                style={{
-                  color: "white",
-                  display: "flex",
-                  gap: "10px",
-                  alignItems: "center",
-                  width: "100% !important",
-                  padding: tyExpanded ? "0rem 15px" : "0px",
-                  justifyContent: !tyExpanded ? "center" : "flex-start",
-                  animation: !tyExpanded && "ease-in-out 1s linear",
-                }}
-                className="item-li"
-              >
-                <GrHomeRounded />
-                {/* <i
-                    style={{ position: "relative", fontSize: "20px" }}
-                    class="fa fa-home"
-                  /> */}
-                {tyExpanded && <span>{"community"}</span>}
-              </li>
-            </Link>
+
           </ul>
         </Grid>
       </aside>

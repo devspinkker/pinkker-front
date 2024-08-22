@@ -234,15 +234,16 @@ const AppRouter = () => {
           <Dashboard isMobile={isMobile} />
         </Route>
         <Route exact path="/:streamer/dashboard/analytics">
-          <NavbarLeft
+          {/* <NavbarLeft
             isMobile={isMobile}
             tyExpanded={expanded}
             user={user}
             tyDashboard={true}
             setExpanded={setExpanded}
-          ></NavbarLeft>
+          ></NavbarLeft> */}
           {/* <NAnalytics user={user} /> */}
-          <StreamSummaryAnalytics />
+          <StreamSummaryAnalytics user={user}  tyExpanded={expanded}
+            isMobile={isMobile}/>
         </Route>
         <Route exact path="/:streamer/dashboard/community">
           <NavbarLeft
