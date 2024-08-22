@@ -18,14 +18,13 @@ export const Create_Clip = async (videoBytes, start, end, totalKey, clipTitle, c
     return response
 }
 export const GetBuffer = async (streamKey, config) => {
-    return axios.get(`${process.env.REACT_APP_BACKRTMP}/stream/${streamKey}`, {
-        responseType: 'arraybuffer',
-        ...config,
-    });
-    // return axios.get(`http://localhost:8002/stream/${streamKey}`, {
-    //     responseType: 'arraybuffer',
+    // return axios.get(`${process.env.REACT_APP_BACKRTMP}/stream/${streamKey}`, {
     //     ...config,
     // });
+
+    return axios.get(`http://localhost:8002/stream/${streamKey}`, {
+        ...config,
+    });
 };
 
 // export const GetBuffer = async (totalKey) => {

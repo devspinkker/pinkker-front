@@ -85,3 +85,8 @@
     justify-content: space-between;
     border-radius: 10px;
 }
+
+.VideoPlayerCreateClip {
+    width: 600px !important;
+    height: auto !important;
+}

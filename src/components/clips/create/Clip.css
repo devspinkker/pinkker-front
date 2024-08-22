@@ -91,8 +91,19 @@
     height: 100px;
 }
 
-.controls-container {
+.player-container {
     display: flex;
+    padding: 3rem 9rem;
+    /* width: 83%; */
+    height: 500px;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+
+.controls-container {
+    width: 600px;
+    /* display: flex;    */
 }
 
 .edit-clip {
