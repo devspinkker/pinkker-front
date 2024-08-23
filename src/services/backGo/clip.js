@@ -4,14 +4,14 @@ var token = null;
 export const setToken = (newObject) => {
     token = newObject;
 };
-export const Create_Clip = async (videoBytes, start, end, totalKey, clipTitle, config) => {
+export const Create_Clip = async ({ tsUrls, startTime, endTime, streamKey, title }, config) => {
     const response = await axios.post(
         `${url}/clips/create-clips`, {
-        video: videoBytes,
+        tsUrls: tsUrls,
         start: 1,
         end: 60,
-        clipTitle: clipTitle,
-        totalKey: totalKey,
+        clipTitle: title,
+        totalKey: streamKey,
     },
         config
     );

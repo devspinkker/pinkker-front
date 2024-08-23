@@ -17,7 +17,7 @@ export function CreateClip() {
   const [currentTime, setCurrentTime] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isVideoEnded, setIsVideoEnded] = useState(false);
-  const [videoBytes, setVideoBytes] = useState(null);
+  const [videoTSUrls, setVideoTSUrls] = useState([]);
   const videoRef = useRef(null);
 
   const baseUrl = process.env.REACT_APP_BACKRTMP;
@@ -44,23 +44,24 @@ export function CreateClip() {
         },
       };
 
-      const response = await Create_Clip(
-        videoBytes,
+      const clipData = {
+        tsUrls: videoTSUrls,
         startTime,
         endTime,
-        "live" + totalKey,
-        clipTitle,
-        config
-      );
+        streamKey: "live" + totalKey,
+        title: clipTitle,
+      };
+
+      const response = await Create_Clip(clipData, config);
       const videoUrl = response.data.data;
-      window.location.href = `/clips/getId/?videoUrl=${videoUrl}`;
+      // window.location.href = `/clips/getId/?videoUrl=${videoUrl}`;
     } catch (error) {
       console.error("Error al enviar la solicitud de clip:", error);
     }
   };
 
-  const handleVideoBytesReady = (bytes) => {
-    setVideoBytes(bytes);
+  const handleVideoURLsReady = (urls) => {
+    setVideoTSUrls(urls);
   };
 
   const playVideo = () => {
@@ -119,10 +120,10 @@ export function CreateClip() {
         videoRef={videoRef}
         height="90%"
         width="100%"
-        onVideoBytesReady={handleVideoBytesReady}
-        isMuted={isMuted} // Asegúrate de pasar el estado de muteo al componente de video
-        volume={volume} // Asegúrate de pasar el volumen al componente de video
-        onPlay={playVideo} // Asegúrate de que el video se desmute cuando empiece a reproducirse
+        onVideoURLsReady={handleVideoURLsReady}
+        isMuted={isMuted}
+        volume={volume}
+        onPlay={playVideo}
         onPause={pauseVideo}
         onProgress={handleProgress}
       />
