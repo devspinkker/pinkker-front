@@ -35,7 +35,11 @@ export default function PurchasePopup({ amountt, closePopup }) {
       let token = window.localStorage.getItem("token");
       const data = await compradePixeles(token, amount);
       if (data?.init_point) {
-        window.location.href = data.init_point;
+        window.open(
+          data.init_point,
+          "MercadoPago",
+          "width=800,height=600,scrollbars=yes,resizable=yes"
+        );
       }
     } catch (error) {
       console.log(error);

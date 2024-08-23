@@ -351,8 +351,11 @@ export default function CustomPlayer({
 
   const handleClip = async () => {
     const totalKey = streamerData?.keyTransmission.substring(4);
-
-    window.open(`/clips/create/?totalKey=${totalKey}`, "_blank");
+    window.open(
+      `/clips/create/?totalKey=${totalKey}`,
+      "ClipCreation",
+      "width=800,height=600,scrollbars=yes,resizable=yes"
+    );
   };
 
   function getTopButtom() {
