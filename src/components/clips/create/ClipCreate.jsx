@@ -54,7 +54,7 @@ export function CreateClip() {
 
       const response = await Create_Clip(clipData, config);
       const videoUrl = response.data.data;
-      // window.location.href = `/clips/getId/?videoUrl=${videoUrl}`;
+      window.location.href = `/clips/getId/?videoUrl=${videoUrl}`;
     } catch (error) {
       console.error("Error al enviar la solicitud de clip:", error);
     }
