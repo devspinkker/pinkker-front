@@ -18,6 +18,7 @@ export function CreateClip() {
   const [progress, setProgress] = useState(0);
   const [isVideoEnded, setIsVideoEnded] = useState(false);
   const [videoTSUrls, setVideoTSUrls] = useState([]);
+  const [marks, setMarks] = useState({});
   const videoRef = useRef(null);
 
   const baseUrl = process.env.REACT_APP_BACKRTMP;
@@ -38,6 +39,18 @@ export function CreateClip() {
         return;
       }
 
+      const selectedTSUrls = videoTSUrls
+        .filter(({ start, end }) => {
+          return start >= startTime && end <= endTime;
+        })
+        .slice(0, 8)
+        .map(({ url }) => url);
+
+      if (endTime - startTime > 60) {
+        alert("El clip no puede durar más de 60 segundos.");
+        return;
+      }
+
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -45,15 +58,14 @@ export function CreateClip() {
       };
 
       const clipData = {
-        tsUrls: videoTSUrls,
-        startTime,
-        endTime,
+        tsUrls: selectedTSUrls,
         streamKey: "live" + totalKey,
         title: clipTitle,
       };
 
       const response = await Create_Clip(clipData, config);
       const videoUrl = response.data.data;
+
       window.location.href = `/clips/getId/?videoUrl=${videoUrl}`;
     } catch (error) {
       console.error("Error al enviar la solicitud de clip:", error);
@@ -62,11 +74,20 @@ export function CreateClip() {
 
   const handleVideoURLsReady = (urls) => {
     setVideoTSUrls(urls);
+    const lastEndTime = urls[urls.length - 1].end;
+    setDuration(lastEndTime);
+    setEndTime(Math.min(lastEndTime, 60));
+
+    const newMarks = {};
+    urls.forEach(({ start }) => {
+      newMarks[start] = <span className="slider-mark"></span>;
+    });
+    setMarks(newMarks);
   };
 
   const playVideo = () => {
     setIsPlaying(true);
-    setIsMuted(false); // Desactivar el muteo al empezar a reproducir
+    setIsMuted(false);
   };
 
   const pauseVideo = () => {
@@ -86,16 +107,32 @@ export function CreateClip() {
   const handleSliderChange = (values) => {
     const [newStart, newEnd] = values;
 
+    const closestStartTime = getClosestTSStartTime(newStart);
+    const closestEndTime = getClosestTSStartTime(newEnd);
+
     if (
-      newStart >= 0 &&
-      newEnd <= duration &&
-      newEnd > newStart &&
-      newEnd - newStart >= 20 &&
-      newEnd - newStart <= 60
+      closestStartTime >= 0 &&
+      closestEndTime <= duration &&
+      closestEndTime > closestStartTime &&
+      closestEndTime - closestStartTime >= 20 &&
+      closestEndTime - closestStartTime <= 60
     ) {
-      setStartTime(newStart);
-      setEndTime(newEnd);
+      setStartTime(closestStartTime);
+      setEndTime(closestEndTime);
+
+      if (videoRef.current) {
+        videoRef.current.currentTime = closestStartTime;
+        if (isPlaying) {
+          videoRef.current.play();
+        }
+      }
     }
+  };
+
+  const getClosestTSStartTime = (time) => {
+    return videoTSUrls.reduce((prev, curr) =>
+      Math.abs(curr.start - time) < Math.abs(prev.start - time) ? curr : prev
+    ).start;
   };
 
   const handleVolumeChange = (value) => {
@@ -128,6 +165,19 @@ export function CreateClip() {
         onProgress={handleProgress}
       />
       <div className="controls-container">
+        <div className="slider-container">
+          <Slider
+            range
+            min={0}
+            max={duration}
+            value={[startTime, endTime]}
+            onChange={handleSliderChange}
+            allowCross={false}
+            marks={marks}
+            dots={false}
+            step={null}
+          />
+        </div>
         <div>
           <input
             className="input_title_clip"
@@ -140,6 +190,7 @@ export function CreateClip() {
             <span className="remaining_characters_clip">
               {100 - clipTitle.length} caracteres restantes
             </span>
+
             <button onClick={handleSetDuration}>Publicar</button>
           </div>
         </div>

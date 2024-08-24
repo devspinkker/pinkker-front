@@ -7,9 +7,15 @@ interface ReactVideoPlayerProps {
   videoRef: React.RefObject<HTMLVideoElement>;
   height: string;
   width: string;
-  onVideoURLsReady: (urls: string[]) => void;
+  onVideoURLsReady: (urls: { url: string, start: number, end: number }[]) => void;
   isMuted: boolean;
   volume: number;
+}
+
+interface TSFilePath {
+  url: string;
+  start: number;
+  end: number;
 }
 
 function VideoPlayerCreateClips({ src, videoRef, height, width, onVideoURLsReady, isMuted, volume }: ReactVideoPlayerProps) {
@@ -73,10 +79,21 @@ function VideoPlayerCreateClips({ src, videoRef, height, width, onVideoURLsReady
       const response = await fetch(src);
       const playlistText = await response.text();
 
-      const tsFilePaths = playlistText
-        .split("\n")
-        .filter(line => line && !line.startsWith("#") && line.endsWith(".ts"))
-        .map(line => new URL(line, src).toString());
+      const tsFilePaths: TSFilePath[] = [];
+      let accumulatedTime = 0;
+
+      playlistText.split("\n").forEach((line, index, arr) => {
+        if (line && line.startsWith("#EXTINF:")) {
+          const duration = parseFloat(line.split(":")[1]);
+          const tsFile = arr[index + 1];
+          if (tsFile && tsFile.endsWith(".ts")) {
+            const startTime = accumulatedTime;
+            const endTime = accumulatedTime + duration;
+            tsFilePaths.push({ url: new URL(tsFile, src).toString(), start: startTime, end: endTime });
+            accumulatedTime = endTime;
+          }
+        }
+      });
 
       if (tsFilePaths.length > 0) {
         onVideoURLsReady(tsFilePaths);
