@@ -4,6 +4,10 @@
     background-color: #0A0B0D;
 }
 
+.player-container-ch {
+    width: 70%;
+}
+
 #create_clip_container {
     display: flex;
     justify-content: space-evenly;
@@ -93,16 +97,16 @@
 
 .player-container {
     display: flex;
-    padding: 3rem 9rem;
+    padding: 1rem 9rem;
     /* width: 83%; */
-    height: 500px;
+    /* height: 500px; */
     flex-direction: column;
     align-content: center;
     align-items: center;
 }
 
 .controls-container {
-    width: 600px;
+    width: -webkit-fill-available;
     /* display: flex;    */
 }
 
@@ -194,11 +198,20 @@
     padding-left: 10px;
 }
 
+/* slider */
+
+.slider-container {
+    user-select: none;
+    cursor: pointer;
+}
+
 .slider-container .rc-slider-track {
     height: 33px;
     background-color: #510b3f;
     border-radius: 6px;
     border: 2px solid #121418;
+    user-select: none;
+    cursor: pointer;
 }
 
 .slider-container .rc-slider-dot {
@@ -221,6 +234,9 @@
     cursor: pointer;
     margin: 0px;
     opacity: 1;
+    pointer-events: none;
+    pointer-events: none;
+    user-select: none;
 }
 
 .slider-container .rc-slider-handle-1 {
@@ -235,6 +251,26 @@
     background-color: #f36196;
     height: 33px;
 }
+
+.slider-container .rc-slider-handle-1::after,
+.slider-container .rc-slider-handle-2::after {
+    content: '';
+    width: 16px;
+    height: 20px;
+    display: inline-block;
+    /* background-image: url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 20"%3E%3Cpath d="M12.5 11a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm0-10a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-5 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM6 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zM12.5 6a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM6 12.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zm5 5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zM7.5 16a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" fill="%23f36196"/%3E%3C/svg%3E'); */
+    background-image: url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 20"%3E%3Cpath d="M12.5 11a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm0-10a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-5 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM6 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zM12.5 6a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM6 12.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zm5 5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zM7.5 16a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" fill="%23000"/%3E%3C/svg%3E');
+
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    user-select: none;
+}
+
 
 .slider-container .rc-slider-handle:active {
     /* background-color: #80b3f2; */
@@ -260,4 +296,26 @@
     top: -5px;
     transform: translateX(-50%);
     border-radius: 10px;
+    pointer-events: none;
+    user-select: none;
+}
+
+
+.CrearClip-Playing {
+    padding: 1rem 1rem;
+    display: flex;
+    align-items: center;
+    color: #ededed;
+    height: 50px;
+    justify-content: center;
+}
+
+.CrearClip-PlayingCustomPlayer-primary {
+    padding: 1rem 1rem;
+    display: flex;
+    align-items: center;
+    color: #ededed;
+    height: 50px;
+    justify-content: center;
+
 }

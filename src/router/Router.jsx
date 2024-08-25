@@ -242,8 +242,11 @@ const AppRouter = () => {
             setExpanded={setExpanded}
           ></NavbarLeft> */}
           {/* <NAnalytics user={user} /> */}
-          <StreamSummaryAnalytics user={user}  tyExpanded={expanded}
-            isMobile={isMobile}/>
+          <StreamSummaryAnalytics
+            user={user}
+            tyExpanded={expanded}
+            isMobile={isMobile}
+          />
         </Route>
         <Route exact path="/:streamer/dashboard/community">
           <NavbarLeft

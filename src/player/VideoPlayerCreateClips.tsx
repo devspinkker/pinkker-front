@@ -38,16 +38,11 @@ function VideoPlayerCreateClips({ src, videoRef, height, width, onVideoURLsReady
           hls.loadSource(src);
           hls.attachMedia(videoRef.current);
 
-          videoRef.current.addEventListener('click', () => {
-            if (!isPlaying) {
-              videoRef.current?.play();
-              setIsPlaying(true);
-            }
-          });
+      
 
-          hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            videoRef.current?.play();
-          });
+          // hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          //   videoRef.current?.play();
+          // });
 
           hls.on(Hls.Events.ERROR, (event, data) => {
             console.error('HLS Error:', data);
@@ -108,8 +103,8 @@ function VideoPlayerCreateClips({ src, videoRef, height, width, onVideoURLsReady
   }, [src]);
 
   return (
-    <div style={{ height, width }}>
-      <video ref={videoRef} controls />
+    <div style={{ height:"74%" }}>
+      <video style={{ height, width }} ref={videoRef} controls />
     </div>
   );
 }
