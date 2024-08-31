@@ -7,9 +7,9 @@ import { fetchSearchPage } from '../../../redux/actions/searchAction';
 
 const StatCard = ({ stream }) => {
 
-  console.log('stream', stream)
+
   function parseDate(dateString) {
-    console.log(dateString);
+
     const months = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
 
     const date = new Date(dateString);
@@ -261,6 +261,7 @@ const Estadistica = (props) => {
       setPorcentajeSeguidores(0); // Evita división por 0
     }
   }, [props?.streamSummaries]);
+
   return (
     <Grid style={{ display: 'flex', flexDirection: 'column' }}>
 

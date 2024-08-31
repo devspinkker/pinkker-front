@@ -63,6 +63,7 @@ import Main from "../components/panelAdminPinkker/Main";
 import AuthContext from "../components/AuthContext";
 import ChannelVods from "../components/channel/ChannelVods";
 import StreamSummaryAnalytics from "../components/dashboard/analytics/StreamSummaryAnalytics";
+import Ingresos from "../components/dashboard/Ingresos/Ingresos";
 
 const AppRouter = () => {
   const { user } = useContext(AuthContext);
@@ -248,6 +249,21 @@ const AppRouter = () => {
             isMobile={isMobile}
           />
         </Route>
+        <Route exact path="/:streamer/dashboard/ingresos">
+          {/* <NavbarLeft
+            isMobile={isMobile}
+            tyExpanded={expanded}
+            user={user}
+            tyDashboard={true}
+            setExpanded={setExpanded}
+          ></NavbarLeft> */}
+          {/* <NAnalytics user={user} /> */}
+          <Ingresos
+            user={user}
+            tyExpanded={expanded}
+            isMobile={isMobile}
+          />
+        </Route>
         <Route exact path="/:streamer/dashboard/community">
           <NavbarLeft
             isMobile={isMobile}
@@ -262,9 +278,7 @@ const AppRouter = () => {
         <NLayout
           isMobile={isMobile}
           user={user}
-          tyDashboard={
-            window.location.pathname.includes("/dashboard") ? true : false
-          }
+          
           tyExpanded={expanded}
           setExpanded={setExpanded}
           txExpandedLeft={expandedLeft}

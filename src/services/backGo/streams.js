@@ -17,6 +17,7 @@ export async function getStreamById(streamId) {
 		return error
 	}
 }
+
 export async function CommercialInStream(token) {
 	try {
 		const response = await axios.post(

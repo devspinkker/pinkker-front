@@ -194,7 +194,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
             <Link
               style={{ textDecoration: "none" }}
               className="menu-aside-option"
-              to={"/" + user?.NameUser + "/dashboard/stream"}
+              to={"/" + user?.NameUser + "/dashboard/ingresos"}
             >
               <li
                 style={{
