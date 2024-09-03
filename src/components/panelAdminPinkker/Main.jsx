@@ -7,11 +7,10 @@ import WithdrawalRequest from "./WithdrawalRequest";
 import FindUsersPanel from "./FindUsersPanel";
 import Advertisements from "./Advertisements";
 import Emotes from "./Emotes";
+import Ingresos from "./Ingresos";
 
 export default function Main() {
   const [code, setCode] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [error, setError] = useState(null);
   const [activePanel, setActivePanel] = useState(null); // Estado para rastrear el panel activo
   const [withdrawalRequestInfo, setWithdrawalRequestInfo] = useState(null);
 
@@ -25,9 +24,7 @@ export default function Main() {
         if (withdrawalRequestData.message == "ok") {
           setWithdrawalRequestInfo(withdrawalRequestData.data);
         }
-      } catch (err) {
-        setError("An error occurred. Please try again.");
-      }
+      } catch (err) {}
     }
   };
 
@@ -109,6 +106,23 @@ export default function Main() {
             <Emotes Code={code} />
           </div>
         );
+      case "Ingresos":
+        return (
+          <div>
+            <form
+              className="renderActivePanel-main"
+              onSubmit={handleCodeSubmit}
+            >
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="Ingrese el código"
+              />
+            </form>
+            <Ingresos Code={code} />
+          </div>
+        );
       default:
         return null;
     }
@@ -125,6 +139,7 @@ export default function Main() {
           <button onClick={() => setActivePanel("usuarios")}>Usuarios</button>
           <button onClick={() => setActivePanel("Ads")}>Ads</button>
           <button onClick={() => setActivePanel("Emotes")}>Emotes</button>
+          <button onClick={() => setActivePanel("Ingresos")}>Ingresos</button>
         </div>
         <div className="categories-container">{renderActivePanel()}</div>
       </div>
