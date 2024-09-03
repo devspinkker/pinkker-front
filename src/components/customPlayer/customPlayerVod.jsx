@@ -18,6 +18,7 @@ import { LuClapperboard } from "react-icons/lu";
 import { MdHd } from "react-icons/md";
 import ReactVideoPlayerVod from "../../player/PlayerVods";
 import { getStreamSummariesByID } from "../../services/backGo/streams";
+
 export default function CustomPlayer({
   isMobile,
   expanded,
@@ -98,6 +99,13 @@ export default function CustomPlayer({
       };
     }
   }, [streamerData]);
+
+  const handleSliderChange = (event, newValue) => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = newValue;
+      setCurrentTime(newValue);
+    }
+  };
 
   const [preLoad, setPreLoad] = useState(false);
 
@@ -573,10 +581,19 @@ export default function CustomPlayer({
                   />
                 </div>
               </div>
+              <div className="customPlayer-slider-vod">
+                <Slider
+                  value={currentTime}
+                  onChange={handleSliderChange}
+                  min={0}
+                  max={videoRef.current?.duration || 100}
+                  aria-labelledby="continuous-slider"
+                />
+              </div>
 
               <div
-                style={{ marginLeft: expanded && "-50px" }}
                 className="customPlayer-secundary-div2"
+                style={{ marginLeft: expanded && "-50px", width: "45%" }}
               >
                 {/*<div className="customPlayer-card">
                                 <Tippy theme="pinkker" content={<h1 style={{fontSize: "12px", fontFamily: "Montserrat"}}>Entrar al Multiverso</h1>}>
@@ -584,7 +601,7 @@ export default function CustomPlayer({
                                 </Tippy>
                                 </div>*/}
 
-                <div className="customPlayer-card">
+                {/* <div className="customPlayer-card">
                   <Tippy
                     theme="pinkker"
                     content={
@@ -601,8 +618,8 @@ export default function CustomPlayer({
                       style={{ cursor: "pointer", fontSize: "18px !important" }}
                     />
                   </Tippy>
-                </div>
-                <div className="customPlayer-card">
+                </div> */}
+                {/* <div className="customPlayer-card">
                   <Tippy
                     theme="pinkker"
                     content={
@@ -619,7 +636,7 @@ export default function CustomPlayer({
                       style={{ cursor: "pointer", fontSize: "18px !important" }}
                     />
                   </Tippy>
-                </div>
+                </div> */}
 
                 <div className="customPlayer-card">
                   <Tippy

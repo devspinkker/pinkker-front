@@ -87,7 +87,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
         }
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
 
       setSocket(newSocket);
 
@@ -341,193 +341,191 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
   const [expanded, setExpanded] = useState(true);
 
   return (
-
     <DashboarLayout user={user} isMobile={isMobile}>
-
-        {/* Contenido */}
-        <div>
-          <div className="content">
-            {/* Parte 2 */}
-            <div className="part-two">
-              <div className="column">
+      {/* Contenido */}
+      <div>
+        <div className="content">
+          {/* Parte 2 */}
+          <div className="part-two">
+            <div className="column">
+              <div
+                style={{
+                  display: showComandosList && "none",
+                }}
+                className="Broadcast-preview-dashboard"
+              >
                 <div
-                  style={{
-                    display: showComandosList && "none",
-                  }}
-                  className="Broadcast-preview-dashboard"
+                  title="Información de sesión"
+                  className="vista-previa-stream-p1"
                 >
-                  <div
-                    title="Información de sesión"
-                    className="vista-previa-stream-p1"
-                  >
-                    <MdOutlineOndemandVideo
-                      style={{ color: "white", fontSize: "30px" }}
-                    />
+                  <MdOutlineOndemandVideo
+                    style={{ color: "white", fontSize: "30px" }}
+                  />
 
+                  <span
+                    style={{
+                      padding: "0px 10px",
+                    }}
+                    className="max-w-full shrink truncate text-base font-bold text-white"
+                  >
+                    Vista previa del stream
+                  </span>
+                </div>
+                {streamerData?.online ? (
+                  <ReactFlvPlayer
+                    allowFullScreen
+                    id="pinkker-player"
+                    videoRef={videoRef}
+                    preload={"auto"}
+                    webkit-playsinline={true}
+                    playsInline={true}
+                    src={getHlsSrc()}
+                    autoPlay={true}
+                    muted={true}
+                    controls={false}
+                    width={"100%"}
+                    height={"100%"}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      padding: "5px",
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: "90%",
+                        maxHeight: "100%",
+                      }}
+                      src={streamerData?.stream_thumbnail}
+                      alt=""
+                    />
                     <span
                       style={{
-                        padding: "0px 10px",
+                        position: "relative",
+                        display: streamerData?.online ? "none" : "",
+                        top: "-75%",
+                        zIndex: 99999,
                       }}
-                      className="max-w-full shrink truncate text-base font-bold text-white"
+                      className="sin-conexion-s3"
                     >
-                      Vista previa del stream
+                      SIN CONEXIÓN
                     </span>
-                  </div>
-                  {streamerData?.online ? (
-                    <ReactFlvPlayer
-                      allowFullScreen
-                      id="pinkker-player"
-                      videoRef={videoRef}
-                      preload={"auto"}
-                      webkit-playsinline={true}
-                      playsInline={true}
-                      src={getHlsSrc()}
-                      autoPlay={true}
-                      muted={true}
-                      controls={false}
-                      width={"100%"}
-                      height={"100%"}
-                    />
-                  ) : (
-                    <div
+
+                    <Grid
                       style={{
-                        width: "100%",
-                        height: "100%",
                         display: "flex",
-                        flexDirection: "column",
-                        padding: "5px",
+                        gap: "10px",
+                        marginTop: "10px",
                       }}
                     >
-                      <img
-                        style={{
-                          width: "90%",
-                          maxHeight: "100%",
-                        }}
-                        src={streamerData?.stream_thumbnail}
-                        alt=""
-                      />
-                      <span
-                        style={{
-                          position: "relative",
-                          display: streamerData?.online ? "none" : "",
-                          top: "-75%",
-                          zIndex: 99999,
-                        }}
-                        className="sin-conexion-s3"
-                      >
-                        SIN CONEXIÓN
-                      </span>
-
+                      <Grid style={{ width: "10%" }}>
+                        <img
+                          src={"/images/pixel.png"}
+                          style={{ width: "100%" }}
+                        />
+                      </Grid>
                       <Grid
                         style={{
                           display: "flex",
-                          gap: "10px",
-                          marginTop: "10px",
+                          justifyContent: "space-between",
+                          width: "79%",
                         }}
                       >
-                        <Grid style={{ width: "10%" }}>
-                          <img
-                            src={"/images/pixel.png"}
-                            style={{ width: "100%" }}
-                          />
-                        </Grid>
-                        <Grid
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            width: "79%",
-                          }}
+                        <Typography
+                          style={{ fontWeight: "bold", color: "white" }}
                         >
-                          <Typography
-                            style={{ fontWeight: "bold", color: "white" }}
-                          >
-                            {streamerData?.stream_title}
-                          </Typography>
-                          <TbEdit
-                            style={{
-                              color: "white",
-                              fontSize: "25px",
-                              cursor: "pointer",
-                            }}
-                            onClick={toggleEditInfoStream}
-                          />
-                        </Grid>
-                      </Grid>
-                    </div>
-                  )}
-                </div>
-
-                <div
-                  className="Información-sesión"
-                  style={{
-                    display: showComandosList && "none",
-                  }}
-                >
-                  <section className="base-card !p-0">
-                    <div className="Información-sesión-p1">
-                      <div
-                        title="Información de sesión"
-                        className="flex flex-row items-center gap-1"
-                      >
-                        <CiStreamOn
-                          style={{ color: "white", fontSize: "30px" }}
+                          {streamerData?.stream_title}
+                        </Typography>
+                        <TbEdit
+                          style={{
+                            color: "white",
+                            fontSize: "25px",
+                            cursor: "pointer",
+                          }}
+                          onClick={toggleEditInfoStream}
                         />
+                      </Grid>
+                    </Grid>
+                  </div>
+                )}
+              </div>
 
-                        <span
-                          style={{
-                            padding: "0px 10px",
-                          }}
-                          className="shrinkS2"
-                        >
-                          Servidor y clave de stream
-                        </span>
-                      </div>
-                      <Grid>
+              <div
+                className="Información-sesión"
+                style={{
+                  display: showComandosList && "none",
+                }}
+              >
+                <section className="base-card !p-0">
+                  <div className="Información-sesión-p1">
+                    <div
+                      title="Información de sesión"
+                      className="flex flex-row items-center gap-1"
+                    >
+                      <CiStreamOn
+                        style={{ color: "white", fontSize: "30px" }}
+                      />
+
+                      <span
+                        style={{
+                          padding: "0px 10px",
+                        }}
+                        className="shrinkS2"
+                      >
+                        Servidor y clave de stream
+                      </span>
+                    </div>
+                    <Grid>
+                      <input
+                        value={process.env.REACT_APP_RTMPSTARTSTREAM}
+                        className="settingstream-input"
+                        style={{ width: "70%" }}
+                        type="text"
+                        readOnly
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
                         <input
-                          value={process.env.REACT_APP_RTMPSTARTSTREAM}
+                          value={showKey ? user?.cmt : "******************"}
                           className="settingstream-input"
                           style={{ width: "70%" }}
                           type="text"
-                          readOnly
                         />
                         <div
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
+                            marginTop: "10px",
                           }}
                         >
-                          <input
-                            value={showKey ? user?.cmt : "******************"}
-                            className="settingstream-input"
-                            style={{ width: "70%" }}
-                            type="text"
-                          />
-                          <div
-                            style={{
-                              marginTop: "10px",
-                            }}
+                          <button
+                            onClick={() => setShowKey(!showKey)}
+                            className="button-copy"
                           >
-                            <button
-                              onClick={() => setShowKey(!showKey)}
-                              className="button-copy"
-                            >
-                              {showKey ? "Ocultar" : "Mostrar"}
-                            </button>
-                            <button
-                              onClick={() => copyToClipboard(user?.cmt)}
-                              className="button-copy"
-                            >
-                              Copiar
-                            </button>
-                            <button className="button-copy">Restablecer</button>
-                          </div>
+                            {showKey ? "Ocultar" : "Mostrar"}
+                          </button>
+                          <button
+                            onClick={() => copyToClipboard(user?.cmt)}
+                            className="button-copy"
+                          >
+                            Copiar
+                          </button>
+                          <button className="button-copy">Restablecer</button>
                         </div>
-                      </Grid>
-                    </div>
-                  </section>
-                </div>
+                      </div>
+                    </Grid>
+                  </div>
+                </section>
+              </div>
 
-                {/* <div
+              {/* <div
                 style={{
                   height: showComandosList && "100%",
                 }}
@@ -538,249 +536,243 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                   handleToggleComandosList={handleToggleComandosList}
                 />
               </div> */}
-              </div>
             </div>
+          </div>
 
-            <Grid
-              style={{
-                width: "35%",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10%",
-              }}
-            >
-              <div className="base-card-act">
-                <div className="Feeddeactividades_container">
-                  <div
-                    title="Feed de actividades"
-                    className="Feeddeactividades"
-                  >
-                    <span className="max-w-full shrink truncate text-base font-bold text-white">
-                      Notificaciones en vivo
-                    </span>
-                  </div>
+          <Grid
+            style={{
+              width: "35%",
+              display: "flex",
+              flexDirection: "column",
+              gap: "10%",
+            }}
+          >
+            <div className="base-card-act">
+              <div className="Feeddeactividades_container">
+                <div title="Feed de actividades" className="Feeddeactividades">
+                  <span className="max-w-full shrink truncate text-base font-bold text-white">
+                    Notificaciones en vivo
+                  </span>
+                </div>
 
-                  <div className="FeedAct">
-                    <div className="mapFeedAct">
-                      {ActivityFeed.map((item, index) => (
-                        <div key={index} className="activity-feed-item">
-                          {/* {item?.action === "follow" && ( */}
-                          <div
-                            className="base-icon icon"
-                            style={{ width: "20px", height: "20px" }}
-                          >
-                            <GoHeartFill style={{ color: "#ff69c4" }} />
-                          </div>
-                          {/* )} */}
-                          <div className="activity-feed-item__info">
-                            <span className="activity-feed-item__info_name">
-                              {item?.data}
-                            </span>
-                            <span>
-                              {item?.action === "follow" && (
-                                <span className="activity-feed-item__info_action">
-                                  {" "}
-                                  Te comenzó a seguir
-                                </span>
-                              )}
-                              {item?.action === "DonatePixels" && (
-                                <span className="activity-feed-item__info_action">
-                                  {" "}
-                                  Dono {item?.Pixeles} Pixeles
-                                </span>
-                              )}
-                              {item?.action === "Suscribirse" && (
-                                <span className="activity-feed-item__info_action">
-                                  {" "}
-                                  Se suscribió
-                                </span>
-                              )}
-                            </span>
-                          </div>
+                <div className="FeedAct">
+                  <div className="mapFeedAct">
+                    {ActivityFeed.map((item, index) => (
+                      <div key={index} className="activity-feed-item">
+                        {/* {item?.action === "follow" && ( */}
+                        <div
+                          className="base-icon icon"
+                          style={{ width: "20px", height: "20px" }}
+                        >
+                          <GoHeartFill style={{ color: "#ff69c4" }} />
                         </div>
-                      ))}
-                    </div>
+                        {/* )} */}
+                        <div className="activity-feed-item__info">
+                          <span className="activity-feed-item__info_name">
+                            {item?.data}
+                          </span>
+                          <span>
+                            {item?.action === "follow" && (
+                              <span className="activity-feed-item__info_action">
+                                {" "}
+                                Te comenzó a seguir
+                              </span>
+                            )}
+                            {item?.action === "DonatePixels" && (
+                              <span className="activity-feed-item__info_action">
+                                {" "}
+                                Dono {item?.Pixeles} Pixeles
+                              </span>
+                            )}
+                            {item?.action === "Suscribirse" && (
+                              <span className="activity-feed-item__info_action">
+                                {" "}
+                                Se suscribió
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div>
-                <div className="right-panel flex flex-col bg-[#171C1E] grow">
-                  <div
-                    className="right-panel__header flex flex-row items-center justify-between gap-2 px-6"
+            <div>
+              <div className="right-panel flex flex-col bg-[#171C1E] grow">
+                <div
+                  className="right-panel__header flex flex-row items-center justify-between gap-2 px-6"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "5px",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <div className="flex flex-row items-center">
+                    <span className="text-base font-bold">
+                      Acciones rápidas
+                    </span>
+                  </div>
+                  <Grid
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      gap: "5px",
-                      alignItems: "flex-start",
+                      justifyContent: "center",
+                      width: "100%",
+                      gap: "15px",
                     }}
                   >
-                    <div className="flex flex-row items-center">
-                      <span className="text-base font-bold">
-                        Acciones rápidas
-                      </span>
-                    </div>
-                    <Grid
+                    <SlUserFollow
                       style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        width: "100%",
-                        gap: "15px",
+                        color: "white",
+                        fontSize: "35px",
+                        borderRadius: "5px",
+                        backgroundColor: ChatOnliFollowers
+                          ? "#fe68c3"
+                          : "#171C1E",
+                        width: "30%",
+                        padding: "10px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => toggleChatOnliFollowers()}
+                    />
+                    <FaGratipay
+                      style={{
+                        color: "white",
+                        fontSize: "35px",
+                        borderRadius: "5px",
+                        backgroundColor: ChatOnliSubs ? "#fe68c3" : "#171C1E",
+                        width: "30%",
+                        padding: "10px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => toggleChatOnliSubs()}
+                    />
+                    <MdSlowMotionVideo
+                      style={{
+                        color: "white",
+                        fontSize: "35px",
+                        borderRadius: "5px",
+                        backgroundColor: "#171C1E",
+                        width: "30%",
+                        padding: "10px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        togglemenuModChatSlowMode();
+                      }}
+                    />
+                    <Typography
+                      style={{
+                        color: "white",
+                        fontSize: "25px",
+                        borderRadius: "5px",
+                        backgroundColor: "#171C1E",
+                        width: "30%",
+                        padding: "10px",
+                        cursor: "pointer",
+                        textAlign: "center",
+                        fontWeight: 600,
+                      }}
+                      onClick={() => {
+                        CommercialInStreamFunc();
                       }}
                     >
-                      <SlUserFollow
-                        style={{
-                          color: "white",
-                          fontSize: "35px",
-                          borderRadius: "5px",
-                          backgroundColor: ChatOnliFollowers
-                            ? "#fe68c3"
-                            : "#171C1E",
-                          width: "30%",
-                          padding: "10px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => toggleChatOnliFollowers()}
-                      />
-                      <FaGratipay
-                        style={{
-                          color: "white",
-                          fontSize: "35px",
-                          borderRadius: "5px",
-                          backgroundColor: ChatOnliSubs ? "#fe68c3" : "#171C1E",
-                          width: "30%",
-                          padding: "10px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => toggleChatOnliSubs()}
-                      />
-                      <MdSlowMotionVideo
-                        style={{
-                          color: "white",
-                          fontSize: "35px",
-                          borderRadius: "5px",
-                          backgroundColor: "#171C1E",
-                          width: "30%",
-                          padding: "10px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          togglemenuModChatSlowMode();
-                        }}
-                      />
-                      <Typography
-                        style={{
-                          color: "white",
-                          fontSize: "25px",
-                          borderRadius: "5px",
-                          backgroundColor: "#171C1E",
-                          width: "30%",
-                          padding: "10px",
-                          cursor: "pointer",
-                          textAlign: "center",
-                          fontWeight: 600,
-                        }}
-                        onClick={() => {
-                          CommercialInStreamFunc();
-                        }}
-                      >
-                        ADS
-                      </Typography>
-                    </Grid>
-                  </div>
-                  <div className="right-panel__content">
-                    <div className="flex shrinkS2 grow flex-col gap-2 overflow-y-hidden p-2.5">
-                      <div
-                        style={{
-                          animation: "200ms all",
-                          height: Channelshares ? "auto" : "0",
-                          display: Channelshares ? "" : "none",
-                        }}
-                      >
-                        <div>
-                          {menuModChatSlowMode && (
-                            <div className="dropdown-menu">
-                              {[2, 5, 7, 15, 20, 60].map((seconds) => (
-                                <div
-                                  key={seconds}
-                                  className=" menuModChatSlowMode"
-                                  onClick={() => updateModChatSlowMode(seconds)}
-                                >
-                                  <div>
-                                    <span
-                                      style={{
-                                        padding: "10px",
-                                      }}
-                                    >
-                                      {seconds}
-                                    </span>
-                                    <span>segundos</span>
-                                  </div>
-                                  <div
-                                    className="toggle-size-sm"
-                                    onClick={() =>
-                                      updateModChatSlowMode(seconds)
-                                    }
-                                  ></div>
-                                  <div className="base-toggle">
-                                    <div
-                                      className="base-toggle-indicator"
-                                      style={{
-                                        left:
-                                          SecondModChatSlowMode === seconds &&
-                                          "16.4px",
-                                        background:
-                                          SecondModChatSlowMode === seconds &&
-                                          "#53fc18",
-                                      }}
-                                    ></div>
-                                  </div>
+                      ADS
+                    </Typography>
+                  </Grid>
+                </div>
+                <div className="right-panel__content">
+                  <div className="flex shrinkS2 grow flex-col gap-2 overflow-y-hidden p-2.5">
+                    <div
+                      style={{
+                        animation: "200ms all",
+                        height: Channelshares ? "auto" : "0",
+                        display: Channelshares ? "" : "none",
+                      }}
+                    >
+                      <div>
+                        {menuModChatSlowMode && (
+                          <div className="dropdown-menu">
+                            {[2, 5, 7, 15, 20, 60].map((seconds) => (
+                              <div
+                                key={seconds}
+                                className=" menuModChatSlowMode"
+                                onClick={() => updateModChatSlowMode(seconds)}
+                              >
+                                <div>
+                                  <span
+                                    style={{
+                                      padding: "10px",
+                                    }}
+                                  >
+                                    {seconds}
+                                  </span>
+                                  <span>segundos</span>
                                 </div>
-                              ))}
-                              <div className="SecondModChatSlowModeInput">
-                                <input
-                                  type="number"
-                                  placeholder="Escriba un tiempo en segundos"
-                                  value={SecondModChatSlowMode}
-                                  onChange={(e) => {
-                                    SetSecondModChatSlowMode(e.target.value);
-                                  }}
-                                  min="1"
-                                />
-                                <button
-                                  onClick={() =>
-                                    updateModChatSlowMode(SecondModChatSlowMode)
-                                  }
-                                >
-                                  Confirmar
-                                </button>
+                                <div
+                                  className="toggle-size-sm"
+                                  onClick={() => updateModChatSlowMode(seconds)}
+                                ></div>
+                                <div className="base-toggle">
+                                  <div
+                                    className="base-toggle-indicator"
+                                    style={{
+                                      left:
+                                        SecondModChatSlowMode === seconds &&
+                                        "16.4px",
+                                      background:
+                                        SecondModChatSlowMode === seconds &&
+                                        "#53fc18",
+                                    }}
+                                  ></div>
+                                </div>
                               </div>
+                            ))}
+                            <div className="SecondModChatSlowModeInput">
+                              <input
+                                type="number"
+                                placeholder="Escriba un tiempo en segundos"
+                                value={SecondModChatSlowMode}
+                                onChange={(e) => {
+                                  SetSecondModChatSlowMode(e.target.value);
+                                }}
+                                min="1"
+                              />
+                              <button
+                                onClick={() =>
+                                  updateModChatSlowMode(SecondModChatSlowMode)
+                                }
+                              >
+                                Confirmar
+                              </button>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </Grid>
+            </div>
+          </Grid>
 
-            {/* Parte 1 */}
+          {/* Parte 1 */}
 
-            {streamerData && userData && (
-              <ChatStreaming
-                streamerChat={streamerData}
-                chatExpandeds={true}
-                streamerData={streamerData}
-                user={userData}
-                isMobile={isMobile}
-                DashboardStream={true}
-              />
-            )}
-          </div>
+          {streamerData && userData && (
+            <ChatStreaming
+              streamerChat={streamerData}
+              chatExpandeds={true}
+              streamerData={streamerData}
+              user={userData}
+              isMobile={isMobile}
+              DashboardStream={true}
+            />
+          )}
         </div>
-        {/* Segunda sección */}
-
-    </DashboarLayout >
+      </div>
+      {/* Segunda sección */}
+    </DashboarLayout>
   );
 }

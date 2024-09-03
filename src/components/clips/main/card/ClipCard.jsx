@@ -34,6 +34,49 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
 
   const [videoPlaying, setVideoPlaying] = useState(false);
   const canvasRef = useRef(null);
+  const [page, setPage] = useState(1);
+  const [loadingComments, setLoadingComments] = useState(false);
+  const intervalRef = useRef(null);
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
+
+  const handleScroll = async (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+
+    if (scrollTop + clientHeight >= scrollHeight - 20 && !loadingComments) {
+      setLoadingComments(true);
+
+      intervalRef.current = setInterval(async () => {
+        setPage((prevPage) => prevPage + 1);
+        await getCommentsClipScroll(page + 1);
+      }, 2000);
+    }
+  };
+  const getCommentsClipScroll = async (pageNumber = 1) => {
+    console.log(pageNumber);
+
+    let token = window.localStorage.getItem("token");
+    if (!token) {
+      const response = await GetClipComments(pageNumber, clip?.id);
+      if (response?.data?.message === "ok") {
+        setComments((prevComments) => [...prevComments, ...response.data.data]);
+      }
+    } else {
+      const response = await GetClipCommentsLoguedo(
+        pageNumber,
+        clip?.id,
+        token
+      );
+      if (response?.data?.message === "ok" && response.data.data) {
+        setComments((prevComments) => [...prevComments, ...response.data.data]);
+      }
+    }
+  };
 
   useEffect(() => {
     const video = playerRef.current;
@@ -121,7 +164,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
   };
   async function getCommentsClipAndShow() {
     let token = window.localStorage.getItem("token");
-    if (!token) {
+    if (!token && !showComment) {
       const response = await GetClipComments(1, clip?.id);
       SetshowComment(!showComment);
       if (response?.data?.message === "ok") {
@@ -317,7 +360,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
             onMouseEnter={() => setVideoHover(true)}
             onMouseLeave={() => setVideoHover(false)}
             className="clipsmain-video"
-            style={{width: isMobile && '75%', margin: isMobile && '0 auto'}}
+            style={{ width: isMobile && "75%", margin: isMobile && "0 auto" }}
           >
             <div className="clipsmain-top-buttons">
               {playing ? (
@@ -616,6 +659,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
               padding: "20px",
             }}
             className="clipcard-comments-container"
+            onScroll={handleScroll}
           >
             <div
               style={{ position: "relative", top: "-20px" }}
@@ -631,14 +675,22 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
                 className="fas fa-times"
               />
             </div>
+
             {comments != null ? (
-              comments?.map((comment) => {
-                return (
-                  <div>
-                    <CommentCard comment={comment} />;
+              <div>
+                {comments?.map((comment) => {
+                  return (
+                    <div key={comment._id}>
+                      <CommentCard comment={comment} />
+                    </div>
+                  );
+                })}
+                {loadingComments && (
+                  <div className="loader-comments">
+                    <ScaleLoader color="#ffffff" />
                   </div>
-                );
-              })
+                )}
+              </div>
             ) : (
               <div
                 style={{
