@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import "./Muro.css";
 
@@ -17,6 +17,52 @@ export default function Muro({ streamer }) {
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(false);
   const [userFollows, setUserFollows] = useState(false);
+
+  const intervalRef = useRef(null);
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
+  const handleScroll = async (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+
+    if (scrollTop + clientHeight >= scrollHeight - 20) {
+      if (!intervalRef.current) {
+        intervalRef.current = setTimeout(async () => {
+          setPage((prevPage) => prevPage + 1);
+          await fetchDataScroll(page + 1);
+          intervalRef.current = null;
+        }, 2000);
+      }
+    }
+  };
+
+  const fetchDataScroll = async (pageP) => {
+    try {
+      const data = await getTweetUser(streamer?.id, pageP, 1);
+      if (data?.message == "ok") {
+        if (data.data == null) {
+          setLoading(false);
+          return;
+        }
+        setTweets((prev) => {
+          return [...prev, ...data.data];
+        });
+
+        setHasMore(data.hasMore);
+        setLoading(true);
+        return;
+      } else {
+        setLoading(false);
+        return;
+      }
+    } catch (error) {
+      console.log("");
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,27 +87,19 @@ export default function Muro({ streamer }) {
       }
     };
     fetchData();
-  }, [page]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [tweets]);
-
-  const handleScroll = async () => {
-    // if (
-    //   window.innerHeight + document.documentElement.scrollTop + 1 >=
-    //   document.documentElement.scrollHeight
-    // ) {
-    //   setLoading(true);
-    //   setPage((prev) => prev + 1);
-    // }
-  };
+  }, []);
 
   return (
     <div className="channel-muro-body">
       <div className="channel-muro-container">
-        <div style={{ width: "90%" }} className="channel-muro-tweet-container">
+        <div
+          onScroll={handleScroll}
+          style={{
+            overflowY: "scroll",
+            width: "90%",
+          }}
+          className="channel-muro-tweet-container"
+        >
           <div
             style={{
               width: "95%",

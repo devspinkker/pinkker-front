@@ -12,3 +12,7 @@
     margin: 0 auto;
     display: flex;
 }
+
+.channel-muro-tweet-container {
+    max-height: 800px;
+}

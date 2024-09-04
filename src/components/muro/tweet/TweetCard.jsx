@@ -68,7 +68,6 @@ export default function TweetCard({ tweet, isMobile }) {
     history.push(`/post/${tweet?.UserInfo?.NameUser}/${id}`);
   }
 
-  console.log("tweet", tweet);
   function togglePopupCiteTweet() {
     setPopupCiteTweet(!popupCiteTweet);
   }
@@ -502,13 +501,10 @@ export default function TweetCard({ tweet, isMobile }) {
                                 >
                                   {tweet.Type == "RePost" ? (
                                     <p>
-                                      {
-                                        tweet?.OriginalPostData?.Comments
-                                          ?.length
-                                      }
+                                      {tweet?.OriginalPostData?.CommentsCount}
                                     </p>
                                   ) : (
-                                    <p>{tweet?.Comments?.length}</p>
+                                    <p>{tweet?.CommentsCount}</p>
                                   )}
                                 </p>
                               </div>
@@ -952,9 +948,9 @@ export default function TweetCard({ tweet, isMobile }) {
                       <FaRegComment style={{ fontSize: "22px" }} />
                       <p style={{ marginLeft: "5px", fontSize: "14px" }}>
                         {tweet.Type == "RePost" ? (
-                          <p>{tweet?.OriginalPostData?.Comments?.length}</p>
+                          <p>{tweet?.OriginalPostData?.CommentsCount}</p>
                         ) : (
-                          <p>{tweet?.Comments?.length}</p>
+                          <p>{tweet?.CommentsCount}</p>
                         )}
                       </p>
                     </div>
@@ -1217,7 +1213,7 @@ export default function TweetCard({ tweet, isMobile }) {
               </Tippy>
               {tweet.AdvertisementsId && (
                 <span
-                className="PostLinkPromocionado"
+                  className="PostLinkPromocionado"
                   onClick={(e) => {
                     e.stopPropagation();
                     IdOfTheUsersWhoClickedFunc(tweet.AdvertisementsId);

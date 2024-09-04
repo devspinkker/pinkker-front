@@ -71,13 +71,15 @@ export const PostGets = async () => {
     console.log(error);
   }
 };
-
-export const GetCommentPost = async (id) => {
-
-  const res = await axios.get(`${url}/post/GetCommentPost?id=${id}`);
-  return res;
-
+export const GetCommentPost = async (id, page = 1) => {
+  try {
+    const res = await axios.get(`${url}/post/GetCommentPost?id=${id}&page=${page}`);
+    return res;
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+  }
 };
+
 export const RePost = async (id, token) => {
   try {
     const config = {

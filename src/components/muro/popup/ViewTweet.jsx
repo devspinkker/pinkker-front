@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./ViewTweet.css";
 import { useSelector } from "react-redux";
 import { useNotification } from "../../Notifications/NotificationProvider";
@@ -29,7 +29,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
   const [comments, setComments] = useState(null);
   const [openTweet, setOpenTweet] = useState(false);
   const token = window.localStorage.getItem("token");
-
+  const [page, setPage] = useState(1);
   const { IdPost } = useParams();
   const toggleDrawer = (open) => (event) => {
     if (
@@ -44,7 +44,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const commentsData = await GetCommentPost(IdPost);
+        const commentsData = await GetCommentPost(IdPost, page);
         if (commentsData.data.message === "ok") {
           if (commentsData.data?.data) {
             setComments(commentsData.data?.data);
@@ -82,7 +82,6 @@ export default function ViewTweet({ closePopup, isMobile }) {
     const loggedUser = window.localStorage.getItem("_id");
     setIsLiked(tweet && tweet?.Likes?.includes(loggedUser));
     const Avatar = window.localStorage.getItem("avatar");
-    
 
     setAvatar(Avatar);
   }, [tweet]);
@@ -98,12 +97,50 @@ export default function ViewTweet({ closePopup, isMobile }) {
           await LikePost({ idPost: tweet?._id });
         }
         setIsLiked(!isLiked);
-      } catch (error) { }
+      } catch (error) {}
     } else {
       alert("Inicia sesión para dar like");
     }
   };
 
+  const intervalRef = useRef(null);
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
+
+  const handleScroll = async (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+
+    if (scrollTop + clientHeight >= scrollHeight - 20) {
+      if (!intervalRef.current) {
+        intervalRef.current = setTimeout(async () => {
+          setPage((prevPage) => prevPage + 1);
+          await GetCommentsScroll(page + 1);
+          intervalRef.current = null;
+        }, 1000);
+      }
+    }
+  };
+
+  const GetCommentsScroll = async (pageP) => {
+    try {
+      const commentsData = await GetCommentPost(IdPost, pageP);
+      if (commentsData.data.message === "ok") {
+        if (commentsData.data?.data) {
+          setComments((prevComments) => [
+            ...prevComments,
+            ...commentsData.data.data,
+          ]);
+        }
+      }
+    } catch (error) {
+      console.error("Error al obtener los comentarios:", error);
+    }
+  };
   async function createComment() {
     if (comment.trim() !== "") {
       const token = window.localStorage.getItem("token");
@@ -118,7 +155,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
           alert({ type: "SUCCESS" });
           setComment("");
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   }
 
@@ -232,7 +269,13 @@ export default function ViewTweet({ closePopup, isMobile }) {
   }
   function renderComments() {
     return (
-      <div className="viewtweet-comments-container">
+      <div
+        onScroll={handleScroll}
+        style={{
+          overflowY: "scroll",
+        }}
+        className="viewtweet-comments-container"
+      >
         {comments?.length > 0 &&
           comments?.map((comment) => (
             <TweetCard key={comment._id} tweet={comment} isMobile={isMobile} />
@@ -244,7 +287,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
   let history = useHistory();
 
   const goBack = () => {
-    history.push('/plataform/muro');
+    history.push("/plataform/muro");
   };
   return (
     <div className="viewtweet-popup-body">
@@ -256,15 +299,15 @@ export default function ViewTweet({ closePopup, isMobile }) {
           alignItems: "center",
         }}
       >
-        <div className={"viewtweet-popup-container"} >
+        <div className={"viewtweet-popup-container"}>
           <div
             style={{
               display: "flex",
               justifyContent: "flex-start",
               gap: "10px",
               alignItems: "center",
-              padding: '5px',
-              cursor: "pointer"
+              padding: "5px",
+              cursor: "pointer",
             }}
           >
             <IoArrowBackCircleOutline
@@ -273,38 +316,35 @@ export default function ViewTweet({ closePopup, isMobile }) {
             />
             <Typography style={{ color: "white", fontSize: "1.5rem" }}>
               Volver
-
             </Typography>
           </div>
           {renderTweet()}
-          {
-            !isMobile &&
+          {!isMobile && (
             <>
-
-
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: '10px',
+                  gap: "10px",
                   marginTop: "20px",
                   marginBottom: "10px",
                   borderBottom: "1px solid rgb(42, 46, 56)",
-                  paddingBottom: "10px"
+                  paddingBottom: "10px",
                 }}
               >
-                <div style={{ display: 'flex', alignItems: "center", }}>
-
+                <div style={{ display: "flex", alignItems: "center" }}>
                   <div>
                     <img
-                      style={{ width: "50px", height: '50px', objectFit: 'cover', borderRadius: "100px" }}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        objectFit: "cover",
+                        borderRadius: "100px",
+                      }}
                       src={Avatar}
                     />
                   </div>
-                  <div
-
-                    className="muro-send-tweet-input"
-                  >
+                  <div className="muro-send-tweet-input">
                     <textarea
                       className="muro-send-tweet-input-respuesta"
                       value={comment}
@@ -320,37 +360,40 @@ export default function ViewTweet({ closePopup, isMobile }) {
                     onClick={createComment}
                     disabled={comment?.length <= 0}
                     className="viewtweet-button-reply"
-                    style={{ backgroundColor: comment.length <= 0 ? 'gray' : "rgb(255, 105, 196)", cursor: comment.length <= 0 ? 'not-allowed' : 'pointer' }}
-
+                    style={{
+                      backgroundColor:
+                        comment.length <= 0 ? "gray" : "rgb(255, 105, 196)",
+                      cursor: comment.length <= 0 ? "not-allowed" : "pointer",
+                    }}
                   >
-                    <Typography style={{ fontSize: '14px' }}>
+                    <Typography style={{ fontSize: "14px" }}>
                       Responder
                     </Typography>
                   </button>
                 </div>
               </div>
-
             </>
-          }
+          )}
 
-          {
-            location.pathname?.includes('/post') && isMobile &&  token?.length &&
-            <IconButton
-              style={{
-                color: "#fff",
-                position: "fixed",
-                bottom: "10%",
-                right: "3%",
-                backgroundColor: "#ff69c4",
-                zIndex: 99999999,
-              }}
-              aria-label="fingerprint"
-              color="secondary"
-              onClick={() => setOpenTweet(!openTweet)}
-            >
-              {<HiChatBubbleLeftEllipsis style={{ fontSize: "3.5rem" }} />}
-            </IconButton>
-          }
+          {location.pathname?.includes("/post") &&
+            isMobile &&
+            token?.length && (
+              <IconButton
+                style={{
+                  color: "#fff",
+                  position: "fixed",
+                  bottom: "10%",
+                  right: "3%",
+                  backgroundColor: "#ff69c4",
+                  zIndex: 99999999,
+                }}
+                aria-label="fingerprint"
+                color="secondary"
+                onClick={() => setOpenTweet(!openTweet)}
+              >
+                {<HiChatBubbleLeftEllipsis style={{ fontSize: "3.5rem" }} />}
+              </IconButton>
+            )}
           {
             <Drawer
               anchor="bottom"
@@ -386,7 +429,9 @@ export default function ViewTweet({ closePopup, isMobile }) {
                     onClick={() => createComment()}
                     className="muro-send-tweet-button"
                   >
-                    {location.pathname.includes('/post') ? 'Responder' : 'Postear'}
+                    {location.pathname.includes("/post")
+                      ? "Responder"
+                      : "Postear"}
                   </button>
                 </div>
                 <div
@@ -404,9 +449,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
                         objectFit: "cover",
                         borderRadius: "100%",
                       }}
-                      src={
-                        Avatar
-                      }
+                      src={Avatar}
                     />
                   </div>
                   <div
@@ -417,7 +460,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
                     }}
                   >
                     <TextField
-                      label='Publica tu respuesta'
+                      label="Publica tu respuesta"
                       variant="outlined"
                       fullWidth
                       value={comment}
@@ -440,17 +483,17 @@ export default function ViewTweet({ closePopup, isMobile }) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -462,7 +505,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
                           opacity: 1,
                         },
                       }}
-                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
@@ -479,8 +522,8 @@ export default function ViewTweet({ closePopup, isMobile }) {
               </Box>
             </Drawer>
           }
-          {renderComments()}
 
+          {renderComments()}
         </div>
       </div>
     </div>
