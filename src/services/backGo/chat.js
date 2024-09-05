@@ -23,6 +23,28 @@ export async function actionsModeratorChatStream(action, actionAgainst, timeOut,
         return error
     }
 }
+export async function RedisFindMatchingUsersInRoomByPrefix(NameUser, Room, token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/RedisFindMatchingUsersInRoomByPrefix`,
+            {
+                NameUser,
+                Room,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
+
+
+
 export async function ActionIdentidadUser(room, Color, Identidad, token) {
     try {
         const response = await axios.post(

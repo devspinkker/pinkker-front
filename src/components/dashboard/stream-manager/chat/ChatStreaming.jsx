@@ -29,6 +29,7 @@ import {
   anclarChatMessage,
   deleteChatMessage,
   desanclarChatMessage,
+  RedisFindMatchingUsersInRoomByPrefix,
 } from "../../../../services/backGo/chat";
 import { useNotification } from "../../../Notifications/NotificationProvider";
 import DropdownChatConfig from "../../../channel/chat/dropdown/config/DropdownChatConfig";
@@ -87,6 +88,114 @@ export function ChatStreaming({
   const closeNavbarDropdownEmotes = () => {
     setisNavbarOpenDropdownEmotes(!isNavbarOpenDropdownEmotes);
   };
+
+  // selcecionar sugerencia
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
+  const [suggestedUsers, setSuggestedUsers] = useState([]);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowDown") {
+      setActiveSuggestionIndex((prevIndex) =>
+        Math.min(prevIndex + 1, suggestedUsers.length - 1)
+      );
+      e.preventDefault();
+    } else if (e.key === "ArrowUp") {
+      setActiveSuggestionIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+      e.preventDefault();
+    } else if (e.key === "Enter") {
+      if (activeSuggestionIndex >= 0) {
+        console.log(suggestedUsers[activeSuggestionIndex]);
+
+        handleSuggestionSelect(suggestedUsers[activeSuggestionIndex]);
+      }
+      e.preventDefault();
+    }
+  };
+
+  useEffect(() => {
+    if (suggestedUsers?.length > 0) {
+      document.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [suggestedUsers, activeSuggestionIndex]);
+
+  // buscqueda de usuario en el chat
+
+  const handleSuggestionSelect = (suggestion) => {
+    const content = inputRef.current.innerHTML;
+    const atSymbolIndex = content.lastIndexOf("@");
+
+    if (atSymbolIndex !== -1) {
+      const trimmedContent = content.slice(atSymbolIndex + 1);
+      const spaceIndex = trimmedContent.indexOf(" ");
+
+      const afterAt =
+        spaceIndex === -1
+          ? trimmedContent
+          : trimmedContent.slice(0, spaceIndex);
+
+      const newContent =
+        content.slice(0, atSymbolIndex + 1) +
+        suggestion +
+        "&nbsp;" +
+        content.slice(atSymbolIndex + 1 + afterAt.length);
+
+      // Actualizar el contenido del input
+      inputRef.current.innerHTML = newContent;
+
+      // Establecer el mensaje y limpiar sugerencias
+      setMessage(newContent);
+      setSuggestedUsers([]); // Limpiar sugerencias
+
+      // Enfocar el campo de entrada
+      inputRef.current.focus();
+      // Mover el cursor al final del contenido
+      const range = document.createRange();
+      const sel = window.getSelection();
+      range.selectNodeContents(inputRef.current);
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  };
+
+  const token = window.localStorage.getItem("token");
+  const detectAtSymbolAndFetchUsers = async (content) => {
+    const atSymbolIndex = content.lastIndexOf("@");
+    if (atSymbolIndex !== -1) {
+      const trimmedContent = content.slice(atSymbolIndex + 1).trim();
+      const spaceIndex = trimmedContent.indexOf(" ");
+
+      const afterAt =
+        spaceIndex === -1
+          ? trimmedContent
+          : trimmedContent.slice(0, spaceIndex).trim();
+
+      const cleanAfterAt = afterAt.replace(/&nbsp;/g, "").trim();
+
+      const remainingText =
+        spaceIndex === -1 ? "" : trimmedContent.slice(spaceIndex).trim();
+
+      if (cleanAfterAt.length > 0 && remainingText === "") {
+        try {
+          console.log(cleanAfterAt);
+
+          const users = await RedisFindMatchingUsersInRoomByPrefix(
+            cleanAfterAt,
+            streamerChat.id,
+            token
+          );
+          setSuggestedUsers(users.active);
+        } catch (error) {
+          console.log("no encontrado");
+        }
+      }
+    }
+  };
+
   // manejo de los msj en el chat
   const [message, setMessage] = useState("");
 
@@ -143,8 +252,17 @@ export function ChatStreaming({
     insertHTMLAtCaret(imgHTML);
   };
 
-  const handleInput = () => {
-    setMessage(inputRef.current.innerHTML);
+  // const handleInput = () => {
+  //   detectAtSymbolAndFetchUsers(inputRef.current.innerHTML);
+  //   setMessage(inputRef.current.innerHTML);
+  // };
+
+  const handleInput = (event) => {
+    const content = inputRef.current.innerHTML;
+    const cursorPosition = window.getSelection().getRangeAt(0).startOffset;
+
+    setMessage(content);
+    detectAtSymbolAndFetchUsers(content, cursorPosition); // Detecta solo si el cursor está cerca del @
   };
 
   const getPlainTextMessage = () => {
@@ -185,6 +303,7 @@ export function ChatStreaming({
     if (inputRef.current) {
       inputRef.current.innerHTML = "";
       setMessage("");
+      setSuggestedUsers([]);
     }
   };
   const handleSubmit = (e) => {
@@ -206,7 +325,6 @@ export function ChatStreaming({
       ToggleChat(false);
     }
 
-    const token = window.localStorage.getItem("token");
     const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
     const newSocket = new WebSocket(
       `${REACT_APP_BACKCHATWS}/ws/chatStreaming/${streamerChat.id}/${token}`
@@ -783,11 +901,13 @@ export function ChatStreaming({
         setResMessageschat(null);
 
         setMessage("");
+        setSuggestedUsers([]);
         return;
       }
       setResMessageschat(null);
 
       setMessage("");
+      setSuggestedUsers([]);
       return;
     }
 
@@ -800,11 +920,13 @@ export function ChatStreaming({
         setResMessageschat(null);
 
         setMessage("");
+        setSuggestedUsers([]);
         return;
       }
       setResMessageschat(null);
 
       setMessage("");
+      setSuggestedUsers([]);
       return;
     }
     if (message.startsWith("/unvip")) {
@@ -817,11 +939,13 @@ export function ChatStreaming({
         setResMessageschat(null);
 
         setMessage("");
+        setSuggestedUsers([]);
         return;
       }
       setResMessageschat(null);
 
       setMessage("");
+      setSuggestedUsers([]);
       return;
     }
     if (message.startsWith("/ban")) {
@@ -833,11 +957,13 @@ export function ChatStreaming({
         setResMessageschat(null);
 
         setMessage("");
+        setSuggestedUsers([]);
         return;
       }
       setResMessageschat(null);
 
       setMessage("");
+      setSuggestedUsers([]);
       return;
     }
     if (message.startsWith("/unban")) {
@@ -849,11 +975,13 @@ export function ChatStreaming({
         setResMessageschat(null);
 
         setMessage("");
+        setSuggestedUsers([]);
         return;
       }
       setResMessageschat(null);
 
       setMessage("");
+      setSuggestedUsers([]);
       return;
     }
     if (message.startsWith("/mod")) {
@@ -865,11 +993,13 @@ export function ChatStreaming({
         setResMessageschat(null);
 
         setMessage("");
+        setSuggestedUsers([]);
         return;
       }
       setResMessageschat(null);
 
       setMessage("");
+      setSuggestedUsers([]);
       return;
     }
     if (message.startsWith("/unmod")) {
@@ -881,15 +1011,18 @@ export function ChatStreaming({
         setResMessageschat(null);
 
         setMessage("");
+        setSuggestedUsers([]);
         return;
       }
       setResMessageschat(null);
 
       setMessage("");
+      setSuggestedUsers([]);
       return;
     }
     setResMessageschat(null);
     setMessage("");
+    setSuggestedUsers([]);
     const textplain = getPlainTextMessage();
 
     try {
@@ -1100,73 +1233,84 @@ export function ChatStreaming({
   function parseMessage(message) {
     const urlRegex = /(https?:\/\/\S+)/g;
     const imgRegex = /<img.*?src=['"](.*?)['"].*?>/g;
-    const parts = message.split(urlRegex);
+    const mentionRegex = /@(\w+)/g;
 
-    return parts.map((part, index) => {
-      if (part.match(urlRegex)) {
-        // Si la parte del mensaje es una URL
-        if (part.includes("res.cloudinary.com/depcty8j1/")) {
-          // Decodificamos la URL para manejar los caracteres especiales correctamente
-          const decodedUrl = decodeURIComponent(part);
-          // Cortamos la URL a partir del símbolo &
-          const cutoffIndex = decodedUrl.indexOf("&");
-          const imageUrl =
-            cutoffIndex !== -1
-              ? decodedUrl.substring(0, cutoffIndex)
-              : decodedUrl;
+    let content = message
+      .split(urlRegex)
+      .map((part, index) => {
+        if (part.match(urlRegex)) {
+          // Si la parte del mensaje es una URL
+          if (part.includes("res.cloudinary.com/depcty8j1/")) {
+            // Decodificamos la URL para manejar los caracteres especiales correctamente
+            const decodedUrl = decodeURIComponent(part);
+            // Cortamos la URL a partir del símbolo &
+            const cutoffIndex = decodedUrl.indexOf("&");
+            const imageUrl =
+              cutoffIndex !== -1
+                ? decodedUrl.substring(0, cutoffIndex)
+                : decodedUrl;
 
-          // Devolvemos la etiqueta img con la URL cortada como src
-          return (
-            <img
-              key={index}
-              src={imageUrl}
-              style={{ width: "20px", height: "auto" }}
-              alt="Image"
-            />
-          );
-        } else {
-          // Si no es una URL de res.cloudinary.com/depcty8j1/, devolvemos un enlace
-          return (
-            <a
-              key={index}
-              href={part}
-              target="_blank"
-              style={{
-                color: "inherit",
-                textDecoration: "inherit",
-                borderBottom: "1px solid #ffff",
-                padding: "0px",
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {part}
-            </a>
-          );
-        }
-      } else if (part.match(imgRegex)) {
-        // Si la parte del mensaje es una etiqueta img
-        return part.replace(imgRegex, (match, src) => {
-          if (src.includes("res.cloudinary.com/depcty8j1/")) {
-            // Si el src coincide con res.cloudinary.com/depcty8j1/, reemplazamos la etiqueta img con un párrafo
-            return `${match}`;
+            // Devolvemos la etiqueta img con la URL cortada como src
+            return (
+              <img
+                key={index}
+                src={imageUrl}
+                style={{ width: "20px", height: "auto" }}
+                alt="Image"
+              />
+            );
           } else {
-            // Si el src no coincide con res.cloudinary.com/depcty8j1/, devolvemos la etiqueta img original
-            return match;
+            // Si no es una URL de res.cloudinary.com/depcty8j1/, devolvemos un enlace
+            return (
+              <a
+                key={index}
+                href={part}
+                target="_blank"
+                style={{
+                  color: "inherit",
+                  textDecoration: "inherit",
+                  borderBottom: "1px solid #ffff",
+                  padding: "0px",
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {part}
+              </a>
+            );
           }
-        });
+        } else if (part.match(imgRegex)) {
+          // Si la parte del mensaje es una etiqueta img
+          return part.replace(imgRegex, (match, src) => {
+            if (src.includes("res.cloudinary.com/depcty8j1/")) {
+              // Si el src coincide con res.cloudinary.com/depcty8j1/, reemplazamos la etiqueta img con un párrafo
+              return `${match}`;
+            } else {
+              // Si el src no coincide con res.cloudinary.com/depcty8j1/, devolvemos la etiqueta img original
+              return match;
+            }
+          });
+        }
+        return part;
+      })
+      .join("");
+
+    // Comprobar menciones
+    let isMentioned = false;
+    let mentionMatch;
+    while ((mentionMatch = mentionRegex.exec(message)) !== null) {
+      const mentionedUser = mentionMatch[1];
+      if (mentionedUser === user?.NameUser) {
+        isMentioned = true;
+        break;
       }
-      return part;
-    });
+    }
+
+    return {
+      content: content,
+      isMentioned: isMentioned,
+    };
   }
 
-  function isValidURL(string) {
-    try {
-      new URL(string);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
   return (
     <div
       className="ChatStreaming"
@@ -1345,7 +1489,7 @@ export function ChatStreaming({
                         {MsjChatAnclado.nameUser}:{" "}
                       </span>
                       <span style={{ color: "#ffff" }}>
-                        {parseMessage(MsjChatAnclado.message)}
+                        {parseMessage(MsjChatAnclado.message).content}
                       </span>
                     </p>
                   </div>
@@ -1624,7 +1768,7 @@ export function ChatStreaming({
                 <FaReply className="grey-icon" />
                 <span> Respondio </span>
                 <span> @{message.ResNameUser}:</span>
-                <span> {parseMessage(message.ResMessage)}</span>
+                <span> {parseMessage(message.ResMessage).content}</span>
               </div>
             )}
             <div className="ChatStreaming-message-main">
@@ -1665,7 +1809,7 @@ export function ChatStreaming({
                         {message.nameUser}:{" "}
                       </span>
                       <span style={{ color: "#ffff" }}>
-                        {parseMessage(message.message)}
+                        {parseMessage(message.message).content}
                       </span>
                     </p>
                   </div>
@@ -1773,14 +1917,19 @@ export function ChatStreaming({
               key={index}
               className="Message"
               onClick={() => GetUserTheChatFunc(message)}
-              style={{ cursor: "pointer" }}
+              style={{
+                cursor: "pointer",
+                border:
+                  parseMessage(message.message).isMentioned &&
+                  "1px solid #ff69c4",
+              }}
             >
               {message.ResMessage != "" && (
                 <div className="ResMessage">
                   <FaReply className="grey-icon" />
                   <span> Respondio </span>
                   <span> @{message.ResNameUser}:</span>
-                  <span> {parseMessage(message.ResMessage)}</span>
+                  <span>{parseMessage(message.ResMessage).content}</span>
                 </div>
               )}
               <div className="ChatStreaming-message-main">
@@ -1820,8 +1969,12 @@ export function ChatStreaming({
                         <span className="content-info-message-2-nameUser-span">
                           {message.nameUser}:{" "}
                         </span>
-                        <span style={{ color: "#ffff" }}>
-                          {parseMessage(message.message)}
+                        <span
+                          style={{
+                            color: "#ffff",
+                          }}
+                        >
+                          {parseMessage(message.message).content}
                         </span>
                       </p>
                     </div>
@@ -1935,7 +2088,7 @@ export function ChatStreaming({
                       {ResMessageschatState.nameUser}:{" "}
                     </span>
                     <span style={{ color: "#ffff" }}>
-                      {parseMessage(ResMessageschatState.message)}
+                      {parseMessage(ResMessageschatState.message).content}
                     </span>
                   </p>
                 </div>
@@ -1959,6 +2112,21 @@ export function ChatStreaming({
             </div>
           </div>
         )}
+        <div className="suggestedUsers">
+          {suggestedUsers?.length > 0 &&
+            suggestedUsers.map((u, index) => (
+              <span
+                key={u}
+                className={`suggestedUsers-span ${
+                  index === activeSuggestionIndex ? "active" : ""
+                }`}
+                onClick={() => handleSuggestionSelect(u)}
+              >
+                {u}
+              </span>
+            ))}
+        </div>
+
         {ModChat === "Following" && (followParam || FollowParamOwnner) && (
           <form className="ChatStreaming_form" onSubmit={handleSubmit}>
             <span
