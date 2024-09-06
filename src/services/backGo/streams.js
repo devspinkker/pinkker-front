@@ -7,6 +7,29 @@ export const setToken = (newObject) => {
 
 const baseURL = process.env.REACT_APP_BACKGO;
 
+
+export const DeleteStreamSummaryByIDAndStreamerID = async (page, IdClip, token) => {
+	try {
+		const response = await axios.get(`${url}/streamers/DeleteStreamSummaryByIDAndStreamerID?IdClip=${page}&title=${IdClip}`, {
+			headers: { Authorization: token },
+		})
+		return response;
+	} catch (error) {
+		return error
+	}
+}
+export const UpdateStreamSummaryByIDAndStreamerID = async (page, IdClip, token) => {
+	try {
+		const response = await axios.get(`${url}/streamers/UpdateStreamSummaryByIDAndStreamerID??IdClip=${page}&title=${IdClip}`, {
+			headers: { Authorization: token },
+		})
+		return response;
+	} catch (error) {
+		return error
+	}
+};
+
+
 export async function getStreamById(streamId) {
 	try {
 		const response = await axios.post(`${baseURL}/stream/getStreamById`, {

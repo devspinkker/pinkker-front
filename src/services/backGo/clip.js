@@ -193,6 +193,29 @@ export const GetClipCommentsLoguedo = async (page, IdClip, token) => {
         return error
     }
 };
+
+export const UpdateClipTitle = async (page, IdClip, token) => {
+    try {
+        const response = await axios.get(`${url}/clips/UpdateClipTitle?IdClip=${page}&title=${IdClip}`, {
+            headers: { Authorization: token },
+        })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+export const DeleteClipByIDAndUserID = async (page, IdClip, token) => {
+    try {
+        const response = await axios.get(`${url}/clips/DeleteClipByIDAndUserID?IdClip=${IdClip}`, {
+            headers: { Authorization: token },
+        })
+        return response;
+    } catch (error) {
+        return error
+    }
+};
+
+
 export const MoreViewOfTheClip = async (ClipId) => {
     try {
         const res = await axios.post(
