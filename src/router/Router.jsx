@@ -66,6 +66,7 @@ import StreamSummaryAnalytics from "../components/dashboard/analytics/StreamSumm
 import Ingresos from "../components/dashboard/Ingresos/Ingresos";
 import Contenido from "../components/dashboard/contenido/Contenido";
 import Comentarios from "../components/dashboard/comentarios/Comentarios";
+import FloatingPlayer from "../components/FlotingPlayer/FloatingPlayer";
 
 const AppRouter = () => {
   const { user } = useContext(AuthContext);
@@ -163,6 +164,7 @@ const AppRouter = () => {
   }
   return (
     <Router>
+      <FloatingPlayer />
       <LastLocationProvider>
         {/* {isMobile &&
           <Navbar
@@ -260,11 +262,7 @@ const AppRouter = () => {
             setExpanded={setExpanded}
           ></NavbarLeft> */}
           {/* <NAnalytics user={user} /> */}
-          <Ingresos
-            user={user}
-            tyExpanded={expanded}
-            isMobile={isMobile}
-          />
+          <Ingresos user={user} tyExpanded={expanded} isMobile={isMobile} />
         </Route>
         <Route exact path="/:streamer/dashboard/contenido">
           {/* <NavbarLeft
@@ -275,11 +273,7 @@ const AppRouter = () => {
             setExpanded={setExpanded}
           ></NavbarLeft> */}
           {/* <NAnalytics user={user} /> */}
-          <Contenido
-            user={user}
-            tyExpanded={expanded}
-            isMobile={isMobile}
-          />
+          <Contenido user={user} tyExpanded={expanded} isMobile={isMobile} />
         </Route>
         <Route exact path="/:streamer/dashboard/comentarios">
           {/* <NavbarLeft
@@ -290,11 +284,7 @@ const AppRouter = () => {
             setExpanded={setExpanded}
           ></NavbarLeft> */}
           {/* <NAnalytics user={user} /> */}
-          <Comentarios
-            user={user}
-            tyExpanded={expanded}
-            isMobile={isMobile}
-          />
+          <Comentarios user={user} tyExpanded={expanded} isMobile={isMobile} />
         </Route>
         <Route exact path="/:streamer/dashboard/community">
           <NavbarLeft
@@ -310,7 +300,6 @@ const AppRouter = () => {
         <NLayout
           isMobile={isMobile}
           user={user}
-
           tyExpanded={expanded}
           setExpanded={setExpanded}
           txExpandedLeft={expandedLeft}

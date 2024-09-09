@@ -1,0 +1,88 @@
+.FloatingPlayer {
+    position: fixed;
+    top: 73%;
+    left: 1%;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 999999999999999;
+    overflow: hidden;
+}
+
+.FloatingPlayer-container {
+    position: relative;
+    width: 100%;
+}
+
+.player-header {
+    display: flex;
+    /* Muestra el encabezado por defecto en el hover */
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    z-index: 10;
+    justify-content: space-between;
+    align-items: center;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.FloatingPlayer:hover .player-header {
+    opacity: 1;
+    visibility: visible;
+}
+
+.player-header span {
+    font-size: 1.2rem;
+}
+
+.close-button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.player-controls {
+    display: flex;
+    /* Muestra los controles por defecto en el hover */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.FloatingPlayer:hover .player-controls {
+    opacity: 1;
+    visibility: visible;
+}
+
+#Player-Floating {
+    width: 280px !important;
+}
+
+.pinkker-button-more {
+    color: white;
+    font-size: 1.5rem;
+    padding: 10px;
+}
+
+.player-controls>svg {
+    padding: 10px;
+}

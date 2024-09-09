@@ -30,7 +30,7 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
   const handleCommercialEnded = async () => {
     let token = window.localStorage.getItem("token");
     await AdsAddStreamSummary(token, streamerDataID, Commercial._id);
-  setCommercial(null)
+    setCommercial(null)
   };
 
   const playCommercial = () => {
