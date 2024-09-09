@@ -64,6 +64,8 @@ import AuthContext from "../components/AuthContext";
 import ChannelVods from "../components/channel/ChannelVods";
 import StreamSummaryAnalytics from "../components/dashboard/analytics/StreamSummaryAnalytics";
 import Ingresos from "../components/dashboard/Ingresos/Ingresos";
+import Contenido from "../components/dashboard/contenido/Contenido";
+import Comentarios from "../components/dashboard/comentarios/Comentarios";
 
 const AppRouter = () => {
   const { user } = useContext(AuthContext);
@@ -264,6 +266,36 @@ const AppRouter = () => {
             isMobile={isMobile}
           />
         </Route>
+        <Route exact path="/:streamer/dashboard/contenido">
+          {/* <NavbarLeft
+            isMobile={isMobile}
+            tyExpanded={expanded}
+            user={user}
+            tyDashboard={true}
+            setExpanded={setExpanded}
+          ></NavbarLeft> */}
+          {/* <NAnalytics user={user} /> */}
+          <Contenido
+            user={user}
+            tyExpanded={expanded}
+            isMobile={isMobile}
+          />
+        </Route>
+        <Route exact path="/:streamer/dashboard/comentarios">
+          {/* <NavbarLeft
+            isMobile={isMobile}
+            tyExpanded={expanded}
+            user={user}
+            tyDashboard={true}
+            setExpanded={setExpanded}
+          ></NavbarLeft> */}
+          {/* <NAnalytics user={user} /> */}
+          <Comentarios
+            user={user}
+            tyExpanded={expanded}
+            isMobile={isMobile}
+          />
+        </Route>
         <Route exact path="/:streamer/dashboard/community">
           <NavbarLeft
             isMobile={isMobile}
@@ -278,7 +310,7 @@ const AppRouter = () => {
         <NLayout
           isMobile={isMobile}
           user={user}
-          
+
           tyExpanded={expanded}
           setExpanded={setExpanded}
           txExpandedLeft={expandedLeft}
@@ -295,10 +327,6 @@ const AppRouter = () => {
                 socketMain={socketMain}
                 handleMessage={(e) => addOpenMessage(e)}
               />
-            </Route>
-
-            <Route exact path="/:streamer/dashboard/content">
-              <Content />
             </Route>
 
             <Route exact path="/:streamer/settings">

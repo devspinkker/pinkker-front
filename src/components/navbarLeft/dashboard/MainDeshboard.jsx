@@ -7,7 +7,8 @@ import { GrHomeRounded } from "react-icons/gr";
 import { HiStatusOnline } from "react-icons/hi";
 import { SiSimpleanalytics } from "react-icons/si";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
-import { MdOndemandVideo } from "react-icons/md";
+import { MdOndemandVideo, MdOutlinePermMedia } from "react-icons/md";
+import { LiaCommentSolid } from "react-icons/lia";
 
 export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
   const [expandedMenus, setExpandedMenus] = useState({
@@ -129,37 +130,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
               </li>
             </Link>
 
-            <Link
-              style={{ textDecoration: "none" }}
-              className="menu-aside-option"
-              to={"/" + user?.NameUser + "/dashboard/stream"}
-            >
-              <li
-                style={{
-                  color: "white",
-                  display: "flex",
-                  gap: "10px",
-                  alignItems: "center",
-                  width: "100% !important",
-                  padding: tyExpanded ? "0rem 15px" : "0px",
-                  justifyContent: !tyExpanded ? "center" : "flex-start",
-                  animation: !tyExpanded && "ease-in-out 1s linear",
-                }}
-
-                className={
-                  location.pathname === `/${user?.NameUser}/dashboard/contenido`
-                    ? "item-liActive"
-                    : "item-li"
-                }
-              >
-                <MdOndemandVideo />
-                {/* <i
-                    style={{ position: "relative", fontSize: "20px" }}
-                    class="fa fa-home"
-                  /> */}
-                {tyExpanded && <span>{"Contenido"}</span>}
-              </li>
-            </Link>
+            
             <Link
               style={{ textDecoration: "none" }}
               className="menu-aside-option"
@@ -219,6 +190,66 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                     class="fa fa-home"
                   /> */}
                 {tyExpanded && <span>{"Ingresos"}</span>}
+              </li>
+            </Link>
+            <Link
+              style={{ textDecoration: "none" }}
+              className="menu-aside-option"
+              to={"/" + user?.NameUser + "/dashboard/contenido"}
+            >
+              <li
+                style={{
+                  color: "white",
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "100% !important",
+                  padding: tyExpanded ? "0rem 15px" : "0px",
+                  justifyContent: !tyExpanded ? "center" : "flex-start",
+                  animation: !tyExpanded && "ease-in-out 1s linear",
+                }}
+                className={
+                  location.pathname === `/${user?.NameUser}/dashboard/contenido`
+                    ? "item-liActive"
+                    : "item-li"
+                }
+              >
+                <MdOutlinePermMedia  />
+                {/* <i
+                    style={{ position: "relative", fontSize: "20px" }}
+                    class="fa fa-home"
+                  /> */}
+                {tyExpanded && <span>{"Contenido"}</span>}
+              </li>
+            </Link>
+            <Link
+              style={{ textDecoration: "none" }}
+              className="menu-aside-option"
+              to={"/" + user?.NameUser + "/dashboard/comentarios"}
+            >
+              <li
+                style={{
+                  color: "white",
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "100% !important",
+                  padding: tyExpanded ? "0rem 15px" : "0px",
+                  justifyContent: !tyExpanded ? "center" : "flex-start",
+                  animation: !tyExpanded && "ease-in-out 1s linear",
+                }}
+                className={
+                  location.pathname === `/${user?.NameUser}/dashboard/comentarios`
+                    ? "item-liActive"
+                    : "item-li"
+                }
+              >
+                <LiaCommentSolid   />
+                {/* <i
+                    style={{ position: "relative", fontSize: "20px" }}
+                    class="fa fa-home"
+                  /> */}
+                {tyExpanded && <span>{"Comentarios"}</span>}
               </li>
             </Link>
 

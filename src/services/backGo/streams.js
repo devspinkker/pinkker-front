@@ -8,9 +8,9 @@ export const setToken = (newObject) => {
 const baseURL = process.env.REACT_APP_BACKGO;
 
 
-export const DeleteStreamSummaryByIDAndStreamerID = async (page, IdClip, token) => {
+export const DeleteStreamSummaryByIDAndStreamerID = async (IdVod, token) => {
 	try {
-		const response = await axios.get(`${url}/streamers/DeleteStreamSummaryByIDAndStreamerID?IdClip=${page}&title=${IdClip}`, {
+		const response = await axios.get(`${baseURL}/streamers/DeleteStreamSummaryByIDAndStreamerID?Idvod=${IdVod}`, {
 			headers: { Authorization: token },
 		})
 		return response;
@@ -20,7 +20,7 @@ export const DeleteStreamSummaryByIDAndStreamerID = async (page, IdClip, token) 
 }
 export const UpdateStreamSummaryByIDAndStreamerID = async (page, IdClip, token) => {
 	try {
-		const response = await axios.get(`${url}/streamers/UpdateStreamSummaryByIDAndStreamerID??IdClip=${page}&title=${IdClip}`, {
+		const response = await axios.get(`${baseURL}/streamers/UpdateStreamSummaryByIDAndStreamerID?Idvod=${page}&title=${IdClip}`, {
 			headers: { Authorization: token },
 		})
 		return response;

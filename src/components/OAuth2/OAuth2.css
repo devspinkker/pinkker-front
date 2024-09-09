@@ -63,9 +63,7 @@ button {
     transition: background-color 0.3s;
     margin-left: auto;
 
-    &:hover {
-        background-color: #4c0b39;
-    }
+ 
 }
 
 

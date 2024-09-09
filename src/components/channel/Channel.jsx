@@ -63,7 +63,7 @@ export default function Channel({
   handleMessage,
 }) {
   const [user, setUser] = useState(null);
-  console.log("user", user);
+
   const token = useSelector((state) => state.token);
   const { streamer } = useParams();
   const usersOnline = useSelector((state) => state.streamers);
@@ -1369,6 +1369,8 @@ export default function Channel({
     }
   }
   const [chatExpandedMobile, setchatExpandedMobile] = useState(false);
+
+  
   function changeType(typeD) {
     if (typeD == 9) {
       setchatExpandedMobile(true);

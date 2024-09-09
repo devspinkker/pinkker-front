@@ -204,7 +204,7 @@ export const UpdateClipTitle = async (page, IdClip, token) => {
         return error
     }
 }
-export const DeleteClipByIDAndUserID = async (page, IdClip, token) => {
+export const DeleteClipByIDAndUserID = async (IdClip, token) => {
     try {
         const response = await axios.get(`${url}/clips/DeleteClipByIDAndUserID?IdClip=${IdClip}`, {
             headers: { Authorization: token },

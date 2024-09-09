@@ -159,7 +159,9 @@ code {
   outline: 1px solid #ff60b2;
 }
 
-
+.css-11yukd5-MuiTabs-indicator{
+  background-color: #ff60b2 !important;
+}
 .button-like {
   background-color: transparent;
   color: lightgray;
