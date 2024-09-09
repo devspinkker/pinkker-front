@@ -316,6 +316,22 @@ export default function MessageChat({
           className="messagechat-closed"
         >
           <div className="messagechat-InfoUserTo">
+            <div
+              style={{
+                margin: "10px",
+                fontSize: "5px",
+              }}
+            >
+              {to.Partner.Active === true && (
+                <Emblem
+                  chat={true}
+                  name="Pinkker Prime"
+                  img={
+                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                  }
+                />
+              )}
+            </div>
             {NotifyState && (
               <span className="messagechat-InfoUserTo-noti"></span>
             )}
@@ -341,15 +357,6 @@ export default function MessageChat({
               />
             </div>
           </div>
-          {to.Partner.Active === true && (
-            <Emblem
-              chat={true}
-              name="Pinkker Prime"
-              img={
-                "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
-              }
-            />
-          )}
         </div>
       )}
     </div>

@@ -17,7 +17,15 @@
 .ContNewChat {
     display: flex;
     flex-direction: column;
-    width: 160px;
+    width: 223px;
+}
+
+.avatar-selectedUser {
+    width: 29px;
+    height: 30px;
+    border-radius: 20px;
+    position: relative;
+    object-fit: cover;
 }
 
 .MessageChatContent {
@@ -26,6 +34,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    margin: 3px;
 }
 
 .search-container {
@@ -48,10 +57,18 @@
 }
 
 .user-info {
+
+    display: flex;
     margin-top: 10px;
     color: #fff;
     font-weight: bolder;
     font-family: "inter";
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-info>p {
+    padding: 10px;
 }
 
 .open-chat-button {

@@ -165,12 +165,44 @@ export default function Message({
     <div className="message-body">
       <div className="ContNewChat">
         <div className="message-bodysearch-input">
-          <input
-            type="text"
-            placeholder="Buscar usuario"
-            onChange={(e) => setSearchTerm(e.target.value)}
-            value={searchTerm}
-          />
+          <div
+            style={{
+              padding: "0 0 0 1rem",
+              height: "3rem",
+              lineHeight: 2,
+              display: "flex",
+              width: "88% !important",
+              cursor: "pointer",
+            }}
+            className={"navbar-search-dark"}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "50px",
+              }}
+            >
+              <img
+                src="/images/search.svg"
+                style={{
+                  fontSize: "16px",
+                  color: "rgb(89 89 89)",
+                  margin: "8px",
+                }}
+              />
+
+              <input
+                style={{ fontSize: "16px" }}
+                type="search"
+                className="input-searchbar"
+                placeholder="Buscar usuario"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                value={searchTerm}
+              />
+            </div>
+          </div>
           {loading && (
             <Loader
               type="TailSpin"
@@ -181,11 +213,17 @@ export default function Message({
             />
           )}
           {selectedUser && (
-            <div className="user-info">
-              <p>{selectedUser.FullName}</p>
-              <button className="open-chat-button" onClick={handleAddChat}>
-                Chat with {selectedUser.NameUser}
-              </button>
+            <div className="user-info" onClick={handleAddChat}>
+              <img
+                src={selectedUser.Avatar}
+                alt=""
+                className="avatar-selectedUser"
+                // style={{ display:"block"}}
+              />
+              <p>{selectedUser.NameUser}</p>
+              {/* <button className="open-chat-button" >
+                Chat with {}
+              </button> */}
             </div>
           )}
         </div>
