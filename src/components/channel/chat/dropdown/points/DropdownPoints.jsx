@@ -163,7 +163,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
               <div>
                 <img
                   style={{ width: "40px" }}
-                  src="/images/donaciones/1000.png"
+                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927824/monedas/Recurso_5_wxh2ra.png"
                   alt=""
                 />
                 <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>3500</p>
@@ -180,7 +180,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
               <div>
                 <img
                   style={{ width: "42px" }}
-                  src="/images/donaciones/5000.png"
+                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927824/monedas/Recurso_1_c9gixs.png"
                   alt=""
                 />
                 <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>5500</p>
@@ -197,7 +197,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
               <div>
                 <img
                   style={{ width: "45px" }}
-                  src="/images/donaciones/10000.png"
+                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927823/monedas/PIXEL_VERDE_yqvfyf.png"
                   alt=""
                 />
                 <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>7000</p>
@@ -214,7 +214,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
               <div>
                 <img
                   style={{ width: "50px" }}
-                  src="/images/donaciones/50000.png"
+                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927823/monedas/pixel_dorado_snq7oh.png"
                   alt=""
                 />
                 <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>8500</p>

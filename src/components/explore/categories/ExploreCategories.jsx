@@ -47,7 +47,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
   const toggleSelect = () => {
     setSelectedVideo(!selectedVideo);
   };
-  console.log('ruta', ruta);
+  console.log("ruta", ruta);
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tipo = params.get("tipo");
@@ -63,7 +63,6 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
       setBarPosition(2);
       setFiltros({ clips: false, streams: false, categories: true });
       setRuta("categories");
-
     } else {
       setFiltros({ clips: false, streams: true, categories: false });
     }
@@ -101,8 +100,6 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
       await MoreViewOfTheClip(selectedVideo.video.id);
     }
   };
-
-
 
   const filter = (e, position) => {
     history.push(`/plataform/explore?tipo=${e}`);
@@ -169,22 +166,19 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           alignItems: "center",
           justifyContent: "space-between",
           borderBottom: "1px solid rgb(42, 46, 56)",
-          padding: isMobile ? "5px  5.8rem" :"0px  5.8rem",
+          padding: isMobile ? "5px  5.8rem" : "0px  5.8rem",
           margin: "1.5rem 0px 1.8rem 0px",
         }}
       >
         <h3 style={{ color: "white", fontSize: "30px" }}>
           {barPosition == 0 ? "Directos" : "Categorias"}
         </h3>
-        {
-          !isMobile && (
-
-            <img
-              src={"/images/ESTRELLA_PINKKER_ROSA.png"}
-              style={{ width: "10%" }}
-            />
-          )
-        }
+        {!isMobile && (
+          <img
+            src={"/images/ESTRELLA_PINKKER_ROSA.png"}
+            style={{ width: "10%" }}
+          />
+        )}
       </Grid>
       <div>{isMobile && <Search isMobile={isMobile} />}</div>
 
@@ -223,8 +217,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
         ></div> */}
 
       <div className="explorecategories-card-container">
-
-        {filtros?.categories &&(
+        {filtros?.categories && (
           <>
             <div
               style={{
@@ -265,7 +258,6 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                 </div>
               )}
 
-
               <div
                 className={
                   !sortedCategories()?.length
@@ -290,7 +282,15 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                       borderRadius: "5px",
                     }}
                   >
-                    <ImCross style={{ color: "red", fontSize: "3.5rem" }} />
+                    {/* <ImCross style={{ color: "red", fontSize: "3.5rem" }} /> */}
+                    <img
+                      style={{
+                        width: "9.5rem",
+                      }}
+                      src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927463/logos/Chancho_skull_jdtg05.png"
+                      alt="Chancho skull"
+                    />
+
                     <Typography
                       style={{
                         fontFamily: "Inter",
@@ -320,10 +320,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           </>
         )}
 
-        
-
-        {ruta === "streams" ?
-
+        {ruta === "streams" ? (
           streams ? (
             streams.map((stream) => (
               <CardStream
@@ -331,8 +328,8 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                   stream?.streamer && isMobile
                     ? "100%"
                     : stream?.streamer && !isMobile
-                      ? "30%"
-                      : "160px"
+                    ? "30%"
+                    : "160px"
                 }
                 isLoading={isLoading}
                 name={stream.streamer}
@@ -372,9 +369,11 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                 No hay Directos para mostrar
               </Typography>
             </Grid>
-          ) : null}
+          )
+        ) : null}
 
-        {filtros?.clips && ruta === "streams" &&
+        {filtros?.clips &&
+          ruta === "streams" &&
           clips &&
           clips.map((clips, index) => (
             <div

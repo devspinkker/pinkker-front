@@ -104,7 +104,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                   style={{ width: "35px" }}
                   src="/images/donaciones/100.png"
                 />
-                <h3>500 PXL</h3>
+                <h3>1000 PXL</h3>
                 <h4
                   style={{
                     marginTop: "10px",
@@ -123,9 +123,9 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
               <div>
                 <img
                   style={{ width: "35px" }}
-                  src="/images/donaciones/1000.png"
+                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927824/monedas/Recurso_5_wxh2ra.png"
                 />
-                <h3>1000 PXL</h3>
+                <h3>3500 PXL</h3>
                 <h4
                   style={{
                     marginTop: "10px",
@@ -133,7 +133,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                     fontWeight: "600",
                   }}
                 >
-                  500 AR$
+                  3500 AR$
                 </h4>
               </div>
             </div>
@@ -151,9 +151,9 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                 <div>
                   <img
                     style={{ width: "35px" }}
-                    src="/images/donaciones/1000.png"
+                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927824/monedas/Recurso_1_c9gixs.png"
                   />
-                  <h3>1500 PXL</h3>
+                  <h3>5500 PXL</h3>
                   <h4
                     style={{
                       marginTop: "10px",
@@ -161,7 +161,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                       fontWeight: "600",
                     }}
                   >
-                    1500 AR$
+                    5500 AR$
                   </h4>
                 </div>
               </div>
@@ -183,9 +183,9 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                 <div>
                   <img
                     style={{ width: "35px" }}
-                    src="/images/donaciones/5000.png"
+                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927823/monedas/PIXEL_VERDE_yqvfyf.png"
                   />
-                  <h3>5000 PXL</h3>
+                  <h3>7000 PXL</h3>
                   <h4
                     style={{
                       marginTop: "10px",
@@ -193,7 +193,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                       fontWeight: "600",
                     }}
                   >
-                    5000 AR$
+                    7000 AR$
                   </h4>
                 </div>
               </div>
@@ -217,7 +217,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                 <div>
                   <img
                     style={{ width: "35px" }}
-                    src="/images/donaciones/10000.png"
+                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927823/monedas/pixel_dorado_snq7oh.png"
                   />
                   <h3>10,000 PXL</h3>
                   <h4
@@ -249,9 +249,9 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                 <div>
                   <img
                     style={{ width: "35px" }}
-                    src="/images/donaciones/50000.png"
+                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927823/monedas/PIXEL_AZUL_o0xzeo.png"
                   />
-                  <h3>20,000 PXL</h3>
+                  <h3>50,000 PXL</h3>
                   <h4
                     style={{
                       marginTop: "10px",
@@ -259,7 +259,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                       fontWeight: "600",
                     }}
                   >
-                    20,000 AR$
+                    50,000 AR$
                   </h4>
                 </div>
               </div>

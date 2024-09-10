@@ -8,87 +8,99 @@ const FloatingPlayer = () => {
   const location = useLocation();
   const history = useHistory();
   const videoRef = useRef(null);
-  const [previousPath, setPreviousPath] = useState(null);
+  const [previousPath, setPreviousPath] = useState(null); // Para guardar la ruta anterior
   const [streamerData, setStreamerData] = useState(null);
-  const [showPlayer, setShowPlayer] = useState(true);
+  const [streamerName, setStreamerName] = useState(""); // Para mostrar el nombre del streamer
+  const [showPlayer, setShowPlayer] = useState(false); // Inicialmente ocultar el reproductor
   const [isPlaying, setIsPlaying] = useState(true); // Estado de reproducción
 
   useEffect(() => {
     const currentPath = location.pathname;
+    const pathParts = currentPath.split("/").filter(Boolean); // Obtener partes de la ruta actual
+    const isTopLevelRoute = pathParts.length === 1; // Verificar si es una ruta de nivel superior
 
-    const isTopLevelRoute = currentPath.split("/").length === 2;
-
-    if (currentPath !== "/" && isTopLevelRoute) {
-      setPreviousPath(currentPath);
+    if (previousPath !== currentPath) {
+      if (isTopLevelRoute && currentPath !== "/") {
+        // Estás en la página del usuario (ej: /bruno)
+        const nameUser = pathParts[0]; // Obtener el nombre del usuario de la ruta actual
+        fetchStreamerData(nameUser); // Obtener los datos del streamer
+        setShowPlayer(false); // Ocultar el reproductor mientras estás en esta página
+      } else if (previousPath) {
+        // Si sales de la ruta del usuario, mostrar el reproductor
+        setShowPlayer(true);
+      }
     }
 
-    async function GetUser() {
-      let nameUser = getPreviousRouteName();
-      const dataStreamer = await getUserByNameUser(nameUser);
+    setPreviousPath(currentPath); // Actualiza la ruta anterior
+  }, [location]);
 
+  // Función para obtener los datos del streamer
+  const fetchStreamerData = async (nameUser) => {
+    console.log("Nombre de usuario obtenido:", nameUser);
+
+    if (nameUser) {
+      const dataStreamer = await getUserByNameUser(nameUser);
       if (dataStreamer?.message === "ok") {
         const keyTransmission = dataStreamer.data?.keyTransmission?.substring(
           4,
           dataStreamer.data.keyTransmission.length
         );
+        console.log("Key de transmisión:", keyTransmission);
         setStreamerData(keyTransmission);
+        setStreamerName(nameUser); // Guardar el nombre del streamer
       }
-    }
-
-    GetUser();
-  }, [location]);
-
-  const getPreviousRouteName = () => {
-    if (previousPath) {
-      const pathParts = previousPath.split("/");
-      return pathParts[1];
-    }
-    return null;
-  };
-
-  const handleGoToPatch = () => {
-    if (previousPath) {
-      history.push(previousPath);
-      handleClearPlayer();
     }
   };
 
   const handleClearPlayer = () => {
-    setShowPlayer(false); // Oculta el reproductor y limpia el estado
+    setShowPlayer(false); // Ocultar el reproductor y limpiar el estado
     setStreamerData(null);
   };
 
   const videoHandler = () => {
-    if (isPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play();
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying); // Alternar estado de reproducción
     }
-    setIsPlaying(!isPlaying); // Alterna el estado de reproducción
+  };
+
+  const handleGoToStreamer = () => {
+    if (streamerName) {
+      history.push(`/${streamerName}`); // Redirigir a la página del streamer
+      handleClearPlayer(); // Limpiar el reproductor
+    }
   };
 
   const rtmp = process.env.REACT_APP_RTMP;
-  const streamUrl = streamerData ? `${rtmp}/${streamerData}` : null;
+
+  function srcRuta() {
+    return streamerData ? `${rtmp}/${streamerData}` : null;
+  }
 
   return (
     <div
       className="FloatingPlayer"
       style={{
-        display: (!showPlayer || !streamerData) && "none",
+        display: showPlayer && streamerData ? "block" : "none",
       }}
     >
       {showPlayer && streamerData ? (
         <div className="FloatingPlayer-container">
           <div className="player-header">
             <span>
-              Viendo a <strong>{getPreviousRouteName()}</strong>
+              Viendo a <strong>{streamerName}</strong>{" "}
+              {/* Mostrar nombre del streamer */}
             </span>
             <button className="close-button" onClick={handleClearPlayer}>
               X
             </button>
           </div>
           <FloatingPlayerReproduccion
-            src={streamUrl}
+            src={srcRuta()}
             videoRef={videoRef}
             height="360px"
             width="640px"
@@ -102,8 +114,9 @@ const FloatingPlayer = () => {
               } pinkker-button-more`}
               style={{ cursor: "pointer" }}
             />
+            {/* Botón para redirigir a la ruta del streamer */}
             <svg
-              onClick={handleGoToPatch}
+              onClick={handleGoToStreamer}
               stroke="currentColor"
               fill="currentColor"
               strokeWidth="0"
@@ -122,9 +135,7 @@ const FloatingPlayer = () => {
             </svg>
           </div>
         </div>
-      ) : (
-        <></>
-      )}
+      ) : null}
     </div>
   );
 };

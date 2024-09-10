@@ -130,8 +130,11 @@ export default function Muro({ streamer }) {
                 }}
               >
                 <img
-                  style={{ width: "100px" }}
-                  src="https://res.cloudinary.com/pinkker/image/upload/v1679518811/pinkker-ups_iqucmd.png"
+                  style={{
+                    width: "9.5rem",
+                  }}
+                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927463/logos/Chancho_skull_jdtg05.png"
+                  alt="Chancho skull"
                 />
                 <h2 style={{ color: "white" }}>
                   UPS! {streamer.NameUser} no tiene contenido que mostrar
