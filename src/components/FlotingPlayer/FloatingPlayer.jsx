@@ -36,16 +36,16 @@ const FloatingPlayer = () => {
 
   // Función para obtener los datos del streamer
   const fetchStreamerData = async (nameUser) => {
-    console.log("Nombre de usuario obtenido:", nameUser);
-
     if (nameUser) {
       const dataStreamer = await getUserByNameUser(nameUser);
       if (dataStreamer?.message === "ok") {
+        if (!dataStreamer.data.Online) {
+          return;
+        }
         const keyTransmission = dataStreamer.data?.keyTransmission?.substring(
           4,
           dataStreamer.data.keyTransmission.length
         );
-        console.log("Key de transmisión:", keyTransmission);
         setStreamerData(keyTransmission);
         setStreamerName(nameUser); // Guardar el nombre del streamer
       }
