@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import "./customPlayer.css";
 
@@ -13,11 +13,7 @@ import Slider from "@mui/material/Slider";
 import { Link } from "react-router-dom";
 
 import { useParams } from "react-router-dom";
-import { ScaleLoader } from "react-spinners";
-import { LuClapperboard } from "react-icons/lu";
-import { MdHd } from "react-icons/md";
 import ReactVideoPlayerVod from "../../player/PlayerVods";
-import { getStreamSummariesByID } from "../../services/backGo/streams";
 
 export default function CustomPlayer({
   isMobile,
@@ -34,8 +30,10 @@ export default function CustomPlayer({
   closePopup,
   streamerData,
   stream,
+  videoRef,
+  Vod,
 }) {
-  const videoRef = useRef();
+  // const videoRef = useRef();
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(false);
   const [volumePlayer, setVolumePlayer] = useState(0.5);
@@ -63,21 +61,9 @@ export default function CustomPlayer({
   };
 
   const [videoLoading, setVideoLoading] = useState(true);
-  const [Vod, SetVod] = useState(null);
-  const { streamer, idVod } = useParams();
-  useEffect(() => {
-    async function getVodId() {
-      try {
-        const res = await getStreamSummariesByID(idVod);
-        if (res.data?.id) {
-          SetVod(res.data);
-        }
-      } catch (error) {
-        SetVod(null);
-      }
-    }
-    getVodId();
-  }, [idVod]);
+
+  const { streamer } = useParams();
+
   useEffect(() => {
     if (videoRef.current != null && videoRef.current != undefined) {
       const videoPlayer = videoRef.current;

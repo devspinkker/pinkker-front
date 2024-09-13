@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect, Component, useRef } from "react";
 
 import "./Channel.css";
 import "../../components/dashboard/stream-manager/chat/ChatStreaming.css";
@@ -19,7 +19,10 @@ import CustomPlayer from "../customPlayer/customPlayerVod";
 import PopupFollowers from "../popup/PopupFollowers/PopupFollowers";
 
 import { getCategorieByName } from "../../services/categories";
-import { getStreamByUserName } from "../../services/backGo/streams";
+import {
+  getStreamByUserName,
+  getStreamSummariesByID,
+} from "../../services/backGo/streams";
 
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -48,7 +51,7 @@ import GiftSuscriptionDropdown from "./dropdown/giftsuscription/GiftSuscription"
 import { getStreamerGallery } from "../../services/gallery";
 import Muro from "./muro/Muro";
 import { follow, unfollow } from "../../services/backGo/user";
-import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
+import { ChatStreamingVods } from "../dashboard/stream-manager/chat/ChatStreamingVods";
 import "../../components/dashboard/stream-manager/chat/ChatStreaming.css";
 import ReactDOM from "react-dom";
 import { MemoryRouter } from "react-router-dom";
@@ -62,9 +65,53 @@ export default function Channel({
   expanded,
   handleMessage,
 }) {
+  const { streamer, idVod } = useParams();
+
+  const [VodData, SetVod] = useState(null);
+
+  const videoRef = useRef();
+  useEffect(() => {
+    async function getVodId() {
+      try {
+        const res = await getStreamSummariesByID(idVod);
+        if (res.data?.id) {
+          console.log(res.data);
+
+          SetVod(res.data);
+        }
+      } catch (error) {
+        SetVod(null);
+      }
+    }
+    getVodId();
+  }, [idVod]);
+  const [GetMessagesTime, setGetMessagesTime] = useState(null);
+
+  const calculateCurrentTime = () => {
+    if (videoRef.current && VodData?.StartOfStream) {
+      const elapsedSeconds = videoRef.current.currentTime;
+      const startOfStream = new Date(VodData.StartOfStream);
+
+      const currentTime = new Date(
+        startOfStream.getTime() + elapsedSeconds * 1000
+      );
+
+      const utcCurrentTime = currentTime.toISOString(); // UTC en formato ISO 8601
+
+      setGetMessagesTime(utcCurrentTime);
+    }
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      calculateCurrentTime();
+    }, 10000);
+
+    return () => clearInterval(intervalId);
+  }, [VodData]);
+
   const [user, setUser] = useState(null);
   const token = useSelector((state) => state.token);
-  const { streamer } = useParams();
   const usersOnline = useSelector((state) => state.streamers);
 
   const [followParam, setFollowParam] = useState(false);
@@ -152,7 +199,7 @@ export default function Channel({
       ReactDOM.render(
         <NotificationProvider>
           <MemoryRouter>
-            <ChatStreaming
+            <ChatStreamingVods
               openChatWindow={openChatWindow}
               streamerChat={stream}
               chatExpandeds={chatExpanded}
@@ -161,11 +208,11 @@ export default function Channel({
               user={user}
               isMobile={isMobile}
               followParam={followParam}
+              calculateCurrentTime={GetMessagesTime}
+              idVod={idVod}
             />
           </MemoryRouter>
-        </NotificationProvider>,
-
-        chatContainer
+        </NotificationProvider>
       );
 
       const handleUnload = () => {
@@ -1343,6 +1390,8 @@ export default function Channel({
         time={stream && stream.start_date}
         streamerData={streamerData}
         stream={stream}
+        videoRef={videoRef}
+        Vod={VodData}
       ></CustomPlayer>
     );
   }
@@ -1488,7 +1537,7 @@ export default function Channel({
                   </div>
                 )}
                 {isMobile && user && (
-                  <ChatStreaming
+                  <ChatStreamingVods
                     openChatWindow={openChatWindow}
                     streamerChat={stream}
                     chatExpandeds={chatExpanded}
@@ -1497,6 +1546,8 @@ export default function Channel({
                     user={user}
                     isMobile={isMobile}
                     followParam={followParam}
+                    calculateCurrentTime={GetMessagesTime}
+                    idVod={idVod}
                   />
                 )}
               </div>
@@ -1522,12 +1573,14 @@ export default function Channel({
                         vod={false}
                         streamerName={streamer}
                         time={stream && stream.start_date}
+                        videoRef={videoRef}
+                        Vod={VodData}
                       ></CustomPlayer>
                     )}
                   </div>
                 )}
 
-                <ChatStreaming
+                <ChatStreamingVods
                   openChatWindow={openChatWindow}
                   streamerChat={stream}
                   chatExpandeds={chatExpanded}
@@ -1536,6 +1589,8 @@ export default function Channel({
                   user={user}
                   isMobile={isMobile}
                   followParam={followParam}
+                  calculateCurrentTime={GetMessagesTime}
+                  idVod={idVod}
                 />
               </div>
             )}

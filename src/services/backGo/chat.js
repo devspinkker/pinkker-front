@@ -118,6 +118,23 @@ export async function HostChatMessage(roomID, data, token) {
     }
 }
 
+export async function getMessagesForSecond(vodId, startTime, endTime) {
+    try {
+        const response = await axios.get(
+            `${baseURL}/GetMessagesForSecond`,
+            {
+                params: {
+                    VodId: vodId,
+                    startTime: startTime,
+                    endTime: endTime,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
 export async function desanclarChatMessage(roomID, messageID, token) {
     try {
         const response = await axios.get(
