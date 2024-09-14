@@ -68,9 +68,8 @@ export function ChatStreamingVods({
         totalDelay += delay;
 
         setTimeout(() => {
-          setMessages((prevMessages) => [...prevMessages, msg]);  
-            scrollToBottom();
-
+          setMessages((prevMessages) => [...prevMessages, msg]);
+          scrollToBottom();
         }, totalDelay);
       }
     });
@@ -80,21 +79,12 @@ export function ChatStreamingVods({
     try {
       // Define el tiempo de inicio y final para la consulta
       const startTime = new Date(calculateCurrentTime).toISOString();
-      const endTimeDate = new Date(calculateCurrentTime);
-      endTimeDate.setSeconds(endTimeDate.getSeconds() + 10); // Añade 10 segundos
-      const endTime = endTimeDate.toISOString();
-
-      console.log("+++++++++++");
-      console.log(idVod);
-      console.log(calculateCurrentTime);
-      console.log(endTime);
-      console.log("+++++++++++");
 
       // Obtén los mensajes del backend
-      const res = await getMessagesForSecond(idVod, startTime, endTime);
+      const res = await getMessagesForSecond(idVod, startTime);
 
       // Mostrar mensajes progresivamente respetando el tiempo
-      displayMessagesWithDelay(res.messages);
+      if (res.messages) displayMessagesWithDelay(res.messages);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
@@ -127,96 +117,6 @@ export function ChatStreamingVods({
   const history = useHistory();
 
   const token = window.localStorage.getItem("token");
-
-  // ws para las conexiones de lo msj que entran y las acciones que hay en el chat
-  let stopIteration = true;
-  useEffect(() => {
-    const timer = setTimeout(async () => {
-      stopIteration = false;
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-  useEffect(() => {
-    if (isMobile) {
-      ToggleChat(false);
-    }
-
-    const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
-    const newSocket = new WebSocket(
-      `${REACT_APP_BACKCHATWS}/ws/chatStreaming/${streamerChat.id}/${token}`
-    );
-    const connectWebSocket = () => {
-      newSocket.onerror = (error) => {
-        console.error("WebSocket error:", error);
-      };
-      newSocket.onmessage = (event) => {
-        try {
-          const receivedMessage = JSON.parse(event.data);
-          newSocket.send("onmessage");
-          if (stopIteration) {
-          } else {
-            setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-            scrollToBottom();
-          }
-        } catch (error) {
-          console.error("Error al analizar el mensaje JSON:", error);
-        }
-      };
-
-      newSocket.onclose = () => {
-        newSocket.send("closing");
-      };
-
-      newSocket.onopen = () => {};
-      setSocket(newSocket);
-
-      window.addEventListener("beforeunload", () => {
-        newSocket.send("closing");
-        newSocket.close();
-      });
-    };
-
-    if (!socket || socket.readyState !== WebSocket.OPEN) {
-      connectWebSocket();
-    }
-    return () => {
-      // window.addEventListener("beforeunload", () => {
-      //   newSocket.send("closing");
-      //   newSocket.close();
-      // });
-      if (newSocket && newSocket.readyState === WebSocket.OPEN) {
-        newSocket.close();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const pingInterval = () => {
-      if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.send("ping");
-      }
-    };
-
-    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
-    pingIntervalRef.current = setInterval(pingInterval, 3000);
-    return () => {
-      clearInterval(pingIntervalRef.current);
-    };
-  }, [socket]);
-  useEffect(() => {
-    const pingInterval = () => {
-      if (socketDeleteMsj && socketDeleteMsj.readyState === WebSocket.OPEN) {
-        socketDeleteMsj.send("ping");
-      }
-    };
-
-    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
-    pingIntervalRef.current = setInterval(pingInterval, 3000);
-    return () => {
-      clearInterval(pingIntervalRef.current);
-    };
-  }, [socketDeleteMsj]);
 
   const [dropdownChatConfig, setDropdownChatConfig] = useState(false);
   const onMouseEnterChatConfig = () => {
@@ -719,64 +619,57 @@ export function ChatStreamingVods({
     const imgRegex = /<img.*?src=['"](.*?)['"].*?>/g;
     const mentionRegex = /@(\w+)/g;
 
-    let content = message
-      .split(urlRegex)
-      .map((part, index) => {
-        if (part.match(urlRegex)) {
-          // Si la parte del mensaje es una URL
-          if (part.includes("res.cloudinary.com/depcty8j1/")) {
-            // Decodificamos la URL para manejar los caracteres especiales correctamente
-            const decodedUrl = decodeURIComponent(part);
-            // Cortamos la URL a partir del símbolo &
-            const cutoffIndex = decodedUrl.indexOf("&");
-            const imageUrl =
-              cutoffIndex !== -1
-                ? decodedUrl.substring(0, cutoffIndex)
-                : decodedUrl;
+    const content = message.split(urlRegex).map((part, index) => {
+      if (part.match(urlRegex)) {
+        if (part.includes("res.cloudinary.com/depcty8j1/")) {
+          const decodedUrl = decodeURIComponent(part);
+          const cutoffIndex = decodedUrl.indexOf("&");
+          const imageUrl =
+            cutoffIndex !== -1
+              ? decodedUrl.substring(0, cutoffIndex)
+              : decodedUrl;
 
-            // Devolvemos la etiqueta img con la URL cortada como src
-            return (
-              <img
-                key={index}
-                src={imageUrl}
-                style={{ width: "20px", height: "auto" }}
-                alt="Image"
-              />
-            );
-          } else {
-            // Si no es una URL de res.cloudinary.com/depcty8j1/, devolvemos un enlace
-            return (
-              <a
-                key={index}
-                href={part}
-                target="_blank"
-                style={{
-                  color: "inherit",
-                  textDecoration: "inherit",
-                  borderBottom: "1px solid #ffff",
-                  padding: "0px",
-                }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                {part}
-              </a>
-            );
-          }
-        } else if (part.match(imgRegex)) {
-          // Si la parte del mensaje es una etiqueta img
-          return part.replace(imgRegex, (match, src) => {
-            if (src.includes("res.cloudinary.com/depcty8j1/")) {
-              // Si el src coincide con res.cloudinary.com/depcty8j1/, reemplazamos la etiqueta img con un párrafo
-              return `${match}`;
-            } else {
-              // Si el src no coincide con res.cloudinary.com/depcty8j1/, devolvemos la etiqueta img original
-              return match;
-            }
-          });
+          return (
+            <img
+              key={index}
+              src={imageUrl}
+              style={{ width: "20px", height: "auto" }}
+              alt="Image"
+            />
+          );
+        } else {
+          // Si no es una URL de res.cloudinary.com/depcty8j1/, devolvemos un enlace
+          return (
+            <a
+              key={index}
+              href={part}
+              target="_blank"
+              style={{
+                color: "inherit",
+                textDecoration: "inherit",
+                borderBottom: "1px solid #ffff",
+                padding: "0px",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {part}
+            </a>
+          );
         }
-        return part;
-      })
-      .join("");
+      } else if (part.match(imgRegex)) {
+        return part.replace(imgRegex, (match, src) => {
+          if (src.includes("res.cloudinary.com/depcty8j1/")) {
+            // Si el src coincide con res.cloudinary.com/depcty8j1/, reemplazamos la etiqueta img con un párrafo
+            return `${match}`;
+          } else {
+            // Si el src no coincide con res.cloudinary.com/depcty8j1/, devolvemos la etiqueta img original
+            return match;
+          }
+        });
+      }
+      // Si no es ni una URL ni una etiqueta img, simplemente devolvemos el texto
+      return part;
+    });
 
     // Comprobar menciones
     let isMentioned = false;
@@ -789,8 +682,9 @@ export function ChatStreamingVods({
       }
     }
 
+    // Devolvemos el objeto con el contenido como array y la mención
     return {
-      content: content,
+      content: content, // Mantiene el array de partes (texto y componentes)
       isMentioned: isMentioned,
     };
   }
@@ -1030,7 +924,13 @@ export function ChatStreamingVods({
           )}
         </div>
       </div>
-      <div className="Conversation" ref={conversationRef}>
+      <div
+        className="Conversation"
+        ref={conversationRef}
+        style={{
+          maxHeight: "100%",
+        }}
+      >
         {ShowGetUserTheChat && GetUserTheChat && (
           <div className="ShowGetUserTheChat">
             <div className="ShowGetUserTheChat-InfoUser">

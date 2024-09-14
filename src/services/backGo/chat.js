@@ -118,7 +118,7 @@ export async function HostChatMessage(roomID, data, token) {
     }
 }
 
-export async function getMessagesForSecond(vodId, startTime, endTime) {
+export async function getMessagesForSecond(vodId, startTime) {
     try {
         const response = await axios.get(
             `${baseURL}/GetMessagesForSecond`,
@@ -126,7 +126,6 @@ export async function getMessagesForSecond(vodId, startTime, endTime) {
                 params: {
                     VodId: vodId,
                     startTime: startTime,
-                    endTime: endTime,
                 },
             }
         );

@@ -75,8 +75,6 @@ export default function Channel({
       try {
         const res = await getStreamSummariesByID(idVod);
         if (res.data?.id) {
-          console.log(res.data);
-
           SetVod(res.data);
         }
       } catch (error) {
@@ -85,10 +83,15 @@ export default function Channel({
     }
     getVodId();
   }, [idVod]);
+
   const [GetMessagesTime, setGetMessagesTime] = useState(null);
 
   const calculateCurrentTime = () => {
-    if (videoRef.current && VodData?.StartOfStream) {
+    if (
+      videoRef.current &&
+      VodData?.StartOfStream &&
+      !videoRef.current.paused
+    ) {
       const elapsedSeconds = videoRef.current.currentTime;
       const startOfStream = new Date(VodData.StartOfStream);
 
@@ -105,7 +108,7 @@ export default function Channel({
   useEffect(() => {
     const intervalId = setInterval(() => {
       calculateCurrentTime();
-    }, 10000);
+    }, 4000);
 
     return () => clearInterval(intervalId);
   }, [VodData]);

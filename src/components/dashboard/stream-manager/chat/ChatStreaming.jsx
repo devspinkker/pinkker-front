@@ -104,8 +104,6 @@ export function ChatStreaming({
       e.preventDefault();
     } else if (e.key === "Enter") {
       if (activeSuggestionIndex >= 0) {
-        console.log(suggestedUsers[activeSuggestionIndex]);
-
         handleSuggestionSelect(suggestedUsers[activeSuggestionIndex]);
       }
       e.preventDefault();
@@ -181,8 +179,6 @@ export function ChatStreaming({
 
       if (cleanAfterAt.length > 0 && remainingText === "") {
         try {
-          console.log(cleanAfterAt);
-
           const users = await RedisFindMatchingUsersInRoomByPrefix(
             cleanAfterAt,
             streamerChat.id,
@@ -243,7 +239,6 @@ export function ChatStreaming({
         selection.addRange(newRange);
       }
     }
-
     setMessage(inputRef.current.innerHTML);
   };
 
@@ -932,7 +927,6 @@ export function ChatStreaming({
     if (message.startsWith("/unvip")) {
       const regex = /\/unvip\s+(\S+)\s*(.*)/;
       const match = message.match(regex);
-      console.log(match);
       if (match) {
         const nameUser = match[1];
         ActionSendMessageComando("rVip", nameUser);
@@ -1235,64 +1229,57 @@ export function ChatStreaming({
     const imgRegex = /<img.*?src=['"](.*?)['"].*?>/g;
     const mentionRegex = /@(\w+)/g;
 
-    let content = message
-      .split(urlRegex)
-      .map((part, index) => {
-        if (part.match(urlRegex)) {
-          // Si la parte del mensaje es una URL
-          if (part.includes("res.cloudinary.com/depcty8j1/")) {
-            // Decodificamos la URL para manejar los caracteres especiales correctamente
-            const decodedUrl = decodeURIComponent(part);
-            // Cortamos la URL a partir del símbolo &
-            const cutoffIndex = decodedUrl.indexOf("&");
-            const imageUrl =
-              cutoffIndex !== -1
-                ? decodedUrl.substring(0, cutoffIndex)
-                : decodedUrl;
+    const content = message.split(urlRegex).map((part, index) => {
+      if (part.match(urlRegex)) {
+        if (part.includes("res.cloudinary.com/depcty8j1/")) {
+          const decodedUrl = decodeURIComponent(part);
+          const cutoffIndex = decodedUrl.indexOf("&");
+          const imageUrl =
+            cutoffIndex !== -1
+              ? decodedUrl.substring(0, cutoffIndex)
+              : decodedUrl;
 
-            // Devolvemos la etiqueta img con la URL cortada como src
-            return (
-              <img
-                key={index}
-                src={imageUrl}
-                style={{ width: "20px", height: "auto" }}
-                alt="Image"
-              />
-            );
-          } else {
-            // Si no es una URL de res.cloudinary.com/depcty8j1/, devolvemos un enlace
-            return (
-              <a
-                key={index}
-                href={part}
-                target="_blank"
-                style={{
-                  color: "inherit",
-                  textDecoration: "inherit",
-                  borderBottom: "1px solid #ffff",
-                  padding: "0px",
-                }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                {part}
-              </a>
-            );
-          }
-        } else if (part.match(imgRegex)) {
-          // Si la parte del mensaje es una etiqueta img
-          return part.replace(imgRegex, (match, src) => {
-            if (src.includes("res.cloudinary.com/depcty8j1/")) {
-              // Si el src coincide con res.cloudinary.com/depcty8j1/, reemplazamos la etiqueta img con un párrafo
-              return `${match}`;
-            } else {
-              // Si el src no coincide con res.cloudinary.com/depcty8j1/, devolvemos la etiqueta img original
-              return match;
-            }
-          });
+          return (
+            <img
+              key={index}
+              src={imageUrl}
+              style={{ width: "20px", height: "auto" }}
+              alt="Image"
+            />
+          );
+        } else {
+          // Si no es una URL de res.cloudinary.com/depcty8j1/, devolvemos un enlace
+          return (
+            <a
+              key={index}
+              href={part}
+              target="_blank"
+              style={{
+                color: "inherit",
+                textDecoration: "inherit",
+                borderBottom: "1px solid #ffff",
+                padding: "0px",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {part}
+            </a>
+          );
         }
-        return part;
-      })
-      .join("");
+      } else if (part.match(imgRegex)) {
+        return part.replace(imgRegex, (match, src) => {
+          if (src.includes("res.cloudinary.com/depcty8j1/")) {
+            // Si el src coincide con res.cloudinary.com/depcty8j1/, reemplazamos la etiqueta img con un párrafo
+            return `${match}`;
+          } else {
+            // Si el src no coincide con res.cloudinary.com/depcty8j1/, devolvemos la etiqueta img original
+            return match;
+          }
+        });
+      }
+      // Si no es ni una URL ni una etiqueta img, simplemente devolvemos el texto
+      return part;
+    });
 
     // Comprobar menciones
     let isMentioned = false;
@@ -1304,9 +1291,9 @@ export function ChatStreaming({
         break;
       }
     }
-
+    // Devolvemos el objeto con el contenido como array y la mención
     return {
-      content: content,
+      content: content, // Mantiene el array de partes (texto y componentes)
       isMentioned: isMentioned,
     };
   }

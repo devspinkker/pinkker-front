@@ -76,12 +76,19 @@ export default function CustomPlayer({
         setVideoLoading(false);
       };
 
+      // Evento para actualizar el slider mientras el video se reproduce
+      const updateCurrentTime = () => {
+        setCurrentTime(videoPlayer.currentTime);
+      };
+
       videoPlayer.addEventListener("loadeddata", handlePlayerLoad);
       videoPlayer.addEventListener("error", handlePlayerError);
+      videoPlayer.addEventListener("timeupdate", updateCurrentTime); // Escuchar el evento de tiempo
 
       return () => {
         videoPlayer.removeEventListener("loadeddata", handlePlayerLoad);
         videoPlayer.removeEventListener("error", handlePlayerError);
+        videoPlayer.removeEventListener("timeupdate", updateCurrentTime);
       };
     }
   }, [streamerData]);
@@ -89,7 +96,7 @@ export default function CustomPlayer({
   const handleSliderChange = (event, newValue) => {
     if (videoRef.current) {
       videoRef.current.currentTime = newValue;
-      setCurrentTime(newValue);
+      setCurrentTime(newValue); // Actualizar estado de currentTime
     }
   };
 
