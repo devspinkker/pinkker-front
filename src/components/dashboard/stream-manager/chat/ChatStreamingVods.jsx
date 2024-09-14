@@ -51,25 +51,22 @@ export function ChatStreamingVods({
     let totalDelay = 0;
 
     newMessages.forEach((msg, index) => {
-      if (index === 0 && messages.length === 0) {
-        // Si es el primer mensaje y no hay mensajes previos, lo mostramos inmediatamente
-        setMessages([msg]);
+      if (index === 0) {
+        // Mostrar el primer mensaje de la nueva lista inmediatamente
+        setMessages((prevMessages) => [...prevMessages, msg]);
+        scrollToBottom();
       } else {
-        // Calcular la diferencia de tiempo entre el mensaje actual y el anterior
+        // Calcular el delay solo basado en los nuevos mensajessssss
         const currentTimestamp = new Date(newMessages[index].Timestamp);
-        const previousTimestamp = new Date(
-          newMessages[index - 1]
-            ? newMessages[index - 1].Timestamp
-            : messages[messages.length - 1]?.Timestamp
-        );
+        const previousTimestamp = new Date(newMessages[index - 1].Timestamp);
         const delay = currentTimestamp - previousTimestamp; // Diferencia en milisegundos
 
-        // Acumular el retraso total y utilizar setTimeout para agregar el mensaje al estado
+        // Acumularss el retraso total y utilizar setTimeout para agregar el mensaje al estado
         totalDelay += delay;
 
         setTimeout(() => {
           setMessages((prevMessages) => [...prevMessages, msg]);
-          scrollToBottom();
+          scrollToBottom(); // Asegura que siempre haga scroll al nuevo mensaje
         }, totalDelay);
       }
     });
@@ -77,13 +74,9 @@ export function ChatStreamingVods({
 
   const GetMessages = async () => {
     try {
-      // Define el tiempo de inicio y final para la consulta
       const startTime = new Date(calculateCurrentTime).toISOString();
-
-      // Obtén los mensajes del backend
       const res = await getMessagesForSecond(idVod, startTime);
 
-      // Mostrar mensajes progresivamente respetando el tiempo
       if (res.messages) displayMessagesWithDelay(res.messages);
     } catch (error) {
       console.error("Error fetching messages:", error);
