@@ -259,7 +259,10 @@ export default function CitaCard({ tweet, isMobile }) {
               {tweet.PostImage !== "" && (
                 <div style={{ marginTop: "10px" }}>
                   <img
-                    style={{ borderRadius: "20px", maxWidth: !isMobile && "350px" }}
+                    style={{
+                      borderRadius: "20px",
+                      maxWidth: "350px",
+                    }}
                     src={tweet.PostImage}
                     alt="Post image"
                   />

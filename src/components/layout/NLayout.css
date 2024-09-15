@@ -1,14 +1,32 @@
+.navTopHome {
+    /* border-bottom: 1px solid rgb(42 46 56 / 52%);  */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15.5px 5.8rem;
+    position: sticky;
+    top: 0px;
+    z-index: 9999;
+    background-color: rgb(8, 8, 8);
+    width: 103.5%;
+    box-shadow: 6px 2px 20px 0px #e172ff0f;
+}
+
+
 .menu-aside-option {
     width: 100%;
     transition: all .2s ease-in-out;
     position: relative;
 }
-.css-hip9hq-MuiPaper-root-MuiAppBar-root{
+
+.css-hip9hq-MuiPaper-root-MuiAppBar-root {
     background-color: transparent !important;
 }
-.css-ypiqx9-MuiDialogContent-root{
+
+.css-ypiqx9-MuiDialogContent-root {
     padding: 0px !important;
 }
+
 /* menu.css */
 .mobile-menu {
     position: fixed;

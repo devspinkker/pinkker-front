@@ -294,33 +294,61 @@ export default function TweetCard({ tweet, isMobile }) {
           className="tweetcard-container"
         >
           <div className="tweetcard-avatar">
-            <Link
-              to={"/" + tweet.UserInfo.NameUser}
-              className="hoverLink"
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              style={{
-                width: "60px",
-                height: "60px",
-                padding: "0 !important",
-              }}
-            >
-              <img
+            {tweet.Type == "RePost" ? (
+              <Link
+                to={"/" + tweet.OriginalPostData.UserInfo.NameUser}
+                className="hoverLink"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
                 style={{
                   width: "60px",
                   height: "60px",
-                  objectFit: "cover",
-                  borderRadius: "100%",
-                  position: "relative",
-                  left: "-10px",
+                  padding: "0 !important",
                 }}
-                src={tweet.UserInfo.Avatar}
-                alt={`${tweet.UserInfo.NameUser} avatar`}
-              />
-            </Link>
+              >
+                <img
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    objectFit: "cover",
+                    borderRadius: "100%",
+                    position: "relative",
+                    left: "-10px",
+                  }}
+                  src={tweet.OriginalPostData.UserInfo.Avatar}
+                  alt={`${tweet.OriginalPostData.UserInfo.NameUser} avatar`}
+                />
+              </Link>
+            ) : (
+              <Link
+                to={"/" + tweet.UserInfo.NameUser}
+                className="hoverLink"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  padding: "0 !important",
+                }}
+              >
+                <img
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    objectFit: "cover",
+                    borderRadius: "100%",
+                    position: "relative",
+                    left: "-10px",
+                  }}
+                  src={tweet.UserInfo.Avatar}
+                  alt={`${tweet.UserInfo.NameUser} avatar`}
+                />
+              </Link>
+            )}
 
-            {isMobile && (
+            {isMobile && tweet.Type !== "RePost" ? (
               <div className="tweetcard-primary">
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <Grid
@@ -816,10 +844,514 @@ export default function TweetCard({ tweet, isMobile }) {
                   )}
                 </div>
               </div>
+            ) : (
+              isMobile && (
+                <div className="tweetcard-primary">
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <Grid
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Grid
+                        style={{
+                          width: "80%",
+                          display: "flex",
+                          gap: "5px",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Link
+                          to={"/" + tweet.OriginalPostData?.UserInfo.NameUser}
+                          className="hoverLink"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          <h3 style={{ fontSize: "18px" }}>
+                            {tweet.OriginalPostData?.UserInfo.FullName}
+                          </h3>
+                        </Link>
+
+                        <p
+                          style={{
+                            color: "lightgray",
+                            marginLeft: "5px",
+                            fontSize: "15px",
+                          }}
+                        >
+                          <Link
+                            to={"/" + tweet.OriginalPostData?.UserInfo.NameUser}
+                            className="hoverLink"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            style={{ fontSize: "18px" }}
+                          >
+                            @{tweet.OriginalPostData?.UserInfo.NameUser}
+                          </Link>
+                          · {timeDifference}
+                        </p>
+                      </Grid>
+                      <FaEllipsis />
+                    </Grid>
+                  </div>
+                  <div
+                    style={{
+                      marginTop: "5px",
+                      textAlign: "left",
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    <p style={{ fontSize: isMobile && "22px" }}>
+                      {tweet.OriginalPostData?.Status}
+                    </p>
+                  </div>
+                  {tweet.OriginalPostData?.PostImage !== "" && (
+                    <div
+                      style={{ marginTop: "10px" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleClickOpenImg()(e);
+                      }}
+                    >
+                      <img
+                        style={{
+                          borderRadius: "20px",
+                          maxWidth: !isMobile && "350px",
+                          width: isMobile && "100%",
+                        }}
+                        src={tweet.OriginalPostData?.PostImage}
+                        alt="Post image"
+                        onAnimationEndnClick={(e) => {
+                          e.stopPropagation();
+                          handleClickOpenImg()(e);
+                        }}
+                      />
+                      {tweet.AdvertisementsId && (
+                        <span
+                          className="PostimageLinkPromocionado"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            IdOfTheUsersWhoClickedFunc(tweet.AdvertisementsId);
+                            if (tweet.ReferenceLink) {
+                              window.open(tweet.ReferenceLink, "_blank");
+                            }
+                          }}
+                        >
+                          {tweet.ReferenceLink
+                            ? new URL(tweet.ReferenceLink).hostname +
+                              new URL(tweet.ReferenceLink).pathname
+                            : "Promocionado"}
+                        </span>
+                      )}
+                      {isMobile && (
+                        <Drawer
+                          anchor="bottom"
+                          open={openImg}
+                          onClose={handleClickOpenImg(false)}
+                          transitionDuration={{ enter: 500, exit: 500 }}
+                          PaperProps={{
+                            style: {
+                              height: "99%",
+                              backgroundColor: "rgba(53, 49, 51, 0.33)",
+                            },
+                          }} // Esto asegura que el Drawer ocupe todo el alto
+                        >
+                          <Box
+                            sx={{
+                              padding: 2,
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "space-between",
+                              gap: "2rem",
+                            }}
+                            style={{ margin: "0 auto", height: "100%" }}
+                            role="presentation"
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                gap: "10px",
+                                justifyContent: "center",
+                                height: "100%",
+                              }}
+                            >
+                              <IoMdCloseCircleOutline
+                                onClick={handleClickOpenImg(false)}
+                                style={{
+                                  float: "right",
+                                  color: "white",
+                                  fontSize: "32px",
+                                  width: "100%",
+                                }}
+                              />
+                              <img
+                                style={{
+                                  width: "100%",
+                                  height: "60%",
+                                  objectFit: "cover",
+                                }}
+                                src={tweet.PostImage}
+                                alt="Expanded post image"
+                              />
+
+                              <div
+                                className="tweetcard-icons"
+                                style={{ backgroundColor: "#0000" }}
+                              >
+                                <div
+                                  className="tweetcard-icon-comment"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleDrawerResponse(true)(e);
+                                  }}
+                                >
+                                  <FaRegComment
+                                    style={{ fontSize: "22px" }}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleDrawerResponse(true)(e);
+                                    }}
+                                  />
+                                  <p
+                                    style={{
+                                      marginLeft: "5px",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {tweet.Type == "RePost" ? (
+                                      <p>
+                                        {tweet?.OriginalPostData?.CommentsCount}
+                                      </p>
+                                    ) : (
+                                      <p>{tweet?.CommentsCount}</p>
+                                    )}
+                                  </p>
+                                </div>
+
+                                <Tippy
+                                  placement="bottom"
+                                  theme="pinkker"
+                                  content={<h1>ReTwittear</h1>}
+                                >
+                                  {tweet.gallery !== true && (
+                                    <div
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleShowDropdownRetweet(tweet?._id);
+                                      }}
+                                      className="tweetcard-icon-retweet"
+                                    >
+                                      <FaRetweet style={{ fontSize: "22px" }} />
+                                      {tweet.Type === "RePost" ? (
+                                        <p
+                                          style={{
+                                            marginLeft: "5px",
+                                            fontSize: "14px",
+                                          }}
+                                        >
+                                          {
+                                            tweet.OriginalPostData?.RePosts
+                                              ?.length
+                                          }
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            marginLeft: "5px",
+                                            fontSize: "14px",
+                                          }}
+                                        >
+                                          {tweet?.RePosts?.length}
+                                        </p>
+                                      )}
+                                    </div>
+                                  )}
+                                </Tippy>
+                                {showDropdownRetweet && (
+                                  <div
+                                    className="DropdownReTweet-main"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                    }}
+                                  >
+                                    <DropdownReTweet
+                                      reTweet={handleRePost}
+                                      citeTweet={handleCiteTweet}
+                                      closePopup={() =>
+                                        setShowDropdownRetweet(false)
+                                      }
+                                    />
+                                  </div>
+                                )}
+
+                                <Tippy
+                                  placement="bottom"
+                                  theme="pinkker"
+                                  content={
+                                    <h1>
+                                      {isLiked
+                                        ? "Cancelar Me gusta"
+                                        : "Me gusta"}
+                                    </h1>
+                                  }
+                                >
+                                  <div
+                                    style={{ color: isLiked && "red" }}
+                                    className="tweetcard-icon-like"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleLike();
+                                    }}
+                                  >
+                                    {isLiked ? (
+                                      <FaHeart style={{ fontSize: "22px" }} />
+                                    ) : (
+                                      <CiHeart style={{ fontSize: "22px" }} />
+                                    )}
+                                    {tweet.Type === "RePost" ? (
+                                      <p
+                                        style={{
+                                          marginLeft: "5px",
+                                          fontSize: "14px",
+                                        }}
+                                      >
+                                        {tweet.OriginalPostData?.Likes?.length}
+                                      </p>
+                                    ) : (
+                                      <p
+                                        style={{
+                                          marginLeft: "5px",
+                                          fontSize: "14px",
+                                        }}
+                                      >
+                                        {" "}
+                                        {tweet?.Likes?.length}
+                                      </p>
+                                    )}
+                                  </div>
+                                </Tippy>
+
+                                <Tippy placement="bottom" theme="pinkker">
+                                  <div className="tweetcard-icon-like">
+                                    <FaChartSimple
+                                      style={{ fontSize: "22px" }}
+                                    />
+                                    {tweet.Type === "RePost" ? (
+                                      <p
+                                        style={{
+                                          marginLeft: "5px",
+                                          fontSize: "14px",
+                                        }}
+                                      >
+                                        {tweet.OriginalPostData?.Views}
+                                      </p>
+                                    ) : (
+                                      <p
+                                        style={{
+                                          marginLeft: "5px",
+                                          fontSize: "14px",
+                                        }}
+                                      >
+                                        {" "}
+                                        {tweet?.Views}
+                                      </p>
+                                    )}
+                                  </div>
+                                </Tippy>
+
+                                <Tippy placement="bottom" theme="pinkker">
+                                  <div
+                                    className="tweetcard-icon-like"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleDrawer(true)(e);
+                                    }}
+                                  >
+                                    <TbLocationShare
+                                      style={{ fontSize: "22px" }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleDrawer(true)(e);
+                                      }}
+                                    />
+                                  </div>
+                                </Tippy>
+                              </div>
+                            </div>
+                          </Box>
+                        </Drawer>
+                      )}
+                    </div>
+                  )}
+
+                  {
+                    <Drawer
+                      anchor="bottom"
+                      open={response}
+                      onClose={toggleDrawerResponse(false)}
+                      transitionDuration={{ enter: 500, exit: 500 }}
+                      PaperProps={{
+                        style: { height: "93%", backgroundColor: "#080808" },
+                      }} // Esto asegura que el Drawer ocupe todo el alto
+                    >
+                      <Box
+                        sx={{
+                          padding: 2,
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                          gap: "2rem",
+                        }}
+                        role="presentation"
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: "10px",
+                          }}
+                        >
+                          <IoArrowBackCircleOutline
+                            style={{ color: "white", fontSize: "2.5rem" }}
+                            onClick={() => toggleDrawerResponse(false)}
+                          />
+                          <button
+                            onClick={() => createComment()}
+                            className="muro-send-tweet-button"
+                          >
+                            {location.pathname.includes("/post")
+                              ? "Responder"
+                              : "Postear"}
+                          </button>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "flex-start",
+                            gap: "10px",
+                          }}
+                        >
+                          <div>
+                            <img
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                objectFit: "cover",
+                                borderRadius: "100%",
+                              }}
+                              src={Avatar}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              width: "100%",
+                            }}
+                          >
+                            <TextField
+                              label="Publica tu respuesta"
+                              variant="outlined"
+                              fullWidth
+                              value={comment}
+                              onChange={(e) => setComment(e.target.value)}
+                              multiline
+                              rows={4}
+                              InputProps={{
+                                style: {
+                                  color: "white",
+                                  borderColor: "white",
+                                },
+                                classes: {
+                                  notchedOutline: {
+                                    borderColor: "white",
+                                  },
+                                },
+                              }}
+                              InputLabelProps={{
+                                style: { color: "white" },
+                              }}
+                              sx={{
+                                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                                  {
+                                    borderColor: "white",
+                                  },
+                                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                                  {
+                                    borderColor: "white",
+                                  },
+                                "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                                  {
+                                    borderColor: "white",
+                                  },
+                                "& .MuiInputBase-input": {
+                                  color: "white",
+                                },
+                                "& .MuiInputLabel-outlined": {
+                                  color: "white",
+                                },
+                                "& .MuiInputBase-input::placeholder": {
+                                  color: "white",
+                                  opacity: 1,
+                                },
+                              }}
+                              // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                            />
+                            <Typography
+                              variant="subtitle1"
+                              style={{
+                                marginTop: "10px",
+                                color: comment?.length > 100 ? "red" : "white",
+                                textAlign: "right",
+                              }}
+                            >
+                              {comment.length}/100
+                            </Typography>
+                          </div>
+                        </div>
+                      </Box>
+                    </Drawer>
+                  }
+
+                  {tweet.gallery === true && (
+                    <div style={{ marginTop: "10px" }}>
+                      <img
+                        style={{
+                          borderRadius: "20px",
+                          maxWidth: !isMobile && "350px",
+                          width: isMobile && "100%",
+                        }}
+                        src={tweet.PostImage}
+                        alt="Gallery image"
+                      />
+                    </div>
+                  )}
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    {tweet.Type === "CitaPost" && (
+                      <CitaCard
+                        tweet={tweet?.OriginalPostData}
+                        isMobile={isMobile}
+                      />
+                    )}
+                  </div>
+                </div>
+              )
             )}
           </div>
 
-          {!isMobile && (
+          {!isMobile && tweet.Type !== "RePost" ? (
             <div className="tweetcard-primary">
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Grid
@@ -1086,7 +1618,281 @@ export default function TweetCard({ tweet, isMobile }) {
                 </span>
               )}
             </div>
+          ) : (
+            !isMobile && (
+              <div className="tweetcard-primary">
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Grid
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Grid
+                      style={{
+                        width: "80%",
+                        display: "flex",
+                        gap: "5px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Link
+                        to={"/" + tweet.OriginalPostData?.UserInfo.NameUser}
+                        className="hoverLink"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <h3>{tweet.OriginalPostData?.UserInfo.FullName}</h3>
+                      </Link>
+
+                      <p
+                        style={{
+                          color: "lightgray",
+                          marginLeft: "5px",
+                          fontSize: "15px",
+                        }}
+                      >
+                        <Link
+                          to={"/" + tweet.OriginalPostData?.UserInfo.NameUser}
+                          className="hoverLink"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          @{tweet.OriginalPostData?.UserInfo.NameUser}
+                        </Link>
+                        · {timeDifference}
+                      </p>
+                    </Grid>
+                    <FaEllipsis />
+                  </Grid>
+                </div>
+                <div
+                  style={{
+                    marginTop: "5px",
+                    textAlign: "left",
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                  }}
+                >
+                  <p style={{ fontSize: isMobile && "20px" }}>
+                    {tweet.OriginalPostData?.Status}
+                  </p>
+                </div>
+                {tweet.OriginalPostData?.PostImage !== "" && (
+                  <div
+                    style={{ marginTop: "10px" }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleClickOpenImg()(e);
+                    }}
+                  >
+                    <img
+                      style={{ borderRadius: "20px", maxWidth: "350px" }}
+                      src={tweet.OriginalPostData?.PostImage}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleClickOpenImg()(e);
+                      }}
+                      alt="Post image"
+                    />
+                    {tweet.AdvertisementsId && (
+                      <span
+                        className="PostimageLinkPromocionado"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          IdOfTheUsersWhoClickedFunc(
+                            tweet.OriginalPostData?.AdvertisementsId
+                          );
+                          if (tweet.ReferenceLink) {
+                            window.open(tweet.ReferenceLink, "_blank");
+                          }
+                        }}
+                      >
+                        {tweet.ReferenceLink
+                          ? new URL(tweet.ReferenceLink).hostname +
+                            new URL(tweet.ReferenceLink).pathname
+                          : "Promocionado"}
+                      </span>
+                    )}
+                  </div>
+                )}
+                {tweet.gallery === true && (
+                  <div style={{ marginTop: "10px" }}>
+                    <img
+                      style={{ borderRadius: "20px", maxWidth: "350px" }}
+                      src={tweet.PostImage}
+                      alt="Gallery image"
+                    />
+                  </div>
+                )}
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  {tweet.Type === "CitaPost" && (
+                    <CitaCard
+                      tweet={tweet?.OriginalPostData}
+                      isMobile={isMobile}
+                    />
+                  )}
+                </div>
+                {!isMobile && (
+                  <div className="tweetcard-icons">
+                    <Tippy
+                      placement="bottom"
+                      theme="pinkker"
+                      content={<h1>Responder</h1>}
+                    >
+                      <div className="tweetcard-icon-comment">
+                        <FaRegComment style={{ fontSize: "22px" }} />
+                        <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                          {tweet.Type == "RePost" ? (
+                            <p>{tweet?.OriginalPostData?.CommentsCount}</p>
+                          ) : (
+                            <p>{tweet?.CommentsCount}</p>
+                          )}
+                        </p>
+                      </div>
+                    </Tippy>
+
+                    <Tippy
+                      placement="bottom"
+                      theme="pinkker"
+                      content={<h1>ReTwittear</h1>}
+                    >
+                      {tweet.gallery !== true && (
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleShowDropdownRetweet(tweet?._id);
+                          }}
+                          className="tweetcard-icon-retweet"
+                        >
+                          <FaRetweet style={{ fontSize: "22px" }} />
+
+                          {tweet.Type === "RePost" ? (
+                            <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                              {tweet.OriginalPostData?.RePosts?.length}
+                            </p>
+                          ) : (
+                            <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                              {tweet?.RePosts?.length}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </Tippy>
+                    {showDropdownRetweet && (
+                      <div
+                        className="DropdownReTweet-main"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <DropdownReTweet
+                          reTweet={handleRePost}
+                          citeTweet={handleCiteTweet}
+                          closePopup={() => setShowDropdownRetweet(false)}
+                        />
+                      </div>
+                    )}
+
+                    <Tippy
+                      placement="bottom"
+                      theme="pinkker"
+                      content={
+                        <h1>{isLiked ? "Cancelar Me gusta" : "Me gusta"}</h1>
+                      }
+                    >
+                      <div
+                        style={{ color: isLiked && "red" }}
+                        className="tweetcard-icon-like"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleLike();
+                        }}
+                      >
+                        {isLiked ? (
+                          <FaHeart style={{ fontSize: "22px" }} />
+                        ) : (
+                          <CiHeart style={{ fontSize: "22px" }} />
+                        )}
+                        {tweet.Type === "RePost" ? (
+                          <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                            {tweet.OriginalPostData?.likeCount}
+                          </p>
+                        ) : (
+                          <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                            {" "}
+                            {tweet?.likeCount}
+                          </p>
+                        )}
+                      </div>
+                    </Tippy>
+
+                    <Tippy
+                      placement="bottom"
+                      theme="pinkker"
+                      content={
+                        <h1>{isLiked ? "Cancelar Me gusta" : "Me gusta"}</h1>
+                      }
+                    >
+                      <div className="tweetcard-icon-like">
+                        <FaChartSimple style={{ fontSize: "22px" }} />
+
+                        {tweet.Type === "RePost" ? (
+                          <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                            {tweet.OriginalPostData?.Views}
+                          </p>
+                        ) : (
+                          <p style={{ marginLeft: "5px", fontSize: "14px" }}>
+                            {" "}
+                            {tweet?.Views}
+                          </p>
+                        )}
+                      </div>
+                    </Tippy>
+                    <Tippy placement="bottom" theme="pinkker">
+                      <div
+                        className="tweetcard-icon-like"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleDrawer(true)(e);
+                        }}
+                      >
+                        <TbLocationShare
+                          style={{ fontSize: "22px" }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleDrawer(true)(e);
+                          }}
+                        />
+                      </div>
+                    </Tippy>
+                  </div>
+                )}
+                {tweet.AdvertisementsId && (
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      IdOfTheUsersWhoClickedFunc(tweet.AdvertisementsId);
+                      if (tweet.ReferenceLink) {
+                        window.open(tweet.ReferenceLink, "_blank");
+                      }
+                    }}
+                  >
+                    Promocionado
+                  </span>
+                )}
+              </div>
+            )
           )}
+
           {isMobile && (
             <div className="tweetcard-icons">
               <Tippy

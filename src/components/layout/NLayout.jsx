@@ -548,7 +548,7 @@ function NLayout(props) {
             transition: "width .2s ease-in-out",
             border: "1px solid #2a2e38",
             height: "100vh",
-            backgroundColor: "#121418",
+            backgroundColor: "#080808",
             position: "sticky",
             top: 0,
           }}
@@ -1137,18 +1137,19 @@ function NLayout(props) {
             </Grid>
           ) : (
             <Grid
-              style={{
-                borderBottom: "1px solid #2a2e38",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "15.5px 5.8rem",
-                position: "sticky",
-                top: 0,
-                zIndex: 9999,
-                backgroundColor: "#080808",
-                width: "103.5%",
-              }}
+              className="navTopHome"
+              // style={{
+              //   borderBottom: "1px solid #2a2e38",
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "space-between",
+              //   padding: "15.5px 5.8rem",
+              //   position: "sticky",
+              //   top: 0,
+              //   zIndex: 9999,
+              //   backgroundColor: "#080808",
+              //   width: "103.5%",
+              // }}
             >
               <Link to="/" style={{ width: "230px" }}>
                 <img
