@@ -1113,7 +1113,7 @@ function NLayout(props) {
             >
               <Link to="/">
                 <img
-                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726083829/logos/pinkker_2_o1bi55.png"
+                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
                   style={{ width: "12.5%" }}
                   alt=""
                 />
@@ -1153,8 +1153,8 @@ function NLayout(props) {
             >
               <Link to="/" style={{ width: "230px" }}>
                 <img
-                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726083829/logos/pinkker_2_o1bi55.png"
-                  style={{ width: "80%", marginTop: "8px" }}
+                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
+                  style={{ width: "90%", marginTop: "8px" }}
                   alt=""
                 />
               </Link>
@@ -1973,7 +1973,7 @@ function NLayout(props) {
               <Grid style={{ width: "20%" }}>
                 <Link to="/">
                   <img
-                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726083829/logos/pinkker_2_o1bi55.png"
+                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
                     style={{ width: "70%" }}
                     alt=""
                   />
@@ -2244,7 +2244,7 @@ function NLayout(props) {
               }}
             >
               <img
-                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726083829/logos/pinkker_2_o1bi55.png"
+                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
                 style={{ width: "100%" }}
                 alt=""
               />
