@@ -690,8 +690,8 @@ export default function Channel({
                       <img
                         name={"Verificado"}
                         style={{
-                          width: "17px",
-                          height: "17px",
+                          width: "20px",
+                          height: "20px",
                         }}
                         src={
                           "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"

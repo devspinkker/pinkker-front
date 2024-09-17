@@ -14,6 +14,10 @@
     font-weight: bold;
 }
 
+.video-player {
+    height: 649px !important;
+}
+
 .base-dialog {
     display: flex;
     width: 70%;
