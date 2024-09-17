@@ -18,6 +18,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
   const [loadingMoreClips, setLoadingMoreClips] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [transitionDirection, setTransitionDirection] = useState(null);
+  const [blobUrls, setBlobUrls] = useState({}); // Almacena las URLs de los blobs
 
   let startY = 0;
 
@@ -87,6 +88,17 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
       }, 300);
     }
   }, [clips, viewedClip]);
+
+  const revokeBlobUrl = (clipId) => {
+    if (blobUrls[clipId]) {
+      URL.revokeObjectURL(blobUrls[clipId]); // Revoca la URL del blob
+      setBlobUrls((prev) => {
+        const newUrls = { ...prev };
+        delete newUrls[clipId];
+        return newUrls;
+      });
+    }
+  };
 
   useEffect(() => {
     const handleScroll = (e) => {
@@ -183,22 +195,16 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
     loadClips();
   }, [loadClips]);
 
-  // useEffect(() => {
-  //   if (clipId) {
-  //     setViewedClip(clipId);
-  //   } else if (clips.length > 0) {
-  //     setViewedClip(clips[0].id);
-  //   }
-  //   console.log(clips);
-  //   console.log("HIIII");
-  // }, [clipId]);
   const memoizedClips = useMemo(() => {
     if (!viewedClip || clips.length === 0) return null;
 
     const clipIndex = clips.findIndex((clip) => clip.id === viewedClip);
 
-    // Si no se encuentra el clip, no se renderiza nada
-    if (clipIndex === -1) return null;
+    // Si no se encuentra el clip, no se renderiza nada y se elimina el blob si existe
+    if (clipIndex === -1) {
+      revokeBlobUrl(viewedClip);
+      return null;
+    }
 
     const clipsToRender = clips.slice(
       Math.max(clipIndex - 1, 0),
@@ -268,16 +274,15 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "22px",
                 }}
-                className="fas fa-arrow-up"
+                className="fa fa-arrow-up fa-lg"
               />
             </div>
             <div
               style={{
-                height: "20%",
+                height: "40%",
                 display: "flex",
-                alignItems: "start",
+                alignItems: "end",
                 justifyContent: "center",
               }}
             >
@@ -293,9 +298,8 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "22px",
                 }}
-                className="fas fa-arrow-down"
+                className="fa fa-arrow-down fa-lg"
               />
             </div>
           </div>

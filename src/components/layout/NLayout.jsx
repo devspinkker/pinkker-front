@@ -551,6 +551,7 @@ function NLayout(props) {
             backgroundColor: "#080808",
             position: "sticky",
             top: 0,
+            fontWeight: "bolder",
           }}
         >
           <Grid
@@ -1292,7 +1293,7 @@ function NLayout(props) {
                       style={{
                         width: "40px",
                         height: "40px",
-                        backgroundColor: "#f36196",
+                        // backgroundColor: "#f36196",
                         position: "relative",
                         left: "  ",
                         top: "2px",

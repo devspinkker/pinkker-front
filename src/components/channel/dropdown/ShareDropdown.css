@@ -103,8 +103,7 @@
 @media screen and (max-width: 960px) {
 
   .dropdownshare-menu {
-    width: 220%;
-    top: 60px;
+
     z-index: 200;
 
   }

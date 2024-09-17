@@ -23,6 +23,39 @@ a {
     top: 40%;
 }
 
+.CardInfoUserClip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+    position: absolute;
+    top: 40px;
+    left: 9px;
+    z-index: 100000000000;
+    font-weight: bolder;
+}
+
+@media screen and (max-width: 768px) {
+    .clipcard-muted {
+        position: absolute;
+        top: 20%;
+    }
+
+    .CardInfoUserClip {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        justify-content: space-between;
+        position: absolute;
+        top: 38px;
+        left: 243px;
+        z-index: 100000000000;
+    }
+
+}
+
 .clipcard-progress-body {
     width: 100%;
     margin: 0 auto;
@@ -136,6 +169,7 @@ a {
     height: 100%;
     background-color: black;
 }
+
 /* ClipCard.css */
 .ambilight-canvas {
     position: absolute;
@@ -143,20 +177,22 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Ensure canvas is behind the video */
-  }
-  
-  .clipsmain-video {
+    z-index: -1;
+    /* Ensure canvas is behind the video */
+}
+
+.clipsmain-video {
     position: relative;
     width: 100%;
     height: auto;
-  }
-  
-  .video-hover {
-    opacity: 0.8; /* Reduce opacity for hover effect */
-  }
-  
-  #ambilight {
+}
+
+.video-hover {
+    opacity: 0.8;
+    /* Reduce opacity for hover effect */
+}
+
+#ambilight {
     filter: blur(80px) opacity(0.5) saturate(300%);
     left: 0;
     pointer-events: none;

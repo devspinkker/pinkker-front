@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./ClipCard.css";
 import { Link } from "react-router-dom";
-import Modal from 'react-modal';
+import Modal from "react-modal";
 import Tippy from "@tippyjs/react";
 
 export default function ClipCard({ video, ...props }) {
-
   const [viewVideo, setViewVideo] = useState(false);
   const videoRef = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -22,7 +21,6 @@ export default function ClipCard({ video, ...props }) {
 
   const handleLeave = () => {
     setShowVolumeControls(false);
-
   };
 
   const closeModal = () => {
@@ -51,7 +49,8 @@ export default function ClipCard({ video, ...props }) {
   };
 
   const handleTimeUpdate = () => {
-    const currentProgress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+    const currentProgress =
+      (videoRef.current.currentTime / videoRef.current.duration) * 100;
     setProgress(currentProgress);
   };
 
@@ -214,9 +213,8 @@ export default function ClipCard({ video, ...props }) {
     }
   };
   const handleCardClickClip = () => {
-      const url = `/plataform/clips/${props.id}`;
-      window.location.href = url;
-    
+    const url = `/plataform/clips/${props.id}`;
+    window.location.href = url;
   };
   function getImagePreview() {
     return (
@@ -226,14 +224,13 @@ export default function ClipCard({ video, ...props }) {
           if (video.StreamThumbnail) {
             handleCardClick();
           } else {
-            handleCardClickClip()
+            handleCardClickClip();
           }
-
         }}
       >
         <img
           style={{
-            borderRadius: "5px",
+            borderRadius: "15px",
             width: "100%",
           }}
           src={video?.streamThumbnail ?? video?.StreamThumbnail}
@@ -241,7 +238,12 @@ export default function ClipCard({ video, ...props }) {
         />
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
-            style={{ width: "35px", height: "35px", borderRadius: "50%", objectFit: 'cover' }}
+            style={{
+              width: "35px",
+              height: "35px",
+              borderRadius: "50%",
+              objectFit: "cover",
+            }}
             src={video?.Avatar ?? video?.UserInfo?.Avatar}
           />
           <div
@@ -258,13 +260,9 @@ export default function ClipCard({ video, ...props }) {
             </h4>
             <p style={{ fontSize: "12px" }}>{video?.streamerId}</p>
             <p style={{ fontSize: "10px" }}>
-              {
-                video?.nameUserCreator &&
-                <>
-                  Clipeado por {video?.nameUserCreator}
-                </>
-
-              }
+              {video?.nameUserCreator && (
+                <>Clipeado por {video?.nameUserCreator}</>
+              )}
             </p>
           </div>
         </div>
@@ -311,15 +309,32 @@ export default function ClipCard({ video, ...props }) {
                     <img
                       src={selectedVideo?.video?.Avatar}
                       alt=""
-                      style={{ width: "50px", height: "50px", borderRadius: "100%", objectFit: "cover" }}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "100%",
+                        objectFit: "cover",
+                      }}
                     />
                   </Link>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                    <span className="video-username">{selectedVideo?.video?.nameUserCreator}</span>
-                    <span className="video-views">{selectedVideo?.video?.views} views</span>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <span className="video-username">
+                      {selectedVideo?.video?.nameUserCreator}
+                    </span>
+                    <span className="video-views">
+                      {selectedVideo?.video?.views} views
+                    </span>
                   </div>
                 </div>
-                <button className="close-button" onClick={closeModal}>X</button>
+                <button className="close-button" onClick={closeModal}>
+                  X
+                </button>
               </div>
               <video
                 className="reactPlayer"
@@ -355,7 +370,6 @@ export default function ClipCard({ video, ...props }) {
                 <div
                   onMouseEnter={handleHover}
                   onMouseLeave={handleLeave}
-
                   style={{
                     position: "absolute",
                     left: "-3%",
@@ -383,22 +397,45 @@ export default function ClipCard({ video, ...props }) {
                     max="100"
                     value={progress}
                     onChange={(e) => {
-                      const seekTo = videoRef.current.duration * (e.target.value / 100);
+                      const seekTo =
+                        videoRef.current.duration * (e.target.value / 100);
                       videoRef.current.currentTime = seekTo;
                     }}
                   />
                 </div>
               </div>
               <div className="video-footer">
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  }}
+                >
                   <p>{selectedVideo?.video?.clipTitle}</p>
                   <p>
-                    Clipped by <span className="video-username">{selectedVideo?.video?.nameUserCreator}</span>
+                    Clipped by{" "}
+                    <span className="video-username">
+                      {selectedVideo?.video?.nameUserCreator}
+                    </span>
                   </p>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                  <span>{formatTimestamp(selectedVideo?.video?.timestamps.createdAt)}</span>
-                  <a href={selectedVideo?.video?.url} className="download-button">
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <span>
+                    {formatTimestamp(
+                      selectedVideo?.video?.timestamps.createdAt
+                    )}
+                  </span>
+                  <a
+                    href={selectedVideo?.video?.url}
+                    className="download-button"
+                  >
                     Download
                   </a>
                 </div>

@@ -43,6 +43,19 @@
 
 }
 
+@media screen and (max-width: 768px) {
+    .clipsmain-video {
+        display: flex;
+        align-items: center;
+        scroll-behavior: smooth;
+        transition: 5s all;
+        flex-direction: column;
+        width: 377px;
+        height: 570px;
+    }
+
+}
+
 .clipsmain-video-Loading {
     width: 100%;
     height: 100%;
@@ -71,7 +84,7 @@
     align-items: center;
     position: relative;
     justify-content: space-between;
-    top: 40px;
+    top: 47px;
     left: 2px;
 }
 
@@ -87,6 +100,18 @@
     position: fixed;
     right: 0;
     top: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .clipsmain-right-buttons {
+        display: none;
+        width: 120px;
+        height: 100%;
+        position: fixed;
+        right: 0;
+        top: 0;
+    }
+
 }
 
 .clipsmain-body {

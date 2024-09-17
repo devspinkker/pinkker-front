@@ -37,8 +37,13 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
   const [page, setPage] = useState(1);
   const [loadingComments, setLoadingComments] = useState(false);
   const intervalRef = useRef(null);
+
   useEffect(() => {
     return () => {
+      if (playerRef.current) {
+        playerRef.current.pause();
+        playerRef.current.src = "";
+      }
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
@@ -105,7 +110,9 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
     return () => clearInterval(interval);
   }, [videoHover]);
   const handleVideoPlay = () => {
-    setVideoPlaying(true);
+    setTimeout(() => {
+      setVideoPlaying(true);
+    }, 100);
   };
 
   const [dropdownShare, setDropdownShare] = useState(false);
@@ -304,21 +311,14 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
             alignItems: "flex-start",
           }}
         >
-          <Grid
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              width: "100%",
-              justifyContent: "space-between",
-              position: "absolute",
-              top: "28px",
-              left: "9px",
-            }}
-          >
+          <Grid className="CardInfoUserClip">
             <Link to={`/${clip.NameUser}`}>
               <Grid
-                style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                }}
               >
                 <img
                   style={{
@@ -391,13 +391,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
               </Tippy>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-              }}
-            >
+            <div className="conetent-player-clip">
               {!videoPlaying ? (
                 <div className="video-placeholder-loading">
                   <img src={clip.streamThumbnail} alt="" />

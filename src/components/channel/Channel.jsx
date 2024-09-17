@@ -1370,7 +1370,6 @@ export default function Channel({
   }
   const [chatExpandedMobile, setchatExpandedMobile] = useState(false);
 
-  
   function changeType(typeD) {
     if (typeD == 9) {
       setchatExpandedMobile(true);
@@ -1426,7 +1425,10 @@ export default function Channel({
                     {streamerData && announce === false && renderPlayer()}
                   </div>
                 ) : (
-                  <img style={{ width: "100%" }} src={user?.Banner}></img>
+                  <img
+                    style={{ width: "100%" }}
+                    src={streamerData?.Banner}
+                  ></img>
                 )}
 
                 {renderAnnoucement()}
