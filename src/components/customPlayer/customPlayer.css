@@ -27,6 +27,8 @@
   color: #ededed;
   height: 50px;
   justify-content: center;
+  position: relative;
+  top: -64px;
 }
 
 

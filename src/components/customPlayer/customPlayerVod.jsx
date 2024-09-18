@@ -512,10 +512,7 @@ export default function CustomPlayer({
       } else {
         return (
           <div className="customPlayer-container">
-            <div
-              style={{ position: "relative", top: "-86px" }}
-              className="customPlayer-primary"
-            >
+            <div className="customPlayer-primary">
               <div className="customPlayer-secundary-div">
                 <div className="customPlayer-card">
                   {playing ? (

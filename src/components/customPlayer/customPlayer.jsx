@@ -433,10 +433,7 @@ export default function CustomPlayer({
       if (popup === true) {
         return (
           <div className="customPlayer-container">
-            <div
-              style={{ marginTop: "-85px", justifyContent: "center" }}
-              className="customPlayer-primary"
-            >
+            <div className="customPlayer-primary">
               <div
                 style={{ justifyContent: "center" }}
                 className="customPlayer-secundary-div"
