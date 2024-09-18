@@ -235,17 +235,11 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
 {showWarning && (
   <div
     style={{
-      width,
-      height,
       backgroundImage: `url(${stream_thumbnail})`,
-      backgroundSize: 'contain',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
+
       
     }}
+    className='thumbnail-prev-PlayerMain'
   >
     <div className="base-dialog-player">
       <button onClick={handleStartWatchingClick}>

@@ -118,11 +118,12 @@ export default function Clips(props) {
             ) : (
               <div
                 key={video.id}
-                style={{ cursor: "pointer", margin: "10px", width: "400px" }}
+                style={{ cursor: "pointer", margin: "10px" }}
                 onClick={() => {
                   setSelectedVideo({ video });
                   setHasCalledFunction(false);
                 }}
+                className="vodcard-body"
               >
                 <ClipCardChannel
                   key={video.id}

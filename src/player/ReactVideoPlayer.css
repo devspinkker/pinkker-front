@@ -26,6 +26,17 @@
 
 }
 
+.thumbnail-prev-PlayerMain {
+    height: calc(84dvh - var(--navbar-height) - var(--channel-info-height));
+    width: calc(111dvh - var(--navbar-height) - var(--channel-info-height));
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .base-dialog {
     display: flex;
     width: 70%;

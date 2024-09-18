@@ -1,63 +1,76 @@
 .clipcard-body {
-    position: relative;
-    margin-right: 25px;
-    margin-top: 10px;
-    background-color: transparent;
-    transition: 1s;
-    border-radius: 5px;
-    height: max-content;
+  position: relative;
+  margin-right: 25px;
+  margin-top: 10px;
+  background-color: transparent;
+  transition: 1s;
+  border-radius: 5px;
+  height: max-content;
 }
 
 .clipcard-online {
-    font-size: 12px;
-    position: relative;
-    top: 130px;
-    left: 10px;
-    width: 50px;
-    background-color: rgba(0, 0, 0, 0.459);
-    color: #ededed;
-    text-align: center;
-    border-radius: 5px;
-    font-weight: 600;
-    padding: 2px;
-    z-index: 10;
+  font-size: 12px;
+  position: relative;
+  top: 130px;
+  left: 10px;
+  width: 50px;
+  background-color: rgba(0, 0, 0, 0.459);
+  color: #ededed;
+  text-align: center;
+  border-radius: 5px;
+  font-weight: 600;
+  padding: 2px;
+  z-index: 10;
 
 }
 
 .clipcard-duration {
-    font-size: 14px;
-    position: relative;
-    top: -65px;
-    left: 10px;
-    margin-top: -15px;
-    width: 95%;
-    color: rgb(201, 103, 103);
-    text-align: left;
-    border-radius: 3px;
-    text-shadow: 0px 0px 5px rgb(0, 0, 0);
-    transition: all .5s ease-in-out;
-    z-index: 10;
+  font-size: 14px;
+  position: relative;
+  top: -65px;
+  left: 10px;
+  margin-top: -15px;
+  width: 95%;
+  color: rgb(201, 103, 103);
+  text-align: left;
+  border-radius: 3px;
+  text-shadow: 0px 0px 5px rgb(0, 0, 0);
+  transition: all .5s ease-in-out;
+  z-index: 10;
 }
 
 .clipcard-body h3 {
-    color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
 .clipcard-body p {
-    color: darkgray;
+  color: darkgray;
 }
 
 
 .clipcard-body p:hover {
-    color: #f36196;
-    cursor: pointer;
+  color: #f36196;
+  cursor: pointer;
+}
+
+.getImagePreview {
+  border-radius: 5px;
+  width: 400px;
+  object-fit: cover;
+}
+
+.getImagePreview>img {
+
+  width: 260px;
+  border-radius: 10px;
 }
 
 .clipcard-body .clipcard-image {
-    transition: 0.5s all;
+  transition: 0.5s all;
 }
-.clipcard-image:hover{
-    transform: translate3d(0px, -9px, 0px) !important;
+
+.clipcard-image:hover {
+  transform: translate3d(0px, -9px, 0px) !important;
 }
 
 /*.clipcard-body:hover .clipcard-image {
@@ -65,43 +78,44 @@
 }*/
 
 .clipcard-image:hover .clipcard-image-hover-buttons {
-    opacity: 1;
+  opacity: 1;
 
 }
 
 .clipcard-image {}
 
-.clipcard-image-preview  img{
-    transition: 0.2s;
+.clipcard-image-preview img {
+  transition: 0.2s;
 }
-.clipcard-image-preview{
-    
-    border:'1px solid red'
+
+.clipcard-image-preview {
+
+  border: '1px solid red'
 }
 
 
 .clipcard-video-preview {
-    transition: 0.7s;
-    background-color: #202020;
-    border-radius: 5px;
+  transition: 0.7s;
+  background-color: #202020;
+  border-radius: 5px;
 }
 
 .clipcard-video-preview video {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 
 
 .clipcard-image-hover-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    cursor: pointer;
-    box-shadow: -1px 1px 224px 0px rgba(0, 0, 0, 0.75) inset;
-    opacity: 0;
-    color: #ededed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  cursor: pointer;
+  box-shadow: -1px 1px 224px 0px rgba(0, 0, 0, 0.75) inset;
+  opacity: 0;
+  color: #ededed;
 }
 
 
@@ -114,155 +128,156 @@
 }
 */
 .clipcard-body .clipcard-duration {
-    transition: 0.5s all;
+  transition: 0.5s all;
 }
 
 
 .clipcard-body .clipcard-online {
-    transition: 0.5s all;
+  transition: 0.5s all;
 }
 
 .clipcard-container:hover .clipcard-image-hover-buttons {
-    opacity: 1;
+  opacity: 1;
 }
 
 .vod-tag {
-    background-color: #252525;
-    padding: 2px;
-    border-radius: 50px;
-    text-align: center;
-    font-size: 10px;
-    font-weight: 800;
-    cursor: pointer;
-    text-decoration: none;
-    color: #ededed;
-    min-width: 40px;
-    max-width: 60px;
-    margin-top: 5px;
-    margin-right: 5px;
+  background-color: #252525;
+  padding: 2px;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+  color: #ededed;
+  min-width: 40px;
+  max-width: 60px;
+  margin-top: 5px;
+  margin-right: 5px;
 }
 
 .clipcard-image-preview p {
-    color: darkgray;
+  color: darkgray;
 }
 
 .clipcard-image-preview p:hover {
-    color: #f36196;
+  color: #f36196;
 }
 
 .video-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.75);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000000;
-    backdrop-filter: blur(10px);
-  }
-  
-  .video-modal {
-    position: relative;
-    background: #1a1a1a;
-    border-radius: 10px;
-    overflow: hidden;
-    width: 50%;
-  }
-  
-  .video-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    height: 100%;
-  }
-  
-  .video-header {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .video-user-info {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000000;
+  backdrop-filter: blur(10px);
+}
 
-  }
-  
-  .video-username {
-    font-weight: bold;
-    color: #00aaff;
-  }
-  
-  .video-views {
-    color: #aaa;
-  }
-  
-  .close-button {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  
-  .video-controls {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 10px;
-    margin: 10px 0;
-    width: 100%;
+.video-modal {
+  position: relative;
+  background: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 50%;
+}
 
-  }
-  
-  .video-controls button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .video-footer {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    color: #fff;
-  }
-  
-  .video-footer p {
-    margin: 0;
-  }
-  
-  .download-button {
-    color: #00aaff;
-    text-decoration: none;
-  }
-  video{
-    width: 100% !important;
-    height: 100% !important;
-  }
+.video-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  height: 100%;
+}
 
-  .progress-barHome {
-    flex-grow: 1;
-    margin: 0 10px;
-    height: 0px !important;
-    background-color: none !important;
-    transition: width 0.3s ease;
-  }
-  
-  .progress-barHome input[type="range"] {
-    width: 100%;
-    height: 15px !important;
+.video-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-  }
+.video-user-info {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+
+
+}
+
+.video-username {
+  font-weight: bold;
+  color: #00aaff;
+}
+
+.video-views {
+  color: #aaa;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.video-controls {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 10px 0;
+  width: 100%;
+
+}
+
+.video-controls button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.video-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: #fff;
+}
+
+.video-footer p {
+  margin: 0;
+}
+
+.download-button {
+  color: #00aaff;
+  text-decoration: none;
+}
+
+video {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.progress-barHome {
+  flex-grow: 1;
+  margin: 0 10px;
+  height: 0px !important;
+  background-color: none !important;
+  transition: width 0.3s ease;
+}
+
+.progress-barHome input[type="range"] {
+  width: 100%;
+  height: 15px !important;
+
+}

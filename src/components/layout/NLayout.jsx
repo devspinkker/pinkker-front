@@ -1211,19 +1211,7 @@ function NLayout(props) {
                   {expandCartera && <DropdownPurchase />}
 
                   <Link to="/plataform/cartera">
-                    <button
-                      style={{
-                        borderRadius: "5px",
-                        fontFamily:
-                          "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "5px",
-                        backgroundColor: "transparent",
-                        border: "1px solid #f36196",
-                      }}
-                      className="boton-comprar"
-                    >
+                    <button className="boton-comprar">
                       <BsWallet />
                       <Typography style={{ fontSize: "14px" }}>
                         Comprar{" "}
@@ -1244,7 +1232,6 @@ function NLayout(props) {
                     <div
                       style={{
                         width: "40px",
-                        background: "#2a2e38",
                         position: "relative",
                         left: "  ",
                         top: "2px",
@@ -1268,7 +1255,6 @@ function NLayout(props) {
                     <div
                       style={{
                         width: "40px",
-                        background: "#2a2e38",
                         position: "relative",
                         left: "  ",
                         top: "2px",
@@ -2387,7 +2373,6 @@ function NLayout(props) {
                   <div
                     style={{
                       width: "40px",
-                      background: "#2a2e38",
                       position: "relative",
                       left: "  ",
                       top: "2px",
@@ -2411,7 +2396,6 @@ function NLayout(props) {
                   <div
                     style={{
                       width: "40px",
-                      background: "#2a2e38",
                       position: "relative",
                       left: "  ",
                       top: "2px",
@@ -2438,7 +2422,6 @@ function NLayout(props) {
                     style={{
                       width: "40px",
                       height: "40px",
-                      backgroundColor: "#f36196",
                       position: "relative",
                       left: "  ",
                       top: "2px",

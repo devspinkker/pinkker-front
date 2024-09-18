@@ -225,9 +225,19 @@
   transition: 200ms all;
 }
 
+.boton-comprar {
+  border-radius: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: transparent;
+  border: 1px solid #471f2e;
+}
+
 .boton-comprar:hover {
-  background-color: #762543 !important;
-  border: 1px solid #f36196 !important;
+  background-color: #471f2e !important;
+  border: 1px solid #471f2e !important;
 }
 
 .button-purchase-pixels:hover {
@@ -365,12 +375,13 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  background-color: #100b0d;
   margin-right: 5px;
 
 }
 
 .navbar-image-avatar:hover {
-  background: #343843 !important;
+  background-color: #f3619645;
 }
 
 .navbar-image-avatar img {

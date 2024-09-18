@@ -55,7 +55,9 @@ export default function ClipCardChannel({ video, ...props }) {
           />
           <div style={{ marginTop: "10px", marginLeft: "5px" }}>
             <h4 style={{ color: "white", fontSize: "14px" }}>{props?.title}</h4>
-            <p style={{ fontSize: "13px" }}>{props.views} vistas ·{props.duration} </p>
+            <p style={{ fontSize: "13px" }}>
+              {props.views} vistas ·{props.duration}{" "}
+            </p>
           </div>
         </div>
       </div>
@@ -64,17 +66,8 @@ export default function ClipCardChannel({ video, ...props }) {
 
   function getImagePreview() {
     return (
-      <div className="">
-        <img
-          style={{
-            borderRadius: "5px",
-            width: "400px",
-            height: props.height,
-            objectFit: "cover",
-          }}
-          src={video.streamThumbnail}
-          alt=""
-        />
+      <div className="getImagePreview">
+        <img src={video.streamThumbnail} alt="" />
         <div
           style={{ marginLeft: "10px", display: "flex", alignItems: "center" }}
         >

@@ -571,7 +571,6 @@ function NLayout(props) {
                   style={{
                     width: "40px",
                     height: "40px",
-                    backgroundColor: "#f36196",
                     position: "relative",
                     left: "  ",
                     top: "2px",
