@@ -14,8 +14,16 @@
     font-weight: bold;
 }
 
+:root {
+    --navbar-height: 50px;
+    --channel-info-height: 30px;
+}
+
+
 .video-player {
-    height: 649px !important;
+    max-height: calc(84dvh - var(--navbar-height) - var(--channel-info-height))
+        /* height: 649px !important; */
+
 }
 
 .base-dialog {

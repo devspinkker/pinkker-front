@@ -201,12 +201,13 @@ export default function Channel({
   const formatNumber = (number) => (number < 10 ? `0${number}` : number);
 
   useEffect(() => {
-    if (stream?.Online) {
+    if (stream?.online && stream?.start_date) {
       const calculateElapsedTime = () => {
-        const startDateTime = new Date(stream?.start_date);
+        const startDateTime = new Date(stream.start_date);
         const now = new Date();
 
         const timeDifference = now - startDateTime;
+
         const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
         const minutes = Math.floor(
           (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
@@ -216,11 +217,16 @@ export default function Channel({
         setElapsedTime({ hours, minutes, seconds });
       };
 
+      // Calcular el tiempo inicialmente
+      calculateElapsedTime();
+
+      // Actualizar cada segundo
       const interval = setInterval(calculateElapsedTime, 1000);
 
+      // Limpiar intervalo cuando el componente se desmonte
       return () => clearInterval(interval);
     }
-  }, [stream?.start_date]);
+  }, [stream?.start_date, stream?.online]);
 
   useEffect(() => {
     if (announce) {
@@ -588,8 +594,8 @@ export default function Channel({
                 >
                   <img
                     style={{
-                      width: "5.3rem",
-                      height: "5.3rem",
+                      width: "4rem",
+                      height: "4rem",
                       borderRadius: "100px",
                       objectFit: "cover",
                     }}
@@ -597,33 +603,13 @@ export default function Channel({
                   />
                 </Tippy>
                 {stream.online ? (
-                  <h5
-                    className="channel-avatar-text"
-                    style={{
-                      color: "#ededed",
-                      padding: "2px",
-                      borderRadius: "5px",
-                      position: "relative",
-                      left: "0px",
-                      top: "-20px",
-                      width: "85px",
-                    }}
-                  >
-                    EN DIRECTO
-                  </h5>
+                  <h5 className="channel-avatar-text">LIVE</h5>
                 ) : (
                   <div></div>
                 )}
               </div>
             </Link>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-start",
-                gap: "5px",
-              }}
-            >
+            <div className="channel-info-streamer-stream-data">
               <div style={{ display: "flex", alignItems: "center" }}>
                 <div className="channel-bottom-avatar-text">
                   <h2
@@ -645,7 +631,7 @@ export default function Channel({
                           height: "20px",
                         }}
                         src={
-                          "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                          "https://res.cloudinary.com/dcj8krp42/image/upload/v1708649714/Emblemas/VERIFICADO_khegwz.png"
                         }
                       />
                     )}{" "}
@@ -655,7 +641,6 @@ export default function Channel({
               <h4
                 style={{
                   color: "#ededed",
-                  marginBottom: "4px",
                   marginTop: "4px",
                 }}
               >
@@ -1187,7 +1172,7 @@ export default function Channel({
                   <Emblem
                     name={"Verificado"}
                     img={
-                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1708649714/Emblemas/VERIFICADO_khegwz.png"
                     }
                   />
                 )}{" "}
@@ -1433,17 +1418,16 @@ export default function Channel({
                 )}
 
                 {renderAnnoucement()}
-                {stream.online && getStream()}
               </div>
 
               <div
                 style={{
-                  width: "82%",
-                  margin: "0px  0px 0px 0px",
-                  zIndex: "1000",
                   marginTop: stream?.Online ? "" : "22px",
                 }}
+                className="Channel-info-streamMain"
               >
+                {stream.online && getStream()}
+
                 {!isMobile && (
                   <div
                     style={{

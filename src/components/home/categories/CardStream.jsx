@@ -49,11 +49,10 @@ export default function CardStream(props) {
               src={props.avatarStreamer}
               alt=""
               style={{
-                width: '50px',
-                height: '50px',
-                objectFit: 'cover',
+                width: "50px",
+                height: "50px",
+                objectFit: "cover",
                 borderRadius: "50%",
-
               }}
             />
             <div className="home-categories-p-2">
@@ -72,8 +71,6 @@ export default function CardStream(props) {
             </div>
           </div>
           <div className="stream_data_card">
-
-
             <div className="categories-card-tag-container">
               {tags.map((tag) => (
                 <a style={{ fontSize: "12px" }} className="categorie-card-tag">

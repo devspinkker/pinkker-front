@@ -513,7 +513,7 @@ export default function CustomPlayer({
         return (
           <div className="customPlayer-container">
             <div
-              style={{ position: "relative", top: "-86px" }}
+              style={{ position: "relative", top: "-73px" }}
               className="customPlayer-primary"
             >
               <div className="customPlayer-secundary-div">

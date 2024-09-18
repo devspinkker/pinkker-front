@@ -8,11 +8,13 @@
 * {
   margin: 0;
   padding: 0;
-  
+
 }
-.css-hip9hq-MuiPaper-root-MuiAppBar-root{
-  background-color: transparent  !important;
+
+.css-hip9hq-MuiPaper-root-MuiAppBar-root {
+  background-color: transparent !important;
 }
+
 html {
   scroll-behavior: smooth;
 }
@@ -139,7 +141,7 @@ code {
 }
 
 .pinkker-button-more:hover {
-  background-color: #303030;
+  /* background-color: #303030; */
   border-radius: 50%;
 }
 
@@ -159,9 +161,10 @@ code {
   outline: 1px solid #ff60b2;
 }
 
-.css-11yukd5-MuiTabs-indicator{
+.css-11yukd5-MuiTabs-indicator {
   background-color: #ff60b2 !important;
 }
+
 .button-like {
   background-color: transparent;
   color: lightgray;
@@ -212,7 +215,7 @@ code {
 .type-card:hover {}
 
 .type-card.active {
-  background: #343843;
+  background: #f3619645;
 }
 
 .type-line {

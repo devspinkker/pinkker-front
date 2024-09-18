@@ -1,9 +1,24 @@
+:root {
+    --navbar-height: 50px;
+    --channel-info-height: 30px;
+}
+
+
 .vodcard-body {
     position: relative;
     margin: 2px;
     margin-right: 20px;
     padding: 2rem 0rem;
-    width: 400px;
+    width: calc(40dvh - var(--navbar-height) - var(--channel-info-height));
+}
+
+.vodcard-image {
+    width: 100%;
+}
+
+.img-video {
+    width: 260px;
+    border-radius: 10px;
 }
 
 .vodcard-online {
@@ -46,7 +61,7 @@
 }
 
 
-.vodcard-body .vodcard-image {
+.vodcard-body {
     transition: 0.5s all;
     height: 210px;
 }

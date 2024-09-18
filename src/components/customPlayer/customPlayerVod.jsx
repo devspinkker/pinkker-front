@@ -434,7 +434,7 @@ export default function CustomPlayer({
         return (
           <div className="customPlayer-container">
             <div
-              style={{ marginTop: "-85px", justifyContent: "center" }}
+              style={{ marginTop: "-73px", justifyContent: "center" }}
               className="customPlayer-primary"
             >
               <div

@@ -17,10 +17,6 @@ export default function VodCard(props) {
         <div className="vodcard-image">
           <img
             className="img-video"
-            style={{
-              width: "344px",
-              borderRadius: "5px",
-            }}
             src={
               props.image
                 ? props.image

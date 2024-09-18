@@ -646,33 +646,13 @@ export default function Channel({
                   />
                 </Tippy>
                 {stream.online ? (
-                  <h5
-                    className="channel-avatar-text"
-                    style={{
-                      color: "#ededed",
-                      padding: "2px",
-                      borderRadius: "5px",
-                      position: "relative",
-                      left: "0px",
-                      top: "-20px",
-                      width: "85px",
-                    }}
-                  >
-                    EN DIRECTO
-                  </h5>
+                  <h5 className="channel-avatar-text">VIVO</h5>
                 ) : (
                   <div></div>
                 )}
               </div>
             </Link>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-start",
-                gap: "5px",
-              }}
-            >
+            <div className="channel-info-streamer-stream-data">
               <div style={{ display: "flex", alignItems: "center" }}>
                 <div className="channel-bottom-avatar-text">
                   <h2
@@ -694,7 +674,7 @@ export default function Channel({
                           height: "20px",
                         }}
                         src={
-                          "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                          "https://res.cloudinary.com/dcj8krp42/image/upload/v1708649714/Emblemas/VERIFICADO_khegwz.png"
                         }
                       />
                     )}{" "}
@@ -704,7 +684,6 @@ export default function Channel({
               <h4
                 style={{
                   color: "#ededed",
-                  marginBottom: "4px",
                   marginTop: "4px",
                 }}
               >
@@ -1236,7 +1215,7 @@ export default function Channel({
                   <Emblem
                     name={"Verificado"}
                     img={
-                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1708649714/Emblemas/VERIFICADO_khegwz.png"
                     }
                   />
                 )}{" "}
@@ -1476,17 +1455,16 @@ export default function Channel({
                 </div>
 
                 {renderAnnoucement()}
-                {getStream()}
               </div>
 
               <div
                 style={{
-                  width: "82%",
-                  margin: "0px  0px 0px 0px",
-                  zIndex: "1000",
                   marginTop: stream?.Online ? "" : "22px",
                 }}
+                className="Channel-info-streamMain"
               >
+                {getStream()}
+
                 {!isMobile && (
                   <div
                     style={{

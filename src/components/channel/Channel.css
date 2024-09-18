@@ -1,5 +1,5 @@
 .container-channel {
-    width: 95.6% !important;
+    width: 100% !important;
     background-color: #080808;
     position: relative;
     transition: 0.15s
@@ -145,10 +145,19 @@
 
 
 .channel-avatar-text {
+    color: rgb(237, 237, 237);
+    padding: 4px;
+    border-radius: 5px;
+    position: relative;
+    left: 12px;
+    top: -17px;
+    width: 31px;
+    height: 12px;
     transition: 0.5s;
     background-color: #e51a4c;
     border: 2px solid #0A0B0D;
     font-size: 13px;
+    font-weight: bolder;
 }
 
 
@@ -499,7 +508,17 @@
 
 .channel-custom-player-main-div {}
 
+.Channel-info-streamMain {
+    width: 96%;
+    margin: 0px 0px 0px 0px;
+    z-index: 1000;
+}
+
 .channel-v2-info {
+    width: 96%;
+    margin: 0 auto;
+    padding: 2px;
+    padding-bottom: 7px;
     /* width: 60%;  */
     /* background-color: #131418;
     position: relative; */
@@ -527,6 +546,14 @@
     display: flex;
     align-items: flex-start;
     gap: 10px;
+}
+
+.channel-info-streamer-stream-data {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 3px 0px 0px 5px;
+
 }
 
 .channel-v2-categorie>h4 {
@@ -697,6 +724,7 @@
 .elapsedTime {
     display: flex;
     white-space: nowrap;
+    font-weight: 500;
 }
 
 /* Media Screen for 1366x768 */
@@ -741,5 +769,8 @@
 
 .conteiner-streamer-online-infoStream {
     width: 100%;
+    display: flex;
+    background: #000000;
     border-radius: 0px 0px 10px 10px;
+    justify-content: space-evenly;
 }

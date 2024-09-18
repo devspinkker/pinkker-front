@@ -244,6 +244,7 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
+      
     }}
   >
     <div className="base-dialog-player">
@@ -303,7 +304,7 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
       )}
       <video
         style={{ width, height, display: Commercial ||  Player ? "none" : "" }}
-        id='video-player'
+        className='video-player'
         muted={true}
         controls={false}
         playsInline
