@@ -39,11 +39,24 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
   const intervalRef = useRef(null);
 
   useEffect(() => {
+    const player = playerRef.current;
+    const canvas = canvasRef.current;
+
     return () => {
-      if (playerRef.current) {
-        playerRef.current.pause();
-        playerRef.current.src = "";
+      console.log(player);
+
+      if (player) {
+        player.pause();
+        player.src = "";
+        console.log("cliean player");
       }
+
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      // Clear any running intervals
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
