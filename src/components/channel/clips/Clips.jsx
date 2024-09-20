@@ -1,45 +1,49 @@
 import React, { useState, useEffect } from "react";
-import ReactPlayer from "react-player";
-import "./Clips.css";
-import {
-  GetClipsNameUser,
-  MoreViewOfTheClip,
-  GetClipsByFilter, // Asegúrate de tener una función para filtrar los clips
-} from "../../../services/backGo/clip";
 import Skeleton from "@mui/material/Skeleton";
-import { Link } from "react-router-dom";
 import ClipCardChannel from "../../card/ClipCardChannel";
 import SelectVideoClip from "../../home/clips/SelectVideoClip";
 import CustomSelect from "../../explore/categories/CustomSelect";
-
+import { GetClipsByUserIDAndFilter } from "../../../services/backGo/clip"; // Importa la función correcta
+import "./Clips.css";
 export default function Clips(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [sortOption, setSortOption] = useState("Recientes"); // Nueva opción de ordenación
+  const [sortOption, setSortOption] = useState("Recientes");
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   const data = await GetClipsByFilter(props.streamer, sortOption);
-    //   if (data != null && data != undefined) {
-    //     setVideos(data.data.data);
-    //   } else {
-    //     setVideos(props?.video);
-    //   }
-    //   setIsLoading(false);
-    // };
-    // fetchData();
-  }, [props.streamer, sortOption]); // Ahora también se ejecuta cuando cambia el sortOption
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const data = await GetClipsByUserIDAndFilter(
+          props.idStreamer,
+          sortOption
+        );
+        if (data.message === "Clips fetched successfully" && data.data) {
+          console.log(data.data);
+          setVideos(data.data);
+        } else {
+          setVideos(props?.video);
+        }
+      } catch (error) {
+        console.error("Error fetching clips:", error);
+        setVideos(props?.video);
+      }
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [props.idStreamer, sortOption]);
 
   const toggleSelect = () => {
-    setSelectedVideo(!selectedVideo);
+    setSelectedVideo(null);
   };
 
   const handleSortChange = (option) => {
-    setSortOption(option); // Actualiza la opción seleccionada
+    setSortOption(option);
   };
 
-  function CardSkeleto() {
+  function CardSkeleton() {
     return (
       <div style={{ margin: "2px", marginTop: "15px" }}>
         <Skeleton
@@ -73,33 +77,34 @@ export default function Clips(props) {
 
   return (
     <div className="channel-clips-body">
-      <CustomSelect
-        options={[
-          "Más visto",
-          "Recientes",
-          "Random",
-          "Última semana",
-          "Último día",
-          "Último mes",
-        ]}
-        defaultValue="Recientes"
-        onChange={handleSortChange}
-      />
+      <div
+        style={{
+          width: "23%",
+          marginLeft: "31px",
+        }}
+      >
+        <CustomSelect
+          options={[
+            "Más visto",
+            "Recientes",
+            "Random",
+            "Última semana",
+            "Último día",
+            "Último mes",
+          ]}
+          defaultValue="Recientes"
+          onChange={handleSortChange} // Manejador de cambio de opción
+        />
+      </div>
 
       <div className="channel-clips-container">
-        {videos != null &&
-          videos != undefined &&
-          videos.length > 0 &&
-          videos.map((video) =>
-            isLoading ? (
-              <CardSkeleto key={video.id} />
-            ) : (
+        {isLoading
+          ? [1, 2, 3, 4].map((_, index) => <CardSkeleton key={index} />) // Mostrar esqueleto mientras carga
+          : videos?.map((video) => (
               <div
                 key={video.id}
                 style={{ cursor: "pointer", margin: "10px" }}
-                onClick={() => {
-                  setSelectedVideo({ video });
-                }}
+                onClick={() => setSelectedVideo(video)} // Asigna el video seleccionado
                 className="vodcard-body"
               >
                 <ClipCardChannel
@@ -110,13 +115,12 @@ export default function Clips(props) {
                   createdAt={video.createdAt}
                   duration={video.duration}
                   title={video.clipTitle}
-                  categorie={"video.stream.stream_category"}
-                  tags={"video.stream.stream_tag"}
+                  categorie={video.stream?.stream_category}
+                  tags={video.stream?.stream_tag}
                   video={video}
                 />
               </div>
-            )
-          )}
+            ))}
       </div>
 
       {selectedVideo && (
@@ -127,7 +131,7 @@ export default function Clips(props) {
           }}
         >
           <SelectVideoClip
-            clip={selectedVideo.video}
+            clip={selectedVideo} // Pasa el video seleccionado
             toggleSelect={toggleSelect}
           />
         </div>

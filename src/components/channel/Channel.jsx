@@ -1241,7 +1241,7 @@ export default function Channel({
     }
 
     if (type === 4) {
-      return <Clips streamer={streamer} />;
+      return <Clips idStreamer={streamerData.id} streamer={streamer} />;
     }
   }
 

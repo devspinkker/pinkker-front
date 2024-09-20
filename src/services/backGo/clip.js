@@ -4,6 +4,23 @@ var token = null;
 export const setToken = (newObject) => {
     token = newObject;
 };
+export const GetClipsByUserIDAndFilter = async (UserID, filter = 'recent', dateRange = '', page = 1, limit = 10) => {
+    try {
+        const response = await axios.get(`${url}/clips/GetClipsByNameUserIDOrdenacion`, {
+            params: {
+                UserID,       // ID del usuario o streamer
+                filter,       // Filtro (recent, week, month, year, etc.)
+                dateRange,    // Opcional: si no se pasa, el backend lo calculará
+                page,         // Número de página
+                limit         // Cantidad de clips por página
+            }
+        });
+
+        return response.data;  // Devuelve la data de la respuesta
+    } catch (error) {
+        console.error('Error fetching clips:', error);
+    }
+};
 export const Create_Clip = async ({ tsUrls, startTime, endTime, streamKey, title }, config) => {
     const response = await axios.post(
         `${url}/clips/create-clips`, {
