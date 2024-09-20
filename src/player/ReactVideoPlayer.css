@@ -37,6 +37,13 @@
     align-items: center;
 }
 
+@media screen and (max-width: 758px) {
+    .thumbnail-prev-PlayerMain {
+        height: calc(40dvh - var(--navbar-height) - var(--channel-info-height));
+        width: calc(36dvh - var(--navbar-height) - var(--channel-info-height));
+    }
+}
+
 .base-dialog {
     display: flex;
     width: 70%;

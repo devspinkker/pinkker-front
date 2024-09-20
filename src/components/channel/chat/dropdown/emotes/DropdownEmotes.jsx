@@ -54,13 +54,7 @@ function DropdownEmotes({
 
     return (
       <div className="dropdownemotes-primary">
-        <hr
-          style={{
-            border: "1px solid #4b4b4b8f",
-            width: "95%",
-            marginBottom: "10px",
-          }}
-        />
+        <hr className="hr-dropdownemotes-primary" />
         <p
           style={{
             fontFamily: "Inter",
@@ -99,13 +93,7 @@ function DropdownEmotes({
 
     return (
       <div className="dropdownemotes-primary">
-        <hr
-          style={{
-            border: "1px solid #4b4b4b8f",
-            width: "95%",
-            marginBottom: "10px",
-          }}
-        />
+        <hr className="hr-dropdownemotes-primary" />
         <p
           style={{
             fontFamily: "Inter",
@@ -189,13 +177,7 @@ function DropdownEmotes({
 
     return (
       <div className="dropdownemotes-primary">
-        <hr
-          style={{
-            border: "1px solid #4b4b4b8f",
-            width: "95%",
-            // marginBottom: "10px",
-          }}
-        />
+        <hr className="hr-dropdownemotes-primary" />
         <p
           style={{
             fontFamily: "Inter",

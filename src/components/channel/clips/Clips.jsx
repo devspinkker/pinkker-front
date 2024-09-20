@@ -4,71 +4,40 @@ import "./Clips.css";
 import {
   GetClipsNameUser,
   MoreViewOfTheClip,
+  GetClipsByFilter, // Asegúrate de tener una función para filtrar los clips
 } from "../../../services/backGo/clip";
 import Skeleton from "@mui/material/Skeleton";
 import { Link } from "react-router-dom";
 import ClipCardChannel from "../../card/ClipCardChannel";
 import SelectVideoClip from "../../home/clips/SelectVideoClip";
+import CustomSelect from "../../explore/categories/CustomSelect";
 
 export default function Clips(props) {
   const [isLoading, setIsLoading] = useState(true);
-  const [videoHover, setVideoHover] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [videos, setVideos] = useState();
-  const [hasCalledFunction, setHasCalledFunction] = useState(false);
-  const [showLoader, setShowLoader] = useState(true);
+  const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [sortOption, setSortOption] = useState("Recientes"); // Nueva opción de ordenación
+
+  useEffect(() => {
+    // const fetchData = async () => {
+    //   const data = await GetClipsByFilter(props.streamer, sortOption);
+    //   if (data != null && data != undefined) {
+    //     setVideos(data.data.data);
+    //   } else {
+    //     setVideos(props?.video);
+    //   }
+    //   setIsLoading(false);
+    // };
+    // fetchData();
+  }, [props.streamer, sortOption]); // Ahora también se ejecuta cuando cambia el sortOption
+
   const toggleSelect = () => {
     setSelectedVideo(!selectedVideo);
   };
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 300);
-  const closedClip = () => {
-    setShowLoader(true);
-    setSelectedVideo(null);
+
+  const handleSortChange = (option) => {
+    setSortOption(option); // Actualiza la opción seleccionada
   };
-  const handleProgress = async (e) => {
-    const { duration, currentTime } = e.target;
-    const newProgress = (currentTime / duration) * 100;
-    setProgress(newProgress);
-
-    if (newProgress > 50.0 && newProgress < 50.5) {
-      setHasCalledFunction(true);
-      await MoreViewOfTheClip(selectedVideo.video.id);
-    }
-  };
-
-  const formatTimestamp = (timestamp) => {
-    const currentDate = new Date();
-    const clipDate = new Date(timestamp);
-    const diffInSeconds = Math.floor((currentDate - clipDate) / 1000);
-
-    if (diffInSeconds < 60) {
-      return `${diffInSeconds} seconds ago`;
-    } else if (diffInSeconds < 3600) {
-      const minutes = Math.floor(diffInSeconds / 60);
-      return `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
-    } else if (diffInSeconds < 86400) {
-      const hours = Math.floor(diffInSeconds / 3600);
-      return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
-    } else {
-      const days = Math.floor(diffInSeconds / 86400);
-      return `${days} ${days === 1 ? "day" : "days"} ago`;
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await GetClipsNameUser(props.streamer, "1");
-      if (data != null && data != undefined) {
-        setVideos(data.data.data);
-      } else {
-        setVideos(props?.video);
-      }
-    };
-    fetchData();
-  }, [props.streamer]);
 
   function CardSkeleto() {
     return (
@@ -102,12 +71,21 @@ export default function Clips(props) {
     );
   }
 
-  useEffect(() => {
-    setHasCalledFunction(false);
-  }, [selectedVideo]);
-
   return (
     <div className="channel-clips-body">
+      <CustomSelect
+        options={[
+          "Más visto",
+          "Recientes",
+          "Random",
+          "Última semana",
+          "Último día",
+          "Último mes",
+        ]}
+        defaultValue="Recientes"
+        onChange={handleSortChange}
+      />
+
       <div className="channel-clips-container">
         {videos != null &&
           videos != undefined &&
@@ -121,7 +99,6 @@ export default function Clips(props) {
                 style={{ cursor: "pointer", margin: "10px" }}
                 onClick={() => {
                   setSelectedVideo({ video });
-                  setHasCalledFunction(false);
                 }}
                 className="vodcard-body"
               >
@@ -141,19 +118,20 @@ export default function Clips(props) {
             )
           )}
       </div>
-      <div
-        style={{
-          position: "absolute",
-          zIndex: "999999999999999999999999999999999",
-        }}
-      >
-        {selectedVideo && (
+
+      {selectedVideo && (
+        <div
+          style={{
+            position: "absolute",
+            zIndex: "999999999999999999999999999999999",
+          }}
+        >
           <SelectVideoClip
             clip={selectedVideo.video}
             toggleSelect={toggleSelect}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,7 +6,7 @@
     height: 100%;
     width: 100%;
     /* border-left: 1px solid #0f1214; */
-    background: #0f1214;
+    background: #080808;
 }
 
 .Host {
@@ -99,8 +99,8 @@
     padding: 0px 0px;
     position: relative;
     left: 100px;
-    height: 28px;
-    width: 34px;
+    height: 20px;
+    width: 24px;
     border: 1px solid #ffffff2b;
     display: flex;
     align-items: center;
@@ -142,11 +142,12 @@
     align-items: center;
     flex-direction: column;
     position: absolute;
-    top: 107px;
+    top: 98px;
     width: 100%;
     justify-content: center;
     z-index: 100;
-    background: black;
+    background-color: #080808;
+
 }
 
 .badges {
@@ -158,9 +159,10 @@
 }
 
 .badges>img {
-    margin: 0px 3px;
+    margin: 0px 2px;
     width: 18px;
     height: 18px;
+    border-radius: 13px;
 }
 
 .sas {
@@ -229,7 +231,7 @@
     border-radius: 5px 0px 0px 5px;
     border: #545658 1px solid;
     border-right: none;
-    background: #171a1f;
+    background: #080808;
     text-align: left;
     padding: 0px 0px 0px 6px;
     font-weight: bold;
@@ -243,7 +245,7 @@
     border: #545658 1px solid;
     border-left: none;
     border-right: none;
-    background: #171a1f;
+    background: #080808;
     color: #fff;
     text-align: left;
     padding: 0px 0px 0px 15px;
@@ -252,7 +254,7 @@
 
 .config-buttoncloseNavbarDropdownEmotes {
     align-items: center;
-    background: #171a1f;
+    background: #080808;
     border: 1px solid #545658;
     border-left: none;
     border-radius: 0 5px 5px 0;
@@ -274,10 +276,10 @@
     border: #545658 1px solid;
     border-left: none;
     border-right: none;
-    background: #171a1f;
+    background: #080808;
     color: #fff;
     text-align: left;
-    padding: 0px 0px 0px 15px;
+    padding: 0px 0px 0px 2px;
     font-weight: bold;
     outline: none;
     align-items: center;
@@ -356,10 +358,15 @@
 }
 
 .actions-chat-conteiner {
-    padding: 14px;
-    width: 88.5%;
-    /* border-top: 1px solid #2a2e38; */
-    background: #0f1214;
+    width: 100%;
+    background: #080808;
+    /* box-shadow: 2px 1px 20px -13px lemonchiffon; */
+    border-top: 1px solid #4e223238;
+    border-radius: 3px;
+}
+
+.actions-chat-conteiner-content {
+    padding: 11px 15px;
 }
 
 .actions-chat {
@@ -552,8 +559,7 @@
 .new-messages>div {
     height: 1px;
     flex-grow: 0.4;
-    --tw-bg-opacity: 1;
-    background-color: rgb(83 252 24 / var(--tw-bg-opacity));
+    background-color: #ff69c470;
 }
 
 .ResMessage {

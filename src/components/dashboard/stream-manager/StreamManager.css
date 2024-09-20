@@ -13,7 +13,7 @@
     overflow-y: unset;
     z-index: 8888;
     padding: 0rem;
-
+    /* box-shadow: -2px 1px 14px -13px #ff69c48f; */
 }
 
 .streammanager-body {

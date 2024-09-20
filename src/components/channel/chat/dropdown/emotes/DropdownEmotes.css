@@ -3,17 +3,18 @@
 .dropdownemotes-menu {
   position: absolute;
   margin-top: -394px;
-  left: 26px;
-  width: 342px;
+  left: 5%;
+  width: 81%;
   height: 293px;
   display: flex;
-  background: #24272c;
+  background: #000000;
   border: 1px solid #15151563;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   padding: 10px;
   border-bottom: 1px solid #ffffff1a;
   overflow: hidden;
+  box-shadow: 1px -1px 12px #4f2a39;
 }
 
 .dropdownemotes-container {
@@ -69,6 +70,7 @@
   text-decoration: none;
   color: #fff;
   padding: 5px;
+  height: 4px;
 }
 
 .dropdownemotes-button {
@@ -116,9 +118,13 @@
   width: 100%;
   overflow: scroll;
   overflow-x: hidden;
-  margin-top: 10px;
 }
 
+.hr-dropdownemotes-primary {
+  border: 1px solid rgb(44 25 33 / 33%);
+  width: 100%;
+  margin-bottom: 10px;
+}
 
 .dropdown-secondary {
   width: 15%;

@@ -242,9 +242,22 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
     className='thumbnail-prev-PlayerMain'
   >
     <div className="base-dialog-player">
-      <button onClick={handleStartWatchingClick}>
+      <button
+      style={
+        {
+          background:"#000000"
+        }
+      }
+      
+       onClick={handleStartWatchingClick}>
         <div>
-          <i className='fas fa-play pinkker-button-more' ></i>
+          <i 
+             style={
+              {
+                color:"#ffff"
+              }
+            }
+          className='fas fa-play pinkker-button-more' ></i>
         </div>
       </button>
     </div>

@@ -18,9 +18,9 @@ export default function CustomSelect({ options, defaultValue, onChange }) {
         className="custom-select-container"
       >
         <div className="custom-select-header">
-        <CiSliderVertical />
-        <span>Ordenar por: </span>
-          <span style={{color: '#f36196'}}>{selectedValue}</span>
+          <CiSliderVertical />
+          <span>Ordenar por: </span>
+          <span style={{ color: "#f36196" }}>{selectedValue}</span>
           <i
             className={`fas fa-chevron-${isOpen ? "up" : "down"}`}
             style={{ marginLeft: "5px" }}

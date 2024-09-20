@@ -650,7 +650,7 @@
 }
 
 .channel-bottom-v2-button-follow:hover {
-    background-color: #762543;
+    background-color: #ff50a6;
 }
 
 
@@ -661,8 +661,8 @@
     align-items: center;
     justify-content: center;
     padding: 5px;
-    background-color: transparent;
-    border: 1px solid #3f388a;
+    background-color: #4e2232;
+    border: 1px solid #a9a9a94a;
     color: #ededed;
     border-radius: 5px;
     cursor: pointer;
@@ -672,7 +672,7 @@
 }
 
 .channel-bottom-v2-button-sub:hover {
-    background-color: #27225c;
+    background-color: #ff50a6;
 }
 
 .channel-bottom-v2-button-gestion {

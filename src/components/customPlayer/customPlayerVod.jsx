@@ -566,7 +566,10 @@ export default function CustomPlayer({
                     step={0.01}
                     color="secondary"
                     value={volumePlayer}
-                    style={{ opacity: volumeHovered ? "1" : "0" }}
+                    style={{
+                      color: "#fff",
+                      opacity: volumeHovered ? "1" : "0",
+                    }}
                     onChange={(e) => setVolume(e.target.value)}
                   />
                 </div>
@@ -578,6 +581,9 @@ export default function CustomPlayer({
                   min={0}
                   max={videoRef.current?.duration || 100}
                   aria-labelledby="continuous-slider"
+                  style={{
+                    color: "#fff",
+                  }}
                 />
               </div>
 

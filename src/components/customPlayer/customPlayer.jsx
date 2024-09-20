@@ -566,7 +566,10 @@ export default function CustomPlayer({
                     step={0.01}
                     color="secondary"
                     value={volumePlayer}
-                    style={{ opacity: volumeHovered ? "1" : "0" }}
+                    style={{
+                      color: "#fff",
+                      opacity: volumeHovered ? "1" : "0",
+                    }}
                     onChange={(e) => setVolume(e.target.value)}
                   />
                 </div>

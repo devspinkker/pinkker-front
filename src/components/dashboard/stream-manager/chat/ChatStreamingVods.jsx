@@ -843,7 +843,7 @@ export function ChatStreamingVods({
                 {MsjChatAnclado?.StreamerChannelOwner && (
                   <img
                     src={
-                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
+                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg "
                     }
                     alt="StreamerChannelOwner"
                   />
@@ -1201,7 +1201,7 @@ export function ChatStreamingVods({
                   {message?.StreamerChannelOwner && (
                     <img
                       src={
-                        "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg"
+                        "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg "
                       }
                       alt="StreamerChannelOwner"
                     />
