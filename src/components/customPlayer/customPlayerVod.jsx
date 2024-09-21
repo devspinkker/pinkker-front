@@ -54,7 +54,7 @@ export default function CustomPlayer({
   const [showScreenMute, setShowScreenMute] = useState(true);
   const [enableQuality, setEnableQuality] = useState(false);
   const [currentTime, setCurrentTime] = useState(null);
-
+  const [FullScreen, setFullScreen] = useState(false);
   const togglePopupClipCreator = (video) => {
     setVideo(video);
     setPopupClipCreator(!popupClipCreator);
@@ -185,7 +185,7 @@ export default function CustomPlayer({
 
   const toggleFullScreen = () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
-
+    setFullScreen(!FullScreen);
     if (document.fullscreenElement) {
       if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -210,7 +210,6 @@ export default function CustomPlayer({
       }
     }
   };
-
   function getHlsSrc() {
     if (Vod) {
       var keyTransmission;

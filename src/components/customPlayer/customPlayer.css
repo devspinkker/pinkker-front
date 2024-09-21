@@ -19,6 +19,13 @@
   z-index: 9999;
 }
 
+.dropdownsettings-FullScreen {
+  position: fixed;
+  left: 71%;
+  top: 46%;
+  background: inherit;
+}
+
 .customPlayer-primary {
   padding: 1rem 1rem;
   display: flex;

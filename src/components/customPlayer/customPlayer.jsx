@@ -50,6 +50,7 @@ export default function CustomPlayer({
   const [multiverse, setMultiverse] = useState(false);
 
   const [volumeHovered, setVolumeHovered] = useState(false);
+  const [FullScreen, setFullScreen] = useState(false);
 
   const [quality, setQuality] = useState("auto");
 
@@ -158,7 +159,7 @@ export default function CustomPlayer({
 
   const toggleFullScreen = () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
-
+    setFullScreen(!FullScreen);
     if (document.fullscreenElement) {
       if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -716,7 +717,12 @@ export default function CustomPlayer({
         )}
         {enableQuality && (
           <ul className={"dropdownsettings-menu"}>
-            <div className="dropdownsettings-container">
+            <div
+              className={
+                "dropdownsettings-container " + FullScreen &&
+                "dropdownsettings-FullScreen"
+              }
+            >
               <div>
                 <li>
                   <div className="dropdownsettings-content">
