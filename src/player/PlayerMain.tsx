@@ -28,7 +28,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const reconnectIntervalRef = useRef<NodeJS.Timeout | null>(null);
-
+  const [isFullScreen, setIsFullScreen] = useState(false); // Estado para fullScreen
   const playerRef = useRef();
   const canvasRef = useRef(null);
   const [videoHover, setVideoHover] = useState(false);
@@ -269,7 +269,27 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   const handleRedirectHome = () => {
     history.push("/");
   };
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      const isFullScreen = !!(
+        document.fullscreenElement 
+     
+      );
+      setIsFullScreen(isFullScreen);
+    };
 
+    document.addEventListener('fullscreenchange', handleFullScreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullScreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullScreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullScreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullScreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullScreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullScreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullScreenChange);
+    };
+  }, []);
   return (
     <>
     {showWarning && (
@@ -352,8 +372,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         width={width}
         controls
         muted={Player}
-    
-        className={`video-player`}
+        className={`video-player  ${isFullScreen ? 'fullscreen' : ''}`}
       />
     </>
   );

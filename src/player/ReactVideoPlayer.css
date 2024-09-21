@@ -26,6 +26,10 @@
 
 }
 
+.fullscreen {
+    max-height: calc(111dvh - var(--navbar-height) - var(--channel-info-height))
+}
+
 .thumbnail-prev-PlayerMain {
     height: calc(84dvh - var(--navbar-height) - var(--channel-info-height));
     width: calc(111dvh - var(--navbar-height) - var(--channel-info-height));

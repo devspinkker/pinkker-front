@@ -9,8 +9,8 @@ export const GetClipsByUserIDAndFilter = async (UserID, filter = 'recent', dateR
         const response = await axios.get(`${url}/clips/GetClipsByNameUserIDOrdenacion`, {
             params: {
                 UserID,       // ID del usuario o streamer
-                filter,       // Filtro (recent, week, month, year, etc.)
-                dateRange,    // Opcional: si no se pasa, el backend lo calculará
+                filter,       // Filtro (recent, popular, random)
+                dateRange,    // day, week, month (para el filtro de fecha)
                 page,         // Número de página
                 limit         // Cantidad de clips por página
             }
@@ -21,6 +21,7 @@ export const GetClipsByUserIDAndFilter = async (UserID, filter = 'recent', dateR
         console.error('Error fetching clips:', error);
     }
 };
+
 export const Create_Clip = async ({ tsUrls, startTime, endTime, streamKey, title }, config) => {
     const response = await axios.post(
         `${url}/clips/create-clips`, {

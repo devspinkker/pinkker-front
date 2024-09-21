@@ -3,13 +3,15 @@ import Skeleton from "@mui/material/Skeleton";
 import ClipCardChannel from "../../card/ClipCardChannel";
 import SelectVideoClip from "../../home/clips/SelectVideoClip";
 import CustomSelect from "../../explore/categories/CustomSelect";
-import { GetClipsByUserIDAndFilter } from "../../../services/backGo/clip"; // Importa la función correcta
+import { GetClipsByUserIDAndFilter } from "../../../services/backGo/clip";
 import "./Clips.css";
+
 export default function Clips(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [sortOption, setSortOption] = useState("Recientes");
+  const [dateFilter, setDateFilter] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,7 +19,8 @@ export default function Clips(props) {
       try {
         const data = await GetClipsByUserIDAndFilter(
           props.idStreamer,
-          sortOption
+          sortOption,
+          dateFilter // Ahora se incluye el filtro de fecha en la solicitud
         );
         if (data.message === "Clips fetched successfully" && data.data) {
           console.log(data.data);
@@ -33,14 +36,31 @@ export default function Clips(props) {
     };
 
     fetchData();
-  }, [props.idStreamer, sortOption]);
+  }, [props.idStreamer, sortOption, dateFilter]); // Escucha cambios en sortOption y dateFilter
 
   const toggleSelect = () => {
     setSelectedVideo(null);
   };
-
   const handleSortChange = (option) => {
-    setSortOption(option);
+    if (option === "Más visto") {
+      setSortOption("popular");
+    } else if (option === "Random") {
+      setSortOption("random");
+    } else {
+      setSortOption("recent");
+    }
+  };
+
+  const handleDateFilterChange = (option) => {
+    if (option === "Último día") {
+      setDateFilter("day");
+    } else if (option === "Última semana") {
+      setDateFilter("week");
+    } else if (option === "Último mes") {
+      setDateFilter("month");
+    } else {
+      setDateFilter("");
+    }
   };
 
   function CardSkeleton() {
@@ -93,18 +113,21 @@ export default function Clips(props) {
             "Último mes",
           ]}
           defaultValue="Recientes"
-          onChange={handleSortChange} // Manejador de cambio de opción
+          onChange={(option) => {
+            handleSortChange(option); // Cambia la opción de orden
+            handleDateFilterChange(option); // Cambia el filtro de fecha
+          }}
         />
       </div>
 
       <div className="channel-clips-container">
         {isLoading
-          ? [1, 2, 3, 4].map((_, index) => <CardSkeleton key={index} />) // Mostrar esqueleto mientras carga
+          ? [1, 2, 3, 4].map((_, index) => <CardSkeleton key={index} />)
           : videos?.map((video) => (
               <div
                 key={video.id}
                 style={{ cursor: "pointer", margin: "10px" }}
-                onClick={() => setSelectedVideo(video)} // Asigna el video seleccionado
+                onClick={() => setSelectedVideo(video)}
                 className="vodcard-body"
               >
                 <ClipCardChannel
@@ -130,10 +153,7 @@ export default function Clips(props) {
             zIndex: "999999999999999999999999999999999",
           }}
         >
-          <SelectVideoClip
-            clip={selectedVideo} // Pasa el video seleccionado
-            toggleSelect={toggleSelect}
-          />
+          <SelectVideoClip clip={selectedVideo} toggleSelect={toggleSelect} />
         </div>
       )}
     </div>

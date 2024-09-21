@@ -27,6 +27,8 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const reconnectIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [countdown, setCountdown] = useState(3); // Estado para la cuenta regresiva
+  const [isFullScreen, setIsFullScreen] = useState(false); // Estado para fullScreen
+
   const handleCommercialEnded = async () => {
     let token = window.localStorage.getItem("token");
     await AdsAddStreamSummary(token, streamerDataID, Commercial._id);
@@ -204,6 +206,27 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
       return "600px";
     }
   }
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      const isFullScreen = !!(
+        document.fullscreenElement 
+     
+      );
+      setIsFullScreen(isFullScreen);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullScreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullScreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullScreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullScreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullScreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullScreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullScreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullScreenChange);
+    };
+  }, []);
 
   const handleStartWatchingClick = () => {
     setShowWarning(false);
@@ -311,7 +334,7 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
       )}
       <video
         style={{ width, height, display: Commercial ||  Player ? "none" : "" }}
-        className='video-player'
+        className={`video-player  ${isFullScreen ? 'fullscreen' : ''}`}
         muted={true}
         controls={false}
         playsInline

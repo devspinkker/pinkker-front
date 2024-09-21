@@ -157,17 +157,29 @@ export default function CustomPlayer({
   };
 
   const toggleFullScreen = () => {
-    const videoPlayer = videoRef.current;
+    const videoContainer = document.querySelector(".contentCustomScreen");
 
-    if (videoPlayer) {
-      if (videoPlayer.requestFullscreen) {
-        videoPlayer.requestFullscreen();
-      } else if (videoPlayer.msRequestFullscreen) {
-        videoPlayer.msRequestFullscreen();
-      } else if (videoPlayer.mozRequestFullScreen) {
-        videoPlayer.mozRequestFullScreen();
-      } else if (videoPlayer.webkitRequestFullscreen) {
-        videoPlayer.webkitRequestFullscreen();
+    if (document.fullscreenElement) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    } else {
+      if (videoContainer) {
+        if (videoContainer.requestFullscreen) {
+          videoContainer.requestFullscreen();
+        } else if (videoContainer.msRequestFullscreen) {
+          videoContainer.msRequestFullscreen();
+        } else if (videoContainer.mozRequestFullScreen) {
+          videoContainer.mozRequestFullScreen();
+        } else if (videoContainer.webkitRequestFullscreen) {
+          videoContainer.webkitRequestFullscreen();
+        }
       }
     }
   };
@@ -676,54 +688,55 @@ export default function CustomPlayer({
     >
       {getTopButtom()}
       {popup === false && <div className="customPlayer-shadow-1"></div>}
-      {getHlsPlayer()}
+      <div className="contentCustomScreen">
+        {getHlsPlayer()}
 
-      {/* {dashboard === false && videoLoading === true && (
+        {/* {dashboard === false && videoLoading === true && (
         <div className="pinkker-player-loading">
           <ScaleLoader color="#f36197d7" />
         </div>
       )} */}
-      {/* {dashboard ===  && showScreenMute === true && ( */}
-      {/* )} */}
-      {/* <div className="customPlayer-shadow-1"></div> */}
-      {getBottomButtons()}
-      {dropdownSettings && (
-        <DropdownSettings
-          streamer={streamer}
-          quality={quality}
-          changeQuality={(e) => setQuality(e)}
-        />
-      )}
-      {popupClipCreator && (
-        <PopupClipCreator
-          streamer={streamer}
-          closePopup={() => togglePopupClipCreator()}
-          video={video}
-        />
-      )}
-      {enableQuality && (
-        <ul className={"dropdownsettings-menu"}>
-          <div className="dropdownsettings-container">
-            <div>
-              <li>
-                <div className="dropdownsettings-content">
-                  <div onClick={() => setEnableQuality(false)}>
-                    <h4>
-                      <i
-                        style={{ marginRight: "5px" }}
-                        class="fas fa-chevron-left"
-                      ></i>{" "}
-                      Calidad de video
-                    </h4>
+        {/* {dashboard ===  && showScreenMute === true && ( */}
+        {/* )} */}
+        {/* <div className="customPlayer-shadow-1"></div> */}
+        {getBottomButtons()}
+        {dropdownSettings && (
+          <DropdownSettings
+            streamer={streamer}
+            quality={quality}
+            changeQuality={(e) => setQuality(e)}
+          />
+        )}
+        {popupClipCreator && (
+          <PopupClipCreator
+            streamer={streamer}
+            closePopup={() => togglePopupClipCreator()}
+            video={video}
+          />
+        )}
+        {enableQuality && (
+          <ul className={"dropdownsettings-menu"}>
+            <div className="dropdownsettings-container">
+              <div>
+                <li>
+                  <div className="dropdownsettings-content">
+                    <div onClick={() => setEnableQuality(false)}>
+                      <h4>
+                        <i
+                          style={{ marginRight: "5px" }}
+                          class="fas fa-chevron-left"
+                        ></i>{" "}
+                        Calidad de video
+                      </h4>
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
 
-              <hr
-                style={{ border: "1px solid #4b4b4b8f", margin: "10px auto" }}
-              />
+                <hr
+                  style={{ border: "1px solid #4b4b4b8f", margin: "10px auto" }}
+                />
 
-              {/* <li onClick={() => changeQuality("auto")}>
+                {/* <li onClick={() => changeQuality("auto")}>
                 <div className="dropdownsettings-content">
                   <div
                     className="dropdownsettings-radio"
@@ -734,56 +747,57 @@ export default function CustomPlayer({
                   </div>
                 </div>
               </li> */}
-              <li onClick={() => setQuality("1080")}>
-                <div className="dropdownsettings-content">
-                  <div
-                    className="dropdownsettings-radio"
-                    style={{ display: "flex", alignItems: "center" }}
-                  >
-                    <input type="radio" checked={quality === "1080"} />
-                    <span style={{ marginLeft: "5px" }}>1080p</span>
+                <li onClick={() => setQuality("1080")}>
+                  <div className="dropdownsettings-content">
+                    <div
+                      className="dropdownsettings-radio"
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <input type="radio" checked={quality === "1080"} />
+                      <span style={{ marginLeft: "5px" }}>1080p</span>
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li onClick={() => setQuality("720")}>
-                <div className="dropdownsettings-content">
-                  <div
-                    className="dropdownsettings-radio"
-                    style={{ display: "flex", alignItems: "center" }}
-                  >
-                    <input type="radio" checked={quality === "720"} />
-                    <span style={{ marginLeft: "5px" }}>720p</span>
+                </li>
+                <li onClick={() => setQuality("720")}>
+                  <div className="dropdownsettings-content">
+                    <div
+                      className="dropdownsettings-radio"
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <input type="radio" checked={quality === "720"} />
+                      <span style={{ marginLeft: "5px" }}>720p</span>
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
 
-              <li onClick={() => setQuality("480")}>
-                <div className="dropdownsettings-content">
-                  <div
-                    className="dropdownsettings-radio"
-                    style={{ display: "flex", alignItems: "center" }}
-                  >
-                    <input type="radio" checked={quality === "480"} />
-                    <span style={{ marginLeft: "5px" }}>480p</span>
+                <li onClick={() => setQuality("480")}>
+                  <div className="dropdownsettings-content">
+                    <div
+                      className="dropdownsettings-radio"
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <input type="radio" checked={quality === "480"} />
+                      <span style={{ marginLeft: "5px" }}>480p</span>
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
 
-              <li onClick={() => setQuality("360")}>
-                <div className="dropdownsettings-content">
-                  <div
-                    className="dropdownsettings-radio"
-                    style={{ display: "flex", alignItems: "center" }}
-                  >
-                    <input type="radio" checked={quality === "360"} />
-                    <span style={{ marginLeft: "5px" }}>360p</span>
+                <li onClick={() => setQuality("360")}>
+                  <div className="dropdownsettings-content">
+                    <div
+                      className="dropdownsettings-radio"
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <input type="radio" checked={quality === "360"} />
+                      <span style={{ marginLeft: "5px" }}>360p</span>
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              </div>
             </div>
-          </div>
-        </ul>
-      )}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
