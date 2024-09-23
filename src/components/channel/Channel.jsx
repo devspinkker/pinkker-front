@@ -7,6 +7,7 @@ import {
   getUserByIdTheToken,
   getUserByNameUser,
 } from "../../services/backGo/user";
+import bg from './bg.jpg'
 
 import { useParams } from "react-router-dom";
 
@@ -55,6 +56,7 @@ import { MemoryRouter } from "react-router-dom";
 import NotificationProvider from "../../components/Notifications/NotificationProvider";
 import { LuShare } from "react-icons/lu";
 import { FaEllipsisVertical } from "react-icons/fa6";
+import { Button, Grid, Typography } from "@mui/material";
 
 export default function Channel({
   isMobile,
@@ -242,7 +244,7 @@ export default function Channel({
     }
   }, []);
 
-  const loadDataOnlyOnce = () => {};
+  const loadDataOnlyOnce = () => { };
 
   function togglePopupFollowers(typeDefault) {
     setTypeFollowers(typeDefault);
@@ -283,9 +285,10 @@ export default function Channel({
           setUser(res.data);
           return res.data;
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   }
+  const[streamData, setStreamData] = useState()
   useEffect(() => {
     document.body.classList.add("hide-scrollbar");
     document.title = streamer + " - Pinkker";
@@ -310,8 +313,8 @@ export default function Channel({
     setReadMore(false);
     setTimeCount(null);
 
-    const interval_id = window.setInterval(function () {},
-    Number.MAX_SAFE_INTEGER);
+    const interval_id = window.setInterval(function () { },
+      Number.MAX_SAFE_INTEGER);
     for (let i = 1; i < interval_id; i++) {
       window.clearInterval(i);
     }
@@ -334,6 +337,7 @@ export default function Channel({
       //   setStreamerFollowers(dataFollowers);
       // }
       const dataStreamer = await getUserByNameUser(streamer);
+      setStreamData(dataStreamer)
       if (dataStreamer?.message == "ok") {
         setStreamerData(dataStreamer.data);
       }
@@ -576,7 +580,7 @@ export default function Channel({
       setGallerys(dataGallery.gallery);
     }
   }
-
+console.log('getUserByNameUser', streamData)
   function getStream() {
     return (
       <div className="channel-v2-info">
@@ -1365,7 +1369,7 @@ export default function Channel({
     localStorage.setItem("channelType", typeD);
     setType(typeD);
   }
-
+console.log('user', user)
   const [chatExpanded, setChatExpanded] = useState(false);
 
   const handleToggleChat = () => {
@@ -1382,11 +1386,12 @@ export default function Channel({
     return tyExpanded
       ? chatExpanded
         ? "97%"
-        : "72.5%"
+        : "80%"
       : chatExpanded
-      ? "100%"
-      : "80%";
+        ? "100%"
+        : "80%";
   }
+  
   function getChannel() {
     if (stream?.streamer) {
       return (
@@ -1411,10 +1416,52 @@ export default function Channel({
                     {streamerData && announce === false && renderPlayer()}
                   </div>
                 ) : (
-                  <img
-                    style={{ width: "100%" }}
-                    src={streamerData?.Banner}
-                  ></img>
+                  <Grid style={{
+                    display: 'flex', alignItems: 'center', width: '100%', gap: '15px', backgroundImage: `url(${bg})`, // Imagen de fondo
+                    backgroundSize: 'cover', // Escala la imagen para cubrir completamente el contenedor
+                    backgroundPosition: 'center', // Centra la imagen de fondo
+                    backgroundRepeat: 'no-repeat', // Evita que la imagen se repita
+            
+                    padding: '20px', // Espaciado interno opcional
+                   
+                    boxShadow: '0 0 8px 2px #000'
+                  }}>
+                    {/* Imagen de perfil circular */}
+                    <img
+                      src={user?.Avatar}
+                      style={{
+                        width: '100px', // Ajusta este tamaño según tu preferencia
+                        height: '100px',
+                        borderRadius: '50%',
+                        
+                      }}
+                    />
+            
+                    {/* Contenedor de Nombre y Botones */}
+                    <Grid style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {/* Nombre del usuario */}
+                      <Typography style={{
+                        color: 'white',
+                        fontWeight: 800,
+                        fontSize: '28px', // Tamaño grande como en la imagen
+                        marginBottom: '8px'
+                      }}>
+                        {user?.NameUser?.toUpperCase()}
+                      </Typography>
+            
+                      {/* Contenedor de los botones */}
+                      <Grid style={{ display: 'flex', gap: '10px' }}>
+                        <Typography style={{color:'white'}}> seguidores: {streamerData?.FollowersCount}</Typography>
+                        <Typography style={{color:'white'}}>| seguidos: {streamerData?.FollowingCount} </Typography>
+                        <Typography style={{color:'white'}}>| suscriptores: {user?.Subscribers?.length}</Typography>
+                        
+            
+            
+                      </Grid>
+                    </Grid>
+            
+            
+                  </Grid>
                 )}
 
                 {renderAnnoucement()}
@@ -1433,8 +1480,8 @@ export default function Channel({
                     style={{
                       display: "flex",
                       justifyContent: "space-around",
-                      width: !tyExpanded ? "96.5%" : "95.5%",
-                      marginLeft: !isMobile ? "1.4rem" : "1rem",
+                      width: !tyExpanded ? "96.5%" : "90%",
+                      marginLeft: !isMobile && "1rem",
                       // margin: "0 auto",
                       borderTop: "1px solid #2a2e38",
                     }}
@@ -1497,7 +1544,7 @@ export default function Channel({
 
             {!isMobile && user && (
               <div
-                style={{ width: chatExpanded ? "0" : "22%" }}
+                style={{ width: chatExpanded ? "0" : "22%", borderLeft:'1px solid rgb(42, 46, 56)' }}
                 className="channel-chat"
               >
                 {announce === true && (

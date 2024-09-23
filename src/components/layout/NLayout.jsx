@@ -471,7 +471,7 @@ function NLayout(props) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 400);
+    }, 3000);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -1200,7 +1200,7 @@ function NLayout(props) {
                         />{" "}
                         <span style={{ fontSize: "14px" }}>
                           {props.user?.Pixeles != 0
-                            ? props.user?.Pixeles.toFixed(2)
+                            ? props.user?.Pixeles.toFixed(0)
                             : "0.00"}
                         </span>
                       </Grid>
