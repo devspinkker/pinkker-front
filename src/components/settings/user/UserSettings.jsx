@@ -21,6 +21,7 @@ import { editAvatar, editProfile } from "../../../services/backGo/user";
 import { Grid, Typography } from "@mui/material";
 import { TbEdit } from "react-icons/tb";
 import AdsAnalytics from "./statisticalAnnouncement/AdsAnalytics";
+import BuyAds from "./BuyAds/BuyAds";
 
 export default function UserSettings({ isMobile, user }) {
   const [type, setType] = useState(0);
@@ -222,14 +223,19 @@ export default function UserSettings({ isMobile, user }) {
       );
     }
 
-    {
-      if (type === 7) {
-        return (
-          <div>
-            <AdsAnalytics />
-          </div>
-        );
-      }
+    if (type === 7) {
+      return (
+        <div>
+          <AdsAnalytics />
+        </div>
+      );
+    }
+    if (type === 8) {
+      return (
+        <div>
+          <BuyAds />
+        </div>
+      );
     }
   }
 
@@ -352,6 +358,18 @@ export default function UserSettings({ isMobile, user }) {
               onClick={() => setType(7)}
             >
               <Typography>mis anuncios</Typography>
+            </Grid>
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "10px",
+              }}
+              className={type === 1 ? "item-config-active" : "item-config"}
+              onClick={() => setType(8)}
+            >
+              <Typography>Comprar anuncios </Typography>
             </Grid>
           </Grid>
         </Grid>

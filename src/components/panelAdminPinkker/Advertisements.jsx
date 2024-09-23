@@ -7,13 +7,19 @@ import {
   UpdateAdvertisement,
   DeleteAdvertisement,
   GetAdsUserCode,
+  GetAllPendingAds,
+  AcceptPendingAds,
+  RemovePendingAds,
+  GetAdsUserPendingCode,
 } from "../../services/backGo/advertisements";
 
 export default function Advertisements({ Code }) {
   const [advertisements, setAdvertisements] = useState([]);
+  const [pendingAds, setPendingAds] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showForm, setShowForm] = useState(false);
   const [searchNameUser, setSearchNameUser] = useState("");
+  const [showPending, setShowPending] = useState(false);
 
   const [form, setForm] = useState({
     id: "",
@@ -25,7 +31,7 @@ export default function Advertisements({ Code }) {
     ReferenceLink: "",
     ImpressionsMax: 0.0,
     ClicksMax: 0,
-    DocumentToBeAnnounced: "000000000000000000000000",
+    DocumentToBeAnnounced: "",
     Code,
   });
 
@@ -43,16 +49,38 @@ export default function Advertisements({ Code }) {
     }
   };
 
+  const handleGetPendingAds = async () => {
+    if (token) {
+      const res = await GetAllPendingAds(token, Code);
+      if (res.message === "ok" && Array.isArray(res.data)) {
+        setPendingAds(res.data);
+      } else {
+        console.error("Failed to fetch pending ads", res);
+      }
+    }
+  };
+
   const handleSearchByUser = async () => {
     if (token && searchNameUser) {
       const res = await GetAdsUserCode(token, Code, searchNameUser);
       if (res.message === "ok" && Array.isArray(res.data)) {
-        console.log(res.data);
-
         setAdvertisements(res.data);
         setCurrentIndex(0);
+        setShowPending(false); // Asegúrate de mostrar solo anuncios activos
       } else {
         console.error("Failed to search advertisements", res);
+      }
+    }
+  };
+
+  const handleSearchPendingByUser = async () => {
+    if (token && searchNameUser) {
+      const res = await GetAdsUserPendingCode(token, Code, searchNameUser);
+      if (res.message === "ok" && Array.isArray(res.data)) {
+        setPendingAds(res.data);
+        setShowPending(true); // Asegúrate de mostrar solo anuncios pendientes
+      } else {
+        console.error("Failed to search pending ads", res);
       }
     }
   };
@@ -114,9 +142,39 @@ export default function Advertisements({ Code }) {
     }
   };
 
+  const handleAcceptPending = async (id) => {
+    if (token) {
+      const res = await AcceptPendingAds(token, id, Code);
+      if (res.message === "ok") {
+        handleGetPendingAds();
+      } else {
+        console.error("Failed to accept pending advertisement", res);
+      }
+    }
+  };
+
+  const handleRejectPending = async (name) => {
+    if (token) {
+      const res = await RemovePendingAds(token, Code, name);
+      if (res.message === "ok") {
+        handleGetPendingAds();
+      } else {
+        console.error("Failed to reject pending advertisement", res);
+      }
+    }
+  };
+
   useEffect(() => {
-    handleGetAdvertisements();
-  }, []);
+    if (!showPending) {
+      handleGetAdvertisements();
+    }
+  }, [showPending]);
+
+  useEffect(() => {
+    if (showPending) {
+      handleGetPendingAds();
+    }
+  }, [showPending]);
 
   useEffect(() => {
     if (currentIndex >= advertisements.length - 2) {
@@ -149,11 +207,19 @@ export default function Advertisements({ Code }) {
     dailyData.forEach((entry) => {
       const date = new Date(entry.Date);
       const count = metric === "Clicks" ? entry.Clicks : entry.Impressions;
-      data.push([date, count]);
+      data.push([date.toDateString(), count]);
     });
 
     return data;
   };
+
+  const getChartOptions = (metric) => ({
+    title: `${metric} per Day`,
+    curveType: "function",
+    legend: { position: "bottom" },
+    hAxis: { title: "Date" },
+    vAxis: { title: metric },
+  });
 
   return (
     <div className="advertisement">
@@ -225,7 +291,7 @@ export default function Advertisements({ Code }) {
               value={form.DocumentToBeAnnounced}
               onChange={handleInputChange}
             />
-            <button type="button" onDoubleClick={handleCreateOrUpdate}>
+            <button type="button" onClick={handleCreateOrUpdate}>
               {form.id ? "Update" : "Create"}
             </button>
           </form>
@@ -239,118 +305,85 @@ export default function Advertisements({ Code }) {
           value={searchNameUser}
           onChange={(e) => setSearchNameUser(e.target.value)}
         />
-        <button onClick={handleSearchByUser}>Search</button>
+        <button onClick={handleSearchByUser}>Search Active </button>
+        <button onClick={handleSearchPendingByUser}>Search Pending</button>
       </div>
 
-      <button onClick={() => setShowForm(true)} className="create-ad-btn">
-        Create Advertisement
+      <button onClick={() => setShowPending(!showPending)}>
+        {showPending ? "Show Active Ads" : "Show Pending Ads"}
       </button>
 
-      {advertisements.length > 0 ? (
-        <div className="advertisementShow">
-          <button onClick={handlePrevious} disabled={currentIndex === 0}>
-            Previous
-          </button>
-
-          {advertisements[currentIndex] && (
-            <div
-              key={advertisements[currentIndex].id}
-              className="advertisementIter"
-            >
-              <h2>{advertisements[currentIndex].Name}</h2>
-              <p>NameUser: {advertisements[currentIndex].NameUser}</p>
-              <p>Category: {advertisements[currentIndex].Categorie}</p>
-              <p>Destination: {advertisements[currentIndex].Destination}</p>
-              <p>Impressions: {advertisements[currentIndex].Impressions}</p>
-              <p>
-                ImpressionsMax: {advertisements[currentIndex].ImpressionsMax}
-              </p>
-              <p>Clicks: {advertisements[currentIndex].Clicks}</p>
-              <p>ClicksMax: {advertisements[currentIndex].ClicksMax}</p>
-              <p>
-                Document to be announced:{" "}
-                {advertisements[currentIndex].DocumentToBeAnnounced}
-              </p>
-              <a
-                href={advertisements[currentIndex].ReferenceLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Reference Link
-              </a>
-              <div>
-                {advertisements[currentIndex].Destination === "Muro" ? (
-                  <Chart
-                    width={"100%"}
-                    height={"400px"}
-                    chartType="LineChart"
-                    loader={<div>Loading Chart...</div>}
-                    data={transformDataForChart(
-                      advertisements[currentIndex],
-                      "Clicks"
-                    )}
-                    options={{
-                      title: "Clicks per Day",
-                      hAxis: {
-                        title: "Day",
-                        format: "MMM dd",
-                        textStyle: { color: "#fff" },
-                      },
-                      vAxis: { title: "Clicks", minValue: 0 },
-                      series: {
-                        0: { color: "#FF5733" },
-                      },
-                      chartArea: { width: "80%", height: "70%" },
-                      backgroundColor: "transparent",
-                    }}
-                  />
-                ) : (
-                  <Chart
-                    width={"100%"}
-                    height={"400px"}
-                    chartType="LineChart"
-                    loader={<div>Loading Chart...</div>}
-                    data={transformDataForChart(
-                      advertisements[currentIndex],
-                      "Impressions"
-                    )}
-                    options={{
-                      title: "Impressions per Day",
-                      hAxis: {
-                        title: "Day",
-                        format: "MMM dd",
-                        textStyle: { color: "#fff" },
-                      },
-                      series: {
-                        0: { color: "#FF5733" },
-                      },
-                      vAxis: { title: "Impressions", minValue: 0 },
-                      chartArea: { width: "80%", height: "70%" },
-                      backgroundColor: "transparent",
-                    }}
-                  />
-                )}
-              </div>
-              <button onClick={() => handleEdit(advertisements[currentIndex])}>
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(advertisements[currentIndex].id)}
-              >
-                Delete
-              </button>
+      {showPending ? (
+        <div className="pending-ads">
+          {pendingAds.length > 0 ? (
+            <div className="pending-ads-list">
+              {pendingAds.map((ad) => (
+                <div key={ad.id} className="ad-item">
+                  <div className="ad-details">
+                    <h3>{ad.Name}</h3>
+                    <p>NameUser: {ad.NameUser}</p>
+                    <p>Destination: {ad.Destination}</p>
+                    <p>Categorie: {ad.Categorie}</p>
+                    <p>UrlVideo: {ad.UrlVideo}</p>
+                    <p>ReferenceLink: {ad.ReferenceLink}</p>
+                    <p>ImpressionsMax: {ad.ImpressionsMax}</p>
+                    <p>ClicksMax: {ad.ClicksMax}</p>
+                    <p>DocumentToBeAnnounced: {ad.DocumentToBeAnnounced}</p>
+                  </div>
+                  <button onClick={() => handleAcceptPending(ad.id)}>
+                    Accept
+                  </button>
+                  <button onClick={() => handleRejectPending(ad.NameUser)}>
+                    Reject
+                  </button>
+                </div>
+              ))}
             </div>
+          ) : (
+            <p>No pending ads available.</p>
           )}
-
-          <button
-            onClick={handleNext}
-            disabled={currentIndex === advertisements.length - 1}
-          >
-            Next
-          </button>
         </div>
       ) : (
-        <p>No advertisements found.</p>
+        <div className="advertisements">
+          {advertisements.length > 0 && (
+            <div className="ad-slider">
+              <button onClick={handlePrevious} className="slider-btn">
+                Previous
+              </button>
+              <button onClick={handleNext} className="slider-btn">
+                Next
+              </button>
+              <div className="ad-item">
+                <h2>{advertisements[currentIndex]?.Name}</h2>
+                <p>NameUser: {advertisements[currentIndex]?.NameUser}</p>
+                <p>Destination: {advertisements[currentIndex]?.Destination}</p>
+                <p>Categorie: {advertisements[currentIndex]?.Categorie}</p>
+                <p>UrlVideo: {advertisements[currentIndex]?.UrlVideo}</p>
+                <p>
+                  ReferenceLink: {advertisements[currentIndex]?.ReferenceLink}
+                </p>
+                <p>
+                  ImpressionsMax: {advertisements[currentIndex]?.ImpressionsMax}
+                </p>
+                <p>ClicksMax: {advertisements[currentIndex]?.ClicksMax}</p>
+                <p>
+                  DocumentToBeAnnounced:{" "}
+                  {advertisements[currentIndex]?.DocumentToBeAnnounced}
+                </p>
+                <button
+                  onClick={() => handleEdit(advertisements[currentIndex])}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(advertisements[currentIndex]?.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

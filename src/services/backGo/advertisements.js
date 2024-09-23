@@ -26,6 +26,90 @@ export async function GetAdvertisements(token, Code, page = 1) {
     }
 }
 
+export async function BuyadCreate(token, advertisement) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/advertisements/BuyadCreate`,
+            advertisement,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+export async function GetAdsUserPendingCode(token, Code, NameUser, page = 1) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/advertisements/GetAdsUserPendingCode?page=${page}`,
+            {
+                Code,
+                NameUser
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+export async function AcceptPendingAds(token, code, nameUser) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/advertisements/AcceptPendingAds`,
+            { Code: code, NameUser: nameUser },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
+export async function GetAllPendingAds(token, code, page = 1) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/advertisements/GetAllPendingAds?page=${page}`,
+            { Code: code, },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+export async function RemovePendingAds(token, code, nameUser) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/advertisements/RemovePendingAds`,
+            { Code: code, NameUser: nameUser },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
 export async function UpdateAdvertisement(token, advertisement) {
     try {
         const response = await axios.post(
