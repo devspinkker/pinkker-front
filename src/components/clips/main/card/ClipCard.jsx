@@ -422,6 +422,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
                 autoPlay={true}
                 muted={muted}
                 controls={true}
+                playsInline
                 src={clip.url}
                 onPlay={handleVideoPlay} // Llama al handler cuando el video comienza a reproducirse
                 onLoadStart={() => setLoading(true)}
