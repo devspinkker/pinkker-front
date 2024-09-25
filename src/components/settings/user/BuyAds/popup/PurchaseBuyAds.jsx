@@ -39,6 +39,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
         borderColor: "#0056b3",
       },
     }),
+
     placeholder: (provided) => ({
       ...provided,
       color: "#007bff",
