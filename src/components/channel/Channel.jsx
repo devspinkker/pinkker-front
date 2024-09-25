@@ -565,13 +565,13 @@ export default function Channel({
     setSeconds(secondsDifference);
   }
 
-  async function reloadGallery() {
-    const dataGallery = await getStreamerGallery(token, streamer);
-    if (dataGallery != null && dataGallery != undefined) {
-      setUnlocked(dataGallery.suscribed);
-      setGallerys(dataGallery.gallery);
-    }
-  }
+  // async function reloadGallery() {
+  //   const dataGallery = await getStreamerGallery(token, streamer);
+  //   if (dataGallery != null && dataGallery != undefined) {
+  //     setUnlocked(dataGallery.suscribed);
+  //     setGallerys(dataGallery.gallery);
+  //   }
+  // }
 
   function getStream() {
     return (
@@ -1226,7 +1226,7 @@ export default function Channel({
     }
 
     if (type === 3) {
-      return <Gallery streamer={streamerData} tyExpanded={tyExpanded}/>;
+      return <Gallery streamer={streamerData} tyExpanded={tyExpanded} />;
     }
 
     if (type === 4) {
@@ -1435,23 +1435,29 @@ export default function Channel({
                       }}
                     >
                       {/* Nombre del usuario */}
-                      <Typography style={{
-                        color: 'white',
-                        fontWeight: 800,
-                        fontSize: '28px', // Tamaño grande como en la imagen
-                        marginBottom: '8px'
-                      }}>
+                      <Typography
+                        style={{
+                          color: "white",
+                          fontWeight: 800,
+                          fontSize: "28px", // Tamaño grande como en la imagen
+                          marginBottom: "8px",
+                        }}
+                      >
                         {streamerData?.NameUser?.toUpperCase()}
                       </Typography>
 
                       {/* Contenedor de los botones */}
-                      <Grid style={{ display: 'flex', gap: '10px' }}>
-                        <Typography style={{color:'white'}}> seguidores: {streamerData?.FollowersCount}</Typography>
-                        <Typography style={{color:'white'}}>| seguidos: {streamerData?.FollowingCount} </Typography>
-                        <Typography style={{color:'white'}}>| suscriptores: {streamerData?.SubscribersCount}</Typography>
-                        
-            
-            
+                      <Grid style={{ display: "flex", gap: "10px" }}>
+                        <Typography style={{ color: "white" }}>
+                          {" "}
+                          seguidores: {streamerData?.FollowersCount}
+                        </Typography>
+                        <Typography style={{ color: "white" }}>
+                          | seguidos: {streamerData?.FollowingCount}{" "}
+                        </Typography>
+                        <Typography style={{ color: "white" }}>
+                          | suscriptores: {streamerData?.SubscribersCount}
+                        </Typography>
                       </Grid>
                     </Grid>
                   </Grid>
