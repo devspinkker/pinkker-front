@@ -431,7 +431,6 @@ export default function Channel({
       }, 4000);
     }
   };
-
   function getFollowButton() {
     if (followParam === false) {
       return (
@@ -580,7 +579,7 @@ export default function Channel({
       setGallerys(dataGallery.gallery);
     }
   }
-console.log('getUserByNameUser', streamData)
+
   function getStream() {
     return (
       <div className="channel-v2-info">
@@ -1446,14 +1445,14 @@ console.log('user', user)
                         fontSize: '28px', // Tamaño grande como en la imagen
                         marginBottom: '8px'
                       }}>
-                        {user?.NameUser?.toUpperCase()}
+                        {streamerData?.NameUser?.toUpperCase()}
                       </Typography>
             
                       {/* Contenedor de los botones */}
                       <Grid style={{ display: 'flex', gap: '10px' }}>
                         <Typography style={{color:'white'}}> seguidores: {streamerData?.FollowersCount}</Typography>
                         <Typography style={{color:'white'}}>| seguidos: {streamerData?.FollowingCount} </Typography>
-                        <Typography style={{color:'white'}}>| suscriptores: {user?.Subscribers?.length}</Typography>
+                        <Typography style={{color:'white'}}>| suscriptores: {streamerData?.SubscribersCount}</Typography>
                         
             
             
