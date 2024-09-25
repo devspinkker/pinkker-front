@@ -1418,7 +1418,7 @@ export default function Channel({
                   >
                     {/* Imagen de perfil circular */}
                     <img
-                      src={user?.Avatar}
+                      src={streamerData?.Avatar}
                       style={{
                         width: "100px", // Ajusta este tamaño según tu preferencia
                         height: "100px",
