@@ -162,7 +162,16 @@ export const getTweetUser = async (id, page, limit) => {
   } catch (error) {
   }
 };
+export const GetPostsWithImages = async (id, page, limit) => {
+  try {
 
+    const res = await axios.get(
+      `${url}/post/GetPostsWithImages?id=${id}&page=${page}&limit=${limit}`,
+    );
+    return res.data;
+  } catch (error) {
+  }
+};
 export const getTweetId = async (id) => {
   try {
 

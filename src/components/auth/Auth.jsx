@@ -29,6 +29,7 @@ import FormControl from "@mui/material/FormControl";
 import OAuth2Login from "../OAuth2/OAuth2Login";
 import {
   Get_Recover_lost_password,
+  LoginTOTPSecret,
   SaveUserCodeConfirm,
   login,
   signupNotConfirmed,
@@ -42,7 +43,8 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
   const [userIp, setUserIp] = useState(null);
 
   const [signupNotConfirmedErr, setsignupNotConfirmedErr] = useState(false);
-  const [signupNotConfirmedCodeErr, setsignupNotConfirmedCodeErr] =useState(false);
+  const [signupNotConfirmedCodeErr, setsignupNotConfirmedCodeErr] =
+    useState(false);
 
   const [rUsername, setrUsername] = useState(null);
   const [rPassword, setrPassword] = useState(null);
@@ -63,7 +65,8 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
   const [countryInfo, setCountryInfo] = useState(null);
 
   const [recuperyMail, setRecuperyMail] = useState(null);
-
+  const [TOTPCode, setTOTPCode] = useState(null);
+  const [showTOTPInput, setShowTOTPInput] = useState(false);
   const alert = useNotification();
 
   function onChange(value) {
@@ -94,7 +97,17 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                 return;
             }*/
       try {
-        const res = await login({ NameUser: lUsername, password: lPassword });
+        let res = await login({ NameUser: lUsername, password: lPassword });
+        if (showTOTPInput) {
+          res = await LoginTOTPSecret({
+            NameUser: lUsername,
+            password: lPassword,
+            totp_code: TOTPCode,
+          });
+        } else {
+          res = await login({ NameUser: lUsername, password: lPassword });
+        }
+
         if (res && res.message === "token") {
           alert({
             type: "SUCCESS",
@@ -107,12 +120,18 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
 
           closePopup();
         } else {
+          if (res.data.message === "TOTPSecret") {
+            setShowTOTPInput(true);
+            return;
+          }
           alert({
             type: "ERROR",
             message: "incorrect password or user does not exist",
           });
         }
       } catch (err) {
+        console.log(err);
+
         alert({ type: "ERROR", message: err });
       }
     }
@@ -151,17 +170,16 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           password: rPassword,
           // BirthDate: birthDate,
         });
-       
+
         if (res && res.message == "email to confirm") {
           setCodeConfirm(true);
           // localStorage.setItem("firstLogin", true);
           // setStep(1);
         } else {
-          alert({type: "ERROR", message: "Email o Nombre de Usuario en uso" })
+          alert({ type: "ERROR", message: "Email o Nombre de Usuario en uso" });
           setsignupNotConfirmedErr(true);
         }
       } catch (err) {
-        
         alert({ type: "ERROR", message: err.response.data.msg });
       }
     }
@@ -290,22 +308,36 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
     if (type === 0) {
       return (
         <div className="auth-content">
-          <div className="auth-content-input">
-            <p style={{ fontSize: "12px", fontFamily: "inter" }}>Username*</p>
-            <input
-              id="identifierId"
-              onChange={(e) => setlUsername(e.target.value)}
-              type="text"
-            />
-          </div>
+          {!showTOTPInput ? (
+            <>
+              <div className="auth-content-input">
+                <p>Username*</p>
+                <input
+                  onChange={(e) => setlUsername(e.target.value)}
+                  type="text"
+                  value={lUsername || ""}
+                />
+              </div>
 
-          <div className="auth-content-input">
-            <p style={{ fontSize: "12px", fontFamily: "inter" }}>Contraseña</p>
-            <input
-              onChange={(e) => setlPassword(e.target.value)}
-              type="password"
-            />
-          </div>
+              <div className="auth-content-input">
+                <p>Contraseña</p>
+                <input
+                  onChange={(e) => setlPassword(e.target.value)}
+                  type="password"
+                  value={lPassword || ""}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="auth-content-input">
+              <p>Introduce tu código TOTP</p>
+              <input
+                onChange={(e) => setTOTPCode(e.target.value)}
+                type="text"
+                value={TOTPCode || ""}
+              />
+            </div>
+          )}
 
           <a onClick={() => setType(2)} style={{ padding: 0 }}>
             <p
@@ -320,14 +352,6 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               ¿Tienes problemas para iniciar sesión?
             </p>
           </a>
-
-          {/*<div style={{marginTop: "5px", marginBottom: "10px"}}>
-                        <ReCAPTCHA
-                            size="normal"
-                            sitekey={process.env.REACT_APP_GOOGLE_CAPTCHA_SITE_KEY}
-                            onChange={onChange}
-                        />
-            </div>*/}
 
           <button onClick={() => handleSubmit()} className="auth-button-login">
             Iniciar Sesión
@@ -357,12 +381,6 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               <div className="auth-content-input">
                 <p style={{ fontSize: "12px", fontFamily: "inter" }}>
                   Username*{" "}
-                  {/* {errorUserName != null && errorUserName != "" && (
-                    <i
-                      style={{ color: "#EB0400", marginLeft: "109px" }}
-                      class="fas fa-exclamation-circle"
-                    />
-                  )}{" "} */}
                   {errorUserName === "" && (
                     <i
                       style={{ color: "lightgreen", marginLeft: "109px" }}
@@ -390,23 +408,10 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                   {errorUserName}
                 </p>
               </div>
-              {/* <div className="auth-content-input">
-                <p style={{fontSize:'12px', fontFamily:'inter'}}>Nombre completo</p>
-                <input
-                  id="identifierId"
-                  onChange={(e) => setFullName(e.target.value)}
-                  type="text"
-                />
-              </div> */}
+
               <div className="auth-content-input">
                 <p style={{ fontSize: "12px", fontFamily: "inter" }}>
                   Email*{" "}
-                  {/* {errorEmail != null && errorEmail != "" && (
-                    <i
-                      style={{ color: "#EB0400", marginLeft: "109px" }}
-                      class="fas fa-exclamation-circle"
-                    />
-                  )}{" "} */}
                   {errorEmail === "" && (
                     <i
                       style={{ color: "lightgreen", marginLeft: "109px" }}
@@ -434,12 +439,6 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               <div className="auth-content-input">
                 <p style={{ fontSize: "12px", fontFamily: "inter" }}>
                   Password*{" "}
-                  {/* {errorPassword != null && errorPassword != "" && (
-                    <i
-                      style={{ color: "#EB0400", marginLeft: "159px" }}
-                      class="fas fa-exclamation-circle"
-                    />
-                  )}{" "} */}
                   {errorPassword === "" && (
                     <i
                       style={{ color: "lightgreen", marginLeft: "159px" }}
@@ -466,78 +465,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                   {errorPassword}
                 </p>
               </div>
-              {/* <div className="auth-content-input">
-                <p style={{fontSize:'12px', fontFamily:'inter'}}>
-                  Confirmar contraseña{" "}
-                  {errorConfirmPassword != null &&
-                    errorConfirmPassword != "" && (
-                      <i
-                        style={{ color: "#EB0400", marginLeft: "83px" }}
-                        class="fas fa-exclamation-circle"
-                      />
-                    )}{" "}
-                  {errorConfirmPassword === "" && (
-                    <i
-                      style={{ color: "lightgreen", marginLeft: "83px" }}
-                      class="fas fa-check-circle"
-                    />
-                  )}
-                </p>
-                <input
-                  className={
-                    errorConfirmPassword != null &&
-                    errorConfirmPassword != "" &&
-                    "input-error"
-                  }
-                  onChange={(e) => onChangeConfirmPassword(e.target.value)}
-                  type="password"
-                />
-                <p
-                  style={{
-                    fontSize: "10px",
-                    color: "rgb(228, 122, 122)",
-                    marginTop: "5px",
-                  }}
-                >
-                  {errorConfirmPassword}
-                </p>
-              </div> */}
 
-              {/* <div className="auth-content-input">
-                <p>Fecha de nacimiento</p>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <input
-                    onChange={(e) => setrDay(e.target.value)}
-                    style={{ marginRight: "2px" }}
-                    placeholder="Día"
-                    type="number"
-                  />
-                  <select
-                    onChange={(e) => setrMonth(e.target.value)}
-                    defaultValue="0"
-                  >
-                    <option value="null">Mes</option>
-                    <option value="01">Enero</option>
-                    <option value="02">Febrero</option>
-                    <option value="03">Marzo</option>
-                    <option value="04">Abril</option>
-                    <option value="05">Mayo</option>
-                    <option value="06">Junio</option>
-                    <option value="07">Julio</option>
-                    <option value="08">Agosto</option>
-                    <option value="09">Septiembre</option>
-                    <option value="10">Octubre</option>
-                    <option value="10">Noviembre</option>
-                    <option value="11">Diciembre</option>
-                  </select>
-                  <input
-                    onChange={(e) => setrYear(e.target.value)}
-                    style={{ marginLeft: "2px" }}
-                    placeholder="Año"
-                    type="number"
-                  />
-                </div>
-              </div> */}
               <div className="auth-text">
                 <input type="checkbox" style={{ width: "5%", border: 0 }} />
                 <p className="" style={{ fontSize: "11px" }}>
@@ -551,13 +479,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                   </a>
                 </p>
               </div>
-              {/*<div style={{marginTop: "5px", marginBottom: "10px"}}>
-                        <ReCAPTCHA
-                            size="normal"
-                            sitekey={process.env.REACT_APP_GOOGLE_CAPTCHA_SITE_KEY}
-                            onChange={onChange}
-                        />
-            </div>*/}
+
               {signupNotConfirmedErr && (
                 <div>
                   <p style={{ color: "rgb(228, 122, 122)" }}>
@@ -740,30 +662,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                 justifyContent: "center",
                 height: type === 0 ? "300px" : "500px",
               }}
-            >
-              {/* <div>
-                <h5>Tu billete a Memelandia</h5>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "darkgray",
-                    marginTop: "20px",
-                  }}
-                >
-                  Ya sabes lo que dicen... <br /> Los amigos que hacen memes
-                  juntos, transmiten juntos.
-                </p>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "darkgray",
-                    marginTop: "20px",
-                  }}
-                >
-                  👈👈👈 <br /> ¡Cree una cuenta para unirte a la conversación!
-                </p>
-              </div> */}
-            </div>
+            ></div>
           </div>
         </div>
 
@@ -772,41 +671,6 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           className={"auth-container"}
         >
           <div style={{ width: "100%" }}>
-            {/* {type === 0 ? (
-              <h3
-                style={{
-                  color: "#ededed",
-                  marginBottom: "30px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                {" "}
-                <img
-                  style={{ width: "50px" }}
-                  src="/images/pinkker.png"
-                  alt=""
-                />{" "}
-                Iniciar sesión en Pinkker
-              </h3>
-            ) : (
-              <h3
-                style={{
-                  color: "#ededed",
-                  marginBottom: "30px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <img
-                  style={{ width: "50px" }}
-                  src="/images/pinkker.png"
-                  alt=""
-                />{" "}
-                Registrarse en Pinkker
-              </h3>
-            )} */}
-
             <div className="auth-title">
               <div
                 onClick={() => setType(1)}

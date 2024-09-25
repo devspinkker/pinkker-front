@@ -7,7 +7,7 @@ import {
   getUserByIdTheToken,
   getUserByNameUser,
 } from "../../services/backGo/user";
-import bg from './bg.jpg'
+import bg from "./bg.jpg";
 
 import { useParams } from "react-router-dom";
 
@@ -120,8 +120,6 @@ export default function Channel({
   const ENDPOINT = process.env.REACT_APP_DEV_CHAT_URL;
 
   const [userSuscripted, setUserSuscripted] = useState(false);
-  const [gallerys, setGallerys] = useState(null);
-  const [unlocked, setUnlocked] = useState(false);
 
   const [typeFollowers, setTypeFollowers] = useState(0);
 
@@ -244,7 +242,7 @@ export default function Channel({
     }
   }, []);
 
-  const loadDataOnlyOnce = () => { };
+  const loadDataOnlyOnce = () => {};
 
   function togglePopupFollowers(typeDefault) {
     setTypeFollowers(typeDefault);
@@ -285,10 +283,10 @@ export default function Channel({
           setUser(res.data);
           return res.data;
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   }
-  const[streamData, setStreamData] = useState()
+  const [streamData, setStreamData] = useState();
   useEffect(() => {
     document.body.classList.add("hide-scrollbar");
     document.title = streamer + " - Pinkker";
@@ -313,8 +311,8 @@ export default function Channel({
     setReadMore(false);
     setTimeCount(null);
 
-    const interval_id = window.setInterval(function () { },
-      Number.MAX_SAFE_INTEGER);
+    const interval_id = window.setInterval(function () {},
+    Number.MAX_SAFE_INTEGER);
     for (let i = 1; i < interval_id; i++) {
       window.clearInterval(i);
     }
@@ -337,7 +335,7 @@ export default function Channel({
       //   setStreamerFollowers(dataFollowers);
       // }
       const dataStreamer = await getUserByNameUser(streamer);
-      setStreamData(dataStreamer)
+      setStreamData(dataStreamer);
       if (dataStreamer?.message == "ok") {
         setStreamerData(dataStreamer.data);
       }
@@ -373,11 +371,6 @@ export default function Channel({
         setFollowParam(true);
       } else {
         setFollowParam(false);
-      }
-      const dataGallery = await getStreamerGallery(token, streamer);
-      if (dataGallery != null && dataGallery != undefined) {
-        setUnlocked(dataGallery.suscribed);
-        setGallerys(dataGallery.gallery);
       }
 
       // const timer1 = setInterval(async () => {
@@ -573,14 +566,6 @@ export default function Channel({
     setSeconds(secondsDifference);
   }
 
-  async function reloadGallery() {
-    const dataGallery = await getStreamerGallery(token, streamer);
-    if (dataGallery != null && dataGallery != undefined) {
-      setUnlocked(dataGallery.suscribed);
-      setGallerys(dataGallery.gallery);
-    }
-  }
-console.log('getUserByNameUser', streamData)
   function getStream() {
     return (
       <div className="channel-v2-info">
@@ -1234,14 +1219,7 @@ console.log('getUserByNameUser', streamData)
     }
 
     if (type === 3) {
-      return (
-        <Gallery
-          reloadGallery={() => reloadGallery()}
-          unlocked={unlocked}
-          gallerys={gallerys}
-          streamer={streamer}
-        />
-      );
+      return <Gallery streamer={streamerData} tyExpanded={tyExpanded}/>;
     }
 
     if (type === 4) {
@@ -1369,7 +1347,6 @@ console.log('getUserByNameUser', streamData)
     localStorage.setItem("channelType", typeD);
     setType(typeD);
   }
-console.log('user', user)
   const [chatExpanded, setChatExpanded] = useState(false);
 
   const handleToggleChat = () => {
@@ -1388,10 +1365,10 @@ console.log('user', user)
         ? "97%"
         : "80%"
       : chatExpanded
-        ? "100%"
-        : "80%";
+      ? "100%"
+      : "80%";
   }
-  
+
   function getChannel() {
     if (stream?.streamer) {
       return (
@@ -1416,51 +1393,66 @@ console.log('user', user)
                     {streamerData && announce === false && renderPlayer()}
                   </div>
                 ) : (
-                  <Grid style={{
-                    display: 'flex', alignItems: 'center', width: '100%', gap: '15px', backgroundImage: `url(${bg})`, // Imagen de fondo
-                    backgroundSize: 'cover', // Escala la imagen para cubrir completamente el contenedor
-                    backgroundPosition: 'center', // Centra la imagen de fondo
-                    backgroundRepeat: 'no-repeat', // Evita que la imagen se repita
-            
-                    padding: '20px', // Espaciado interno opcional
-                   
-                    boxShadow: '0 0 8px 2px #000'
-                  }}>
+                  <Grid
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      width: "100%",
+                      gap: "15px",
+                      backgroundImage: `url(${bg})`, // Imagen de fondo
+                      backgroundSize: "cover", // Escala la imagen para cubrir completamente el contenedor
+                      backgroundPosition: "center", // Centra la imagen de fondo
+                      backgroundRepeat: "no-repeat", // Evita que la imagen se repita
+
+                      padding: "20px", // Espaciado interno opcional
+
+                      boxShadow: "0 0 8px 2px #000",
+                    }}
+                  >
                     {/* Imagen de perfil circular */}
                     <img
                       src={user?.Avatar}
                       style={{
-                        width: '100px', // Ajusta este tamaño según tu preferencia
-                        height: '100px',
-                        borderRadius: '50%',
-                        
+                        width: "100px", // Ajusta este tamaño según tu preferencia
+                        height: "100px",
+                        borderRadius: "50%",
                       }}
                     />
-            
+
                     {/* Contenedor de Nombre y Botones */}
-                    <Grid style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <Grid
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "10px",
+                      }}
+                    >
                       {/* Nombre del usuario */}
-                      <Typography style={{
-                        color: 'white',
-                        fontWeight: 800,
-                        fontSize: '28px', // Tamaño grande como en la imagen
-                        marginBottom: '8px'
-                      }}>
+                      <Typography
+                        style={{
+                          color: "white",
+                          fontWeight: 800,
+                          fontSize: "28px", // Tamaño grande como en la imagen
+                          marginBottom: "8px",
+                        }}
+                      >
                         {user?.NameUser?.toUpperCase()}
                       </Typography>
-            
+
                       {/* Contenedor de los botones */}
-                      <Grid style={{ display: 'flex', gap: '10px' }}>
-                        <Typography style={{color:'white'}}> seguidores: {streamerData?.FollowersCount}</Typography>
-                        <Typography style={{color:'white'}}>| seguidos: {streamerData?.FollowingCount} </Typography>
-                        <Typography style={{color:'white'}}>| suscriptores: {user?.Subscribers?.length}</Typography>
-                        
-            
-            
+                      <Grid style={{ display: "flex", gap: "10px" }}>
+                        <Typography style={{ color: "white" }}>
+                          {" "}
+                          seguidores: {streamerData?.FollowersCount}
+                        </Typography>
+                        <Typography style={{ color: "white" }}>
+                          | seguidos: {streamerData?.FollowingCount}{" "}
+                        </Typography>
+                        <Typography style={{ color: "white" }}>
+                          | suscriptores: {user?.Subscribers?.length}
+                        </Typography>
                       </Grid>
                     </Grid>
-            
-            
                   </Grid>
                 )}
 
@@ -1544,7 +1536,10 @@ console.log('user', user)
 
             {!isMobile && user && (
               <div
-                style={{ width: chatExpanded ? "0" : "22%", borderLeft:'1px solid rgb(42, 46, 56)' }}
+                style={{
+                  width: chatExpanded ? "0" : "22%",
+                  borderLeft: "1px solid rgb(42, 46, 56)",
+                }}
                 className="channel-chat"
               >
                 {announce === true && (
