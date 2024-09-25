@@ -167,8 +167,6 @@ export default function Channel({
   const ENDPOINT = process.env.REACT_APP_DEV_CHAT_URL;
 
   const [userSuscripted, setUserSuscripted] = useState(false);
-  const [gallerys, setGallerys] = useState(null);
-  const [unlocked, setUnlocked] = useState(false);
 
   const [typeFollowers, setTypeFollowers] = useState(0);
 
@@ -413,11 +411,6 @@ export default function Channel({
       } else {
         setFollowParam(false);
       }
-      const dataGallery = await getStreamerGallery(token, streamer);
-      if (dataGallery != null && dataGallery != undefined) {
-        setUnlocked(dataGallery.suscribed);
-        setGallerys(dataGallery.gallery);
-      }
 
       // const timer1 = setInterval(async () => {
       //   const dataViewers = await getViewersStream(streamer);
@@ -610,14 +603,6 @@ export default function Channel({
     setHours(hoursDifference);
     setMinutes(minutesDifference);
     setSeconds(secondsDifference);
-  }
-
-  async function reloadGallery() {
-    const dataGallery = await getStreamerGallery(token, streamer);
-    if (dataGallery != null && dataGallery != undefined) {
-      setUnlocked(dataGallery.suscribed);
-      setGallerys(dataGallery.gallery);
-    }
   }
 
   function getStream() {
@@ -1273,14 +1258,7 @@ export default function Channel({
     }
 
     if (type === 3) {
-      return (
-        <Gallery
-          reloadGallery={() => reloadGallery()}
-          unlocked={unlocked}
-          gallerys={gallerys}
-          streamer={streamer}
-        />
-      );
+      return <Gallery streamer={streamerData} />;
     }
 
     if (type === 4) {

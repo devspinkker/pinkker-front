@@ -182,7 +182,16 @@ export async function login(userData) {
         const response = await axios.post(`${baseURL}/user/login`, userData);
         return response.data;
     } catch (error) {
-        return error
+
+        return error.response
+    }
+}
+export async function LoginTOTPSecret(userData) {
+    try {
+        const response = await axios.post(`${baseURL}/user/LoginTOTPSecret`, userData);
+        return response.data;
+    } catch (error) {
+        return error.response
     }
 }
 export async function Get_Recover_lost_password(mail) {

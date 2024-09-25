@@ -1,0 +1,225 @@
+.gallery-viewtweet-popup-body {
+    display: flex;
+    position: fixed;
+    width: 55%;
+    height: 80%;
+    /* padding: 3rem 24rem; */
+    top: 8%;
+
+    left: 23%;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.0);
+    margin: 0px;
+
+}
+
+.gallery-tweetcard-primary-pop {
+    color: #fff;
+    margin: 1px 18px;
+}
+
+.gallery-viewtweet-popup-container {
+    width: 82%;
+    min-height: 800px;
+    overflow: scroll;
+    position: absolute;
+    top: 20px;
+    height: -webkit-fill-available;
+    /* margin: auto; */
+    /* left: 20%; */
+    margin-top: 10px;
+    padding: 3px 30px;
+    text-align: center;
+    background: #000;
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+}
+
+/* Dispositivos pequeños (teléfonos en modo vertical) */
+@media (max-width: 575.98px) {
+
+    /* Estilos para dispositivos pequeños */
+    .viewtweet-popup-container {
+        width: 100%;
+        min-height: 800px;
+        overflow: scroll;
+        /* margin: auto; */
+        margin-top: 10px;
+        padding: 3px 30px;
+        text-align: center;
+        background: #000;
+        box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+    }
+}
+
+/* Dispositivos pequeños (teléfonos en modo horizontal) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+
+    /* Estilos para dispositivos pequeños en modo horizontal */
+    .viewtweet-popup-container {
+        width: 100%;
+        min-height: 800px;
+        overflow: scroll;
+        /* margin: auto; */
+        margin-top: 10px;
+        padding: 3px 30px;
+        text-align: center;
+        background: #000;
+        box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+    }
+}
+
+.gallery-tweetcard-avatar-pop {
+
+    width: 5%;
+}
+
+.gallery-popupgallery-view-primary {
+    width: 70%;
+    height: 750px;
+    padding: 10px;
+}
+
+.gallery-viewtweet-quantity {
+    display: flex;
+}
+
+.gallery-viewtweet-quantity-card {
+    margin-right: 10px;
+}
+
+.gallery-viewtweet-quantity-card p {
+    border-bottom: 1px solid transparent;
+}
+
+.gallery-viewtweet-quantity-card p:hover {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.319);
+}
+
+.gallery-viewtweet-button-reply {
+    background-color: #770443;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.gallery-popupgallery-view-secondary {
+    width: 30%;
+    padding: 10px;
+    height: 750px;
+}
+
+.gallery-popupgallery-view-secondary-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+.gallery-popupgallery-view-secondary-comments-container {
+    margin-top: 50px;
+    height: 475px;
+}
+
+.gallery-popupgallery-view-secondary-comments-card {
+    margin-top: 20px;
+    text-align: left;
+}
+
+
+.gallery-popupgallery-view-secondary-icons {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.gallery-viewtweet-comments-container {
+    width: 100%;
+    max-height: 600px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.gallery-popupgallery-view-input-container {
+    display: flex;
+    align-items: center;
+    background-color: rgb(65, 65, 65);
+    padding: 4px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.gallery-popupgallery-view-input {
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    border-radius: 3px;
+    width: 80%;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+    outline: none;
+}
+
+
+
+.gallery-popupgallery-view-icon-publish {
+    width: 18px;
+    border-radius: 3px;
+    height: 18px;
+    padding: 5px;
+    background-color: #ff60b2;
+}
+
+
+
+
+.gallery-usersettings-popup-close {
+    display: flex;
+    justify-content: right;
+
+}
+
+.gallery-usersettings-popup-close button {
+    border: none;
+    color: #ededed;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.gallery-muro-send-tweet-input-respuesta {
+    background-color: transparent;
+    min-width: 100px;
+    border: none;
+    height: 35px;
+    border-radius: 3px;
+    color: white;
+    font-size: 18px;
+    outline: none;
+    margin-top: 10px;
+    resize: none;
+}
+
+.gallery-back-viewTweet {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: fixed;
+    background: #121418c2;
+    width: 92%;
+    height: 37px;
+    top: 90px;
+    left: 29%;
+}
+
+.gallery-back-viewTweet>svg {
+    width: 35px;
+    color: #ededed;
+}
+
+.gallery-back-viewTweet>h2 {
+    margin-left: 20px;
+}

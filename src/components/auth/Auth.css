@@ -17,12 +17,13 @@
     align-items: center;
     justify-content: center;
     position: fixed;
-    top: 15%;
+    top: 6%;
     height: 768px;
     left: 50%;
     animation: fadeIn .5s ease-in-out;
     transform: translate(-50%);
     width: 100%;
+    max-width: 1334px;
 }
 
 
@@ -280,7 +281,7 @@ select:focus {
     padding: 30px;
     width: 32%;
     text-align: center;
-    background-image: url("https://res.cloudinary.com/dcj8krp42/image/upload/v1712456529/logos/login_zfm2ps.jpg");
+    background-image: url("https://res.cloudinary.com/dcj8krp42/image/upload/v1727214303/Emblemas/485_x_712_p3vtdj.jpg");
     background-size: cover;
     background-position: center;
 
