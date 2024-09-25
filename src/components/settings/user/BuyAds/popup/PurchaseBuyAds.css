@@ -1,5 +1,12 @@
+/* PurchaseBuyAds.css */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .purchase-ads {
-    background: #212725;
+    background: #121212;
     border: 1px solid #080808;
     border-radius: 8px;
     padding: 20px;
@@ -11,7 +18,7 @@
 .purchase-ads .title {
     font-size: 24px;
     margin-bottom: 20px;
-    color: #466e61;
+    color: #ffffff;
 }
 
 .purchase-ads .create-ad-form {
@@ -26,7 +33,12 @@
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #555;
+    color: #e0e0e0;
+    /* Color claro para los labels */
+}
+
+.ReferenceLink {
+    color: #e0e0e0;
 }
 
 .purchase-ads .form-input,
@@ -35,6 +47,10 @@
     padding: 8px;
     border-radius: 4px;
     font-size: 16px;
+    color: #ffffff;
+    /* Color del texto dentro de los inputs y selects */
+    background-color: #212725;
+    /* Fondo oscuro para inputs y selects */
 }
 
 .purchase-ads .form-input[type="number"] {
@@ -56,7 +72,7 @@
 
 .purchase-ads .info-text {
     font-size: 16px;
-    color: #666;
+    color: #ffffff;
     margin-bottom: 10px;
 }
 
@@ -71,7 +87,7 @@
 }
 
 .purchase-ads .info-list strong {
-    color: #333;
+    color: #ffffff;
 }
 
 .purchase-ads .create-btn {

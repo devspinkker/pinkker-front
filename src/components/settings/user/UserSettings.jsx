@@ -285,7 +285,7 @@ export default function UserSettings({ isMobile, user }) {
               backgroundColor: "#2a2e38",
               borderRadius: "5px",
               gap: "15px",
-              width: "44%",
+              width: "max-content",
             }}
           >
             <Grid

@@ -1,0 +1,118 @@
+/* BuyAds.css */
+
+.buy-ads-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 40px;
+    background: #121212;
+    min-height: 100vh;
+    color: #e0e0e0;
+}
+
+.info-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.section-description {
+    font-size: 1.2rem;
+    color: #b0b0b0;
+}
+
+.ads-options {
+    width: 100%;
+}
+
+.options-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.ad-card {
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+}
+
+.ad-card.muro {
+    background: #2c3e50;
+    /* Color azul oscuro para anuncios en muro */
+}
+
+.ad-card.streams {
+    background: #16a085;
+    /* Color verde para anuncios en streams */
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.card-description {
+    font-size: 1rem;
+    color: #ecf0f1;
+    /* Color gris claro para la descripción */
+}
+
+.price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.price.muro {
+    color: #e67e22;
+    /* Color naranja para el precio del anuncio en muro */
+}
+
+.price.streams {
+    color: #f39c12;
+    /* Color amarillo para el precio del anuncio en streams */
+}
+
+.ad-details {
+    font-size: 0.9rem;
+    color: #bdc3c7;
+    /* Color gris claro para los detalles del anuncio */
+    margin-top: 10px;
+}
+
+.buy-button {
+    margin-top: 15px;
+    background-color: #ff5722;
+    color: #ffffff;
+    font-weight: bold;
+
+    &:hover {
+        background-color: #e64a19;
+    }
+}
+
+.faq-section {
+    margin-top: 40px;
+    width: 100%;
+}
+
+.faq-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.faq-description {
+    font-size: 1rem;
+    color: #b0b0b0;
+}
