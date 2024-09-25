@@ -97,6 +97,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                 return;
             }*/
       try {
+        let res;
         if (showTOTPInput) {
           res = await LoginTOTPSecret({
             NameUser: lUsername,
