@@ -8,33 +8,35 @@ const FloatingPlayer = () => {
   const location = useLocation();
   const history = useHistory();
   const videoRef = useRef(null);
-  const [previousPath, setPreviousPath] = useState(null); // Para guardar la ruta anterior
+  const [previousPath, setPreviousPath] = useState(null);
   const [streamerData, setStreamerData] = useState(null);
-  const [streamerName, setStreamerName] = useState(""); // Para mostrar el nombre del streamer
-  const [showPlayer, setShowPlayer] = useState(false); // Inicialmente ocultar el reproductor
-  const [isPlaying, setIsPlaying] = useState(true); // Estado de reproducción
+  const [streamerName, setStreamerName] = useState("");
+  const [showPlayer, setShowPlayer] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  // Estado para manejar la posición del reproductor flotante
+  const [position, setPosition] = useState({ x: 100, y: 100 });
+  const [dragging, setDragging] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const currentPath = location.pathname;
-    const pathParts = currentPath.split("/").filter(Boolean); // Obtener partes de la ruta actual
-    const isTopLevelRoute = pathParts.length === 1; // Verificar si es una ruta de nivel superior
+    const pathParts = currentPath.split("/").filter(Boolean);
+    const isTopLevelRoute = pathParts.length === 1;
 
     if (previousPath !== currentPath) {
       if (isTopLevelRoute && currentPath !== "/") {
-        // Estás en la página del usuario (ej: /bruno)
-        const nameUser = pathParts[0]; // Obtener el nombre del usuario de la ruta actual
-        fetchStreamerData(nameUser); // Obtener los datos del streamer
-        setShowPlayer(false); // Ocultar el reproductor mientras estás en esta página
+        const nameUser = pathParts[0];
+        fetchStreamerData(nameUser);
+        setShowPlayer(false);
       } else if (previousPath) {
-        // Si sales de la ruta del usuario, mostrar el reproductor
         setShowPlayer(true);
       }
     }
 
-    setPreviousPath(currentPath); // Actualiza la ruta anterior
+    setPreviousPath(currentPath);
   }, [location]);
 
-  // Función para obtener los datos del streamer
   const fetchStreamerData = async (nameUser) => {
     if (nameUser) {
       const dataStreamer = await getUserByNameUser(nameUser);
@@ -47,13 +49,13 @@ const FloatingPlayer = () => {
           dataStreamer.data.keyTransmission.length
         );
         setStreamerData(keyTransmission);
-        setStreamerName(nameUser); // Guardar el nombre del streamer
+        setStreamerName(nameUser);
       }
     }
   };
 
   const handleClearPlayer = () => {
-    setShowPlayer(false); // Ocultar el reproductor y limpiar el estado
+    setShowPlayer(false);
     setStreamerData(null);
   };
 
@@ -64,14 +66,14 @@ const FloatingPlayer = () => {
       } else {
         videoRef.current.play();
       }
-      setIsPlaying(!isPlaying); // Alternar estado de reproducción
+      setIsPlaying(!isPlaying);
     }
   };
 
   const handleGoToStreamer = () => {
     if (streamerName) {
-      history.push(`/${streamerName}`); // Redirigir a la página del streamer
-      handleClearPlayer(); // Limpiar el reproductor
+      history.push(`/${streamerName}`);
+      handleClearPlayer();
     }
   };
 
@@ -81,19 +83,47 @@ const FloatingPlayer = () => {
     return streamerData ? `${rtmp}/${streamerData}` : null;
   }
 
+  // Eventos para manejar el arrastre
+  const handleMouseDown = (e) => {
+    setDragging(true);
+    setOffset({
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
+    });
+  };
+
+  const handleMouseMove = (e) => {
+    if (dragging) {
+      setPosition({
+        x: e.clientX - offset.x,
+        y: e.clientY - offset.y,
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setDragging(false);
+  };
+
   return (
     <div
       className="FloatingPlayer"
       style={{
         display: showPlayer && streamerData ? "block" : "none",
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        position: "fixed", // Asegurar que sea posicionado de manera absoluta
+        cursor: dragging ? "grabbing" : "grab", // Cambiar cursor mientras arrastras
       }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
     >
       {showPlayer && streamerData ? (
         <div className="FloatingPlayer-container">
           <div className="player-header">
             <span>
-              Viendo a <strong>{streamerName}</strong>{" "}
-              {/* Mostrar nombre del streamer */}
+              Viendo a <strong>{streamerName}</strong>
             </span>
             <button className="close-button" onClick={handleClearPlayer}>
               X
@@ -114,7 +144,6 @@ const FloatingPlayer = () => {
               } pinkker-button-more`}
               style={{ cursor: "pointer" }}
             />
-            {/* Botón para redirigir a la ruta del streamer */}
             <svg
               onClick={handleGoToStreamer}
               stroke="currentColor"
