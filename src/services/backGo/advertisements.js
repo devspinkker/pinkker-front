@@ -42,6 +42,24 @@ export async function BuyadCreate(token, advertisement) {
         return error;
     }
 }
+
+export async function CreateAdsClips(token, FormData) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/advertisements/CreateAdsClips`,
+            FormData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
 export async function GetAdsUserPendingCode(token, Code, NameUser, page = 1) {
     try {
         const response = await axios.post(

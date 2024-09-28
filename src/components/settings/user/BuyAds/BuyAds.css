@@ -49,6 +49,11 @@
     /* Color azul oscuro para anuncios en muro */
 }
 
+.ad-card.clips {
+    background: #2c3e50;
+    /* Color azul oscuro para anuncios en muro */
+}
+
 .ad-card.streams {
     background: #16a085;
     /* Color verde para anuncios en streams */

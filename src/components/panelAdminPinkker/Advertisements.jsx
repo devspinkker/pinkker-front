@@ -142,9 +142,9 @@ export default function Advertisements({ Code }) {
     }
   };
 
-  const handleAcceptPending = async (id) => {
+  const handleAcceptPending = async (name) => {
     if (token) {
-      const res = await AcceptPendingAds(token, id, Code);
+      const res = await AcceptPendingAds(token, Code, name);
       if (res.message === "ok") {
         handleGetPendingAds();
       } else {
@@ -330,7 +330,7 @@ export default function Advertisements({ Code }) {
                     <p>ClicksMax: {ad.ClicksMax}</p>
                     <p>DocumentToBeAnnounced: {ad.DocumentToBeAnnounced}</p>
                   </div>
-                  <button onClick={() => handleAcceptPending(ad.id)}>
+                  <button onClick={() => handleAcceptPending(ad.NameUser)}>
                     Accept
                   </button>
                   <button onClick={() => handleRejectPending(ad.NameUser)}>

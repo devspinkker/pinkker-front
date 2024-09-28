@@ -41,7 +41,7 @@ export default function BuyAds() {
               Opciones de Anuncios
             </Typography>
             <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={4}>
                 <Card className="ad-card muro">
                   <CardContent>
                     <Typography variant="h6" className="card-title">
@@ -49,18 +49,17 @@ export default function BuyAds() {
                     </Typography>
                     <Typography variant="body2" className="card-description">
                       Promociona tu publicación en el muro. Ideal para aumentar
-                      la visibilidad de tus publicaciones
+                      la visibilidad de tus publicaciones.
                     </Typography>
                     <Typography variant="body1" className={`price muro`}>
                       Precio: $75 por clic
                     </Typography>
                     <Typography variant="body2" className="ad-details">
                       <strong>Muro:</strong> Este tipo de anuncio selecciona una
-                      publicación a promocionar mediante su ID, lo que permite
-                      incluir una imagen, texto y un enlace de referencia. Cada
-                      clic en el enlace de referencia cuesta 75 píxeles. Los
-                      usuarios que hacen clic son únicos, por lo que la campaña
-                      termina cuando se alcanza el número máximo de clics.
+                      publicación a promocionar mediante su ID, permitiendo
+                      incluir imagen, texto y un enlace de referencia. Cada clic
+                      en el enlace cuesta 75 píxeles. La campaña termina cuando
+                      se alcanza el número máximo de clics únicos.
                     </Typography>
                     <Button
                       onClick={() => handleAdSelect("Muro")}
@@ -72,7 +71,8 @@ export default function BuyAds() {
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={12} md={6}>
+
+              <Grid item xs={12} md={4}>
                 <Card className="ad-card streams">
                   <CardContent>
                     <Typography variant="h6" className="card-title">
@@ -80,19 +80,17 @@ export default function BuyAds() {
                     </Typography>
                     <Typography variant="body2" className="card-description">
                       Muestra tu anuncio en los streams de nuestros creadores,
-                      quienes podrán decidir cuándo mostrar el anuncio durante
-                      su transmisión.
+                      quienes podrán decidir cuándo mostrarlo.
                     </Typography>
                     <Typography variant="body1" className={`price streams`}>
                       Precio: $20 por impresión
                     </Typography>
                     <Typography variant="body2" className="ad-details">
-                      <strong>Streams:</strong> Estos anuncios se muestran
-                      durante los streams en formato de video con un enlace a
-                      una página específica. Los streamers tienen control sobre
-                      cuándo mostrar los anuncios, y las impresiones se cuentan
-                      cada vez que el anuncio es mostrado, no por usuarios
-                      únicos.
+                      <strong>Streams:</strong> Los anuncios se muestran durante
+                      los streams en formato de video con un enlace a una página
+                      específica. Los streamers controlan cuándo mostrar los
+                      anuncios, y las impresiones se cuentan cada vez que se
+                      muestra el anuncio.
                     </Typography>
                     <Button
                       onClick={() => handleAdSelect("Streams")}
@@ -100,6 +98,45 @@ export default function BuyAds() {
                       className="buy-button"
                     >
                       Comprar Ahora
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <Card className="ad-card clips">
+                  <CardContent>
+                    <Typography variant="h6" className="card-title">
+                      Anuncio en Clips
+                    </Typography>
+                    <Typography variant="body2" className="card-description">
+                      Tu anuncio se mostrará como un clip regular, pero con
+                      funcionalidades específicas para anuncios.
+                    </Typography>
+                    <Typography variant="body1" className={`price clips`}>
+                      Precio: $75 por clic
+                    </Typography>
+                    <Typography variant="body2" className="ad-details">
+                      <strong>Restricciones:</strong> Los anuncios no permiten
+                      comentarios. Sin embargo, los usuarios pueden dar "like" a
+                      los anuncios.
+                    </Typography>
+                    <Typography variant="body2" className="ad-details">
+                      <strong>Clics:</strong> Cada clic en el enlace de
+                      referencia asociado costará $75 y se registrará como único
+                      por usuario.
+                    </Typography>
+                    <Typography variant="body2" className="ad-details">
+                      <strong>Estadísticas:</strong> Tendrás acceso a
+                      estadísticas detalladas sobre el rendimiento, incluyendo
+                      clics totales y conversiones.
+                    </Typography>
+                    <Button
+                      onClick={() => handleAdSelect("ClipAds")}
+                      variant="contained"
+                      className="buy-button"
+                    >
+                      Comprar Anuncio en Clips
                     </Button>
                   </CardContent>
                 </Card>

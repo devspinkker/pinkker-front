@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { BuyadCreate } from "../../../../../services/backGo/advertisements";
+import {
+  BuyadCreate,
+  CreateAdsClips,
+} from "../../../../../services/backGo/advertisements";
 import { useNotification } from "../../../../Notifications/NotificationProvider";
 import "./PurchaseBuyAds.css";
 import { Grid, TextField, Button, Typography, IconButton } from "@mui/material";
@@ -20,7 +23,9 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
     ImpressionsMax: 0.0,
     ClicksMax: 0,
     DocumentToBeAnnounced: "",
+    clipTitle: "",
     totp_code: "",
+    video: null,
   });
 
   const alert = useNotification();
@@ -63,6 +68,13 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
           : value,
     }));
   };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setForm((prevForm) => ({
+      ...prevForm,
+      video: file,
+    }));
+  };
 
   const handleCreate = async () => {
     if (token) {
@@ -71,7 +83,23 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
         ImpressionsMax: parseFloat(form.ImpressionsMax),
         ClicksMax: parseInt(form.ClicksMax),
       };
-      const res = await BuyadCreate(token, adData);
+      let res;
+      if (form.Destination == "ClipAds") {
+        const formData = new FormData();
+        formData.append("video", form.video);
+        formData.append("id", form.id);
+        formData.append("Name", form.Name);
+        formData.append("Destination", form.Destination);
+        formData.append("ReferenceLink", form.ReferenceLink);
+        formData.append("ClicksMax", parseInt(form.ClicksMax));
+        formData.append("totp_code", form.totp_code);
+        formData.append("clipTitle", form.clipTitle);
+
+        res = await CreateAdsClips(token, formData);
+      } else {
+        res = await BuyadCreate(token, adData);
+      }
+
       if (res.message === "ok") {
         setForm({
           id: "",
@@ -84,6 +112,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
           ClicksMax: 0,
           DocumentToBeAnnounced: "",
           totp_code: "",
+          clipTitle: "",
         });
         alert({
           type: "SUCCESS",
@@ -105,7 +134,9 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
     if (form.Destination === "Streams") {
       pixels = form.ImpressionsMax * 20;
     } else if (form.Destination === "Muro") {
-      pixels = form.ClicksMax * 72;
+      pixels = form.ClicksMax * 75;
+    } else if (form.Destination === "ClipAds") {
+      pixels = form.ClicksMax * 75;
     }
 
     return { pixels };
@@ -116,9 +147,11 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
   const destinationOptions = [
     { value: "Muro", label: "Muro" },
     { value: "Streams", label: "Streams" },
+    { value: "ClipAds", label: "Clip Ads" },
   ];
 
   const handleDestinationChange = (selectedOption) => {
+    console.log(selectedOption.value);
     setForm((prevForm) => ({
       ...prevForm,
       Destination: selectedOption.value,
@@ -215,6 +248,45 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
             variant="outlined"
           />
         </Grid>
+        {form.Destination === "ClipAds" && (
+          <>
+            <Grid item xs={12}>
+              <TextField
+                style={{
+                  background: "#212725",
+                }}
+                label="Máximo de Clicks"
+                type="number"
+                id="ClicksMax"
+                name="ClicksMax"
+                value={form.ClicksMax}
+                onChange={handleInputChange}
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                style={{ background: "#212725" }}
+                label="Título del Clip"
+                id="clipTitle"
+                name="clipTitle"
+                value={form.clipTitle}
+                onChange={handleInputChange}
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <input
+                type="file"
+                accept="video/*"
+                onChange={handleFileChange}
+                style={{ color: "#007bff" }}
+              />
+            </Grid>
+          </>
+        )}
         {form.Destination === "Streams" && (
           <>
             <Grid item xs={12}>
@@ -246,6 +318,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
                 variant="outlined"
               />
             </Grid>
+
             <Grid item xs={12}>
               <TextField
                 style={{
