@@ -90,7 +90,8 @@ export default function BuyAds() {
                       los streams en formato de video con un enlace a una página
                       específica. Los streamers controlan cuándo mostrar los
                       anuncios, y las impresiones se cuentan cada vez que se
-                      muestra el anuncio.
+                      muestra el anuncio,Se mostrará todo el video, pero con la
+                      posibilidad de omitirlo 3 segundos después de su inicio.
                     </Typography>
                     <Button
                       onClick={() => handleAdSelect("Streams")}
@@ -113,7 +114,7 @@ export default function BuyAds() {
                       Tu anuncio se mostrará como un clip regular, pero con
                       funcionalidades específicas para anuncios.
                     </Typography>
-                    <Typography variant="body1" className={`price clips`}>
+                    <Typography variant="body1" className={`price muro`}>
                       Precio: $75 por clic
                     </Typography>
                     <Typography variant="body2" className="ad-details">
