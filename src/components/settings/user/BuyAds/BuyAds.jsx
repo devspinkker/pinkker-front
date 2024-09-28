@@ -31,7 +31,8 @@ export default function BuyAds() {
             </Typography>
             <Typography variant="body1" className="section-description">
               Explora nuestras opciones de anuncios y elige la que mejor se
-              adapte a tus necesidades.
+              adapte a tus necesidades. También podrás ver estadísticas
+              detalladas de los anuncios para evaluar su rendimiento.
             </Typography>
           </div>
 
@@ -48,16 +49,18 @@ export default function BuyAds() {
                     </Typography>
                     <Typography variant="body2" className="card-description">
                       Promociona tu publicación en el muro. Ideal para aumentar
-                      la visibilidad de tus publicaciones.
+                      la visibilidad de tus publicaciones
                     </Typography>
                     <Typography variant="body1" className={`price muro`}>
                       Precio: $75 por clic
                     </Typography>
                     <Typography variant="body2" className="ad-details">
-                      <strong>Muro:</strong> Este tipo de anuncio promociona una
-                      publicación. Cada clic en el enlace de referencia cuesta
-                      75 píxeles. La campaña termina cuando se alcanza el número
-                      máximo de clics.
+                      <strong>Muro:</strong> Este tipo de anuncio selecciona una
+                      publicación a promocionar mediante su ID, lo que permite
+                      incluir una imagen, texto y un enlace de referencia. Cada
+                      clic en el enlace de referencia cuesta 75 píxeles. Los
+                      usuarios que hacen clic son únicos, por lo que la campaña
+                      termina cuando se alcanza el número máximo de clics.
                     </Typography>
                     <Button
                       onClick={() => handleAdSelect("Muro")}
@@ -76,18 +79,20 @@ export default function BuyAds() {
                       Anuncio en Streams
                     </Typography>
                     <Typography variant="body2" className="card-description">
-                      Muestra tu anuncio en los streams de nuestros creadores.
-                      Ideal para alcanzar una audiencia amplia.
+                      Muestra tu anuncio en los streams de nuestros creadores,
+                      quienes podrán decidir cuándo mostrar el anuncio durante
+                      su transmisión.
                     </Typography>
                     <Typography variant="body1" className={`price streams`}>
                       Precio: $20 por impresión
                     </Typography>
                     <Typography variant="body2" className="ad-details">
-                      <strong>Streams:</strong> Estos anuncios se muestran en
-                      los streams de los streamers. Se cuentan únicamente en
-                      base a impresiones. También puedes incluir un enlace de
-                      referencia y dirigir el anuncio a una categoría específica
-                      de stream.
+                      <strong>Streams:</strong> Estos anuncios se muestran
+                      durante los streams en formato de video con un enlace a
+                      una página específica. Los streamers tienen control sobre
+                      cuándo mostrar los anuncios, y las impresiones se cuentan
+                      cada vez que el anuncio es mostrado, no por usuarios
+                      únicos.
                     </Typography>
                     <Button
                       onClick={() => handleAdSelect("Streams")}
@@ -110,6 +115,26 @@ export default function BuyAds() {
               <strong>¿Cómo funciona el sistema de anuncios?</strong> <br />
               Los anuncios se muestran según el tipo seleccionado. Los precios
               varían según el tipo y el alcance del anuncio.
+            </Typography>
+            <Typography variant="body1" className="faq-description">
+              <strong>
+                ¿Cómo se muestran los anuncios en los streams y el muro?
+              </strong>{" "}
+              <br />
+              En los streams, los streamers deciden cuándo mostrar el anuncio.
+              Cada impresión incluye un video publicitario con un enlace de
+              referencia. En el muro, los anuncios son publicaciones
+              seleccionadas, mostradas cada cierta cantidad de posts, con clics
+              contados solo una vez por usuario.
+            </Typography>
+            <Typography variant="body1" className="faq-description">
+              <strong>
+                ¿Puedo ver estadísticas sobre el rendimiento de mi anuncio?
+              </strong>{" "}
+              <br />
+              Sí, ofrecemos estadísticas detalladas para que puedas medir el
+              rendimiento de tu campaña, incluyendo la cantidad de clics,
+              impresiones y conversiones.
             </Typography>
             <Typography variant="body1" className="faq-description">
               <strong>
