@@ -1087,10 +1087,10 @@ function NLayout(props) {
               props.tyExpanded && props.txExpandedLeft
                 ? "72%"
                 : props.tyExpanded && !props.txExpandedLeft
-                ? "85%"
-                : !props.tyExpanded && props.txExpandedLeft
-                ? "85%"
-                : "95%",
+                  ? "85%"
+                  : !props.tyExpanded && props.txExpandedLeft
+                    ? "85%"
+                    : "95%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1139,18 +1139,18 @@ function NLayout(props) {
           ) : (
             <Grid
               className="navTopHome"
-              // style={{
-              //   borderBottom: "1px solid #2a2e38",
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "space-between",
-              //   padding: "15.5px 5.8rem",
-              //   position: "sticky",
-              //   top: 0,
-              //   zIndex: 9999,
-              //   backgroundColor: "#080808",
-              //   width: "103.5%",
-              // }}
+            // style={{
+            //   borderBottom: "1px solid #2a2e38",
+            //   display: "flex",
+            //   alignItems: "center",
+            //   justifyContent: "space-between",
+            //   padding: "15.5px 5.8rem",
+            //   position: "sticky",
+            //   top: 0,
+            //   zIndex: 9999,
+            //   backgroundColor: "#080808",
+            //   width: "103.5%",
+            // }}
             >
               <Link to="/" style={{ width: "230px" }}>
                 <img
@@ -1548,17 +1548,17 @@ function NLayout(props) {
                           }}
                           sx={{
                             "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
+                            {
+                              borderColor: "white",
+                            },
                             "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
+                            {
+                              borderColor: "white",
+                            },
                             "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
+                            {
+                              borderColor: "white",
+                            },
                             "& .MuiInputBase-input": {
                               color: "white",
                               backgroundColor: "#212129",
@@ -1734,7 +1734,7 @@ function NLayout(props) {
                                 style={{ backgroundColor: "#080808" }}
                               >
                                 {!game?.streamThumbnail &&
-                                !game?.StreamThumbnail ? (
+                                  !game?.StreamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
@@ -1809,7 +1809,7 @@ function NLayout(props) {
                                         game?.url,
                                         game?.StreamThumbnail && true,
                                         game?.StreamThumbnail &&
-                                          game?.UserInfo?.NameUser,
+                                        game?.UserInfo?.NameUser,
                                         game?.StreamThumbnail && game?.id
                                       )
                                     }
@@ -2262,7 +2262,7 @@ function NLayout(props) {
           <Grid
             style={{
               borderBottom: "1px solid #2a2e38",
-              display: "flex",
+              display: dashboard ? "none" : "flex",
               alignItems: "center",
               justifyContent: "space-between",
               padding: "1rem 2rem",
@@ -2615,6 +2615,7 @@ function NLayout(props) {
 
         <Grid
           style={{
+            display: dashboard ? "none" : "flex",
             width: "100%",
             height: !window.location.pathname?.includes("/post") && "100vh",
           }}
@@ -2731,17 +2732,17 @@ function NLayout(props) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2753,7 +2754,7 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
@@ -2782,49 +2783,55 @@ function NLayout(props) {
           )}
         </Grid>
 
-        <div className="mobile-menu">
-          <Link to="/" className={location.pathname === "/" ? "active" : ""}>
-            <GrHomeRounded className="icon" />
-            <span>Inicio</span>
-          </Link>
-          <Link
-            to="/plataform/clips"
-            className={location.pathname === "/plataform/clips" ? "active" : ""}
-          >
-            <FiSearch className="icon" />
+        {
+          !location.pathname.includes('/dashboard') && (
+            <div className="mobile-menu">
+              <Link to="/" className={location.pathname === "/" ? "active" : ""}>
+                <GrHomeRounded className="icon" />
+                <span>Inicio</span>
+              </Link>
+              <Link
+                to="/plataform/clips"
+                className={location.pathname === "/plataform/clips" ? "active" : ""}
+              >
+                <FiSearch className="icon" />
 
-            <span>Explorar</span>
-          </Link>
-          <Link
-            to="/plataform/explore?tipo=streams"
-            className={
-              location.pathname === "/plataform/explore?tipo=streams"
-                ? "active"
-                : ""
-            }
-          >
-            <AiOutlinePlayCircle className="icon" />
-            <span>Directos</span>
-          </Link>
-          <Link
-            to="/plataform/explore?tipo=categories"
-            className={
-              location.pathname === "/plataform/explore?tipo=categories"
-                ? "active"
-                : ""
-            }
-          >
-            <FaLayerGroup className="icon" />
-            <span>Categorías</span>
-          </Link>
-          <Link
-            to="/plataform/muro"
-            className={location.pathname === "/plataform/muro" ? "active" : ""}
-          >
-            <BsChatSquareText className="icon" />
-            <span>Muro</span>
-          </Link>
-        </div>
+                <span>Explorar</span>
+              </Link>
+              <Link
+                to="/plataform/explore?tipo=streams"
+                className={
+                  location.pathname === "/plataform/explore?tipo=streams"
+                    ? "active"
+                    : ""
+                }
+              >
+                <AiOutlinePlayCircle className="icon" />
+                <span>Directos</span>
+              </Link>
+              <Link
+                to="/plataform/explore?tipo=categories"
+                className={
+                  location.pathname === "/plataform/explore?tipo=categories"
+                    ? "active"
+                    : ""
+                }
+              >
+                <FaLayerGroup className="icon" />
+                <span>Categorías</span>
+              </Link>
+              <Link
+                to="/plataform/muro"
+                className={location.pathname === "/plataform/muro" ? "active" : ""}
+              >
+                <BsChatSquareText className="icon" />
+                <span>Muro</span>
+              </Link>
+            </div>
+
+          )
+        }
+
       </Grid>
     );
   };

@@ -1588,6 +1588,7 @@ export default function Channel({
         (isMobile && "container-channel-isMobile") ||
         ""
       }
+      style={{width: isMobile && '100%'}}
     >
       {getChannel()}
 

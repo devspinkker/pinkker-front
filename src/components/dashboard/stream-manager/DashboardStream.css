@@ -640,3 +640,24 @@
 }
 
 .activity-feed-item__info_action {}
+
+
+/* Medium (tabletas y teléfonos grandes) */
+@media (max-width: 768px) {
+    .content{
+        display: flex;
+        flex-direction: column;
+    }
+    .part-two{
+        border: none;
+        width: 100%;
+    }
+    .part-two > .column{
+        width: 100%;
+        max-width: 100%;
+    }
+    .navigation{
+        padding: 3rem 0rem;
+        width: 100% !important;
+    }
+  }

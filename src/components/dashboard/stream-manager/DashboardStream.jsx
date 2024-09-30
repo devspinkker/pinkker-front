@@ -541,7 +541,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
 
           <Grid
             style={{
-              width: "35%",
+              width: isMobile ? '80%':"35%",
               display: "flex",
               flexDirection: "column",
               gap: "10%",
@@ -760,7 +760,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
 
           {/* Parte 1 */}
 
-          {streamerData && userData && (
+          {streamerData && userData && !isMobile && (
             <ChatStreaming
               streamerChat={streamerData}
               chatExpandeds={true}

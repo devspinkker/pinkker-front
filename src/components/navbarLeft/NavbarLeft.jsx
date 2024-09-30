@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import "./NavbarLeft.css";
 
@@ -19,6 +19,16 @@ import NavbarLeftMobile from "./navbarLeftMobile";
 import { getUserByIdTheToken } from "../../services/backGo/user";
 import Search from "../../components/navbar/search/Search";
 import MainDeshboard from "./dashboard/MainDeshboard";
+import { GrHomeRounded } from "react-icons/gr";
+import { FiSearch } from "react-icons/fi";
+import { AiOutlinePlayCircle } from "react-icons/ai";
+import { FaLayerGroup } from "react-icons/fa6";
+import { BsChatSquareText } from "react-icons/bs";
+import { HiStatusOnline } from "react-icons/hi";
+import { SiSimpleanalytics } from "react-icons/si";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { MdOutlinePermMedia } from "react-icons/md";
+import { LiaCommentSolid } from "react-icons/lia";
 
 var activeNormal = 0;
 
@@ -152,8 +162,8 @@ export default function NavbarLeft({
         if (resGetAllsStreamsOnlineThatUserFollows?.length > 0) {
           const usersOnlineAndFollowed = resGetAllsStreamsOnlineThatUserFollows
             ? resGetAllsStreamsOnlineThatUserFollows?.map(
-                (stream) => stream.streamerId
-              )
+              (stream) => stream.streamerId
+            )
             : [];
 
           const recommendedFiltered = result.data.filter(
@@ -180,20 +190,63 @@ export default function NavbarLeft({
 
   function getNormalNavbar() {
     console.log('dashboard', dashboard)
-    
-      return (
-        <MainDeshboard
-          user={user}
-          tyExpanded={tyExpanded}
-          setExpanded={setExpanded}
-        />
-      );
-    
+
+    return (
+      <MainDeshboard
+        user={user}
+        tyExpanded={tyExpanded}
+        setExpanded={setExpanded}
+      />
+    );
+
   }
+  let location = useLocation();
 
   function getNavbarLeft() {
     if (isMobile) {
-      return <NavbarLeftMobile streamer={"user.NameUser"} />;
+      return <div className="mobile-menu">
+        <Link to={"/" + user?.NameUser + "/dashboard/stream"} className={location.pathname === "/" + user?.NameUser + "/dashboard/stream" ? "active" : ""}>
+          <HiStatusOnline className="icon" />
+          <span>Stream</span>
+        </Link>
+        <Link
+          to={"/" + user?.NameUser + "/dashboard/analytics"}
+          className={location.pathname === "/" + user?.NameUser + "/dashboard/analytics" ? "active" : ""}
+        >
+          <SiSimpleanalytics className="icon" />
+
+          <span>Analytics</span>
+        </Link>
+        <Link
+          to={"/" + user?.NameUser + "/dashboard/ingresos"}
+          className={
+            location.pathname === "/" + user?.NameUser + "/dashboard/ingresos"
+              ? "active"
+              : ""
+          }
+        >
+          <RiMoneyDollarCircleFill className="icon" />
+          <span>Ingresos</span>
+        </Link>
+        <Link
+          to={"/" + user?.NameUser + "/dashboard/contenido"}
+          className={
+            location.pathname === "/" + user?.NameUser + "/dashboard/contenido"
+              ? "active"
+              : ""
+          }
+        >
+          <MdOutlinePermMedia className="icon" />
+          <span>Contenido</span>
+        </Link>
+        <Link
+          to={"/" + user?.NameUser + "/dashboard/comentarios"}
+          className={location.pathname ===  "/" + user?.NameUser + "/dashboard/comentarios" ? "active" : ""}
+        >
+          <LiaCommentSolid className="icon" />
+          <span>Comentarios</span>
+        </Link>
+      </div>
     } else {
       return (
         <aside
@@ -210,7 +263,7 @@ export default function NavbarLeft({
           >
             {getNormalNavbar()}
           </ul>
-          {}
+          { }
         </aside>
       );
     }

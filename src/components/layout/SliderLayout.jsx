@@ -298,7 +298,7 @@ function SliderLayout(props) {
                 >
                   <Skeleton
                     variant="rectangular"
-                    width={props.isMobile ? "570px" : "260px"}
+                    width={props.isMobile ? "100%" : "260px"}
                     height={props.isMobile ? "280px" : "150px"}
                     style={{
                       backgroundColor: "rgb(32, 32, 31)",

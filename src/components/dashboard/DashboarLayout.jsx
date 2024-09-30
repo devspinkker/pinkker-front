@@ -121,9 +121,8 @@ function DashboarLayout({ user, isMobile, children }) {
         style={{
           display: "flex",
           flexDirection: "row",
-
           padding: "0rem 0rem 0rem 0rem",
-          width: expanded ? "95%" : "95%",
+          width: isMobile ? '100%' :expanded ? "95%" : "95%",
         }}
       >
         <div className="first-section">
@@ -137,7 +136,7 @@ function DashboarLayout({ user, isMobile, children }) {
                   display: "flex",
                   justifyContent: "flex-start",
                   alignItems: "center",
-                  padding: "1rem 5.8rem",
+                  padding:  !isMobile && "1rem 5.8rem",
                 }}
               >
                 <a href="/" style={{ width: "20%" }}>

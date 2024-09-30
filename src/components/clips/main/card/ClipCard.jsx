@@ -100,28 +100,59 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
     const video = playerRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
+  
+    const setCanvasSize = () => {
+      const width = video.offsetWidth || video.videoWidth;
+      const height = video.offsetHeight || video.videoHeight;
+  
+      if (width > 0 && height > 0) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+    };
+  
     const drawAmbilight = () => {
       const width = canvas.width;
       const height = canvas.height;
-      const vw = video.videoWidth;
-      const vh = video.videoHeight;
-
+  
+      if (width === 0 || height === 0) return; // Evita dibujar si el canvas no tiene tamaño
+  
       ctx.clearRect(0, 0, width, height);
-
       ctx.drawImage(video, 0, 0, width, height);
-
-      // Apply a blur effect
+  
+      // Ajustar el blur dependiendo del tamaño de la pantalla
+      const blurValue = window.innerWidth <= 768 ? "20px" : "50px";
+      
       ctx.globalAlpha = 0.5;
-      ctx.filter = "blur(50px)";
+      ctx.filter = `blur(${blurValue})`;
       ctx.drawImage(canvas, -25, -25, width + 50, height + 50);
       ctx.filter = "none";
       ctx.globalAlpha = 1.0;
     };
-
+  
+    const handleResize = () => {
+      setCanvasSize();
+      drawAmbilight();
+    };
+  
+    if (video) {
+      video.addEventListener("loadedmetadata", () => {
+        setCanvasSize();
+        drawAmbilight();
+      });
+    }
+  
+    window.addEventListener("resize", handleResize);
     const interval = setInterval(drawAmbilight, 30);
-    return () => clearInterval(interval);
+  
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("resize", handleResize);
+    };
   }, [videoHover]);
+  
+  
+
   const handleVideoPlay = () => {
     setTimeout(() => {
       setVideoPlaying(true);
@@ -421,7 +452,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
                 loop={true}
                 autoPlay={true}
                 muted={muted}
-                controls={true}
+                controls={false}
                 playsInline
                 src={clip.url}
                 onPlay={handleVideoPlay} // Llama al handler cuando el video comienza a reproducirse

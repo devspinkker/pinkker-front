@@ -316,9 +316,7 @@ export function ChatStreaming({
     return () => clearTimeout(timer);
   }, []);
   useEffect(() => {
-    if (isMobile) {
-      ToggleChat(false);
-    }
+    
 
     const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
     const newSocket = new WebSocket(
@@ -372,9 +370,7 @@ export function ChatStreaming({
   }, []);
 
   useEffect(() => {
-    if (isMobile) {
-      ToggleChat(false);
-    }
+    
 
     const token = window.localStorage.getItem("token");
     const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
