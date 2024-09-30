@@ -146,9 +146,26 @@ export default function MessageChat({
             className="messagechat-opened-close"
           >
             <div style={{ display: "flex", alignItems: "center" }}>
-              <h5 style={{ color: "#ededed", margin: "0px 10px" }}>
-                {to.NameUser}
-              </h5>
+              <div className="navbar-image-avatar">
+                {!imageLoaded && (
+                  <div className="image-placeholder">
+                    <Loader
+                      type="TailSpin"
+                      color="#ff60b2"
+                      height={20}
+                      width={20}
+                    />
+                  </div>
+                )}
+                <img
+                  src={to.Avatar}
+                  alt=""
+                  onLoad={() => setImageLoaded(true)}
+                  style={{ display: imageLoaded ? "block" : "none" }}
+                />
+              </div>
+
+              <h5 className="ChatUserTo">{to.NameUser}</h5>
               {to.Partner.Active === true && (
                 <Emblem
                   chat={true}

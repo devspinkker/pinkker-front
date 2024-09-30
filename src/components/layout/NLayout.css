@@ -19,6 +19,19 @@
     position: relative;
 }
 
+.openNotificationopenMessage {
+    width: 25%;
+    border: 1px solid rgb(42, 46, 56);
+    height: 100vh;
+    background-color: #080808;
+    position: fixed;
+    z-index: 999999;
+    top: 0px;
+    transition: left 0.5s ease
+}
+
+
+
 .css-hip9hq-MuiPaper-root-MuiAppBar-root {
     background-color: transparent !important;
 }

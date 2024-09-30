@@ -219,7 +219,78 @@ function NLayout(props) {
       }))
     );
   };
+  const pingIntervalRef = useRef();
+  useEffect(() => {
+    const REACT_APP_BACKCOMMERCIALWS = process.env.REACT_APP_BACKCOMMERCIALWS;
+    let id = window.localStorage.getItem("_id");
+    const connectWebSocket = () => {
+      const newSocket = new WebSocket(
+        `wss://www.pinkker.tv/8084/ws/notification/ActivityFeed/${id}`
+      );
 
+      newSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+
+      newSocket.onmessage = (event) => {
+        try {
+          const receivedMessage = JSON.parse(event.data);
+          console.log(receivedMessage);
+          // if (receivedMessage.action === "DonatePixels") {
+          //   speakMessage(receivedMessage.text);
+          // }
+          setPinkerNotifications((prevNotifications) => [
+            ...prevNotifications,
+            { ...receivedMessage, visto: false },
+          ]);
+          // setActivityFeed((prevMessages) => [...prevMessages, receivedMessage]);
+        } catch (error) {
+          console.error("Error parsing JSON message:", error);
+        }
+      };
+
+      newSocket.onopen = () => {};
+
+      setSocket(newSocket);
+      window.addEventListener("beforeunload", () => {
+        newSocket.send("closing");
+        newSocket.close();
+      });
+    };
+
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+      connectWebSocket();
+    }
+
+    return () => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send("closing");
+        socket.close();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const pingInterval = () => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send("ping");
+      }
+    };
+
+    const intervalId = setInterval(pingInterval, 3000);
+    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
+
+    if (pingIntervalRef.current) {
+      clearInterval(pingIntervalRef.current);
+    }
+    pingIntervalRef.current = intervalId;
+
+    return () => {
+      if (pingIntervalRef.current) {
+        clearInterval(pingIntervalRef.current);
+      }
+    };
+  }, [socket]);
   function cerrarCanalesRecomendados() {
     setAbrir(!abrir);
   }
@@ -273,6 +344,7 @@ function NLayout(props) {
       setOpenNotification(false);
     }
   };
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const habilitarMensaje = () => {
     if (openMessage) {
@@ -284,6 +356,7 @@ function NLayout(props) {
     }
     setOpenNotification(false);
   };
+
   const habilitarNotificaciones = () => {
     if (openNotification) {
       setOpenNotification(false);
@@ -291,12 +364,12 @@ function NLayout(props) {
     } else {
       setOpenNotification(true);
       props.setExpandedLeft(true);
-
       markAllAsSeen();
     }
     // SetanySeenNotifications(
     //   PinkerNotifications.some((notification) => notification.visto)
     // );
+
     setOpenMessage(false);
   };
   const habilitarSubMenu = (valor, e) => {
@@ -1085,12 +1158,12 @@ function NLayout(props) {
           style={{
             width:
               props.tyExpanded && props.txExpandedLeft
-                ? "72%"
+                ? "85%"
                 : props.tyExpanded && !props.txExpandedLeft
-                  ? "85%"
-                  : !props.tyExpanded && props.txExpandedLeft
-                    ? "85%"
-                    : "95%",
+                ? "85%"
+                : !props.tyExpanded && props.txExpandedLeft
+                ? "85%"
+                : "95%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1139,18 +1212,18 @@ function NLayout(props) {
           ) : (
             <Grid
               className="navTopHome"
-            // style={{
-            //   borderBottom: "1px solid #2a2e38",
-            //   display: "flex",
-            //   alignItems: "center",
-            //   justifyContent: "space-between",
-            //   padding: "15.5px 5.8rem",
-            //   position: "sticky",
-            //   top: 0,
-            //   zIndex: 9999,
-            //   backgroundColor: "#080808",
-            //   width: "103.5%",
-            // }}
+              // style={{
+              //   borderBottom: "1px solid #2a2e38",
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "space-between",
+              //   padding: "15.5px 5.8rem",
+              //   position: "sticky",
+              //   top: 0,
+              //   zIndex: 9999,
+              //   backgroundColor: "#080808",
+              //   width: "103.5%",
+              // }}
             >
               <Link to="/" style={{ width: "230px" }}>
                 <img
@@ -1548,17 +1621,17 @@ function NLayout(props) {
                           }}
                           sx={{
                             "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                              {
+                                borderColor: "white",
+                              },
                             "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                              {
+                                borderColor: "white",
+                              },
                             "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                              {
+                                borderColor: "white",
+                              },
                             "& .MuiInputBase-input": {
                               color: "white",
                               backgroundColor: "#212129",
@@ -1734,7 +1807,7 @@ function NLayout(props) {
                                 style={{ backgroundColor: "#080808" }}
                               >
                                 {!game?.streamThumbnail &&
-                                  !game?.StreamThumbnail ? (
+                                !game?.StreamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
@@ -1809,7 +1882,7 @@ function NLayout(props) {
                                         game?.url,
                                         game?.StreamThumbnail && true,
                                         game?.StreamThumbnail &&
-                                        game?.UserInfo?.NameUser,
+                                          game?.UserInfo?.NameUser,
                                         game?.StreamThumbnail && game?.id
                                       )
                                     }
@@ -2146,25 +2219,13 @@ function NLayout(props) {
         </Grid>
 
         {(openNotification || openMessage) && !props.tyExpande && (
-          <Grid
-            style={{
-              width: "15%",
-              transition: "width 1s ease-in-out",
-              border: "1px solid #2a2e38",
-              height: "100vh",
-              backgroundColor: "#121418",
-              position: "sticky",
-              zIndex: 999999,
-              top: 0,
-              transition: "width 1s ease-in-out",
-            }}
-          >
+          <Grid className={"openNotificationopenMessage"}>
             <Grid
               style={{
                 display: "flex",
                 textAlign: "center",
                 alignItems: "center",
-                border: "1px solid #343843",
+                // border: "1px solid #343843",
                 transition: "width 1s ease-in-out",
                 padding: "1.70rem",
               }}
@@ -2732,17 +2793,17 @@ function NLayout(props) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2754,7 +2815,7 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
@@ -2783,55 +2844,55 @@ function NLayout(props) {
           )}
         </Grid>
 
-        {
-          !location.pathname.includes('/dashboard') && (
-            <div className="mobile-menu">
-              <Link to="/" className={location.pathname === "/" ? "active" : ""}>
-                <GrHomeRounded className="icon" />
-                <span>Inicio</span>
-              </Link>
-              <Link
-                to="/plataform/clips"
-                className={location.pathname === "/plataform/clips" ? "active" : ""}
-              >
-                <FiSearch className="icon" />
+        {!location.pathname.includes("/dashboard") && (
+          <div className="mobile-menu">
+            <Link to="/" className={location.pathname === "/" ? "active" : ""}>
+              <GrHomeRounded className="icon" />
+              <span>Inicio</span>
+            </Link>
+            <Link
+              to="/plataform/clips"
+              className={
+                location.pathname === "/plataform/clips" ? "active" : ""
+              }
+            >
+              <FiSearch className="icon" />
 
-                <span>Explorar</span>
-              </Link>
-              <Link
-                to="/plataform/explore?tipo=streams"
-                className={
-                  location.pathname === "/plataform/explore?tipo=streams"
-                    ? "active"
-                    : ""
-                }
-              >
-                <AiOutlinePlayCircle className="icon" />
-                <span>Directos</span>
-              </Link>
-              <Link
-                to="/plataform/explore?tipo=categories"
-                className={
-                  location.pathname === "/plataform/explore?tipo=categories"
-                    ? "active"
-                    : ""
-                }
-              >
-                <FaLayerGroup className="icon" />
-                <span>Categorías</span>
-              </Link>
-              <Link
-                to="/plataform/muro"
-                className={location.pathname === "/plataform/muro" ? "active" : ""}
-              >
-                <BsChatSquareText className="icon" />
-                <span>Muro</span>
-              </Link>
-            </div>
-
-          )
-        }
-
+              <span>Explorar</span>
+            </Link>
+            <Link
+              to="/plataform/explore?tipo=streams"
+              className={
+                location.pathname === "/plataform/explore?tipo=streams"
+                  ? "active"
+                  : ""
+              }
+            >
+              <AiOutlinePlayCircle className="icon" />
+              <span>Directos</span>
+            </Link>
+            <Link
+              to="/plataform/explore?tipo=categories"
+              className={
+                location.pathname === "/plataform/explore?tipo=categories"
+                  ? "active"
+                  : ""
+              }
+            >
+              <FaLayerGroup className="icon" />
+              <span>Categorías</span>
+            </Link>
+            <Link
+              to="/plataform/muro"
+              className={
+                location.pathname === "/plataform/muro" ? "active" : ""
+              }
+            >
+              <BsChatSquareText className="icon" />
+              <span>Muro</span>
+            </Link>
+          </div>
+        )}
       </Grid>
     );
   };
