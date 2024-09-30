@@ -38,12 +38,7 @@ export default function Clips(props) {
       try {
         let token = window.localStorage.getItem("token");
         let response;
-        if (token) {
-          const ExcludeIDs = [];
-          response = await ClipsRecommended(token, ExcludeIDs);
-        } else {
-          response = await GetClipsMostViewed(1);
-        }
+        response = await GetClipsMostViewed(1);
         if (response.data?.message === "ok" && response.data?.data.length > 1) {
           setClips(response.data.data);
         }
