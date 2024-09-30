@@ -330,10 +330,14 @@ export default function Advertisements({ Code }) {
                     <p>ClicksMax: {ad.ClicksMax}</p>
                     <p>DocumentToBeAnnounced: {ad.DocumentToBeAnnounced}</p>
                   </div>
-                  <button onClick={() => handleAcceptPending(ad.NameUser)}>
+                  <button
+                    onDoubleClick={() => handleAcceptPending(ad.NameUser)}
+                  >
                     Accept
                   </button>
-                  <button onClick={() => handleRejectPending(ad.NameUser)}>
+                  <button
+                    onDoubleClick={() => handleRejectPending(ad.NameUser)}
+                  >
                     Reject
                   </button>
                 </div>
@@ -371,12 +375,14 @@ export default function Advertisements({ Code }) {
                   {advertisements[currentIndex]?.DocumentToBeAnnounced}
                 </p>
                 <button
-                  onClick={() => handleEdit(advertisements[currentIndex])}
+                  onDoubleClick={() => handleEdit(advertisements[currentIndex])}
                 >
                   Edit
                 </button>
                 <button
-                  onClick={() => handleDelete(advertisements[currentIndex]?.id)}
+                  onDoubleClick={() =>
+                    handleDelete(advertisements[currentIndex]?.id)
+                  }
                 >
                   Delete
                 </button>

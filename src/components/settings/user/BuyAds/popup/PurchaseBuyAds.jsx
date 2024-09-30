@@ -91,7 +91,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
         formData.append("Name", form.Name);
         formData.append("Destination", form.Destination);
         formData.append("ReferenceLink", form.ReferenceLink);
-        formData.append("ClicksMax", parseInt(form.ClicksMax));
+        formData.append("ImpressionsMax", parseInt(form.ImpressionsMax));
         formData.append("totp_code", form.totp_code);
         formData.append("clipTitle", form.clipTitle);
 
@@ -136,7 +136,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
     } else if (form.Destination === "Muro") {
       pixels = form.ClicksMax * 75;
     } else if (form.Destination === "ClipAds") {
-      pixels = form.ClicksMax * 75;
+      pixels = form.ImpressionsMax * 20;
     }
 
     return { pixels };
@@ -255,11 +255,11 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
                 style={{
                   background: "#212725",
                 }}
-                label="Máximo de Clicks"
+                label="Máximo de Impresiones"
                 type="number"
-                id="ClicksMax"
-                name="ClicksMax"
-                value={form.ClicksMax}
+                id="ImpressionsMax"
+                name="ImpressionsMax"
+                value={form.ImpressionsMax}
                 onChange={handleInputChange}
                 fullWidth
                 variant="outlined"

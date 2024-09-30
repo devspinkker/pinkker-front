@@ -115,7 +115,7 @@ export default function BuyAds() {
                       funcionalidades específicas para anuncios.
                     </Typography>
                     <Typography variant="body1" className={`price muro`}>
-                      Precio: $75 por clic
+                      Precio: $20 por impresiones
                     </Typography>
                     <Typography variant="body2" className="ad-details">
                       <strong>Restricciones:</strong> Los anuncios no permiten
@@ -123,9 +123,8 @@ export default function BuyAds() {
                       los anuncios.
                     </Typography>
                     <Typography variant="body2" className="ad-details">
-                      <strong>Clics:</strong> Cada clic en el enlace de
-                      referencia asociado costará $75 y se registrará como único
-                      por usuario.
+                      <strong>impresiones:</strong> Cada impresiones en el
+                      explorador cuesta $20
                     </Typography>
                     <Typography variant="body2" className="ad-details">
                       <strong>Estadísticas:</strong> Tendrás acceso a
