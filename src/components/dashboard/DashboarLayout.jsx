@@ -147,44 +147,7 @@ function DashboarLayout({ user, isMobile, children }) {
                   />
                 </a>
 
-                <Grid>
-                  <div className="session-info">
-                    {!streamerData?.online && (
-                      <div className="stats-container">
-                        <span className="w-fit grow-0 rounded-[2px] px-[0.375rem] py-1 text-center text-[0.625rem] font-bold uppercase bg-[#F4F5F6] text-[#070809]">
-                          Sin conexión
-                        </span>
-                        <span className="label">Sesión</span>
-                      </div>
-                    )}
-                    <div className="stats-container">
-                      <span className="data">
-                        - {streamerData?.online && streamerData?.ViewerCount}
-                      </span>
-                      <span className="label"> espectadores</span>
-                    </div>
-                    <div className="stats-container">
-                      <span className="data">
-                        - {userData && userData.FollowersCount}{" "}
-                      </span>
-                      <span className="label"> seguidores</span>
-                    </div>
-                    <div className="stats-container">
-                      <span className="data">
-                        {streamerData?.online ? (
-                          <p className="elapsedTime">
-                            <p>{`${formatNumber(elapsedTime.hours)}`}</p>
-                            <p>{`: ${formatNumber(elapsedTime.minutes)}`}</p>
-                            <p>{`: ${formatNumber(elapsedTime.seconds)}`}</p>
-                          </p>
-                        ) : (
-                          "-"
-                        )}
-                      </span>
-                      <span className="label">Tiempo en vivo</span>
-                    </div>
-                  </div>
-                </Grid>
+                
               </div>
 
               <Grid>

@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import logo from './LOGOPINKKER.png'; // Importa el logo de tu empresa o imagen de carga
 import './loading.css'
-import loader from './Chancho- dengue.png'
+import loader from './Chancho--dengue.png'
+import pinnkker from './Pinkker_dmzobi.png'
 import { Box, LinearProgress } from '@mui/material';
 const Loading = () => {
     const [progress, setProgress] = useState(0);
@@ -24,10 +25,11 @@ const Loading = () => {
     }, []);
     return (
         <div className="loading-container">
-            <img src={loader} alt="Logo de pinkker" className="logo " />
+            <img src={loader} alt="Logo de pinkker" className="logo" style={{width:'20%'}}/>
+            <img src={pinnkker} alt="Logo de pinkker" className="logo" style={{width:'30%'}} />
             {/* Barra de progreso */}
             <Box width="10%" mt={2}>
-            <LinearProgress variant="determinate" value={progress} color="secondary" />
+            <LinearProgress variant="determinate" value={progress} color="secondary" style={{borderRadius:'5px'}} />
             </Box>
         </div>
     );

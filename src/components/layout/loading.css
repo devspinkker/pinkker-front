@@ -5,6 +5,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 10px;
     height: 100vh;
     width: 100%;
     background-color: #080808; /* Puedes ajustar el color de fondo según el diseño de tu aplicación */

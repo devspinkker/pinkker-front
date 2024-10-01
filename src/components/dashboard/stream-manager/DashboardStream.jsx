@@ -14,7 +14,7 @@ import ReactFlvPlayer from "../../../player/PlayerMain";
 import PopupEditInfo from "./popup/PopupEditInfo";
 import ConfigComandosChat from "./ConfigComandosChat";
 import { Grid, Typography } from "@mui/material";
-import { AiOutlineSetting, AiOutlineUser } from "react-icons/ai";
+import { AiFillThunderbolt, AiOutlineSetting, AiOutlineUser } from "react-icons/ai";
 import { TbEdit, TbLogout2 } from "react-icons/tb";
 import { TfiWallet } from "react-icons/tfi";
 import { LiaSlidersHSolid } from "react-icons/lia";
@@ -87,7 +87,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
         }
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
 
       setSocket(newSocket);
 
@@ -344,10 +344,80 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     <DashboarLayout user={user} isMobile={isMobile}>
       {/* Contenido */}
       <div>
-        <div className="content">
+        <div className="content" style={{ gap: '1%' }}>
           {/* Parte 2 */}
           <div className="part-two">
-            <div className="column">
+            <div className="column" >
+
+              <Grid style={
+                {
+                  backgroundColor: '#131418',
+                  borderRadius: '10px'
+                }
+              }>
+                <div
+                  title="Información de sesión"
+                  className="vista-previa-stream-p1"
+                  style={
+                    {
+                      backgroundColor: '#131418',
+
+                    }
+                  }
+                >
+                  <CiStreamOn
+                    style={{ color: "white", fontSize: "30px" }}
+                  />
+
+                  <span
+                    style={{
+                      padding: "0px 10px",
+                    }}
+                    className="max-w-full shrink truncate text-base font-bold text-white"
+                  >
+
+                    Información de sesión
+                  </span>
+                </div>
+                <div className="session-info">
+                  {!streamerData?.online && (
+                    <div className="stats-container">
+                      <span className="w-fit grow-0 rounded-[2px] px-[0.375rem] py-1 text-center text-[0.625rem] font-bold uppercase bg-[#F4F5F6] text-[#070809]">
+                        Sin conexión
+                      </span>
+                      <span className="label">Sesión</span>
+                    </div>
+                  )}
+                  <div className="stats-container">
+                    <span className="data">
+                      - {streamerData?.online && streamerData?.ViewerCount}
+                    </span>
+                    <span className="label"> espectadores</span>
+                  </div>
+                  <div className="stats-container">
+                    <span className="data">
+                      - {userData && userData.FollowersCount}{" "}
+                    </span>
+                    <span className="label"> seguidores</span>
+                  </div>
+                  <div className="stats-container">
+                    <span className="data">
+                      {streamerData?.online ? (
+                        <p className="elapsedTime">
+                          <p>{`${formatNumber(elapsedTime.hours)}`}</p>
+                          <p>{`: ${formatNumber(elapsedTime.minutes)}`}</p>
+                          <p>{`: ${formatNumber(elapsedTime.seconds)}`}</p>
+                        </p>
+                      ) : (
+                        "-"
+                      )}
+                    </span>
+                    <span className="label">Tiempo en vivo</span>
+                  </div>
+                </div>
+              </Grid>
+
+
               <div
                 style={{
                   display: showComandosList && "none",
@@ -357,6 +427,12 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 <div
                   title="Información de sesión"
                   className="vista-previa-stream-p1"
+                  style={
+                    {
+                      backgroundColor: '#131418',
+
+                    }
+                  }
                 >
                   <MdOutlineOndemandVideo
                     style={{ color: "white", fontSize: "30px" }}
@@ -368,6 +444,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                     }}
                     className="max-w-full shrink truncate text-base font-bold text-white"
                   >
+
                     Vista previa del stream
                   </span>
                 </div>
@@ -393,28 +470,19 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                       height: "100%",
                       display: "flex",
                       flexDirection: "column",
-                      padding: "5px",
+
+
                     }}
                   >
                     <img
                       style={{
-                        width: "90%",
+                        width: "100%",
                         maxHeight: "100%",
+                        borderRadius: '5px',
                       }}
                       src={streamerData?.stream_thumbnail}
                       alt=""
                     />
-                    <span
-                      style={{
-                        position: "relative",
-                        display: streamerData?.online ? "none" : "",
-                        top: "-75%",
-                        zIndex: 99999,
-                      }}
-                      className="sin-conexion-s3"
-                    >
-                      SIN CONEXIÓN
-                    </span>
 
                     <Grid
                       style={{
@@ -454,76 +522,227 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                   </div>
                 )}
               </div>
+              <div style={{ display: 'flex', alignItems: 'top', padding: 3, gap: '10px' }}>
+                <div className="base-card-act" style={{ backgroundColor: '#131418', width: '50%' }}>
 
-              <div
-                className="Información-sesión"
-                style={{
-                  display: showComandosList && "none",
-                }}
-              >
-                <section className="base-card !p-0">
-                  <div className="Información-sesión-p1">
-                    <div
-                      title="Información de sesión"
-                      className="flex flex-row items-center gap-1"
-                    >
-                      <CiStreamOn
-                        style={{ color: "white", fontSize: "30px" }}
-                      />
+                  <div className="Feeddeactividades_container">
 
-                      <span
-                        style={{
-                          padding: "0px 10px",
-                        }}
-                        className="shrinkS2"
-                      >
-                        Servidor y clave de stream
+                    <div title="Feed de actividades" className="Feeddeactividades">
+                      <span className="max-w-full shrink truncate text-base font-bold text-white" style={{ display: 'flex', alignItems: 'center', gap: '5%' }}>
+                        <AiFillThunderbolt style={{ fontSize: '2rem' }} />
+
+                        Feed de actividades
                       </span>
                     </div>
-                    <Grid>
-                      <input
-                        value={process.env.REACT_APP_RTMPSTARTSTREAM}
-                        className="settingstream-input"
-                        style={{ width: "70%" }}
-                        type="text"
-                        readOnly
-                      />
-                      <div
+
+                    <div className="FeedAct">
+                      <div className="mapFeedAct">
+                        {ActivityFeed.map((item, index) => (
+                          <div key={index} className="activity-feed-item">
+                            {/* {item?.action === "follow" && ( */}
+                            <div
+                              className="base-icon icon"
+                              style={{ width: "20px", height: "20px" }}
+                            >
+                              <GoHeartFill style={{ color: "#ff69c4" }} />
+                            </div>
+                            {/* )} */}
+                            <div className="activity-feed-item__info">
+                              <span className="activity-feed-item__info_name">
+                                {item?.data}
+                              </span>
+                              <span>
+                                {item?.action === "follow" && (
+                                  <span className="activity-feed-item__info_action">
+                                    {" "}
+                                    Te comenzó a seguir
+                                  </span>
+                                )}
+                                {item?.action === "DonatePixels" && (
+                                  <span className="activity-feed-item__info_action">
+                                    {" "}
+                                    Dono {item?.Pixeles} Pixeles
+                                  </span>
+                                )}
+                                {item?.action === "Suscribirse" && (
+                                  <span className="activity-feed-item__info_action">
+                                    {" "}
+                                    Se suscribió
+                                  </span>
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+
+                <div style={{ backgroundColor: '#131418', width: '50%' }}>
+                  <div className="right-panel flex flex-col bg-[#171C1E] grow">
+                    <div
+                      className="right-panel__header flex flex-row items-center justify-between gap-2 px-6"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "5px",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <div className="flex flex-row items-center">
+                        <span className="text-base font-bold">
+                          Acciones rápidas
+                        </span>
+                      </div>
+                      <Grid
                         style={{
                           display: "flex",
-                          flexDirection: "column",
+                          justifyContent: "center",
+                          width: "100%",
+                          gap: "15px",
                         }}
                       >
-                        <input
-                          value={showKey ? user?.cmt : "******************"}
-                          className="settingstream-input"
-                          style={{ width: "70%" }}
-                          type="text"
-                        />
-                        <div
+                        <SlUserFollow
                           style={{
-                            marginTop: "10px",
+                            color: "white",
+                            fontSize: "35px",
+                            borderRadius: "5px",
+                            backgroundColor: ChatOnliFollowers
+                              ? "#fe68c3"
+                              : "#171C1E",
+                            width: "30%",
+                            padding: "10px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => toggleChatOnliFollowers()}
+                        />
+                        <FaGratipay
+                          style={{
+                            color: "white",
+                            fontSize: "35px",
+                            borderRadius: "5px",
+                            backgroundColor: ChatOnliSubs ? "#fe68c3" : "#171C1E",
+                            width: "30%",
+                            padding: "10px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => toggleChatOnliSubs()}
+                        />
+                        <MdSlowMotionVideo
+                          style={{
+                            color: "white",
+                            fontSize: "35px",
+                            borderRadius: "5px",
+                            backgroundColor: "#171C1E",
+                            width: "30%",
+                            padding: "10px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            togglemenuModChatSlowMode();
+                          }}
+                        />
+                        <Typography
+                          style={{
+                            color: "white",
+                            fontSize: "25px",
+                            borderRadius: "5px",
+                            backgroundColor: "#171C1E",
+                            width: "30%",
+                            padding: "10px",
+                            cursor: "pointer",
+                            textAlign: "center",
+                            fontWeight: 600,
+                          }}
+                          onClick={() => {
+                            CommercialInStreamFunc();
                           }}
                         >
-                          <button
-                            onClick={() => setShowKey(!showKey)}
-                            className="button-copy"
-                          >
-                            {showKey ? "Ocultar" : "Mostrar"}
-                          </button>
-                          <button
-                            onClick={() => copyToClipboard(user?.cmt)}
-                            className="button-copy"
-                          >
-                            Copiar
-                          </button>
-                          <button className="button-copy">Restablecer</button>
+                          ADS
+                        </Typography>
+                      </Grid>
+                    </div>
+                    <div className="right-panel__content">
+                      <div className="flex shrinkS2 grow flex-col gap-2 overflow-y-hidden p-2.5">
+                        <div
+                          style={{
+                            animation: "200ms all",
+                            height: Channelshares ? "auto" : "0",
+                            display: Channelshares ? "" : "none",
+                          }}
+                        >
+                          <div>
+                            {menuModChatSlowMode && (
+                              <div className="dropdown-menu">
+                                {[2, 5, 7, 15, 20, 60].map((seconds) => (
+                                  <div
+                                    key={seconds}
+                                    className=" menuModChatSlowMode"
+                                    onClick={() => updateModChatSlowMode(seconds)}
+                                  >
+                                    <div>
+                                      <span
+                                        style={{
+                                          padding: "10px",
+                                        }}
+                                      >
+                                        {seconds}
+                                      </span>
+                                      <span>segundos</span>
+                                    </div>
+                                    <div
+                                      className="toggle-size-sm"
+                                      onClick={() => updateModChatSlowMode(seconds)}
+                                    ></div>
+                                    <div className="base-toggle">
+                                      <div
+                                        className="base-toggle-indicator"
+                                        style={{
+                                          left:
+                                            SecondModChatSlowMode === seconds &&
+                                            "16.4px",
+                                          background:
+                                            SecondModChatSlowMode === seconds &&
+                                            "#53fc18",
+                                        }}
+                                      ></div>
+                                    </div>
+                                  </div>
+                                ))}
+                                <div className="SecondModChatSlowModeInput">
+                                  <input
+                                    type="number"
+                                    placeholder="Escriba un tiempo en segundos"
+                                    value={SecondModChatSlowMode}
+                                    onChange={(e) => {
+                                      SetSecondModChatSlowMode(e.target.value);
+                                    }}
+                                    min="1"
+                                  />
+                                  <button
+                                    onClick={() =>
+                                      updateModChatSlowMode(SecondModChatSlowMode)
+                                    }
+                                  >
+                                    Confirmar
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </Grid>
+                    </div>
                   </div>
-                </section>
+                </div>
               </div>
+              
 
               {/* <div
                 style={{
@@ -539,226 +758,10 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
             </div>
           </div>
 
-          <Grid
-            style={{
-              width: isMobile ? '80%':"35%",
-              display: "flex",
-              flexDirection: "column",
-              gap: "10%",
-            }}
-          >
-            <div className="base-card-act">
-              <div className="Feeddeactividades_container">
-                <div title="Feed de actividades" className="Feeddeactividades">
-                  <span className="max-w-full shrink truncate text-base font-bold text-white">
-                    Notificaciones en vivo
-                  </span>
-                </div>
 
-                <div className="FeedAct">
-                  <div className="mapFeedAct">
-                    {ActivityFeed.map((item, index) => (
-                      <div key={index} className="activity-feed-item">
-                        {/* {item?.action === "follow" && ( */}
-                        <div
-                          className="base-icon icon"
-                          style={{ width: "20px", height: "20px" }}
-                        >
-                          <GoHeartFill style={{ color: "#ff69c4" }} />
-                        </div>
-                        {/* )} */}
-                        <div className="activity-feed-item__info">
-                          <span className="activity-feed-item__info_name">
-                            {item?.data}
-                          </span>
-                          <span>
-                            {item?.action === "follow" && (
-                              <span className="activity-feed-item__info_action">
-                                {" "}
-                                Te comenzó a seguir
-                              </span>
-                            )}
-                            {item?.action === "DonatePixels" && (
-                              <span className="activity-feed-item__info_action">
-                                {" "}
-                                Dono {item?.Pixeles} Pixeles
-                              </span>
-                            )}
-                            {item?.action === "Suscribirse" && (
-                              <span className="activity-feed-item__info_action">
-                                {" "}
-                                Se suscribió
-                              </span>
-                            )}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div className="right-panel flex flex-col bg-[#171C1E] grow">
-                <div
-                  className="right-panel__header flex flex-row items-center justify-between gap-2 px-6"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "5px",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <div className="flex flex-row items-center">
-                    <span className="text-base font-bold">
-                      Acciones rápidas
-                    </span>
-                  </div>
-                  <Grid
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      width: "100%",
-                      gap: "15px",
-                    }}
-                  >
-                    <SlUserFollow
-                      style={{
-                        color: "white",
-                        fontSize: "35px",
-                        borderRadius: "5px",
-                        backgroundColor: ChatOnliFollowers
-                          ? "#fe68c3"
-                          : "#171C1E",
-                        width: "30%",
-                        padding: "10px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => toggleChatOnliFollowers()}
-                    />
-                    <FaGratipay
-                      style={{
-                        color: "white",
-                        fontSize: "35px",
-                        borderRadius: "5px",
-                        backgroundColor: ChatOnliSubs ? "#fe68c3" : "#171C1E",
-                        width: "30%",
-                        padding: "10px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => toggleChatOnliSubs()}
-                    />
-                    <MdSlowMotionVideo
-                      style={{
-                        color: "white",
-                        fontSize: "35px",
-                        borderRadius: "5px",
-                        backgroundColor: "#171C1E",
-                        width: "30%",
-                        padding: "10px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => {
-                        togglemenuModChatSlowMode();
-                      }}
-                    />
-                    <Typography
-                      style={{
-                        color: "white",
-                        fontSize: "25px",
-                        borderRadius: "5px",
-                        backgroundColor: "#171C1E",
-                        width: "30%",
-                        padding: "10px",
-                        cursor: "pointer",
-                        textAlign: "center",
-                        fontWeight: 600,
-                      }}
-                      onClick={() => {
-                        CommercialInStreamFunc();
-                      }}
-                    >
-                      ADS
-                    </Typography>
-                  </Grid>
-                </div>
-                <div className="right-panel__content">
-                  <div className="flex shrinkS2 grow flex-col gap-2 overflow-y-hidden p-2.5">
-                    <div
-                      style={{
-                        animation: "200ms all",
-                        height: Channelshares ? "auto" : "0",
-                        display: Channelshares ? "" : "none",
-                      }}
-                    >
-                      <div>
-                        {menuModChatSlowMode && (
-                          <div className="dropdown-menu">
-                            {[2, 5, 7, 15, 20, 60].map((seconds) => (
-                              <div
-                                key={seconds}
-                                className=" menuModChatSlowMode"
-                                onClick={() => updateModChatSlowMode(seconds)}
-                              >
-                                <div>
-                                  <span
-                                    style={{
-                                      padding: "10px",
-                                    }}
-                                  >
-                                    {seconds}
-                                  </span>
-                                  <span>segundos</span>
-                                </div>
-                                <div
-                                  className="toggle-size-sm"
-                                  onClick={() => updateModChatSlowMode(seconds)}
-                                ></div>
-                                <div className="base-toggle">
-                                  <div
-                                    className="base-toggle-indicator"
-                                    style={{
-                                      left:
-                                        SecondModChatSlowMode === seconds &&
-                                        "16.4px",
-                                      background:
-                                        SecondModChatSlowMode === seconds &&
-                                        "#53fc18",
-                                    }}
-                                  ></div>
-                                </div>
-                              </div>
-                            ))}
-                            <div className="SecondModChatSlowModeInput">
-                              <input
-                                type="number"
-                                placeholder="Escriba un tiempo en segundos"
-                                value={SecondModChatSlowMode}
-                                onChange={(e) => {
-                                  SetSecondModChatSlowMode(e.target.value);
-                                }}
-                                min="1"
-                              />
-                              <button
-                                onClick={() =>
-                                  updateModChatSlowMode(SecondModChatSlowMode)
-                                }
-                              >
-                                Confirmar
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Grid>
 
           {/* Parte 1 */}
+
 
           {streamerData && userData && !isMobile && (
             <ChatStreaming

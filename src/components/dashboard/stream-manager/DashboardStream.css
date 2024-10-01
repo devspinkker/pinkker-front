@@ -16,7 +16,7 @@
     border-bottom: 1px solid rgb(42, 46, 56) ;
     margin-top: 0px;
     color: #fff;
-    padding: 1rem 6rem;
+    padding: 1rem 0rem;
     width: 95%;
 }
 
@@ -25,6 +25,7 @@
     align-items: center;
     height: 4rem;
     justify-content: space-between;
+    padding: 0rem 1rem;
 }
 
 .navigation-container-stream-deshboard-infouser {
@@ -160,9 +161,7 @@
 }
 
 .part-two {
-    width: 40%;
-    border-right: 1px solid white;
-    margin-right: 10px;
+    width: 60%;
 }
 
 .column {
@@ -353,6 +352,9 @@
     /* justify-content: center; */
     /* height: 100% !important; */
     flex-direction: column;
+    background-color: #131418;
+    padding: 15px;
+    border-radius: 5px;
 }
 
 .sin-conexion-s3 {

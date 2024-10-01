@@ -67,6 +67,7 @@ import Ingresos from "../components/dashboard/Ingresos/Ingresos";
 import Contenido from "../components/dashboard/contenido/Contenido";
 import Comentarios from "../components/dashboard/comentarios/Comentarios";
 import FloatingPlayer from "../components/FlotingPlayer/FloatingPlayer";
+import Ajustes from "../components/dashboard/ajustes/Ajustes";
 
 const AppRouter = () => {
   const { user } = useContext(AuthContext);
@@ -286,6 +287,12 @@ const AppRouter = () => {
           {/* <NAnalytics user={user} /> */}
           <Comentarios user={user} tyExpanded={expanded} isMobile={isMobile} />
         </Route>
+        <Route exact path="/:streamer/dashboard/ajustes">
+          
+          <Ajustes user={user} tyExpanded={expanded} isMobile={isMobile} />
+        </Route>
+
+
         <Route exact path="/:streamer/dashboard/community">
           <NavbarLeft
             isMobile={isMobile}
