@@ -74,7 +74,7 @@ import Loading from "./Loading";
 import axios from "axios";
 import { MdManageSearch, MdOndemandVideo } from "react-icons/md";
 import { RiUserSearchLine } from "react-icons/ri";
-
+import imagenPixel from './imagenPixel.png'
 function NLayout(props) {
   const { streamer } = useParams();
   const [locationpath, setLocationPath] = useState();
@@ -596,6 +596,9 @@ function NLayout(props) {
     }
     setOpenTweet(open);
   };
+  const pixeles = props.user?.Pixeles;
+  console.log("pixel", pixeles)
+  const formattedPixeles = pixeles ? new Intl.NumberFormat('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(pixeles) : "0";
 
   const getNavDesktop = () => {
     return loading ? (
@@ -1268,12 +1271,12 @@ function NLayout(props) {
                           style={{
                             width: props.isMobile ? "25px" : "17px",
                           }}
-                          src="/images/pixel.png"
+                          src={imagenPixel}
                           alt=""
                         />{" "}
                         <span style={{ fontSize: "14px" }}>
                           {props.user?.Pixeles != 0
-                            ? props.user?.Pixeles.toFixed(0)
+                            ? formattedPixeles
                             : "0.00"}
                         </span>
                       </Grid>
