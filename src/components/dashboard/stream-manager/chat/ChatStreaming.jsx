@@ -316,8 +316,6 @@ export function ChatStreaming({
     return () => clearTimeout(timer);
   }, []);
   useEffect(() => {
-    
-
     const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
     const newSocket = new WebSocket(
       `${REACT_APP_BACKCHATWS}/ws/chatStreaming/${streamerChat.id}/${token}`
@@ -370,8 +368,6 @@ export function ChatStreaming({
   }, []);
 
   useEffect(() => {
-    
-
     const token = window.localStorage.getItem("token");
     const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
     const newSocket = new WebSocket(
@@ -1125,7 +1121,7 @@ export function ChatStreaming({
       setGetUserTheChat(res.data);
 
       setShowGetUserTheChat(true);
-      if (user?.Following.hasOwnProperty(res?.data.id)) {
+      if (user?.Following?.hasOwnProperty(res?.data?.id)) {
         setFollowingFrom(res.data?.Following[`${res.data.id}`]?.since);
         setGetUserTheChatFollowing(true);
       }

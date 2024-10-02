@@ -1,0 +1,80 @@
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0 0 0 / 89%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.popup-content {
+    background: #040404;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    position: relative;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.search-container-popUpSearch {
+    /* margin: 17px; */
+    position: relative;
+    /* left: 20px; */
+    width: 93%;
+}
+
+.users-list {
+    margin-top: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    padding: 7px;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 89%;
+    height: 56px;
+    margin: 10px 0px;
+}
+
+.user-item:hover {
+    background-color: #252525;
+}
+
+.user-iten-names {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    font-weight: 500;
+}
+
+.user-iten-names>p {
+    padding: 2px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}

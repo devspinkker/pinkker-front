@@ -2,41 +2,40 @@ import React, { useEffect, useState } from "react";
 
 import Tippy from "@tippyjs/react";
 
-import { follow, unfollow } from "../../services/follow";
-
 import { useSelector } from "react-redux";
 
 import { useNotification } from "../Notifications/NotificationProvider";
 
-import { userFollowUser } from "../../services/follow";
 import { useHistory } from "react-router";
+import { follow, unfollow } from "../../services/backGo/user";
 
 export default function FollowCard({ followData }) {
-  const token = useSelector((state) => state.token);
-
+  let token = window.localStorage.getItem("token");
   const [followParam, setFollowParam] = useState(false);
-  const [hoverFollow, setHoverFollow] = useState(false);
 
   const alert = useNotification();
   const [nameD, setNameD] = useState("Siguiendo");
   const routerHistory = useHistory();
 
-  useEffect(() => {
-    if (token != null && token != undefined && token != "") {
-      const fetchData = async () => {
-        const dataFollowParam = await userFollowUser(token, followData.name);
-        if (dataFollowParam != null && dataFollowParam != undefined) {
-          setFollowParam(dataFollowParam.data);
-        }
-      };
-      fetchData();
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token != null && token != undefined && token != "") {
+  //     const fetchData = async () => {
+  //       const dataFollowParam = await userFollowUser(
+  //         token,
+  //         followData?.NameUser
+  //       );
+  //       if (dataFollowParam != null && dataFollowParam != undefined) {
+  //         setFollowParam(dataFollowParam.data);
+  //       }
+  //     };
+  //     fetchData();
+  //   }
+  // }, [token]);
 
   async function followUser() {
     setFollowParam(true);
 
-    const data = await follow(token, followData.name);
+    const data = await follow(token, followData?.id);
     if (data != null) {
     } else {
       alert({ message: data, type: "ERROR" });
@@ -47,7 +46,7 @@ export default function FollowCard({ followData }) {
   async function unfollowUser() {
     setFollowParam(false);
 
-    const data = await unfollow(token, followData.name);
+    const data = await unfollow(token, followData?.id);
     if (data != null) {
     } else {
       alert({ message: data, type: "ERROR" });
@@ -114,22 +113,23 @@ export default function FollowCard({ followData }) {
   return (
     <div className="muro-tweet-secondary-follow-card">
       <div style={{ display: "flex" }}>
+        {console.log(followData)}
         <img
-          onClick={() => onClickChangeRoute("/" + followData.name)}
+          onClick={() => onClickChangeRoute("/" + followData?.NameUser)}
           style={{
             width: "35px",
             borderRadius: "50px",
             marginRight: "10px",
             cursor: "pointer",
           }}
-          src={followData.avatar}
+          src={followData?.Avatar}
         />
         <div>
-          <h3 onClick={() => onClickChangeRoute("/" + followData.name)}>
-            {followData.name}
+          <h3 onClick={() => onClickChangeRoute("/" + followData?.NameUser)}>
+            {followData?.NameUser}
           </h3>
           <p style={{ color: "darkgray", fontSize: "13px" }}>
-            {followData.followers.length} seguidores
+            {followData?.FollowersCount} seguidores
           </p>
         </div>
       </div>

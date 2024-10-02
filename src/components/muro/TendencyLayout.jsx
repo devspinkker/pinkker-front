@@ -2,11 +2,27 @@ import React, { useState, useEffect } from "react";
 import { getTrends, getTrendsByPrefix } from "../../services/backGo/tweet";
 import FollowCard from "./FollowCard";
 import { Link } from "react-router-dom";
+import { GetRecommendedUsers } from "../../services/backGo/user";
 
 export default function Tendency() {
   const [trends, setTrends] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [userFollows, setuserFollows] = useState(null);
+  let token = window.localStorage.getItem("token");
+
+  const UserFollowsFunc = async (e) => {
+    const ExcludeIDs = [];
+    const res = await GetRecommendedUsers(token, ExcludeIDs);
+    console.log(res);
+
+    if (res.message === "ok" && res.data) {
+      console.log(res.data);
+      setuserFollows(res.data);
+    }
+  };
+  useEffect(() => {
+    UserFollowsFunc();
+  }, []);
 
   const handleInputChange = async (e) => {
     const prefix = e.target.value.trim();
@@ -93,7 +109,14 @@ export default function Tendency() {
                 </p>
               )}
               <Link to={`/hashtag/${trend.hashtag}`}>
-                <h3 style={{ color: "#f36196", textShadow: 'rgb(0, 0, 0) 0px 1px 0px' }}>#{trend.hashtag}</h3>
+                <h3
+                  style={{
+                    color: "#f36196",
+                    textShadow: "rgb(0, 0, 0) 0px 1px 0px",
+                  }}
+                >
+                  #{trend.hashtag}
+                </h3>
               </Link>
               <p
                 style={{
@@ -118,7 +141,6 @@ export default function Tendency() {
       <div className="muro-tweet-secondary-follow">
         <div>
           <h3>A quien seguir</h3>
-
           {userFollows &&
             userFollows.map((follow) => <FollowCard followData={follow} />)}
         </div>

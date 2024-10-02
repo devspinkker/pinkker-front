@@ -7,6 +7,8 @@ import {
   getChatsByUserID,
   CreateChatOrGetChats,
 } from "../../services/backGo/Chats";
+import PopUpSearch from "./PopUpSearch";
+import { TbEdit } from "react-icons/tb";
 
 export default function Message({
   socketMain,
@@ -42,34 +44,6 @@ export default function Message({
     return true;
   };
   let userID = window.localStorage.getItem("_id");
-
-  // useEffect(() => {
-  //   let token = window.localStorage.getItem("token");
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await getChatsByUserID(token);
-  //       if (response) {
-  //         const updatedMessagesOpen = response.map((chat) => ({
-  //           chatID: chat.ID,
-  //           openedWindow: false,
-  //           user1: chat.User1ID,
-  //           user2: chat.User2ID,
-  //           usersInfo: chat.Users,
-  //           NotifyA: chat.NotifyA,
-  //           messages: [],
-  //         }));
-  //         if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
-  //         }
-  //         setMessagesOpen(updatedMessagesOpen);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching chats:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
@@ -160,72 +134,70 @@ export default function Message({
     }));
     setMessagesOpen(updatedMessagesOpen);
   };
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
+  const handleOpenPopUp = () => {
+    setIsPopUpOpen(true);
+  };
+
+  const handleClosePopUp = () => {
+    setIsPopUpOpen(false);
+  };
+
+  const handleUserSelect = async (id) => {
+    try {
+      let token = window.localStorage.getItem("token");
+
+      if (id) {
+        const chat = await CreateChatOrGetChats(token, id);
+        console.log(chat);
+
+        if (chat) {
+          const updatedMessagesOpen = messagesOpen.map((c) => ({
+            ...c,
+            openedWindow: false,
+          }));
+
+          setMessagesOpen([
+            {
+              chatID: chat.ID,
+              openedWindow: true,
+              user1: chat.User1ID,
+              user2: chat.User2ID,
+              usersInfo: chat.Users,
+              messages: chat.messages || [],
+              NotifyA: chat.NotifyA,
+            },
+            ...updatedMessagesOpen,
+          ]);
+
+          setOpenChatIndex(0); // Establecer el índice del chat abierto
+        }
+      }
+    } catch (error) {
+      console.error("Error creating/getting chat:", error);
+    }
+  };
   return (
     <div className="message-body">
       <div className="ContNewChat">
         <div className="message-bodysearch-input">
-          <div
-            style={{
-              padding: "0 0 0 1rem",
-              height: "3rem",
-              lineHeight: 2,
-              display: "flex",
-              width: "88% !important",
-              cursor: "pointer",
-            }}
-            className={"navbar-search-dark"}
-          >
-            <div
+          <div>
+            <TbEdit
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "50px",
+                color: "white",
+                fontSize: "25px",
+                cursor: "pointer",
               }}
-            >
-              <img
-                src="/images/search.svg"
-                style={{
-                  fontSize: "16px",
-                  color: "rgb(89 89 89)",
-                  margin: "8px",
-                }}
-              />
-
-              <input
-                style={{ fontSize: "16px" }}
-                type="search"
-                className="input-searchbar"
-                placeholder="Buscar usuario"
-                onChange={(e) => setSearchTerm(e.target.value)}
-                value={searchTerm}
-              />
-            </div>
-          </div>
-          {loading && (
-            <Loader
-              type="TailSpin"
-              color="#ff60b2"
-              height={20}
-              width={20}
-              className="loader"
+              onClick={handleOpenPopUp}
             />
-          )}
-          {selectedUser && (
-            <div className="user-info" onClick={handleAddChat}>
-              <img
-                src={selectedUser.Avatar}
-                alt=""
-                className="avatar-selectedUser"
-                // style={{ display:"block"}}
+            {isPopUpOpen && (
+              <PopUpSearch
+                onClose={handleClosePopUp}
+                handleUserSelect={handleUserSelect}
               />
-              <p>{selectedUser.NameUser}</p>
-              {/* <button className="open-chat-button" >
-                Chat with {}
-              </button> */}
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
       {messagesOpen.map((chat, index) => {

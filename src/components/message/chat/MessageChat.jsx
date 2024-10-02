@@ -139,7 +139,7 @@ export default function MessageChat({
 
   return (
     <div className="message-chat-body">
-      {opened ? (
+      {opened && (
         <div className="messagechat-opened">
           <div
             onClick={() => setOpened(false)}
@@ -324,58 +324,53 @@ export default function MessageChat({
             </button>
           </div>
         </div>
-      ) : (
-        <div
-          onClick={() => {
-            setOpened(true);
-            handleOpenChat();
-          }}
-          className="messagechat-closed"
-        >
-          <div className="messagechat-InfoUserTo">
-            <div
-              style={{
-                margin: "10px",
-                fontSize: "5px",
-              }}
-            >
-              {to.Partner.Active === true && (
-                <Emblem
-                  chat={true}
-                  name="Pinkker Prime"
-                  img={
-                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
-                  }
-                />
-              )}
-            </div>
-            {NotifyState && (
-              <span className="messagechat-InfoUserTo-noti"></span>
-            )}
-            <h5 style={{ color: "#ededed", marginLeft: "5px" }}>
-              {to.NameUser}
-            </h5>
-            <div className="navbar-image-avatar-messagechat">
-              {!imageLoaded && (
-                <div className="image-placeholder">
-                  <Loader
-                    type="TailSpin"
-                    color="#ff60b2"
-                    height={20}
-                    width={20}
-                  />
-                </div>
-              )}
-              <img
-                src={to.Avatar}
-                alt=""
-                onLoad={() => setImageLoaded(true)}
-                style={{ display: imageLoaded ? "block" : "none" }}
+      )}
+      <div
+        onClick={() => {
+          setOpened(true);
+          handleOpenChat();
+        }}
+        className="messagechat-closed"
+      >
+        <div className="messagechat-InfoUserTo">
+          <div
+            style={{
+              margin: "10px",
+              fontSize: "5px",
+            }}
+          >
+            {to.Partner.Active === true && (
+              <Emblem
+                chat={true}
+                name="Pinkker Prime"
+                img={
+                  "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                }
               />
-            </div>
+            )}
+          </div>
+          {NotifyState && <span className="messagechat-InfoUserTo-noti"></span>}
+          <h5 style={{ color: "#ededed", marginLeft: "5px" }}>{to.NameUser}</h5>
+          <div className="navbar-image-avatar-messagechat">
+            {!imageLoaded && (
+              <div className="image-placeholder">
+                <Loader
+                  type="TailSpin"
+                  color="#ff60b2"
+                  height={20}
+                  width={20}
+                />
+              </div>
+            )}
+            <img
+              src={to.Avatar}
+              alt=""
+              onLoad={() => setImageLoaded(true)}
+              style={{ display: imageLoaded ? "block" : "none" }}
+            />
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

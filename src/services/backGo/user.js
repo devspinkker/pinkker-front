@@ -194,6 +194,22 @@ export async function LoginTOTPSecret(userData) {
         return error.response
     }
 }
+export const GetRecommendedUsers = async (token, ExcludeIDs) => {
+    try {
+        console.log({ ExcludeIDs });
+        const res = await axios.post(
+            `${baseURL}/user/GetRecommendedUsers`,
+            { ExcludeIDs },
+
+            {
+                headers: { Authorization: token },
+            }
+        );
+        return res.data;
+    } catch (error) {
+        return error
+    }
+};
 export async function Get_Recover_lost_password(mail) {
     try {
         const response = await axios.post(`${baseURL}/user/Get_Recover_lost_password`, { mail });
