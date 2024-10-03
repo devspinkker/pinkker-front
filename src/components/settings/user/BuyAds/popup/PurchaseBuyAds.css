@@ -6,20 +6,72 @@
 }
 
 .purchase-ads {
-    background: #121212;
-    border: 1px solid #080808;
+    background: #080808;
+    /* border: 1px solid #080808; */
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 1px -1px rgb(159 71 140), 0px 1px 1px 0px rgb(190 90 191), 0px 1px 3px 0px rgb(152 69 140) !important;
     max-width: 800px;
     margin: 20px auto;
 }
 
-.purchase-ads .title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #ffffff;
+.css-4ljt47-MenuList {
+    background: #190f17;
 }
+
+
+.purchase-ads .title {
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    color: #ffffff !important;
+}
+
+.inputsStyles {
+    background-color: #30182d6b !important;
+    border-radius: 10px !important;
+}
+
+.css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
+    border: none
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    color: #ff53da !important;
+
+}
+
+.custom-textfield .MuiFormLabel-root {
+    color: #ff69c4 !important;
+    /* Cambia el color del label */
+}
+
+.custom-textfield .Mui-focused .MuiFormLabel-root {
+    color: #ff53da !important;
+    border-color: #ff53da;
+    /* Cambia el color cuando el input está enfocado */
+}
+
+.custom-textfield .MuiOutlinedInput-root {
+    border-color: #ff69c4 !important;
+    /* Color del borde por defecto */
+}
+
+.custom-textfield .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #ff53da !important;
+    /* Color del borde cuando el mouse está encima */
+}
+
+.custom-textfield .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #ff69c4 !important;
+    /* Color del borde cuando está enfocado */
+}
+
+.custom-textfield .MuiInputLabel-root {
+    color: #ff53da !important;
+    /* Color del label */
+}
+
 
 .purchase-ads .create-ad-form {
     margin-bottom: 20px;

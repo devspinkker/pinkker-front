@@ -67,17 +67,7 @@ export default function UserSettings({ isMobile, user }) {
             <div className="usersettings-change-avatar">
               <h3>Foto de Perfil</h3>
               <div className="usersettings-card">
-                <div
-                  style={{
-                    textAlign: "center",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    width: "100%",
-                    justifyContent: "space-between",
-                    padding: "15px 15px",
-                  }}
-                >
+                <div className="cards-settings">
                   <Grid
                     style={{
                       display: "flex",
@@ -279,14 +269,16 @@ export default function UserSettings({ isMobile, user }) {
           }}
         >
           <Grid
-            style={{
-              display: "flex",
-              padding: "5px 5px",
-              backgroundColor: "#2a2e38",
-              borderRadius: "5px",
-              gap: "15px",
-              width: "max-content",
-            }}
+            // style={{
+            //   display: "flex",
+            //   padding: "5px 5px",
+            //   backgroundColor: "#2a2e38",
+            //   borderRadius: "5px",
+            //   gap: "15px",
+            //   width: "max-content",
+
+            // }}
+            className="type-set-config"
           >
             <Grid
               style={{

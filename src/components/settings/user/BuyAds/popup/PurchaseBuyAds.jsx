@@ -32,26 +32,26 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
-      color: state.isSelected ? "#ffffff" : "#007bff",
-      backgroundColor: state.isSelected ? "#212725" : "#212725",
+      color: state.isSelected ? "#ff53da" : "#ffffff",
+      backgroundColor: state.isSelected ? "#190f17" : "#190f17",
     }),
     control: (provided) => ({
       ...provided,
-      backgroundColor: "#212725",
-      borderColor: "#212725",
+      backgroundColor: "#190f17",
+      borderColor: "#ff69c4",
       boxShadow: "none",
       "&:hover": {
-        borderColor: "#0056b3",
+        borderColor: "#ff69c4",
       },
     }),
 
     placeholder: (provided) => ({
       ...provided,
-      color: "#007bff",
+      color: "#190f17",
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: "#007bff",
+      color: "#ff53da",
     }),
   };
 
@@ -180,6 +180,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
             style={{
               background: "#212725",
             }}
+            className="inputsStyles custom-textfield"
             label="Nombre"
             id="Name"
             name="Name"
@@ -206,7 +207,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
             <Grid item xs={12}>
               <TextField
                 style={{
-                  background: "#212725",
+                  color: "#212725",
                 }}
                 label="Documento por Anunciar"
                 id="DocumentToBeAnnounced"
@@ -214,6 +215,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
                 value={form.DocumentToBeAnnounced}
                 onChange={handleInputChange}
                 fullWidth
+                className="inputsStyles custom-textfield"
                 variant="outlined"
               />
             </Grid>
@@ -223,12 +225,16 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
                   background: "#212725",
                 }}
                 label="Máximo de Clicks"
+                className="inputsStyles custom-textfield"
                 type="number"
                 id="ClicksMax"
                 name="ClicksMax"
                 value={form.ClicksMax}
                 onChange={handleInputChange}
-                fullWidth
+                //               fullWidth
+                //                 InputLabelProps={{
+                //   style: { color: "#ff69c4" }, // Cambia el color del label aquí
+                // }}
                 variant="outlined"
               />
             </Grid>
@@ -239,6 +245,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
             style={{
               background: "#212725",
             }}
+            className="inputsStyles custom-textfield"
             label="Enlace de Referencia"
             id="ReferenceLink"
             name="ReferenceLink"
@@ -255,6 +262,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
                 style={{
                   background: "#212725",
                 }}
+                className="inputsStyles custom-textfield"
                 label="Máximo de Impresiones"
                 type="number"
                 id="ImpressionsMax"
@@ -268,8 +276,9 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
             <Grid item xs={12}>
               <TextField
                 style={{ background: "#212725" }}
+                className="inputsStyles custom-textfield"
                 label="Título del Clip"
-                id="clipTitle"
+                // id="clipTitle"
                 name="clipTitle"
                 value={form.clipTitle}
                 onChange={handleInputChange}
@@ -294,6 +303,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
                 style={{
                   background: "#212725",
                 }}
+                className="inputsStyles custom-textfield"
                 label="URL del Video"
                 id="UrlVideo"
                 name="UrlVideo"
@@ -308,6 +318,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
                 style={{
                   background: "#212725",
                 }}
+                className="inputsStyles custom-textfield"
                 label="Máximo de Impresiones"
                 type="number"
                 id="ImpressionsMax"
@@ -324,6 +335,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
                 style={{
                   background: "#212725",
                 }}
+                className="inputsStyles custom-textfield"
                 label="Categoria Destino"
                 id="Categorie"
                 name="Categorie"
@@ -349,6 +361,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
             style={{
               background: "#212725",
             }}
+            className="inputsStyles custom-textfield"
           />
         </Grid>
 
@@ -359,12 +372,7 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
         </Grid>
 
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCreate}
-            fullWidth
-          >
+          <Button className="buy-button" onClick={handleCreate} fullWidth>
             Crear Anuncio
           </Button>
         </Grid>

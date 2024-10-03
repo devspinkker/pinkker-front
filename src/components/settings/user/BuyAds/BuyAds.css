@@ -5,26 +5,30 @@
     flex-direction: column;
     align-items: center;
     padding: 4px 40px;
-    background: #121212;
+    background: #080808;
     min-height: 100vh;
     color: #e0e0e0;
+    font-family: inter;
 }
 
 .info-section {
     text-align: center;
     margin-bottom: 40px;
+    width: 100%;
 }
 
+
 .section-title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #ffffff;
-    margin-bottom: 15px;
+    font-size: 2.5rem !important;
+    font-weight: bold !important;
+    color: #ffffff !important;
+    margin-bottom: 15px !important;
 }
 
 .section-description {
-    font-size: 1.2rem;
-    color: #b0b0b0;
+    font-size: 1.2rem !important;
+    color: #f36196f5;
+    font-weight: bolder !important;
 }
 
 .ads-options {
@@ -32,76 +36,87 @@
 }
 
 .options-title {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #ffffff;
-    margin-bottom: 20px;
+    font-size: 2rem !important;
+    font-weight: bold !important;
+    color: #ffffff !important;
+    margin-bottom: 20px !important;
 }
 
 .ad-card {
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    padding: 20px;
+    border-radius: 12px !important;
+    box-shadow: 0px 2px 1px -1px rgb(159 71 140), 0px 1px 1px 0px rgb(190 90 191), 0px 1px 3px 0px rgb(152 69 140) !important;
+    overflow: hidden !important;
+    /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); */
+    padding: 20px !important;
+    height: 400px !important;
+}
+
+.content-data-ads {
+    display: flex;
+    padding-bottom: 24px;
+    flex-direction: column;
+    align-content: space-between;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    height: 360px;
 }
 
 .ad-card.muro {
-    background: #2c3e50;
-    /* Color azul oscuro para anuncios en muro */
+    background: #080808;
 }
 
 .ad-card.clips {
-    background: #2c3e50;
-    /* Color azul oscuro para anuncios en muro */
+    background: #080808;
 }
 
 .ad-card.streams {
-    background: #16a085;
-    /* Color verde para anuncios en streams */
+    background: #080808;
 }
 
 .card-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #ffffff;
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    color: #ffffff !important;
 }
 
 .card-description {
-    font-size: 1rem;
-    color: #ecf0f1;
-    /* Color gris claro para la descripción */
+    font-size: 1rem !important;
+    color: #e2d8e0;
+    font-weight: bolder !important;
 }
 
 .price {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-top: 10px;
+    font-size: 1.2rem !important;
+    font-weight: bold !important;
+    margin-top: 10px !important;
 }
 
 .price.muro {
-    color: #e67e22;
-    /* Color naranja para el precio del anuncio en muro */
+    color: #f36196f5;
 }
 
 .price.streams {
-    color: #f39c12;
-    /* Color amarillo para el precio del anuncio en streams */
+    color: #f36196f5;
 }
 
 .ad-details {
-    font-size: 0.9rem;
-    color: #bdc3c7;
-    /* Color gris claro para los detalles del anuncio */
-    margin-top: 10px;
+    font-size: 0.9rem !important;
+    color: #e2d8e0 !important;
+    margin-top: 10px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.07071em !important;
 }
 
-.buy-button {
+.buy-button {}
+
+.MuiButton-root.buy-button {
     margin-top: 15px;
-    background-color: #ff5722;
+    background-color: #100b0d;
     color: #ffffff;
     font-weight: bold;
 
     &:hover {
-        background-color: #e64a19;
+        background-color: #f3619645;
     }
 }
 
@@ -111,10 +126,10 @@
 }
 
 .faq-title {
-    font-size: 2rem;
-    font-weight: bold;
+    font-size: 2rem !important;
+    font-weight: bold !important;
     color: #ffffff;
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
 }
 
 .faq-description {
