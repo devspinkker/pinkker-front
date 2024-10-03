@@ -218,7 +218,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
         className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
         id={clip.id}
       >
-        {console.log(clip.id)}
+        {console.log(clip.id + "}")}
         <ClipCard
           tyExpanded={tyExpanded}
           type={0}
