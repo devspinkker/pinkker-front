@@ -9,8 +9,9 @@ import {
   GetClipIdlogeado,
 } from "../../../services/backGo/clip";
 import { BarLoader } from "react-spinners";
+import ClipsMobile from "./ClipsMobile";
 
-const ClipsMain = ({ tyExpanded, expandedLeft }) => {
+const ClipsMain = ({ tyExpanded, expandedLeft , isMobile}) => {
   const { clipId } = useParams();
 
   const [clips, setClips] = useState([]);
@@ -241,6 +242,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
           <BarLoader color="#36d7b7" />
         </div>
       ) : (
+        !isMobile ? 
         <>
           <div className={`clips-container ${transitionDirection}`}>
             {memoizedClips}
@@ -304,6 +306,8 @@ const ClipsMain = ({ tyExpanded, expandedLeft }) => {
             </div>
           </div>
         </>
+        :
+        <ClipsMobile/>
       )}
     </div>
   );

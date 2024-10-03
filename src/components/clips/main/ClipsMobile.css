@@ -1,0 +1,49 @@
+.tiktok-video-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: black;
+  }
+  
+  .video-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .video-info {
+    position: absolute;
+    bottom: 15%;
+    left: 2%;
+    display: flex;
+    align-items: center;
+    color: white;
+  }
+  
+  .text-info {
+    margin-left: 10px;
+  }
+  
+  .video-actions {
+    position: absolute;
+    right: 2%;
+    bottom: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+  }
+  
+  .action-icon {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
