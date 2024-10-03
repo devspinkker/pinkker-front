@@ -597,7 +597,6 @@ function NLayout(props) {
     setOpenTweet(open);
   };
   const pixeles = props.user?.Pixeles;
-  console.log("pixel", pixeles)
   const formattedPixeles = pixeles ? new Intl.NumberFormat('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(pixeles) : "0";
 
   const getNavDesktop = () => {
@@ -2681,7 +2680,7 @@ function NLayout(props) {
           style={{
             display: dashboard ? "none" : "flex",
             width: "100%",
-            height: !window.location.pathname?.includes("/post") && "100vh",
+           
           }}
           onClick={() => setEsClick(false)}
         >
