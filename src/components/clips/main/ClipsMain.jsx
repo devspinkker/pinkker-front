@@ -11,7 +11,7 @@ import {
 import { BarLoader } from "react-spinners";
 import ClipsMobile from "./ClipsMobile";
 
-const ClipsMain = ({ tyExpanded, expandedLeft , isMobile}) => {
+const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
   const { clipId } = useParams();
 
   const [clips, setClips] = useState([]);
@@ -208,8 +208,8 @@ const ClipsMain = ({ tyExpanded, expandedLeft , isMobile}) => {
     }
 
     const clipsToRender = clips.slice(
-      Math.max(clipIndex - 1, 0),
-      Math.min(clipIndex + 3, clips.length)
+      Math.max(clipIndex - 0, 0),
+      Math.min(clipIndex + 1, clips.length)
     );
 
     return clipsToRender.map((clip) => (
@@ -218,6 +218,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft , isMobile}) => {
         className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
         id={clip.id}
       >
+        {console.log(clip.id)}
         <ClipCard
           tyExpanded={tyExpanded}
           type={0}
@@ -241,8 +242,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft , isMobile}) => {
         >
           <BarLoader color="#36d7b7" />
         </div>
-      ) : (
-        !isMobile ? 
+      ) : !isMobile ? (
         <>
           <div className={`clips-container ${transitionDirection}`}>
             {memoizedClips}
@@ -306,8 +306,8 @@ const ClipsMain = ({ tyExpanded, expandedLeft , isMobile}) => {
             </div>
           </div>
         </>
-        :
-        <ClipsMobile/>
+      ) : (
+        <ClipsMobile />
       )}
     </div>
   );
