@@ -37,13 +37,47 @@ export default function BuyAds() {
           </div>
 
           <div className="ads-options">
-            <Typography variant="h5" className="options-title">
+            {/* <Typography variant="h5" className="options-title">
               Opciones de Anuncios
-            </Typography>
+            </Typography> */}
             <Grid container spacing={3}>
               <Grid item xs={12} md={4}>
+                <Card className="ad-card clips">
+                  <CardContent className="content-data-ads">
+                    <Typography variant="h6" className="card-title">
+                      Anuncio en Clips
+                    </Typography>
+                    <Typography variant="body2" className="card-description">
+                      Tu anuncio se mostrará como un clip regular, pero con
+                      funcionalidades específicas para anuncios.
+                    </Typography>
+                    <Typography variant="body1" className={`price muro`}>
+                      Precio: $20 por impresiones
+                    </Typography>
+                    <Typography variant="body2" className="ad-details">
+                      <strong>Restricciones:</strong> Los anuncios no permiten
+                      comentarios. Sin embargo, los usuarios pueden dar "like" a
+                      los anuncios.
+                    </Typography>
+
+                    <Typography variant="body2" className="ad-details">
+                      <strong>Estadísticas:</strong> Tendrás acceso a
+                      estadísticas detalladas sobre el rendimiento, incluyendo
+                      clics totales y conversiones.
+                    </Typography>
+                    <Button
+                      onClick={() => handleAdSelect("ClipAds")}
+                      variant="contained"
+                      className="buy-button"
+                    >
+                      Comprar Anuncio en Clips
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={4}>
                 <Card className="ad-card muro">
-                  <CardContent>
+                  <CardContent className="content-data-ads">
                     <Typography variant="h6" className="card-title">
                       Anuncio en Muro
                     </Typography>
@@ -74,7 +108,7 @@ export default function BuyAds() {
 
               <Grid item xs={12} md={4}>
                 <Card className="ad-card streams">
-                  <CardContent>
+                  <CardContent className="content-data-ads">
                     <Typography variant="h6" className="card-title">
                       Anuncio en Streams
                     </Typography>
@@ -99,44 +133,6 @@ export default function BuyAds() {
                       className="buy-button"
                     >
                       Comprar Ahora
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <Card className="ad-card clips">
-                  <CardContent>
-                    <Typography variant="h6" className="card-title">
-                      Anuncio en Clips
-                    </Typography>
-                    <Typography variant="body2" className="card-description">
-                      Tu anuncio se mostrará como un clip regular, pero con
-                      funcionalidades específicas para anuncios.
-                    </Typography>
-                    <Typography variant="body1" className={`price muro`}>
-                      Precio: $20 por impresiones
-                    </Typography>
-                    <Typography variant="body2" className="ad-details">
-                      <strong>Restricciones:</strong> Los anuncios no permiten
-                      comentarios. Sin embargo, los usuarios pueden dar "like" a
-                      los anuncios.
-                    </Typography>
-                    <Typography variant="body2" className="ad-details">
-                      <strong>impresiones:</strong> Cada impresiones en el
-                      explorador cuesta $20
-                    </Typography>
-                    <Typography variant="body2" className="ad-details">
-                      <strong>Estadísticas:</strong> Tendrás acceso a
-                      estadísticas detalladas sobre el rendimiento, incluyendo
-                      clics totales y conversiones.
-                    </Typography>
-                    <Button
-                      onClick={() => handleAdSelect("ClipAds")}
-                      variant="contained"
-                      className="buy-button"
-                    >
-                      Comprar Anuncio en Clips
                     </Button>
                   </CardContent>
                 </Card>

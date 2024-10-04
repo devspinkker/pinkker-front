@@ -9,6 +9,7 @@ import TweetCard from "../../muro/tweet/TweetCard";
 import { getTweetUser, getUserFollow } from "../../../services/backGo/tweet";
 
 import FollowCard from "../../muro/FollowCard";
+import { GetRecommendedUsers } from "../../../services/backGo/user";
 
 export default function Muro({ streamer }) {
   const [tweets, setTweets] = useState([]);
@@ -17,6 +18,20 @@ export default function Muro({ streamer }) {
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(false);
   const [userFollows, setUserFollows] = useState(false);
+  let token = window.localStorage.getItem("token");
+  const UserFollowsFunc = async (e) => {
+    const ExcludeIDs = [];
+    const res = await GetRecommendedUsers(token, ExcludeIDs);
+    console.log(res);
+
+    if (res.message === "ok" && res.data) {
+      console.log(res.data);
+      setUserFollows(res.data);
+    }
+  };
+  useEffect(() => {
+    UserFollowsFunc();
+  }, []);
 
   const intervalRef = useRef(null);
   useEffect(() => {

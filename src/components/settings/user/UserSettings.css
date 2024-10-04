@@ -17,13 +17,35 @@
     background-color: #192734;
     color: #ededed;
 }
-.item-config:hover{
-    background-color: #343843;
+
+.type-set-config {
+    display: flex;
+    padding: 5px;
+    background-color: #f3619608;
+    border-radius: 5px;
+    gap: 15px;
+    width: max-content;
+}
+
+.cards-settings {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+    padding: 15px;
+    background: #4e2232;
+}
+
+.item-config:hover {
+    background-color: #4e2232;
     border-radius: 5px;
     cursor: pointer;
 }
-.item-config-active{
-    background-color: #343843;
+
+.item-config-active {
+    background-color: #4e2232;
     border-radius: 5px;
 
 }
@@ -61,6 +83,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background: #100b0d;
 }
 
 .usersettings-change-avatar {
