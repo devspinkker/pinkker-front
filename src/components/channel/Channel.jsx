@@ -4,6 +4,7 @@ import "./Channel.css";
 import "../../components/dashboard/stream-manager/chat/ChatStreaming.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  GetStreamAndUserDataToken,
   getUserByIdTheToken,
   getUserByNameUser,
 } from "../../services/backGo/user";
@@ -66,9 +67,11 @@ export default function Channel({
 }) {
   const [user, setUser] = useState(null);
 
-  const token = useSelector((state) => state.token);
+  let token = window.localStorage.getItem("token");
+
   const { streamer } = useParams();
   const usersOnline = useSelector((state) => state.streamers);
+  const [GetInfoUserInRoom, setGetInfoUserInRoom] = useState(null);
 
   const [followParam, setFollowParam] = useState(false);
   const [streamerFollowers, setStreamerFollowers] = useState(0);
@@ -84,7 +87,7 @@ export default function Channel({
 
   const [timeError, setTimeError] = useState(false);
 
-  const [type, setType] = useState(2);
+  const [type, setType] = useState(20);
 
   const [showPopupFollowers, setShowPopupFollowers] = useState(false);
 
@@ -162,6 +165,7 @@ export default function Channel({
               user={user}
               isMobile={isMobile}
               followParam={followParam}
+              GetInfoUserInRoom={GetInfoUserInRoom}
             />
           </MemoryRouter>
         </NotificationProvider>,
@@ -274,8 +278,6 @@ export default function Channel({
   };
 
   async function getUserToken() {
-    let token = window.localStorage.getItem("token");
-
     if (token) {
       try {
         const res = await getUserByIdTheToken(token);
@@ -294,9 +296,10 @@ export default function Channel({
 
     const localType = localStorage.getItem("channelType");
     if (localType) {
-      setType(parseInt(localType));
+      // setType(parseInt(localType));
+      setType(20);
     } else {
-      setType(2);
+      setType(20);
     }
 
     setFollowParam(false);
@@ -318,46 +321,43 @@ export default function Channel({
     }
 
     const fetchData = async () => {
-      //   const dataFollowParam = await userFollowUser(token, streamer);
-      //   if (dataFollowParam != null && dataFollowParam != undefined) {
-      //     setFollowParam(dataFollowParam.data);
-      //   }
-      // }
-
-      // const dataViewers = await getViewersStream(streamer);
-      // if (dataViewers != null && dataViewers != undefined) {
-      //   setViewers(dataViewers);
-      // }
-
-      // const dataFollowers = await getStreamerFollowers(streamer);
-
-      // if (dataFollowers != null && dataFollowers != undefined) {
-      //   setStreamerFollowers(dataFollowers);
-      // }
-      const dataStreamer = await getUserByNameUser(streamer);
-      setStreamData(dataStreamer);
-      if (dataStreamer?.message == "ok") {
-        setStreamerData(dataStreamer.data);
-      }
       let loggedUser = window.localStorage.getItem("_id");
 
-      const dataStream = await getStreamByUserName(streamer);
+      if (token) {
+        const res = await GetStreamAndUserDataToken(streamer, token);
 
-      if (dataStream != null && dataStream != undefined) {
-        setStream(dataStream.data);
-        if (dataStream.online == true) {
-          expanded();
+        if (res?.message == "ok" && res.data.user && res.data.stream) {
+          const InfoStreamData = res.data;
+
+          setStreamerData(InfoStreamData.user);
+          setStream(InfoStreamData.stream);
+          if (InfoStreamData.stream?.online == true) {
+            expanded();
+          }
+
+          if (InfoStreamData.user.isFollowedByUser) {
+            setFollowParam(true);
+          } else {
+            setFollowParam(false);
+          }
+          if (InfoStreamData.stream.online == true) {
+            expanded();
+          }
+          setGetInfoUserInRoom(InfoStreamData.UserInfo);
+        }
+      } else {
+        const dataStreamer = await getUserByNameUser(streamer);
+        if (dataStreamer?.message == "ok") {
+          setStreamerData(dataStreamer.data);
         }
 
-        // if (dataStream.stream_likes.includes(name)) {
-        //   setLikeAnimation(true);
-        // }
+        const dataStream = await getStreamByUserName(streamer);
 
-        const dataCategorie = await getCategorieByName(
-          dataStream.stream_category
-        );
-        if (dataCategorie != null && dataCategorie != undefined) {
-          setCategorie(dataCategorie);
+        if (dataStream != null && dataStream != undefined) {
+          setStream(dataStream.data);
+          if (dataStream.online == true) {
+            expanded();
+          }
         }
       }
       let dataUser;
@@ -367,36 +367,6 @@ export default function Channel({
       } else {
         setusuarioID("no _id");
       }
-      if (dataUser?.Following?.hasOwnProperty(dataStreamer?.data?.id)) {
-        setFollowParam(true);
-      } else {
-        setFollowParam(false);
-      }
-
-      // const timer1 = setInterval(async () => {
-      //   const dataViewers = await getViewersStream(streamer);
-      //   if (dataViewers != null && dataViewers != undefined) {
-      //     setViewers(dataViewers);
-      //   }
-
-      //   const dataStream = await getStreamerStream(streamer);
-      //   if (dataStream != null && dataStream != undefined) {
-      //     setStream(dataStream);
-      //     const getUser = () => {
-      //       return fetchUsersOnline(token).then((res) => {
-      //         dispatch(dispatchGetAllStreamers(res));
-      //       });
-      //     };
-      //     getUser();
-      //   }
-      // }, 30000);
-
-      const timer2 = setInterval(async () => {
-        if (dataStream != null && dataStream != undefined) {
-          var dateNow = new Date().getTime();
-          timeDifference(dateNow, dataStream.start_date);
-        }
-      }, 1000);
     };
 
     fetchData();
@@ -1536,6 +1506,7 @@ export default function Channel({
                     user={user}
                     isMobile={isMobile}
                     followParam={followParam}
+                    GetInfoUserInRoom={GetInfoUserInRoom}
                   />
                 )}
               </div>
@@ -1578,6 +1549,7 @@ export default function Channel({
                   user={user}
                   isMobile={isMobile}
                   followParam={followParam}
+                  GetInfoUserInRoom={GetInfoUserInRoom}
                 />
               </div>
             )}

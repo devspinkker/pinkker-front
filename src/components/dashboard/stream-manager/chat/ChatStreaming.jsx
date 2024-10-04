@@ -22,7 +22,6 @@ import {
 } from "../../../../services/backGo/user";
 import { getStreamerDonationSubscription } from "../../../../services/donationSubscription";
 import {
-  GetInfoUserInRoomFunc,
   HostChatMessage,
   actionsChatStream,
   actionsModeratorChatStream,
@@ -45,6 +44,7 @@ export function ChatStreaming({
   isMobile,
   DashboardStream = false,
   followParam,
+  GetInfoUserInRoom,
 }) {
   const [messages, setMessages] = useState([]);
   const messagesRef = useRef([]);
@@ -63,7 +63,6 @@ export function ChatStreaming({
   const [selectedDonation, setSelectedDonation] = useState(null);
   const [GetUserTheChat, setGetUserTheChat] = useState(null);
   const [ShowGetUserTheChat, setShowGetUserTheChat] = useState(false);
-  const [GetInfoUserInRoom, setGetInfoUserInRoom] = useState(null);
   const [StateDonations, setStateDonations] = useState(false);
   const [messagesold, setMessageold] = useState([]);
   const [SubStateAct, SetSubStateAct] = useState(false);
@@ -561,19 +560,6 @@ export function ChatStreaming({
   };
 
   useEffect(() => {
-    const setGetInfoUserInRoomAsync = async () => {
-      const token = window.localStorage.getItem("token");
-      if (token) {
-        const res = await GetInfoUserInRoomFunc(streamerChat.id, token);
-        if (res?.message == "ok") {
-          const roomWithId = res?.data.Rooms.find(
-            (room) => room.Room === streamerChat.id
-          );
-          setGetInfoUserInRoom(roomWithId);
-        }
-      }
-    };
-    setGetInfoUserInRoomAsync();
     gets();
   }, []);
 
