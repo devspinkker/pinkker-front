@@ -386,7 +386,7 @@ export default function Channel({
           setStreamerData(InfoStreamData.user);
           setStream(InfoStreamData.stream);
           if (InfoStreamData.stream?.online == true) {
-            expanded();
+            // expanded();
           }
 
           if (InfoStreamData.user.isFollowedByUser) {
@@ -394,9 +394,7 @@ export default function Channel({
           } else {
             setFollowParam(false);
           }
-          if (InfoStreamData.stream.online == true) {
-            expanded();
-          }
+
           setGetInfoUserInRoom(InfoStreamData.UserInfo);
         }
       } else {
