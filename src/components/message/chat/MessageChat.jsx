@@ -11,6 +11,7 @@ export default function MessageChat({
   chatID,
   NotifyA,
   handleOpenChat,
+  activeTab,
 }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -39,9 +40,8 @@ export default function MessageChat({
 
       newSocket.onmessage = (event) => {
         const receivedMessage = JSON.parse(event.data);
+        console.log(receivedMessage);
         if (receivedMessage.action === "new_message") {
-          console.log(receivedMessage);
-
           setMessages((prevMessages) => [
             ...prevMessages,
             receivedMessage.message,
@@ -83,7 +83,7 @@ export default function MessageChat({
     if (opened) {
       fetchData();
     }
-  }, [opened, to, id, token, NotifyA]);
+  }, [opened]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -204,7 +204,9 @@ export default function MessageChat({
               </button>
             </div>
           </div>
-          {showSettings && <ChatSettings to={to} chatID={chatID} />}
+          {showSettings && (
+            <ChatSettings activeTab={activeTab} to={to} chatID={chatID} />
+          )}
 
           <div
             id="messagechat-messages"

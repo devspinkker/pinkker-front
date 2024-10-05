@@ -301,6 +301,7 @@ export default function Message({
                 messages={chat.messages}
                 handleCloseChat={handleCloseChat}
                 handleOpenChat={() => handleOpenChat(index)}
+                activeTab={activeTab}
               />
             ) : (
               <></>

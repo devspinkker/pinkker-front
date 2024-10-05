@@ -75,6 +75,7 @@ import axios from "axios";
 import { MdManageSearch, MdOndemandVideo } from "react-icons/md";
 import { RiUserSearchLine } from "react-icons/ri";
 import imagenPixel from "./imagenPixel.png";
+import LayoutMessageNotis from "./LayoutMessageNotis";
 function NLayout(props) {
   const { streamer } = useParams();
   const [locationpath, setLocationPath] = useState();
@@ -2225,39 +2226,11 @@ function NLayout(props) {
 
         {(openNotification || openMessage) && !props.tyExpande && (
           <Grid className={"openNotificationopenMessage"}>
-            <Grid
-              style={{
-                display: "flex",
-                textAlign: "center",
-                alignItems: "center",
-                // border: "1px solid #343843",
-                transition: "width 1s ease-in-out",
-                padding: "1.70rem",
-              }}
-            >
-              <Typography
-                style={{
-                  color: "white",
-                  fontWeight: 600,
-                  textAlign: "center",
-                  fontSize: "18px",
-                  width: "100%",
-                }}
-              >
-                {openMessage ? "Mensajes" : "Notificaciones"}
-              </Typography>
-            </Grid>
-            <div
-              style={{
-                transition: "width 1s ease-in-out",
-              }}
-            >
-              {openMessage ? (
-                <Message messagesOpen1={messagesOpen} />
-              ) : (
-                <Notificaciones PinkerNotifications={PinkerNotifications} />
-              )}
-            </div>
+            <LayoutMessageNotis
+              openMessage={openMessage}
+              messagesOpen={messagesOpen}
+              PinkerNotifications={PinkerNotifications}
+            />
           </Grid>
         )}
       </Grid>

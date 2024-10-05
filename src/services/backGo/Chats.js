@@ -18,7 +18,7 @@ export const getMessages = async (token, receiver_id) => {
 export const sendMessage = async (token, recipientId, message) => {
     try {
         const response = await axios.post(`${url}/chats/send`, {
-            receiver_id: recipientId,
+            chatid: recipientId,
             content: message,
         }, {
             headers: {
