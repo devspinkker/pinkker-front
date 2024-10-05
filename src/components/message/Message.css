@@ -1,7 +1,7 @@
 .message-body {
-    width: 70%;
+    /* width: 70%; */
     /* left: 57%; */
-    height: 35px;
+    /* height: 35px; */
     margin: 0 auto;
     /* position: fixed; */
     top: 400px;
@@ -31,11 +31,11 @@
 }
 
 .MessageChatContent {
-    width: 124%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     margin: 3px;
 }
 
@@ -116,4 +116,65 @@
 
 .send-button:hover {
     background-color: #e0559d;
+}
+
+.underline {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    /* height: 2px; */
+    width: 32%;
+    background-color: black;
+    transition: left 0.3s ease;
+    border: 1px solid #ff60b2;
+}
+
+.typesofchats {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+}
+
+.typesofchats {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    border-bottom: 1px solid #471f2e;
+    width: 95%
+}
+
+.typesofchats span {
+    padding: 10px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #ffffff;
+    position: relative;
+    font-weight: bold;
+
+}
+
+.typesofchats span.active {
+    font-weight: bold;
+}
+
+.typesofchats span:hover {
+    /* color: black; */
+}
+
+
+.typesofchats span:nth-child(1).active~.underline {
+    left: 0;
+}
+
+.typesofchats span:nth-child(2).active~.underline {
+    left: calc(33%);
+}
+
+.typesofchats span:nth-child(3).active~.underline {
+    left: calc(68%);
+}
+
+.underline {
+    left: 0;
 }

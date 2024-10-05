@@ -4,7 +4,7 @@ import MessageChat from "./chat/MessageChat";
 import Loader from "react-loader-spinner";
 import { getUserByNameUser } from "../../services/backGo/user";
 import {
-  getChatsByUserID,
+  GetChatsByUserIDWithStatus,
   CreateChatOrGetChats,
 } from "../../services/backGo/Chats";
 import PopUpSearch from "./PopUpSearch";
@@ -16,6 +16,10 @@ export default function Message({
   messagesOpen1,
 }) {
   const [messagesOpen, setMessagesOpen] = useState(messagesOpen1);
+  const [Chatrequest, setChatrequest] = useState([]);
+  const [Chatsecondary, setChatsecondary] = useState([]);
+  const [activeTab, setActiveTab] = useState("primary");
+
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -139,7 +143,53 @@ export default function Message({
   const handleOpenPopUp = () => {
     setIsPopUpOpen(true);
   };
-
+  const primaryChats = () => {
+    setMessagesOpen(messagesOpen1);
+  };
+  let token = window.localStorage.getItem("token");
+  const secondaryChats = async () => {
+    if (token && userID) {
+      const response = await GetChatsByUserIDWithStatus(token, "secondary");
+      if (response) {
+        const updatedMessagesOpen = response.map((chat) => ({
+          chatID: chat.ID,
+          openedWindow: false,
+          user1: chat.User1ID,
+          user2: chat.User2ID,
+          usersInfo: chat.Users,
+          NotifyA: chat.NotifyA,
+          messages: [],
+        }));
+        if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
+          setChatsecondary(updatedMessagesOpen);
+          setMessagesOpen(updatedMessagesOpen);
+        }
+      }
+    }
+  };
+  const requestChats = async () => {
+    if (token && userID) {
+      const response = await GetChatsByUserIDWithStatus(token, "request");
+      if (response) {
+        const updatedMessagesOpen = response.map((chat) => ({
+          chatID: chat.ID,
+          openedWindow: false,
+          user1: chat.User1ID,
+          user2: chat.User2ID,
+          usersInfo: chat.Users,
+          NotifyA: chat.NotifyA,
+          messages: [],
+        }));
+        if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
+          setChatrequest(updatedMessagesOpen);
+          setMessagesOpen(updatedMessagesOpen);
+        } else {
+          setChatrequest([]);
+          setMessagesOpen([]);
+        }
+      }
+    }
+  };
   const handleClosePopUp = () => {
     setIsPopUpOpen(false);
   };
@@ -200,6 +250,39 @@ export default function Message({
           </div>
         </div>
       </div>
+      <div className="typesofchats">
+        <span
+          className={activeTab === "primary" ? "active" : ""}
+          onClick={() => {
+            setActiveTab("primary");
+            primaryChats(); // Ejecuta la función correspondiente
+          }}
+        >
+          Primary
+        </span>
+        <span
+          className={activeTab === "secondary" ? "active" : ""}
+          onClick={() => {
+            setActiveTab("secondary");
+            secondaryChats(); // Ejecuta la función correspondiente
+          }}
+        >
+          Secondary
+        </span>
+        <span
+          className={activeTab === "request" ? "active" : ""}
+          onClick={() => {
+            setActiveTab("request");
+            requestChats(); // Ejecuta la función correspondiente
+          }}
+        >
+          Requests
+        </span>
+
+        {/* Línea de navegación animada */}
+        <div className={`underline ${activeTab}`}></div>
+      </div>
+
       {messagesOpen.map((chat, index) => {
         const otherUser = chat.usersInfo.find((user) => user.ID !== userID);
 

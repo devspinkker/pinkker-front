@@ -3,6 +3,7 @@ import "./MessageChat.css";
 import Loader from "react-loader-spinner";
 import { getMessages, sendMessage } from "../../../services/backGo/Chats";
 import Emblem from "../../emblem/Emblem";
+import ChatSettings from "../settingchat/ChatSettings";
 
 export default function MessageChat({
   openedWindow,
@@ -21,6 +22,8 @@ export default function MessageChat({
   const [NotifyState, setNotifyState] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  const [showSettings, setShowSettings] = useState(false); // Estado para mostrar configuración
+
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -37,6 +40,8 @@ export default function MessageChat({
       newSocket.onmessage = (event) => {
         const receivedMessage = JSON.parse(event.data);
         if (receivedMessage.action === "new_message") {
+          console.log(receivedMessage);
+
           setMessages((prevMessages) => [
             ...prevMessages,
             receivedMessage.message,
@@ -176,17 +181,31 @@ export default function MessageChat({
                 />
               )}
             </div>
-            <i
-              style={{
-                marginRight: "10px",
-                cursor: "pointer",
-                color: "#ededed",
-                padding: "7px",
-                borderRadius: "3px",
-              }}
-              className="fas fa-times gray-button"
-            />
+            <div>
+              <i
+                style={{
+                  marginRight: "10px",
+                  cursor: "pointer",
+                  color: "#ededed",
+                  padding: "7px",
+                  borderRadius: "3px",
+                }}
+                className="fas fa-times gray-button"
+              />
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowSettings((prev) => !prev);
+                }}
+              >
+                {showSettings
+                  ? "Ocultar Configuración"
+                  : "Mostrar Configuración"}
+              </button>
+            </div>
           </div>
+          {showSettings && <ChatSettings to={to} chatID={chatID} />}
+
           <div
             id="messagechat-messages"
             className="messagechat-opened-messages"

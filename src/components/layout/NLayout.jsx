@@ -51,7 +51,7 @@ import { FaBullseye } from "react-icons/fa";
 import { FaLayerGroup } from "react-icons/fa6";
 import Messages from "../dashboard/stream-manager/chat/Messages";
 import Message from "../message/Message";
-import { getChatsByUserID } from "../../services/backGo/Chats";
+import { GetChatsByUserIDWithStatus } from "../../services/backGo/Chats";
 import logoPinkker from "./LOGOPINKKER.png";
 import SearchPopup from "../navbar/search/SearchPopup";
 import { fetchSearch } from "../../redux/actions/searchAction";
@@ -74,7 +74,7 @@ import Loading from "./Loading";
 import axios from "axios";
 import { MdManageSearch, MdOndemandVideo } from "react-icons/md";
 import { RiUserSearchLine } from "react-icons/ri";
-import imagenPixel from './imagenPixel.png'
+import imagenPixel from "./imagenPixel.png";
 function NLayout(props) {
   const { streamer } = useParams();
   const [locationpath, setLocationPath] = useState();
@@ -128,7 +128,7 @@ function NLayout(props) {
     let userID = window.localStorage.getItem("_id");
     if (token && userID) {
       try {
-        const response = await getChatsByUserID(token);
+        const response = await GetChatsByUserIDWithStatus(token);
         if (response) {
           const updatedMessagesOpen = response.map((chat) => ({
             chatID: chat.ID,
@@ -597,7 +597,12 @@ function NLayout(props) {
     setOpenTweet(open);
   };
   const pixeles = props.user?.Pixeles;
-  const formattedPixeles = pixeles ? new Intl.NumberFormat('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(pixeles) : "0";
+  const formattedPixeles = pixeles
+    ? new Intl.NumberFormat("es-ES", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 3,
+      }).format(pixeles)
+    : "0";
 
   const getNavDesktop = () => {
     return loading ? (
@@ -1274,9 +1279,7 @@ function NLayout(props) {
                           alt=""
                         />{" "}
                         <span style={{ fontSize: "14px" }}>
-                          {props.user?.Pixeles != 0
-                            ? formattedPixeles
-                            : "0.00"}
+                          {props.user?.Pixeles != 0 ? formattedPixeles : "0.00"}
                         </span>
                       </Grid>
 
@@ -2680,7 +2683,6 @@ function NLayout(props) {
           style={{
             display: dashboard ? "none" : "flex",
             width: "100%",
-           
           }}
           onClick={() => setEsClick(false)}
         >
