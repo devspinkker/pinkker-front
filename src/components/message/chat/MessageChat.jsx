@@ -3,6 +3,7 @@ import "./MessageChat.css";
 import Loader from "react-loader-spinner";
 import { getMessages, sendMessage } from "../../../services/backGo/Chats";
 import Emblem from "../../emblem/Emblem";
+import ChatSettings from "../settingchat/ChatSettings";
 
 export default function MessageChat({
   openedWindow,
@@ -10,6 +11,9 @@ export default function MessageChat({
   chatID,
   NotifyA,
   handleOpenChat,
+  activeTab,
+  chat,
+  handleStatusChange,
 }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -20,6 +24,8 @@ export default function MessageChat({
   const [socket, setSocket] = useState(null);
   const [NotifyState, setNotifyState] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  const [showSettings, setShowSettings] = useState(false); // Estado para mostrar configuración
 
   const messagesEndRef = useRef(null);
 
@@ -78,14 +84,14 @@ export default function MessageChat({
     if (opened) {
       fetchData();
     }
-  }, [opened, to, id, token, NotifyA]);
+  }, [opened]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
-
+  const closeSettings = () => setShowSettings(false);
   async function handleSendMessage() {
     try {
       if (message.trim() !== "") {
@@ -176,17 +182,38 @@ export default function MessageChat({
                 />
               )}
             </div>
-            <i
-              style={{
-                marginRight: "10px",
-                cursor: "pointer",
-                color: "#ededed",
-                padding: "7px",
-                borderRadius: "3px",
-              }}
-              className="fas fa-times gray-button"
-            />
+            <div>
+              <i
+                style={{
+                  marginRight: "10px",
+                  cursor: "pointer",
+                  color: "#ededed",
+                  padding: "7px",
+                  borderRadius: "3px",
+                }}
+                className="fas fa-times gray-button"
+              />
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+
+                  setShowSettings((prev) => !prev);
+                }}
+              >
+                {!showSettings && "Mostrar Configuración"}
+              </button>
+            </div>
           </div>
+          {showSettings && (
+            <ChatSettings
+              closeSettings={closeSettings}
+              chat={chat}
+              to={to}
+              chatID={chatID}
+              onStatusChange={handleStatusChange}
+            />
+          )}
+
           <div
             id="messagechat-messages"
             className="messagechat-opened-messages"

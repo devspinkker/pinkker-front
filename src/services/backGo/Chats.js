@@ -18,7 +18,7 @@ export const getMessages = async (token, receiver_id) => {
 export const sendMessage = async (token, recipientId, message) => {
     try {
         const response = await axios.post(`${url}/chats/send`, {
-            receiver_id: recipientId,
+            chatid: recipientId,
             content: message,
         }, {
             headers: {
@@ -32,6 +32,41 @@ export const sendMessage = async (token, recipientId, message) => {
         console.error("Error sending message:", error);
     }
 };
+
+export const UpdateChatBlockStatus = async (token, chatID, blockStatus) => {
+    try {
+        const response = await axios.post(`${url}/chats/UpdateChatBlockStatus`, {
+            chatID: chatID,
+            blockStatus: blockStatus,
+        }, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error sending message:", error);
+    }
+};
+export const DeleteAllMessages = async (token, userid) => {
+    try {
+        const response = await axios.post(`${url}/chats/DeleteAllMessages`, {
+            userid: userid,
+        }, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error sending message:", error);
+    }
+};
+
 export const CreateChatOrGetChats = async (token, id) => {
     try {
         const response = await axios.post(`${url}/chats/CreateChatOrGetChats`, {
@@ -48,9 +83,23 @@ export const CreateChatOrGetChats = async (token, id) => {
         console.error("Error sending message:", error);
     }
 };
-export const getChatsByUserID = async (token, userID) => {
+export const GetChatsByUserIDWithStatus = async (token, status = "primary", page = 1) => {
     try {
-        const response = await axios.get(`${url}/chats/GetChatsByUserID`, {
+        const response = await axios.get(`${url}/chats/GetChatsByUserIDWithStatus?status=${status}&page=${page}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching chats:", error);
+    }
+}
+export const UpdateUserStatus = async (token, Status = "primary", chatid) => {
+    try {
+        const response = await axios.post(`${url}/chats/UpdateUserStatus`, {
+            chatid: chatid,
+            content: Status,
+        }, {
             headers: { Authorization: `Bearer ${token}` },
         });
 

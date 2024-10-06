@@ -4,6 +4,7 @@ import "./Channel.css";
 import "../../components/dashboard/stream-manager/chat/ChatStreaming.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  GetStreamAndUserDataToken,
   getUserByIdTheToken,
   getUserByNameUser,
 } from "../../services/backGo/user";
@@ -114,9 +115,10 @@ export default function Channel({
   }, [VodData]);
 
   const [user, setUser] = useState(null);
-  const token = useSelector((state) => state.token);
-  const usersOnline = useSelector((state) => state.streamers);
+  let token = window.localStorage.getItem("token");
 
+  const usersOnline = useSelector((state) => state.streamers);
+  const [GetInfoUserInRoom, setGetInfoUserInRoom] = useState(null);
   const [followParam, setFollowParam] = useState(false);
   const [streamerFollowers, setStreamerFollowers] = useState(0);
   const [streamerData, setStreamerData] = useState(null);
@@ -201,6 +203,7 @@ export default function Channel({
         <NotificationProvider>
           <MemoryRouter>
             <ChatStreamingVods
+              GetInfoUserInRoom={GetInfoUserInRoom}
               openChatWindow={openChatWindow}
               streamerChat={stream}
               chatExpandeds={chatExpanded}
@@ -315,8 +318,6 @@ export default function Channel({
     }
   };
   async function getUserToken() {
-    let token = window.localStorage.getItem("token");
-
     if (token) {
       try {
         const res = await getUserByIdTheToken(token);
@@ -374,29 +375,41 @@ export default function Channel({
       // if (dataFollowers != null && dataFollowers != undefined) {
       //   setStreamerFollowers(dataFollowers);
       // }
-      const dataStreamer = await getUserByNameUser(streamer);
-      if (dataStreamer?.message == "ok") {
-        setStreamerData(dataStreamer.data);
-      }
       let loggedUser = window.localStorage.getItem("_id");
 
-      const dataStream = await getStreamByUserName(streamer);
+      if (token) {
+        const res = await GetStreamAndUserDataToken(streamer, token);
 
-      if (dataStream != null && dataStream != undefined) {
-        setStream(dataStream.data);
-        if (dataStream.online == true) {
-          expanded();
+        if (res?.message == "ok" && res.data.user && res.data.stream) {
+          const InfoStreamData = res.data;
+
+          setStreamerData(InfoStreamData.user);
+          setStream(InfoStreamData.stream);
+          if (InfoStreamData.stream?.online == true) {
+            // expanded();
+          }
+
+          if (InfoStreamData.user.isFollowedByUser) {
+            setFollowParam(true);
+          } else {
+            setFollowParam(false);
+          }
+
+          setGetInfoUserInRoom(InfoStreamData.UserInfo);
+        }
+      } else {
+        const dataStreamer = await getUserByNameUser(streamer);
+        if (dataStreamer?.message == "ok") {
+          setStreamerData(dataStreamer.data);
         }
 
-        // if (dataStream.stream_likes.includes(name)) {
-        //   setLikeAnimation(true);
-        // }
+        const dataStream = await getStreamByUserName(streamer);
 
-        const dataCategorie = await getCategorieByName(
-          dataStream.stream_category
-        );
-        if (dataCategorie != null && dataCategorie != undefined) {
-          setCategorie(dataCategorie);
+        if (dataStream != null && dataStream != undefined) {
+          setStream(dataStream.data);
+          if (dataStream.online == true) {
+            expanded();
+          }
         }
       }
       let dataUser;
@@ -405,11 +418,6 @@ export default function Channel({
         dataUser = await getUserToken();
       } else {
         setusuarioID("no _id");
-      }
-      if (dataUser?.Following?.hasOwnProperty(dataStreamer?.data?.id)) {
-        setFollowParam(true);
-      } else {
-        setFollowParam(false);
       }
 
       // const timer1 = setInterval(async () => {
@@ -430,12 +438,12 @@ export default function Channel({
       //   }
       // }, 30000);
 
-      const timer2 = setInterval(async () => {
-        if (dataStream != null && dataStream != undefined) {
-          var dateNow = new Date().getTime();
-          timeDifference(dateNow, dataStream.start_date);
-        }
-      }, 1000);
+      // const timer2 = setInterval(async () => {
+      //   if (dataStream != null && dataStream != undefined) {
+      //     var dateNow = new Date().getTime();
+      //     timeDifference(dateNow, dataStream.start_date);
+      //   }
+      // }, 1000);
     };
 
     fetchData();
@@ -1497,6 +1505,7 @@ export default function Channel({
                 )}
                 {isMobile && user && (
                   <ChatStreamingVods
+                    GetInfoUserInRoom={GetInfoUserInRoom}
                     openChatWindow={openChatWindow}
                     streamerChat={stream}
                     chatExpandeds={chatExpanded}
@@ -1540,6 +1549,7 @@ export default function Channel({
                 )}
 
                 <ChatStreamingVods
+                  GetInfoUserInRoom={GetInfoUserInRoom}
                   openChatWindow={openChatWindow}
                   streamerChat={stream}
                   chatExpandeds={chatExpanded}
@@ -1588,7 +1598,7 @@ export default function Channel({
         (isMobile && "container-channel-isMobile") ||
         ""
       }
-      style={{width: isMobile && '100%'}}
+      style={{ width: isMobile && "100%" }}
     >
       {getChannel()}
 

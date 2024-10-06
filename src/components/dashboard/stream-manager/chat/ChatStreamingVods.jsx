@@ -44,6 +44,7 @@ export function ChatStreamingVods({
   followParam,
   idVod,
   calculateCurrentTime,
+  GetInfoUserInRoom,
 }) {
   const [messages, setMessages] = useState([]);
 
@@ -97,7 +98,6 @@ export function ChatStreamingVods({
   const [dropdownPoints, setDropdownPoints] = useState(false);
   const [GetUserTheChat, setGetUserTheChat] = useState(null);
   const [ShowGetUserTheChat, setShowGetUserTheChat] = useState(false);
-  const [GetInfoUserInRoom, setGetInfoUserInRoom] = useState(null);
   const [StateDonations, setStateDonations] = useState(false);
   const [MsjChatAnclado, SetMsjChatAnclado] = useState(null);
   const [NewHost, SetNewHost] = useState(null);
@@ -147,19 +147,6 @@ export function ChatStreamingVods({
   };
 
   useEffect(() => {
-    const setGetInfoUserInRoomAsync = async () => {
-      const token = window.localStorage.getItem("token");
-      if (token) {
-        const res = await GetInfoUserInRoomFunc(streamerChat.id, token);
-        if (res?.message == "ok") {
-          const roomWithId = res?.data.Rooms.find(
-            (room) => room.Room === streamerChat.id
-          );
-          setGetInfoUserInRoom(roomWithId);
-        }
-      }
-    };
-    setGetInfoUserInRoomAsync();
     gets();
   }, []);
 

@@ -258,7 +258,18 @@ export async function getUserByNameUser(nameUser) {
         return error
     }
 }
-
+export async function GetStreamAndUserDataToken(nameUser, token) {
+    try {
+        const response = await axios.get(`${baseURL}/user/GetStreamAndUserData?nameUser=${nameUser}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
 export async function unfollow(token, userId) {
     try {
         const response = await axios.post(
