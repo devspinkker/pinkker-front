@@ -137,6 +137,8 @@ export default function Message({
           setChatsecondary(updatedMessagesOpen);
           setMessagesOpen(updatedMessagesOpen);
         }
+      } else {
+        setMessagesOpen([]);
       }
     }
   };
@@ -161,6 +163,8 @@ export default function Message({
           setChatsecondary(updatedMessagesOpen);
           setMessagesOpen(updatedMessagesOpen);
         }
+      } else {
+        setMessagesOpen([]);
       }
     }
   };
@@ -217,6 +221,8 @@ export default function Message({
               usersInfo: chat.Users,
               messages: chat.messages || [],
               NotifyA: chat.NotifyA,
+              StatusUser1: chat.StatusUser1,
+              StatusUser2: chat.StatusUser2,
             },
             ...updatedMessagesOpen,
           ]);
