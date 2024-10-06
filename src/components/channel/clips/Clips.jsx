@@ -43,7 +43,7 @@ export default function Clips(props) {
   };
   const handleSortChange = (option) => {
     if (option === "Más visto") {
-      setSortOption("popular");
+      setSortOption("most_viewed");
     } else if (option === "Random") {
       setSortOption("random");
     } else {

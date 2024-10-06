@@ -130,6 +130,7 @@ export default function Message({
           NotifyA: chat.NotifyA,
           StatusUser1: chat.StatusUser1,
           StatusUser2: chat.StatusUser2,
+          Blocked: chat.Blocked,
           messages: [],
         }));
         if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
@@ -153,6 +154,7 @@ export default function Message({
           NotifyA: chat.NotifyA,
           StatusUser1: chat.StatusUser1,
           StatusUser2: chat.StatusUser2,
+          Blocked: chat.Blocked,
           messages: [],
         }));
         if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
@@ -175,6 +177,7 @@ export default function Message({
           NotifyA: chat.NotifyA,
           StatusUser1: chat.StatusUser1,
           StatusUser2: chat.StatusUser2,
+          Blocked: chat.Blocked,
           messages: [],
         }));
         if (!deepEqual(messagesOpen, updatedMessagesOpen)) {

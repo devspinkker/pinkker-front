@@ -32,6 +32,41 @@ export const sendMessage = async (token, recipientId, message) => {
         console.error("Error sending message:", error);
     }
 };
+
+export const UpdateChatBlockStatus = async (token, chatID, blockStatus) => {
+    try {
+        const response = await axios.post(`${url}/chats/UpdateChatBlockStatus`, {
+            chatID: chatID,
+            blockStatus: blockStatus,
+        }, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error sending message:", error);
+    }
+};
+export const DeleteAllMessages = async (token, userid) => {
+    try {
+        const response = await axios.post(`${url}/chats/DeleteAllMessages`, {
+            userid: userid,
+        }, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error sending message:", error);
+    }
+};
+
 export const CreateChatOrGetChats = async (token, id) => {
     try {
         const response = await axios.post(`${url}/chats/CreateChatOrGetChats`, {

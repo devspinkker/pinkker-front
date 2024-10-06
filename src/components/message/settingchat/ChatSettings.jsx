@@ -1,12 +1,20 @@
 import React from "react";
 import "./ChatSettings.css";
-import { UpdateUserStatus } from "../../../services/backGo/Chats";
+import {
+  DeleteAllMessages,
+  UpdateChatBlockStatus,
+  UpdateUserStatus,
+} from "../../../services/backGo/Chats";
 
 const ChatSettings = ({ chat, closeSettings, onStatusChange }) => {
   const token = window.localStorage.getItem("token");
   const id = window.localStorage.getItem("_id");
 
   const currentUserInfo = chat.usersInfo.find((user) => user.ID === id);
+  const bloqued =
+    id === chat.user1
+      ? chat.Blocked.BlockedByUser1
+      : chat.Blocked.BlockedByUser2;
   const UserInfo = chat.usersInfo.find((user) => user.ID !== id);
 
   // Determina el estado que corresponde al usuario actual
@@ -24,10 +32,20 @@ const ChatSettings = ({ chat, closeSettings, onStatusChange }) => {
       });
   };
 
-  const handleDeleteUser = () => {
+  const handleDeleteUser = async () => {
+    console.log(UserInfo);
+
+    const res = await DeleteAllMessages(token, UserInfo.ID);
+    console.log(res);
+
     console.log("Usuario eliminado");
   };
+  const handleblock = async () => {
+    const res = await UpdateChatBlockStatus(token, chat.chatID, !bloqued);
+    console.log(res);
 
+    console.log("Usuario bloqueado");
+  };
   return (
     <div className="chat-settings-container">
       <div className="chat-settings">
@@ -69,6 +87,9 @@ const ChatSettings = ({ chat, closeSettings, onStatusChange }) => {
             </span>
           )}
 
+          <span className="settings-option danger" onClick={handleblock}>
+            {!bloqued ? "Bloquear" : "desbloquear"} chat
+          </span>
           <span className="settings-option danger" onClick={handleDeleteUser}>
             Eliminar Chat
           </span>
