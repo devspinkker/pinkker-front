@@ -2383,17 +2383,17 @@ function NLayout(props) {
                       }}
                     >
                       <img
-                        style={{
-                          width: props.isMobile ? "25px" : "17px",
-                        }}
-                        src="/images/pixel.png"
-                        alt=""
-                      />{" "}
-                      <span style={{ fontSize: "14px" }}>
-                        {props.user?.Pixeles != 0
-                          ? props.user?.Pixeles
-                          : "0.0000000"}
-                      </span>
+                          style={{
+                            width: props.isMobile ? "25px" : "17px",
+                          }}
+                          src={imagenPixel}
+                          alt=""
+                        />{" "}
+                        <span style={{ fontSize: "14px" }}>
+                          {props.user?.Pixeles != 0
+                            ? formattedPixeles
+                            : "0.00"}
+                        </span>
                     </Grid>
 
                     {expandCartera ? <IoIosArrowUp /> : <IoIosArrowDown />}
