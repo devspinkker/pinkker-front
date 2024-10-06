@@ -15,12 +15,13 @@
 /* El panel de configuraciones ocupará el 50% del ancho y 100% del alto */
 .chat-settings {
     width: 50%;
-    height: 100%;
+    height: 71%;
     background-color: rgb(0, 0, 0);
     padding: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow-y: auto;
+    box-shadow: 0px 2px 1px -1px rgb(159 71 140), 0px 1px 1px 0px rgb(190 90 191), 0px 1px 3px 0px rgb(152 69 140) !important;
     /* Habilitar scroll si el contenido es más largo que la pantalla */
 }
 
@@ -52,6 +53,18 @@
     gap: 15px;
 }
 
+.crp2z {
+    display: flex;
+    color: aliceblue;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+
+.settings-options-mover {
+    color: white;
+    padding: 10px;
+}
+
 .settings-option {
     padding: 10px;
     border: none;
@@ -60,6 +73,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-size: 16px;
+    color: white;
 }
 
 .settings-option:hover {
@@ -67,10 +81,9 @@
 }
 
 .settings-option.danger {
-    background-color: #ff4d4f;
     color: white;
 }
 
 .settings-option.danger:hover {
-    background-color: #ff3333;
+    background-color: #7b3856;
 }

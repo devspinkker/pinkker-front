@@ -48,6 +48,14 @@ export default function Message({
     return true;
   };
   let userID = window.localStorage.getItem("_id");
+  const handleStatusChange = (newStatus, idChangeStatus) => {
+    console.log("El estado del chat ha cambiado a:", newStatus);
+    console.log(idChangeStatus);
+
+    setMessagesOpen((prevChats) =>
+      prevChats.filter((chat) => chat.chatID !== idChangeStatus)
+    );
+  };
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
@@ -80,41 +88,6 @@ export default function Message({
     }
   }
 
-  const handleAddChat = async () => {
-    try {
-      let token = window.localStorage.getItem("token");
-
-      if (selectedUser) {
-        const chat = await CreateChatOrGetChats(token, selectedUser.id);
-        console.log(chat);
-
-        if (chat) {
-          const updatedMessagesOpen = messagesOpen.map((c) => ({
-            ...c,
-            openedWindow: false,
-          }));
-
-          setMessagesOpen([
-            {
-              chatID: chat.ID,
-              openedWindow: true,
-              user1: chat.User1ID,
-              user2: chat.User2ID,
-              usersInfo: chat.Users,
-              messages: chat.messages || [],
-              NotifyA: chat.NotifyA,
-            },
-            ...updatedMessagesOpen,
-          ]);
-
-          setOpenChatIndex(0); // Establecer el índice del chat abierto
-        }
-      }
-    } catch (error) {
-      console.error("Error creating/getting chat:", error);
-    }
-  };
-
   const handleCloseChat = () => {
     setMessagesOpen((prevChats) =>
       prevChats.map((chat, index) => ({
@@ -143,8 +116,28 @@ export default function Message({
   const handleOpenPopUp = () => {
     setIsPopUpOpen(true);
   };
-  const primaryChats = () => {
-    setMessagesOpen(messagesOpen1);
+  const primaryChats = async () => {
+    // setMessagesOpen(messagesOpen1);
+    if (token && userID) {
+      const response = await GetChatsByUserIDWithStatus(token, "primary");
+      if (response) {
+        const updatedMessagesOpen = response.map((chat) => ({
+          chatID: chat.ID,
+          openedWindow: false,
+          user1: chat.User1ID,
+          user2: chat.User2ID,
+          usersInfo: chat.Users,
+          NotifyA: chat.NotifyA,
+          StatusUser1: chat.StatusUser1,
+          StatusUser2: chat.StatusUser2,
+          messages: [],
+        }));
+        if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
+          setChatsecondary(updatedMessagesOpen);
+          setMessagesOpen(updatedMessagesOpen);
+        }
+      }
+    }
   };
   let token = window.localStorage.getItem("token");
   const secondaryChats = async () => {
@@ -158,6 +151,8 @@ export default function Message({
           user2: chat.User2ID,
           usersInfo: chat.Users,
           NotifyA: chat.NotifyA,
+          StatusUser1: chat.StatusUser1,
+          StatusUser2: chat.StatusUser2,
           messages: [],
         }));
         if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
@@ -178,6 +173,8 @@ export default function Message({
           user2: chat.User2ID,
           usersInfo: chat.Users,
           NotifyA: chat.NotifyA,
+          StatusUser1: chat.StatusUser1,
+          StatusUser2: chat.StatusUser2,
           messages: [],
         }));
         if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
@@ -285,7 +282,6 @@ export default function Message({
 
       {messagesOpen.map((chat, index) => {
         const otherUser = chat.usersInfo.find((user) => user.ID !== userID);
-
         return (
           <div key={index} className="MessageChatContent">
             {otherUser ? (
@@ -293,15 +289,15 @@ export default function Message({
                 socketMain={socketMain}
                 closeMessageChat={closeMessageChat}
                 openedWindow={chat.openedWindow}
+                chat={chat}
                 index={index}
                 chatID={chat.chatID}
                 NotifyA={chat.NotifyA}
                 to={otherUser}
-                usersInfo={chat.usersInfo}
-                messages={chat.messages}
                 handleCloseChat={handleCloseChat}
                 handleOpenChat={() => handleOpenChat(index)}
                 activeTab={activeTab}
+                handleStatusChange={handleStatusChange}
               />
             ) : (
               <></>

@@ -138,6 +138,8 @@ function NLayout(props) {
             user2: chat.User2ID,
             usersInfo: chat.Users,
             NotifyA: chat.NotifyA,
+            StatusUser1: chat.StatusUser1,
+            StatusUser2: chat.StatusUser2,
             messages: [],
           }));
           if (!deepEqual(messagesOpen, updatedMessagesOpen)) {

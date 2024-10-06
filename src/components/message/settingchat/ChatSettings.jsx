@@ -1,23 +1,27 @@
 import React from "react";
-import "./ChatSettings.css"; // Asegúrate de tener estilos para este componente
+import "./ChatSettings.css";
 import { UpdateUserStatus } from "../../../services/backGo/Chats";
 
-const ChatSettings = ({ to, chatID, activeTab }) => {
+const ChatSettings = ({ chat, closeSettings, onStatusChange }) => {
   const token = window.localStorage.getItem("token");
   const id = window.localStorage.getItem("_id");
 
+  const currentUserInfo = chat.usersInfo.find((user) => user.ID === id);
+  const UserInfo = chat.usersInfo.find((user) => user.ID !== id);
+
+  // Determina el estado que corresponde al usuario actual
+  const currentUserStatus =
+    currentUserInfo.ID === chat.user1 ? chat.StatusUser1 : chat.StatusUser2;
+
   const handleUpdateStatus = (status) => {
-    UpdateUserStatus(token, status, chatID)
+    UpdateUserStatus(token, status, chat.chatID)
       .then((response) => {
         console.log("Estado actualizado:", response);
+        onStatusChange(status, chat.chatID);
       })
       .catch((error) => {
         console.error("Error al actualizar el estado:", error);
       });
-  };
-
-  const handleBlockUser = () => {
-    console.log("Usuario bloqueado");
   };
 
   const handleDeleteUser = () => {
@@ -27,40 +31,47 @@ const ChatSettings = ({ to, chatID, activeTab }) => {
   return (
     <div className="chat-settings-container">
       <div className="chat-settings">
-        <h2>Configuración del Chat</h2>
-
-        {/* Información del usuario */}
+        <div className="crp2z">
+          <h2>Configuración del Chat</h2>
+          <i
+            onClick={closeSettings}
+            style={{
+              marginRight: "10px",
+              cursor: "pointer",
+              color: "#ededed",
+              padding: "7px",
+              borderRadius: "3px",
+            }}
+            className="fas fa-times gray-button"
+          />
+        </div>
         <div className="user-info">
-          <img src={to.Avatar} alt="Avatar" className="avatar" />
+          <img src={UserInfo.Avatar} alt="Avatar" className="avatar" />
           <p>
-            <strong>{to.NameUser}</strong>
+            <strong>{UserInfo.NameUser}</strong>
           </p>
         </div>
 
         <div className="settings-options">
-          {activeTab !== "primary" && (
-            <button
-              className="settings-option"
-              onClick={() => handleUpdateStatus("primary")}
-            >
-              Mover a Bandeja Primaria
-            </button>
-          )}
-          {activeTab !== "secondary" && (
-            <button
+          {currentUserStatus === "primary" ? (
+            <span
               className="settings-option"
               onClick={() => handleUpdateStatus("secondary")}
             >
-              Mover a Bandeja Secundaria
-            </button>
+              Mover a Secundaria
+            </span>
+          ) : (
+            <span
+              className="settings-option"
+              onClick={() => handleUpdateStatus("primary")}
+            >
+              Mover a Primaria
+            </span>
           )}
-          <button className="settings-option danger" onClick={handleBlockUser}>
-            Bloquear Usuario
-          </button>
 
-          <button className="settings-option danger" onClick={handleDeleteUser}>
+          <span className="settings-option danger" onClick={handleDeleteUser}>
             Eliminar Chat
-          </button>
+          </span>
         </div>
       </div>
     </div>

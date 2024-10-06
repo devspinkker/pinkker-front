@@ -12,6 +12,8 @@ export default function MessageChat({
   NotifyA,
   handleOpenChat,
   activeTab,
+  chat,
+  handleStatusChange,
 }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -40,7 +42,6 @@ export default function MessageChat({
 
       newSocket.onmessage = (event) => {
         const receivedMessage = JSON.parse(event.data);
-        console.log(receivedMessage);
         if (receivedMessage.action === "new_message") {
           setMessages((prevMessages) => [
             ...prevMessages,
@@ -90,7 +91,7 @@ export default function MessageChat({
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
-
+  const closeSettings = () => setShowSettings(false);
   async function handleSendMessage() {
     try {
       if (message.trim() !== "") {
@@ -195,17 +196,22 @@ export default function MessageChat({
               <button
                 onClick={(e) => {
                   e.stopPropagation();
+
                   setShowSettings((prev) => !prev);
                 }}
               >
-                {showSettings
-                  ? "Ocultar Configuración"
-                  : "Mostrar Configuración"}
+                {!showSettings && "Mostrar Configuración"}
               </button>
             </div>
           </div>
           {showSettings && (
-            <ChatSettings activeTab={activeTab} to={to} chatID={chatID} />
+            <ChatSettings
+              closeSettings={closeSettings}
+              chat={chat}
+              to={to}
+              chatID={chatID}
+              onStatusChange={handleStatusChange}
+            />
           )}
 
           <div
