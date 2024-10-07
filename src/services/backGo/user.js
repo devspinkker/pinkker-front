@@ -270,6 +270,20 @@ export async function GetStreamAndUserDataToken(nameUser, token) {
         return error
     }
 }
+export async function GetNotificacionesLastConnection(token) {
+    try {
+        const response = await axios.get(`${baseURL}/user/GetNotificacionesLastConnection`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
 export async function unfollow(token, userId) {
     try {
         const response = await axios.post(
