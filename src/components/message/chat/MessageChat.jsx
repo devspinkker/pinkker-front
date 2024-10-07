@@ -30,6 +30,8 @@ export default function MessageChat({
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
+    console.log(chat);
+
     const connectWebSocket = () => {
       const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCOMMERCIALWS;
       const newSocket = new WebSocket(

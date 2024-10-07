@@ -121,6 +121,7 @@ export default function Message({
     // setMessagesOpen(messagesOpen1);
     if (token && userID) {
       const response = await GetChatsByUserIDWithStatus(token, "primary");
+      console.log(response);
       if (response) {
         const updatedMessagesOpen = response.map((chat) => ({
           chatID: chat.ID,
@@ -134,6 +135,7 @@ export default function Message({
           Blocked: chat.Blocked,
           messages: [],
         }));
+
         if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
           setChatsecondary(updatedMessagesOpen);
           setMessagesOpen(updatedMessagesOpen);

@@ -76,6 +76,7 @@ import { MdManageSearch, MdOndemandVideo } from "react-icons/md";
 import { RiUserSearchLine } from "react-icons/ri";
 import imagenPixel from "./imagenPixel.png";
 import LayoutMessageNotis from "./LayoutMessageNotis";
+import { GetNotificacionesLastConnection } from "../../services/backGo/user";
 function NLayout(props) {
   const { streamer } = useParams();
   const [locationpath, setLocationPath] = useState();
@@ -140,6 +141,7 @@ function NLayout(props) {
             NotifyA: chat.NotifyA,
             StatusUser1: chat.StatusUser1,
             StatusUser2: chat.StatusUser2,
+            Blocked: chat.Blocked,
             messages: [],
           }));
           if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
@@ -173,9 +175,14 @@ function NLayout(props) {
   const anySeenNotifications = PinkerNotifications.some(
     (notification) => !notification.visto
   );
-
+  async function HandleGetNotificacionesLastConnection() {
+    const res = await GetNotificacionesLastConnection(token);
+    console.log(res);
+  }
   useEffect(() => {
     if (token) {
+      HandleGetNotificacionesLastConnection();
+
       const connectWebSocket = () => {
         const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCOMMERCIALWS;
         const newSocket = new WebSocket(
