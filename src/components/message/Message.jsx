@@ -9,6 +9,7 @@ import {
 } from "../../services/backGo/Chats";
 import PopUpSearch from "./PopUpSearch";
 import { TbEdit } from "react-icons/tb";
+import { Typography } from "@mui/material";
 
 export default function Message({
   socketMain,
@@ -264,7 +265,7 @@ export default function Message({
             primaryChats(); // Ejecuta la función correspondiente
           }}
         >
-          Primary
+          Principal
         </span>
         <span
           className={activeTab === "secondary" ? "active" : ""}
@@ -273,7 +274,7 @@ export default function Message({
             secondaryChats(); // Ejecuta la función correspondiente
           }}
         >
-          Secondary
+          General
         </span>
         <span
           className={activeTab === "request" ? "active" : ""}
@@ -282,7 +283,7 @@ export default function Message({
             requestChats(); // Ejecuta la función correspondiente
           }}
         >
-          Requests
+          Solicitudes
         </span>
 
         {/* Línea de navegación animada */}
