@@ -279,10 +279,10 @@ export async function GetNotificacionesLastConnection(token) {
         });
         const res = response.data.data
         const followInfo = res.FollowInfo?.map((follow) => ({
-            Avatar: follow.Avatar || 'defaultAvatarUrl', // Ajusta si no existe Avatar
-            Nameuser: follow.Email || 'Unknown', // Usa el campo Email si no hay Nameuser
+            Avatar: follow.Avatar || 'defaultAvatarUrl',
+            Nameuser: follow.Nameuser || 'Nameuser',
             Type: 'follow',
-            visto: false, // Set visto como false
+            visto: false,
         })) || [];
 
         const resDonation = res.ResDonation?.map((donation) => ({
@@ -291,15 +291,19 @@ export async function GetNotificacionesLastConnection(token) {
             Pixeles: donation.Pixeles,
             Text: donation.Text || '',
             Type: 'DonatePixels',
-            visto: false, // Set visto como false
+            visto: false,
         })) || [];
 
         console.log(res);
+        const ressubs = res.Subscription?.map((s) => ({
+            Avatar: s.FromUserInfo?.Avatar || 'defaultAvatarUrl',
+            Nameuser: s.FromUserInfo?.NameUser || 'Unknown',
+            Type: "Suscribirse",
+            visto: false,
+        })) || [];
 
-        // Combina los datos de FollowInfo y ResDonation
-        const notifications = [...followInfo, ...resDonation];
+        const notifications = [...followInfo, ...resDonation, ...ressubs];
 
-        // Retorna las notificaciones en el formato esperado
         return { notifications, message: response.data.message };
     } catch (error) {
         console.error('Error fetching notifications:', error);

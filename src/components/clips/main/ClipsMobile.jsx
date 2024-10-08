@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import { useParams } from "react-router-dom";
 
 import { Box, Typography, IconButton, Avatar, Grid } from "@mui/material";
@@ -39,7 +45,6 @@ const ClipsMobile = () => {
   useEffect(() => {
     const player = playerRef.current;
 
-
     return () => {
       console.log(player);
 
@@ -49,13 +54,12 @@ const ClipsMobile = () => {
         player.src = "";
         console.log("clean player");
       }
-
     };
   }, []);
 
   const handlePlay = () => {
     if (playing) {
-      console.log('playing', playing)
+      console.log("playing", playing);
       playerRef.current.pause();
     } else {
       playerRef.current.play();
@@ -263,8 +267,9 @@ const ClipsMobile = () => {
     return clipsToRender.map((clip) => (
       <div
         key={clip.id}
-        className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""} ${transitionDirection || ""
-          } ${isAnimating ? "animating" : ""}`}
+        className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""} ${
+          transitionDirection || ""
+        } ${isAnimating ? "animating" : ""}`}
         id={clip.id}
       >
         <Box className="tiktok-video-container">
@@ -285,7 +290,6 @@ const ClipsMobile = () => {
                 loop={true}
                 autoPlay={true}
                 muted={muted}
-
                 playsInline
                 src={clip.url}
                 onPlay={handleVideoPlay} // Llama al handler cuando el video comienza a reproducirse
@@ -308,7 +312,7 @@ const ClipsMobile = () => {
           </Box>
 
           {/* Usuario e información */}
-          < Box className="video-info" >
+          <Box className="video-info">
             <Box className="text-info">
               <Grid
                 style={{
@@ -327,10 +331,10 @@ const ClipsMobile = () => {
               </Grid>
               <Typography variant="h6">{clip.clipTitle}</Typography>
             </Box>
-          </Box >
+          </Box>
 
           {/* Iconos de interacción */}
-          < Box className="video-actions" >
+          <Box className="video-actions">
             <Avatar
               className="profile-pic"
               src={clip.Avatar}
@@ -349,9 +353,9 @@ const ClipsMobile = () => {
               <FaShare size={40} />
               <Typography variant="body2">Compartir</Typography>
             </IconButton>
-          </Box >
-        </Box >
-      </div >
+          </Box>
+        </Box>
+      </div>
     ));
   }, [clips, viewedClip, transitionDirection, isAnimating, videoPlaying]);
 
