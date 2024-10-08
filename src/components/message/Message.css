@@ -178,3 +178,9 @@
 .underline {
     left: 0;
 }
+
+@media screen and (max-width: 768px) {
+    .message-body{
+        width: 100% !important;
+    }
+}

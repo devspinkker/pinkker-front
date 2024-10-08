@@ -273,3 +273,16 @@
         box-shadow: 0 0 2px 2px #ff00eb;
     }
 }
+
+@media screen and (max-width: 768px) {
+    
+    .openNotificationopenMessage {
+        width: 100%;
+        border: 1px solid rgb(42, 46, 56);
+        background-color: #080808;
+        position: fixed;
+        z-index: 999;
+        top: 5%;
+        transition: left 0.5s ease
+    }
+}

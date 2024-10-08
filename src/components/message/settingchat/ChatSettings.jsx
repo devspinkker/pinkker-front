@@ -76,14 +76,14 @@ const ChatSettings = ({ chat, closeSettings, onStatusChange }) => {
               className="settings-option"
               onClick={() => handleUpdateStatus("secondary")}
             >
-              Mover a Secundaria
+              Mover a General
             </span>
           ) : (
             <span
               className="settings-option"
               onClick={() => handleUpdateStatus("primary")}
             >
-              Mover a Primaria
+              Mover a Principal
             </span>
           )}
 
