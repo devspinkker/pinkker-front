@@ -4,10 +4,12 @@ import React, { useEffect } from "react";
 import Notificaciones from "../Notificaciones/Notificaciones";
 import { Grid, Typography } from "@mui/material";
 import Message from "../message/Message";
+import { IoIosCloseCircle, IoMdClose } from "react-icons/io";
 const LayoutMessageNotis = ({
   messagesOpen,
   openMessage,
   PinkerNotifications,
+  setOpenMessage
 }) => {
   const token = window.localStorage.getItem("token");
 
@@ -27,6 +29,8 @@ const LayoutMessageNotis = ({
           padding: "1.70rem",
         }}
       >
+
+        <IoMdClose  onClick={() => setOpenMessage(false)} style={{color:'white', cursor:'pointer'}}/>
         <Typography
           style={{
             color: "white",
@@ -38,6 +42,7 @@ const LayoutMessageNotis = ({
         >
           {openMessage ? "Mensajes" : "Notificaciones"}
         </Typography>
+
       </Grid>
       <div
         style={{

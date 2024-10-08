@@ -2248,6 +2248,8 @@ function NLayout(props) {
         {(openNotification || openMessage) && !props.tyExpande && (
           <Grid className={"openNotificationopenMessage"}>
             <LayoutMessageNotis
+              setOpenMessage={setOpenMessage}
+
               openMessage={openMessage}
               messagesOpen={messagesOpen}
               PinkerNotifications={PinkerNotifications}
@@ -2893,6 +2895,7 @@ function NLayout(props) {
         {(openNotification || openMessage) && !props.tyExpande && (
           <Grid className={"openNotificationopenMessage"}>
             <LayoutMessageNotis
+              setOpenMessage={setOpenMessage}
               openMessage={openMessage}
               messagesOpen={messagesOpen}
               PinkerNotifications={PinkerNotifications}
