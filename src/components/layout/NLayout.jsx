@@ -177,6 +177,18 @@ function NLayout(props) {
   );
   async function HandleGetNotificacionesLastConnection() {
     const res = await GetNotificacionesLastConnection(token);
+    if (res?.notifications[0]) {
+      setPinkerNotifications((prevNotifications) => [
+        ...prevNotifications,
+        res.notifications[0],
+      ]);
+    }
+    if (res?.notifications[1]) {
+      setPinkerNotifications((prevNotifications) => [
+        ...prevNotifications,
+        res.notifications[1],
+      ]);
+    }
     console.log(res);
   }
   useEffect(() => {
@@ -2368,17 +2380,15 @@ function NLayout(props) {
                       }}
                     >
                       <img
-                          style={{
-                            width: props.isMobile ? "25px" : "17px",
-                          }}
-                          src={imagenPixel}
-                          alt=""
-                        />{" "}
-                        <span style={{ fontSize: "14px" }}>
-                          {props.user?.Pixeles != 0
-                            ? formattedPixeles
-                            : "0.00"}
-                        </span>
+                        style={{
+                          width: props.isMobile ? "25px" : "17px",
+                        }}
+                        src={imagenPixel}
+                        alt=""
+                      />{" "}
+                      <span style={{ fontSize: "14px" }}>
+                        {props.user?.Pixeles != 0 ? formattedPixeles : "0.00"}
+                      </span>
                     </Grid>
 
                     {expandCartera ? <IoIosArrowUp /> : <IoIosArrowDown />}

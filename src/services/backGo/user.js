@@ -277,13 +277,36 @@ export async function GetNotificacionesLastConnection(token) {
                 Authorization: `Bearer ${token}`,
             },
         });
+        const res = response.data.data
+        const followInfo = res.FollowInfo?.map((follow) => ({
+            Avatar: follow.Avatar || 'defaultAvatarUrl', // Ajusta si no existe Avatar
+            Nameuser: follow.Email || 'Unknown', // Usa el campo Email si no hay Nameuser
+            Type: 'follow',
+            visto: false, // Set visto como false
+        })) || [];
 
+        const resDonation = res.ResDonation?.map((donation) => ({
+            Avatar: donation.FromUserInfo?.Avatar || 'defaultAvatarUrl',
+            Nameuser: donation.FromUserInfo?.NameUser || 'Unknown',
+            Pixeles: donation.Pixeles,
+            Text: donation.Text || '',
+            Type: 'DonatePixels',
+            visto: false, // Set visto como false
+        })) || [];
 
-        return response.data;
+        console.log(res);
+
+        // Combina los datos de FollowInfo y ResDonation
+        const notifications = [...followInfo, ...resDonation];
+
+        // Retorna las notificaciones en el formato esperado
+        return { notifications, message: response.data.message };
     } catch (error) {
-        return error
+        console.error('Error fetching notifications:', error);
+        return { notifications: [], message: 'Error' };
     }
 }
+
 export async function unfollow(token, userId) {
     try {
         const response = await axios.post(
