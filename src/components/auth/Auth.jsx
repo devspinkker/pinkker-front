@@ -233,7 +233,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
       setErrorUsername("*Selecciona un nombre de usuario");
       return;
     }
-    if (e.length <= 5) {
+    if (e.length < 5) {
       setErrorUsername(
         "*Los nombres de usuario deben tener entre 5 y 15 caracteres."
       );
