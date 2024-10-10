@@ -327,6 +327,8 @@ export function ChatStreaming({
         try {
           const receivedMessage = JSON.parse(event.data);
           newSocket.send("onmessage");
+          console.log(receivedMessage);
+
           if (stopIteration) {
             setMessageold((prevMessages) => [...prevMessages, receivedMessage]);
             scrollToBottom();
@@ -1414,6 +1416,10 @@ export function ChatStreaming({
                 {MsjChatAnclado.Identidad && (
                   <img src={MsjChatAnclado.Identidad} alt="" />
                 )}
+                {MsjChatAnclado.EmotesChat?.PinkkerPrime && (
+                  <img src={MsjChatAnclado.EmotesChat?.PinkkerPrime} alt="" />
+                )}
+
                 {MsjChatAnclado.EmotesChat?.Moderator && (
                   <img src={MsjChatAnclado.EmotesChat?.Moderator} alt="" />
                 )}
@@ -1442,7 +1448,13 @@ export function ChatStreaming({
                       className="content-info-message-2-nameUser"
                       style={{ color: MsjChatAnclado.Color }}
                     >
-                      <span className="content-info-message-2-nameUser-span">
+                      <span
+                        className={`content-info-message-2-nameUser-span ${
+                          ResMessageschatState?.PinkkerPrime
+                            ? "PinkkerPrime"
+                            : ""
+                        }`}
+                      >
                         {MsjChatAnclado.nameUser}:{" "}
                       </span>
                       <span style={{ color: "#ffff" }}>
@@ -1731,9 +1743,14 @@ export function ChatStreaming({
             <div className="ChatStreaming-message-main">
               <div className="badges">
                 {message.Identidad && <img src={message.Identidad} alt="" />}
+                {message.EmotesChat?.PinkkerPrime && (
+                  <img src={message.EmotesChat?.PinkkerPrime} alt="" />
+                )}
+
                 {message.EmotesChat.Moderator && (
                   <img src={message.EmotesChat.Moderator} alt="" />
                 )}
+
                 {message.EmotesChat.Verified && (
                   <img src={message.EmotesChat.Verified} alt="" />
                 )}
@@ -1762,7 +1779,11 @@ export function ChatStreaming({
                         fontSize: changeTextSizeState,
                       }}
                     >
-                      <span className="content-info-message-2-nameUser-span">
+                      <span
+                        className={`content-info-message-2-nameUser-span ${
+                          message.PinkkerPrime ? "PinkkerPrime" : ""
+                        }`}
+                      >
                         {message.nameUser}:{" "}
                       </span>
                       <span style={{ color: "#ffff" }}>
@@ -1892,6 +1913,11 @@ export function ChatStreaming({
               <div className="ChatStreaming-message-main">
                 <div className="badges">
                   {message.Identidad && <img src={message.Identidad} alt="" />}
+
+                  {message.EmotesChat?.PinkkerPrime && (
+                    <img src={message.EmotesChat?.PinkkerPrime} alt="" />
+                  )}
+
                   {message.EmotesChat.Moderator && (
                     <img src={message.EmotesChat.Moderator} alt="" />
                   )}
@@ -1923,7 +1949,11 @@ export function ChatStreaming({
                           fontSize: changeTextSizeState,
                         }}
                       >
-                        <span className="content-info-message-2-nameUser-span">
+                        <span
+                          className={`content-info-message-2-nameUser-span ${
+                            message.PinkkerPrime ? "PinkkerPrime" : ""
+                          }`}
+                        >
                           {message.nameUser}:{" "}
                         </span>
                         <span
@@ -2011,6 +2041,13 @@ export function ChatStreaming({
               }}
             >
               <div className="badges">
+                {ResMessageschatState.EmotesChat?.PinkkerPrime && (
+                  <img
+                    src={ResMessageschatState.EmotesChat?.PinkkerPrime}
+                    alt=""
+                  />
+                )}
+
                 {ResMessageschatState.EmotesChat.Moderator && (
                   <img src={ResMessageschatState.EmotesChat.Moderator} alt="" />
                 )}
@@ -2041,7 +2078,13 @@ export function ChatStreaming({
                         color: ResMessageschatState.Color,
                       }}
                     >
-                      <span className="content-info-message-2-nameUser-span">
+                      <span
+                        className={`content-info-message-2-nameUser-span ${
+                          ResMessageschatState?.PinkkerPrime
+                            ? "PinkkerPrime"
+                            : ""
+                        }`}
+                      >
                         {ResMessageschatState.nameUser}:{" "}
                       </span>
                       <span style={{ color: "#ffff" }}>

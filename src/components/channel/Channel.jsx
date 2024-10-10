@@ -342,8 +342,9 @@ export default function Channel({
           } else {
             setFollowParam(false);
           }
+          console.log(InfoStreamData?.UserInfo);
 
-          setGetInfoUserInRoom(InfoStreamData.UserInfo);
+          setGetInfoUserInRoom(InfoStreamData?.UserInfo);
         }
       } else {
         const dataStreamer = await getUserByNameUser(streamer);

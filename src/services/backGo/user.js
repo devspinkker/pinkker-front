@@ -118,6 +118,22 @@ export async function ChangeNameUser(NameUserNew, token, totp_code) {
         return error
     }
 }
+export async function PurchasePinkkerPrime(token) {
+    try {
+        const response = await axios.get(
+            `${baseURL}/user/PurchasePinkkerPrime`,
+
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
 export async function PanelAdminPinkkerRemoveBanStreamer(Code, IdUser, token) {
     try {
         const response = await axios.post(

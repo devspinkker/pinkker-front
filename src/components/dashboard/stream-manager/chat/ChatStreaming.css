@@ -19,6 +19,12 @@
     display: flex;
 }
 
+.PinkkerPrime {
+    background: url(https://res.cloudinary.com/pinkker/image/upload/v1677784906/naming/colaborador_qwwmv6.gif) -10px no-repeat;
+    text-shadow: 0px 0px 8px;
+    font-weight: 600;
+}
+
 .Message {
     width: 100%;
     word-wrap: break-word;
