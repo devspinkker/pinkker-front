@@ -322,7 +322,7 @@ export default function TweetCard({ tweet, isMobile }) {
               </Link>
             ) : (
               <Link
-                to={"/" + tweet.UserInfo.NameUser}
+                to={"/" + tweet?.UserInfo?.NameUser}
                 className="hoverLink"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -342,8 +342,8 @@ export default function TweetCard({ tweet, isMobile }) {
                     position: "relative",
                     left: "-10px",
                   }}
-                  src={tweet.UserInfo.Avatar}
-                  alt={`${tweet.UserInfo.NameUser} avatar`}
+                  src={tweet?.UserInfo.Avatar}
+                  alt={`${tweet?.UserInfo.NameUser} avatar`}
                 />
               </Link>
             )}

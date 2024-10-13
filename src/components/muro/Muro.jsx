@@ -38,7 +38,7 @@ import {
   Typography,
 } from "@mui/material";
 import Tendency from "./TendencyLayout";
-import comunidadImg from './imagencomunidad.jpg'
+import Communities from "./communities/Communities";
 export default function Muro({ isMobile, userName }) {
   const alert = useNotification();
   const [tweets, setTweets] = useState(null);
@@ -96,7 +96,7 @@ export default function Muro({ isMobile, userName }) {
           if (
             referenceTweet &&
             new Date(uniqueNewTweets[0]?.TimeStamp) >
-            new Date(referenceTweet.TimeStamp)
+              new Date(referenceTweet.TimeStamp)
           ) {
             let allTweets = [...currentTweets, ...uniqueNewTweets];
             allTweets.sort(
@@ -220,7 +220,7 @@ export default function Muro({ isMobile, userName }) {
             alert({ type: "SUCCESS" });
           }
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   }
 
@@ -281,8 +281,8 @@ export default function Muro({ isMobile, userName }) {
       }
     }
   }
-  const [valorTab, setValorTab] = useState('parati')
-  console.log('valorTab', valorTab)
+  const [valorTab, setValorTab] = useState("parati");
+  console.log("valorTab", valorTab);
   function renderMuro() {
     if (true) {
       return (
@@ -296,39 +296,59 @@ export default function Muro({ isMobile, userName }) {
               justifyContent: "flex-end",
             }}
           >
-            <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: "100%" }}>
               <Tabs value={valorTab} aria-label="basic tabs example">
-                <Tab label="Para Ti" style={{ width:'50%',color: 'white', padding: '0 !important', borderBottom: valorTab === 'parati' && '1px solid #f06fc0', fontSize:isMobile ? '22px' : '18px' }} onClick={() => setValorTab('parati')} />
-                <Tab label="Grupos" style={{  width:'50%',color: 'white', padding: '0 !important', borderBottom: valorTab === 'grupos' && '1px solid #f06fc0', fontSize: isMobile ? '22px' : '18px' }} onClick={() => setValorTab('grupos')} />
+                <Tab
+                  label="Para Ti"
+                  style={{
+                    width: "50%",
+                    color: "white",
+                    padding: "0 !important",
+                    borderBottom: valorTab === "parati" && "1px solid #f06fc0",
+                    fontSize: isMobile ? "22px" : "18px",
+                  }}
+                  onClick={() => setValorTab("parati")}
+                />
+                <Tab
+                  label="Grupos"
+                  style={{
+                    width: "50%",
+                    color: "white",
+                    padding: "0 !important",
+                    borderBottom: valorTab === "grupos" && "1px solid #f06fc0",
+                    fontSize: isMobile ? "22px" : "18px",
+                  }}
+                  onClick={() => setValorTab("grupos")}
+                />
               </Tabs>
-
             </Box>
             {userName?.NameUser ? (
               <></>
-
             ) : (
               <Grid style={{ color: "white", width: "67%", margin: "0 auto" }}>
                 <h3 style={{ color: "white" }}>Muro de Pinkker</h3>
               </Grid>
             )}
 
-            {isMobile && token?.length &&  !location.pathname.includes('/post') &&(
-              <IconButton
-                style={{
-                  color: "#fff",
-                  position: "fixed",
-                  bottom: "10%",
-                  right: "3%",
-                  backgroundColor: "#ff69c4",
-                  zIndex: 99999999,
-                }}
-                aria-label="fingerprint"
-                color="secondary"
-                onClick={toggleDrawer(true)}
-              >
-                <AddCircleOutlineIcon style={{ fontSize: "4.5rem" }} />
-              </IconButton>
-            )}
+            {isMobile &&
+              token?.length &&
+              !location.pathname.includes("/post") && (
+                <IconButton
+                  style={{
+                    color: "#fff",
+                    position: "fixed",
+                    bottom: "10%",
+                    right: "3%",
+                    backgroundColor: "#ff69c4",
+                    zIndex: 99999999,
+                  }}
+                  aria-label="fingerprint"
+                  color="secondary"
+                  onClick={toggleDrawer(true)}
+                >
+                  <AddCircleOutlineIcon style={{ fontSize: "4.5rem" }} />
+                </IconButton>
+              )}
             {isMobile && token?.length && (
               <Drawer
                 anchor="bottom"
@@ -416,17 +436,17 @@ export default function Muro({ isMobile, userName }) {
                         }}
                         sx={{
                           "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                            {
+                              borderColor: "white",
+                            },
                           "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                            {
+                              borderColor: "white",
+                            },
                           "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                            {
+                              borderColor: "white",
+                            },
                           "& .MuiInputBase-input": {
                             color: "white",
                           },
@@ -438,7 +458,7 @@ export default function Muro({ isMobile, userName }) {
                             opacity: 1,
                           },
                         }}
-                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                        // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                       />
                       <Typography
                         variant="subtitle1"
@@ -456,39 +476,39 @@ export default function Muro({ isMobile, userName }) {
               </Drawer>
             )}
 
-            {
-              valorTab === 'parati' && (
-                <>
-
-                  {userName?.NameUser && !isMobile && (
+            {valorTab === "parati" && (
+              <>
+                {userName?.NameUser && !isMobile && (
+                  <div
+                    onDragEnterCapture={() => setOnDrag(true)}
+                    className="muro-send-tweet"
+                  >
                     <div
-                      onDragEnterCapture={() => setOnDrag(true)}
-                      className="muro-send-tweet"
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        justifyContent: "center",
+                        padding: "10px 0px ",
+                        width: "90%",
+                        margin: "0 auto",
+                        gap: "15px",
+                      }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          justifyContent: "center",
-                          padding: "10px 0px ",
-                          width: "90%",
-                          margin: "0 auto",
-                          gap: "15px",
-                        }}
-                      >
-                        <div className="tweetcard-avatar">
-                          <img
-                            style={{
-                              width: "50px",
-                              height: "50px",
-                              objectFit: "cover",
-                              borderRadius: "100%",
-                            }}
-                            src={AvatarSearch ? AvatarSearch : "/images/search.svg"}
-                          />
-                        </div>
+                      <div className="tweetcard-avatar">
+                        <img
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                            objectFit: "cover",
+                            borderRadius: "100%",
+                          }}
+                          src={
+                            AvatarSearch ? AvatarSearch : "/images/search.svg"
+                          }
+                        />
+                      </div>
 
-                        {/* <img
+                      {/* <img
                       src={"/images/search.svg"}
                       style={{
                         fontSize: "16px",
@@ -496,291 +516,270 @@ export default function Muro({ isMobile, userName }) {
                         margin: "8px",
                       }}
                     /> */}
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            width: "100%",
-                          }}
-                        >
-                          <TextField
-                            label="¿Qué está pasando?"
-                            variant="outlined"
-                            fullWidth
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            multiline
-                            rows={1}
-                            InputProps={{
-                              style: {
-                                color: "white",
-                                borderColor: "white",
-                              },
-                              classes: {
-                                notchedOutline: {
-                                  borderColor: "white",
-                                },
-                              },
-                            }}
-                            InputLabelProps={{
-                              style: { color: "white" },
-                            }}
-                            sx={{
-                              "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
-                              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
-                              "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
-                              "& .MuiInputBase-input": {
-                                color: "white",
-                              },
-                              "& .MuiInputLabel-outlined": {
-                                color: "white",
-                              },
-                              "& .MuiInputBase-input::placeholder": {
-                                color: "white",
-                                opacity: 1,
-                              },
-                            }}
-                          // sx={{ flex: 1, marginBottom: 2, color:'white' }}
-                          />
-                          <Typography
-                            variant="subtitle1"
-                            style={{
-                              marginTop: "10px",
-                              color: message?.length > 100 ? "red" : "white",
-                              textAlign: "right",
-                            }}
-                          >
-                            {message.length}/100
-                          </Typography>
-                        </div>
-                      </div>
-
-                      {file != null && (
-                        <div
-                          style={{
-                            textAlign: "center",
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <i
-                            onClick={() => clearImages()}
-                            style={{
-                              color: "white",
-                              cursor: "pointer",
-                              height: "20px",
-                              width: "20px",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              borderRadius: "50px",
-                              position: "relative",
-                              left: "35px",
-                              top: "10px",
-                              padding: "5px",
-                              backgroundColor: "#303030",
-                            }}
-                            class="fas fa-times"
-                          />
-                          <img style={{ maxWidth: "320px" }} src={image} />
-                        </div>
-                      )}
-
-                      {onDrag && file === null && (
-                        <FileUploader
-                          hoverTitle="Soltar aca"
-                          label="Subir archivo a tu publicación"
-                          multiple={false}
-                          classes="muro-drag-input"
-                          handleChange={handleChange}
-                          name="file"
-                          types={fileTypes}
-                        />
-                      )}
-
                       <div
                         style={{
                           display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          width: "90%",
-                          margin: "0 auto",
-                          padding: "15px 0px",
-                          borderTop: "1px solid #2a2e38",
+                          flexDirection: "column",
+                          width: "100%",
                         }}
                       >
-                        <div
+                        <TextField
+                          label="¿Qué está pasando?"
+                          variant="outlined"
+                          fullWidth
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                          multiline
+                          rows={1}
+                          InputProps={{
+                            style: {
+                              color: "white",
+                              borderColor: "white",
+                            },
+                            classes: {
+                              notchedOutline: {
+                                borderColor: "white",
+                              },
+                            },
+                          }}
+                          InputLabelProps={{
+                            style: { color: "white" },
+                          }}
+                          sx={{
+                            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                              {
+                                borderColor: "white",
+                              },
+                            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                              {
+                                borderColor: "white",
+                              },
+                            "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                              {
+                                borderColor: "white",
+                              },
+                            "& .MuiInputBase-input": {
+                              color: "white",
+                            },
+                            "& .MuiInputLabel-outlined": {
+                              color: "white",
+                            },
+                            "& .MuiInputBase-input::placeholder": {
+                              color: "white",
+                              opacity: 1,
+                            },
+                          }}
+                          // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                        />
+                        <Typography
+                          variant="subtitle1"
                           style={{
-                            display: "flex",
-                            width: "80%",
-                            justifyContent: "space-between",
+                            marginTop: "10px",
+                            color: message?.length > 100 ? "red" : "white",
+                            textAlign: "right",
                           }}
                         >
-                          <Grid
-                            style={{
-                              display: "flex",
-                              width: "80%",
-                              justifyContent: "flex-start",
-                            }}
-                          >
-                            <div
-                              className="mure-send-tweet-icons-card"
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                borderRadius: "5px",
-                                padding: "0px",
-                              }}
-                            >
-                              <i
-                                style={{
-                                  padding: "5px",
-                                  color: "#ff4aa7d2",
-                                }}
-                                class="fas fa-photo-video"
-                              />
-                              <input
-                                onChange={(e) => handleChange2(e)}
-                                style={{
-                                  backgroundColor: "red",
-                                  width: "30px",
-                                  position: "absolute",
-                                  opacity: "0",
-                                }}
-                                type="file"
-                              />
-                            </div>
-
-                            <div
-                              onClick={() => onMouseEnterEmotes()}
-                              className="mure-send-tweet-icons-card"
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}
-                            >
-                              <i
-                                style={{
-                                  padding: "5px",
-                                  color: "#ff4aa7d2",
-                                  marginRight: "5px",
-                                }}
-                                class="far fa-smile"
-                              />
-                              {dropdownEmotes && (
-                                <div
-                                  style={{
-                                    position: "absolute",
-                                    zIndex: "1001",
-                                    marginTop: "60px",
-                                  }}
-                                >
-                                  <EmojiPicker
-                                    onEmojiClick={(e) => console.log("clickEmoji(e)")}
-                                    autoFocusSearch={false}
-                                    theme={Theme.DARK}
-                                    searchDisabled
-                                    height={"300px"}
-                                    width="300px"
-                                    lazyLoadEmojis={true}
-                                    previewConfig={{
-                                      showPreview: false,
-                                    }}
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          </Grid>
-
-                          <Grid
-                            style={{
-                              backgroundColor: "#2a2e38",
-                              borderRadius: "5px",
-                              width: "25%",
-                            }}
-                          >
-                            <select
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                backgroundColor: "#2a2e38",
-                                borderRadius: "5px",
-                                color: "white",
-                              }}
-                              name="cars"
-                              id="cars"
-                            >
-                              <option value="Publico"> Público</option>
-                              <option value="Privado"> Privado</option>
-                            </select>
-                          </Grid>
-                        </div>
-                        <button
-                          onClick={() => handleSubmit()}
-                          className="muro-send-tweet-button"
-                        >
-                          Postear
-                        </button>
+                          {message.length}/100
+                        </Typography>
                       </div>
                     </div>
-                  )}
 
-                  <div className="muro-tweet-container">
-                    {tweets != null &&
-                      tweets.map((tweet) => (
-                        <TweetCard tweet={tweet} isMobile={isMobile} />
-                      ))}
-                    {!tweets && (
+                    {file != null && (
                       <div
                         style={{
-                          minHeight: "150px",
+                          textAlign: "center",
                           display: "flex",
-                          alignItems: "center",
                           justifyContent: "center",
                         }}
                       >
-                        <ScaleLoader width={4} height={20} color="#f36197d7" />
+                        <i
+                          onClick={() => clearImages()}
+                          style={{
+                            color: "white",
+                            cursor: "pointer",
+                            height: "20px",
+                            width: "20px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50px",
+                            position: "relative",
+                            left: "35px",
+                            top: "10px",
+                            padding: "5px",
+                            backgroundColor: "#303030",
+                          }}
+                          class="fas fa-times"
+                        />
+                        <img style={{ maxWidth: "320px" }} src={image} />
                       </div>
                     )}
-                  </div>
-                </>
-              )
-            }
 
-            {
-              valorTab === 'grupos' && (
-                <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', flexWrap: !isMobile && 'wrap', padding: 10, alignItems: 'center', width: '100%', gap: '15px' }}>
-                  {Array.from({ length: 8 }).map((_, index) => (
-                    <Grid
-                      key={index}
+                    {onDrag && file === null && (
+                      <FileUploader
+                        hoverTitle="Soltar aca"
+                        label="Subir archivo a tu publicación"
+                        multiple={false}
+                        classes="muro-drag-input"
+                        handleChange={handleChange}
+                        name="file"
+                        types={fileTypes}
+                      />
+                    )}
+
+                    <div
                       style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        borderRadius: '5px',
-                        width: isMobile ? '100%' : '20%',
-                        margin: isMobile ? '10px 0' : '10px'
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        width: "90%",
+                        margin: "0 auto",
+                        padding: "15px 0px",
+                        borderTop: "1px solid #2a2e38",
                       }}
                     >
-                      <img src={comunidadImg} style={{ width: '100%' }} alt={`Comunidad ${index + 1}`} />
-                      <Typography style={{ color: 'white', fontSize: isMobile ? '2rem' : '1rem' }}>
-                        Comunidad de Pinkker
-                      </Typography>
-                    </Grid>
-                  ))}
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "80%",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Grid
+                          style={{
+                            display: "flex",
+                            width: "80%",
+                            justifyContent: "flex-start",
+                          }}
+                        >
+                          <div
+                            className="mure-send-tweet-icons-card"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: "5px",
+                              padding: "0px",
+                            }}
+                          >
+                            <i
+                              style={{
+                                padding: "5px",
+                                color: "#ff4aa7d2",
+                              }}
+                              class="fas fa-photo-video"
+                            />
+                            <input
+                              onChange={(e) => handleChange2(e)}
+                              style={{
+                                backgroundColor: "red",
+                                width: "30px",
+                                position: "absolute",
+                                opacity: "0",
+                              }}
+                              type="file"
+                            />
+                          </div>
+
+                          <div
+                            onClick={() => onMouseEnterEmotes()}
+                            className="mure-send-tweet-icons-card"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <i
+                              style={{
+                                padding: "5px",
+                                color: "#ff4aa7d2",
+                                marginRight: "5px",
+                              }}
+                              class="far fa-smile"
+                            />
+                            {dropdownEmotes && (
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  zIndex: "1001",
+                                  marginTop: "60px",
+                                }}
+                              >
+                                <EmojiPicker
+                                  onEmojiClick={(e) =>
+                                    console.log("clickEmoji(e)")
+                                  }
+                                  autoFocusSearch={false}
+                                  theme={Theme.DARK}
+                                  searchDisabled
+                                  height={"300px"}
+                                  width="300px"
+                                  lazyLoadEmojis={true}
+                                  previewConfig={{
+                                    showPreview: false,
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </Grid>
+
+                        <Grid
+                          style={{
+                            backgroundColor: "#2a2e38",
+                            borderRadius: "5px",
+                            width: "25%",
+                          }}
+                        >
+                          <select
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              backgroundColor: "#2a2e38",
+                              borderRadius: "5px",
+                              color: "white",
+                            }}
+                            name="cars"
+                            id="cars"
+                          >
+                            <option value="Publico"> Público</option>
+                            <option value="Privado"> Privado</option>
+                          </select>
+                        </Grid>
+                      </div>
+                      <button
+                        onClick={() => handleSubmit()}
+                        className="muro-send-tweet-button"
+                      >
+                        Postear
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                <div className="muro-tweet-container">
+                  {tweets != null &&
+                    tweets.map((tweet) => (
+                      <TweetCard tweet={tweet} isMobile={isMobile} />
+                    ))}
+                  {!tweets && (
+                    <div
+                      style={{
+                        minHeight: "150px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <ScaleLoader width={4} height={20} color="#f36197d7" />
+                    </div>
+                  )}
                 </div>
-              )
-            }
+              </>
+            )}
+
+            {valorTab === "grupos" && <Communities isMobile={isMobile} />}
           </div>
 
           {!isMobile && <Tendency />}
@@ -797,7 +796,6 @@ export default function Muro({ isMobile, userName }) {
       style={{
         padding: isMobile && "1rem 0px",
         width: isMobile && "97.5%",
-
       }}
     >
       {showScrollButton && (

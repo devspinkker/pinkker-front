@@ -68,6 +68,7 @@ import Contenido from "../components/dashboard/contenido/Contenido";
 import Comentarios from "../components/dashboard/comentarios/Comentarios";
 import FloatingPlayer from "../components/FlotingPlayer/FloatingPlayer";
 import Ajustes from "../components/dashboard/ajustes/Ajustes";
+import CommunitiesMuro from "../components/muro/communities/Posts/CommunitiesMuro";
 
 const AppRouter = () => {
   const { user } = useContext(AuthContext);
@@ -288,10 +289,8 @@ const AppRouter = () => {
           <Comentarios user={user} tyExpanded={expanded} isMobile={isMobile} />
         </Route>
         <Route exact path="/:streamer/dashboard/ajustes">
-          
           <Ajustes user={user} tyExpanded={expanded} isMobile={isMobile} />
         </Route>
-
 
         <Route exact path="/:streamer/dashboard/community">
           <NavbarLeft
@@ -381,6 +380,10 @@ const AppRouter = () => {
 
             <Route exact path="/plataform/muro">
               <Muro isMobile={isMobile} userName={user} />
+            </Route>
+
+            <Route exact path="/plataform/Communities/:id">
+              <CommunitiesMuro isMobile={isMobile} userName={user} />
             </Route>
             <Route exact path="/post/:User/:IdPost">
               <div

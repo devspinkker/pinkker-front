@@ -6,7 +6,7 @@ export const setToken = (newObject) => {
   token = newObject;
 };
 
-export const PostCreate = async (formData) => {
+export const PostCreate = async (formData, token) => {
   try {
     const config = {
       headers: {
