@@ -339,11 +339,11 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     alert({ type: "SUCCESS", message: "Copiado correctamente!" });
   };
   const [expanded, setExpanded] = useState(true);
-
+  console.log('streamerData', streamerData)
   return (
     <DashboarLayout user={user} isMobile={isMobile}>
       {/* Contenido */}
-      <div>
+      <div style={{ height: '100%' }}>
         <div className="content" style={{ gap: '1%' }}>
           {/* Parte 2 */}
           <div className="part-two">
@@ -489,11 +489,12 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                         display: "flex",
                         gap: "10px",
                         marginTop: "10px",
+                        alignItems: "center",
                       }}
                     >
                       <Grid style={{ width: "10%" }}>
                         <img
-                          src={"/images/pixel.png"}
+                          src={streamerData?.ImageCategorie}
                           style={{ width: "100%" }}
                         />
                       </Grid>
@@ -522,69 +523,10 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                   </div>
                 )}
               </div>
+
               <div style={{ display: 'flex', alignItems: 'top', padding: 3, gap: '10px' }}>
-                <div className="base-card-act" style={{ backgroundColor: '#131418', width: '50%' }}>
 
-                  <div className="Feeddeactividades_container">
-
-                    <div title="Feed de actividades" className="Feeddeactividades">
-                      <span className="max-w-full shrink truncate text-base font-bold text-white" style={{ display: 'flex', alignItems: 'center', gap: '5%' }}>
-                        <AiFillThunderbolt style={{ fontSize: '2rem' }} />
-
-                        Feed de actividades
-                      </span>
-                    </div>
-
-                    <div className="FeedAct">
-                      <div className="mapFeedAct">
-                        {ActivityFeed.map((item, index) => (
-                          <div key={index} className="activity-feed-item">
-                            {/* {item?.action === "follow" && ( */}
-                            <div
-                              className="base-icon icon"
-                              style={{ width: "20px", height: "20px" }}
-                            >
-                              <GoHeartFill style={{ color: "#ff69c4" }} />
-                            </div>
-                            {/* )} */}
-                            <div className="activity-feed-item__info">
-                              <span className="activity-feed-item__info_name">
-                                {item?.data}
-                              </span>
-                              <span>
-                                {item?.action === "follow" && (
-                                  <span className="activity-feed-item__info_action">
-                                    {" "}
-                                    Te comenzó a seguir
-                                  </span>
-                                )}
-                                {item?.action === "DonatePixels" && (
-                                  <span className="activity-feed-item__info_action">
-                                    {" "}
-                                    Dono {item?.Pixeles} Pixeles
-                                  </span>
-                                )}
-                                {item?.action === "Suscribirse" && (
-                                  <span className="activity-feed-item__info_action">
-                                    {" "}
-                                    Se suscribió
-                                  </span>
-                                )}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-
-                      </div>
-                    </div>
-
-                  </div>
-
-                </div>
-
-
-
-                <div style={{ backgroundColor: '#131418', width: '50%' }}>
+                <div style={{ backgroundColor: '#131418', width: '100%' }}>
                   <div className="right-panel flex flex-col bg-[#171C1E] grow">
                     <div
                       className="right-panel__header flex flex-row items-center justify-between gap-2 px-6"
@@ -608,68 +550,156 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                           gap: "15px",
                         }}
                       >
-                        <SlUserFollow
-                          style={{
-                            color: "white",
-                            fontSize: "35px",
-                            borderRadius: "5px",
-                            backgroundColor: ChatOnliFollowers
-                              ? "#fe68c3"
-                              : "#171C1E",
-                            width: "30%",
-                            padding: "10px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => toggleChatOnliFollowers()}
-                        />
-                        <FaGratipay
-                          style={{
-                            color: "white",
-                            fontSize: "35px",
-                            borderRadius: "5px",
-                            backgroundColor: ChatOnliSubs ? "#fe68c3" : "#171C1E",
-                            width: "30%",
-                            padding: "10px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => toggleChatOnliSubs()}
-                        />
-                        <MdSlowMotionVideo
-                          style={{
-                            color: "white",
-                            fontSize: "35px",
-                            borderRadius: "5px",
-                            backgroundColor: "#171C1E",
-                            width: "30%",
-                            padding: "10px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            togglemenuModChatSlowMode();
-                          }}
-                        />
-                        <Typography
-                          style={{
-                            color: "white",
-                            fontSize: "25px",
-                            borderRadius: "5px",
-                            backgroundColor: "#171C1E",
-                            width: "30%",
-                            padding: "10px",
-                            cursor: "pointer",
-                            textAlign: "center",
-                            fontWeight: 600,
-                          }}
-                          onClick={() => {
-                            CommercialInStreamFunc();
-                          }}
-                        >
-                          ADS
-                        </Typography>
+                        <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
+
+                          <SlUserFollow
+                            style={{
+                              color: "white",
+                              fontSize: "35px",
+                              borderRadius: "5px",
+                              backgroundColor: ChatOnliFollowers
+                                ? "#fe68c3"
+                                : "#171C1E",
+                              width: "85%",
+                              padding: "10px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => toggleChatOnliFollowers()}
+                          />
+                          <Typography style={{ color: 'white', textAlign: 'center', fontSize: '12px' }}>Chat solo seguidores</Typography>
+                        </Grid>
+                        <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
+
+                          <FaGratipay
+                            style={{
+                              color: "white",
+                              fontSize: "35px",
+                              borderRadius: "5px",
+                              backgroundColor: ChatOnliSubs ? "#fe68c3" : "#171C1E",
+                              width: "85%",
+                              padding: "10px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => toggleChatOnliSubs()}
+                          />
+                          <Typography style={{ color: 'white', textAlign: 'center', fontSize: '12px' }}>Chat solo suscriptores</Typography>
+
+                        </Grid>
+                        <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
+
+                          <MdSlowMotionVideo
+                            style={{
+                              color: "white",
+                              fontSize: "35px",
+                              borderRadius: "5px",
+                              backgroundColor: "#171C1E",
+                              width: "85%",
+                              padding: "10px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              togglemenuModChatSlowMode();
+                            }}
+                          />
+                          <Typography style={{ color: 'white', textAlign: 'center', fontSize: '12px' }}>Chat modo lento</Typography>
+
+                        </Grid>
+                        <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
+
+                          <Typography
+                            style={{
+                              color: "white",
+                              fontSize: "25px",
+                              borderRadius: "5px",
+                              backgroundColor: "#171C1E",
+                              width: "85%",
+                              padding: "10px",
+                              cursor: "pointer",
+                              textAlign: "center",
+                              fontWeight: 600,
+                            }}
+                            onClick={() => {
+                              CommercialInStreamFunc();
+                            }}
+                          >
+                            ADS
+                          </Typography>
+                          <Typography style={{ color: 'white', textAlign: 'center', fontSize: '12px' }}>Anuncio</Typography>
+
+                        </Grid>
                       </Grid>
                     </div>
+                    <div
+                      className="Información-sesión"
+                      style={{
+                        display: showComandosList && "none",
+                      }}
+                    >
+                      <section className="base-card !p-0">
+                        <div className="Información-sesión-p1">
+                          <div
+                            title="Información de sesión"
+                            className="flex flex-row items-center gap-1"
+                          >
+                            <CiStreamOn
+                              style={{ color: "white", fontSize: "30px" }}
+                            />
+
+                            <span
+                              style={{
+                                padding: "0px 10px",
+                              }}
+                              className="shrinkS2"
+                            >
+                              Servidor y clave de stream
+                            </span>
+                          </div>
+                          <Grid style={{display:'flex', alignItems:'center'}}>
+                            <Grid style={{display:'flex', flexDirection:'column', width:'80%'}}>
+
+                              <input
+                                value={process.env.REACT_APP_RTMPSTARTSTREAM}
+                                className="settingstream-input"
+                                style={{ width: "90%" }}
+                                type="text"
+                                readOnly
+                              />
+
+                              <input
+                                value={showKey ? user?.cmt : "******************"}
+                                className="settingstream-input"
+                                style={{ width: "90%" }}
+                                type="text"
+                              />
+                            </Grid>
+
+                            <div
+                              style={{
+                                marginTop: "10px",
+                                display: "flex",
+                                flexDirection: "column"
+                              }}
+                            >
+                              <button
+                                onClick={() => setShowKey(!showKey)}
+                                className="button-copy"
+                              >
+                                {showKey ? "Ocultar" : "Mostrar"}
+                              </button>
+                              <button
+                                onClick={() => copyToClipboard(user?.cmt)}
+                                className="button-copy"
+                              >
+                                Copiar
+                              </button>
+                              <button className="button-copy">Restablecer</button>
+                            </div>
+                          </Grid>
+                        </div>
+                      </section>
+                    </div>
                     <div className="right-panel__content">
-                      <div className="flex shrinkS2 grow flex-col gap-2 overflow-y-hidden p-2.5">
+                      {/* <div className="flex shrinkS2 grow flex-col gap-2 overflow-y-hidden p-2.5">
                         <div
                           style={{
                             animation: "200ms all",
@@ -737,12 +767,12 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                             )}
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
               </div>
-              
+
 
               {/* <div
                 style={{
@@ -756,8 +786,67 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 />
               </div> */}
             </div>
-          </div>
 
+
+          </div>
+          <div className="base-card-act" style={{ backgroundColor: '#131418', width: '50%', height: '100% !important' }}>
+
+            <div className="Feeddeactividades_container">
+
+              <div title="Feed de actividades" className="Feeddeactividades">
+                <span className="max-w-full shrink truncate text-base font-bold text-white" style={{ display: 'flex', alignItems: 'center', gap: '5%' }}>
+                  <AiFillThunderbolt style={{ fontSize: '2rem' }} />
+
+                  Feed de actividades
+                </span>
+              </div>
+
+              <div className="FeedAct">
+                <div className="mapFeedAct">
+                  {ActivityFeed.map((item, index) => (
+                    <div key={index} className="activity-feed-item">
+                      {/* {item?.action === "follow" && ( */}
+                      <div
+                        className="base-icon icon"
+                        style={{ width: "20px", height: "20px" }}
+                      >
+                        <GoHeartFill style={{ color: "#ff69c4" }} />
+                      </div>
+                      {/* )} */}
+                      <div className="activity-feed-item__info">
+                        <span className="activity-feed-item__info_name">
+                          {item?.data}
+                        </span>
+                        <span>
+                          {item?.action === "follow" && (
+                            <span className="activity-feed-item__info_action">
+                              {" "}
+                              Te comenzó a seguir
+                            </span>
+                          )}
+                          {item?.action === "DonatePixels" && (
+                            <span className="activity-feed-item__info_action">
+                              {" "}
+                              Dono {item?.Pixeles} Pixeles
+                            </span>
+                          )}
+                          {item?.action === "Suscribirse" && (
+                            <span className="activity-feed-item__info_action">
+                              {" "}
+                              Se suscribió
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
 
 
           {/* Parte 1 */}

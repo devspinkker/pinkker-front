@@ -128,7 +128,7 @@ function DashboarLayout({ user, isMobile, children }) {
         <div className="first-section">
           <div
             className="navigation"
-            style={{ padding: "1rem 4rem !important", width: "90%" }}
+            style={{ padding: "1rem 4rem !important", width: "100%" }}
           >
             <div className="navigation-container-stream-deshboard">
               <div
@@ -384,7 +384,7 @@ function DashboarLayout({ user, isMobile, children }) {
           <div
             className="content"
             style={{
-              padding: "2.5rem 1rem",
+              padding: ".2rem 1rem",
               display: "flex",
               flexDirection: "column",
               justifyContent: "flex-start",

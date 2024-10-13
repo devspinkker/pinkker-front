@@ -77,6 +77,7 @@ import { RiUserSearchLine } from "react-icons/ri";
 import imagenPixel from "./imagenPixel.png";
 import LayoutMessageNotis from "./LayoutMessageNotis";
 import { GetNotificacionesLastConnection } from "../../services/backGo/user";
+import logoMobile from './Recurso 12.png';
 function NLayout(props) {
   const { streamer } = useParams();
   const [locationpath, setLocationPath] = useState();
@@ -2335,8 +2336,8 @@ function NLayout(props) {
               width: "100%",
             }}
           >
-            <Link to="/" style={{ width: "15%" }}>
-              <img src={logoPinkker} style={{ width: "100%" }} alt="" />
+            <Link to="/" style={{ width: "10%" }}>
+              <img src={logoMobile} style={{ width: "100%" }} alt="" />
             </Link>
 
             <Grid
