@@ -146,7 +146,7 @@ export const GetCommunity = async ({ community, token }) => {
     },
         config
     );
-    return response
+    return response.data
 }
 export const GetTop10CommunitiesByMembers = async (token) => {
     const config = {

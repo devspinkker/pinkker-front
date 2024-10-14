@@ -214,7 +214,7 @@ export default function Muro({ isMobile, userName }) {
           setToken(loggedUser);
           setMessage("");
           setImage(null);
-          const res = await PostCreate(formData);
+          const res = await PostCreate(formData, loggedUser);
           if (res?.message === "StatusCreated") {
             setTweets([res.post, ...tweets]);
             alert({ type: "SUCCESS" });

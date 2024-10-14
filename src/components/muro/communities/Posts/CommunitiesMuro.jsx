@@ -7,7 +7,11 @@ import EmojiPicker, { Theme } from "emoji-picker-react";
 import { ScaleLoader } from "react-spinners";
 import { PostCreate } from "../../../../services/backGo/tweet";
 import { useParams } from "react-router-dom";
-import { GetCommunityPosts } from "../../../../services/backGo/communities";
+import {
+  GetCommunity,
+  GetCommunityPosts,
+} from "../../../../services/backGo/communities";
+import CommunityInfo from "../CommunityInfo";
 
 export default function CommunitiesMuro({ isMobile, userName }) {
   const { id } = useParams();
@@ -20,13 +24,27 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   const [image, setImage] = useState(null);
   const [dropdownEmotes, setDropdownEmotes] = useState(false);
   const [Posts, setPosts] = useState(null);
+  const [communityInfo, setCommunityInfo] = useState(null);
+
   const clearImages = () => {
     setImage(null);
     setFile(null);
   };
+  useEffect(() => {
+    let avatar = window.localStorage.getItem("avatar");
+    if (avatar) {
+      SetAvatarSearch(avatar);
+    }
+  }, []);
   const GetPostsCommunity = async () => {
+    const resGetCommunity = await GetCommunity({ community: id, token });
+    if (resGetCommunity.data) {
+      console.log(resGetCommunity.data);
+
+      setCommunityInfo(resGetCommunity.data);
+    }
+
     const res = await GetCommunityPosts({ community_ids: id, token });
-    console.log(res.posts);
 
     if (res.posts) {
       setPosts(res.posts);
@@ -84,6 +102,7 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   };
   return (
     <>
+      {communityInfo && <CommunityInfo community={communityInfo} />}
       {userName?.NameUser && !isMobile && (
         <div
           onDragEnterCapture={() => setOnDrag(true)}
