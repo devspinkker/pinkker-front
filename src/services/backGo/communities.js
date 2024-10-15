@@ -39,6 +39,23 @@ export const AddMember = async ({ community_id, token }) => {
     );
     return response
 }
+
+export const RemoveMember = async ({ community_id, token }) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.post(
+        `${url}/communities/RemoveMember`, {
+        community_id
+    },
+        config
+    );
+    return response
+}
+
+
 export const BanMember = async ({ community_id, user_id, token }) => {
     const config = {
         headers: {
@@ -129,25 +146,39 @@ export const FindCommunityByName = async ({ CommunityID, token }) => {
     },
         config
     );
-    return response
+    return response.data
 }
-export const GetCommunity = async ({ community, token }) => {
+export const GetCommunity = async ({ community }) => {
+
+    const response = await axios.get(
+        `${url}/communities/GetCommunity`, {
+        params: {
+            community: community,
+        },
+    },
+    );
+    return response.data
+}
+
+export const GetCommunityWithUserMembership = async ({ community, token }) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     };
     const response = await axios.get(
-        `${url}/communities/GetCommunity`, {
+        `${url}/communities/GetCommunityWithUserMembership`, {
         ...config,
         params: {
-            community: community, // Usamos 'community' como parámetro de consulta
+            community: community,
         },
     },
         config
     );
     return response.data
 }
+
+
 export const GetTop10CommunitiesByMembers = async (token) => {
     const config = {
         headers: {

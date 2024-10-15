@@ -199,6 +199,22 @@ export const GetTweetsRecommended = async (token, ExcludeIDs) => {
     return error
   }
 };
+
+export const GetRandomPostcommunities = async (token, ExcludeIDs = []) => {
+  try {
+    const res = await axios.post(
+      `${url}/post/GetRandomPostcommunities`,
+      { ExcludeIDs },
+
+      {
+        headers: { Authorization: token },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    return error
+  }
+};
 export const getTrends = async (page = 1) => {
   try {
     const response = await axios.get(`${url}/post/GetTrends?page=${page}`);

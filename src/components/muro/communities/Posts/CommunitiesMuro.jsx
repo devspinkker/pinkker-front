@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Avatar, TextField, Grid } from "@mui/material";
-import "../Communities.css";
+import "./CommunitiesMuro.css";
 import TweetCard from "../../tweet/TweetCard";
 import { FileUploader } from "react-drag-drop-files";
 import EmojiPicker, { Theme } from "emoji-picker-react";
@@ -8,14 +8,20 @@ import { ScaleLoader } from "react-spinners";
 import { PostCreate } from "../../../../services/backGo/tweet";
 import { useParams } from "react-router-dom";
 import {
+  AddModerator,
+  BanMember,
+  DeletePost,
   GetCommunity,
   GetCommunityPosts,
+  GetCommunityWithUserMembership,
 } from "../../../../services/backGo/communities";
 import CommunityInfo from "../CommunityInfo";
 
 export default function CommunitiesMuro({ isMobile, userName }) {
   const { id } = useParams();
   const token = window.localStorage.getItem("token");
+  let avatar = window.localStorage.getItem("avatar");
+  let idUser = window.localStorage.getItem("_id");
 
   const [file, setFile] = useState(null);
   const [onDrag, setOnDrag] = useState(false);
@@ -30,18 +36,37 @@ export default function CommunitiesMuro({ isMobile, userName }) {
     setImage(null);
     setFile(null);
   };
+
+  const HandleBanMember = async (user_id) => {
+    await BanMember({ community: id, user_id, token });
+  };
+
+  const HandleDeletePost = async (PostId) => {
+    await DeletePost({ CommunityID: id, PostId, token });
+  };
+  const HandleAddModerator = async (user_id) => {
+    await AddModerator({ community_id: id, new_mod_id: user_id, token });
+  };
   useEffect(() => {
-    let avatar = window.localStorage.getItem("avatar");
     if (avatar) {
       SetAvatarSearch(avatar);
     }
   }, []);
   const GetPostsCommunity = async () => {
-    const resGetCommunity = await GetCommunity({ community: id, token });
-    if (resGetCommunity.data) {
-      console.log(resGetCommunity.data);
-
-      setCommunityInfo(resGetCommunity.data);
+    if (token) {
+      const resGetCommunity = await GetCommunityWithUserMembership({
+        community: id,
+        token,
+      });
+      if (resGetCommunity.data) {
+        console.log(resGetCommunity.data);
+        setCommunityInfo(resGetCommunity.data);
+      }
+    } else {
+      const resGetCommunity = await GetCommunity({ community: id, token });
+      if (resGetCommunity.data) {
+        setCommunityInfo(resGetCommunity.data);
+      }
     }
 
     const res = await GetCommunityPosts({ community_ids: id, token });
@@ -101,7 +126,7 @@ export default function CommunitiesMuro({ isMobile, userName }) {
     reader?.readAsDataURL(file);
   };
   return (
-    <>
+    <div className="PostComunidad-conteiner">
       {communityInfo && <CommunityInfo community={communityInfo} />}
       {userName?.NameUser && !isMobile && (
         <div
@@ -379,7 +404,36 @@ export default function CommunitiesMuro({ isMobile, userName }) {
       )}
 
       <div className="muro-tweet-container">
-        {Posts && Posts.map((P) => <TweetCard tweet={P} isMobile={isMobile} />)}
+        {Posts &&
+          Posts.map((P) => (
+            <div>
+              {(communityInfo?.isUserModerator ||
+                communityInfo.creator.userID == idUser) && (
+                <div className="mod-comunidad-actions-container">
+                  <span
+                    onClick={() => HandleBanMember(P.UserID)}
+                    className="mod-comunidad-actions"
+                  >
+                    Banear
+                  </span>
+                  <span
+                    onClick={() => HandleDeletePost(P._id)}
+                    className="mod-comunidad-actions"
+                  >
+                    EliminarPost
+                  </span>
+                  <span
+                    onClick={() => HandleAddModerator(P.UserID)}
+                    className="mod-comunidad-actions"
+                  >
+                    mod
+                  </span>
+                </div>
+              )}
+              <TweetCard tweet={P} isMobile={isMobile} />
+            </div>
+          ))}
+
         {!Posts && (
           <div
             style={{
@@ -393,6 +447,6 @@ export default function CommunitiesMuro({ isMobile, userName }) {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }

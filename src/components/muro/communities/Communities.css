@@ -2,13 +2,14 @@
     z-index: 1300 !important;
 }
 
+
 .communities-container {
     background: #080808;
     border-radius: 8px;
     padding: 20px;
     max-width: 800px;
-    margin: 20px auto;
-    box-shadow: 0px 2px 1px -1px rgb(159 71 140), 0px 1px 1px 0px rgb(190 90 191), 0px 1px 3px 0px rgb(152 69 140) !important;
+    /* margin: 20px auto; */
+    /* box-shadow: 0px 2px 1px -1px rgb(159 71 140), 0px 1px 1px 0px rgb(190 90 191), 0px 1px 3px 0px rgb(152 69 140) !important; */
 }
 
 
@@ -75,14 +76,6 @@
     color: #ff53da !important;
 }
 
-.communities-container {
-    background: #080808;
-    border-radius: 8px;
-    padding: 20px;
-    max-width: 800px;
-    margin: 20px auto;
-    box-shadow: 0px 2px 1px -1px rgb(159 71 140), 0px 1px 1px 0px rgb(190 90 191), 0px 1px 3px 0px rgb(152 69 140) !important;
-}
 
 .title {
     font-size: 1.5rem !important;
@@ -129,4 +122,33 @@
 .community-members-list {
     margin-top: 10px;
     display: flex;
+}
+
+.CommunityInfo {
+    background-color: rgb(8 8 8);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.Community-Info {
+    padding-top: 27px;
+    padding-left: 129px;
+}
+
+.communities-search {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+}
+
+.muro-post-container-CommunityName {
+    color: #ffffff;
+    font-weight: bolder;
+    padding: 0px 5px;
+}
+
+.communitiesRedirect-post {
+    padding: 5px;
 }

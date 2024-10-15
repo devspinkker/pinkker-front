@@ -5,11 +5,11 @@ import { useHistory } from "react-router-dom";
 export default function ListCommunities({ communities }) {
   const history = useHistory();
   const handleCommunityClick = (communityName) => {
-    history.push(`/plataform/Communities/${communityName}`);
+    history.push(`/plataform/communities/${communityName}`);
   };
   return (
     <div className="communities-list">
-      {communities.length > 0 ? (
+      {communities.length > 0 &&
         communities.map((community) => (
           <div
             key={community.id}
@@ -44,10 +44,7 @@ export default function ListCommunities({ communities }) {
                 ))}
             </div>
           </div>
-        ))
-      ) : (
-        <Typography>No se encontraron comunidades.</Typography>
-      )}
+        ))}
     </div>
   );
 }

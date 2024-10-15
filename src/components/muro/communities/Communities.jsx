@@ -7,17 +7,22 @@ import {
   DialogTitle,
   TextField,
   Typography,
-  Grid,
   IconButton,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   CreateCommunity,
+  FindCommunityByName,
   GetTop10CommunitiesByMembers,
 } from "../../../services/backGo/communities";
-import comunidadImg from "../imagencomunidad.jpg";
 import "./Communities.css";
 import ListCommunities from "./ListCommunities";
+import { GetRandomPostcommunities } from "../../../services/backGo/tweet";
+import TweetCard from "../tweet/TweetCard";
+import { ScaleLoader } from "react-spinners";
+import { Link } from "react-router-dom";
 
 export default function Communities({ isMobile }) {
   const token = window.localStorage.getItem("token");
@@ -27,20 +32,48 @@ export default function Communities({ isMobile }) {
   const [isPrivate, setIsPrivate] = useState(false);
   const [categories, setCategories] = useState("");
   const [totpCode, setTotpCode] = useState("");
-
-  const [topCommunities, setGetTop10CommunitiesByMembers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [topCommunities, setTopCommunities] = useState([]);
+  const [Posts, setPosts] = useState(null);
+  const handleFindCommunityByName = async () => {
+    if (searchQuery.trim()) {
+      const res = await FindCommunityByName({
+        CommunityID: searchQuery,
+        token,
+      });
+      console.log("Search result:", res);
+      if (res?.data?.length > 0) {
+        const foundCommunity = res.data[0];
+        setTopCommunities((prevCommunities) => [
+          foundCommunity,
+          ...prevCommunities.filter((c) => c.id !== foundCommunity.id),
+        ]);
+      }
+    }
+  };
 
   const FuncGetTop10CommunitiesByMembers = async () => {
     const res = await GetTop10CommunitiesByMembers(token);
-    console.log(res);
-
     if (res?.data) {
-      setGetTop10CommunitiesByMembers(res.data);
+      setTopCommunities(res.data);
+    }
+  };
+
+  // useEffect(() => {
+  //   FuncGetTop10CommunitiesByMembers();
+  // }, []);
+
+  const HandleGetRandomPostcommunities = async () => {
+    const res = await GetRandomPostcommunities(token);
+    if (res?.data) {
+      console.log(res?.data);
+
+      setPosts(res.data);
     }
   };
 
   useEffect(() => {
-    FuncGetTop10CommunitiesByMembers();
+    HandleGetRandomPostcommunities();
   }, []);
 
   const handleOpen = () => {
@@ -78,14 +111,26 @@ export default function Communities({ isMobile }) {
         </Typography>
       </div>
 
-      {/* Botón para abrir el pop-up */}
-      <Button
-        variant="contained"
-        onClick={handleOpen}
-        className="create-button"
-      >
-        Crear Comunidad
-      </Button>
+      {/* Campo para buscar comunidad */}
+      <div className="communities-search">
+        <TextField
+          className="inputsStyles custom-textfield"
+          label="Buscar comunidad por nombre"
+          variant="outlined"
+          fullWidth
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          // className="search-field"
+        />
+        <button onClick={handleFindCommunityByName} className="search-button">
+          Buscar
+        </button>
+
+        {/* Botón para abrir el pop-up de creación */}
+        <button onClick={handleOpen} className="search-button">
+          Crear
+        </button>
+      </div>
 
       <div>
         {open && (
@@ -143,6 +188,16 @@ export default function Communities({ isMobile }) {
                 variant="outlined"
                 InputProps={{ inputProps: { min: 0 } }}
               />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isPrivate}
+                    onChange={(e) => setIsPrivate(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label="¿Comunidad privada?"
+              />
             </DialogContent>
             <DialogActions className="dialog-actions">
               <Button onClick={handleClose} className="create-button">
@@ -155,8 +210,42 @@ export default function Communities({ isMobile }) {
           </div>
         )}
       </div>
+
       <div>
         <ListCommunities communities={topCommunities} />
+      </div>
+
+      <div>
+        <div className="muro-tweet-container">
+          {Posts &&
+            Posts.length > 0 &&
+            Posts.map((P) => (
+              <div>
+                <div className="communitiesRedirect-post">
+                  <Link to={"/plataform/communities/" + P.CommunityInfo?._id}>
+                    <i className="fas fa-user"></i>
+                    <span className="muro-post-container-CommunityName">
+                      {P.CommunityInfo?.CommunityName}
+                    </span>
+                  </Link>
+                </div>
+                <TweetCard tweet={P} isMobile={isMobile} />
+              </div>
+            ))}
+
+          {!Posts && (
+            <div
+              style={{
+                minHeight: "150px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <ScaleLoader width={4} height={20} color="#f36197d7" />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

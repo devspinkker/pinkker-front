@@ -1,23 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Avatar, Box, Button } from "@mui/material";
-import { AddMember } from "../../../services/backGo/communities";
+import { AddMember, RemoveMember } from "../../../services/backGo/communities";
+import "./Communities.css";
 
 const CommunityInfo = ({ community }) => {
   const token = window.localStorage.getItem("token");
+
+  // Estado para saber si el usuario es miembro de la comunidad
+  const [isMember, setIsMember] = useState(false);
+
   useEffect(() => {
-    AddMember({ community_id: community.id, token });
-  }, []);
+    // Aquí puedes hacer una llamada para verificar si el usuario es miembro
+    if (token) {
+      // Supongamos que community.isUserMember es una propiedad que ya indica si es miembro
+      setIsMember(community?.isUserMember);
+    }
+  }, [community, token]);
+
+  const handleJoin = () => {
+    if (token) {
+      AddMember({ community_id: community.id, token })
+        .then(() => {
+          setIsMember(true); // Actualiza el estado a 'miembro'
+        })
+        .catch((err) => {
+          console.error("Error al unirse a la comunidad:", err);
+        });
+    }
+  };
+
+  const handleLeave = () => {
+    if (token) {
+      RemoveMember({ community_id: community.id, token })
+        .then(() => {
+          setIsMember(false); // Actualiza el estado a 'no miembro'
+        })
+        .catch((err) => {
+          console.error("Error al salir de la comunidad:", err);
+        });
+    }
+  };
 
   return (
-    <Box
-      style={{
-        backgroundColor: "#2a2e38",
-        padding: "20px",
-        borderRadius: "10px",
-        marginBottom: "20px",
-        position: "relative",
-      }}
-    >
+    <Box className="CommunityInfo">
       {/* Banner */}
       <Box
         style={{
@@ -45,13 +70,41 @@ const CommunityInfo = ({ community }) => {
       </Box>
 
       {/* Community Info */}
-      <Box style={{ paddingTop: "60px", paddingLeft: "140px" }}>
+      <Box className="Community-Info">
         <Typography variant="h4" style={{ color: "white" }}>
           {community?.communityName}
         </Typography>
+
+        {/* Categories */}
+        <Box
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            marginTop: "10px",
+          }}
+        >
+          {community?.categories?.map((category, index) => (
+            <Box
+              key={index}
+              style={{
+                backgroundColor: "#4a4f5a",
+                padding: "5px 15px",
+                borderRadius: "20px",
+                color: "white",
+                fontSize: "14px",
+                textAlign: "center",
+              }}
+            >
+              {category}
+            </Box>
+          ))}
+        </Box>
+
         <Typography variant="subtitle1" style={{ color: "gray" }}>
           {community?.description}
         </Typography>
+
         <Typography
           variant="body2"
           style={{ color: "gray", marginBottom: "10px" }}
@@ -59,7 +112,26 @@ const CommunityInfo = ({ community }) => {
           {community?.membersCount} miembros
         </Typography>
 
-        <button>Unirse</button>
+        {/* Botón de Unirse o Salir según si es miembro */}
+        {isMember ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ marginTop: "20px" }}
+            onClick={handleLeave}
+          >
+            Salir de la Comunidad
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginTop: "20px" }}
+            onClick={handleJoin}
+          >
+            Unirse a la Comunidad
+          </Button>
+        )}
       </Box>
     </Box>
   );

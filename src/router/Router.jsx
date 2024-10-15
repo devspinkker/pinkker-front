@@ -382,7 +382,7 @@ const AppRouter = () => {
               <Muro isMobile={isMobile} userName={user} />
             </Route>
 
-            <Route exact path="/plataform/Communities/:id">
+            <Route exact path="/plataform/communities/:id">
               <CommunitiesMuro isMobile={isMobile} userName={user} />
             </Route>
             <Route exact path="/post/:User/:IdPost">
