@@ -11,6 +11,7 @@ import {
   DislikePost,
   getTweetId,
   GetCommentPost,
+  PostGetIdLogueado,
 } from "../../../services/backGo/tweet";
 import { useParams } from "react-router-dom";
 import TweetCard from "../tweet/TweetCard";
@@ -67,8 +68,13 @@ export default function ViewTweet({ closePopup, isMobile }) {
     window.scrollTo(0, 0);
     const fetchTweet = async () => {
       try {
-        const res = await getTweetId(IdPost);
-        setTweet(res.data);
+        if (token) {
+          const res = await PostGetIdLogueado(IdPost, token);
+          setTweet(res.data);
+        } else {
+          const res = await getTweetId(IdPost);
+          setTweet(res.data);
+        }
       } catch (error) {
         console.error("Error al obtener el tweet:", error);
       }

@@ -172,6 +172,18 @@ export const GetPostsWithImages = async (id, page, limit) => {
   } catch (error) {
   }
 };
+export const PostGetIdLogueado = async (id, token) => {
+  try {
+
+    const res = await axios.get(
+      `${url}/post/PostGetIdLogueado?id=${id}`, {
+      headers: { Authorization: token },
+    },
+    );
+    return res.data;
+  } catch (error) {
+  }
+};
 export const getTweetId = async (id) => {
   try {
 
