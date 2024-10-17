@@ -560,13 +560,12 @@ function NLayout(props) {
       handleChange({ target: { value: text } });
     }
   }, [tabIndex]);
-  
 
-
-  const [loading, setLoading] = useState(currentPath?.includes("/plataform/clips/") ? false :true);
+  const [loading, setLoading] = useState(
+    currentPath?.includes("/plataform/clips/") ? false : true
+  );
   // sacar
   useEffect(() => {
-
     const timeout = setTimeout(() => {
       setLoading(false);
     }, 3000);
