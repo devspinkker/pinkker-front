@@ -77,7 +77,7 @@ import { RiUserSearchLine } from "react-icons/ri";
 import imagenPixel from "./imagenPixel.png";
 import LayoutMessageNotis from "./LayoutMessageNotis";
 import { GetNotificacionesLastConnection } from "../../services/backGo/user";
-import logoMobile from './Recurso 12.png';
+import logoMobile from "./Recurso 12.png";
 function NLayout(props) {
   const { streamer } = useParams();
   const [locationpath, setLocationPath] = useState();
@@ -272,7 +272,7 @@ function NLayout(props) {
         }
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
 
       setSocket(newSocket);
       window.addEventListener("beforeunload", () => {
@@ -622,9 +622,9 @@ function NLayout(props) {
   const pixeles = props.user?.Pixeles;
   const formattedPixeles = pixeles
     ? new Intl.NumberFormat("es-ES", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 3,
-    }).format(pixeles)
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 3,
+      }).format(pixeles)
     : "0";
 
   const getNavDesktop = () => {
@@ -906,14 +906,26 @@ function NLayout(props) {
                 }
               >
                 <div className="pixel-coming-soon-navbarLeft-img-pixel-container">
-                  <img
-                    className="pixel-coming-soon-navbarLeft-img-pixel"
-                    style={{
-                      width: "36px",
-                      padding: "5px",
-                    }}
-                    src="/images/pixel.png"
-                  />
+                  {new Date(props.user?.PinkkerPrime?.SubscriptionEnd) >
+                  new Date() ? (
+                    <img
+                      className="pixel-coming-soon-navbarLeft-img-pixel"
+                      style={{
+                        width: "50px",
+                        padding: "5px",
+                      }}
+                      src="https://res.cloudinary.com/dcj8krp42/image/upload/v1729180881/logos/Prime_trazo_blanco_l7ftyr.png"
+                    />
+                  ) : (
+                    <img
+                      className="pixel-coming-soon-navbarLeft-img-pixel"
+                      style={{
+                        width: "36px",
+                        padding: "5px",
+                      }}
+                      src="/images/pixel.png"
+                    />
+                  )}
                 </div>
                 {props.tyExpanded && (
                   <div
@@ -1190,10 +1202,10 @@ function NLayout(props) {
               props.tyExpanded && props.txExpandedLeft
                 ? "85%"
                 : props.tyExpanded && !props.txExpandedLeft
-                  ? "85%"
-                  : !props.tyExpanded && props.txExpandedLeft
-                    ? "85%"
-                    : "95%",
+                ? "85%"
+                : !props.tyExpanded && props.txExpandedLeft
+                ? "85%"
+                : "95%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1242,18 +1254,18 @@ function NLayout(props) {
           ) : (
             <Grid
               className="navTopHome"
-            // style={{
-            //   borderBottom: "1px solid #2a2e38",
-            //   display: "flex",
-            //   alignItems: "center",
-            //   justifyContent: "space-between",
-            //   padding: "15.5px 5.8rem",
-            //   position: "sticky",
-            //   top: 0,
-            //   zIndex: 9999,
-            //   backgroundColor: "#080808",
-            //   width: "103.5%",
-            // }}
+              // style={{
+              //   borderBottom: "1px solid #2a2e38",
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "space-between",
+              //   padding: "15.5px 5.8rem",
+              //   position: "sticky",
+              //   top: 0,
+              //   zIndex: 9999,
+              //   backgroundColor: "#080808",
+              //   width: "103.5%",
+              // }}
             >
               <Link to="/" style={{ width: "230px" }}>
                 <img
@@ -1649,17 +1661,17 @@ function NLayout(props) {
                           }}
                           sx={{
                             "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                              {
+                                borderColor: "white",
+                              },
                             "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                              {
+                                borderColor: "white",
+                              },
                             "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "white",
-                            },
+                              {
+                                borderColor: "white",
+                              },
                             "& .MuiInputBase-input": {
                               color: "white",
                               backgroundColor: "#212129",
@@ -1835,7 +1847,7 @@ function NLayout(props) {
                                 style={{ backgroundColor: "#080808" }}
                               >
                                 {!game?.streamThumbnail &&
-                                  !game?.StreamThumbnail ? (
+                                !game?.StreamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
@@ -1910,7 +1922,7 @@ function NLayout(props) {
                                         game?.url,
                                         game?.StreamThumbnail && true,
                                         game?.StreamThumbnail &&
-                                        game?.UserInfo?.NameUser,
+                                          game?.UserInfo?.NameUser,
                                         game?.StreamThumbnail && game?.id
                                       )
                                     }
@@ -2250,7 +2262,6 @@ function NLayout(props) {
           <Grid className={"openNotificationopenMessage"}>
             <LayoutMessageNotis
               setOpenMessage={setOpenMessage}
-
               openMessage={openMessage}
               messagesOpen={messagesOpen}
               PinkerNotifications={PinkerNotifications}
@@ -2792,17 +2803,17 @@ function NLayout(props) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2814,7 +2825,7 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
