@@ -16,6 +16,7 @@
 .popup-container {
   width: 35%;
   position: absolute;
+  height: 70%;
   left: 10%;
   right: 25%;
   margin: auto;

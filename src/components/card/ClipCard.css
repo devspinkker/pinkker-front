@@ -47,9 +47,13 @@
   color: darkgray;
 }
 
-
+.clip-image-avatar:hover{
+  background-color:#f3619645;
+  border: .5px solid #f3619645;
+  height: 36px !important;
+  width: 36px !important;
+}
 .clipcard-body p:hover {
-  color: #f36196;
   cursor: pointer;
 }
 
@@ -160,7 +164,7 @@
   color: darkgray;
 }
 
-.clipcard-image-preview p:hover {
+.clipcard-image-preview .clipName:hover {
   color: #f36196;
 }
 

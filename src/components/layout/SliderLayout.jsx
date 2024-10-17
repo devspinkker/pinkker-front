@@ -46,7 +46,12 @@ function SliderLayout(props) {
   const generateColor = () => {
     setColor(Math.random().toString(16).substr(-6));
   };
-
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+  const handleSlideChange = (swiper) => {
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
+  };
   useEffect(() => {
     generateColor();
   }, []);
@@ -63,7 +68,7 @@ function SliderLayout(props) {
         prevEl: ".custom-prev",
       }}
       modules={[Navigation, Pagination, Scrollbar, A11y]}
-      slidesPerView = {
+      slidesPerView={
         props.isMobile
           ? props.Vod || props.clipT
             ? 1
@@ -74,10 +79,10 @@ function SliderLayout(props) {
               ? 9.5
               : 7
       }
-      
-      
+
+
       Pagination
-      onSlideChange={() => console.log("slide change")}
+      onSlideChange={handleSlideChange}
       onSwiper={(swiper) => console.log(swiper)}
     >
       {/* Botones de "Next" y "Prev" personalizados */}
@@ -143,38 +148,32 @@ function SliderLayout(props) {
           </Grid>
         )}
 
-        <div
-          className="manager-recommended-actions"
-          style={{ width: "30% !important", justifyContent: "flex-end" }}
-        >
-          <div className="manager-recommended-actions-ver-todos">
-            <Link
-              to="/plataform/explore?tipo=categories"
-              style={{ padding: 0 }}
-            >
-              <span
-                style={{ fontFamily: "Signika Negative", fontSize: "14px" }}
-              >
-                Ver todos
-              </span>
-            </Link>
+        <div className="manager-recommended-actions-arrow">
+          <div
+            className={`custom-prev ${isBeginning ? 'disabled' : ''}`}
+            style={{
+              fontSize: '14px',
+              opacity: isBeginning ? 0.5 : 1,
+              pointerEvents: isBeginning ? 'none' : 'auto',
+            }}
+          >
+            <i
+              style={{ margin: '0px 10px', cursor: 'pointer' }}
+              className="fas fa-chevron-left"
+            ></i>
           </div>
-
-          <div className="manager-recommended-actions-arrow">
-            <div className="custom-prev" style={{ fontSize: "14px" }}>
-              {" "}
-              <i
-                style={{ margin: "0px 10px", cursor: "pointer" }}
-                className="fas fa-chevron-left"
-              ></i>
-            </div>
-            <div className="custom-next" style={{ fontSize: "14px" }}>
-              {" "}
-              <i
-                style={{ cursor: "pointer" }}
-                className="fas fa-chevron-right"
-              ></i>
-            </div>
+          <div
+            className={`custom-next ${isEnd ? 'disabled' : ''}`}
+            style={{
+              fontSize: '14px',
+              opacity: isEnd ? 0.5 : 1,
+              pointerEvents: isEnd ? 'none' : 'auto',
+            }}
+          >
+            <i
+              style={{ cursor: 'pointer' }}
+              className="fas fa-chevron-right"
+            ></i>
           </div>
         </div>
       </Grid>
@@ -362,7 +361,7 @@ function SliderLayout(props) {
                   User={Vods.UserInfo}
                   id={Vods.id}
                 /> */}
-                <ClipCard video={Vods} id={Vods.id}  User={Vods.UserInfo}/>
+                <ClipCard video={Vods} id={Vods.id} User={Vods.UserInfo} />
               </SwiperSlide>
             ))
           ) : (
