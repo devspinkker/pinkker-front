@@ -97,6 +97,8 @@
     align-items: center;
     transition: color .2s ease-in-out;
     animation: fadeIn 1.5s ease-in-out;
+    font-weight: 400;
+
 
 }
 
@@ -171,6 +173,8 @@
     animation: fadeIn 1.5s ease-in-out;
     color: #ff69c4 !important;
     cursor: pointer;
+    font-weight: 400;
+
 }
 
 .item-liActiveMobile {

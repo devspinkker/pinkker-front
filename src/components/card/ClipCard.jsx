@@ -245,6 +245,7 @@ export default function ClipCard({ video, ...props }) {
               objectFit: "cover",
             }}
             src={video?.Avatar ?? video?.UserInfo?.Avatar}
+            className="clip-image-avatar"
           />
           <div
             style={{
@@ -261,7 +262,7 @@ export default function ClipCard({ video, ...props }) {
             <p style={{ fontSize: "12px" }}>{video?.streamerId}</p>
             <p style={{ fontSize: "10px" }}>
               {video?.nameUserCreator && (
-                <>Clipeado por {video?.nameUserCreator}</>
+                <>Clipeado por<Link to={`/${video?.nameUserCreator}`} className="clipName">{video?.nameUserCreator}</Link></>
               )}
             </p>
           </div>

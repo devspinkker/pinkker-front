@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./CardCategorie.css";
+import { Typography } from "@mui/material";
 
 export default function CustomCard(props) {
   const formatViewers = (viewers) => {
@@ -60,7 +61,7 @@ export default function CustomCard(props) {
                 alt=""
               />
               {props?.titulo && <span style={{position:'relative', top:'-188px', left:'65px'}}>Ver Todos</span>}
-
+                <Typography style={{textAlign:'center', fontSize:14}}>{props.name}</Typography>
             </Link>
           </div>
           <div className="user_data_contain">

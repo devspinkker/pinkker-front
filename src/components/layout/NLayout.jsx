@@ -560,11 +560,13 @@ function NLayout(props) {
       handleChange({ target: { value: text } });
     }
   }, [tabIndex]);
-  console.log(tabIndex);
+  
 
-  const [loading, setLoading] = useState(true);
+
+  const [loading, setLoading] = useState(currentPath?.includes("/plataform/clips/") ? false :true);
   // sacar
   useEffect(() => {
+
     const timeout = setTimeout(() => {
       setLoading(false);
     }, 3000);
@@ -881,7 +883,7 @@ function NLayout(props) {
                   <input
                     style={{ fontSize: "16px" }}
                     onClickCapture={() => setHabilitar(!habilitar)}
-                    placeholder="Buscar.."
+                    placeholder="Buscar"
                     type="search"
                     className="input-searchbar"
                   />
@@ -1657,7 +1659,7 @@ function NLayout(props) {
                               borderColor: "white",
                               borderRadius: "1000px",
                             },
-                            placeholder: "Buscar...",
+                            placeholder: "Buscar",
                           }}
                           sx={{
                             "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":

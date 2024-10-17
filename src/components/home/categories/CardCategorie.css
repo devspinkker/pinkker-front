@@ -24,7 +24,7 @@
     margin-top: 8px !important;
     /* max-width: 150px; */
     min-width: 150px;
-    margin: 10px 10px;
+    margin: 10px 0px;
     border-radius: 5px;
     cursor: pointer;
     /* box-shadow: black 0px 2px 7px 0.5px; */
@@ -38,7 +38,7 @@
 }
 
 .custom-categories-card-contain {
-    width: 100%;
+    width: 85%;
     transition: 0.2s all;
 }
 

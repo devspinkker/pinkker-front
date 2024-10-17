@@ -13,7 +13,7 @@ import { getStream } from "../../../services/stream";
 import ReactFlvPlayer from "../../../player/PlayerMain";
 import PopupEditInfo from "./popup/PopupEditInfo";
 import ConfigComandosChat from "./ConfigComandosChat";
-import { Grid, Typography } from "@mui/material";
+import { Button, Drawer, Grid, TextField, Typography } from "@mui/material";
 import { AiFillThunderbolt, AiOutlineSetting, AiOutlineUser } from "react-icons/ai";
 import { TbEdit, TbLogout2 } from "react-icons/tb";
 import { TfiWallet } from "react-icons/tfi";
@@ -339,7 +339,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     alert({ type: "SUCCESS", message: "Copiado correctamente!" });
   };
   const [expanded, setExpanded] = useState(true);
-  console.log('streamerData', streamerData)
+
   return (
     <DashboarLayout user={user} isMobile={isMobile}>
       {/* Contenido */}
@@ -654,8 +654,8 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                               Servidor y clave de stream
                             </span>
                           </div>
-                          <Grid style={{display:'flex', alignItems:'center'}}>
-                            <Grid style={{display:'flex', flexDirection:'column', width:'80%'}}>
+                          <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                            <Grid style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
 
                               <input
                                 value={process.env.REACT_APP_RTMPSTARTSTREAM}
@@ -848,6 +848,9 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
 
           </div>
 
+          {
+            mostrarditInfoStream && <PopupEditInfo closePopup={toggleEditInfoStream} stream={streamerData} user={userData}/>
+          }
 
           {/* Parte 1 */}
 

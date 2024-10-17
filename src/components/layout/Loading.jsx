@@ -25,8 +25,8 @@ const Loading = () => {
     }, []);
     return (
         <div className="loading-container">
-            <img src={loader} alt="Logo de pinkker" className="logo" style={{width:'20%'}}/>
-            <img src={pinnkker} alt="Logo de pinkker" className="logo" style={{width:'30%'}} />
+            <img src={loader} alt="Logo de pinkker" className="logo" style={{width:'15%'}}/>
+            <img src={pinnkker} alt="Logo de pinkker" className="logo" style={{width:'20%'}} />
             {/* Barra de progreso */}
             <Box width="10%" mt={2}>
             <LinearProgress variant="determinate" value={progress} color="secondary" style={{borderRadius:'5px'}} />
