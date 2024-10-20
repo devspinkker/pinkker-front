@@ -7,6 +7,7 @@ import {
   setToken,
   PostGets,
   GetTweetsRecommended,
+  GetPostCommunitiesFromUser,
 } from "../../services/backGo/tweet";
 import { useNotification } from "../Notifications/NotificationProvider";
 import { useSelector } from "react-redux";
@@ -39,9 +40,12 @@ import {
 } from "@mui/material";
 import Tendency from "./TendencyLayout";
 import Communities from "./communities/Communities";
+import PostCreator from "./PostCreator";
 export default function Muro({ isMobile, userName }) {
   const alert = useNotification();
-  const [tweets, setTweets] = useState(null);
+  const [selectedCommunityID, setSelectedCommunityID] = useState("");
+
+  const [Posts, setPosts] = useState(null);
   const [message, setMessage] = useState("");
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -63,16 +67,20 @@ export default function Muro({ isMobile, userName }) {
   const [isFetching, setIsFetching] = useState(false); // nuevo estado para manejar la espera
   let token = window.localStorage.getItem("token");
   let location = useLocation();
+  const handleCommunityChange = (e) => {
+    console.log(e.target.value);
 
+    setSelectedCommunityID(e.target.value); // Actualizamos el estado local
+  };
   async function loadMoreTweets() {
     try {
-      setIsFetching(true); // marca que se está ejecutando la carga de más tweets
+      setIsFetching(true); // marca que se está ejecutando la carga de más Posts
       let token = window.localStorage.getItem("token");
       let data;
 
       if (token) {
-        const ExcludeIDs = tweets.map((tweet) => tweet._id);
-        data = await GetTweetsRecommended(token, ExcludeIDs);
+        const ExcludeIDs = Posts.map((tweet) => tweet._id);
+        data = await GetPostCommunitiesFromUser(token, ExcludeIDs);
       } else {
         // data = await PostGets();
       }
@@ -81,7 +89,7 @@ export default function Muro({ isMobile, userName }) {
         return;
       } else {
         if (data.data.message === "ok" || data.data.data) {
-          let currentTweets = [...(tweets || [])];
+          let currentTweets = [...(Posts || [])];
           let newTweets = data.data.data;
 
           let uniqueNewTweets = newTweets.filter(
@@ -102,16 +110,16 @@ export default function Muro({ isMobile, userName }) {
             allTweets.sort(
               (a, b) => new Date(b.TimeStamp) - new Date(a.TimeStamp)
             );
-            setTweets(allTweets);
+            setPosts(allTweets);
             setOrderCount((prevCount) => prevCount + 1);
           } else {
             let updatedTweets = [...currentTweets, ...uniqueNewTweets];
-            setTweets(updatedTweets);
+            setPosts(updatedTweets);
           }
         }
       }
     } catch (error) {
-      // setTweets(null);
+      // setPosts(null);
     } finally {
       setIsFetching(false);
     }
@@ -152,7 +160,7 @@ export default function Muro({ isMobile, userName }) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [tweets, isFetching]);
+  }, [Posts, isFetching]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -170,24 +178,24 @@ export default function Muro({ isMobile, userName }) {
       let token = window.localStorage.getItem("token");
       if (token) {
         const ExcludeIDs = [];
-        const data = await GetTweetsRecommended(token, ExcludeIDs);
+        const data = await GetPostCommunitiesFromUser(token, ExcludeIDs);
         if (data.data == null) {
-          setTweets(null);
+          setPosts(null);
         } else {
           if (data.data.message === "ok") {
-            setTweets(data.data.data);
+            setPosts(data.data.data);
           }
         }
       } else {
         const data = await PostGets();
         if (data.data == null) {
-          setTweets(null);
+          setPosts(null);
         } else {
-          setTweets(data.data);
+          setPosts(data.data);
         }
       }
     } catch (error) {
-      setTweets(null);
+      setPosts(null);
     }
   }
 
@@ -208,6 +216,7 @@ export default function Muro({ isMobile, userName }) {
       const formData = new FormData();
       formData.append("Status", message);
       formData.append("imgPost", file);
+      formData.append("communityID", selectedCommunityID);
       try {
         let loggedUser = window.localStorage.getItem("token");
         if (loggedUser) {
@@ -216,7 +225,7 @@ export default function Muro({ isMobile, userName }) {
           setImage(null);
           const res = await PostCreate(formData, loggedUser);
           if (res?.message === "StatusCreated") {
-            setTweets([res.post, ...tweets]);
+            setPosts([res.post, ...Posts]);
             alert({ type: "SUCCESS" });
           }
         }
@@ -271,7 +280,7 @@ export default function Muro({ isMobile, userName }) {
           setImage(null);
           const res = await PostCreate(formData);
           if (res?.message === "StatusCreated") {
-            setTweets([res.post, ...tweets]);
+            setPosts([res.post, ...Posts]);
           }
         }
         setOpen(false);
@@ -310,7 +319,7 @@ export default function Muro({ isMobile, userName }) {
                   onClick={() => setValorTab("parati")}
                 />
                 <Tab
-                  label="Grupos"
+                  label="Explorar"
                   style={{
                     width: "50%",
                     color: "white",
@@ -478,292 +487,51 @@ export default function Muro({ isMobile, userName }) {
 
             {valorTab === "parati" && (
               <>
-                {userName?.NameUser && !isMobile && (
-                  <div
-                    onDragEnterCapture={() => setOnDrag(true)}
-                    className="muro-send-tweet"
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        justifyContent: "center",
-                        padding: "10px 0px ",
-                        width: "90%",
-                        margin: "0 auto",
-                        gap: "15px",
-                      }}
-                    >
-                      <div className="tweetcard-avatar">
-                        <img
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                            objectFit: "cover",
-                            borderRadius: "100%",
-                          }}
-                          src={
-                            AvatarSearch ? AvatarSearch : "/images/search.svg"
-                          }
-                        />
-                      </div>
-
-                      {/* <img
-                      src={"/images/search.svg"}
-                      style={{
-                        fontSize: "16px",
-                        color: "rgb(89 89 89)",
-                        margin: "8px",
-                      }}
-                    /> */}
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          width: "100%",
-                        }}
-                      >
-                        <TextField
-                          label="¿Qué está pasando?"
-                          variant="outlined"
-                          fullWidth
-                          value={message}
-                          onChange={(e) => setMessage(e.target.value)}
-                          multiline
-                          rows={1}
-                          InputProps={{
-                            style: {
-                              color: "white",
-                              borderColor: "white",
-                            },
-                            classes: {
-                              notchedOutline: {
-                                borderColor: "white",
-                              },
-                            },
-                          }}
-                          InputLabelProps={{
-                            style: { color: "white" },
-                          }}
-                          sx={{
-                            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
-                            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
-                            "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
-                            "& .MuiInputBase-input": {
-                              color: "white",
-                            },
-                            "& .MuiInputLabel-outlined": {
-                              color: "white",
-                            },
-                            "& .MuiInputBase-input::placeholder": {
-                              color: "white",
-                              opacity: 1,
-                            },
-                          }}
-                          // sx={{ flex: 1, marginBottom: 2, color:'white' }}
-                        />
-                        <Typography
-                          variant="subtitle1"
-                          style={{
-                            marginTop: "10px",
-                            color: message?.length > 100 ? "red" : "white",
-                            textAlign: "right",
-                          }}
-                        >
-                          {message.length}/100
-                        </Typography>
-                      </div>
-                    </div>
-
-                    {file != null && (
-                      <div
-                        style={{
-                          textAlign: "center",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <i
-                          onClick={() => clearImages()}
-                          style={{
-                            color: "white",
-                            cursor: "pointer",
-                            height: "20px",
-                            width: "20px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50px",
-                            position: "relative",
-                            left: "35px",
-                            top: "10px",
-                            padding: "5px",
-                            backgroundColor: "#303030",
-                          }}
-                          class="fas fa-times"
-                        />
-                        <img style={{ maxWidth: "320px" }} src={image} />
-                      </div>
-                    )}
-
-                    {onDrag && file === null && (
-                      <FileUploader
-                        hoverTitle="Soltar aca"
-                        label="Subir archivo a tu publicación"
-                        multiple={false}
-                        classes="muro-drag-input"
-                        handleChange={handleChange}
-                        name="file"
-                        types={fileTypes}
-                      />
-                    )}
-
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        width: "90%",
-                        margin: "0 auto",
-                        padding: "15px 0px",
-                        borderTop: "1px solid #2a2e38",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "80%",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Grid
-                          style={{
-                            display: "flex",
-                            width: "80%",
-                            justifyContent: "flex-start",
-                          }}
-                        >
-                          <div
-                            className="mure-send-tweet-icons-card"
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: "5px",
-                              padding: "0px",
-                            }}
-                          >
-                            <i
-                              style={{
-                                padding: "5px",
-                                color: "#ff4aa7d2",
-                              }}
-                              class="fas fa-photo-video"
-                            />
-                            <input
-                              onChange={(e) => handleChange2(e)}
-                              style={{
-                                backgroundColor: "red",
-                                width: "30px",
-                                position: "absolute",
-                                opacity: "0",
-                              }}
-                              type="file"
-                            />
-                          </div>
-
-                          <div
-                            onClick={() => onMouseEnterEmotes()}
-                            className="mure-send-tweet-icons-card"
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <i
-                              style={{
-                                padding: "5px",
-                                color: "#ff4aa7d2",
-                                marginRight: "5px",
-                              }}
-                              class="far fa-smile"
-                            />
-                            {dropdownEmotes && (
-                              <div
-                                style={{
-                                  position: "absolute",
-                                  zIndex: "1001",
-                                  marginTop: "60px",
-                                }}
-                              >
-                                <EmojiPicker
-                                  onEmojiClick={(e) =>
-                                    console.log("clickEmoji(e)")
-                                  }
-                                  autoFocusSearch={false}
-                                  theme={Theme.DARK}
-                                  searchDisabled
-                                  height={"300px"}
-                                  width="300px"
-                                  lazyLoadEmojis={true}
-                                  previewConfig={{
-                                    showPreview: false,
-                                  }}
-                                />
-                              </div>
-                            )}
-                          </div>
-                        </Grid>
-
-                        <Grid
-                          style={{
-                            backgroundColor: "#2a2e38",
-                            borderRadius: "5px",
-                            width: "25%",
-                          }}
-                        >
-                          <select
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              backgroundColor: "#2a2e38",
-                              borderRadius: "5px",
-                              color: "white",
-                            }}
-                            name="cars"
-                            id="cars"
-                          >
-                            <option value="Publico"> Público</option>
-                            <option value="Privado"> Privado</option>
-                          </select>
-                        </Grid>
-                      </div>
-                      <button
-                        onClick={() => handleSubmit()}
-                        className="muro-send-tweet-button"
-                      >
-                        Postear
-                      </button>
-                    </div>
-                  </div>
-                )}
-
+                <PostCreator
+                  AvatarSearch={AvatarSearch}
+                  message={message}
+                  setMessage={setMessage}
+                  file={file}
+                  setFile={setFile}
+                  image={image}
+                  setImage={setImage}
+                  clearImages={clearImages}
+                  dropdownEmotes={dropdownEmotes}
+                  setDropdownEmotes={setDropdownEmotes}
+                  handleSubmit={handleSubmit}
+                  handleChange2={handleChange2}
+                  onMouseEnterEmotes={() => setDropdownEmotes(!dropdownEmotes)}
+                  onDrag={onDrag}
+                  setOnDrag={setOnDrag}
+                  handleCommunityChange={handleCommunityChange}
+                />
                 <div className="muro-tweet-container">
-                  {tweets != null &&
-                    tweets.map((tweet) => (
+                  {/* {Posts != null &&
+                    Posts.map((tweet) => (
                       <TweetCard tweet={tweet} isMobile={isMobile} />
+                    ))} */}
+
+                  {Posts &&
+                    Posts.length > 0 &&
+                    Posts.map((P) => (
+                      <div>
+                        <div className="communitiesRedirect-post">
+                          <Link
+                            to={
+                              "/plataform/communities/" + P.CommunityInfo?._id
+                            }
+                          >
+                            <i className="fas fa-user"></i>
+                            <span className="muro-post-container-CommunityName">
+                              {P.CommunityInfo?.CommunityName}
+                            </span>
+                          </Link>
+                        </div>
+                        <TweetCard tweet={P} isMobile={isMobile} />
+                      </div>
                     ))}
-                  {!tweets && (
+
+                  {!Posts && (
                     <div
                       style={{
                         minHeight: "150px",

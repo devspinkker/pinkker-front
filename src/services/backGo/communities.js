@@ -5,7 +5,7 @@ export const setToken = (newObject) => {
     token = newObject;
 };
 
-export const CreateCommunity = async ({ community_name, description, is_private, categories, totp_code, token }) => {
+export const CreateCommunity = async ({ community_name, description, is_private, categories, totp_code, is_paid, subscription_amount, token }) => {
 
     const config = {
         headers: {
@@ -18,6 +18,8 @@ export const CreateCommunity = async ({ community_name, description, is_private,
         description,
         is_private,
         categories,
+        is_paid,
+        subscription_amount,
         totp_code
     },
         config
@@ -146,6 +148,15 @@ export const FindCommunityByName = async ({ CommunityID, token }) => {
     },
         config
     );
+    return response.data
+}
+
+export const FindUserCommunities = async ({ UserId }) => {
+
+    const response = await axios.post(
+        `${url}/communities/FindUserCommunities`, {
+        UserId: UserId,
+    })
     return response.data
 }
 export const GetCommunity = async ({ community }) => {

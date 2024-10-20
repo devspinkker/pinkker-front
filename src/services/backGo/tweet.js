@@ -71,9 +71,16 @@ export const PostGets = async () => {
     console.log(error);
   }
 };
-export const GetCommentPost = async (id, page = 1) => {
+export const GetCommentPost = async (id, page = 1, token) => {
   try {
-    const res = await axios.get(`${url}/post/GetCommentPost?id=${id}&page=${page}`);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const res = await axios.get(`${url}/post/GetCommentPost?id=${id}&page=${page}`,
+      config
+    );
     return res;
   } catch (error) {
     console.error('Error fetching comments:', error);
@@ -200,6 +207,22 @@ export const GetTweetsRecommended = async (token, ExcludeIDs) => {
     console.log({ ExcludeIDs });
     const res = await axios.post(
       `${url}/post/GetTweetsRecommended`,
+      { ExcludeIDs },
+
+      {
+        headers: { Authorization: token },
+      }
+    );
+    return res;
+  } catch (error) {
+    return error
+  }
+};
+export const GetPostCommunitiesFromUser = async (token, ExcludeIDs) => {
+  try {
+    console.log({ ExcludeIDs });
+    const res = await axios.post(
+      `${url}/post/GetPostCommunitiesFromUser`,
       { ExcludeIDs },
 
       {

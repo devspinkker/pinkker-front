@@ -16,7 +16,7 @@ import { Skeleton } from "@mui/material";
 import SelectVideoClip from "../home/clips/SelectVideoClip";
 
 export default function Tendency({ isMobile }) {
-  const token = useSelector((state) => state.token);
+  const token = window.localStorage.getItem("token");
   const [showLoader, setShowLoader] = useState(true);
 
   const [type, setType] = useState(0);
@@ -33,7 +33,9 @@ export default function Tendency({ isMobile }) {
 
     if (newProgress > 50.0 && newProgress < 50.5) {
       setHasCalledFunction(true);
-      await MoreViewOfTheClip(selectedVideo.video.id);
+      if (token) {
+        await MoreViewOfTheClip(selectedVideo.video.id);
+      }
     }
   };
   const closedClip = () => {

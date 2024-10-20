@@ -35,6 +35,8 @@ export default function Communities({ isMobile }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [topCommunities, setTopCommunities] = useState([]);
   const [Posts, setPosts] = useState(null);
+  const [isPaid, setIsPaid] = useState(false);
+  const [subscriptionAmount, setSubscriptionAmount] = useState("");
   const handleFindCommunityByName = async () => {
     if (searchQuery.trim()) {
       const res = await FindCommunityByName({
@@ -93,6 +95,8 @@ export default function Communities({ isMobile }) {
         is_private: isPrivate,
         categories: cat,
         totp_code: totpCode,
+        is_paid: isPaid,
+        subscription_amount: parseInt(subscriptionAmount),
         token,
       });
 
@@ -105,11 +109,11 @@ export default function Communities({ isMobile }) {
 
   return (
     <div className={`communities-container ${isMobile ? "mobile" : ""}`}>
-      <div className="header">
+      {/* <div className="header">
         <Typography variant="h4" className="title" gutterBottom>
           Comunidades
         </Typography>
-      </div>
+      </div> */}
 
       {/* Campo para buscar comunidad */}
       <div className="communities-search">
@@ -198,6 +202,29 @@ export default function Communities({ isMobile }) {
                 }
                 label="¿Comunidad privada?"
               />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isPaid}
+                    onChange={(e) => setIsPaid(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label="¿Comunidad de pago?"
+              />
+              {isPaid && ( // Solo mostrar si es de pago
+                <TextField
+                  margin="dense"
+                  label="Monto de la suscripción"
+                  type="number"
+                  fullWidth
+                  value={subscriptionAmount}
+                  onChange={(e) => setSubscriptionAmount(e.target.value)}
+                  className="inputsStyles custom-textfield"
+                  variant="outlined"
+                  InputProps={{ inputProps: { min: 0 } }}
+                />
+              )}
             </DialogContent>
             <DialogActions className="dialog-actions">
               <Button onClick={handleClose} className="create-button">

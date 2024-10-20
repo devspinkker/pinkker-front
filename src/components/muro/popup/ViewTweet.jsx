@@ -45,7 +45,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const commentsData = await GetCommentPost(IdPost, page);
+        const commentsData = await GetCommentPost(IdPost, page, token);
         if (commentsData.data.message === "ok") {
           if (commentsData.data?.data) {
             setComments(commentsData.data?.data);
@@ -134,7 +134,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
 
   const GetCommentsScroll = async (pageP) => {
     try {
-      const commentsData = await GetCommentPost(IdPost, pageP);
+      const commentsData = await GetCommentPost(IdPost, pageP, token);
       if (commentsData.data.message === "ok") {
         if (commentsData.data?.data) {
           setComments((prevComments) => [

@@ -16,6 +16,7 @@ import {
   GetCommunityWithUserMembership,
 } from "../../../../services/backGo/communities";
 import CommunityInfo from "../CommunityInfo";
+import PostCreator from "../../PostCreator";
 
 export default function CommunitiesMuro({ isMobile, userName }) {
   const { id } = useParams();
@@ -31,6 +32,7 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   const [dropdownEmotes, setDropdownEmotes] = useState(false);
   const [Posts, setPosts] = useState(null);
   const [communityInfo, setCommunityInfo] = useState(null);
+  const [selectedCommunityID, setSelectedCommunityID] = useState(id); // Estado para manejar la comunidad seleccionada
 
   const clearImages = () => {
     setImage(null);
@@ -81,11 +83,13 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   }, []);
 
   async function handleSubmit() {
-    if (message != "") {
+    if (message !== "") {
       const formData = new FormData();
       formData.append("Status", message);
-      formData.append("imgPost", file);
-      formData.append("communityID", id);
+      if (file) {
+        formData.append("imgPost", file);
+      }
+      formData.append("communityID", selectedCommunityID);
 
       try {
         if (token) {
@@ -94,12 +98,14 @@ export default function CommunitiesMuro({ isMobile, userName }) {
           const res = await PostCreate(formData, token);
           if (res?.message === "StatusCreated") {
             setPosts([res.post, ...Posts]);
-            // alert({ type: "SUCCESS" });
           }
         }
-      } catch (error) {}
+      } catch (error) {
+        console.error("Error al crear el post", error);
+      }
     }
   }
+
   const onMouseEnterEmotes = () => {
     if (dropdownEmotes === true) {
       setDropdownEmotes(false);
@@ -128,281 +134,27 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   return (
     <div className="PostComunidad-conteiner">
       {communityInfo && <CommunityInfo community={communityInfo} />}
-      {userName?.NameUser && !isMobile && (
-        <div
-          onDragEnterCapture={() => setOnDrag(true)}
-          className="muro-send-tweet"
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              justifyContent: "center",
-              padding: "10px 0px ",
-              width: "90%",
-              margin: "0 auto",
-              gap: "15px",
-            }}
-          >
-            <div className="tweetcard-avatar">
-              <img
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  objectFit: "cover",
-                  borderRadius: "100%",
-                }}
-                src={AvatarSearch ? AvatarSearch : "/images/search.svg"}
-              />
-            </div>
 
-            {/* <img
-        src={"/images/search.svg"}
-        style={{
-          fontSize: "16px",
-          color: "rgb(89 89 89)",
-          margin: "8px",
-        }}
-      /> */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-              }}
-            >
-              <TextField
-                label="¿Qué está pasando?"
-                variant="outlined"
-                fullWidth
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                multiline
-                rows={1}
-                InputProps={{
-                  style: {
-                    color: "white",
-                    borderColor: "white",
-                  },
-                  classes: {
-                    notchedOutline: {
-                      borderColor: "white",
-                    },
-                  },
-                }}
-                InputLabelProps={{
-                  style: { color: "white" },
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "white",
-                  },
-                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                    {
-                      borderColor: "white",
-                    },
-                  "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                    {
-                      borderColor: "white",
-                    },
-                  "& .MuiInputBase-input": {
-                    color: "white",
-                  },
-                  "& .MuiInputLabel-outlined": {
-                    color: "white",
-                  },
-                  "& .MuiInputBase-input::placeholder": {
-                    color: "white",
-                    opacity: 1,
-                  },
-                }}
-                // sx={{ flex: 1, marginBottom: 2, color:'white' }}
-              />
-              <Typography
-                variant="subtitle1"
-                style={{
-                  marginTop: "10px",
-                  color: message?.length > 100 ? "red" : "white",
-                  textAlign: "right",
-                }}
-              >
-                {message.length}/100
-              </Typography>
-            </div>
-          </div>
+      {/* esto */}
+      <PostCreator
+        AvatarSearch={AvatarSearch}
+        message={message}
+        setMessage={setMessage}
+        file={file}
+        setFile={setFile}
+        image={image}
+        setImage={setImage}
+        clearImages={clearImages}
+        dropdownEmotes={dropdownEmotes}
+        setDropdownEmotes={setDropdownEmotes}
+        handleSubmit={handleSubmit}
+        handleChange2={handleChange2}
+        onMouseEnterEmotes={() => setDropdownEmotes(!dropdownEmotes)}
+        onDrag={onDrag}
+        setOnDrag={setOnDrag}
+      />
 
-          {file != null && (
-            <div
-              style={{
-                textAlign: "center",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <i
-                onClick={() => clearImages()}
-                style={{
-                  color: "white",
-                  cursor: "pointer",
-                  height: "20px",
-                  width: "20px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: "50px",
-                  position: "relative",
-                  left: "35px",
-                  top: "10px",
-                  padding: "5px",
-                  backgroundColor: "#303030",
-                }}
-                class="fas fa-times"
-              />
-              <img style={{ maxWidth: "320px" }} src={image} />
-            </div>
-          )}
-
-          {onDrag && file === null && (
-            <FileUploader
-              hoverTitle="Soltar aca"
-              label="Subir archivo a tu publicación"
-              multiple={false}
-              classes="muro-drag-input"
-              handleChange={handleChange}
-              name="file"
-              types={fileTypes}
-            />
-          )}
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "90%",
-              margin: "0 auto",
-              padding: "15px 0px",
-              borderTop: "1px solid #2a2e38",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                width: "80%",
-                justifyContent: "space-between",
-              }}
-            >
-              <Grid
-                style={{
-                  display: "flex",
-                  width: "80%",
-                  justifyContent: "flex-start",
-                }}
-              >
-                <div
-                  className="mure-send-tweet-icons-card"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: "5px",
-                    padding: "0px",
-                  }}
-                >
-                  <i
-                    style={{
-                      padding: "5px",
-                      color: "#ff4aa7d2",
-                    }}
-                    class="fas fa-photo-video"
-                  />
-                  <input
-                    onChange={(e) => handleChange2(e)}
-                    style={{
-                      backgroundColor: "red",
-                      width: "30px",
-                      position: "absolute",
-                      opacity: "0",
-                    }}
-                    type="file"
-                  />
-                </div>
-
-                <div
-                  onClick={() => onMouseEnterEmotes()}
-                  className="mure-send-tweet-icons-card"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <i
-                    style={{
-                      padding: "5px",
-                      color: "#ff4aa7d2",
-                      marginRight: "5px",
-                    }}
-                    class="far fa-smile"
-                  />
-                  {dropdownEmotes && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        zIndex: "1001",
-                        marginTop: "60px",
-                      }}
-                    >
-                      <EmojiPicker
-                        onEmojiClick={(e) => console.log("clickEmoji(e)")}
-                        autoFocusSearch={false}
-                        theme={Theme.DARK}
-                        searchDisabled
-                        height={"300px"}
-                        width="300px"
-                        lazyLoadEmojis={true}
-                        previewConfig={{
-                          showPreview: false,
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </Grid>
-
-              <Grid
-                style={{
-                  backgroundColor: "#2a2e38",
-                  borderRadius: "5px",
-                  width: "25%",
-                }}
-              >
-                <select
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: "#2a2e38",
-                    borderRadius: "5px",
-                    color: "white",
-                  }}
-                  name="cars"
-                  id="cars"
-                >
-                  <option value="Publico"> Público</option>
-                  <option value="Privado"> Privado</option>
-                </select>
-              </Grid>
-            </div>
-            <button
-              onClick={() => handleSubmit()}
-              className="muro-send-tweet-button"
-            >
-              Postear
-            </button>
-          </div>
-        </div>
-      )}
-
+      {/* esto */}
       <div className="muro-tweet-container">
         {Posts &&
           Posts.map((P) => (

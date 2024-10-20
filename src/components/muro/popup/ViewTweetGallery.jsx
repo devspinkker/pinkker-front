@@ -48,7 +48,7 @@ export default function ViewTweetGallery({
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const commentsData = await GetCommentPost(tweet?._id, page);
+        const commentsData = await GetCommentPost(tweet?._id, page, token);
         if (commentsData.data.message === "ok") {
           if (commentsData.data?.data) {
             setComments(commentsData.data?.data);
@@ -118,7 +118,7 @@ export default function ViewTweetGallery({
 
   const GetCommentsScroll = async (pageP) => {
     try {
-      const commentsData = await GetCommentPost(IdPost, pageP);
+      const commentsData = await GetCommentPost(IdPost, pageP, token);
       if (commentsData.data.message === "ok") {
         if (commentsData.data?.data) {
           setComments((prevComments) => [

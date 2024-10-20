@@ -7,10 +7,10 @@ import { MoreViewOfTheClip } from "../../../services/backGo/clip";
 import Tippy from "@tippyjs/react";
 
 export default function SelectVideoClip({ clip, toggleSelect }) {
-
-  console.log('clip', clip)
-  console.log('toggleSelect', toggleSelect)
+  console.log("clip", clip);
+  console.log("toggleSelect", toggleSelect);
   const [progress, setProgress] = useState(0);
+  const token = window.localStorage.getItem("token");
   const [showLoader, setShowLoader] = useState(true);
   const [playing, setPlaying] = useState(true);
   const [volumePlayer, setVolumePlayer] = useState(1);
@@ -24,7 +24,9 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
       setProgress(newProgress);
 
       if (newProgress > 50.0 && newProgress < 50.5) {
-        await MoreViewOfTheClip(clip.id);
+        if (token) {
+          await MoreViewOfTheClip(clip.id);
+        }
       }
     }
   };

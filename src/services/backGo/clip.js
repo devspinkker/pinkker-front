@@ -234,13 +234,15 @@ export const DeleteClipByIDAndUserID = async (IdClip, token) => {
 };
 
 
-export const MoreViewOfTheClip = async (ClipId) => {
+export const MoreViewOfTheClip = async (ClipId, token) => {
     try {
         const res = await axios.post(
             `${url}/clips/MoreViewOfTheClip`,
             {
                 ClipId: ClipId,
-            });
+            }, {
+            headers: { Authorization: token },
+        });
         return res;
     } catch (error) {
 

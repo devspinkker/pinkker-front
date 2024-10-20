@@ -47,6 +47,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
   const toggleSelect = () => {
     setSelectedVideo(!selectedVideo);
   };
+  const token = window.localStorage.getItem("token");
   console.log("ruta", ruta);
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -97,7 +98,9 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
 
     if (newProgress > 50.0 && newProgress < 50.5) {
       setHasCalledFunction(true);
-      await MoreViewOfTheClip(selectedVideo.video.id);
+      if (token) {
+        await MoreViewOfTheClip(selectedVideo.video.id);
+      }
     }
   };
 
