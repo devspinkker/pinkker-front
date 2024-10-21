@@ -37,6 +37,8 @@ export default function Communities({ isMobile }) {
   const [Posts, setPosts] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
   const [subscriptionAmount, setSubscriptionAmount] = useState("");
+  const [bannerFile, setBannerFile] = useState(null);
+
   const handleFindCommunityByName = async () => {
     if (searchQuery.trim()) {
       const res = await FindCommunityByName({
@@ -89,19 +91,20 @@ export default function Communities({ isMobile }) {
   const handleCreateCommunity = async () => {
     try {
       const cat = [categories];
-      const response = await CreateCommunity({
-        community_name: communityName,
-        description,
-        is_private: isPrivate,
-        categories: cat,
-        totp_code: totpCode,
-        is_paid: isPaid,
-        subscription_amount: parseInt(subscriptionAmount),
-        token,
-      });
+      const formData = new FormData();
+      formData.append("community_name", communityName);
+      formData.append("description", description);
+      formData.append("is_private", isPrivate);
+      formData.append("categories", cat);
+      formData.append("totp_code", totpCode);
+      formData.append("is_paid", isPaid);
+      formData.append("subscription_amount", subscriptionAmount);
 
-      console.log("Community created:", response.data);
-      handleClose(); // Cerrar el modal después de la creación
+      if (bannerFile) {
+        formData.append("Banner", bannerFile);
+      }
+      const response = await CreateCommunity(formData, token);
+      handleClose();
     } catch (error) {
       console.error("Error creating community:", error);
     }
@@ -191,6 +194,12 @@ export default function Communities({ isMobile }) {
                 className="inputsStyles custom-textfield"
                 variant="outlined"
                 InputProps={{ inputProps: { min: 0 } }}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                placeholder="banner"
+                onChange={(e) => setBannerFile(e.target.files[0])}
               />
               <FormControlLabel
                 control={

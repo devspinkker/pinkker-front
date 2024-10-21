@@ -5,27 +5,22 @@ export const setToken = (newObject) => {
     token = newObject;
 };
 
-export const CreateCommunity = async ({ community_name, description, is_private, categories, totp_code, is_paid, subscription_amount, token }) => {
-
+export const CreateCommunity = async (formData, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data', // Necesario para enviar archivos
         },
     };
+
     const response = await axios.post(
-        `${url}/communities/CreateCommunity`, {
-        community_name,
-        description,
-        is_private,
-        categories,
-        is_paid,
-        subscription_amount,
-        totp_code
-    },
+        `${url}/communities/CreateCommunity`,
+        formData,
         config
     );
-    return response
-}
+
+    return response;
+};
 
 export const AddMember = async ({ community_id, token }) => {
     const config = {
