@@ -192,6 +192,8 @@ function SliderLayout(props) {
                     spectators={categorie.spectators}
                     tags={categorie.tags}
                     TopColor={categorie.TopColor}
+                    isMobile={props.isMobile}
+
                   />
                 </SwiperSlide>
               )
@@ -258,6 +260,7 @@ function SliderLayout(props) {
                   spectators={categorie.spectators}
                   tags={categorie.tags}
                   TopColor={categorie.TopColor}
+                  isMobile={props.isMobile}
                 />
               </SwiperSlide>
             )

@@ -94,9 +94,9 @@ input::placeholder {
 
 @media screen and (max-width: 768px) {
   .navbar-search-dark {
-    width: 100% !important;
+    width: 30% !important;
     left: 0px !important;
-    margin-left: 0px;
+   
   }
 
   .navbar-search-margin {
