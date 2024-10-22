@@ -4,6 +4,7 @@ import "./CardCategorie.css";
 import { Typography } from "@mui/material";
 
 export default function CustomCard(props) {
+
   const formatViewers = (viewers) => {
     if (viewers >= 1000) {
       return (viewers / 1000).toFixed(1) + "k";
@@ -31,7 +32,7 @@ export default function CustomCard(props) {
     <>
       {image && (
         <div
-        
+
           style={{
             position: props.isLoading && "absolute",
             opacity: props.isLoading && "0",
@@ -55,18 +56,18 @@ export default function CustomCard(props) {
                   width: `${props.width}`,
                   height: `${props.height}`,
                 }}
-                className= "img-categorie-card"
+                className="img-categorie-card"
                 src={props.image}
                 loading={"lazy"}
                 alt=""
               />
-              {props?.titulo && <span style={{position:'relative', top:'-188px', left:'65px'}}>Ver Todos</span>}
-                <Typography style={{textAlign:'center', fontSize:14}}>{props.name}</Typography>
+              {props?.titulo && <span style={{ position: 'relative', top: '-188px', left: '65px' }}>Ver Todos</span>}
             </Link>
           </div>
+          <Typography style={{ marginLeft: props.isMobile ? '25%' :'5px', textAlign: 'left', fontSize: 14, fontWeight: 600, width: props.isMobile && '100%' }}>{props.name}</Typography>
           <div className="user_data_contain">
             <div className="custom-categories-p-2">
-              
+
               {!props.titulo && <span id="pulsatingDot" />}
               <p className="custom-categories-p-2-spectators">
                 {!props?.titulo &&

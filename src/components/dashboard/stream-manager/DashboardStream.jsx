@@ -629,75 +629,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                         </Grid>
                       </Grid>
                     </div>
-                    <div
-                      className="Información-sesión"
-                      style={{
-                        display: showComandosList && "none",
-                      }}
-                    >
-                      <section className="base-card !p-0">
-                        <div className="Información-sesión-p1">
-                          <div
-                            title="Información de sesión"
-                            className="flex flex-row items-center gap-1"
-                          >
-                            <CiStreamOn
-                              style={{ color: "white", fontSize: "30px" }}
-                            />
 
-                            <span
-                              style={{
-                                padding: "0px 10px",
-                              }}
-                              className="shrinkS2"
-                            >
-                              Servidor y clave de stream
-                            </span>
-                          </div>
-                          <Grid style={{ display: 'flex', alignItems: 'center' }}>
-                            <Grid style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
-
-                              <input
-                                value={process.env.REACT_APP_RTMPSTARTSTREAM}
-                                className="settingstream-input"
-                                style={{ width: "90%" }}
-                                type="text"
-                                readOnly
-                              />
-
-                              <input
-                                value={showKey ? user?.cmt : "******************"}
-                                className="settingstream-input"
-                                style={{ width: "90%" }}
-                                type="text"
-                              />
-                            </Grid>
-
-                            <div
-                              style={{
-                                marginTop: "10px",
-                                display: "flex",
-                                flexDirection: "column"
-                              }}
-                            >
-                              <button
-                                onClick={() => setShowKey(!showKey)}
-                                className="button-copy"
-                              >
-                                {showKey ? "Ocultar" : "Mostrar"}
-                              </button>
-                              <button
-                                onClick={() => copyToClipboard(user?.cmt)}
-                                className="button-copy"
-                              >
-                                Copiar
-                              </button>
-                              <button className="button-copy">Restablecer</button>
-                            </div>
-                          </Grid>
-                        </div>
-                      </section>
-                    </div>
                     <div className="right-panel__content">
                       {/* <div className="flex shrinkS2 grow flex-col gap-2 overflow-y-hidden p-2.5">
                         <div
@@ -790,7 +722,76 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
 
           </div>
           <div className="base-card-act" style={{ backgroundColor: '#131418', width: '50%', height: '100% !important' }}>
+            <div
+              className="Información-sesión"
+              style={{
+                display: showComandosList && "none",
+              }}
+            >
+              <section className="base-card !p-0">
+                <div className="Información-sesión-p1">
+                  <div
+                    title="Información de sesión"
+                    className="flex flex-row items-center gap-1"
+                  >
+                    <CiStreamOn
+                      style={{ color: "white", fontSize: "30px" }}
+                    />
 
+                    <span
+                      style={{
+                        padding: "0px 10px",
+                      }}
+                      className="shrinkS2"
+                    >
+                      Servidor y clave de stream
+                    </span>
+                  </div>
+                  <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                    <Grid style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
+
+                      <input
+                        value={process.env.REACT_APP_RTMPSTARTSTREAM}
+                        className="settingstream-input"
+                        style={{ width: "90%" }}
+                        type="text"
+                        readOnly
+                      />
+
+                      <input
+                        value={showKey ? user?.cmt : "******************"}
+                        className="settingstream-input"
+                        style={{ width: "90%" }}
+                        type="text"
+                      />
+                    </Grid>
+
+                    <div
+                      style={{
+                        marginTop: "10px",
+                        display: "flex",
+                        flexDirection: "column"
+                      }}
+                    >
+                      <button
+                        onClick={() => setShowKey(!showKey)}
+                        className="button-copy"
+                      >
+                        {showKey ? "Ocultar" : "Mostrar"}
+                      </button>
+                      <button
+                        onClick={() => copyToClipboard(user?.cmt)}
+                        className="button-copy"
+                      >
+                        Copiar
+                      </button>
+                      <button className="button-copy">Restablecer</button>
+                    </div>
+                  </Grid>
+                </div>
+              </section>
+            </div>
+            
             <div className="Feeddeactividades_container">
 
               <div title="Feed de actividades" className="Feeddeactividades">
@@ -849,7 +850,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
           </div>
 
           {
-            mostrarditInfoStream && <PopupEditInfo closePopup={toggleEditInfoStream} stream={streamerData} user={userData}/>
+            mostrarditInfoStream && <PopupEditInfo closePopup={toggleEditInfoStream} stream={streamerData} user={userData} />
           }
 
           {/* Parte 1 */}

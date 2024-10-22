@@ -9,8 +9,12 @@ import {
   Dialog,
   DialogContent,
   Drawer,
+  FormControl,
   Grid,
   IconButton,
+  InputBase,
+  MenuItem,
+  Select,
   Tab,
   Tabs,
   TextField,
@@ -31,7 +35,7 @@ import {
 } from "../../services/backGo/streams";
 import { GrHomeRounded } from "react-icons/gr";
 import { FiSearch } from "react-icons/fi";
-import { AiOutlineMenu, AiOutlinePlayCircle } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineMenu, AiOutlinePlayCircle } from "react-icons/ai";
 import { BsChatDots, BsChatSquareText, BsWallet } from "react-icons/bs";
 import { CgTennis } from "react-icons/cg";
 import { ImDice } from "react-icons/im";
@@ -43,6 +47,7 @@ import {
 } from "react-icons/io";
 import { HiChatBubbleLeftEllipsis } from "react-icons/hi2";
 
+import { MdArrowDropDown } from 'react-icons/md'; // Icono de dropdown
 import { TfiWallet } from "react-icons/tfi";
 import { AiOutlineUser } from "react-icons/ai";
 import { LiaSlidersHSolid } from "react-icons/lia";
@@ -66,6 +71,7 @@ import {
   IoArrowBackCircleOutline,
   IoChatbubbleOutline,
   IoCloseCircleOutline,
+  IoSearch,
 } from "react-icons/io5";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import zIndex from "@mui/material/styles/zIndex";
@@ -272,7 +278,7 @@ function NLayout(props) {
         }
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
 
       setSocket(newSocket);
       window.addEventListener("beforeunload", () => {
@@ -478,88 +484,6 @@ function NLayout(props) {
     setOpenVideo(false);
     setVideoUrl("");
   };
-  const handleTabChange = (event, newIndex) => {
-    setTabIndex(newIndex);
-  };
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-
-    if (value.length <= 0) {
-      setSearch([]);
-      setText(null);
-    } else {
-      setText(value);
-
-      const getUser = () => {
-        return fetchSearch(value).then((res) => {
-          console.log("fetchSearch result:", res.data.data);
-          return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
-        });
-      };
-
-      const getClip = () => {
-        return GetClipsByTitle(value).then((res) => {
-          return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
-        });
-      };
-      const getVods = () => {
-        return getStreamSummariesByTitle(value).then((res) => {
-          return Array.isArray(res.data) ? res.data : []; // Asegurarse de que es un array
-        });
-      };
-
-      if (tabIndex === 3) {
-        getVods()
-          .then((data) => {
-            console.log("Vods:", data);
-            setSearch(data);
-          })
-          .catch((error) => {
-            console.error("Error getting clips:", error);
-          });
-      } else if (tabIndex === 2) {
-        getClip()
-          .then((data) => {
-            setSearch(data);
-          })
-          .catch((error) => {
-            console.error("Error getting clips:", error);
-          });
-      } else if (tabIndex === 0) {
-        Promise.all([getUser(), getClip(), getVods()])
-          .then((results) => {
-            const userResults = Array.isArray(results[0]) ? results[0] : [];
-            const clipResults = Array.isArray(results[1]) ? results[1] : [];
-            const VodsResults = Array.isArray(results[2]) ? results[2] : [];
-
-            const combinedResults = [
-              ...userResults,
-              ...clipResults,
-              ...VodsResults,
-            ];
-
-            setSearch(combinedResults);
-          })
-          .catch((error) => {
-            console.error("Error combining results:", error);
-          });
-      } else {
-        getUser()
-          .then((data) => {
-            setSearch(data);
-          })
-          .catch((error) => {
-            console.error("Error getting user:", error);
-          });
-      }
-    }
-  };
-  useEffect(() => {
-    if (text?.length > 0) {
-      handleChange({ target: { value: text } });
-    }
-  }, [tabIndex]);
 
   const [loading, setLoading] = useState(
     currentPath?.includes("/plataform/clips/") ? false : true
@@ -623,11 +547,104 @@ function NLayout(props) {
   const pixeles = props.user?.Pixeles;
   const formattedPixeles = pixeles
     ? new Intl.NumberFormat("es-ES", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 3,
-      }).format(pixeles)
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 3,
+    }).format(pixeles)
     : "0";
+  const [category, setCategory] = useState(0); // Estado inicial
 
+  const handleCategoryChange = (event) => {
+    const selectedCategory = event.target.value;
+    setCategory(selectedCategory); // Actualiza el estado de la categoría
+  };
+  useEffect(() => {
+    if (text?.length > 0) {
+      handleChange({ target: { value: text } });
+    }
+  }, [category]);
+
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    console.log('category', category)
+    if (value.length <= 0) {
+      setSearch([]);
+      setText(null);
+
+    } else {
+      setText(value);
+
+      const getUser = () => {
+        return fetchSearch(value).then((res) => {
+          console.log("fetchSearch result:", res.data.data);
+          return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
+        });
+      };
+
+      const getClip = () => {
+        return GetClipsByTitle(value).then((res) => {
+          return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
+        });
+      };
+      const getVods = () => {
+        return getStreamSummariesByTitle(value).then((res) => {
+          return Array.isArray(res.data) ? res.data : []; // Asegurarse de que es un array
+        });
+      };
+
+      if (category == 3) {
+        console.log('entra en 3')
+
+        getVods()
+          .then((data) => {
+            console.log("Vods:", data);
+            setSearch(data);
+          })
+          .catch((error) => {
+            console.error("Error getting clips:", error);
+          });
+      } else if (category == 2) {
+        console.log('entra en 2')
+
+        getClip()
+          .then((data) => {
+            setSearch(data);
+          })
+          .catch((error) => {
+            console.error("Error getting clips:", error);
+          });
+      } else if (category == 0) {
+        console.log('entra en 0')
+        Promise.all([getUser(), getClip(), getVods()])
+          .then((results) => {
+            const userResults = Array.isArray(results[0]) ? results[0] : [];
+            const clipResults = Array.isArray(results[1]) ? results[1] : [];
+            const VodsResults = Array.isArray(results[2]) ? results[2] : [];
+
+            const combinedResults = [
+              ...userResults,
+              ...clipResults,
+              ...VodsResults,
+            ];
+
+            setSearch(combinedResults);
+          })
+          .catch((error) => {
+            console.error("Error combining results:", error);
+          });
+      } else {
+        console.log('entra en 1')
+
+        getUser()
+          .then((data) => {
+            setSearch(data);
+          })
+          .catch((error) => {
+            console.error("Error getting user:", error);
+          });
+      }
+    }
+  };
   const getNavDesktop = () => {
     return loading ? (
       <div className={`loading-overlay ${loading ? "fade-out" : ""}`}>
@@ -908,7 +925,7 @@ function NLayout(props) {
               >
                 <div className="pixel-coming-soon-navbarLeft-img-pixel-container">
                   {new Date(props.user?.PinkkerPrime?.SubscriptionEnd) >
-                  new Date() ? (
+                    new Date() ? (
                     <img
                       className="pixel-coming-soon-navbarLeft-img-pixel"
                       style={{
@@ -1203,10 +1220,10 @@ function NLayout(props) {
               props.tyExpanded && props.txExpandedLeft
                 ? "85%"
                 : props.tyExpanded && !props.txExpandedLeft
-                ? "85%"
-                : !props.tyExpanded && props.txExpandedLeft
-                ? "85%"
-                : "95%",
+                  ? "85%"
+                  : !props.tyExpanded && props.txExpandedLeft
+                    ? "85%"
+                    : "95%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1255,18 +1272,18 @@ function NLayout(props) {
           ) : (
             <Grid
               className="navTopHome"
-              // style={{
-              //   borderBottom: "1px solid #2a2e38",
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "space-between",
-              //   padding: "15.5px 5.8rem",
-              //   position: "sticky",
-              //   top: 0,
-              //   zIndex: 9999,
-              //   backgroundColor: "#080808",
-              //   width: "103.5%",
-              // }}
+            // style={{
+            //   borderBottom: "1px solid #2a2e38",
+            //   display: "flex",
+            //   alignItems: "center",
+            //   justifyContent: "space-between",
+            //   padding: "15.5px 5.8rem",
+            //   position: "sticky",
+            //   top: 0,
+            //   zIndex: 9999,
+            //   backgroundColor: "#080808",
+            //   width: "103.5%",
+            // }}
             >
               <Link to="/" style={{ width: "230px" }}>
                 <img
@@ -1609,224 +1626,84 @@ function NLayout(props) {
                   >
                     <DialogContent
                       style={{
-                        backgroundColor: "#131418", // Fondo oscuro
+
                         padding: "0px !important", // Espaciado interno
                         borderRadius: "8px", // Bordes redondeados
                         color: "white",
                       }}
                     >
                       <Grid
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          backgroundColor: "#080808",
-                          padding: "15px",
-                        }}
-                      >
-                        <TextField
-                          autoFocus
-                          margin="dense"
-                          label="Buscar"
-                          type="search"
-                          fullWidth
-                          variant="outlined"
-                          value={text}
-                          onChange={handleChange}
-                          style={{ width: "97%" }}
-                          InputProps={{
-                            style: {
-                              color: "white",
-                              borderColor: "white",
-                              borderRadius: "1000px",
-                              backgroundColor: "#212129",
-                            },
-                            classes: {
-                              notchedOutline: {
-                                borderColor: "white",
-                                borderRadius: "1000px",
-                              },
-                            },
-                          }}
-                          InputLabelProps={{
-                            style: { color: "white" },
-                          }}
-                          inputProps={{
-                            style: {
-                              color: "white",
-                              borderColor: "white",
-                              borderRadius: "1000px",
-                            },
-                            placeholder: "Buscar",
-                          }}
-                          sx={{
-                            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
-                            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
-                            "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                              {
-                                borderColor: "white",
-                              },
-                            "& .MuiInputBase-input": {
-                              color: "white",
-                              backgroundColor: "#212129",
-                            },
-                            "& .MuiInputLabel-outlined": {
-                              color: "white",
-                            },
-                            "& .MuiInputBase-input::placeholder": {
-                              color: "white",
-                              opacity: 1,
-                            },
-                          }}
-                        />
-
-                        <i
-                          onClick={() => setHabilitar(false)}
-                          style={{
-                            fontSize: props.isMobile ? "20px" : "24px",
-                            cursor: "pointer",
-                          }}
-                          class="fas fa-times"
-                        />
-                      </Grid>
-
-                      <Grid
                         position="static"
                         style={{
-                          borderTop: "2px solid #2a2e37",
-                          padding: "24px",
+                          background: 'rgb(8, 8, 8)',
+                          padding: '15px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px'
                         }}
                       >
-                        <Tabs
-                          value={tabIndex}
-                          onChange={handleTabChange}
-                          variant="fullWidth"
-                          TabIndicatorProps={{ style: { display: "none" } }}
+                        <Box
                           sx={{
-                            "& .MuiTab-root": {
-                              minWidth: "auto", // para que el ancho mínimo no sea forzado por Material-UI
-                              width: "auto", // ancho automático basado en el contenido
-                              padding: "0 10px", // ajusta el padding según sea necesario
-                            },
+                            display: 'flex',
+                            alignItems: 'center',
+                            backgroundColor: '#2C2C2E',
+                            borderRadius: '999px',
+                            padding: '0.5rem',
+                            width: '100%',
                           }}
                         >
-                          <Tab
-                            label={
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "5px",
-                                }}
-                              >
-                                <MdManageSearch style={{ fontSize: "32px" }} />
-                                Todos
-                              </div>
-                            }
-                            style={{
-                              color: tabIndex === 0 ? "#f16397" : "#fff",
-                              backgroundColor: "#202329",
-                              border:
-                                tabIndex === 0
-                                  ? "1px solid #f16397"
-                                  : "inherit",
 
-                              borderRadius: "10px",
-                              margin: "0 5px",
-                              textTransform: "none",
-                              fontWeight: "bold",
-                            }}
-                          />
-                          <Tab
-                            label={
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "5px",
-                                }}
-                              >
-                                <RiUserSearchLine
-                                  style={{ fontSize: "32px" }}
-                                />
-                                Usuarios
-                              </div>
-                            }
-                            style={{
-                              color: tabIndex === 1 ? "#f16397" : "#fff",
-                              backgroundColor: "#202329",
-                              border:
-                                tabIndex === 1
-                                  ? "1px solid #f16397"
-                                  : "inherit",
-                              borderRadius: "10px",
-                              margin: "0 5px",
-                              textTransform: "none",
-                              fontWeight: "bold",
-                            }}
-                          />
-                          <Tab
-                            label={
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "5px",
-                                }}
-                              >
-                                <MdOndemandVideo style={{ fontSize: "32px" }} />
-                                Clips
-                              </div>
-                            }
-                            style={{
-                              color: tabIndex === 2 ? "#f16397" : "#fff",
-                              backgroundColor: "#202329",
-                              border:
-                                tabIndex === 2
-                                  ? "1px solid #f16397"
-                                  : "inherit",
-                              borderRadius: "10px",
-                              margin: "0 5px",
-                              textTransform: "none",
-                              fontWeight: "bold",
-                            }}
-                          />
-                          <Tab
-                            label={
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "5px",
-                                }}
-                              >
-                                <MdOndemandVideo style={{ fontSize: "32px" }} />
-                                Vods
-                              </div>
-                            }
-                            style={{
-                              color: tabIndex === 3 ? "#f16397" : "#fff",
-                              backgroundColor: "#202329",
-                              border:
-                                tabIndex === 3
-                                  ? "1px solid #f16397"
-                                  : "inherit",
-                              borderRadius: "10px",
 
-                              margin: "0 5px",
-                              textTransform: "none",
-                              fontWeight: "bold",
+                          <select
+                            value={category}
+                            onChange={handleCategoryChange}
+                            style={{
+                              backgroundColor: '#3D3D40',
+                              color: '#fff',
+                              borderRadius: '50px',
+                              padding: '1rem 1rem',
+                              appearance: 'none',
+                              WebkitAppearance: 'none',
+                              MozAppearance: 'none',
+                              border: 'none',
+                              outline: 'none',
+                              width: '10%',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            <option style={{ color: 'white' }} value={0}>Todos</option>
+                            <option style={{ color: 'white' }} value={1}>Usuarios</option>
+                            <option style={{ color: 'white' }} value={2}>Clips</option>
+                            <option style={{ color: 'white' }} value={3}>Vods</option>
+                          </select>
+
+
+
+
+                          <InputBase
+                            placeholder="Buscar"
+                            value={text}
+                            onChange={handleChange}
+                            sx={{
+                              flexGrow: 1,
+                              color: '#fff',
+                              marginLeft: '1rem',
                             }}
                           />
-                        </Tabs>
+
+                        </Box>
+
+                        <IconButton sx={{
+                          color: '#fff',
+                          '&:hover': {
+                            backgroundColor: '#343843', // Color de fondo al hacer hover
+                          },
+                        }} onClick={() => setHabilitar(false)} >
+                          <AiOutlineClose />
+                        </IconButton>
                       </Grid>
+
+
                       <Box
                         mt={2}
                         style={{ backgroundColor: "#080808", height: "100%" }}
@@ -1848,7 +1725,7 @@ function NLayout(props) {
                                 style={{ backgroundColor: "#080808" }}
                               >
                                 {!game?.streamThumbnail &&
-                                !game?.StreamThumbnail ? (
+                                  !game?.StreamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
@@ -1923,7 +1800,7 @@ function NLayout(props) {
                                         game?.url,
                                         game?.StreamThumbnail && true,
                                         game?.StreamThumbnail &&
-                                          game?.UserInfo?.NameUser,
+                                        game?.UserInfo?.NameUser,
                                         game?.StreamThumbnail && game?.id
                                       )
                                     }
@@ -2297,20 +2174,52 @@ function NLayout(props) {
               height: "100px",
             }}
           >
-            <Link
-              to="/"
-              style={{
-                width: "40%",
-                padding: "0 !important",
-                margin: "0 !important",
-              }}
-            >
-              <img
-                src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
-                style={{ width: "100%" }}
-                alt=""
-              />
+            <Link to="/" style={{ width: "10%" }}>
+              <img src={logoMobile} style={{ width: "100%" }} alt="" />
             </Link>
+
+            <div
+              ref={divRef}
+              style={{
+                padding: props.tyExpanded && "0 0 0 1rem",
+                height: props.tyExpanded && "3rem",
+                lineHeight: props.tyExpanded && 2,
+                display: "flex",
+                width: props.tyExpanded && "88% !important",
+                cursor: "pointer",
+              }}
+              onClick={() => props.setExpanded(true)}
+              className={"navbar-search-dark"}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: props.isMobile ? "50px" : "",
+                }}
+              >
+                <img
+                  src="/images/search.svg"
+                  style={{
+                    fontSize: props.tyExpanded ? "18px" : "16px",
+                    color: "rgb(89 89 89)",
+                    margin: props.tyExpanded ? "5px" : "8px",
+                  }}
+                />
+
+                {props.tyExpanded && (
+                  <input
+                    style={{ fontSize: "16px" }}
+                    onClickCapture={() => setHabilitar(!habilitar)}
+                    placeholder="Buscar"
+                    type="search"
+                    className="input-searchbar"
+                  />
+                )}
+              </div>
+            </div>
+
             <Grid
               style={{
                 display: "flex",
@@ -2439,6 +2348,11 @@ function NLayout(props) {
               <Grid
                 style={{ display: "flex", alignItems: "center", gap: "5px" }}
               >
+
+                <IconButton sx={{ color: '#fff' }} >
+                  <IoSearch onClick={() => setHabilitar(!habilitar)} />
+                </IconButton>
+
                 <div
                   onClick={() => habilitarNotificaciones()}
                   className="navbar-image-avatar-container"
@@ -2462,30 +2376,7 @@ function NLayout(props) {
                     />
                   </div>
                 </div>
-                <div
-                  onClick={() => habilitarMensaje()}
-                  className="navbar-image-avatar-container"
-                >
-                  <div
-                    style={{
-                      width: "40px",
-                      position: "relative",
-                      left: "  ",
-                      top: "2px",
-                    }}
-                    className="navbar-image-avatar"
-                  >
-                    {/* <img
-                        src={"/images/iconos/mensaje.png"}
-                        alt=""
-                        style={{ width: "60%" }}
-                      /> */}
-                    {notificacion && (
-                      <span className="messagechat-InfoUserTo-notiNav"></span>
-                    )}
-                    <BsChatDots style={{ fontSize: "24px", color: "white" }} />
-                  </div>
-                </div>
+
               </Grid>
               <Grid
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
@@ -2619,6 +2510,23 @@ function NLayout(props) {
                       marginTop: "15px",
                     }}
                   >
+                    <div
+                      onClick={() => habilitarMensaje()}
+                      className="dropdownaccount-link"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      {notificacion && (
+                        <span className="messagechat-InfoUserTo-notiNav"></span>
+                      )}
+                      <BsChatDots style={{ marginRight: "10px", fontSize: "24px", color: "white" }} />
+                      Mensajes
+
+                    </div>
+
                     <Link
                       className="dropdownaccount-link"
                       to={"/" + props.user?.NameUser}
@@ -2804,17 +2712,17 @@ function NLayout(props) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2826,7 +2734,7 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
@@ -2852,6 +2760,273 @@ function NLayout(props) {
               typeDefault={type}
               closePopup={() => togglePopupAuth()}
             />
+          )}
+
+          {habilitar && (
+            <div className="auth-body-container">
+              <div className={"auth-body"}>
+                <div
+                  style={{
+                    height: "95% ",
+                    textAlign: "center",
+                    backgroundColor: "#121418",
+                    borderRadius: "5px",
+                    zIndex: 9999,
+                    display: "flex",
+                    boxShadow: "5px 5px 20px 5px rgba(0, 0, 0, 0.651)",
+                    width: "85%",
+                  }}
+                >
+                  <DialogContent
+                    style={{
+
+                      padding: "0px !important", // Espaciado interno
+                      borderRadius: "8px", // Bordes redondeados
+                      color: "white",
+                    }}
+                  >
+                    <Grid
+                      position="static"
+                      style={{
+                        background: 'rgb(8, 8, 8)',
+                        padding: '15px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px'
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          backgroundColor: '#2C2C2E',
+                          borderRadius: '999px',
+                          padding: '0.5rem',
+                          width: '100%',
+                        }}
+                      >
+
+
+                        <select
+                          value={category}
+                          onChange={handleCategoryChange}
+                          style={{
+                            backgroundColor: '#3D3D40',
+                            color: '#fff',
+                            borderRadius: '50px',
+                            padding: '1rem 1rem',
+                            appearance: 'none',
+                            WebkitAppearance: 'none',
+                            MozAppearance: 'none',
+                            border: 'none',
+                            outline: 'none',
+                            width: '30%',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          <option style={{ color: 'white' }} value={0}>Todos</option>
+                          <option style={{ color: 'white' }} value={1}>Usuarios</option>
+                          <option style={{ color: 'white' }} value={2}>Clips</option>
+                          <option style={{ color: 'white' }} value={3}>Vods</option>
+                        </select>
+
+
+
+
+                        <InputBase
+                          placeholder="Buscar"
+                          value={text}
+                          onChange={handleChange}
+                          sx={{
+                            flexGrow: 1,
+                            color: '#fff',
+                            marginLeft: '1rem',
+                          }}
+                        />
+
+                      </Box>
+
+                      <IconButton sx={{
+                        color: '#fff',
+                        '&:hover': {
+                          backgroundColor: '#343843', // Color de fondo al hacer hover
+                        },
+                      }} onClick={() => setHabilitar(false)} >
+                        <AiOutlineClose />
+                      </IconButton>
+                    </Grid>
+
+
+                    <Box
+                      mt={2}
+                      style={{ backgroundColor: "#080808", height: "100%" }}
+                    >
+                      <Grid
+                        container
+                        spacing={2}
+                        style={{ backgroundColor: "#080808" }}
+                      >
+                        {Array.isArray(search) &&
+                          search.length > 0 &&
+                          search?.map((game, index) => (
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              md={3}
+                              key={index}
+                              style={{ backgroundColor: "#080808" }}
+                            >
+                              {!game?.streamThumbnail &&
+                                !game?.StreamThumbnail ? (
+                                <Link
+                                  key={index}
+                                  to={`/${game?.NameUser}`}
+                                  onClick={() => setHabilitar(false)}
+                                  style={{
+                                    textDecoration: "none",
+                                    width: "33%",
+                                  }}
+                                >
+                                  <Card
+                                    style={{
+                                      backgroundColor: "transparent",
+                                      color: "white",
+                                      borderRadius: "50%",
+                                      textAlign: "center",
+                                      padding: "20px",
+                                      boxShadow: "none",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        position: "relative",
+                                        width: "150px",
+                                        height: "150px",
+                                        margin: "0 auto",
+                                      }}
+                                    >
+                                      <CardMedia
+                                        component="img"
+                                        style={{
+                                          width: "100%",
+                                          height: "100%",
+                                          borderRadius: "50%",
+                                        }}
+                                        image={game?.Avatar}
+                                        alt={game?.NameUser}
+                                      />
+                                    </div>
+                                    <CardContent>
+                                      <Typography
+                                        variant="body1"
+                                        style={{
+                                          color: "white",
+                                          fontWeight: "bold",
+                                          marginTop: "10px",
+                                        }}
+                                      >
+                                        {game?.NameUser}
+                                      </Typography>
+                                      {/* <Typography
+                                      variant="body2"
+                                      style={{ color: "grey" }}
+                                    >
+                                      Artista
+                                    </Typography> */}
+                                    </CardContent>
+                                  </Card>
+                                </Link>
+                              ) : (
+                                <Box
+                                  style={{ backgroundColor: "#080808" }}
+                                  sx={{
+                                    maxWidth: 400,
+                                    margin: "0 auto",
+                                    backgroundColor: "#1c1c1c",
+                                    color: "white",
+                                    borderRadius: 2,
+                                    overflow: "hidden",
+                                  }}
+                                  onClick={() =>
+                                    handleItemClick(
+                                      game?.url,
+                                      game?.StreamThumbnail && true,
+                                      game?.StreamThumbnail &&
+                                      game?.UserInfo?.NameUser,
+                                      game?.StreamThumbnail && game?.id
+                                    )
+                                  }
+                                >
+                                  <Box
+                                    component="img"
+                                    src={
+                                      game?.streamThumbnail ||
+                                      game?.StreamThumbnail
+                                    }
+                                    alt="Workout"
+                                    sx={{ width: "100%", height: "auto" }}
+                                  />
+                                  <Box sx={{ p: 2 }}>
+                                    <Typography
+                                      variant="body"
+                                      fontWeight="bold"
+                                    >
+                                      {game?.clipTitle || game?.Title}
+                                    </Typography>
+                                    <Grid
+                                      container
+                                      alignItems="center"
+                                      sx={{ mt: 2 }}
+                                      style={{ gap: "5px" }}
+                                    >
+                                      <Avatar
+                                        src={
+                                          game?.Avatar ||
+                                          game?.UserInfo?.Avatar
+                                        }
+                                        alt={`Clipeado por ${game?.nameUserCreator}`}
+                                        sx={{ width: 40, height: 40 }}
+                                      />{" "}
+                                      {/* Add avatar image path */}
+                                      <Box
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          alignItems: "flex-start",
+                                        }}
+                                      >
+                                        <Typography
+                                          variant="body"
+                                          style={{ fontSize: "14px" }}
+                                        >
+                                          {game?.streamThumbnail &&
+                                            `clipeado por ${game?.nameUserCreator}`}
+                                          {game?.StreamThumbnail &&
+                                            `${game?.UserInfo?.FullName}`}
+                                        </Typography>
+                                        <Typography
+                                          variant="body2"
+                                          color="gray"
+                                        >
+                                          {game?.views || game?.MaxViewers}{" "}
+                                          Visitas •{" "}
+                                          {game?.category ||
+                                            game?.stream_category}
+                                        </Typography>
+                                      </Box>
+                                    </Grid>
+                                  </Box>
+                                </Box>
+                              )}
+                            </Grid>
+                          ))}
+                      </Grid>
+                    </Box>
+                  </DialogContent>
+                </div>
+              </div>
+            </div>
           )}
         </Grid>
 
