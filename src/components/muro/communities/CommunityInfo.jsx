@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Avatar, Box, Button } from "@mui/material";
+import {
+  Typography,
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import { AddMember, RemoveMember } from "../../../services/backGo/communities";
 import "./Communities.css";
 
@@ -8,36 +18,123 @@ const CommunityInfo = ({ community }) => {
 
   // Estado para saber si el usuario es miembro de la comunidad
   const [isMember, setIsMember] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false); // Control del modal
+  const [actionType, setActionType] = useState(""); // Tipo de acción (unirse o salir)
 
   useEffect(() => {
-    // Aquí puedes hacer una llamada para verificar si el usuario es miembro
     if (token) {
-      // Supongamos que community.isUserMember es una propiedad que ya indica si es miembro
       setIsMember(community?.isUserMember);
     }
   }, [community, token]);
 
+  // Manejar la apertura del modal de confirmación
+  const handleOpenConfirm = (action) => {
+    setActionType(action);
+    setOpenConfirm(true);
+  };
+
+  const handleCloseConfirm = () => {
+    setOpenConfirm(false);
+  };
+
+  // Lógica para unirse a la comunidad
   const handleJoin = () => {
     if (token) {
-      AddMember({ community_id: community.id, token })
-        .then(() => {
-          setIsMember(true); // Actualiza el estado a 'miembro'
-        })
-        .catch((err) => {
-          console.error("Error al unirse a la comunidad:", err);
-        });
+      if (community?.SubscriptionAmount > 0) {
+        AddMember({ community_id: community.id, token })
+          .then(() => {
+            setIsMember(true);
+            handleCloseConfirm(); // Cerrar modal después de unirse
+          })
+          .catch((err) => {
+            console.error("Error al unirse a la comunidad:", err);
+          });
+      } else {
+        AddMember({ community_id: community.id, token })
+          .then(() => {
+            setIsMember(true);
+            handleCloseConfirm(); // Cerrar modal después de unirse
+          })
+          .catch((err) => {
+            console.error("Error al unirse a la comunidad:", err);
+          });
+      }
     }
   };
 
+  // Lógica para salir de la comunidad
   const handleLeave = () => {
     if (token) {
       RemoveMember({ community_id: community.id, token })
         .then(() => {
-          setIsMember(false); // Actualiza el estado a 'no miembro'
+          setIsMember(false);
+          handleCloseConfirm(); // Cerrar modal después de salir
         })
         .catch((err) => {
           console.error("Error al salir de la comunidad:", err);
         });
+    }
+  };
+
+  // Contenido del modal según la acción (unirse o salir)
+  const renderModalContent = () => {
+    if (actionType === "join") {
+      return community?.SubscriptionAmount > 0 ? (
+        <>
+          <DialogTitle>Unirse a {community?.communityName}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Unirse a esta comunidad cuesta{" "}
+              <strong>${community.SubscriptionAmount}</strong>. El monto será
+              descontado de tu cuenta. ¿Deseas continuar?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseConfirm} color="secondary">
+              Cancelar
+            </Button>
+            <Button onClick={handleJoin} color="primary">
+              Confirmar Pago
+            </Button>
+          </DialogActions>
+        </>
+      ) : (
+        <>
+          <DialogTitle>Unirse a {community?.communityName}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              ¿Estás seguro de que deseas unirte a esta comunidad?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseConfirm} color="secondary">
+              Cancelar
+            </Button>
+            <Button onClick={handleJoin} color="primary">
+              Unirse
+            </Button>
+          </DialogActions>
+        </>
+      );
+    } else if (actionType === "leave") {
+      return (
+        <>
+          <DialogTitle>Salir de {community?.communityName}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              ¿Estás seguro de que deseas salir de esta comunidad?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseConfirm} color="secondary">
+              Cancelar
+            </Button>
+            <Button onClick={handleLeave} color="primary">
+              Salir
+            </Button>
+          </DialogActions>
+        </>
+      );
     }
   };
 
@@ -46,7 +143,11 @@ const CommunityInfo = ({ community }) => {
       {/* Banner */}
       <Box
         style={{
-          backgroundImage: `url(${community?.creator.banner})`,
+          backgroundImage: `url(${
+            community?.Banner !== ""
+              ? community?.Banner
+              : community?.creator.banner
+          })`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "200px",
@@ -71,10 +172,21 @@ const CommunityInfo = ({ community }) => {
 
       {/* Community Info */}
       <Box className="Community-Info">
-        <Typography variant="h4" style={{ color: "white" }}>
+        <Typography className="text-Community title">
           {community?.communityName}
         </Typography>
-
+        <Box
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            marginTop: "20px",
+          }}
+        >
+          <Typography className="text-Community">
+            {community?.description}
+          </Typography>
+        </Box>
         {/* Categories */}
         <Box
           style={{
@@ -85,25 +197,11 @@ const CommunityInfo = ({ community }) => {
           }}
         >
           {community?.categories?.map((category, index) => (
-            <Box
-              key={index}
-              style={{
-                backgroundColor: "#4a4f5a",
-                padding: "5px 15px",
-                borderRadius: "20px",
-                color: "white",
-                fontSize: "14px",
-                textAlign: "center",
-              }}
-            >
+            <Box key={index} className="community-categorie">
               {category}
             </Box>
           ))}
         </Box>
-
-        <Typography variant="subtitle1" style={{ color: "gray" }}>
-          {community?.description}
-        </Typography>
 
         <Typography
           variant="body2"
@@ -117,8 +215,8 @@ const CommunityInfo = ({ community }) => {
           <Button
             variant="contained"
             color="secondary"
-            style={{ marginTop: "20px" }}
-            onClick={handleLeave}
+            style={{ marginTop: "20px", background: "#351823" }}
+            onClick={() => handleOpenConfirm("leave")}
           >
             Salir de la Comunidad
           </Button>
@@ -126,13 +224,22 @@ const CommunityInfo = ({ community }) => {
           <Button
             variant="contained"
             color="primary"
-            style={{ marginTop: "20px" }}
-            onClick={handleJoin}
+            style={{ marginTop: "20px", background: "#351823" }}
+            onClick={() => handleOpenConfirm("join")}
           >
             Unirse a la Comunidad
           </Button>
         )}
       </Box>
+
+      {/* Modal de confirmación */}
+      <Dialog
+        open={openConfirm}
+        onClose={handleCloseConfirm}
+        className="modal-dialog-info-community"
+      >
+        {renderModalContent()}
+      </Dialog>
     </Box>
   );
 };

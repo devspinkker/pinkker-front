@@ -152,3 +152,66 @@
 .communitiesRedirect-post {
     padding: 5px;
 }
+
+.modal-dialog-info-community {
+    z-index: 100000 !important;
+
+}
+
+.modal-dialog-info-community .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    background: #080808 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 1px -1px #9f478c, 0 1px 1px 0 #be5abf, 0 1px 3px 0 #98458c !important;
+    color: #ffffff;
+    font-weight: inherit !important;
+    padding: 10px;
+}
+
+.modal-dialog-info-community .css-qfso29-MuiTypography-root-MuiDialogContentText-root {
+    color: #ffffff;
+    font-weight: inherit !important;
+    margin: 0px 23px;
+}
+
+.modal-dialog-info-community .MuiButton-root {
+    background-color: #100b0d !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    margin-top: 15px !important;
+    font-size: 13px;
+
+    &:hover {
+        background-color: #f3619645 !important;
+    }
+}
+
+.text-Community {
+    font-size: 39px !important;
+    background-color: rgba(0, 0, 0, 0.00);
+    border: 0 solid black !important;
+    box-sizing: border-box !important;
+    display: inline !important;
+    font: inherit !important;
+    list-style: none !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    position: relative !important;
+    text-align: inherit !important;
+    text-decoration: none !important;
+    word-wrap: break-word !important;
+    color: #b0b0b0 !important;
+    font-weight: bolder !important;
+}
+
+.title {
+    font-size: 30px !important;
+}
+
+.community-categorie {
+    border: 1px solid rgb(71 31 46);
+    padding: 5px 15px;
+    border-radius: 20px;
+    color: #a84a6d;
+    font-size: 14px;
+    text-align: center;
+}
