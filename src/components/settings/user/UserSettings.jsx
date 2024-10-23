@@ -22,6 +22,7 @@ import { Grid, Typography } from "@mui/material";
 import { TbEdit } from "react-icons/tb";
 import AdsAnalytics from "./statisticalAnnouncement/AdsAnalytics";
 import BuyAds from "./BuyAds/BuyAds";
+import Comunidades from "./comunidades/Comunidades";
 
 export default function UserSettings({ isMobile, user }) {
   const [type, setType] = useState(0);
@@ -227,6 +228,13 @@ export default function UserSettings({ isMobile, user }) {
         </div>
       );
     }
+    if (type === 9) {
+      return (
+        <div>
+          <Comunidades />
+        </div>
+      );
+    }
   }
 
   // function getLeftForType() {
@@ -362,6 +370,18 @@ export default function UserSettings({ isMobile, user }) {
               onClick={() => setType(8)}
             >
               <Typography>Comprar anuncios </Typography>
+            </Grid>
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "10px",
+              }}
+              className={type === 1 ? "item-config-active" : "item-config"}
+              onClick={() => setType(9)}
+            >
+              <Typography>Comunidades </Typography>
             </Grid>
           </Grid>
         </Grid>

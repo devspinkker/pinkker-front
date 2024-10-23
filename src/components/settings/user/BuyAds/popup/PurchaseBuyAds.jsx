@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   BuyadCreate,
+  BuyadMuroCommunity,
   CreateAdsClips,
 } from "../../../../../services/backGo/advertisements";
 import { useNotification } from "../../../../Notifications/NotificationProvider";
@@ -9,9 +10,14 @@ import "./PurchaseBuyAds.css";
 import { Grid, TextField, Button, Typography, IconButton } from "@mui/material";
 import Select from "react-select";
 import CloseIcon from "@mui/icons-material/Close";
+import { FindCommunityByName } from "../../../../../services/backGo/communities";
 
 export default function PurchaseBuyAds({ selectedAd, onClose }) {
   const token = localStorage.getItem("token");
+  const [Communities, setCommunities] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [days, setDays] = useState(1);
+  const [selectedDate, setSelectedDate] = useState("");
 
   const [form, setForm] = useState({
     id: "",
@@ -75,6 +81,27 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
       video: file,
     }));
   };
+  const handleDateChange = (e) => {
+    const inputDate = e.target.value; // Mantener el formato "YYYY-MM-DD"
+
+    const selectedDate = new Date(`${inputDate}T00:00:00Z`);
+
+    const today = new Date();
+
+    const todayUTC = new Date(
+      Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())
+    );
+
+    const timeDiff = selectedDate.getTime() - todayUTC.getTime();
+
+    const calculatedDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    if (calculatedDays > 0) {
+      setDays(calculatedDays);
+      setSelectedDate(inputDate + "T00:00:00Z");
+    } else {
+    }
+  };
 
   const handleCreate = async () => {
     if (token) {
@@ -82,8 +109,11 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
         ...form,
         ImpressionsMax: parseFloat(form.ImpressionsMax),
         ClicksMax: parseInt(form.ClicksMax),
+        CommunityId: Communities?.id,
+        Days: selectedDate,
       };
       let res;
+
       if (form.Destination == "ClipAds") {
         const formData = new FormData();
         formData.append("video", form.video);
@@ -96,6 +126,8 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
         formData.append("clipTitle", form.clipTitle);
 
         res = await CreateAdsClips(token, formData);
+      } else if (form.Destination === "Comunidades") {
+        res = await BuyadMuroCommunity(token, adData);
       } else {
         res = await BuyadCreate(token, adData);
       }
@@ -127,7 +159,9 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
       }
     }
   };
-
+  useEffect(() => {
+    calculateAvailablePixels();
+  }, [days]);
   const calculateAvailablePixels = () => {
     let pixels = 0;
 
@@ -137,8 +171,9 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
       pixels = form.ClicksMax * 75;
     } else if (form.Destination === "ClipAds") {
       pixels = form.ImpressionsMax * 20;
+    } else if (form.Destination === "Comunidades") {
+      pixels = Communities?.AdPricePerDay * days;
     }
-
     return { pixels };
   };
 
@@ -158,6 +193,18 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
     }));
   };
 
+  const handleFindCommunityByName = async () => {
+    if (searchQuery.trim()) {
+      const res = await FindCommunityByName({
+        CommunityID: searchQuery,
+        token,
+      });
+      if (res?.data?.length > 0) {
+        const foundCommunity = res.data[0];
+        setCommunities(foundCommunity);
+      }
+    }
+  };
   return (
     <div className="purchase-ads">
       <div className="header">
@@ -346,6 +393,52 @@ export default function PurchaseBuyAds({ selectedAd, onClose }) {
               />
             </Grid>
           </>
+        )}
+        {form.Destination === "Comunidades" && (
+          <Grid item xs={12}>
+            <Grid item xs={12}>
+              <TextField
+                style={{
+                  color: "#212725",
+                }}
+                label="Documento por Anunciar"
+                id="DocumentToBeAnnounced"
+                name="DocumentToBeAnnounced"
+                value={form.DocumentToBeAnnounced}
+                onChange={handleInputChange}
+                fullWidth
+                className="inputsStyles custom-textfield"
+                variant="outlined"
+              />
+            </Grid>
+            <TextField
+              className="inputsStyles custom-textfield"
+              label="Buscar comunidad"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onBlur={handleFindCommunityByName}
+              fullWidth
+            />
+
+            {/* {Communities.map((community) => (
+              <Button
+                key={community._id}
+                onClick={() => handleSelectCommunity(community)}
+              >
+                Seleccionar {community.name}
+              </Button>
+            ))} */}
+            <Grid item xs={12}>
+              <TextField
+                className="inputsStyles custom-textfield"
+                label="Selecciona una Fecha"
+                type="date"
+                value={selectedDate}
+                onChange={handleDateChange}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
         )}
 
         <Grid item xs={12}>

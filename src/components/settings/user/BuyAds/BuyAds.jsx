@@ -105,7 +105,36 @@ export default function BuyAds() {
                   </CardContent>
                 </Card>
               </Grid>
-
+              <Grid item xs={12} md={4}>
+                <Card className="ad-card muro">
+                  <CardContent className="content-data-ads">
+                    <Typography variant="h6" className="card-title">
+                      Anuncio en Comunidades
+                    </Typography>
+                    <Typography variant="body2" className="card-description">
+                      Promociona tu publicación en una comunidad. Ideal para
+                      aumentar la visibilidad de tus publicaciones.
+                    </Typography>
+                    <Typography variant="body1" className={`price muro`}>
+                      Precio: el precio lo pone el dueño de la comunidad y es un
+                      precio por dia
+                    </Typography>
+                    <Typography variant="body2" className="ad-details">
+                      <strong>Comunidades:</strong> Este tipo de anuncio
+                      selecciona una publicación a promocionar mediante su ID,
+                      permitiendo incluir imagen, texto y un enlace de
+                      referencia.
+                    </Typography>
+                    <Button
+                      onClick={() => handleAdSelect("Comunidades")}
+                      variant="contained"
+                      className="buy-button"
+                    >
+                      Comprar Ahora
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
               <Grid item xs={12} md={4}>
                 <Card className="ad-card streams">
                   <CardContent className="content-data-ads">

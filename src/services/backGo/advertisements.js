@@ -42,6 +42,23 @@ export async function BuyadCreate(token, advertisement) {
         return error;
     }
 }
+export async function BuyadMuroCommunity(token, advertisement) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/advertisements/BuyadMuroCommunity`,
+            advertisement,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
 
 export async function CreateAdsClips(token, FormData) {
     try {
@@ -79,6 +96,41 @@ export async function GetAdsUserPendingCode(token, Code, NameUser, page = 1) {
         return error;
     }
 }
+
+export async function GetAllPendingNameUserAds(token, page = 1) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/GetAllPendingNameUserAds?page=${page}`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
+export async function AcceptOrDeleteAdvertisement({ action, AdId, token }) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/AcceptOrDeleteAdvertisement`,
+            { action, AdId },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
 export async function AcceptPendingAds(token, code, nameUser) {
     try {
         const response = await axios.post(

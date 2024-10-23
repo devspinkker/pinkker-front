@@ -37,6 +37,8 @@ export default function Communities({ isMobile }) {
   const [Posts, setPosts] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
   const [subscriptionAmount, setSubscriptionAmount] = useState("");
+  const [PriceAd, setPriceAd] = useState("");
+
   const [bannerFile, setBannerFile] = useState(null);
 
   const handleFindCommunityByName = async () => {
@@ -99,6 +101,7 @@ export default function Communities({ isMobile }) {
       formData.append("totp_code", totpCode);
       formData.append("is_paid", isPaid);
       formData.append("subscription_amount", subscriptionAmount);
+      formData.append("AdPricePerDay", PriceAd);
 
       if (bannerFile) {
         formData.append("Banner", bannerFile);
@@ -234,6 +237,17 @@ export default function Communities({ isMobile }) {
                   InputProps={{ inputProps: { min: 0 } }}
                 />
               )}
+              <TextField
+                margin="dense"
+                label="Precio de los anuncios por dia"
+                type="number"
+                fullWidth
+                value={PriceAd}
+                onChange={(e) => setPriceAd(e.target.value)}
+                className="inputsStyles custom-textfield"
+                variant="outlined"
+                InputProps={{ inputProps: { min: 0 } }}
+              />
             </DialogContent>
             <DialogActions className="dialog-actions">
               <Button onClick={handleClose} className="create-button">
