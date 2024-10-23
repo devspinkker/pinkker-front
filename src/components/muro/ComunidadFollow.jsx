@@ -6,7 +6,7 @@ export default function ComunidadFollow({ ComunidadFollow }) {
   console.log(ComunidadFollow);
 
   function onClickChangeRoute(communityId) {
-    routerHistory.push(`/platform/communities/${communityId}`);
+    routerHistory.push(`/plataform/communities/${communityId}`);
   }
 
   return (

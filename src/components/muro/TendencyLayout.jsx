@@ -4,10 +4,15 @@ import FollowCard from "./FollowCard";
 import { Link } from "react-router-dom";
 import { GetRecommendedUsers } from "../../services/backGo/user";
 import ComunidadFollow from "./ComunidadFollow";
-import { GetTop10CommunitiesByMembersNoMember } from "../../services/backGo/communities";
+import {
+  FindCommunityByName,
+  GetTop10CommunitiesByMembersNoMember,
+} from "../../services/backGo/communities";
 
 export default function Tendency() {
   const [trends, setTrends] = useState([]);
+  const [ComunidadesName, setComunidadesName] = useState(null);
+
   const [inputValue, setInputValue] = useState("");
   const [userFollows, setuserFollows] = useState(null);
   const [Comunidad, setComunidadFollow] = useState(null);
@@ -59,7 +64,27 @@ export default function Tendency() {
       fetchTrends();
     }
   };
+  const HandleFindCommunityByName = async (e) => {
+    const CommunityID = e.target.value.trim();
+    setInputValue(CommunityID);
+    if (CommunityID) {
+      try {
+        const response = await FindCommunityByName({ CommunityID });
+        if (response.message == "successfully" && response.data) {
+          console.log(response);
 
+          setComunidadesName(response.data);
+        } else {
+          setComunidadesName([]);
+        }
+      } catch (error) {
+        console.error("Error fetching trends by prefix:", error);
+        setComunidadesName([]);
+      }
+    } else {
+      fetchTrends();
+    }
+  };
   const fetchTrends = async () => {
     try {
       const response = await getTrends();
@@ -103,14 +128,14 @@ export default function Tendency() {
         <input
           type="text"
           value={inputValue}
-          onChange={handleInputChange}
+          onChange={HandleFindCommunityByName}
           placeholder="Buscar en el muro.."
         />
       </div>
-
-      <div className="muro-tweet-secondary-tendency">
-        <h3>{inputValue.length === 0 ? "Tendencias" : "hashtag"}</h3>
-        {trends.map((trend, index) => (
+      {ComunidadesName && (
+        <div className="muro-tweet-secondary-tendency">
+          {/* <h3>{inputValue.length === 0 ? "Tendencias" : "hashtag"}</h3> */}
+          {/* {trends.map((trend, index) => (
           <div key={index} className="muro-tweet-secondary-tendency-card">
             <div>
               {inputValue.length === 0 && (
@@ -151,8 +176,14 @@ export default function Tendency() {
               />
             </div>
           </div>
-        ))}
-      </div>
+        ))} */}
+
+          {ComunidadesName &&
+            ComunidadesName.map((ComunidadName) => (
+              <ComunidadFollow ComunidadFollow={ComunidadName} />
+            ))}
+        </div>
+      )}
 
       <div className="muro-tweet-secondary-follow">
         <div>

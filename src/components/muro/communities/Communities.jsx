@@ -123,7 +123,7 @@ export default function Communities({ isMobile }) {
 
       {/* Campo para buscar comunidad */}
       <div className="communities-search">
-        <TextField
+        {/* <TextField
           className="inputsStyles custom-textfield"
           label="Buscar comunidad por nombre"
           variant="outlined"
@@ -131,10 +131,10 @@ export default function Communities({ isMobile }) {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           // className="search-field"
-        />
-        <button onClick={handleFindCommunityByName} className="search-button">
+        /> */}
+        {/* <button onClick={handleFindCommunityByName} className="search-button">
           Buscar
-        </button>
+        </button> */}
 
         {/* Botón para abrir el pop-up de creación */}
         <button onClick={handleOpen} className="search-button">
