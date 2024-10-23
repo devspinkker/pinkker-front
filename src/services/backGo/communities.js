@@ -200,3 +200,15 @@ export const GetTop10CommunitiesByMembers = async (token) => {
     )
     return response.data
 }
+export const GetTop10CommunitiesByMembersNoMember = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.get(
+        `${url}/communities/GetTop10CommunitiesByMembersNoMember`,
+        config
+    )
+    return response.data
+}

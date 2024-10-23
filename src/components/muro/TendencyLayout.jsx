@@ -3,26 +3,42 @@ import { getTrends, getTrendsByPrefix } from "../../services/backGo/tweet";
 import FollowCard from "./FollowCard";
 import { Link } from "react-router-dom";
 import { GetRecommendedUsers } from "../../services/backGo/user";
+import ComunidadFollow from "./ComunidadFollow";
+import { GetTop10CommunitiesByMembersNoMember } from "../../services/backGo/communities";
 
 export default function Tendency() {
   const [trends, setTrends] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [userFollows, setuserFollows] = useState(null);
+  const [Comunidad, setComunidadFollow] = useState(null);
+
   let token = window.localStorage.getItem("token");
 
-  const UserFollowsFunc = async (e) => {
-    const ExcludeIDs = [];
-    const res = await GetRecommendedUsers(token, ExcludeIDs);
+  const ComunidadHandleFollow = async (e) => {
+    const res = await GetTop10CommunitiesByMembersNoMember(token);
     console.log(res);
 
-    if (res.message === "ok" && res.data) {
-      console.log(res.data);
-      setuserFollows(res.data);
+    if (res.message === "successfully" && res.data) {
+      setComunidadFollow(res.data);
     }
   };
   useEffect(() => {
-    UserFollowsFunc();
+    ComunidadHandleFollow();
   }, []);
+
+  // const UserFollowsFunc = async (e) => {
+  //   const ExcludeIDs = [];
+  //   const res = await GetRecommendedUsers(token, ExcludeIDs);
+  //   console.log(res);
+
+  //   if (res.message === "ok" && res.data) {
+  //     console.log(res.data);
+  //     setuserFollows(res.data);
+  //   }
+  // };
+  // useEffect(() => {
+  //   UserFollowsFunc();
+  // }, []);
 
   const handleInputChange = async (e) => {
     const prefix = e.target.value.trim();
@@ -141,8 +157,14 @@ export default function Tendency() {
       <div className="muro-tweet-secondary-follow">
         <div>
           <h3>A quien seguir</h3>
-          {userFollows &&
-            userFollows.map((follow) => <FollowCard followData={follow} />)}
+          {/* {userFollows &&
+            userFollows.map((follow) => <FollowCard followData={follow} />)} */}
+          {Comunidad &&
+            Comunidad.map((ComunidadF) => (
+              <div>
+                <ComunidadFollow ComunidadFollow={ComunidadF} />
+              </div>
+            ))}
         </div>
       </div>
     </div>

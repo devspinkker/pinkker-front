@@ -10,9 +10,12 @@ import { getTweetUser, getUserFollow } from "../../../services/backGo/tweet";
 
 import FollowCard from "../../muro/FollowCard";
 import { GetRecommendedUsers } from "../../../services/backGo/user";
+import ComunidadFollow from "../../muro/ComunidadFollow";
+import { GetTop10CommunitiesByMembersNoMember } from "../../../services/backGo/communities";
 
 export default function Muro({ streamer }) {
   const [tweets, setTweets] = useState([]);
+  const [comunidad, setComunidadFollow] = useState(null);
 
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -40,6 +43,18 @@ export default function Muro({ streamer }) {
         clearInterval(intervalRef.current);
       }
     };
+  }, []);
+
+  const ComunidadHandleFollow = async (e) => {
+    const res = await GetTop10CommunitiesByMembersNoMember(token);
+    console.log(res);
+
+    if (res.message === "ok" && res.data) {
+      setComunidadFollow(res.data);
+    }
+  };
+  useEffect(() => {
+    ComunidadHandleFollow();
   }, []);
   const handleScroll = async (e) => {
     const { scrollTop, scrollHeight, clientHeight } = e.target;
@@ -169,9 +184,14 @@ export default function Muro({ streamer }) {
         >
           <h3>A quien seguir</h3>
 
-          {userFollows &&
+          {/* {userFollows &&
             userFollows.map((follow) => <FollowCard followData={follow} />)}
-          {userFollows === null && <ScaleLoader color="#f36197d7" />}
+          {userFollows === null && <ScaleLoader color="#f36197d7" />} */}
+
+          {comunidad &&
+            comunidad.map((Comunidad) => (
+              <ComunidadFollow ComunidadFollow={Comunidad} />
+            ))}
         </div>
       </div>
     </div>
