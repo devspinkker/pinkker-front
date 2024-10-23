@@ -265,3 +265,54 @@ export async function DeleteAdvertisement(token, ID, Code) {
         return error;
     }
 }
+
+
+
+export async function GetAllAcceptedNameUserAds(token, page = 1) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/GetAllAcceptedNameUserAds?page=${page}`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+export async function GetActiveAdsByEndAdCommunity(token, page = 1) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/GetActiveAdsByEndAdCommunity?page=${page}`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+export async function GetAdsByNameUser(token, page = 1, name = "muro") {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/GetAdsByNameUser?page=${page}&name=${name}`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}

@@ -1,0 +1,26 @@
+.Comunidades-owner-actions-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.Comunidades-owner-actions {
+    display: flex;
+    flex-direction: column;
+    width: 66%;
+    align-items: flex-start;
+}
+
+.button-get-info-comunidades {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.button-get-info-comunidades:hover {
+    background-color: #4e2232;
+    border-radius: 5px;
+    cursor: pointer;
+}

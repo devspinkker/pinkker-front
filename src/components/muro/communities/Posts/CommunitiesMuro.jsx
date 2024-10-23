@@ -72,8 +72,11 @@ export default function CommunitiesMuro({ isMobile, userName }) {
     }
 
     const res = await GetCommunityPosts({ community_ids: id, token });
+    console.log(res);
 
     if (res.posts) {
+      console.log(res.posts);
+
       setPosts(res.posts);
     }
   };
@@ -154,7 +157,6 @@ export default function CommunitiesMuro({ isMobile, userName }) {
         setOnDrag={setOnDrag}
       />
 
-      {/* esto */}
       <div className="muro-tweet-container">
         {Posts &&
           Posts.map((P) => (
