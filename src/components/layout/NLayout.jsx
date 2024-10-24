@@ -35,7 +35,11 @@ import {
 } from "../../services/backGo/streams";
 import { GrHomeRounded } from "react-icons/gr";
 import { FiSearch } from "react-icons/fi";
-import { AiOutlineClose, AiOutlineMenu, AiOutlinePlayCircle } from "react-icons/ai";
+import {
+  AiOutlineClose,
+  AiOutlineMenu,
+  AiOutlinePlayCircle,
+} from "react-icons/ai";
 import { BsChatDots, BsChatSquareText, BsWallet } from "react-icons/bs";
 import { CgTennis } from "react-icons/cg";
 import { ImDice } from "react-icons/im";
@@ -47,7 +51,7 @@ import {
 } from "react-icons/io";
 import { HiChatBubbleLeftEllipsis } from "react-icons/hi2";
 
-import { MdArrowDropDown } from 'react-icons/md'; // Icono de dropdown
+import { MdArrowDropDown } from "react-icons/md"; // Icono de dropdown
 import { TfiWallet } from "react-icons/tfi";
 import { AiOutlineUser } from "react-icons/ai";
 import { LiaSlidersHSolid } from "react-icons/lia";
@@ -82,7 +86,10 @@ import { MdManageSearch, MdOndemandVideo } from "react-icons/md";
 import { RiUserSearchLine } from "react-icons/ri";
 import imagenPixel from "./imagenPixel.png";
 import LayoutMessageNotis from "./LayoutMessageNotis";
-import { GetNotificacionesLastConnection } from "../../services/backGo/user";
+import {
+  GetNotificacionesLastConnection,
+  GetRecentotificaciones,
+} from "../../services/backGo/user";
 import logoMobile from "./Recurso 12.png";
 function NLayout(props) {
   const { streamer } = useParams();
@@ -182,26 +189,35 @@ function NLayout(props) {
   const anySeenNotifications = PinkerNotifications.some(
     (notification) => !notification.visto
   );
+
   async function HandleGetNotificacionesLastConnection() {
     const res = await GetNotificacionesLastConnection(token);
     if (res?.notifications[0]) {
       setPinkerNotifications((prevNotifications) => [
         ...prevNotifications,
-        res.notifications[0],
+        ...res.notifications,
       ]);
     }
-    if (res?.notifications[1]) {
+  }
+
+  async function HandleGetRecentotificaciones() {
+    const res = await GetRecentotificaciones(token);
+    if (res?.notifications[0]) {
       setPinkerNotifications((prevNotifications) => [
         ...prevNotifications,
-        res.notifications[1],
+        ...res.notifications,
       ]);
     }
-    console.log(res);
   }
   useEffect(() => {
     if (token) {
       HandleGetNotificacionesLastConnection();
+      HandleGetRecentotificaciones();
+    }
+  }, []);
 
+  useEffect(() => {
+    if (token) {
       const connectWebSocket = () => {
         const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCOMMERCIALWS;
         const newSocket = new WebSocket(
@@ -278,7 +294,7 @@ function NLayout(props) {
         }
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
 
       setSocket(newSocket);
       window.addEventListener("beforeunload", () => {
@@ -547,9 +563,9 @@ function NLayout(props) {
   const pixeles = props.user?.Pixeles;
   const formattedPixeles = pixeles
     ? new Intl.NumberFormat("es-ES", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 3,
-    }).format(pixeles)
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 3,
+      }).format(pixeles)
     : "0";
   const [category, setCategory] = useState(0); // Estado inicial
 
@@ -563,14 +579,12 @@ function NLayout(props) {
     }
   }, [category]);
 
-
   const handleChange = (e) => {
     const value = e.target.value;
-    console.log('category', category)
+    console.log("category", category);
     if (value.length <= 0) {
       setSearch([]);
       setText(null);
-
     } else {
       setText(value);
 
@@ -593,7 +607,7 @@ function NLayout(props) {
       };
 
       if (category == 3) {
-        console.log('entra en 3')
+        console.log("entra en 3");
 
         getVods()
           .then((data) => {
@@ -604,7 +618,7 @@ function NLayout(props) {
             console.error("Error getting clips:", error);
           });
       } else if (category == 2) {
-        console.log('entra en 2')
+        console.log("entra en 2");
 
         getClip()
           .then((data) => {
@@ -614,7 +628,7 @@ function NLayout(props) {
             console.error("Error getting clips:", error);
           });
       } else if (category == 0) {
-        console.log('entra en 0')
+        console.log("entra en 0");
         Promise.all([getUser(), getClip(), getVods()])
           .then((results) => {
             const userResults = Array.isArray(results[0]) ? results[0] : [];
@@ -633,7 +647,7 @@ function NLayout(props) {
             console.error("Error combining results:", error);
           });
       } else {
-        console.log('entra en 1')
+        console.log("entra en 1");
 
         getUser()
           .then((data) => {
@@ -925,7 +939,7 @@ function NLayout(props) {
               >
                 <div className="pixel-coming-soon-navbarLeft-img-pixel-container">
                   {new Date(props.user?.PinkkerPrime?.SubscriptionEnd) >
-                    new Date() ? (
+                  new Date() ? (
                     <img
                       className="pixel-coming-soon-navbarLeft-img-pixel"
                       style={{
@@ -1220,10 +1234,10 @@ function NLayout(props) {
               props.tyExpanded && props.txExpandedLeft
                 ? "85%"
                 : props.tyExpanded && !props.txExpandedLeft
-                  ? "85%"
-                  : !props.tyExpanded && props.txExpandedLeft
-                    ? "85%"
-                    : "95%",
+                ? "85%"
+                : !props.tyExpanded && props.txExpandedLeft
+                ? "85%"
+                : "95%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1272,18 +1286,18 @@ function NLayout(props) {
           ) : (
             <Grid
               className="navTopHome"
-            // style={{
-            //   borderBottom: "1px solid #2a2e38",
-            //   display: "flex",
-            //   alignItems: "center",
-            //   justifyContent: "space-between",
-            //   padding: "15.5px 5.8rem",
-            //   position: "sticky",
-            //   top: 0,
-            //   zIndex: 9999,
-            //   backgroundColor: "#080808",
-            //   width: "103.5%",
-            // }}
+              // style={{
+              //   borderBottom: "1px solid #2a2e38",
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "space-between",
+              //   padding: "15.5px 5.8rem",
+              //   position: "sticky",
+              //   top: 0,
+              //   zIndex: 9999,
+              //   backgroundColor: "#080808",
+              //   width: "103.5%",
+              // }}
             >
               <Link to="/" style={{ width: "230px" }}>
                 <img
@@ -1626,7 +1640,6 @@ function NLayout(props) {
                   >
                     <DialogContent
                       style={{
-
                         padding: "0px !important", // Espaciado interno
                         borderRadius: "8px", // Bordes redondeados
                         color: "white",
@@ -1635,50 +1648,53 @@ function NLayout(props) {
                       <Grid
                         position="static"
                         style={{
-                          background: 'rgb(8, 8, 8)',
-                          padding: '15px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '10px'
+                          background: "rgb(8, 8, 8)",
+                          padding: "15px",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
                         }}
                       >
                         <Box
                           sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            backgroundColor: '#2C2C2E',
-                            borderRadius: '999px',
-                            padding: '0.5rem',
-                            width: '100%',
+                            display: "flex",
+                            alignItems: "center",
+                            backgroundColor: "#2C2C2E",
+                            borderRadius: "999px",
+                            padding: "0.5rem",
+                            width: "100%",
                           }}
                         >
-
-
                           <select
                             value={category}
                             onChange={handleCategoryChange}
                             style={{
-                              backgroundColor: '#3D3D40',
-                              color: '#fff',
-                              borderRadius: '50px',
-                              padding: '1rem 1rem',
-                              appearance: 'none',
-                              WebkitAppearance: 'none',
-                              MozAppearance: 'none',
-                              border: 'none',
-                              outline: 'none',
-                              width: '10%',
-                              cursor: 'pointer'
+                              backgroundColor: "#3D3D40",
+                              color: "#fff",
+                              borderRadius: "50px",
+                              padding: "1rem 1rem",
+                              appearance: "none",
+                              WebkitAppearance: "none",
+                              MozAppearance: "none",
+                              border: "none",
+                              outline: "none",
+                              width: "10%",
+                              cursor: "pointer",
                             }}
                           >
-                            <option style={{ color: 'white' }} value={0}>Todos</option>
-                            <option style={{ color: 'white' }} value={1}>Usuarios</option>
-                            <option style={{ color: 'white' }} value={2}>Clips</option>
-                            <option style={{ color: 'white' }} value={3}>Vods</option>
+                            <option style={{ color: "white" }} value={0}>
+                              Todos
+                            </option>
+                            <option style={{ color: "white" }} value={1}>
+                              Usuarios
+                            </option>
+                            <option style={{ color: "white" }} value={2}>
+                              Clips
+                            </option>
+                            <option style={{ color: "white" }} value={3}>
+                              Vods
+                            </option>
                           </select>
-
-
-
 
                           <InputBase
                             placeholder="Buscar"
@@ -1686,23 +1702,24 @@ function NLayout(props) {
                             onChange={handleChange}
                             sx={{
                               flexGrow: 1,
-                              color: '#fff',
-                              marginLeft: '1rem',
+                              color: "#fff",
+                              marginLeft: "1rem",
                             }}
                           />
-
                         </Box>
 
-                        <IconButton sx={{
-                          color: '#fff',
-                          '&:hover': {
-                            backgroundColor: '#343843', // Color de fondo al hacer hover
-                          },
-                        }} onClick={() => setHabilitar(false)} >
+                        <IconButton
+                          sx={{
+                            color: "#fff",
+                            "&:hover": {
+                              backgroundColor: "#343843", // Color de fondo al hacer hover
+                            },
+                          }}
+                          onClick={() => setHabilitar(false)}
+                        >
                           <AiOutlineClose />
                         </IconButton>
                       </Grid>
-
 
                       <Box
                         mt={2}
@@ -1725,7 +1742,7 @@ function NLayout(props) {
                                 style={{ backgroundColor: "#080808" }}
                               >
                                 {!game?.streamThumbnail &&
-                                  !game?.StreamThumbnail ? (
+                                !game?.StreamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
@@ -1800,7 +1817,7 @@ function NLayout(props) {
                                         game?.url,
                                         game?.StreamThumbnail && true,
                                         game?.StreamThumbnail &&
-                                        game?.UserInfo?.NameUser,
+                                          game?.UserInfo?.NameUser,
                                         game?.StreamThumbnail && game?.id
                                       )
                                     }
@@ -2348,8 +2365,7 @@ function NLayout(props) {
               <Grid
                 style={{ display: "flex", alignItems: "center", gap: "5px" }}
               >
-
-                <IconButton sx={{ color: '#fff' }} >
+                <IconButton sx={{ color: "#fff" }}>
                   <IoSearch onClick={() => setHabilitar(!habilitar)} />
                 </IconButton>
 
@@ -2376,7 +2392,6 @@ function NLayout(props) {
                     />
                   </div>
                 </div>
-
               </Grid>
               <Grid
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
@@ -2522,9 +2537,14 @@ function NLayout(props) {
                       {notificacion && (
                         <span className="messagechat-InfoUserTo-notiNav"></span>
                       )}
-                      <BsChatDots style={{ marginRight: "10px", fontSize: "24px", color: "white" }} />
+                      <BsChatDots
+                        style={{
+                          marginRight: "10px",
+                          fontSize: "24px",
+                          color: "white",
+                        }}
+                      />
                       Mensajes
-
                     </div>
 
                     <Link
@@ -2712,17 +2732,17 @@ function NLayout(props) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2734,7 +2754,7 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
@@ -2779,7 +2799,6 @@ function NLayout(props) {
                 >
                   <DialogContent
                     style={{
-
                       padding: "0px !important", // Espaciado interno
                       borderRadius: "8px", // Bordes redondeados
                       color: "white",
@@ -2788,50 +2807,53 @@ function NLayout(props) {
                     <Grid
                       position="static"
                       style={{
-                        background: 'rgb(8, 8, 8)',
-                        padding: '15px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px'
+                        background: "rgb(8, 8, 8)",
+                        padding: "15px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
                       }}
                     >
                       <Box
                         sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          backgroundColor: '#2C2C2E',
-                          borderRadius: '999px',
-                          padding: '0.5rem',
-                          width: '100%',
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "#2C2C2E",
+                          borderRadius: "999px",
+                          padding: "0.5rem",
+                          width: "100%",
                         }}
                       >
-
-
                         <select
                           value={category}
                           onChange={handleCategoryChange}
                           style={{
-                            backgroundColor: '#3D3D40',
-                            color: '#fff',
-                            borderRadius: '50px',
-                            padding: '1rem 1rem',
-                            appearance: 'none',
-                            WebkitAppearance: 'none',
-                            MozAppearance: 'none',
-                            border: 'none',
-                            outline: 'none',
-                            width: '30%',
-                            cursor: 'pointer'
+                            backgroundColor: "#3D3D40",
+                            color: "#fff",
+                            borderRadius: "50px",
+                            padding: "1rem 1rem",
+                            appearance: "none",
+                            WebkitAppearance: "none",
+                            MozAppearance: "none",
+                            border: "none",
+                            outline: "none",
+                            width: "30%",
+                            cursor: "pointer",
                           }}
                         >
-                          <option style={{ color: 'white' }} value={0}>Todos</option>
-                          <option style={{ color: 'white' }} value={1}>Usuarios</option>
-                          <option style={{ color: 'white' }} value={2}>Clips</option>
-                          <option style={{ color: 'white' }} value={3}>Vods</option>
+                          <option style={{ color: "white" }} value={0}>
+                            Todos
+                          </option>
+                          <option style={{ color: "white" }} value={1}>
+                            Usuarios
+                          </option>
+                          <option style={{ color: "white" }} value={2}>
+                            Clips
+                          </option>
+                          <option style={{ color: "white" }} value={3}>
+                            Vods
+                          </option>
                         </select>
-
-
-
 
                         <InputBase
                           placeholder="Buscar"
@@ -2839,23 +2861,24 @@ function NLayout(props) {
                           onChange={handleChange}
                           sx={{
                             flexGrow: 1,
-                            color: '#fff',
-                            marginLeft: '1rem',
+                            color: "#fff",
+                            marginLeft: "1rem",
                           }}
                         />
-
                       </Box>
 
-                      <IconButton sx={{
-                        color: '#fff',
-                        '&:hover': {
-                          backgroundColor: '#343843', // Color de fondo al hacer hover
-                        },
-                      }} onClick={() => setHabilitar(false)} >
+                      <IconButton
+                        sx={{
+                          color: "#fff",
+                          "&:hover": {
+                            backgroundColor: "#343843", // Color de fondo al hacer hover
+                          },
+                        }}
+                        onClick={() => setHabilitar(false)}
+                      >
                         <AiOutlineClose />
                       </IconButton>
                     </Grid>
-
 
                     <Box
                       mt={2}
@@ -2878,7 +2901,7 @@ function NLayout(props) {
                               style={{ backgroundColor: "#080808" }}
                             >
                               {!game?.streamThumbnail &&
-                                !game?.StreamThumbnail ? (
+                              !game?.StreamThumbnail ? (
                                 <Link
                                   key={index}
                                   to={`/${game?.NameUser}`}
@@ -2953,7 +2976,7 @@ function NLayout(props) {
                                       game?.url,
                                       game?.StreamThumbnail && true,
                                       game?.StreamThumbnail &&
-                                      game?.UserInfo?.NameUser,
+                                        game?.UserInfo?.NameUser,
                                       game?.StreamThumbnail && game?.id
                                     )
                                   }
@@ -2982,8 +3005,7 @@ function NLayout(props) {
                                     >
                                       <Avatar
                                         src={
-                                          game?.Avatar ||
-                                          game?.UserInfo?.Avatar
+                                          game?.Avatar || game?.UserInfo?.Avatar
                                         }
                                         alt={`Clipeado por ${game?.nameUserCreator}`}
                                         sx={{ width: 40, height: 40 }}

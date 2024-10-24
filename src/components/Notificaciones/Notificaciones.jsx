@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom"; // Asegúrate de importar useHistory
 import "./Notificaciones.css";
+import { GetRecentotificaciones } from "../../services/backGo/user";
 
 export default function Notificaciones({ PinkerNotifications }) {
   const [expandedNotifications, setExpandedNotifications] = useState({});
-  const history = useHistory(); // Inicializa el hook useHistory
+  const [page, setpage] = useState(2);
+  const [notifications, setNotifications] = useState(PinkerNotifications);
+  const token = window.localStorage.getItem("token");
 
-  useEffect(() => {
-    console.log(PinkerNotifications);
-  }, [PinkerNotifications]);
+  const history = useHistory();
+
+  async function HandleGetRecentotificaciones() {
+    const res = await GetRecentotificaciones(token, page);
+    if (res.message == "ok" && res?.notifications) {
+      setNotifications((prevNotifications) => [
+        ...prevNotifications,
+        ...res.notifications,
+      ]);
+    }
+  }
 
   const truncateText = (text, length) => {
     if (text?.length > length) {
@@ -25,7 +36,6 @@ export default function Notificaciones({ PinkerNotifications }) {
   };
 
   const handleNotificationClick = (userName) => {
-    // Redirige al usuario manualmente
     history.push(`/${userName}`);
   };
 
@@ -92,6 +102,11 @@ export default function Notificaciones({ PinkerNotifications }) {
     }
   };
 
+  const handleLoadMore = () => {
+    setpage((prevPage) => prevPage + 1);
+    HandleGetRecentotificaciones();
+  };
+
   return (
     <div className="notifications-container">
       <ul
@@ -100,7 +115,7 @@ export default function Notificaciones({ PinkerNotifications }) {
         }}
         className="notifications-list"
       >
-        {PinkerNotifications.map((notification, index) => (
+        {notifications.map((notification, index) => (
           <li
             className="notification-item"
             key={index}
@@ -121,6 +136,9 @@ export default function Notificaciones({ PinkerNotifications }) {
           </li>
         ))}
       </ul>
+      <button className="load-more-button" onClick={handleLoadMore}>
+        More
+      </button>
     </div>
   );
 }
