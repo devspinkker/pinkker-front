@@ -311,8 +311,8 @@ function NLayout(props) {
     let id = window.localStorage.getItem("_id");
     const connectWebSocket = () => {
       const newSocket = new WebSocket(
-        // `wss://www.pinkker.tv/8084/ws/notification/ActivityFeed/${id}`
-        `ws://localhost:8084/ws/notification/ActivityFeed/${id}`
+        `wss://www.pinkker.tv/8084/ws/notification/ActivityFeed/${id}`
+        // `ws://localhost:8084/ws/notification/ActivityFeed/${id}`
       );
 
       newSocket.onerror = (error) => {

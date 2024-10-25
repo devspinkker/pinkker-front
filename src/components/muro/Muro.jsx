@@ -8,6 +8,7 @@ import {
   PostGets,
   GetTweetsRecommended,
   GetPostCommunitiesFromUser,
+  GetRandomPostcommunities,
 } from "../../services/backGo/tweet";
 import { useNotification } from "../Notifications/NotificationProvider";
 import { useSelector } from "react-redux";
@@ -41,9 +42,22 @@ import {
 import Tendency from "./TendencyLayout";
 import Communities from "./communities/Communities";
 import PostCreator from "./PostCreator";
+import { FindUserCommunities } from "../../services/backGo/communities";
+import ListCommunities from "./communities/ListCommunities";
 export default function Muro({ isMobile, userName }) {
   const alert = useNotification();
   const [selectedCommunityID, setSelectedCommunityID] = useState("");
+
+  const UserId = window.localStorage.getItem("_id");
+  const [UserCommunities, setUserCommunities] = useState([]);
+  async function GetCommunityUser() {
+    const res = await FindUserCommunities({ UserId });
+    setUserCommunities(res.data); // Guardamos las comunidades en el estado
+  }
+
+  useEffect(() => {
+    GetCommunityUser(); // Ejecutamos la función para obtener las comunidades
+  }, []);
 
   const [Posts, setPosts] = useState(null);
   const [message, setMessage] = useState("");
@@ -174,28 +188,30 @@ export default function Muro({ isMobile, userName }) {
   }, []);
 
   async function PostGetsf() {
-    try {
-      let token = window.localStorage.getItem("token");
-      if (token) {
-        const ExcludeIDs = [];
-        const data = await GetPostCommunitiesFromUser(token, ExcludeIDs);
-        if (data.data == null) {
-          setPosts(null);
+    let token = window.localStorage.getItem("token");
+    if (token) {
+      const ExcludeIDs = [];
+      const data = await GetPostCommunitiesFromUser(token, ExcludeIDs);
+
+      if (data.data == null) {
+        const resRandomPost = await GetRandomPostcommunities(token, ExcludeIDs);
+        if (resRandomPost.data) {
+          setPosts(resRandomPost.data);
         } else {
-          if (data.data.message === "ok") {
-            setPosts(data.data.data);
-          }
+          setPosts(null);
         }
       } else {
-        const data = await PostGets();
-        if (data.data == null) {
-          setPosts(null);
-        } else {
-          setPosts(data.data);
+        if (data.data.message === "ok") {
+          setPosts(data.data.data);
         }
       }
-    } catch (error) {
-      setPosts(null);
+    } else {
+      const data = await PostGets();
+      if (data.data == null) {
+        setPosts(null);
+      } else {
+        setPosts(data.data);
+      }
     }
   }
 
@@ -487,7 +503,8 @@ export default function Muro({ isMobile, userName }) {
 
             {valorTab === "parati" && (
               <>
-                <PostCreator
+                {/* <PostCreator
+                  userCommunities={UserCommunities}
                   AvatarSearch={AvatarSearch}
                   message={message}
                   setMessage={setMessage}
@@ -504,13 +521,11 @@ export default function Muro({ isMobile, userName }) {
                   onDrag={onDrag}
                   setOnDrag={setOnDrag}
                   handleCommunityChange={handleCommunityChange}
-                />
+                /> */}
+                <div>
+                  <ListCommunities communities={UserCommunities} />
+                </div>
                 <div className="muro-tweet-container">
-                  {/* {Posts != null &&
-                    Posts.map((tweet) => (
-                      <TweetCard tweet={tweet} isMobile={isMobile} />
-                    ))} */}
-
                   {Posts &&
                     Posts.length > 0 &&
                     Posts.map((P) => (

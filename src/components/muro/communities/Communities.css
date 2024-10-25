@@ -36,13 +36,6 @@
     background-color: #0056b3;
 }
 
-.community-card {
-    background-color: #30182d6b;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
-}
-
 .community-title {
     color: #ffffff;
 }
@@ -84,45 +77,80 @@
     text-align: center;
 }
 
+/* lista */
 .communities-list {
     display: flex;
-    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 20px;
+    overflow-x: auto;
+    /* Habilita el scroll horizontal */
+    overflow-y: hidden;
+    /* Oculta el scroll vertical */
+    flex-direction: row;
+    padding: 10px;
+    /* Añade un poco de padding para el espaciado */
+    scrollbar-width: thin;
+    /* Ajusta el ancho de la barra de desplazamiento en Firefox */
+    scrollbar-color: #ff69c4 transparent;
+    /* Color de la barra de scroll */
+}
+
+.communities-list::-webkit-scrollbar {
+    height: 8px;
+    /* Ajusta el tamaño de la barra de scroll en Chrome */
+}
+
+.communities-list::-webkit-scrollbar-thumb {
+    background-color: #ff69c4;
+    /* Color de la barra de scroll */
+    border-radius: 10px;
+    /* Haz que sea redondeada */
 }
 
 .community-card {
-    background-color: #30182d6b;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 10px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    width: 186px;
+    height: 114px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    border: 1px solid #ff69c4;
+    flex-shrink: 0;
+    /* Evita que las tarjetas se reduzcan en tamaño */
 }
 
-.community-header {
+.community-card:hover {
+    transform: scale(1.05);
+}
+
+.banner-container {
+    width: 100%;
+    height: 64%;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
-.community-avatar {
-    width: 50px;
-    height: 50px;
-    margin-right: 15px;
+.community-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Asegura que el banner se vea bien sin deformarse */
 }
 
-.community-title {
-    color: #ffffff;
-    font-weight: bold;
-}
-
-.community-members {
-    color: #b0b0b0;
-}
-
-.community-members-list {
-    margin-top: 10px;
+.community-name {
+    height: 22%;
     display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 10px;
+    text-align: center;
 }
+
+
+/* lista */
 
 .CommunityInfo {
     background-color: rgb(8 8 8);

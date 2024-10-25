@@ -11,6 +11,7 @@ import {
   AddModerator,
   BanMember,
   DeletePost,
+  FindUserCommunities,
   GetCommunity,
   GetCommunityPosts,
   GetCommunityWithUserMembership,
@@ -23,7 +24,15 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   const token = window.localStorage.getItem("token");
   let avatar = window.localStorage.getItem("avatar");
   let idUser = window.localStorage.getItem("_id");
+  const [UserCommunities, setUserCommunities] = useState([]);
+  async function GetCommunityUser() {
+    // const res = await FindUserCommunities({ UserId: idUser });
+    // setUserCommunities(res.data); // Guardamos las comunidades en el estado
+  }
 
+  useEffect(() => {
+    GetCommunityUser(); // Ejecutamos la función para obtener las comunidades
+  }, []);
   const [file, setFile] = useState(null);
   const [onDrag, setOnDrag] = useState(false);
   const [AvatarSearch, SetAvatarSearch] = useState(null);
@@ -140,6 +149,7 @@ export default function CommunitiesMuro({ isMobile, userName }) {
 
       {/* esto */}
       <PostCreator
+        userCommunities={UserCommunities}
         AvatarSearch={AvatarSearch}
         message={message}
         setMessage={setMessage}

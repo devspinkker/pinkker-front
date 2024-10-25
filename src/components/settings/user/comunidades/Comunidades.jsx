@@ -9,6 +9,7 @@ import AnunciosComunidad from "./AnunciosComunidad";
 import "./Comunidades.css";
 import { FindUserCommunities } from "../../../../services/backGo/communities";
 import ListCommunities from "../../../muro/communities/ListCommunities";
+import CreateCommunityDialog from "../../../muro/communities/CreateCommunityDialog";
 
 const Comunidades = () => {
   const [comunidades, setComunidades] = useState([]); // Comunidades del usuario
@@ -19,6 +20,7 @@ const Comunidades = () => {
   const [name, setName] = useState(""); // Para buscar anuncios por nombre de usuario
   const token = window.localStorage.getItem("token");
   const UserId = window.localStorage.getItem("_id");
+  const [openCreateDialog, setOpenCreateDialog] = useState(false);
 
   // Función para cargar las comunidades del usuario
   const handleFindUserCommunities = async () => {
@@ -96,7 +98,8 @@ const Comunidades = () => {
       }
     }
   }, [adSection, section, page]);
-
+  const handleOpenCreateDialog = () => setOpenCreateDialog(true);
+  const handleCloseCreateDialog = () => setOpenCreateDialog(false);
   return (
     <div className="Comunidades-owner-actions-container">
       <div className="Comunidades-owner-actions">
@@ -113,6 +116,15 @@ const Comunidades = () => {
             onClick={() => setSection("anuncios")}
           >
             Anuncios
+          </div>
+          <div
+            className="button-get-info-comunidades"
+            onClick={() => {
+              handleOpenCreateDialog();
+              setSection("dialogo");
+            }}
+          >
+            Crear comunidad
           </div>
         </div>
 
@@ -187,6 +199,13 @@ const Comunidades = () => {
               </button>
             </div>
           </div>
+        )}
+        {section == "dialogo" && (
+          <CreateCommunityDialog
+            open={openCreateDialog}
+            onClose={handleCloseCreateDialog}
+            token={token}
+          />
         )}
       </div>
     </div>
