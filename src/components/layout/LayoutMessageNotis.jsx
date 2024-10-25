@@ -15,7 +15,7 @@ const LayoutMessageNotis = ({
 
   useEffect(() => {
     console.log(messagesOpen);
-  }, [messagesOpen]);
+  }, []);
 
   return (
     <div>

@@ -66,3 +66,17 @@
     color: #fbace4;
     cursor: pointer
 }
+
+.load-more-button {
+    display: flex;
+    background-color: #1e1e1e;
+    justify-content: center;
+    height: 21px;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.load-more-button i {
+    color: #ffffff;
+}

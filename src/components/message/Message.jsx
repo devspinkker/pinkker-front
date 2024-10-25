@@ -26,11 +26,6 @@ export default function Message({
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [openChatIndex, setOpenChatIndex] = useState(-1); // Índice del chat abierto
-  useEffect(() => {
-    console.log("jjeje");
-    console.log(messagesOpen1);
-    console.log("jjeje");
-  }, [messagesOpen1]);
   const deepEqual = (a, b) => {
     if (a === b) return true;
     if (
@@ -62,6 +57,9 @@ export default function Message({
       prevChats.filter((chat) => chat.chatID !== idChangeStatus)
     );
   };
+  useEffect(() => {
+    console.log(messagesOpen1);
+  }, [messagesOpen1]);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {

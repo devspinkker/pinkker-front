@@ -136,9 +136,9 @@ export default function Notificaciones({ PinkerNotifications }) {
           </li>
         ))}
       </ul>
-      <button className="load-more-button" onClick={handleLoadMore}>
-        More
-      </button>
+      <div className="load-more-button" onClick={handleLoadMore}>
+        <i className=" fas fa-chevron-down"></i>
+      </div>
     </div>
   );
 }

@@ -113,10 +113,9 @@ function NLayout(props) {
   // Message
   useEffect(() => {
     console.log("right now");
-    if (messagesOpen.length == 0) {
-      fetchData();
-    }
+    fetchData();
   }, [openMessage]);
+
   const deepEqual = (a, b) => {
     if (a === b) return true;
     if (
@@ -141,7 +140,9 @@ function NLayout(props) {
   };
   function HandleNotificationMessage() {
     setNotificacion(true);
+    fetchData();
   }
+
   const fetchData = async () => {
     let token = window.localStorage.getItem("token");
     let userID = window.localStorage.getItem("_id");
@@ -161,19 +162,57 @@ function NLayout(props) {
             Blocked: chat.Blocked,
             messages: [],
           }));
-          console.log("AAAAAAAAAAAAA");
-
-          setMessagesOpen(updatedMessagesOpen);
-          const hasNotification = updatedMessagesOpen.some(
-            (chat) => chat.NotifyA === userID
-          );
-          setNotificacion(hasNotification);
+          if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
+            setMessagesOpen(updatedMessagesOpen);
+            const hasNotification = updatedMessagesOpen.some(
+              (chat) => chat.NotifyA === userID
+            );
+            setNotificacion(hasNotification);
+          }
         }
       } catch (error) {
         console.error("Error fetching chats:", error);
       }
     }
   };
+  // const fetchData = async () => {
+  //   let token = window.localStorage.getItem("token");
+  //   let userID = window.localStorage.getItem("_id");
+  //   if (token && userID) {
+  //     try {
+  //       const response = await GetChatsByUserIDWithStatus(token);
+  //       console.log("!!0");
+  //       if (response) {
+  //         console.log("!!0x");
+
+  //         const updatedMessagesOpen = response.map((chat) => ({
+  //           chatID: chat.ID,
+  //           openedWindow: false,
+  //           user1: chat.User1ID,
+  //           user2: chat.User2ID,
+  //           usersInfo: chat.Users,
+  //           NotifyA: chat.NotifyA,
+  //           StatusUser1: chat.StatusUser1,
+  //           StatusUser2: chat.StatusUser2,
+  //           Blocked: chat.Blocked,
+  //           messages: [],
+  //         }));
+  //         console.log("AAAAAAAAAAAAA");
+
+  //         setMessagesOpen(updatedMessagesOpen);
+  //         const hasNotification = updatedMessagesOpen.some(
+  //           (chat) => chat.NotifyA === userID
+  //         );
+  //         setNotificacion(hasNotification);
+  //       }
+  //     } catch (error) {
+  //       console.log("!!1");
+
+  //       console.error("Error fetching chats:", error);
+  //     }
+  //   }
+  //   console.log("!!2");
+  // };
 
   function clickPulsedButton() {
     props.setExpanded(!props.tyExpanded);
