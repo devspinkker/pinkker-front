@@ -1,20 +1,7 @@
 import React, { useState, useEffect } from "react";
+
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Typography,
-  IconButton,
-  Checkbox,
-  FormControlLabel,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import {
-  CreateCommunity,
-  FindCommunityByName,
+  GetCommunityRecommended,
   GetTop10CommunitiesByMembers,
 } from "../../../services/backGo/communities";
 import "./Communities.css";
@@ -23,24 +10,29 @@ import { GetRandomPostcommunities } from "../../../services/backGo/tweet";
 import TweetCard from "../tweet/TweetCard";
 import { ScaleLoader } from "react-spinners";
 import { Link } from "react-router-dom";
-import CreateCommunityDialog from "./CreateCommunityDialog";
 
 export default function Communities({ isMobile }) {
   const token = window.localStorage.getItem("token");
   const [open, setOpen] = useState(false);
-  const [topCommunities, setTopCommunities] = useState([]);
+  const [ComunidadesRecommended, setComunidadesRecommended] = useState([]);
   const [Posts, setPosts] = useState(null);
 
   const FuncGetTop10CommunitiesByMembers = async () => {
-    const res = await GetTop10CommunitiesByMembers(token);
-    if (res?.data) {
-      setTopCommunities(res.data);
+    if (token) {
+      const res = await GetCommunityRecommended({ token, page: 1 });
+      if (res?.data) {
+        setComunidadesRecommended(res.data);
+      }
     }
+    // const res = await GetTop10CommunitiesByMembers(token);
+    // if (res?.data) {
+    //   setComunidadesRecommended(res.data);
+    // }
   };
 
-  // useEffect(() => {
-  //   FuncGetTop10CommunitiesByMembers();
-  // }, []);
+  useEffect(() => {
+    FuncGetTop10CommunitiesByMembers();
+  }, []);
 
   const HandleGetRandomPostcommunities = async () => {
     const res = await GetRandomPostcommunities(token);
@@ -96,7 +88,7 @@ export default function Communities({ isMobile }) {
       </div>
 
       <div>
-        <ListCommunities communities={topCommunities} />
+        <ListCommunities communities={ComunidadesRecommended} />
       </div>
 
       <div>

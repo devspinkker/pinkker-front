@@ -184,12 +184,11 @@ export default function Tendency() {
             ))}
         </div>
       )}
-
+      {/* 
       <div className="muro-tweet-secondary-follow">
         <div>
           <h3>A quien seguir</h3>
-          {/* {userFollows &&
-            userFollows.map((follow) => <FollowCard followData={follow} />)} */}
+
           {Comunidad &&
             Comunidad.map((ComunidadF) => (
               <div>
@@ -197,7 +196,7 @@ export default function Tendency() {
               </div>
             ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

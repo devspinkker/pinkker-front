@@ -24,7 +24,7 @@ export default function ListCommunities({ communities }) {
               <img
                 src={
                   community.Banner != ""
-                    ? community.Banne
+                    ? community.Banner
                     : community.creatorDetails?.banner
                 }
                 alt="Community Banner"
