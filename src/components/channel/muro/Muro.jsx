@@ -26,7 +26,6 @@ export default function Muro({ streamer }) {
     const ExcludeIDs = [];
     const res = await GetRecommendedUsers(token, ExcludeIDs);
     console.log(res);
-
     if (res.message === "ok" && res.data) {
       console.log(res.data);
       setUserFollows(res.data);
