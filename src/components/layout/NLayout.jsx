@@ -1286,23 +1286,24 @@ function NLayout(props) {
         >
           {!props.user?.NameUser ? (
             <Grid
-              style={{
-                borderBottom: "1px solid #2a2e38",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "1rem 5.8rem",
-                position: "sticky",
-                top: 0,
-                zIndex: 9999,
-                backgroundColor: "#080808",
-                width: "102%",
-              }}
+            className="navTopHome"
+              // style={{
+              //   borderBottom: "1px solid #2a2e38",
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "space-between",
+              //   padding: "1rem 5.8rem",
+              //   position: "sticky",
+              //   top: 0,
+              //   zIndex: 9999,
+              //   backgroundColor: "#080808",
+              //   width: "102%",
+              // }}
             >
-              <Link to="/">
+              <Link to="/" style={{ width: "230px" }}>
                 <img
                   src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
-                  style={{ width: "12.5%" }}
+                  style={{ width: "90%", marginTop: "8px" }}
                   alt=""
                 />
               </Link>

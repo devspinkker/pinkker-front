@@ -170,7 +170,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           justifyContent: "space-between",
           borderBottom: "1px solid rgb(42, 46, 56)",
           padding: isMobile ? "5px  5.8rem" : "0px  5.8rem",
-          margin: "1.5rem 0px 1.8rem 0px",
+          margin: "1rem 0px 1rem 0px",
         }}
       >
         <h3 style={{ color: "white", fontSize: "30px" }}>
@@ -229,7 +229,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
             >
               {!isMobile && (
                 <div className="explorecategories-card-container-filters">
-                  <div className="explorecategories-card-container-filter-input">
+                  <div className="explorecategories-card-container-filter-input navbar-search-dark">
                     <img
                       src="/images/search.svg"
                       style={{
@@ -242,7 +242,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                       type="text"
                       value={filterValue}
                       onChange={(e) => setFilterValue(e.target.value)}
-                      placeholder="Búsqueda"
+                      placeholder="Buscar"
                     />
                     {filterValue && (
                       <AiOutlineCloseCircle
