@@ -2,20 +2,20 @@ import React, { useState, useEffect, useRef } from "react";
 
 import "./Muro.css";
 
-import { useSelector } from "react-redux";
-import { ScaleLoader } from "react-spinners";
-
 import TweetCard from "../../muro/tweet/TweetCard";
-import { getTweetUser, getUserFollow } from "../../../services/backGo/tweet";
+import {
+  getPostUserLogueado,
+  getTweetUser,
+  getUserFollow,
+} from "../../../services/backGo/tweet";
 
-import FollowCard from "../../muro/FollowCard";
 import { GetRecommendedUsers } from "../../../services/backGo/user";
-import ComunidadFollow from "../../muro/ComunidadFollow";
-import { GetTop10CommunitiesByMembersNoMember } from "../../../services/backGo/communities";
+import { CommunityOwnerUser } from "../../../services/backGo/communities";
+import ListCommunities from "../../muro/communities/ListCommunities";
 
 export default function Muro({ streamer }) {
   const [tweets, setTweets] = useState([]);
-  const [comunidad, setComunidadFollow] = useState(null);
+  const [comunidad, ComunidadesMember] = useState([]);
 
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -45,11 +45,11 @@ export default function Muro({ streamer }) {
   }, []);
 
   const ComunidadHandleFollow = async (e) => {
-    const res = await GetTop10CommunitiesByMembersNoMember(token);
+    const res = await CommunityOwnerUser({ UserId: streamer?.id });
     console.log(res);
 
-    if (res.message === "ok" && res.data) {
-      setComunidadFollow(res.data);
+    if (res.message === "StatusOK" && res.data) {
+      ComunidadesMember(res.data);
     }
   };
   useEffect(() => {
@@ -71,7 +71,12 @@ export default function Muro({ streamer }) {
 
   const fetchDataScroll = async (pageP) => {
     try {
-      const data = await getTweetUser(streamer?.id, pageP, 1);
+      let data;
+      if (token) {
+        data = await getPostUserLogueado(streamer?.id, pageP, 1, token);
+      } else {
+        data = await getTweetUser(streamer?.id, pageP, 1);
+      }
       if (data?.message == "ok") {
         if (data.data == null) {
           setLoading(false);
@@ -95,7 +100,12 @@ export default function Muro({ streamer }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getTweetUser(streamer?.id, page, 1);
+      let data;
+      if (token) {
+        data = await getPostUserLogueado(streamer?.id, page, 1, token);
+      } else {
+        data = await getTweetUser(streamer?.id, page, 1);
+      }
       if (data?.message == "ok") {
         if (data.data == null) {
           setTweets(null);
@@ -129,6 +139,7 @@ export default function Muro({ streamer }) {
           }}
           className="channel-muro-tweet-container"
         >
+          <ListCommunities communities={comunidad} />
           <div
             style={{
               width: "95%",

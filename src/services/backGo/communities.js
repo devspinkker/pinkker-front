@@ -186,6 +186,16 @@ export const FindUserCommunities = async ({ UserId }) => {
     })
     return response.data
 }
+
+export const CommunityOwnerUser = async ({ UserId }) => {
+
+    const response = await axios.post(
+        `${url}/communities/CommunityOwnerUser`, {
+        UserId: UserId,
+    })
+    return response.data
+}
+
 export const GetCommunity = async ({ community }) => {
 
     const response = await axios.get(
