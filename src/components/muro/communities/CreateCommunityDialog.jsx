@@ -1,5 +1,4 @@
-// CreateCommunityDialog.js
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Button,
   Dialog,
@@ -15,6 +14,8 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { CreateCommunity } from "../../../services/backGo/communities";
 import "./Communities.css";
+import { getCroppedImg } from "../../settings/user/popup/canvasUtils";
+import Cropper from "react-easy-crop";
 
 export default function CreateCommunityDialog({ open, onClose, token }) {
   const [communityName, setCommunityName] = useState("");
@@ -26,6 +27,39 @@ export default function CreateCommunityDialog({ open, onClose, token }) {
   const [subscriptionAmount, setSubscriptionAmount] = useState("");
   const [PriceAd, setPriceAd] = useState("");
   const [bannerFile, setBannerFile] = useState(null);
+  const [finalBanner, setFinalBanner] = useState(null); // Guardar la imagen recortada final
+  const [showCropper, setShowCropper] = useState(false); // Mostrar/ocultar el cropper
+
+  // Estados para el recorte de la imagen
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [rotation, setRotation] = useState(0);
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setBannerFile(URL.createObjectURL(file));
+      setShowCropper(true); // Mostrar el cropper al seleccionar una imagen
+    }
+  };
+
+  const handleCropAccept = async () => {
+    // Procesar el recorte y guardar la imagen final
+    if (bannerFile && croppedAreaPixels) {
+      const fileCropped = await getCroppedImg(
+        bannerFile,
+        croppedAreaPixels,
+        rotation
+      );
+      setFinalBanner(fileCropped); // Guardar el resultado final
+      setShowCropper(false); // Ocultar el cropper
+    }
+  };
 
   const handleCreateCommunity = async () => {
     try {
@@ -40,11 +74,16 @@ export default function CreateCommunityDialog({ open, onClose, token }) {
       formData.append("subscription_amount", subscriptionAmount);
       formData.append("AdPricePerDay", PriceAd);
 
-      if (bannerFile) {
-        formData.append("Banner", bannerFile);
+      if (finalBanner) {
+        const croppedBanner = new File([finalBanner], "banner.png", {
+          type: "image/png",
+          lastModified: new Date().getTime(),
+        });
+        formData.append("Banner", croppedBanner);
       }
+
       await CreateCommunity(formData, token);
-      onClose(); // Cierra el diálogo después de la creación
+      onClose();
     } catch (error) {
       console.error("Error creating community:", error);
     }
@@ -105,12 +144,61 @@ export default function CreateCommunityDialog({ open, onClose, token }) {
           variant="outlined"
           InputProps={{ inputProps: { min: 0 } }}
         />
-        <input
-          type="file"
-          accept="image/*"
-          placeholder="banner"
-          onChange={(e) => setBannerFile(e.target.files[0])}
-        />
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+
+        {showCropper && (
+          <div
+            className="crop-container"
+            style={{
+              zIndex: "1000",
+            }}
+          >
+            <Cropper
+              image={bannerFile}
+              crop={crop}
+              rotation={rotation}
+              zoom={zoom}
+              // aspect={4 / 1}
+              aspect={186 / 73}
+              onCropChange={setCrop}
+              onRotationChange={setRotation}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+              style={{
+                zIndex: "1000",
+              }}
+            />
+            {/* <div className="crop-controls">
+              <input
+                type="range"
+                value={zoom}
+                min={1}
+                max={3}
+                step={0.1}
+                onChange={(e) => setZoom(parseFloat(e.target.value))}
+              />
+              <input
+                type="range"
+                value={rotation}
+                min={0}
+                max={360}
+                step={1}
+                onChange={(e) => setRotation(parseFloat(e.target.value))}
+              />
+            </div> */}
+            <Button
+              onClick={handleCropAccept}
+              color="primary"
+              variant="contained"
+              style={{
+                zIndex: "100000",
+              }}
+            >
+              Aceptar recorte
+            </Button>
+          </div>
+        )}
+
         <FormControlLabel
           control={
             <Checkbox

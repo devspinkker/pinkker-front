@@ -243,3 +243,7 @@
     font-size: 14px;
     text-align: center;
 }
+
+.reactEasyCrop_Container {
+    z-index: 100 !important;
+}
