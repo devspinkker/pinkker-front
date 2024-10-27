@@ -57,6 +57,9 @@ export default function Message({
       prevChats.filter((chat) => chat.chatID !== idChangeStatus)
     );
   };
+  useEffect(() => {
+    console.log(messagesOpen1);
+  }, [messagesOpen1]);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {

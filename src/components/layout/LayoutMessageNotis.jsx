@@ -9,7 +9,7 @@ const LayoutMessageNotis = ({
   messagesOpen,
   openMessage,
   PinkerNotifications,
-  setOpenMessage
+  setOpenMessage,
 }) => {
   const token = window.localStorage.getItem("token");
 
@@ -29,8 +29,10 @@ const LayoutMessageNotis = ({
           padding: "1.70rem",
         }}
       >
-
-        <IoMdClose  onClick={() => setOpenMessage(false)} style={{color:'white', cursor:'pointer'}}/>
+        <IoMdClose
+          onClick={() => setOpenMessage(false)}
+          style={{ color: "white", cursor: "pointer" }}
+        />
         <Typography
           style={{
             color: "white",
@@ -42,7 +44,6 @@ const LayoutMessageNotis = ({
         >
           {openMessage ? "Mensajes" : "Notificaciones"}
         </Typography>
-
       </Grid>
       <div
         style={{

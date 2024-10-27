@@ -102,21 +102,20 @@ function NLayout(props) {
   const [type, setType] = useState(0);
   const [openNotification, setOpenNotification] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
+
+  const [ChangeOpenMessageTrue, setChangeOpenMessageTrue] = useState(false);
   const [openTweet, setOpenTweet] = useState(false);
   const [tweets, setTweets] = useState(null);
   const [message, setMessage] = useState("");
   const [messagesOpen, setMessagesOpen] = useState([]);
   const [notificacion, setNotificacion] = useState(false);
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_DEV_API_URL,
-  });
+
   // Message
   useEffect(() => {
-    fetchData(); // Llamada inicial para obtener los datos
-    // const intervalId = setInterval(fetchData, 6000);
+    console.log("right now");
+    fetchData();
+  }, [openMessage]);
 
-    // return () => clearInterval(intervalId);
-  }, [messagesOpen]);
   const deepEqual = (a, b) => {
     if (a === b) return true;
     if (
@@ -139,6 +138,11 @@ function NLayout(props) {
 
     return true;
   };
+  function HandleNotificationMessage() {
+    setNotificacion(true);
+    fetchData();
+  }
+
   const fetchData = async () => {
     let token = window.localStorage.getItem("token");
     let userID = window.localStorage.getItem("_id");
@@ -171,6 +175,44 @@ function NLayout(props) {
       }
     }
   };
+  // const fetchData = async () => {
+  //   let token = window.localStorage.getItem("token");
+  //   let userID = window.localStorage.getItem("_id");
+  //   if (token && userID) {
+  //     try {
+  //       const response = await GetChatsByUserIDWithStatus(token);
+  //       console.log("!!0");
+  //       if (response) {
+  //         console.log("!!0x");
+
+  //         const updatedMessagesOpen = response.map((chat) => ({
+  //           chatID: chat.ID,
+  //           openedWindow: false,
+  //           user1: chat.User1ID,
+  //           user2: chat.User2ID,
+  //           usersInfo: chat.Users,
+  //           NotifyA: chat.NotifyA,
+  //           StatusUser1: chat.StatusUser1,
+  //           StatusUser2: chat.StatusUser2,
+  //           Blocked: chat.Blocked,
+  //           messages: [],
+  //         }));
+  //         console.log("AAAAAAAAAAAAA");
+
+  //         setMessagesOpen(updatedMessagesOpen);
+  //         const hasNotification = updatedMessagesOpen.some(
+  //           (chat) => chat.NotifyA === userID
+  //         );
+  //         setNotificacion(hasNotification);
+  //       }
+  //     } catch (error) {
+  //       console.log("!!1");
+
+  //       console.error("Error fetching chats:", error);
+  //     }
+  //   }
+  //   console.log("!!2");
+  // };
 
   function clickPulsedButton() {
     props.setExpanded(!props.tyExpanded);
@@ -186,9 +228,9 @@ function NLayout(props) {
   const [socket, setSocket] = useState(null);
   const [PinkerNotifications, setPinkerNotifications] = useState([]);
   const token = window.localStorage.getItem("token");
-  const anySeenNotifications = PinkerNotifications.some(
+  const unseenNotificationsCount = PinkerNotifications.filter(
     (notification) => !notification.visto
-  );
+  ).length;
 
   async function HandleGetNotificacionesLastConnection() {
     const res = await GetNotificacionesLastConnection(token);
@@ -230,7 +272,6 @@ function NLayout(props) {
 
         newSocket.onmessage = (event) => {
           const receivedMessage = JSON.parse(event.data);
-          console.log(receivedMessage);
 
           setPinkerNotifications((prevNotifications) => [
             ...prevNotifications,
@@ -271,6 +312,7 @@ function NLayout(props) {
     const connectWebSocket = () => {
       const newSocket = new WebSocket(
         `wss://www.pinkker.tv/8084/ws/notification/ActivityFeed/${id}`
+        // `ws://localhost:8084/ws/notification/ActivityFeed/${id}`
       );
 
       newSocket.onerror = (error) => {
@@ -280,15 +322,15 @@ function NLayout(props) {
       newSocket.onmessage = (event) => {
         try {
           const receivedMessage = JSON.parse(event.data);
-          console.log(receivedMessage);
-          // if (receivedMessage.action === "DonatePixels") {
-          //   speakMessage(receivedMessage.text);
-          // }
+
+          if (receivedMessage?.Type == "message") {
+            HandleNotificationMessage(receivedMessage.UserId);
+            return;
+          }
           setPinkerNotifications((prevNotifications) => [
             ...prevNotifications,
             { ...receivedMessage, visto: false },
           ]);
-          // setActivityFeed((prevMessages) => [...prevMessages, receivedMessage]);
         } catch (error) {
           console.error("Error parsing JSON message:", error);
         }
@@ -365,13 +407,13 @@ function NLayout(props) {
   //   !isStreamerPath || location.pathname.includes("/post")
   // );
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDatas = async () => {
       const response = await GetAllsStreamsOnline();
       if (response != null && response != undefined) {
         setStreams(response.data);
       }
     };
-    fetchData();
+    fetchDatas();
 
     if (window.location.pathname.includes("/dashboard")) {
       setDashboard(true);
@@ -389,8 +431,6 @@ function NLayout(props) {
       setOpenNotification(false);
     }
   };
-  const [isAnimating, setIsAnimating] = useState(false);
-
   const habilitarMensaje = () => {
     if (openMessage) {
       setOpenMessage(false);
@@ -1384,8 +1424,10 @@ function NLayout(props) {
                       className="navbar-image-avatar"
                     >
                       {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
-                      {anySeenNotifications && (
-                        <span className="messagechat-InfoUserTo-notiNav"></span>
+                      {unseenNotificationsCount != 0 && (
+                        <span className="messagechat-InfoUserTo-notiNav">
+                          <span>{unseenNotificationsCount}</span>
+                        </span>
                       )}
                       <IoMdNotificationsOutline
                         style={{ fontSize: "20px", color: "white" }}
@@ -2387,8 +2429,10 @@ function NLayout(props) {
                     className="navbar-image-avatar"
                   >
                     {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
-                    {anySeenNotifications && (
-                      <span className="messagechat-InfoUserTo-notiNav"></span>
+                    {unseenNotificationsCount >= 1 && (
+                      <span className="messagechat-InfoUserTo-notiNav">
+                        <h1>unseenNotificationsCount</h1>
+                      </span>
                     )}
                     <IoMdNotificationsOutline
                       style={{ fontSize: "24px", color: "white" }}

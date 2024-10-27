@@ -22,6 +22,8 @@ export const CreateCommunity = async (formData, token) => {
     return response;
 };
 
+
+
 export const AddMember = async ({ community_id, token }) => {
     const config = {
         headers: {
@@ -36,6 +38,8 @@ export const AddMember = async ({ community_id, token }) => {
     );
     return response
 }
+
+
 
 export const RemoveMember = async ({ community_id, token }) => {
     const config = {
@@ -144,6 +148,31 @@ export const FindCommunityByName = async ({ CommunityID, token }) => {
         config
     );
     return response.data
+}
+
+
+export const GetCommunityRecommended = async ({ page, token }) => {
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    try {
+        const response = await axios.get(
+            `${url}/communities/GetCommunityRecommended`, {
+            ...config,
+            params: {
+                page,
+            },
+        },
+            config
+        );
+        return response.data
+    } catch (err) {
+        return err
+
+    }
 }
 
 

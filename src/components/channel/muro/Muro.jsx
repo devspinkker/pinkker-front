@@ -26,7 +26,6 @@ export default function Muro({ streamer }) {
     const ExcludeIDs = [];
     const res = await GetRecommendedUsers(token, ExcludeIDs);
     console.log(res);
-
     if (res.message === "ok" && res.data) {
       console.log(res.data);
       setUserFollows(res.data);
@@ -173,7 +172,7 @@ export default function Muro({ streamer }) {
             )}
           </div>
         </div>
-        <div
+        {/* <div
           style={{
             width: "25%",
             marginTop: "0px",
@@ -184,15 +183,12 @@ export default function Muro({ streamer }) {
         >
           <h3>A quien seguir</h3>
 
-          {/* {userFollows &&
-            userFollows.map((follow) => <FollowCard followData={follow} />)}
-          {userFollows === null && <ScaleLoader color="#f36197d7" />} */}
 
           {comunidad &&
             comunidad.map((Comunidad) => (
               <ComunidadFollow ComunidadFollow={Comunidad} />
             ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

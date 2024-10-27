@@ -6,6 +6,7 @@ import { FindUserCommunities } from "../../services/backGo/communities"; // Supo
 import { useParams } from "react-router-dom";
 
 const PostCreator = ({
+  userCommunities,
   AvatarSearch,
   message,
   setMessage,
@@ -28,21 +29,6 @@ const PostCreator = ({
   const UserId = window.localStorage.getItem("_id");
 
   const { id } = useParams();
-
-  // Estado para almacenar las comunidades del usuario
-  const [userCommunities, setUserCommunities] = useState([]);
-
-  // Obtener las comunidades del usuario
-  async function GetCommunityUser() {
-    const res = await FindUserCommunities({ UserId });
-    setUserCommunities(res.data); // Guardamos las comunidades en el estado
-  }
-
-  useEffect(() => {
-    console.log(id);
-
-    GetCommunityUser(); // Ejecutamos la función para obtener las comunidades
-  }, []);
 
   const handleChange = (file) => {
     setFile(file);

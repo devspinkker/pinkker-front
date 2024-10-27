@@ -1,20 +1,7 @@
 import React, { useState, useEffect } from "react";
+
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Typography,
-  IconButton,
-  Checkbox,
-  FormControlLabel,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import {
-  CreateCommunity,
-  FindCommunityByName,
+  GetCommunityRecommended,
   GetTop10CommunitiesByMembers,
 } from "../../../services/backGo/communities";
 import "./Communities.css";
@@ -27,47 +14,25 @@ import { Link } from "react-router-dom";
 export default function Communities({ isMobile }) {
   const token = window.localStorage.getItem("token");
   const [open, setOpen] = useState(false);
-  const [communityName, setCommunityName] = useState("");
-  const [description, setDescription] = useState("");
-  const [isPrivate, setIsPrivate] = useState(false);
-  const [categories, setCategories] = useState("");
-  const [totpCode, setTotpCode] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [topCommunities, setTopCommunities] = useState([]);
+  const [ComunidadesRecommended, setComunidadesRecommended] = useState([]);
   const [Posts, setPosts] = useState(null);
-  const [isPaid, setIsPaid] = useState(false);
-  const [subscriptionAmount, setSubscriptionAmount] = useState("");
-  const [PriceAd, setPriceAd] = useState("");
-
-  const [bannerFile, setBannerFile] = useState(null);
-
-  const handleFindCommunityByName = async () => {
-    if (searchQuery.trim()) {
-      const res = await FindCommunityByName({
-        CommunityID: searchQuery,
-        token,
-      });
-      console.log("Search result:", res);
-      if (res?.data?.length > 0) {
-        const foundCommunity = res.data[0];
-        setTopCommunities((prevCommunities) => [
-          foundCommunity,
-          ...prevCommunities.filter((c) => c.id !== foundCommunity.id),
-        ]);
-      }
-    }
-  };
 
   const FuncGetTop10CommunitiesByMembers = async () => {
-    const res = await GetTop10CommunitiesByMembers(token);
-    if (res?.data) {
-      setTopCommunities(res.data);
+    if (token) {
+      const res = await GetCommunityRecommended({ token, page: 1 });
+      if (res?.data) {
+        setComunidadesRecommended(res.data);
+      }
     }
+    // const res = await GetTop10CommunitiesByMembers(token);
+    // if (res?.data) {
+    //   setComunidadesRecommended(res.data);
+    // }
   };
 
-  // useEffect(() => {
-  //   FuncGetTop10CommunitiesByMembers();
-  // }, []);
+  useEffect(() => {
+    FuncGetTop10CommunitiesByMembers();
+  }, []);
 
   const HandleGetRandomPostcommunities = async () => {
     const res = await GetRandomPostcommunities(token);
@@ -88,29 +53,6 @@ export default function Communities({ isMobile }) {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleCreateCommunity = async () => {
-    try {
-      const cat = [categories];
-      const formData = new FormData();
-      formData.append("community_name", communityName);
-      formData.append("description", description);
-      formData.append("is_private", isPrivate);
-      formData.append("categories", cat);
-      formData.append("totp_code", totpCode);
-      formData.append("is_paid", isPaid);
-      formData.append("subscription_amount", subscriptionAmount);
-      formData.append("AdPricePerDay", PriceAd);
-
-      if (bannerFile) {
-        formData.append("Banner", bannerFile);
-      }
-      const response = await CreateCommunity(formData, token);
-      handleClose();
-    } catch (error) {
-      console.error("Error creating community:", error);
-    }
   };
 
   return (
@@ -135,134 +77,18 @@ export default function Communities({ isMobile }) {
         {/* <button onClick={handleFindCommunityByName} className="search-button">
           Buscar
         </button> */}
-
-        {/* Botón para abrir el pop-up de creación */}
-        <button onClick={handleOpen} className="search-button">
-          Crear
-        </button>
       </div>
 
       <div>
-        {open && (
-          <div onClose={handleClose}>
-            <DialogTitle>
-              <div className="header">
-                <Typography variant="h6" className="title">
-                  Crear una nueva comunidad
-                </Typography>
-                <IconButton onClick={handleClose}>
-                  <CloseIcon style={{ color: "red" }} />
-                </IconButton>
-              </div>
-            </DialogTitle>
-            <DialogContent className="dialog-content">
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Nombre de la comunidad"
-                type="text"
-                fullWidth
-                value={communityName}
-                onChange={(e) => setCommunityName(e.target.value)}
-                className="inputsStyles custom-textfield"
-                variant="outlined"
-              />
-              <TextField
-                margin="dense"
-                label="Descripción"
-                type="text"
-                fullWidth
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="inputsStyles custom-textfield"
-                variant="outlined"
-              />
-              <TextField
-                margin="dense"
-                label="Categorías (separadas por comas)"
-                type="text"
-                fullWidth
-                value={categories}
-                onChange={(e) => setCategories(e.target.value)}
-                className="inputsStyles custom-textfield"
-                variant="outlined"
-              />
-              <TextField
-                margin="dense"
-                label="Código TOTP"
-                type="number"
-                fullWidth
-                value={totpCode}
-                onChange={(e) => setTotpCode(e.target.value)}
-                className="inputsStyles custom-textfield"
-                variant="outlined"
-                InputProps={{ inputProps: { min: 0 } }}
-              />
-              <input
-                type="file"
-                accept="image/*"
-                placeholder="banner"
-                onChange={(e) => setBannerFile(e.target.files[0])}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={isPrivate}
-                    onChange={(e) => setIsPrivate(e.target.checked)}
-                    color="primary"
-                  />
-                }
-                label="¿Comunidad privada?"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={isPaid}
-                    onChange={(e) => setIsPaid(e.target.checked)}
-                    color="primary"
-                  />
-                }
-                label="¿Comunidad de pago?"
-              />
-              {isPaid && ( // Solo mostrar si es de pago
-                <TextField
-                  margin="dense"
-                  label="Monto de la suscripción"
-                  type="number"
-                  fullWidth
-                  value={subscriptionAmount}
-                  onChange={(e) => setSubscriptionAmount(e.target.value)}
-                  className="inputsStyles custom-textfield"
-                  variant="outlined"
-                  InputProps={{ inputProps: { min: 0 } }}
-                />
-              )}
-              <TextField
-                margin="dense"
-                label="Precio de los anuncios por dia"
-                type="number"
-                fullWidth
-                value={PriceAd}
-                onChange={(e) => setPriceAd(e.target.value)}
-                className="inputsStyles custom-textfield"
-                variant="outlined"
-                InputProps={{ inputProps: { min: 0 } }}
-              />
-            </DialogContent>
-            <DialogActions className="dialog-actions">
-              <Button onClick={handleClose} className="create-button">
-                Cancelar
-              </Button>
-              <Button onClick={handleCreateCommunity} className="create-button">
-                Crear
-              </Button>
-            </DialogActions>
-          </div>
-        )}
+        {/* <CreateCommunityDialog
+          open={open}
+          onClose={handleClose}
+          token={token}
+        /> */}
       </div>
 
       <div>
-        <ListCommunities communities={topCommunities} />
+        <ListCommunities communities={ComunidadesRecommended} />
       </div>
 
       <div>
