@@ -163,12 +163,28 @@ export const getTweetUser = async (id, page, limit) => {
   try {
 
     const res = await axios.get(
-      `${url}/post/get_tweets_user?id=${id}&page=${page}&limit=${limit}`,
+      `${url}/post/getPostUser?id=${id}&page=${page}&limit=${limit}`,
     );
     return res.data;
   } catch (error) {
   }
 };
+export const getPostUserLogueado = async (id, page, limit, token) => {
+  try {
+
+    const res = await axios.get(
+      `${url}/post/getPostUserLogueado?id=${id}&page=${page}&limit=${limit}`,
+
+      {
+        headers: { Authorization: token },
+      },
+    );
+    return res.data;
+  } catch (error) {
+  }
+};
+
+
 export const GetPostsWithImages = async (id, page, limit) => {
   try {
 

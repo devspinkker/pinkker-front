@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ChatSettings.css";
 import {
   DeleteAllMessages,
@@ -9,17 +9,18 @@ import {
 const ChatSettings = ({ chat, closeSettings, onStatusChange }) => {
   const token = window.localStorage.getItem("token");
   const id = window.localStorage.getItem("_id");
+  const [bloqued, SetBloqued] = useState(
+    id === chat?.user1
+      ? chat.Blocked?.BlockedByUser1
+      : chat.Blocked?.BlockedByUser2
+  );
+  const currentUserInfo = chat?.usersInfo?.find((user) => user.ID === id);
 
-  const currentUserInfo = chat.usersInfo.find((user) => user.ID === id);
-  const bloqued =
-    id === chat.user1
-      ? chat.Blocked.BlockedByUser1
-      : chat.Blocked.BlockedByUser2;
   const UserInfo = chat.usersInfo.find((user) => user.ID !== id);
 
   // Determina el estado que corresponde al usuario actual
   const currentUserStatus =
-    currentUserInfo.ID === chat.user1 ? chat.StatusUser1 : chat.StatusUser2;
+    currentUserInfo.ID === chat?.user1 ? chat?.StatusUser1 : chat?.StatusUser2;
 
   const handleUpdateStatus = (status) => {
     UpdateUserStatus(token, status, chat.chatID)
@@ -33,17 +34,13 @@ const ChatSettings = ({ chat, closeSettings, onStatusChange }) => {
   };
 
   const handleDeleteUser = async () => {
-    console.log(UserInfo);
-
-    const res = await DeleteAllMessages(token, UserInfo.ID);
-    console.log(res);
+    const res = await DeleteAllMessages(token, UserInfo?.ID);
 
     console.log("Usuario eliminado");
   };
   const handleblock = async () => {
-    const res = await UpdateChatBlockStatus(token, chat.chatID, !bloqued);
-    console.log(res);
-
+    const res = await UpdateChatBlockStatus(token, chat?.chatID, !bloqued);
+    SetBloqued(!bloqued);
     console.log("Usuario bloqueado");
   };
   return (
