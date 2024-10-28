@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Typography, Avatar, TextField, Grid } from "@mui/material";
 import "./CommunitiesMuro.css";
 import TweetCard from "../../tweet/TweetCard";
@@ -25,6 +25,7 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   let avatar = window.localStorage.getItem("avatar");
   let idUser = window.localStorage.getItem("_id");
   const [UserCommunities, setUserCommunities] = useState([]);
+  const containerRef = useRef(null);
   async function GetCommunityUser() {
     // const res = await FindUserCommunities({ UserId: idUser });
     // setUserCommunities(res.data); // Guardamos las comunidades en el estado
@@ -84,8 +85,6 @@ export default function CommunitiesMuro({ isMobile, userName }) {
     console.log(res);
 
     if (res.posts) {
-      console.log(res.posts);
-
       setPosts(res.posts);
     }
   };
@@ -143,8 +142,46 @@ export default function CommunitiesMuro({ isMobile, userName }) {
     });
     reader?.readAsDataURL(file);
   };
+  const fetchDataScroll = async () => {
+    try {
+      if (token) {
+        const ExcludeFilterIDs = Posts.map((Post) => Post.id);
+
+        const res = await GetCommunityPosts({
+          community_ids: id,
+          ExcludeFilterIDs,
+          token,
+        });
+        if (res.posts) {
+          setPosts((Prev) => [...Prev, ...res.posts]);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleScroll = () => {
+    if (containerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+      // Verifica si el usuario llegó al final del contenedor
+      if (scrollTop + clientHeight >= scrollHeight - 5) {
+        fetchDataScroll();
+      }
+    }
+  };
   return (
-    <div className="PostComunidad-conteiner">
+    <div
+      className="PostComunidad-conteiner"
+      ref={containerRef}
+      onScroll={handleScroll}
+      style={{
+        overflowY: "auto",
+        padding: "0px 27px",
+        maxHeight: "95vh",
+        // border: "1px solid #f36197d7",
+      }}
+    >
       {communityInfo && <CommunityInfo community={communityInfo} />}
 
       {/* esto */}

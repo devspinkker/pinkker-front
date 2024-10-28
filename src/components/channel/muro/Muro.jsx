@@ -14,7 +14,7 @@ import { CommunityOwnerUser } from "../../../services/backGo/communities";
 import ListCommunities from "../../muro/communities/ListCommunities";
 
 export default function Muro({ streamer }) {
-  const [tweets, setTweets] = useState([]);
+  const [Posts, setPosts] = useState([]);
   const [comunidad, ComunidadesMember] = useState([]);
 
   const [page, setPage] = useState(1);
@@ -77,14 +77,16 @@ export default function Muro({ streamer }) {
       } else {
         data = await getTweetUser(streamer?.id, pageP, 1);
       }
+
       if (data?.message == "ok") {
         if (data.data == null) {
           setLoading(false);
           return;
         }
-        setTweets((prev) => {
-          return [...prev, ...data.data];
-        });
+        setPosts((Prev) => [...Prev, ...data.data]);
+        // setPosts((prev) => {
+        //   return [...prev, ...data.data];
+        // });
 
         setHasMore(data.hasMore);
         setLoading(true);
@@ -108,11 +110,11 @@ export default function Muro({ streamer }) {
       }
       if (data?.message == "ok") {
         if (data.data == null) {
-          setTweets(null);
+          setPosts(null);
           setLoading(false);
           return;
         }
-        setTweets((prev) => {
+        setPosts((prev) => {
           return [...prev, ...data.data];
         });
 
@@ -120,7 +122,7 @@ export default function Muro({ streamer }) {
         setLoading(true);
         return;
       } else {
-        setTweets(null);
+        setPosts(null);
         setLoading(false);
         return;
       }
@@ -131,24 +133,19 @@ export default function Muro({ streamer }) {
   return (
     <div className="channel-muro-body">
       <div className="channel-muro-container">
-        <div
-          onScroll={handleScroll}
-          style={{
-            overflowY: "scroll",
-            width: "90%",
-          }}
-          className="channel-muro-tweet-container"
-        >
+        <div className="channel-muro-tweet-container">
           <ListCommunities communities={comunidad} />
           <div
+            onScroll={handleScroll}
             style={{
+              overflowY: "scroll",
+              maxHeight: "95vh",
               width: "95%",
               backgroundColor: "#0404048f",
               borderRadius: "10px",
             }}
           >
-            {tweets != null &&
-              tweets.map((tweet) => <TweetCard tweet={tweet} />)}
+            {Posts != null && Posts.map((tweet) => <TweetCard tweet={tweet} />)}
             {/* {loading && (
               <div
                 style={{
@@ -161,7 +158,7 @@ export default function Muro({ streamer }) {
                 <ScaleLoader width={4} height={20} color="#f36197d7" />
               </div>
             )} */}
-            {loading === false && tweets === null && (
+            {loading === false && Posts === null && (
               <div
                 style={{
                   padding: "20px",

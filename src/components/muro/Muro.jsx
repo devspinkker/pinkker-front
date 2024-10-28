@@ -94,6 +94,8 @@ export default function Muro({ isMobile, userName }) {
 
       if (token) {
         const ExcludeIDs = Posts.map((tweet) => tweet._id);
+        console.log("PUITA", valorTab);
+
         data = await GetPostCommunitiesFromUser(token, ExcludeIDs);
       } else {
         // data = await PostGets();
@@ -155,6 +157,7 @@ export default function Muro({ isMobile, userName }) {
 
   useEffect(() => {
     function handleScroll() {
+      if (valorTab !== "parati") return;
       const { scrollTop, clientHeight, scrollHeight } =
         document.documentElement;
       if (scrollTop + clientHeight >= scrollHeight - 20) {
@@ -191,6 +194,7 @@ export default function Muro({ isMobile, userName }) {
     let token = window.localStorage.getItem("token");
     if (token) {
       const ExcludeIDs = [];
+      if (valorTab !== "parati") return;
       const data = await GetPostCommunitiesFromUser(token, ExcludeIDs);
 
       if (data.data == null) {
@@ -307,7 +311,6 @@ export default function Muro({ isMobile, userName }) {
     }
   }
   const [valorTab, setValorTab] = useState("parati");
-  console.log("valorTab", valorTab);
   function renderMuro() {
     if (true) {
       return (
@@ -501,7 +504,7 @@ export default function Muro({ isMobile, userName }) {
               </Drawer>
             )}
 
-            {valorTab === "parati" && (
+            {valorTab === "parati" ? (
               <>
                 {/* <PostCreator
                   userCommunities={UserCommunities}
@@ -560,9 +563,9 @@ export default function Muro({ isMobile, userName }) {
                   )}
                 </div>
               </>
+            ) : (
+              <Communities isMobile={isMobile} />
             )}
-
-            {valorTab === "grupos" && <Communities isMobile={isMobile} />}
           </div>
 
           {!isMobile && <Tendency />}

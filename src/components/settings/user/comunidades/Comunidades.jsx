@@ -7,7 +7,7 @@ import {
 } from "../../../../services/backGo/advertisements";
 import AnunciosComunidad from "./AnunciosComunidad";
 import "./Comunidades.css";
-import { FindUserCommunities } from "../../../../services/backGo/communities";
+import { CommunityOwnerUser } from "../../../../services/backGo/communities";
 import ListCommunities from "../../../muro/communities/ListCommunities";
 import CreateCommunityDialog from "../../../muro/communities/CreateCommunityDialog";
 
@@ -25,7 +25,7 @@ const Comunidades = () => {
   // Función para cargar las comunidades del usuario
   const handleFindUserCommunities = async () => {
     if (UserId) {
-      const res = await FindUserCommunities({ UserId });
+      const res = await CommunityOwnerUser({ UserId });
       if (res.data) {
         setComunidades(res.data);
       }

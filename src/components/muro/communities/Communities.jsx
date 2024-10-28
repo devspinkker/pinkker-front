@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import {
   GetCommunityRecommended,
@@ -12,10 +12,12 @@ import { ScaleLoader } from "react-spinners";
 import { Link } from "react-router-dom";
 
 export default function Communities({ isMobile }) {
+  const [page, setPage] = useState(1);
   const token = window.localStorage.getItem("token");
   const [open, setOpen] = useState(false);
   const [ComunidadesRecommended, setComunidadesRecommended] = useState([]);
   const [Posts, setPosts] = useState(null);
+  const containerRef = useRef(null);
 
   const FuncGetTop10CommunitiesByMembers = async () => {
     if (token) {
@@ -47,16 +49,41 @@ export default function Communities({ isMobile }) {
     HandleGetRandomPostcommunities();
   }, []);
 
-  const handleOpen = () => {
-    setOpen(true);
+  const fetchDataScroll = async () => {
+    try {
+      if (token) {
+        const ExcludeIDs = Posts.map((Post) => Post.id);
+        const res = await GetRandomPostcommunities(token, ExcludeIDs);
+        if (res?.data) {
+          setPosts((Prev) => [...Prev, ...res?.data]);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleScroll = () => {
+    if (containerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+      // Verifica si el usuario llegó al final del contenedor
+      if (scrollTop + clientHeight >= scrollHeight - 5) {
+        fetchDataScroll();
+      }
+    }
   };
-
   return (
-    <div className={`communities-container ${isMobile ? "mobile" : ""}`}>
+    <div
+      ref={containerRef}
+      onScroll={handleScroll}
+      style={{
+        overflowY: "auto",
+        maxHeight: "80vh",
+        padding: "0px 23px",
+        // border: "1px solid #f36197d7",
+      }}
+      className={`communities-container ${isMobile ? "mobile" : ""}`}
+    >
       {/* <div className="header">
         <Typography variant="h4" className="title" gutterBottom>
           Comunidades
