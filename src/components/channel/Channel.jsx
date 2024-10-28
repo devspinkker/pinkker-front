@@ -8,7 +8,7 @@ import {
   getUserByIdTheToken,
   getUserByNameUser,
 } from "../../services/backGo/user";
-import bg from "./Banner.jpg";
+import bg from "./Banner2.jpg";
 
 import { useParams } from "react-router-dom";
 

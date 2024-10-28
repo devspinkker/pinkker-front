@@ -91,6 +91,7 @@ import {
   GetRecentotificaciones,
 } from "../../services/backGo/user";
 import logoMobile from "./Recurso 12.png";
+import prime from './Recurso 25.png'
 function NLayout(props) {
   const { streamer } = useParams();
   const [locationpath, setLocationPath] = useState();
@@ -983,19 +984,19 @@ function NLayout(props) {
                     <img
                       className="pixel-coming-soon-navbarLeft-img-pixel"
                       style={{
-                        width: "50px",
+                        width: "100%",
                         padding: "5px",
                       }}
-                      src="https://res.cloudinary.com/dcj8krp42/image/upload/v1729180881/logos/Prime_trazo_blanco_l7ftyr.png"
+                      src={prime}
                     />
                   ) : (
                     <img
                       className="pixel-coming-soon-navbarLeft-img-pixel"
                       style={{
-                        width: "36px",
+                        width: "100%",
                         padding: "5px",
                       }}
-                      src="/images/pixel.png"
+                      src={prime}
                     />
                   )}
                 </div>

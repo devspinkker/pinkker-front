@@ -614,7 +614,8 @@
   justify-content: center;
   border: 1px solid #202329;
   border-radius: 10px;
-  align-items: center;
+  align-items: center; 
+  width: 50px;
 
 }
 
