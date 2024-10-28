@@ -25,6 +25,8 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   let avatar = window.localStorage.getItem("avatar");
   let idUser = window.localStorage.getItem("_id");
   const [UserCommunities, setUserCommunities] = useState([]);
+  const [Member, setMember] = useState(true);
+
   const containerRef = useRef(null);
   async function GetCommunityUser() {
     // const res = await FindUserCommunities({ UserId: idUser });
@@ -86,6 +88,19 @@ export default function CommunitiesMuro({ isMobile, userName }) {
 
     if (res.posts) {
       setPosts(res.posts);
+      return;
+    } else {
+      setPosts([]);
+    }
+
+    if (
+      res.error ===
+      ("no se encontró ninguna suscripción entre el usuario y el creador" ||
+        "el usuario no es miembro de la comunidad")
+    ) {
+      setMember(false);
+    } else if (res.error === "el usuario no es miembro de la comunidad") {
+      setMember(false);
     }
   };
 
@@ -205,6 +220,29 @@ export default function CommunitiesMuro({ isMobile, userName }) {
       />
 
       <div className="muro-tweet-container">
+        {!Member && (
+          <div className="information_for_member">
+            <div className="information_for_member">
+              {communityInfo?.isPrivate ? (
+                communityInfo.SubscriptionAmount > 0 ? (
+                  <p>
+                    Esta es una comunidad privada y tiene un costo de ingreso de
+                    <strong> ${communityInfo.SubscriptionAmount} </strong>
+                  </p>
+                ) : (
+                  <p>
+                    Para unirte, necesitas tener una suscripción vigente al
+                    creador de esta comunidad.
+                  </p>
+                )
+              ) : (
+                <p>
+                  Para unirte a esta comunidad, solo debes solicitar unirte.
+                </p>
+              )}
+            </div>
+          </div>
+        )}
         {Posts &&
           Posts.map((P) => (
             <div>
@@ -235,7 +273,7 @@ export default function CommunitiesMuro({ isMobile, userName }) {
             </div>
           ))}
 
-        {!Posts && (
+        {!Posts && Member && (
           <div
             style={{
               minHeight: "150px",

@@ -19,3 +19,8 @@
 .mod-comunidad-actions:hover {
     background: #3d192c;
 }
+
+.information_for_member>p {
+    font-size: 22px;
+    color: #f36196;
+}

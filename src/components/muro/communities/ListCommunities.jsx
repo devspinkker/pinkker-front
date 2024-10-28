@@ -12,7 +12,7 @@ export default function ListCommunities({ communities }) {
 
   return (
     <div className="communities-list">
-      {communities.length > 0 &&
+      {communities?.length > 0 &&
         communities.map((community) => (
           <div
             key={community.id}
