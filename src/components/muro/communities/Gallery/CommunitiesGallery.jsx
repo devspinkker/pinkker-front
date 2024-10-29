@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Gallery.css";
-import { useNotification } from "../../Notifications/NotificationProvider";
 import Skeleton from "@mui/material/Skeleton";
-import { GetPostsWithImages } from "../../../services/backGo/tweet";
-import ViewTweetGallery from "../../muro/popup/ViewTweetGallery";
+import { useNotification } from "../../../Notifications/NotificationProvider";
+import ViewTweetGallery from "../../popup/ViewTweetGallery";
+import { GetCommunityPostsGallery } from "../../../../services/backGo/tweet";
 
-export default function Gallery({ streamer, tyExpanded }) {
+export default function CommunitiesGallery({ idcommunities, tyExpanded }) {
   const [popupGallery, setPopupGallery] = useState(false);
   const [popupGalleryView, setPopupGalleryView] = useState(false);
   const [gallerys, setGallerys] = useState([]); // Store posts
@@ -14,22 +14,24 @@ export default function Gallery({ streamer, tyExpanded }) {
   const [selectedGallery, setSelectedGallery] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null); // New state for selected post
   const [showTweetGallery, setShowTweetGallery] = useState(true);
-
+  const token = window.localStorage.getItem("token");
   const alert = useNotification();
 
   // Fetch posts with images
   async function GetPostsWithImagesFunc() {
     try {
-      const res = await GetPostsWithImages(streamer?.id, 1, 1);
-      if (res.data && res.message === "ok") {
-        setGallerys(res?.data); // Assuming response has data in res.data
-        setIsLoading(false); // Loading completed when data is fetched
+      if (token) {
+        const res = await GetCommunityPostsGallery(idcommunities, token);
+
+        if (res.posts) {
+          setGallerys(res?.posts);
+          setIsLoading(false);
+        }
       }
     } catch (error) {
       console.error("Error fetching posts with images:", error);
     }
   }
-
   const handleCloseGallery = () => {
     setShowTweetGallery(false);
   };

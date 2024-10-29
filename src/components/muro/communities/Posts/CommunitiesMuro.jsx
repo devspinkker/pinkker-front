@@ -18,6 +18,7 @@ import {
 } from "../../../../services/backGo/communities";
 import CommunityInfo from "../CommunityInfo";
 import PostCreator from "../../PostCreator";
+import CommunitiesGallery from "../Gallery/CommunitiesGallery";
 
 export default function CommunitiesMuro({ isMobile, userName }) {
   const { id } = useParams();
@@ -45,6 +46,9 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   const [Posts, setPosts] = useState(null);
   const [communityInfo, setCommunityInfo] = useState(null);
   const [selectedCommunityID, setSelectedCommunityID] = useState(id); // Estado para manejar la comunidad seleccionada
+  const [selectedTab, setSelectedTab] = useState("posts");
+
+  const handleTabClick = (tab) => setSelectedTab(tab);
 
   const clearImages = () => {
     setImage(null);
@@ -66,6 +70,7 @@ export default function CommunitiesMuro({ isMobile, userName }) {
       SetAvatarSearch(avatar);
     }
   }, []);
+
   const GetPostsCommunity = async () => {
     if (token) {
       const resGetCommunity = await GetCommunityWithUserMembership({
@@ -218,7 +223,26 @@ export default function CommunitiesMuro({ isMobile, userName }) {
         onDrag={onDrag}
         setOnDrag={setOnDrag}
       />
-
+      <div className="comunidad-info-set">
+        <div className="type-set-comunidad">
+          <div
+            className={`type-post-comunidad ${
+              selectedTab === "posts" ? "active" : ""
+            }`}
+            onClick={() => handleTabClick("posts")}
+          >
+            <h3>Posts</h3>
+          </div>
+          <div
+            className={`type-post-comunidad ${
+              selectedTab === "gallery" ? "active" : ""
+            }`}
+            onClick={() => handleTabClick("gallery")}
+          >
+            <h3>Galería</h3>
+          </div>
+        </div>
+      </div>
       <div className="muro-tweet-container">
         {!Member && (
           <div className="information_for_member">
@@ -243,7 +267,10 @@ export default function CommunitiesMuro({ isMobile, userName }) {
             </div>
           </div>
         )}
-        {Posts &&
+        {selectedTab === "gallery" && <CommunitiesGallery idcommunities={id} />}
+
+        {selectedTab === "posts" &&
+          Posts &&
           Posts.map((P) => (
             <div>
               {(communityInfo?.isUserModerator ||

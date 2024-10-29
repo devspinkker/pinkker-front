@@ -195,6 +195,23 @@ export const GetPostsWithImages = async (id, page, limit) => {
   } catch (error) {
   }
 };
+
+export const GetCommunityPostsGallery = async (id, token, ExcludeFilterIDs = [],) => {
+  try {
+
+    const res = await axios.post(
+      `${url}/communities/GetCommunityPostsGallery`, {
+      community_ids: id,
+      ExcludeFilterIDs: ExcludeFilterIDs,
+    }, {
+      headers: { Authorization: token },
+    },
+    );
+    return res.data;
+  } catch (error) {
+  }
+};
+
 export const PostGetIdLogueado = async (id, token) => {
   try {
 

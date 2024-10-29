@@ -220,7 +220,7 @@ const PostCreator = ({
                 className="fas fa-photo-video"
               />
               <input
-                onChange={(e) => handleChange2(e)}
+                onChange={handleChange2}
                 style={{
                   backgroundColor: "red",
                   width: "30px",
