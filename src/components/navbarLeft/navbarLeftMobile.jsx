@@ -102,7 +102,7 @@ export default function NavbarLeftMobile({ streamer }) {
               textDecoration: "none",
               color: active === 5 ? "#ff60b2" : "white",
             }}
-            to="/plataform/muro"
+            to="/plataform/Comunidades"
           >
             <i
               style={{ position: "relative", fontSize: "28px" }}

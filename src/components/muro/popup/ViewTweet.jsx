@@ -293,7 +293,7 @@ export default function ViewTweet({ closePopup, isMobile }) {
   let history = useHistory();
 
   const goBack = () => {
-    history.push("/plataform/muro");
+    history.push("/plataform/Comunidades");
   };
   return (
     <div className="viewtweet-popup-body">

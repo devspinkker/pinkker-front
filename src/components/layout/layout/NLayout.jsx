@@ -329,7 +329,7 @@ function NLayout(props) {
               <Link
                 style={{ textDecoration: "none" }}
                 className="menu-aside-option"
-                to="/plataform/muro"
+                to="/plataform/Comunidades"
               >
                 <li
                   style={{

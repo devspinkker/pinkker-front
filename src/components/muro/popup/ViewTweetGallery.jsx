@@ -277,7 +277,7 @@ export default function ViewTweetGallery({
   let history = useHistory();
 
   const goBack = () => {
-    history.push("/plataform/muro");
+    history.push("/plataform/Comunidades");
   };
   return (
     <div className="gallery-viewtweet-popup-body">

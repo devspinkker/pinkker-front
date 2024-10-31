@@ -283,7 +283,7 @@ export default function TweetCard({ tweet, isMobile }) {
         </div>
       )}
       {tweet.Type === "PostComment" &&
-        (location.pathname !== "/plataform/muro" ||
+        (location.pathname !== "/plataform/Comunidades" ||
           tweet?.OriginalPostData?.Type === "Post" ||
           tweet?.OriginalPostData?.Type === "RePost") && (
           <PostComment tweet={tweet?.OriginalPostData} isMobile={isMobile} />
@@ -584,7 +584,7 @@ export default function TweetCard({ tweet, isMobile }) {
                                   }}
                                 >
                                   <DropdownReTweet
-                                    reTweet={handleRePost}
+                                    // reTweet={handleRePost}
                                     citeTweet={handleCiteTweet}
                                     closePopup={() =>
                                       setShowDropdownRetweet(false)
@@ -1083,7 +1083,7 @@ export default function TweetCard({ tweet, isMobile }) {
                                     }}
                                   >
                                     <DropdownReTweet
-                                      reTweet={handleRePost}
+                                      // reTweet={handleRePost}
                                       citeTweet={handleCiteTweet}
                                       closePopup={() =>
                                         setShowDropdownRetweet(false)
@@ -1523,7 +1523,7 @@ export default function TweetCard({ tweet, isMobile }) {
                       }}
                     >
                       <DropdownReTweet
-                        reTweet={handleRePost}
+                        // reTweet={handleRePost}
                         citeTweet={handleCiteTweet}
                         closePopup={() => setShowDropdownRetweet(false)}
                       />
@@ -1795,7 +1795,7 @@ export default function TweetCard({ tweet, isMobile }) {
                         }}
                       >
                         <DropdownReTweet
-                          reTweet={handleRePost}
+                          // reTweet={handleRePost}
                           citeTweet={handleCiteTweet}
                           closePopup={() => setShowDropdownRetweet(false)}
                         />

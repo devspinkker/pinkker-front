@@ -338,7 +338,7 @@ export default function Muro({ isMobile, userName }) {
                   onClick={() => setValorTab("parati")}
                 />
                 <Tab
-                  label="Explorar"
+                  label="Descubrir"
                   style={{
                     width: "50%",
                     color: "white",
