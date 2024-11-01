@@ -17,6 +17,7 @@ import {
   GetClipId,
   GetClipIdlogeado,
 } from "../../../services/backGo/clip";
+import Loading from "../../layout/Loading";
 const ClipsMobile = () => {
   const { clipId } = useParams();
   const playerRef = useRef();
@@ -249,7 +250,7 @@ const ClipsMobile = () => {
   }, [loadClips]);
 
   const memoizedClips = useMemo(() => {
-    if (!viewedClip || clips.length === 0) return null;
+    if (!viewedClip || clips.length === 0) return <Loading />;
 
     const clipIndex = clips.findIndex((clip) => clip.id === viewedClip);
 
@@ -272,7 +273,7 @@ const ClipsMobile = () => {
         } ${isAnimating ? "animating" : ""}`}
         id={clip.id}
       >
-        <Box className="tiktok-video-container">
+        <Box className="video-video-container">
           {/* Video */}
           <Box className="video-wrapper">
             <div className="conetent-player-clip">
