@@ -91,7 +91,7 @@ import {
   GetRecentotificaciones,
 } from "../../services/backGo/user";
 import logoMobile from "./Recurso 12.png";
-import prime from './Recurso 25.png'
+import prime from "./Recurso 25.png";
 function NLayout(props) {
   const { streamer } = useParams();
   const [locationpath, setLocationPath] = useState();
@@ -329,15 +329,15 @@ function NLayout(props) {
             return;
           }
           setPinkerNotifications((prevNotifications) => [
-            ...prevNotifications,
             { ...receivedMessage, visto: false },
+            ...prevNotifications,
           ]);
         } catch (error) {
           console.error("Error parsing JSON message:", error);
         }
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
 
       setSocket(newSocket);
       window.addEventListener("beforeunload", () => {
@@ -606,9 +606,9 @@ function NLayout(props) {
   const pixeles = props.user?.Pixeles;
   const formattedPixeles = pixeles
     ? new Intl.NumberFormat("es-ES", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 3,
-    }).format(pixeles)
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 3,
+      }).format(pixeles)
     : "0";
   const [category, setCategory] = useState(0); // Estado inicial
 
@@ -982,7 +982,7 @@ function NLayout(props) {
               >
                 <div className="pixel-coming-soon-navbarLeft-img-pixel-container">
                   {new Date(props.user?.PinkkerPrime?.SubscriptionEnd) >
-                    new Date() ? (
+                  new Date() ? (
                     <img
                       className="pixel-coming-soon-navbarLeft-img-pixel"
                       style={{
@@ -1129,7 +1129,7 @@ function NLayout(props) {
                 <Link
                   style={{ textDecoration: "none" }}
                   className="menu-aside-option"
-                  to="/plataform/muro"
+                  to="/plataform/Comunidades"
                 >
                   <li
                     style={{
@@ -1142,7 +1142,7 @@ function NLayout(props) {
                       animation: !props.tyExpanded && "ease-in-out 3s linear",
                     }}
                     className={
-                      location.pathname === "/plataform/muro"
+                      location.pathname === "/plataform/Comunidades"
                         ? "item-liActive"
                         : "item-li"
                     }
@@ -1152,7 +1152,7 @@ function NLayout(props) {
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fas fa-edit"
                   /> */}
-                    {props.tyExpanded && <span>Muro</span>}
+                    {props.tyExpanded && <span>Comunidades</span>}
                   </li>
                 </Link>
               </ul>
@@ -1277,10 +1277,10 @@ function NLayout(props) {
               props.tyExpanded && props.txExpandedLeft
                 ? "85%"
                 : props.tyExpanded && !props.txExpandedLeft
-                  ? "85%"
-                  : !props.tyExpanded && props.txExpandedLeft
-                    ? "85%"
-                    : "95%",
+                ? "85%"
+                : !props.tyExpanded && props.txExpandedLeft
+                ? "85%"
+                : "95%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1330,18 +1330,18 @@ function NLayout(props) {
           ) : (
             <Grid
               className="navTopHome"
-            // style={{
-            //   borderBottom: "1px solid #2a2e38",
-            //   display: "flex",
-            //   alignItems: "center",
-            //   justifyContent: "space-between",
-            //   padding: "15.5px 5.8rem",
-            //   position: "sticky",
-            //   top: 0,
-            //   zIndex: 9999,
-            //   backgroundColor: "#080808",
-            //   width: "103.5%",
-            // }}
+              // style={{
+              //   borderBottom: "1px solid #2a2e38",
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "space-between",
+              //   padding: "15.5px 5.8rem",
+              //   position: "sticky",
+              //   top: 0,
+              //   zIndex: 9999,
+              //   backgroundColor: "#080808",
+              //   width: "103.5%",
+              // }}
             >
               <Link to="/" style={{ width: "230px" }}>
                 <img
@@ -1707,9 +1707,9 @@ function NLayout(props) {
                             alignItems: "center",
                             backgroundColor: "#080808",
                             borderRadius: "999px",
-                            border: '1px solid #2a2e38',
+                            border: "1px solid #2a2e38",
                             width: "100%",
-                            transition: 'all 1s',
+                            transition: "all 1s",
                             "&:hover": {
                               backgroundColor: "#2a2e38",
                             },
@@ -1792,7 +1792,7 @@ function NLayout(props) {
                                 style={{ backgroundColor: "#080808" }}
                               >
                                 {!game?.streamThumbnail &&
-                                  !game?.StreamThumbnail ? (
+                                !game?.StreamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
@@ -1867,7 +1867,7 @@ function NLayout(props) {
                                         game?.url,
                                         game?.StreamThumbnail && true,
                                         game?.StreamThumbnail &&
-                                        game?.UserInfo?.NameUser,
+                                          game?.UserInfo?.NameUser,
                                         game?.StreamThumbnail && game?.id
                                       )
                                     }
@@ -2784,17 +2784,17 @@ function NLayout(props) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2806,7 +2806,7 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
@@ -2953,7 +2953,7 @@ function NLayout(props) {
                               style={{ backgroundColor: "#080808" }}
                             >
                               {!game?.streamThumbnail &&
-                                !game?.StreamThumbnail ? (
+                              !game?.StreamThumbnail ? (
                                 <Link
                                   key={index}
                                   to={`/${game?.NameUser}`}
@@ -3028,7 +3028,7 @@ function NLayout(props) {
                                       game?.url,
                                       game?.StreamThumbnail && true,
                                       game?.StreamThumbnail &&
-                                      game?.UserInfo?.NameUser,
+                                        game?.UserInfo?.NameUser,
                                       game?.StreamThumbnail && game?.id
                                     )
                                   }
@@ -3143,13 +3143,13 @@ function NLayout(props) {
               <span>Categorías</span>
             </Link>
             <Link
-              to="/plataform/muro"
+              to="/plataform/Comunidades"
               className={
-                location.pathname === "/plataform/muro" ? "active" : ""
+                location.pathname === "/plataform/Comunidades" ? "active" : ""
               }
             >
               <BsChatSquareText className="icon" />
-              <span>Muro</span>
+              <span>Comunidades</span>
             </Link>
           </div>
         )}

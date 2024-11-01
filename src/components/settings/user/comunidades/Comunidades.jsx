@@ -8,8 +8,8 @@ import {
 import AnunciosComunidad from "./AnunciosComunidad";
 import "./Comunidades.css";
 import { CommunityOwnerUser } from "../../../../services/backGo/communities";
-import ListCommunities from "../../../muro/communities/ListCommunities";
 import CreateCommunityDialog from "../../../muro/communities/CreateCommunityDialog";
+import ListCommunitiesForEdit from "../../../muro/communities/ListCommunitiesForEdit";
 
 const Comunidades = () => {
   const [comunidades, setComunidades] = useState([]); // Comunidades del usuario
@@ -132,8 +132,8 @@ const Comunidades = () => {
         {section === "comunidades" && (
           <div>
             <h2>Mis Comunidades</h2>
-            {comunidades.length > 0 ? (
-              <ListCommunities communities={comunidades} />
+            {comunidades?.length > 0 ? (
+              comunidades.map((c) => <ListCommunitiesForEdit community={c} />)
             ) : (
               <p>No tienes comunidades.</p>
             )}

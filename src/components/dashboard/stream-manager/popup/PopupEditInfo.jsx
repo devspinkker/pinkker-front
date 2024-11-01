@@ -145,7 +145,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
 
             <div style={{ width: "70%" }}>
               <input
-                maxLength={30}
+                maxLength={70}
                 onChange={(e) => setTitle(e.target.value)}
                 defaultValue={title}
                 className="popupeditinfo-input"
@@ -162,7 +162,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
                 <p style={{ fontSize: "13px", color: "lightgray" }}>
                   te quedan{" "}
                   <a style={{ color: "#ff60b2" }}>
-                    {30 - title?.length} caracteres.
+                    {70 - title?.length} caracteres.
                   </a>
                 </p>
               </div>

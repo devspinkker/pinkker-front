@@ -21,6 +21,23 @@ export const CreateCommunity = async (formData, token) => {
 
     return response;
 };
+export const EditCommunity = async (formData, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data', // Necesario para enviar archivos
+        },
+    };
+
+    const response = await axios.post(
+        `${url}/communities/EditCommunity`,
+        formData,
+        config
+    );
+
+    return response;
+};
+
 
 
 
@@ -73,19 +90,25 @@ export const BanMember = async ({ community_id, user_id, token }) => {
     return response
 }
 export const GetCommunityPosts = async ({ community_ids, ExcludeFilterIDs = [], token }) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
+
+    try {
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        const response = await axios.post(
+            `${url}/communities/GetCommunityPosts`, {
+            community_ids,
+            ExcludeFilterIDs
         },
-    };
-    const response = await axios.post(
-        `${url}/communities/GetCommunityPosts`, {
-        community_ids,
-        ExcludeFilterIDs
-    },
-        config
-    );
-    return response.data
+            config
+        );
+        return response.data
+    } catch (err) {
+        return err.response?.data
+    }
 }
 export const AddModerator = async ({ community_id, new_mod_id, token }) => {
     const config = {

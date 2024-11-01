@@ -12,7 +12,7 @@ export default function ListCommunities({ communities }) {
 
   return (
     <div className="communities-list">
-      {communities.length > 0 &&
+      {communities?.length > 0 &&
         communities.map((community) => (
           <div
             key={community.id}
@@ -23,7 +23,7 @@ export default function ListCommunities({ communities }) {
             <div className="banner-container">
               <img
                 src={
-                  community.Banner != ""
+                  community.Banner !== ""
                     ? community.Banner
                     : community.creatorDetails?.banner
                 }
@@ -31,8 +31,21 @@ export default function ListCommunities({ communities }) {
                 className="community-banner"
               />
             </div>
-            <div className="community-name">
-              <h4 className="community-title">{community.communityName}</h4>
+            <div className="community-info">
+              <div className="community-name">
+                <h4
+                  className="community-title"
+                  data-title={community.communityName}
+                >
+                  {community.communityName}
+                </h4>
+              </div>
+              <div
+                className="community-members"
+                title={`${community.membersCount} members`}
+              >
+                <h4 className="community-count">{community.membersCount}</h4>
+              </div>
             </div>
           </div>
         ))}

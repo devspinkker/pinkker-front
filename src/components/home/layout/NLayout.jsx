@@ -113,8 +113,6 @@ function NLayout(props) {
                 >
                   <span style={{ fontSize: "14px" }}>Directos</span>
                 </Link>
-
-
               </Grid>
 
               <Grid
@@ -318,7 +316,7 @@ function NLayout(props) {
               <Link
                 style={{ textDecoration: "none" }}
                 className="menu-aside-option"
-                to="/plataform/muro"
+                to="/plataform/Comunidades"
               >
                 <li
                   style={{

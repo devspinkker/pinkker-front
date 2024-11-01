@@ -18,6 +18,7 @@ import {
 } from "../../../../services/backGo/communities";
 import CommunityInfo from "../CommunityInfo";
 import PostCreator from "../../PostCreator";
+import CommunitiesGallery from "../Gallery/CommunitiesGallery";
 
 export default function CommunitiesMuro({ isMobile, userName }) {
   const { id } = useParams();
@@ -25,6 +26,8 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   let avatar = window.localStorage.getItem("avatar");
   let idUser = window.localStorage.getItem("_id");
   const [UserCommunities, setUserCommunities] = useState([]);
+  const [Member, setMember] = useState(true);
+
   const containerRef = useRef(null);
   async function GetCommunityUser() {
     // const res = await FindUserCommunities({ UserId: idUser });
@@ -43,6 +46,9 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   const [Posts, setPosts] = useState(null);
   const [communityInfo, setCommunityInfo] = useState(null);
   const [selectedCommunityID, setSelectedCommunityID] = useState(id); // Estado para manejar la comunidad seleccionada
+  const [selectedTab, setSelectedTab] = useState("posts");
+
+  const handleTabClick = (tab) => setSelectedTab(tab);
 
   const clearImages = () => {
     setImage(null);
@@ -64,6 +70,7 @@ export default function CommunitiesMuro({ isMobile, userName }) {
       SetAvatarSearch(avatar);
     }
   }, []);
+
   const GetPostsCommunity = async () => {
     if (token) {
       const resGetCommunity = await GetCommunityWithUserMembership({
@@ -86,6 +93,19 @@ export default function CommunitiesMuro({ isMobile, userName }) {
 
     if (res.posts) {
       setPosts(res.posts);
+      return;
+    } else {
+      setPosts([]);
+    }
+
+    if (
+      res.error ===
+      ("no se encontró ninguna suscripción entre el usuario y el creador" ||
+        "el usuario no es miembro de la comunidad")
+    ) {
+      setMember(false);
+    } else if (res.error === "el usuario no es miembro de la comunidad") {
+      setMember(false);
     }
   };
 
@@ -203,9 +223,54 @@ export default function CommunitiesMuro({ isMobile, userName }) {
         onDrag={onDrag}
         setOnDrag={setOnDrag}
       />
-
+      <div className="comunidad-info-set">
+        <div className="type-set-comunidad">
+          <div
+            className={`type-post-comunidad ${
+              selectedTab === "posts" ? "active" : ""
+            }`}
+            onClick={() => handleTabClick("posts")}
+          >
+            <h3>Posts</h3>
+          </div>
+          <div
+            className={`type-post-comunidad ${
+              selectedTab === "gallery" ? "active" : ""
+            }`}
+            onClick={() => handleTabClick("gallery")}
+          >
+            <h3>Galería</h3>
+          </div>
+        </div>
+      </div>
       <div className="muro-tweet-container">
-        {Posts &&
+        {!Member && (
+          <div className="information_for_member">
+            <div className="information_for_member">
+              {communityInfo?.isPrivate ? (
+                communityInfo.SubscriptionAmount > 0 ? (
+                  <p>
+                    Esta es una comunidad privada y tiene un costo de ingreso de
+                    <strong> ${communityInfo.SubscriptionAmount} </strong>
+                  </p>
+                ) : (
+                  <p>
+                    Para unirte, necesitas tener una suscripción vigente al
+                    creador de esta comunidad.
+                  </p>
+                )
+              ) : (
+                <p>
+                  Para unirte a esta comunidad, solo debes solicitar unirte.
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+        {selectedTab === "gallery" && <CommunitiesGallery idcommunities={id} />}
+
+        {selectedTab === "posts" &&
+          Posts &&
           Posts.map((P) => (
             <div>
               {(communityInfo?.isUserModerator ||
@@ -235,7 +300,7 @@ export default function CommunitiesMuro({ isMobile, userName }) {
             </div>
           ))}
 
-        {!Posts && (
+        {!Posts && Member && (
           <div
             style={{
               minHeight: "150px",

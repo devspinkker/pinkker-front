@@ -440,7 +440,7 @@ export default function PostComment({ tweet, isMobile }) {
                       }}
                     >
                       <DropdownReTweet
-                        reTweet={handleRePost}
+                        // reTweet={handleRePost}
                         citeTweet={handleCiteTweet}
                         closePopup={() => setShowDropdownRetweet(false)}
                       />
@@ -558,7 +558,7 @@ export default function PostComment({ tweet, isMobile }) {
                     }}
                   >
                     <DropdownReTweet
-                      reTweet={handleRePost}
+                      // reTweet={handleRePost}
                       citeTweet={handleCiteTweet}
                       closePopup={() => setShowDropdownRetweet(false)}
                     />

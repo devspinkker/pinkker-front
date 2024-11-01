@@ -83,28 +83,19 @@
     flex-wrap: nowrap;
     gap: 20px;
     overflow-x: auto;
-    /* Habilita el scroll horizontal */
     overflow-y: hidden;
-    /* Oculta el scroll vertical */
-    flex-direction: row;
     padding: 10px;
-    /* Añade un poco de padding para el espaciado */
     scrollbar-width: thin;
-    /* Ajusta el ancho de la barra de desplazamiento en Firefox */
     scrollbar-color: #ff69c4 transparent;
-    /* Color de la barra de scroll */
 }
 
 .communities-list::-webkit-scrollbar {
     height: 8px;
-    /* Ajusta el tamaño de la barra de scroll en Chrome */
 }
 
 .communities-list::-webkit-scrollbar-thumb {
     background-color: #ff69c4;
-    /* Color de la barra de scroll */
     border-radius: 10px;
-    /* Haz que sea redondeada */
 }
 
 .community-card {
@@ -116,7 +107,6 @@
     transition: transform 0.3s ease;
     border: 1px solid #ff69c4;
     flex-shrink: 0;
-    /* Evita que las tarjetas se reduzcan en tamaño */
 }
 
 .community-card:hover {
@@ -135,20 +125,59 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Asegura que el banner se vea bien sin deformarse */
+}
+
+.community-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    overflow: hidden;
 }
 
 .community-name {
-    height: 22%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    padding: 10px;
-    text-align: center;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
+.community-title {
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    max-width: 100%;
+    color: #333;
+}
+
+.community-title::after {
+    content: attr(data-title);
+    position: absolute;
+    left: 0;
+    opacity: 0.3;
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
+}
+
+.community-members {
+    position: relative;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+}
+
+.community-members:hover::after {
+    content: attr(title);
+    position: absolute;
+    top: -30px;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+}
 
 /* lista */
 

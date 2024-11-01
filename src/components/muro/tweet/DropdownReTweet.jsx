@@ -5,10 +5,10 @@ export default function DropdownReTweet({ closePopup, reTweet, citeTweet }) {
   return (
     <div className="dropdownretweet-body">
       <div className="dropdownretweet-container">
-        <div
+        {/* <div
           onClick={(e) => {
             e.stopPropagation();
-            reTweet();
+            // reTweet();
             closePopup();
           }}
           className="dropdownretweet-card"
@@ -20,7 +20,7 @@ export default function DropdownReTweet({ closePopup, reTweet, citeTweet }) {
             className="fas fa-retweet"
           />
           <h3>RePostear</h3>
-        </div>
+        </div> */}
         <div
           onClick={(e) => {
             e.stopPropagation();

@@ -12,23 +12,36 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { CreateCommunity } from "../../../services/backGo/communities";
+import { EditCommunity } from "../../../services/backGo/communities";
 import "./Communities.css";
 import { getCroppedImg } from "../../settings/user/popup/canvasUtils";
 import Cropper from "react-easy-crop";
 
-export default function CreateCommunityDialog({ open, onClose, token }) {
-  const [communityName, setCommunityName] = useState("");
-  const [description, setDescription] = useState("");
-  const [isPrivate, setIsPrivate] = useState(false);
-  const [categories, setCategories] = useState("");
+export default function EditCommunityDialog({
+  open,
+  onClose,
+  token,
+  CommunityName,
+  Description,
+  IsPrivate,
+  Categories,
+  IsPaid,
+  SubscriptionAmount,
+  AdPricePerDay,
+  CommunityId,
+}) {
+  const [communityName, setCommunityName] = useState(CommunityName);
+  const [description, setDescription] = useState(Description);
+  const [isPrivate, setIsPrivate] = useState(IsPrivate);
+  const [categories, setCategories] = useState(Categories);
   const [totpCode, setTotpCode] = useState("");
-  const [isPaid, setIsPaid] = useState(false);
-  const [subscriptionAmount, setSubscriptionAmount] = useState("");
-  const [PriceAd, setPriceAd] = useState("");
+  const [isPaid, setIsPaid] = useState(IsPaid);
+  const [subscriptionAmount, setSubscriptionAmount] =
+    useState(SubscriptionAmount);
+  const [PriceAd, setPriceAd] = useState(AdPricePerDay);
   const [bannerFile, setBannerFile] = useState(null);
-  const [finalBanner, setFinalBanner] = useState(null); // Guardar la imagen recortada final
-  const [showCropper, setShowCropper] = useState(false); // Mostrar/ocultar el cropper
+  const [finalBanner, setFinalBanner] = useState(null);
+  const [showCropper, setShowCropper] = useState(false);
 
   // Estados para el recorte de la imagen
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -73,7 +86,7 @@ export default function CreateCommunityDialog({ open, onClose, token }) {
       formData.append("is_paid", isPaid);
       formData.append("subscription_amount", subscriptionAmount);
       formData.append("AdPricePerDay", PriceAd);
-
+      formData.append("CommunityID", CommunityId);
       if (finalBanner) {
         const croppedBanner = new File([finalBanner], "banner.png", {
           type: "image/png",
@@ -82,7 +95,7 @@ export default function CreateCommunityDialog({ open, onClose, token }) {
         formData.append("Banner", croppedBanner);
       }
 
-      await CreateCommunity(formData, token);
+      await EditCommunity(formData, token);
       onClose();
     } catch (error) {
       console.error("Error creating community:", error);
@@ -94,7 +107,7 @@ export default function CreateCommunityDialog({ open, onClose, token }) {
       <DialogTitle>
         <div className="header">
           <Typography variant="h6" className="title">
-            Crear una nueva comunidad
+            Edita la comunidad
           </Typography>
           <IconButton onClick={onClose}>
             <CloseIcon style={{ color: "red" }} />
@@ -249,7 +262,7 @@ export default function CreateCommunityDialog({ open, onClose, token }) {
           Cancelar
         </Button>
         <Button onClick={handleCreateCommunity} className="create-button">
-          Crear
+          Editar
         </Button>
       </DialogActions>
     </div>
