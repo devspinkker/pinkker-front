@@ -196,11 +196,14 @@ const CommunityInfo = ({ community }) => {
             marginTop: "10px",
           }}
         >
-          {community?.categories?.map((category, index) => (
-            <Box key={index} className="community-categorie">
-              {category}
-            </Box>
-          ))}
+          {community?.categories?.map(
+            (category, index) =>
+              category != "" && (
+                <Box key={index} className="community-categorie">
+                  {category}
+                </Box>
+              )
+          )}
         </Box>
 
         <Typography

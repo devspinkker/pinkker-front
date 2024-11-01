@@ -329,8 +329,8 @@ function NLayout(props) {
             return;
           }
           setPinkerNotifications((prevNotifications) => [
-            ...prevNotifications,
             { ...receivedMessage, visto: false },
+            ...prevNotifications,
           ]);
         } catch (error) {
           console.error("Error parsing JSON message:", error);

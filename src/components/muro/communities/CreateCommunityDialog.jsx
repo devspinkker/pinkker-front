@@ -123,7 +123,7 @@ export default function CreateCommunityDialog({ open, onClose, token }) {
           className="inputsStyles custom-textfield"
           variant="outlined"
         />
-        <TextField
+        {/* <TextField
           margin="dense"
           label="Categorías (separadas por comas)"
           type="text"
@@ -132,7 +132,7 @@ export default function CreateCommunityDialog({ open, onClose, token }) {
           onChange={(e) => setCategories(e.target.value)}
           className="inputsStyles custom-textfield"
           variant="outlined"
-        />
+        /> */}
         <TextField
           margin="dense"
           label="Código TOTP"

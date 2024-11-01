@@ -1,6 +1,6 @@
 {
   "name": "pinkker-client",
-  "author": "alexisiibarra",
+  "author": "brunoPereyra",
   "version": "0.1.0",
   "dependencies": {
     "@emotion/react": "^11.7.1",
