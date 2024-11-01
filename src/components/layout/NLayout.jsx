@@ -543,16 +543,18 @@ function NLayout(props) {
   };
 
   const [loading, setLoading] = useState(
-    currentPath?.includes("/plataform/clips/") ? false : true
+    currentPath?.includes("/plataform/clips/") ? false : !sessionStorage.getItem('initialLoadDone')
   );
-  // sacar
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-
-    return () => clearTimeout(timeout);
-  }, []);
+    // Solo ejecuta este código si loading está en true
+    if (loading) {
+      const timeout = setTimeout(() => {
+        setLoading(false);
+        sessionStorage.setItem('initialLoadDone', 'true'); // marca como cargado
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [loading]);
   //
   function clickPulsedButtonExpandedLeft() {
     setPulse(!pulse);
@@ -1287,19 +1289,19 @@ function NLayout(props) {
         >
           {!props.user?.NameUser ? (
             <Grid
-            className="navTopHome"
-              // style={{
-              //   borderBottom: "1px solid #2a2e38",
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "space-between",
-              //   padding: "1rem 5.8rem",
-              //   position: "sticky",
-              //   top: 0,
-              //   zIndex: 9999,
-              //   backgroundColor: "#080808",
-              //   width: "102%",
-              // }}
+              className="navTopHome"
+            // style={{
+            //   borderBottom: "1px solid #2a2e38",
+            //   display: "flex",
+            //   alignItems: "center",
+            //   justifyContent: "space-between",
+            //   padding: "1rem 5.8rem",
+            //   position: "sticky",
+            //   top: 0,
+            //   zIndex: 9999,
+            //   backgroundColor: "#080808",
+            //   width: "102%",
+            // }}
             >
               <Link to="/" style={{ width: "230px" }}>
                 <img

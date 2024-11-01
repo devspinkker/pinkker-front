@@ -114,15 +114,25 @@ const Home = ({
   const [randomBanner, setRandomBanner] = useState([]);
   const [Categories, setCategories] = useState([]);
   useEffect(() => {
-    const fetchData = async () => {
-      const getCategoriesWithLimitData = await getCategoriesWithLimit();
-      if (getCategoriesWithLimitData?.message == "ok") {
-        console.log("ns");
-        setCategories(getCategoriesWithLimitData.data);
-      }
-    };
+    // Primero, intenta cargar las categorías desde localStorage
+    const storedCategories = localStorage.getItem('categories');
 
-    fetchData();
+    if (storedCategories) {
+      setCategories(JSON.parse(storedCategories));
+    } else {
+      // Si no hay datos en localStorage, realiza la solicitud a la API
+      const fetchData = async () => {
+        const getCategoriesWithLimitData = await getCategoriesWithLimit();
+
+        if (getCategoriesWithLimitData?.message === "ok") {
+          setCategories(getCategoriesWithLimitData.data);
+          // Guarda los datos en localStorage para futuras cargas
+          localStorage.setItem('categories', JSON.stringify(getCategoriesWithLimitData.data));
+        }
+      };
+
+      fetchData();
+    }
   }, []);
   function getStyleFromRandom() {
     return;
@@ -259,7 +269,7 @@ const Home = ({
     <div
       style={{
         padding: isMobile ? "1rem 1rem 10rem 1rem" : "2rem 5.8rem",
-        width: isMobile ?  "89%" : '90%',
+        width: isMobile ? "89%" : '90%',
         height: isMobile && '100vh',
         margin: '0 auto'
       }}
