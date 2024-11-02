@@ -14,7 +14,11 @@ import ReactFlvPlayer from "../../../player/PlayerMain";
 import PopupEditInfo from "./popup/PopupEditInfo";
 import ConfigComandosChat from "./ConfigComandosChat";
 import { Button, Drawer, Grid, TextField, Typography } from "@mui/material";
-import { AiFillThunderbolt, AiOutlineSetting, AiOutlineUser } from "react-icons/ai";
+import {
+  AiFillThunderbolt,
+  AiOutlineSetting,
+  AiOutlineUser,
+} from "react-icons/ai";
 import { TbEdit, TbLogout2 } from "react-icons/tb";
 import { TfiWallet } from "react-icons/tfi";
 import { LiaSlidersHSolid } from "react-icons/lia";
@@ -87,7 +91,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
         }
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
 
       setSocket(newSocket);
 
@@ -343,31 +347,25 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
   return (
     <DashboarLayout user={user} isMobile={isMobile}>
       {/* Contenido */}
-      <div style={{ height: '100%' }}>
-        <div className="content" style={{ gap: '1%' }}>
+      <div style={{ height: "100%" }}>
+        <div className="content" style={{ gap: "1%" }}>
           {/* Parte 2 */}
           <div className="part-two">
-            <div className="column" >
-
-              <Grid style={
-                {
-                  backgroundColor: '#131418',
-                  borderRadius: '10px'
-                }
-              }>
+            <div className="column">
+              <Grid
+                style={{
+                  backgroundColor: "#131418",
+                  borderRadius: "10px",
+                }}
+              >
                 <div
                   title="Información de sesión"
                   className="vista-previa-stream-p1"
-                  style={
-                    {
-                      backgroundColor: '#131418',
-
-                    }
-                  }
+                  style={{
+                    backgroundColor: "#131418",
+                  }}
                 >
-                  <CiStreamOn
-                    style={{ color: "white", fontSize: "30px" }}
-                  />
+                  <CiStreamOn style={{ color: "white", fontSize: "30px" }} />
 
                   <span
                     style={{
@@ -375,7 +373,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                     }}
                     className="max-w-full shrink truncate text-base font-bold text-white"
                   >
-
                     Información de sesión
                   </span>
                 </div>
@@ -417,7 +414,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 </div>
               </Grid>
 
-
               <div
                 style={{
                   display: showComandosList && "none",
@@ -427,12 +423,9 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 <div
                   title="Información de sesión"
                   className="vista-previa-stream-p1"
-                  style={
-                    {
-                      backgroundColor: '#131418',
-
-                    }
-                  }
+                  style={{
+                    backgroundColor: "#131418",
+                  }}
                 >
                   <MdOutlineOndemandVideo
                     style={{ color: "white", fontSize: "30px" }}
@@ -444,7 +437,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                     }}
                     className="max-w-full shrink truncate text-base font-bold text-white"
                   >
-
                     Vista previa del stream
                   </span>
                 </div>
@@ -470,63 +462,64 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                       height: "100%",
                       display: "flex",
                       flexDirection: "column",
-
-
                     }}
                   >
                     <img
                       style={{
                         width: "100%",
                         maxHeight: "100%",
-                        borderRadius: '5px',
+                        borderRadius: "5px",
                       }}
                       src={streamerData?.stream_thumbnail}
                       alt=""
                     />
-
-                    <Grid
-                      style={{
-                        display: "flex",
-                        gap: "10px",
-                        marginTop: "10px",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Grid style={{ width: "10%" }}>
-                        <img
-                          src={streamerData?.ImageCategorie}
-                          style={{ width: "100%" }}
-                        />
-                      </Grid>
-                      <Grid
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          width: "79%",
-                        }}
-                      >
-                        <Typography
-                          style={{ fontWeight: "bold", color: "white" }}
-                        >
-                          {streamerData?.stream_title}
-                        </Typography>
-                        <TbEdit
-                          style={{
-                            color: "white",
-                            fontSize: "25px",
-                            cursor: "pointer",
-                          }}
-                          onClick={toggleEditInfoStream}
-                        />
-                      </Grid>
-                    </Grid>
                   </div>
                 )}
+                <Grid
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    marginTop: "10px",
+                    alignItems: "center",
+                  }}
+                >
+                  <Grid style={{ width: "10%" }}>
+                    <img
+                      src={streamerData?.ImageCategorie}
+                      style={{ width: "100%" }}
+                    />
+                  </Grid>
+                  <Grid
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      width: "79%",
+                    }}
+                  >
+                    <Typography style={{ fontWeight: "bold", color: "white" }}>
+                      {streamerData?.stream_title}
+                    </Typography>
+                    <TbEdit
+                      style={{
+                        color: "white",
+                        fontSize: "25px",
+                        cursor: "pointer",
+                      }}
+                      onClick={toggleEditInfoStream}
+                    />
+                  </Grid>
+                </Grid>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'top', padding: 3, gap: '10px' }}>
-
-                <div style={{ backgroundColor: '#131418', width: '100%' }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "top",
+                  padding: 3,
+                  gap: "10px",
+                }}
+              >
+                <div style={{ backgroundColor: "#131418", width: "100%" }}>
                   <div className="right-panel flex flex-col bg-[#171C1E] grow">
                     <div
                       className="right-panel__header flex flex-row items-center justify-between gap-2 px-6"
@@ -550,8 +543,14 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                           gap: "15px",
                         }}
                       >
-                        <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
-
+                        <Grid
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "30%",
+                          }}
+                        >
                           <SlUserFollow
                             style={{
                               color: "white",
@@ -566,27 +565,56 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                             }}
                             onClick={() => toggleChatOnliFollowers()}
                           />
-                          <Typography style={{ color: 'white', textAlign: 'center', fontSize: '12px' }}>Chat solo seguidores</Typography>
+                          <Typography
+                            style={{
+                              color: "white",
+                              textAlign: "center",
+                              fontSize: "12px",
+                            }}
+                          >
+                            Chat solo seguidores
+                          </Typography>
                         </Grid>
-                        <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
-
+                        <Grid
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "30%",
+                          }}
+                        >
                           <FaGratipay
                             style={{
                               color: "white",
                               fontSize: "35px",
                               borderRadius: "5px",
-                              backgroundColor: ChatOnliSubs ? "#fe68c3" : "#171C1E",
+                              backgroundColor: ChatOnliSubs
+                                ? "#fe68c3"
+                                : "#171C1E",
                               width: "85%",
                               padding: "10px",
                               cursor: "pointer",
                             }}
                             onClick={() => toggleChatOnliSubs()}
                           />
-                          <Typography style={{ color: 'white', textAlign: 'center', fontSize: '12px' }}>Chat solo suscriptores</Typography>
-
+                          <Typography
+                            style={{
+                              color: "white",
+                              textAlign: "center",
+                              fontSize: "12px",
+                            }}
+                          >
+                            Chat solo suscriptores
+                          </Typography>
                         </Grid>
-                        <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
-
+                        <Grid
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "30%",
+                          }}
+                        >
                           <MdSlowMotionVideo
                             style={{
                               color: "white",
@@ -601,11 +629,24 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                               togglemenuModChatSlowMode();
                             }}
                           />
-                          <Typography style={{ color: 'white', textAlign: 'center', fontSize: '12px' }}>Chat modo lento</Typography>
-
+                          <Typography
+                            style={{
+                              color: "white",
+                              textAlign: "center",
+                              fontSize: "12px",
+                            }}
+                          >
+                            Chat modo lento
+                          </Typography>
                         </Grid>
-                        <Grid style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
-
+                        <Grid
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "30%",
+                          }}
+                        >
                           <Typography
                             style={{
                               color: "white",
@@ -624,8 +665,15 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                           >
                             ADS
                           </Typography>
-                          <Typography style={{ color: 'white', textAlign: 'center', fontSize: '12px' }}>Anuncio</Typography>
-
+                          <Typography
+                            style={{
+                              color: "white",
+                              textAlign: "center",
+                              fontSize: "12px",
+                            }}
+                          >
+                            Anuncio
+                          </Typography>
                         </Grid>
                       </Grid>
                     </div>
@@ -705,7 +753,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 </div>
               </div>
 
-
               {/* <div
                 style={{
                   height: showComandosList && "100%",
@@ -718,10 +765,15 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 />
               </div> */}
             </div>
-
-
           </div>
-          <div className="base-card-act" style={{ backgroundColor: '#131418', width: '50%', height: '100% !important' }}>
+          <div
+            className="base-card-act"
+            style={{
+              backgroundColor: "#131418",
+              width: "50%",
+              height: "100% !important",
+            }}
+          >
             <div
               className="Información-sesión"
               style={{
@@ -734,9 +786,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                     title="Información de sesión"
                     className="flex flex-row items-center gap-1"
                   >
-                    <CiStreamOn
-                      style={{ color: "white", fontSize: "30px" }}
-                    />
+                    <CiStreamOn style={{ color: "white", fontSize: "30px" }} />
 
                     <span
                       style={{
@@ -747,9 +797,14 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                       Servidor y clave de stream
                     </span>
                   </div>
-                  <Grid style={{ display: 'flex', alignItems: 'center' }}>
-                    <Grid style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
-
+                  <Grid style={{ display: "flex", alignItems: "center" }}>
+                    <Grid
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "80%",
+                      }}
+                    >
                       <input
                         value={process.env.REACT_APP_RTMPSTARTSTREAM}
                         className="settingstream-input"
@@ -770,7 +825,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                       style={{
                         marginTop: "10px",
                         display: "flex",
-                        flexDirection: "column"
+                        flexDirection: "column",
                       }}
                     >
                       <button
@@ -791,13 +846,14 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 </div>
               </section>
             </div>
-            
+
             <div className="Feeddeactividades_container">
-
               <div title="Feed de actividades" className="Feeddeactividades">
-                <span className="max-w-full shrink truncate text-base font-bold text-white" style={{ display: 'flex', alignItems: 'center', gap: '5%' }}>
-                  <AiFillThunderbolt style={{ fontSize: '2rem' }} />
-
+                <span
+                  className="max-w-full shrink truncate text-base font-bold text-white"
+                  style={{ display: "flex", alignItems: "center", gap: "5%" }}
+                >
+                  <AiFillThunderbolt style={{ fontSize: "2rem" }} />
                   Feed de actividades
                 </span>
               </div>
@@ -841,20 +897,20 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                       </div>
                     </div>
                   ))}
-
                 </div>
               </div>
-
             </div>
-
           </div>
 
-          {
-            mostrarditInfoStream && <PopupEditInfo closePopup={toggleEditInfoStream} stream={streamerData} user={userData} />
-          }
+          {mostrarditInfoStream && (
+            <PopupEditInfo
+              closePopup={toggleEditInfoStream}
+              stream={streamerData}
+              user={userData}
+            />
+          )}
 
           {/* Parte 1 */}
-
 
           {streamerData && userData && !isMobile && (
             <ChatStreaming
