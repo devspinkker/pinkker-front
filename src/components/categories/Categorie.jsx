@@ -21,7 +21,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 import CardStreamRecomendado from "../home/categories/CardStreamRecomendado";
-
+import chancho from './Chancho--dengue.png'
 export default function Categorie() {
   const [categorie, setCategorie] = useState(null);
   const [streams, setStreams] = useState(null);
@@ -296,22 +296,17 @@ export default function Categorie() {
                 justifyContent: "center",
                 alignItems: "center",
                 backgroundColor: "#121418",
+                transition: "all 1s",
               }}
+
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#2a2e38"}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#121418"}
+
             >
-              <IoIosArrowBack style={{ color: "white", fontSize: "24px" }} />
+              <IoIosArrowBack className="" style={{ color: "white", fontSize: "24px" }} />
             </Link>
 
-            <img
-              style={{
-                width: "6.79%",
 
-                boxShadow: "1px 1px 15px rgba(0,0,0,0.75)",
-                borderRadius: "5px",
-                paddingTop: "10px",
-              }}
-              src={categorie?.data?.img}
-              alt=""
-            />
             <Grid>
               <h3 style={{ color: "white" }}>{categorie?.data?.nombre}</h3>
               <div className="user_data_contain">
@@ -361,8 +356,15 @@ export default function Categorie() {
           </Grid>
         )}
         <img
-          src={"/images/ESTRELLA_PINKKER_ROSA.png"}
-          style={{ width: "10%" }}
+          style={{
+            width: "4.19%",
+
+            boxShadow: "1px 1px 15px rgba(0,0,0,0.75)",
+            borderRadius: "5px",
+            paddingTop: "10px",
+          }}
+          src={categorie?.data?.img}
+          alt=""
         />
       </Grid>
       <div
@@ -445,48 +447,11 @@ export default function Categorie() {
             </div>
           ))}
           {!streams && (
-            <div>
-              <Skeleton
-                variant="rectangular"
-                width={365}
-                height={250}
-                style={{
-                  backgroundColor: "rgb(32, 32, 31)",
-                  marginBottom: "10px",
-                }}
-              />
-              <Grid
-                style={{
-                  display: "flex",
-                  gap: "5px",
-                  alignItems: "flex-start",
-                }}
-              >
-                <Skeleton
-                  variant="circular"
-                  width={50}
-                  height={50}
-                  style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                />
-                <Grid
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "3px",
-                  }}
-                >
-                  <Skeleton
-                    variant="text"
-                    width={120}
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    width={100}
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                  />
-                </Grid>
-              </Grid>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+
+              <img src={chancho} style={{ width: '30%' }} />
+              <Typography style={{ color: 'white', textAlign: 'center', fontSize: '18px' }}>No hay directos en este momento!</Typography>
+
             </div>
           )}
         </div>

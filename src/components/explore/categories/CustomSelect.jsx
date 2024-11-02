@@ -16,6 +16,8 @@ export default function CustomSelect({ options, defaultValue, onChange }) {
       <div
         onClick={() => setIsOpen(!isOpen)}
         className="custom-select-container"
+        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#2a2e38"}
+        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#121418"}
       >
         <div className="custom-select-header">
           <CiSliderVertical />

@@ -169,7 +169,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           alignItems: "center",
           justifyContent: "space-between",
           borderBottom: "1px solid rgb(42, 46, 56)",
-          padding: isMobile ? "5px  5.8rem" : "0px  5.8rem",
+          padding: isMobile ? "5px  5.8rem" : "0px 3.7rem 0px 5.8rem",
           margin: "1rem 0px 1rem 0px",
         }}
       >

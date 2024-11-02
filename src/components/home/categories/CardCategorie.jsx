@@ -27,7 +27,15 @@ export default function CustomCard(props) {
     setDominantColor(props.TopColor);
     // };
   }, [props.image]);
-
+  function cortarCadena(texto) {
+    // Verifica si la longitud de la cadena es mayor a 22
+    if (texto.length > 20) {
+      // Corta la cadena hasta el carácter 22 y añade "..."
+      return texto.slice(0, 21) + '...';
+    }
+    // Si la cadena es menor o igual a 22 caracteres, devuelve el texto original
+    return texto;
+  }
   return (
     <>
       {image && (
@@ -64,7 +72,7 @@ export default function CustomCard(props) {
               {props?.titulo && <span style={{ position: 'relative', top: '-188px', left: '65px' }}>Ver Todos</span>}
             </Link>
           </div>
-          <Typography style={{color:'white', marginLeft: props.isMobile ? '25%' :'5px', textAlign: 'left', fontSize: 14, fontWeight: 600, width: props.isMobile && '100%' }}>{props.name}</Typography>
+          <Typography style={{color:'white', marginLeft: props.isMobile ? '25%' :'5px', textAlign: 'left', fontSize: 14, fontWeight: 600, width: props.isMobile && '100%' }}>{cortarCadena(props.name)}</Typography>
           <div className="user_data_contain">
             <div className="custom-categories-p-2">
 
