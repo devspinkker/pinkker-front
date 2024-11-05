@@ -22,6 +22,9 @@ export function CreateClip() {
   const [videoTSUrls, setVideoTSUrls] = useState([]);
   const [marks, setMarks] = useState({});
   const [volumeHovered, setVolumeHovered] = useState(false);
+  const [LoadClip, setLoadClip] = useState(false);
+  const [ErrorCreateClip, setErrorCreateClip] = useState(false);
+
   const videoRef = useRef(null);
 
   const baseUrl = process.env.REACT_APP_BACKRTMP;
@@ -70,13 +73,13 @@ export function CreateClip() {
         streamKey: "live" + totalKey,
         title: clipTitle,
       };
-
+      setLoadClip(true);
       const response = await Create_Clip(clipData, config);
       const videoUrl = response.data.data;
 
       window.location.href = `/clips/getId/?videoUrl=${videoUrl}`;
     } catch (error) {
-      console.error("Error al enviar la solicitud de clip:", error);
+      setErrorCreateClip(true);
     }
   };
 
@@ -239,53 +242,69 @@ export function CreateClip() {
 
   return (
     <div className="player-container">
-      <div className="player-container-ch">
-        <div>
-          <VideoPlayerCreateClips
-            src={videoUrl}
-            videoRef={videoRef}
-            height="90%"
-            width="100%"
-            onVideoURLsReady={handleVideoURLsReady}
-            isMuted={isMuted}
-            volume={volume}
-            onPlay={playVideo}
-            onPause={pauseVideo}
-            onProgress={handleProgress}
+      {LoadClip ? (
+        ErrorCreateClip ? (
+          <img
+            src="https://res.cloudinary.com/depcty8j1/image/upload/v1730314777/hviaa78q7lucbgayrb1i.jpg"
+            alt="Loading video"
+            style={{ width: "100%", height: "90%", objectFit: "cover" }}
           />
-          {getBottomButtons()}
-        </div>
-        <div className="controls-container">
-          <div className="slider-container">
-            <Slider
-              range
-              min={0}
-              max={duration}
-              value={[startTime, endTime]}
-              onChange={handleSliderChange}
-              allowCross={false}
-              marks={marks}
-              dots={false}
-              step={null}
-            />
-          </div>
+        ) : (
+          <img
+            src="https://res.cloudinary.com/depcty8j1/image/upload/v1730314777/hviaa78q7lucbgayrb1i.jpg"
+            alt="Loading video"
+            style={{ width: "100%", height: "90%", objectFit: "cover" }}
+          />
+        )
+      ) : (
+        <div className="player-container-ch">
           <div>
-            <input
-              className="input_title_clip"
-              placeholder="El título es obligatorio"
-              type="text"
-              value={clipTitle}
-              onChange={handleTitleChange}
+            <VideoPlayerCreateClips
+              src={videoUrl}
+              videoRef={videoRef}
+              height="90%"
+              width="100%"
+              onVideoURLsReady={handleVideoURLsReady}
+              isMuted={isMuted}
+              volume={volume}
+              onPlay={playVideo}
+              onPause={pauseVideo}
+              onProgress={handleProgress}
             />
-            <div className="edit-clip">
-              <span className="remaining_characters_clip">
-                {100 - clipTitle.length} caracteres restantes
-              </span>
-              <button onClick={handleSetDuration}>Publicar</button>
+            {getBottomButtons()}
+          </div>
+          <div className="controls-container">
+            <div className="slider-container">
+              <Slider
+                range
+                min={0}
+                max={duration}
+                value={[startTime, endTime]}
+                onChange={handleSliderChange}
+                allowCross={false}
+                marks={marks}
+                dots={false}
+                step={null}
+              />
+            </div>
+            <div>
+              <input
+                className="input_title_clip"
+                placeholder="El título es obligatorio"
+                type="text"
+                value={clipTitle}
+                onChange={handleTitleChange}
+              />
+              <div className="edit-clip">
+                <span className="remaining_characters_clip">
+                  {100 - clipTitle.length} caracteres restantes
+                </span>
+                <button onClick={handleSetDuration}>Publicar</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

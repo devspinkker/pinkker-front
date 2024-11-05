@@ -165,7 +165,7 @@ export default function CommunitiesMuro({ isMobile, userName }) {
   const fetchDataScroll = async () => {
     try {
       if (token) {
-        const ExcludeFilterIDs = Posts.map((Post) => Post.id);
+        const ExcludeFilterIDs = Posts.map((Post) => Post._id);
 
         const res = await GetCommunityPosts({
           community_ids: id,
