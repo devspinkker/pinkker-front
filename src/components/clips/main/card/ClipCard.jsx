@@ -18,6 +18,7 @@ import { retweet } from "../../../../services/tweet";
 import { IoMdSend } from "react-icons/io";
 import ShareDropdown from "../../../channel/dropdown/ShareDropdown";
 import { useNotification } from "../../../Notifications/NotificationProvider";
+import VideoClipsExplorar from "../../../../player/VideoClipsExplorar";
 
 export default function ClipCard({ clip, isActive = 0, isMobile }) {
   const [playing, setPlaying] = useState(true);
@@ -153,9 +154,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
   }, [videoHover]);
 
   const handleVideoPlay = () => {
-    setTimeout(() => {
-      setVideoPlaying(true);
-    }, 100);
+    setVideoPlaying(true);
   };
 
   const [dropdownShare, setDropdownShare] = useState(false);
@@ -442,21 +441,39 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
               ) : null}
               <canvas ref={canvasRef} width="400" height="300" id="ambilight" />
 
-              <video
-                crossOrigin="anonymous"
-                style={{ display: videoPlaying ? "" : "none" }}
-                onTimeUpdate={handleProgress}
-                onClick={handlePlay}
-                ref={playerRef}
-                loop={true}
-                autoPlay={true}
-                muted={muted}
-                controls={false}
-                playsInline
-                src={clip.url}
-                onPlay={handleVideoPlay} // Llama al handler cuando el video comienza a reproducirse
-                onLoadStart={() => setLoading(true)}
-              />
+              {/* <video
+                  crossOrigin="anonymous"
+                  style={{ display: videoPlaying ? "" : "none" }}
+                  onTimeUpdate={handleProgress}
+                  onClick={handlePlay}
+                  ref={playerRef}
+                  loop={true}
+                  autoPlay={true}
+                  muted={muted}
+                  controls={false}
+                  playsInline
+                  src={clip.url}
+                  onPlay={handleVideoPlay} // Llama al handler cuando el video comienza a reproducirse
+                  onLoadStart={() => setLoading(true)}
+                /> */}
+              <div
+                style={{
+                  display: videoPlaying ? "" : "none",
+                }}
+              >
+                <VideoClipsExplorar
+                  videoRef={playerRef}
+                  src={clip.url}
+                  isMuted={muted}
+                  volume={0.5}
+                  onTimeUpdate={handleProgress} // Actualiza el progreso del video
+                  onClick={handlePlay} // Maneja la reproducción al hacer click
+                  onPlay={handleVideoPlay} // Llama al handler cuando el video comienza
+                  onLoadStart={() => setLoading(true)}
+                  height="100%"
+                  width="100%"
+                />
+              </div>
             </div>
             {getButtonDuration()}
             {playing === false && (
