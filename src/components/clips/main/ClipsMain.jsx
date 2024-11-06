@@ -199,12 +199,24 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
   const memoizedClips = useMemo(() => {
     if (!viewedClip || clips.length === 0) return null;
 
-    // Eliminar clips duplicados por id
-    const uniqueClips = Array.from(new Set(clips.map((a) => a.id))).map((id) =>
-      clips.find((a) => a.id === id)
-    );
+    // Identificar clips repetidos
+    const uniqueClips = [...clips]; // Creamos una copia de los clips para no mutar el original
 
-    const clipIndex = uniqueClips.findIndex((clip) => clip.id === viewedClip);
+    // Encontramos los clips repetidos
+    const seenIds = new Set(); // Usamos un Set para rastrear los IDs que ya hemos visto
+    const finalClips = [];
+
+    // Iterar sobre los clips y mover los repetidos al final
+    uniqueClips.forEach((clip) => {
+      if (seenIds.has(clip.id)) {
+        finalClips.push(clip); // Mover los clips repetidos al final
+      } else {
+        seenIds.add(clip.id);
+        finalClips.unshift(clip); // Mantener los primeros clips en orden
+      }
+    });
+
+    const clipIndex = finalClips.findIndex((clip) => clip.id === viewedClip);
 
     // Si no se encuentra el clip, no se renderiza nada y se elimina el blob si existe
     if (clipIndex === -1) {
@@ -212,15 +224,14 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
       return null;
     }
 
-    const clipsToRender = uniqueClips.slice(
+    const clipsToRender = finalClips.slice(
       Math.max(clipIndex - 0, 0),
-      Math.min(clipIndex + 2, uniqueClips.length)
+      Math.min(clipIndex + 2, finalClips.length)
     );
-    console.log(clipsToRender); // Verifica los clips que se están renderizando
 
     return clipsToRender.map((clip) => (
       <div
-        key={`${clip.id}-${new Date().getTime()}`} // Usar timestamp para asegurar claves únicas
+        key={`${clip.id}-${clipIndex}`} // Usamos clipIndex para asegurar claves únicas
         className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
         id={clip.id}
       >

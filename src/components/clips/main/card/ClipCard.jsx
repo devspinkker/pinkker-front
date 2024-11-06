@@ -44,8 +44,6 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
     const canvas = canvasRef.current;
 
     return () => {
-      console.log(player);
-
       if (player) {
         player.pause();
         URL.revokeObjectURL(player.src); // Limpiar el Blob
