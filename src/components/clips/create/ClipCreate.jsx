@@ -245,15 +245,15 @@ export function CreateClip() {
       {LoadClip ? (
         ErrorCreateClip ? (
           <img
-            src="https://res.cloudinary.com/depcty8j1/image/upload/v1730314777/hviaa78q7lucbgayrb1i.jpg"
+            src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927463/logos/Chancho_skull_jdtg05.png"
             alt="Loading video"
-            style={{ width: "100%", height: "90%", objectFit: "cover" }}
+            style={{ width: "80vh", height: "80vh", objectFit: "cover" }}
           />
         ) : (
           <img
-            src="https://res.cloudinary.com/depcty8j1/image/upload/v1730314777/hviaa78q7lucbgayrb1i.jpg"
+            src="https://res.cloudinary.com/dcj8krp42/image/upload/v1730916690/logos/Clip_qbjvcg.png"
             alt="Loading video"
-            style={{ width: "100%", height: "90%", objectFit: "cover" }}
+            style={{ width: "80vh", height: "80vh", objectFit: "cover" }}
           />
         )
       ) : (
