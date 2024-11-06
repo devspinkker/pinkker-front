@@ -199,7 +199,12 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
   const memoizedClips = useMemo(() => {
     if (!viewedClip || clips.length === 0) return null;
 
-    const clipIndex = clips.findIndex((clip) => clip.id === viewedClip);
+    // Eliminar clips duplicados por id
+    const uniqueClips = Array.from(new Set(clips.map((a) => a.id))).map((id) =>
+      clips.find((a) => a.id === id)
+    );
+
+    const clipIndex = uniqueClips.findIndex((clip) => clip.id === viewedClip);
 
     // Si no se encuentra el clip, no se renderiza nada y se elimina el blob si existe
     if (clipIndex === -1) {
@@ -207,14 +212,15 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
       return null;
     }
 
-    const clipsToRender = clips.slice(
+    const clipsToRender = uniqueClips.slice(
       Math.max(clipIndex - 0, 0),
-      Math.min(clipIndex + 2, clips.length)
+      Math.min(clipIndex + 2, uniqueClips.length)
     );
+    console.log(clipsToRender); // Verifica los clips que se están renderizando
 
     return clipsToRender.map((clip) => (
       <div
-        key={clip.id}
+        key={`${clip.id}-${new Date().getTime()}`} // Usar timestamp para asegurar claves únicas
         className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
         id={clip.id}
       >
