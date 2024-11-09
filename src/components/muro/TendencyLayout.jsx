@@ -27,9 +27,6 @@ export default function Tendency() {
       setComunidadFollow(res.data);
     }
   };
-  useEffect(() => {
-    ComunidadHandleFollow();
-  }, []);
 
   // const UserFollowsFunc = async (e) => {
   //   const ExcludeIDs = [];
@@ -98,11 +95,6 @@ export default function Tendency() {
       setTrends([]);
     }
   };
-
-  // Fetch trends when the component mounts
-  useEffect(() => {
-    fetchTrends();
-  }, []);
 
   return (
     <div className="muro-tweet-secondary">

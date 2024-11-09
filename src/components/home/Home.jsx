@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import "./Home.css";
 
-import Categories from "./categories/Categories";
 import DirectosRecommended from "./recommended/Recommended";
 import Clips from "./clips/Clips";
 
@@ -12,27 +11,15 @@ import { useLocation } from "react-router-dom";
 
 import { useLastLocation } from "react-router-last-location";
 
-import CustomPlayer from "../customPlayer/customPlayer";
-
 import { useNotification } from "../Notifications/NotificationProvider";
 
 import Vods from "./vods/Vods";
-
-import DropdownSettings from "./dropdown/DropdownSettings";
 
 import { getCategoriesWithLimit } from "../../services/backGo/streams";
 
 import "react-multi-carousel/lib/styles.css";
 
-import { Link } from "react-router-dom";
-import { getUserByIdTheToken } from "../../services/backGo/user";
-import CardCategorie from "../home/categories/CardCategorie";
-import { Grid, Skeleton } from "@mui/material";
-import { AiOutlinePlayCircle } from "react-icons/ai";
-import { LuGamepad } from "react-icons/lu";
-import { GrGamepad } from "react-icons/gr";
 import SliderLayout from "../layout/SliderLayout";
-import { ScaleLoader, BarLoader } from "react-spinners";
 
 const Home = ({
   socketMain,
@@ -43,16 +30,6 @@ const Home = ({
 }) => {
   const [streams, setStreams] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let token = window.localStorage.getItem("token");
-      let res = await getUserByIdTheToken("token");
-      if (res.error) {
-        console.log("no logeado");
-      }
-    };
-    fetchData();
-  }, []);
   const [userFollow, setUserFollow] = useState();
   // useEffect(() => {
   //     const fetchData = async () => {
@@ -115,7 +92,7 @@ const Home = ({
   const [Categories, setCategories] = useState([]);
   useEffect(() => {
     // Primero, intenta cargar las categorías desde localStorage
-    const storedCategories = localStorage.getItem('categories');
+    const storedCategories = localStorage.getItem("categories");
 
     if (storedCategories) {
       setCategories(JSON.parse(storedCategories));
@@ -127,7 +104,10 @@ const Home = ({
         if (getCategoriesWithLimitData?.message === "ok") {
           setCategories(getCategoriesWithLimitData.data);
           // Guarda los datos en localStorage para futuras cargas
-          localStorage.setItem('categories', JSON.stringify(getCategoriesWithLimitData.data));
+          localStorage.setItem(
+            "categories",
+            JSON.stringify(getCategoriesWithLimitData.data)
+          );
         }
       };
 
@@ -260,18 +240,18 @@ const Home = ({
     checkScreenResolution();
 
     // Add event listener to check resolution on resize
-    window.addEventListener('resize', checkScreenResolution);
+    window.addEventListener("resize", checkScreenResolution);
 
     // Clean up the event listener on unmount
-    return () => window.removeEventListener('resize', checkScreenResolution);
+    return () => window.removeEventListener("resize", checkScreenResolution);
   }, []);
   return (
     <div
       style={{
         padding: isMobile ? "1rem 1rem 10rem 1rem" : "2rem 5.8rem",
-        width: isMobile ? "89%" : '90%',
-        height: isMobile && '100vh',
-        margin: '0 auto'
+        width: isMobile ? "89%" : "90%",
+        height: isMobile && "100vh",
+        margin: "0 auto",
       }}
       className={"home-body-" + theme.theme}
     >
