@@ -10,15 +10,19 @@ import ResetPassword from '../../../auth/ResetPassword';
 import axios from 'axios'
 import { useNotification } from '../../../Notifications/NotificationProvider';
 import { isLength, isMatch } from '../../../../utils/validation/Validation';
+import { useSelector } from 'react-redux';
 
 function Seguridad(props) {
+    const auth = useSelector((state) => state.auth);
+    const { user } = auth;
+
     let token = window.localStorage.getItem("token");
     let GoogleAuthenticator = window.localStorage.getItem("GoogleAuthenticator");
     useEffect(() => {
         if (GoogleAuthenticator === "ok") {
-          setShowChangeTotp(true);
+            setShowChangeTotp(true);
         }
-      }, [GoogleAuthenticator]);
+    }, [GoogleAuthenticator]);
     const [totpCode, setTotpCode] = useState("");
     const [totpSecret, setTotpSecret] = useState(null);
     const [showTotpModal, setShowTotpModal] = useState(false);
@@ -187,7 +191,7 @@ function Seguridad(props) {
                     </div>
                     <hr style={{ border: "1px solid #2b2b2b8f" }} />
                     <div className="biography-content">
-                        <div style={{ width: "100%", textAlign: "left"}}>
+                        <div style={{ width: "100%", textAlign: "left" }}>
                             <h4>Confirmar Contraseña</h4>
                         </div>
                         <div className="biography-input">

@@ -396,7 +396,7 @@ function NLayout(props) {
   const [streams, setStreams] = useState(null);
   let location = useLocation();
   const isStreamerPath = /^\/[^\/]+$/.test(location.pathname);
-
+console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
   // console.log("props.user?.NameUser?.length", props.user?.NameUser?.length);
   // console.log(
   //   "location.pathname.includes",
@@ -3104,7 +3104,7 @@ function NLayout(props) {
           )}
         </Grid>
 
-        {!location.pathname.includes("/dashboard") && (
+        {(!location.pathname.includes("/dashboard") || !isStreamerPath ) && (
           <div className="mobile-menu">
             <Link to="/" className={location.pathname === "/" ? "active" : ""}>
               <GrHomeRounded className="icon" />
