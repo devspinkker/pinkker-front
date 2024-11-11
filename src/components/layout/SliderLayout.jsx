@@ -74,13 +74,11 @@ function SliderLayout(props) {
             ? 1
             : 3
           : props.Vod || props.clipT
-            ? 4.5
-            : isFullHD
-              ? 9.5
-              : 7
+          ? 4.5
+          : isFullHD
+          ? 9.5
+          : 7
       }
-
-
       Pagination
       onSlideChange={handleSlideChange}
       onSwiper={(swiper) => console.log(swiper)}
@@ -108,8 +106,8 @@ function SliderLayout(props) {
             <h2 style={{ fontFamily: "Inter", color: "white" }}>Categorias</h2>
           </div>
         )}
-
-        {props.clipT && (
+        {/* comentado quitar*/}
+        {/* {props.clipT && (
           <Grid
             style={{
               display: "flex",
@@ -125,8 +123,8 @@ function SliderLayout(props) {
               {props.titulo
                 ? "Vods más vistos"
                 : props.isMobile
-                  ? "Clips"
-                  : "Clips más vistos"}{" "}
+                ? "Clips"
+                : "Clips más vistos"}{" "}
             </h2>
           </Grid>
         )}
@@ -146,36 +144,37 @@ function SliderLayout(props) {
               {props.isMobile ? "Vods" : "Vods más vistos"}{" "}
             </h2>
           </Grid>
-        )}
+        )} */}
 
-        <div className="manager-recommended-actions-arrow">
+        {/* comentado quitar*/}
+        {/* <div className="manager-recommended-actions-arrow">
           <div
-            className={`custom-prev ${isBeginning ? 'disabled' : ''}`}
+            className={`custom-prev ${isBeginning ? "disabled" : ""}`}
             style={{
-              fontSize: '14px',
+              fontSize: "14px",
               opacity: isBeginning ? 0.5 : 1,
-              pointerEvents: isBeginning ? 'none' : 'auto',
+              pointerEvents: isBeginning ? "none" : "auto",
             }}
           >
             <i
-              style={{ margin: '0px 10px', cursor: 'pointer' }}
+              style={{ margin: "0px 10px", cursor: "pointer" }}
               className="fas fa-chevron-left"
             ></i>
           </div>
           <div
-            className={`custom-next ${isEnd ? 'disabled' : ''}`}
+            className={`custom-next ${isEnd ? "disabled" : ""}`}
             style={{
-              fontSize: '14px',
+              fontSize: "14px",
               opacity: isEnd ? 0.5 : 1,
-              pointerEvents: isEnd ? 'none' : 'auto',
+              pointerEvents: isEnd ? "none" : "auto",
             }}
           >
             <i
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
               className="fas fa-chevron-right"
             ></i>
           </div>
-        </div>
+        </div> */}
       </Grid>
 
       {props.Categoria && (
@@ -193,7 +192,6 @@ function SliderLayout(props) {
                     tags={categorie.tags}
                     TopColor={categorie.TopColor}
                     isMobile={props.isMobile}
-
                   />
                 </SwiperSlide>
               )
@@ -267,16 +265,14 @@ function SliderLayout(props) {
           )}
         </>
       )}
-
-      {props.clipT && (
+      {/* comentado quitar*/}
+      {/* {props.clipT && (
         <>
           {props?.clips?.length ? (
             props?.clips
               ?.filter((clip, index) => index < 10)
               .map((clip) => (
                 <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
-                  {/* <ClipCard video={clip} /> */}
-
                   <ClipCard video={clip} id={clip.id} />
                 </SwiperSlide>
               ))
@@ -353,17 +349,6 @@ function SliderLayout(props) {
           {props?.Vods?.length ? (
             props?.Vods?.filter((Vods, index) => index < 10).map((Vods) => (
               <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
-                {/* <VodCard
-                  width={"300px"}
-                  views={Vods.views}
-                  createdAt={Vods.StartOfStream}
-                  duration={Vods.StartOfStream}
-                  image={Vods.StreamThumbnail}
-                  title={Vods.Title}
-                  categorie={Vods.stream_category}
-                  User={Vods.UserInfo}
-                  id={Vods.id}
-                /> */}
                 <ClipCard video={Vods} id={Vods.id} User={Vods.UserInfo} />
               </SwiperSlide>
             ))
@@ -438,7 +423,7 @@ function SliderLayout(props) {
             </SwiperSlide>
           )}
         </>
-      )}
+      )} */}
     </Swiper>
   );
 }

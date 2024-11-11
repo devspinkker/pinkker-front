@@ -48,18 +48,15 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
 
   return (
     <>
-      <ul
+      {/* comentado quitar*/}
+
+      {/* <ul
         ref={divRef}
         className={
           click ? "dropdownpurchase-menu clicked" : "dropdownpurchase-menu"
         }
       >
-        {/*<div style={{height: "300px", display: "flex", alignItems: "center", justifyContent: "center"}}>
-            <div style={{display: "flex", alignItems: "center"}}>
-                <img style={{width: "100px"}} src="https://res.cloudinary.com/pinkker/image/upload/v1679518300/pinkker-trabajando_ky0e2t.png"/>
-                <h3 style={{color: "white"}}>Estamos trabajando en esto... estará pronto!</h3>
-            </div>
-  </div>*/}
+
 
         <div style={{ width: "99%" }} className="dropdowncomunidad-container">
           <div
@@ -82,15 +79,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
               >
                 Comprar Pixeles
               </h3>
-              {/* <i
-                onClick={handleClick}
-                style={{
-                  marginTop: "3px",
-                  cursor: "pointer",
-                  fontSize: "15px",
-                }}
-                class="fas fa-times pinkker-button-more"
-              ></i> */}
+  
             </div>
           </div>
 
@@ -278,7 +267,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
             />
           )}
         </div>
-      </ul>
+      </ul> */}
     </>
   );
 }

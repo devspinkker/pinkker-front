@@ -396,7 +396,7 @@ function NLayout(props) {
   const [streams, setStreams] = useState(null);
   let location = useLocation();
   const isStreamerPath = /^\/[^\/]+$/.test(location.pathname);
-console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
+  console.log(!location.pathname.includes("/dashboard") || !isStreamerPath);
   // console.log("props.user?.NameUser?.length", props.user?.NameUser?.length);
   // console.log(
   //   "location.pathname.includes",
@@ -543,14 +543,16 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
   };
 
   const [loading, setLoading] = useState(
-    currentPath?.includes("/plataform/clips/") ? false : !sessionStorage.getItem('initialLoadDone')
+    currentPath?.includes("/plataform/clips/")
+      ? false
+      : !sessionStorage.getItem("initialLoadDone")
   );
   useEffect(() => {
     // Solo ejecuta este código si loading está en true
     if (loading) {
       const timeout = setTimeout(() => {
         setLoading(false);
-        sessionStorage.setItem('initialLoadDone', 'true'); // marca como cargado
+        sessionStorage.setItem("initialLoadDone", "true"); // marca como cargado
       }, 3000);
       return () => clearTimeout(timeout);
     }
@@ -1069,7 +1071,9 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
                     {props.tyExpanded && <span>Inicio</span>}
                   </li>
                 </Link>
-                <Link
+
+                {/* comentado quitar*/}
+                {/* <Link
                   style={{ textDecoration: "none" }}
                   className="menu-aside-option"
                   to="/plataform/clips"
@@ -1091,41 +1095,11 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
                         : "item-li"
                     }
                   >
-                    {/* <i
-                    style={{ position: "relative", fontSize: "20px" }}
-                    class="fa fa-search"
-                  /> */}
+             
                     <FiSearch />
                     {props.tyExpanded && <span>Explorar</span>}
                   </li>
                 </Link>
-
-                {/* <Link
-                style={{ textDecoration: "none" }}
-                className="menu-aside-option"
-                to="/plataform/clips"
-              >
-                <li
-                  style={{
-                    color: "white",
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "center",
-                    padding: props.tyExpanded ? "0rem 15px" : "0px",
-                    justifyContent: !props.tyExpanded && "center",
-                    animation: !props.tyExpanded && "ease-in-out 1s linear",
-                  }}
-                  className="item-li"
-                >
-                  <AiOutlinePlayCircle />
-                  {/* <i
-                    style={{ position: "relative", fontSize: "20px" }}
-                    class="fas fa-film"
-                  /> */}
-                {/*} {props.tyExpanded && <span>Clips</span>}
-                </li>
-              </Link> */}
-
                 <Link
                   style={{ textDecoration: "none" }}
                   className="menu-aside-option"
@@ -1148,13 +1122,9 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
                     }
                   >
                     <BsChatSquareText />
-                    {/* <i
-                    style={{ position: "relative", fontSize: "20px" }}
-                    class="fas fa-edit"
-                  /> */}
                     {props.tyExpanded && <span>Comunidades</span>}
                   </li>
-                </Link>
+                </Link> */}
               </ul>
             </Grid>
             <Grid
@@ -1290,18 +1260,18 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
           {!props.user?.NameUser ? (
             <Grid
               className="navTopHome"
-            // style={{
-            //   borderBottom: "1px solid #2a2e38",
-            //   display: "flex",
-            //   alignItems: "center",
-            //   justifyContent: "space-between",
-            //   padding: "1rem 5.8rem",
-            //   position: "sticky",
-            //   top: 0,
-            //   zIndex: 9999,
-            //   backgroundColor: "#080808",
-            //   width: "102%",
-            // }}
+              // style={{
+              //   borderBottom: "1px solid #2a2e38",
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "space-between",
+              //   padding: "1rem 5.8rem",
+              //   position: "sticky",
+              //   top: 0,
+              //   zIndex: 9999,
+              //   backgroundColor: "#080808",
+              //   width: "102%",
+              // }}
             >
               <Link to="/" style={{ width: "230px" }}>
                 <img
@@ -1414,7 +1384,8 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
                 <Grid
                   style={{ display: "flex", alignItems: "center", gap: "10px" }}
                 >
-                  <div
+                  {/* comentado quitar*/}
+                  {/* <div
                     onClick={() => habilitarNotificaciones()}
                     className="navbar-image-avatar-container"
                   >
@@ -1427,7 +1398,6 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
                       }}
                       className="navbar-image-avatar"
                     >
-                      {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
                       {unseenNotificationsCount != 0 && (
                         <span className="messagechat-InfoUserTo-notiNav">
                           <span>{unseenNotificationsCount}</span>
@@ -1452,11 +1422,7 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
                       }}
                       className="navbar-image-avatar"
                     >
-                      {/* <img
-                        src={"/images/iconos/mensaje.png"}
-                        alt=""
-                        style={{ width: "60%" }}
-                      /> */}
+             
                       {notificacion && (
                         <span className="messagechat-InfoUserTo-notiNav"></span>
                       )}
@@ -1464,13 +1430,13 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
                         style={{ fontSize: "20px", color: "white" }}
                       />
                     </div>
-                  </div>
+                  </div> */}
+
                   <div className="navbar-image-avatar-container">
                     <div
                       style={{
                         width: "40px",
                         height: "40px",
-                        // backgroundColor: "#f36196",
                         position: "relative",
                         left: "  ",
                         top: "2px",
@@ -1606,8 +1572,9 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
                         <AiOutlineUser style={{ marginRight: "10px" }} />
                         Tu canal
                       </Link>
+                      {/* comentado quitar*/}
 
-                      <Link
+                      {/* <Link
                         className="dropdownaccount-link"
                         to={"/" + props.user?.NameUser + "/dashboard/stream"}
                         style={{
@@ -1620,7 +1587,7 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
                           style={{ marginRight: "10px", fontSize: "24px" }}
                         />
                         Panel de control del creador
-                      </Link>
+                      </Link> */}
 
                       <Link
                         className="dropdownaccount-link"
@@ -2611,8 +2578,8 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
                       <AiOutlineUser style={{ marginRight: "10px" }} />
                       Tu canal
                     </Link>
-
-                    <Link
+                    {/* comentado quitar*/}
+                    {/* <Link
                       className="dropdownaccount-link"
                       to={"/" + props.user?.NameUser + "/dashboard/stream"}
                       style={{
@@ -2625,7 +2592,7 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
                         style={{ marginRight: "10px", fontSize: "24px" }}
                       />
                       Panel de control del creador
-                    </Link>
+                    </Link> */}
 
                     <Link
                       className="dropdownaccount-link"
@@ -3104,7 +3071,7 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
           )}
         </Grid>
 
-        {(!location.pathname.includes("/dashboard") || !isStreamerPath ) && (
+        {(!location.pathname.includes("/dashboard") || !isStreamerPath) && (
           <div className="mobile-menu">
             <Link to="/" className={location.pathname === "/" ? "active" : ""}>
               <GrHomeRounded className="icon" />
@@ -3131,7 +3098,8 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
               <AiOutlinePlayCircle className="icon" />
               <span>Directos</span>
             </Link>
-            <Link
+            {/* comentado quitar*/}
+            {/* <Link
               to="/plataform/explore?tipo=categories"
               className={
                 location.pathname === "/plataform/explore?tipo=categories"
@@ -3150,7 +3118,7 @@ console.log((!location.pathname.includes("/dashboard") || !isStreamerPath ))
             >
               <BsChatSquareText className="icon" />
               <span>Comunidades</span>
-            </Link>
+            </Link> */}
           </div>
         )}
 

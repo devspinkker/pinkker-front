@@ -599,7 +599,8 @@ export default function CustomPlayer({
                                 </div>*/}
 
                 <div className="customPlayer-card">
-                  <Tippy
+                  {/* comentado quitar*/}
+                  {/* <Tippy
                     theme="pinkker"
                     content={
                       <h1
@@ -614,7 +615,7 @@ export default function CustomPlayer({
                       onClick={() => handleClip()}
                       style={{ cursor: "pointer", fontSize: "18px !important" }}
                     />
-                  </Tippy>
+                  </Tippy> */}
                 </div>
                 <div className="customPlayer-card">
                   <Tippy
