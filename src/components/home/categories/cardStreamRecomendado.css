@@ -1,10 +1,20 @@
-.button-elipsis-recomendado{
-    background-color:'inherit' !important;
-    padding:5 !important;
-    color:white !important;
+.button-elipsis-recomendado {
+    background-color: 'inherit' !important;
+    padding: 5 !important;
+    color: white !important;
 }
 
-.button-elipsis-recomendado:hover{
+.button-elipsis-recomendado:hover {
     background-color: rgba(0, 0, 0, 0.425);
     cursor: pointer;
+}
+
+.home-categories-span-2 {
+    color: darkgray;
+    font-weight: bolder;
+    position: relative;
+    top: -39px;
+    left: 13px;
+    color: darkgray;
+    font-weight: bolder;
 }
