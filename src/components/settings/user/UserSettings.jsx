@@ -23,6 +23,7 @@ import { TbEdit } from "react-icons/tb";
 import AdsAnalytics from "./statisticalAnnouncement/AdsAnalytics";
 import BuyAds from "./BuyAds/BuyAds";
 import Comunidades from "./comunidades/Comunidades";
+import Seguridad from "./Seguridad/Seguridad";
 
 export default function UserSettings({ isMobile, user }) {
   const [type, setType] = useState(0);
@@ -57,7 +58,7 @@ export default function UserSettings({ isMobile, user }) {
       formData.append("avatar", file);
       let token = window.localStorage.getItem("token");
       const res = await editAvatar(token, formData);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   function getType() {
@@ -206,6 +207,13 @@ export default function UserSettings({ isMobile, user }) {
       );
     }
 
+    if (type === 4) {
+      return (
+        <div>
+          <Seguridad />
+        </div>
+      )
+    }
     if (type === 3) {
       return (
         <div>
@@ -301,7 +309,7 @@ export default function UserSettings({ isMobile, user }) {
               <Typography>Cuenta</Typography>
             </Grid>
 
-            <Grid
+            {/* <Grid
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -311,7 +319,7 @@ export default function UserSettings({ isMobile, user }) {
               className="item-config"
             >
               <Typography>Verificar</Typography>
-            </Grid>
+            </Grid> */}
             <Grid
               style={{
                 display: "flex",
@@ -324,7 +332,7 @@ export default function UserSettings({ isMobile, user }) {
             >
               <Typography>Seguridad</Typography>
             </Grid>
-            <Grid
+            {/* <Grid
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -334,8 +342,8 @@ export default function UserSettings({ isMobile, user }) {
               className="item-config"
             >
               <Typography>Sesiones</Typography>
-            </Grid>
-            <Grid
+            </Grid> */}
+            {/* <Grid
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -346,8 +354,8 @@ export default function UserSettings({ isMobile, user }) {
               onClick={() => setType(1)}
             >
               <Typography>Pinkker Prime</Typography>
-            </Grid>
-            <Grid
+            </Grid> */}
+            {/* <Grid
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -357,9 +365,9 @@ export default function UserSettings({ isMobile, user }) {
               className={type === 1 ? "item-config-active" : "item-config"}
               onClick={() => setType(7)}
             >
-              <Typography>mis anuncios</Typography>
-            </Grid>
-            <Grid
+              <Typography>Mis anuncios</Typography>
+            </Grid> */}
+            {/* <Grid
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -370,8 +378,8 @@ export default function UserSettings({ isMobile, user }) {
               onClick={() => setType(8)}
             >
               <Typography>Comprar anuncios </Typography>
-            </Grid>
-            <Grid
+            </Grid> */}
+            {/* <Grid
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -382,7 +390,7 @@ export default function UserSettings({ isMobile, user }) {
               onClick={() => setType(9)}
             >
               <Typography>Comunidades </Typography>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </div>
