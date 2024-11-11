@@ -13,6 +13,7 @@ import { isLength, isMatch } from '../../../../utils/validation/Validation';
 import { useSelector } from 'react-redux';
 
 function Seguridad(props) {
+  
     const auth = useSelector((state) => state.auth);
     const { user } = auth;
 
@@ -54,6 +55,7 @@ function Seguridad(props) {
 
     async function handleGenerateTotp() {
         const result = await generateTotpKey(token);
+        console.log('result', result)
         if (result.message === "StatusOK") {
             setTotpSecret(result.secret);
             setShowTotpModal(true);
@@ -125,7 +127,7 @@ function Seguridad(props) {
                                     `otpauth://totp/${encodeURIComponent(
                                         "Pinkker"
                                     )}:${encodeURIComponent(
-                                        props.user?.NameUser
+                                        props.usuario.NameUser
                                     )}?algorithm=SHA1&digits=6&issuer=${encodeURIComponent(
                                         "Pinkker"
                                     )}&period=30&secret=${encodeURIComponent(totpSecret)}`

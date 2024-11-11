@@ -210,7 +210,8 @@ export default function UserSettings({ isMobile, user }) {
     if (type === 4) {
       return (
         <div>
-          <Seguridad />
+
+          <Seguridad usuario={user} />
         </div>
       )
     }
