@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     generateTotpKey,
     validateTotpCode,
@@ -13,7 +13,12 @@ import { isLength, isMatch } from '../../../../utils/validation/Validation';
 
 function Seguridad(props) {
     let token = window.localStorage.getItem("token");
-
+    let GoogleAuthenticator = window.localStorage.getItem("GoogleAuthenticator");
+    useEffect(() => {
+        if (GoogleAuthenticator === "ok") {
+          setShowChangeTotp(true);
+        }
+      }, [GoogleAuthenticator]);
     const [totpCode, setTotpCode] = useState("");
     const [totpSecret, setTotpSecret] = useState(null);
     const [showTotpModal, setShowTotpModal] = useState(false);
