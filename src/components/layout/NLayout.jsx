@@ -1574,7 +1574,7 @@ function NLayout(props) {
                       </Link>
                       {/* comentado quitar*/}
 
-                      {/* <Link
+                      <Link
                         className="dropdownaccount-link"
                         to={"/" + props.user?.NameUser + "/dashboard/stream"}
                         style={{
@@ -1587,7 +1587,7 @@ function NLayout(props) {
                           style={{ marginRight: "10px", fontSize: "24px" }}
                         />
                         Panel de control del creador
-                      </Link> */}
+                      </Link>
 
                       {/* comentado quitar*/}
                       {/* 

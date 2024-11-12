@@ -168,7 +168,7 @@
     margin: 0px 2px;
     width: 18px;
     height: 18px;
-    border-radius: 13px;
+    border-radius: 2px;
 }
 
 .sas {
@@ -228,6 +228,9 @@
     width: 100%;
     flex-direction: row;
     align-items: center;
+    border: 1px solid #ffff;
+    border-radius: 5px;
+    gap: 10px;
 }
 
 .ChatStreaming_form>span {
@@ -235,7 +238,7 @@
     align-items: center;
     height: 38px;
     border-radius: 5px 0px 0px 5px;
-    border: #545658 1px solid;
+    
     border-right: none;
     background: #080808;
     text-align: left;
@@ -261,7 +264,6 @@
 .config-buttoncloseNavbarDropdownEmotes {
     align-items: center;
     background: #080808;
-    border: 1px solid #545658;
     border-left: none;
     border-radius: 0 5px 5px 0;
     color: #ededed;

@@ -34,6 +34,8 @@ import { useNotification } from "../../../Notifications/NotificationProvider";
 import DropdownChatConfig from "../../../channel/chat/dropdown/config/DropdownChatConfig";
 import DropdownChatIdentity from "../../../channel/chat/dropdown/identity/DropdownChatIdentity";
 import DropdownEmotes from "../../../channel/chat/dropdown/emotes/DropdownEmotes";
+import { TextField } from "@mui/material";
+import { MdBlockFlipped } from "react-icons/md";
 export function ChatStreaming({
   openChatWindow,
   streamerChat,
@@ -345,7 +347,7 @@ export function ChatStreaming({
         newSocket.send("closing");
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
       setSocket(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -431,7 +433,7 @@ export function ChatStreaming({
         }
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
       setsocketDeleteMsj(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -770,48 +772,48 @@ export function ChatStreaming({
           >
             {displayDonations[0] !== undefined
               ? [...displayDonations].map((donation, index) => (
-                  <Donation
-                    key={index}
-                    donation={donation}
-                    index={index}
-                    callback={() => {
-                      toggleDonationCard(
-                        donation?.Pixeles,
-                        donation?.FromUserInfo.NameUser,
-                        donation?.FromUserInfo.Avatar,
-                        donation?.Text,
-                        donation?.userLook,
-                        donation?.userColor
-                      );
-                      setShowAllDonations(true);
-                      setDonationCardVisible(donationCardVisible);
-                      setSelectedDonation(donation);
+                <Donation
+                  key={index}
+                  donation={donation}
+                  index={index}
+                  callback={() => {
+                    toggleDonationCard(
+                      donation?.Pixeles,
+                      donation?.FromUserInfo.NameUser,
+                      donation?.FromUserInfo.Avatar,
+                      donation?.Text,
+                      donation?.userLook,
+                      donation?.userColor
+                    );
+                    setShowAllDonations(true);
+                    setDonationCardVisible(donationCardVisible);
+                    setSelectedDonation(donation);
 
-                      setClickCount((prevCount) => prevCount + 1);
+                    setClickCount((prevCount) => prevCount + 1);
 
-                      if (clickCount >= 1) {
-                        setFirstClick(true);
-                      }
+                    if (clickCount >= 1) {
+                      setFirstClick(true);
+                    }
 
-                      setAllDonationsExpanded(true);
-                    }}
-                    ShowAllDonations={setShowAllDonations}
-                  />
-                ))
+                    setAllDonationsExpanded(true);
+                  }}
+                  ShowAllDonations={setShowAllDonations}
+                />
+              ))
               : !chatExpandeds && (
-                  <h3
-                    style={{
-                      color: "#f36196",
-                      cursor: "pointer",
-                      fontWeight: "bold",
-                    }}
-                    onClick={() => {
-                      onMouseEnterPoints();
-                    }}
-                  >
-                    Envia pixeles
-                  </h3>
-                )}
+                <h3
+                  style={{
+                    color: "#f36196",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                  }}
+                  onClick={() => {
+                    onMouseEnterPoints();
+                  }}
+                >
+                  Envia pixeles
+                </h3>
+              )}
           </div>
           <button
             style={{
@@ -1448,11 +1450,10 @@ export function ChatStreaming({
                       style={{ color: MsjChatAnclado.Color }}
                     >
                       <span
-                        className={`content-info-message-2-nameUser-span ${
-                          ResMessageschatState?.PinkkerPrime
-                            ? "PinkkerPrime"
-                            : ""
-                        }`}
+                        className={`content-info-message-2-nameUser-span ${ResMessageschatState?.PinkkerPrime
+                          ? "PinkkerPrime"
+                          : ""
+                          }`}
                       >
                         {MsjChatAnclado.nameUser}:{" "}
                       </span>
@@ -1465,7 +1466,7 @@ export function ChatStreaming({
                 {GetInfoUserInRoom &&
                   (GetInfoUserInRoom.Moderator ||
                     streamerChat.streamerId ==
-                      window.localStorage.getItem("_id")) && (
+                    window.localStorage.getItem("_id")) && (
                     <div
                       className="hover-button"
                       onClick={(e) => {
@@ -1597,8 +1598,8 @@ export function ChatStreaming({
               )}
             </div>
             {GetInfoUserInRoom &&
-            GetInfoUserInRoom.Moderator &&
-            streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
+              GetInfoUserInRoom.Moderator &&
+              streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
               <div className="ShowGetUserTheChat-actions-Moderator">
                 <div
                   onClick={() =>
@@ -1782,9 +1783,8 @@ export function ChatStreaming({
                       }}
                     >
                       <span
-                        className={`content-info-message-2-nameUser-span ${
-                          message.PinkkerPrime ? "PinkkerPrime" : ""
-                        }`}
+                        className={`content-info-message-2-nameUser-span ${message.PinkkerPrime ? "PinkkerPrime" : ""
+                          }`}
                       >
                         {message.nameUser}:{" "}
                       </span>
@@ -1795,8 +1795,8 @@ export function ChatStreaming({
                   </div>
                 </div>
                 {GetInfoUserInRoom &&
-                (GetInfoUserInRoom.Moderator ||
-                  streamerChat.streamerId ==
+                  (GetInfoUserInRoom.Moderator ||
+                    streamerChat.streamerId ==
                     window.localStorage.getItem("_id")) ? (
                   <div
                     className="hover-button"
@@ -1954,9 +1954,8 @@ export function ChatStreaming({
                         }}
                       >
                         <span
-                          className={`content-info-message-2-nameUser-span ${
-                            message.PinkkerPrime ? "PinkkerPrime" : ""
-                          }`}
+                          className={`content-info-message-2-nameUser-span ${message.PinkkerPrime ? "PinkkerPrime" : ""
+                            }`}
                         >
                           {message.nameUser}:{" "}
                         </span>
@@ -1967,8 +1966,8 @@ export function ChatStreaming({
                     </div>
                   </div>
                   {GetInfoUserInRoom &&
-                  (GetInfoUserInRoom.Moderator ||
-                    streamerChat.streamerId ==
+                    (GetInfoUserInRoom.Moderator ||
+                      streamerChat.streamerId ==
                       window.localStorage.getItem("_id")) ? (
                     <div
                       className="hover-button"
@@ -2079,11 +2078,10 @@ export function ChatStreaming({
                       }}
                     >
                       <span
-                        className={`content-info-message-2-nameUser-span ${
-                          ResMessageschatState?.PinkkerPrime
-                            ? "PinkkerPrime"
-                            : ""
-                        }`}
+                        className={`content-info-message-2-nameUser-span ${ResMessageschatState?.PinkkerPrime
+                          ? "PinkkerPrime"
+                          : ""
+                          }`}
                       >
                         {ResMessageschatState.nameUser}:{" "}
                       </span>
@@ -2117,9 +2115,8 @@ export function ChatStreaming({
               suggestedUsers.map((u, index) => (
                 <span
                   key={u}
-                  className={`suggestedUsers-span ${
-                    index === activeSuggestionIndex ? "active" : ""
-                  }`}
+                  className={`suggestedUsers-span ${index === activeSuggestionIndex ? "active" : ""
+                    }`}
                   onClick={() => handleSuggestionSelect(u)}
                 >
                   {u}
@@ -2187,14 +2184,28 @@ export function ChatStreaming({
                 //   onChange={handleChange}
                 // />
 
-                <div
-                  contentEditable
-                  className="divinput-chat"
-                  ref={inputRef}
-                  onInput={handleInput}
-                  style={{ color: "#fff" }}
-                  placeholder="Enviar un mensaje..."
+                <TextField
+                  multiline
+                  variant="outlined"
+                  fullWidth
+                  inputRef={inputRef}
+                  onChange={handleInput}
                   onKeyPress={handleKeyPress}
+                  placeholder="Enviar un mensaje..."
+                  InputProps={{
+                    style: { color: "#fff", padding: 0, height:'100%' }, // Quita el padding
+                    disableUnderline: true, // Elimina el subrayado del input
+                    
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      padding: 0, // Quita el padding del contenedor
+                      "& fieldset": {
+                        border: "none", // Elimina el borde
+                      },
+                    },
+                  }}
+                  className="divinput-chat"
                 />
               )}
               <Tippy
@@ -2286,7 +2297,7 @@ export function ChatStreaming({
                 type="text"
                 // value={message}
                 placeholder="solo seguidores"
-                // onChange={handleChange}
+              // onChange={handleChange}
               />
               <Tippy
                 theme="pinkker"
@@ -2368,14 +2379,27 @@ export function ChatStreaming({
                 //   placeholder="Enviar un mensaje"
                 //   onChange={handleChange}
                 // />
-                <div
-                  contentEditable
-                  className="divinput-chat"
-                  ref={inputRef}
-                  onInput={handleInput}
-                  style={{ color: "#fff" }}
-                  placeholder="Enviar un mensaje..."
+                <TextField
+                  multiline
+                  variant="outlined"
+                  fullWidth
+                  inputRef={inputRef}
+                  onChange={handleInput}
                   onKeyPress={handleKeyPress}
+                  placeholder="Enviar un mensaje..."
+                  InputProps={{
+                    style: { color: "#fff", padding: 0, height:'100%' }, // Quita el padding
+                    disableUnderline: true, // Elimina el subrayado del input
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      padding: 0, // Quita el padding del contenedor
+                      "& fieldset": {
+                        border: "none", // Elimina el borde
+                      },
+                    },
+                  }}
+                  className="divinput-chat"
                 />
               )}
               <Tippy
@@ -2467,7 +2491,7 @@ export function ChatStreaming({
                 type="text"
                 // value={message}
                 placeholder="solo suscriptores"
-                // onChange={handleChange}
+              // onChange={handleChange}
               />
               <Tippy
                 theme="pinkker"
@@ -2499,21 +2523,7 @@ export function ChatStreaming({
                 }}
                 onClick={() => closeNavbar()}
               >
-                <svg
-                  style={{
-                    padding: "3px",
-                  }}
-                  width="25"
-                  height="25"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fill="grey"
-                    fillRule="evenodd"
-                    d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8 6a6 6 0 0 1-4.904-9.458l8.362 8.362A5.972 5.972 0 0 1 10 16zm4.878-2.505a6 6 0 0 0-8.372-8.372l8.372 8.372z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <MdBlockFlipped style={{ color: '#fff', fontSize: 18 }} />
               </span>
               {isNavbarOpen && (
                 <DropdownChatIdentity
@@ -2550,14 +2560,27 @@ export function ChatStreaming({
                 //   onChange={handleChange}
                 //   dangerouslySetInnerHTML={{ __html: message }}
                 // />
-                <div
-                  contentEditable
-                  className="divinput-chat"
-                  ref={inputRef}
-                  onInput={handleInput}
-                  style={{ color: "#fff" }}
-                  placeholder="Enviar un mensaje..."
+                <TextField
+                  multiline
+                  variant="outlined"
+                  fullWidth
+                  inputRef={inputRef}
+                  onChange={handleInput}
                   onKeyPress={handleKeyPress}
+                  placeholder="Enviar un mensaje..."
+                  InputProps={{
+                    style: { color: "#fff", padding: 0 , height:'100%'}, // Quita el padding
+                    disableUnderline: true, // Elimina el subrayado del input
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      padding: 0, // Quita el padding del contenedor
+                      "& fieldset": {
+                        border: "none", // Elimina el borde
+                      },
+                    },
+                  }}
+                  className="divinput-chat"
                 />
               )}
               <Tippy

@@ -31,7 +31,7 @@ import Clips from "./clips/Clips";
 import ShareDropdown from "./dropdown/ShareDropdown";
 
 import { Link } from "react-router-dom";
-
+import verificado from './VERIFICADO.jpg'
 import {
   addRecientsChannel,
   existsRecientsChannelName,
@@ -203,7 +203,7 @@ export default function Channel({
     seconds: 0,
   });
   const formatNumber = (number) => (number < 10 ? `0${number}` : number);
-
+  console.log('streamerData', streamerData)
   useEffect(() => {
     if (stream?.online && stream?.start_date) {
       const calculateElapsedTime = () => {
@@ -246,7 +246,7 @@ export default function Channel({
     }
   }, []);
 
-  const loadDataOnlyOnce = () => {};
+  const loadDataOnlyOnce = () => { };
 
   function togglePopupFollowers(typeDefault) {
     setTypeFollowers(typeDefault);
@@ -285,7 +285,7 @@ export default function Channel({
           setUser(res.data);
           return res.data;
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   }
   const [streamData, setStreamData] = useState();
@@ -314,8 +314,8 @@ export default function Channel({
     setReadMore(false);
     setTimeCount(null);
 
-    const interval_id = window.setInterval(function () {},
-    Number.MAX_SAFE_INTEGER);
+    const interval_id = window.setInterval(function () { },
+      Number.MAX_SAFE_INTEGER);
     for (let i = 1; i < interval_id; i++) {
       window.clearInterval(i);
     }
@@ -598,7 +598,7 @@ export default function Channel({
                           height: "20px",
                         }}
                         src={
-                          "https://res.cloudinary.com/dcj8krp42/image/upload/v1708649714/Emblemas/VERIFICADO_khegwz.png"
+                          verificado
                         }
                       />
                     )}{" "}
@@ -962,7 +962,7 @@ export default function Channel({
 
     return (
       <div
-        style={{ marginLeft: tyExpanded && "-50px" }}
+        style={{ marginRight: tyExpanded && "3%" }}
         className="channel-bottom-v2-secondary"
       >
         {userSuscripted ? (
@@ -981,66 +981,68 @@ export default function Channel({
             </button>
           </Tippy>
         ) : (
-          <Tippy
-            placement="bottom"
-            theme="pinkker"
-            content={
-              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-                Suscribirse al canal
-              </h1>
-            }
-          >
-            <button
-              onClick={onMouseEnterSub}
-              onMouseEnter={() => setHoverSubscriber(true)}
-              onMouseLeave={() => setHoverSubscriber(false)}
-              className="channel-bottom-v2-button-sub"
-            >
-              <i
-                style={{ marginRight: "5px" }}
-                class={hoverSubscriber ? "fas fa-star" : "far fa-star"}
-              />{" "}
-              Suscribirse
-            </button>
-          </Tippy>
+          // <Tippy
+          //   placement="bottom"
+          //   theme="pinkker"
+          //   content={
+          //     <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+          //       Suscribirse al canal
+          //     </h1>
+          //   }
+          // >
+          //   <button
+          //     onClick={onMouseEnterSub}
+          //     onMouseEnter={() => setHoverSubscriber(true)}
+          //     onMouseLeave={() => setHoverSubscriber(false)}
+          //     className="channel-bottom-v2-button-sub"
+          //   >
+          //     <i
+          //       style={{ marginRight: "5px" }}
+          //       class={hoverSubscriber ? "fas fa-star" : "far fa-star"}
+          //     />{" "}
+          //     Suscribirse
+          //   </button>
+          // </Tippy>
+          <></>
         )}
         {!isMobile && (
-          <Tippy
-            placement="bottom"
-            theme="pinkker"
-            content={
-              <h1
-                style={{
-                  fontSize: "12px",
-                  fontFamily: "Montserrat",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Regalar suscripciones a tu canal
-              </h1>
-            }
-          >
-            <button
-              onClick={() => onMouseEnterGiftSub()}
-              onMouseEnter={() => setHoverSubscriber(true)}
-              onMouseLeave={() => setHoverSubscriber(false)}
-              style={{ width: "155px", marginLeft: "5px" }}
-              className="channel-bottom-v2-button-sub"
-            >
-              <i
-                style={{ marginRight: "5px", whiteSpace: "nowrap" }}
-                class={hoverSubscriber ? "fas fa-star" : "far fa-star"}
-              />{" "}
-              <span style={{ whiteSpace: "nowrap" }}>
-                Regalar suscripciones
-              </span>
-            </button>
-          </Tippy>
+          // <Tippy
+          //   placement="bottom"
+          //   theme="pinkker"
+          //   content={
+          //     <h1
+          //       style={{
+          //         fontSize: "12px",
+          //         fontFamily: "Montserrat",
+          //         whiteSpace: "nowrap",
+          //       }}
+          //     >
+          //       Regalar suscripciones a tu canal
+          //     </h1>
+          //   }
+          // >
+          //   <button
+          //     onClick={() => onMouseEnterGiftSub()}
+          //     onMouseEnter={() => setHoverSubscriber(true)}
+          //     onMouseLeave={() => setHoverSubscriber(false)}
+          //     style={{ width: "155px", marginLeft: "5px" }}
+          //     className="channel-bottom-v2-button-sub"
+          //   >
+          //     <i
+          //       style={{ marginRight: "5px", whiteSpace: "nowrap" }}
+          //       class={hoverSubscriber ? "fas fa-star" : "far fa-star"}
+          //     />{" "}
+          //     <span style={{ whiteSpace: "nowrap" }}>
+          //       Regalar suscripciones
+          //     </span>
+          //   </button>
+          // </Tippy>
+          <></>
         )}
 
         {getFollowButton()}
 
-        <Tippy
+        {/* <Tippy
           theme="pinkker"
           content={
             <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
@@ -1054,7 +1056,7 @@ export default function Channel({
           >
             <i class="fas fa-envelope" />
           </button>
-        </Tippy>
+        </Tippy> */}
 
         {dropdownShare && (
           <ShareDropdown title={stream.stream_title} streamer={streamer} />
@@ -1139,7 +1141,7 @@ export default function Channel({
                   <Emblem
                     name={"Verificado"}
                     img={
-                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1708649714/Emblemas/VERIFICADO_khegwz.png"
+                      verificado
                     }
                   />
                 )}{" "}
@@ -1343,8 +1345,8 @@ export default function Channel({
         ? "97%"
         : "80%"
       : chatExpanded
-      ? "100%"
-      : "80%";
+        ? "100%"
+        : "80%";
   }
 
   function getChannel() {
@@ -1382,61 +1384,67 @@ export default function Channel({
                       backgroundPosition: "center", // Centra la imagen de fondo
                       backgroundRepeat: "no-repeat", // Evita que la imagen se repita
 
-                      padding: "20px", // Espaciado interno opcional
+                      padding: "4%", // Espaciado interno opcional
 
                       boxShadow: "0 0 8px 2px #000",
                     }}
                   >
-                    {/* Imagen de perfil circular */}
-                    <img
-                      src={streamerData?.Avatar}
-                      style={{
-                        width: "100px", // Ajusta este tamaño según tu preferencia
-                        height: "100px",
-                        borderRadius: "50%",
-                      }}
-                    />
 
-                    {/* Contenedor de Nombre y Botones */}
-                    <Grid
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "10px",
-                      }}
-                    >
-                      {/* Nombre del usuario */}
-                      <Typography
-                        style={{
-                          color: "white",
-                          fontWeight: 800,
-                          fontSize: "28px", // Tamaño grande como en la imagen
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {streamerData?.NameUser?.toUpperCase()}
-                      </Typography>
-
-                      {/* Contenedor de los botones */}
-                      <Grid style={{ display: "flex", gap: "10px" }}>
-                        <Typography style={{ color: "white" }}>
-                          {" "}
-                          seguidores: {streamerData?.FollowersCount}
-                        </Typography>
-                        <Typography style={{ color: "white" }}>
-                          | seguidos: {streamerData?.FollowingCount}{" "}
-                        </Typography>
-                        {/* comentado quitar*/}
-                        {/* <Typography style={{ color: "white" }}>
-                          | suscriptores: {streamerData?.SubscribersCount}
-                        </Typography> */}
-                      </Grid>
+                    <Grid style={{ backgroundColor: 'rgba(0,0,0,0.74)', display: 'flex', gap: '15px', padding: 15, borderRadius: 5, alignItems: 'center' }}>
+                      <Typography style={{ background: '#fff', fontWeight: 'bold', padding: 5, borderRadius: 5 }}>Desconectado</Typography>
+                      <Typography style={{ color: '#fff', fontSize: 18 }}>{streamerData?.NameUser} está fuera de línea</Typography>
                     </Grid>
                   </Grid>
+
                 )}
 
                 {renderAnnoucement()}
               </div>
+
+
+              <Grid style={{ width: '90%', display: 'flex', margin: '25px', gap: '10px', justifyContent: 'space-between' }}>
+                {/* Imagen de perfil circular */}
+
+                <Grid style={{display:'flex', gap:'10px'}}>
+                  <img
+                    src={streamerData?.Avatar}
+                    style={{
+                      width: "60px", // Ajusta este tamaño según tu preferencia
+                      height: "60px",
+                      borderRadius: "50%",
+                      border: '1px solid #fff'
+                    }}
+                  />
+
+                  {/* Contenedor de Nombre y Botones */}
+                  <Grid
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+
+                    }}
+                  >
+                    {/* Nombre del usuario */}
+                    <Typography
+                      style={{
+                        color: "white",
+                        fontWeight: 800,
+                        fontSize: "16px", // Tamaño grande como en la imagen
+
+                      }}
+                    >
+                      {streamerData?.NameUser}
+                    </Typography>
+                    <Typography style={{ color: "white", fontSize: 14 }}>
+                      Descripcionssssssss
+                    </Typography>
+                    <Typography style={{ color: "white", fontSize: 14, fontWeight: 800 }}>
+                      {streamerData?.FollowersCount} seguidores
+                    </Typography>
+                  </Grid>
+                </Grid>
+                {getButtonsFromChannel()}
+              </Grid>
 
               <div
                 style={{
@@ -1447,50 +1455,16 @@ export default function Channel({
                 {stream.online && getStream()}
 
                 {!isMobile && (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                      width: !tyExpanded ? "96.5%" : "90%",
-                      marginLeft: !isMobile && "1rem",
-                      // margin: "0 auto",
-                      borderTop: "1px solid #2a2e38",
-                    }}
-                    className="type-set"
-                  >
-                    {/* comentado quitar*/}
-                    {/* <div
-                      onClick={() => changeType(1)}
-                      className={type === 1 ? "type-card active" : "type-card"}
-                    >
-                      <h3>Muro</h3>
-                    </div>
-                    <div
-                      onClick={() => changeType(3)}
-                      className={type === 3 ? "type-card active" : "type-card"}
-                    >
-                      <h3>Galeria</h3>
-                    </div> */}
-                    <div
-                      onClick={() => changeType(0)}
-                      className={type === 0 ? "type-card active" : "type-card"}
-                    >
-                      <h3>Vods</h3>
-                    </div>
-                    {/* comentado quitar*/}
-                    {/* <div
-                      onClick={() => changeType(4)}
-                      className={type === 4 ? "type-card active" : "type-card"}
-                    >
-                      <h3>Clips</h3>
-                    </div> */}
-                    <div
-                      onClick={() => changeType(2)}
-                      className={type === 2 ? "type-card active" : "type-card"}
-                    >
-                      <h3>Acerca de</h3>
-                    </div>
-                  </div>
+                  <Grid style={{ display: 'flex', justifyContent: 'flex-start', width: !tyExpanded ? "96.5%" : "90%", gap: '10px', marginLeft: '3%' }}>
+
+                    <Typography style={{ color: '#fff', fontWeight: 800, cursor: 'pointer', borderBottom: type === 0 && '1px solid #f56096' }} onClick={() => changeType(0)}>
+                      Vods
+                    </Typography>
+                    <Typography style={{ color: '#fff', fontWeight: 800, cursor: 'pointer', borderBottom: type === 2 && '1px solid #f56096' }} onClick={() => changeType(2)}>
+                      Acerca De
+                    </Typography>
+                  </Grid>
+
                 )}
                 <div style={{ width: "100%", margin: "0 auto" }}>
                   {streamerData && !isMobile && getType()}
@@ -1558,7 +1532,7 @@ export default function Channel({
               </div>
             )}
           </div>
-        </div>
+        </div >
       );
     } else {
       setTimeout(() => {
