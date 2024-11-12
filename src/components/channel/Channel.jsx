@@ -150,7 +150,7 @@ export default function Channel({
     }
   };
   useEffect(() => {
-    if (chatWindow && user) {
+    if (chatWindow) {
       const chatContainer = chatWindow.document.createElement("div");
       chatWindow.document.body.appendChild(chatContainer);
       ReactDOM.render(
@@ -1497,7 +1497,7 @@ export default function Channel({
                     {streamerData && !isMobile && getType(9)}
                   </div>
                 )}
-                {isMobile && user && (
+                {isMobile && (
                   <ChatStreaming
                     openChatWindow={openChatWindow}
                     streamerChat={stream}
@@ -1513,7 +1513,7 @@ export default function Channel({
               </div>
             </div>
 
-            {!isMobile && user && (
+            {!isMobile && (
               <div
                 style={{
                   width: chatExpanded ? "0" : "22%",
