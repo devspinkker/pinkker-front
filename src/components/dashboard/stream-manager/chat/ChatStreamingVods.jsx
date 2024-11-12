@@ -846,7 +846,7 @@ export function ChatStreamingVods({
                       <span className="content-info-message-2-nameUser-span">
                         {MsjChatAnclado.nameUser}:{" "}
                       </span>
-                      <span style={{ color: "#ffff" }}>
+                      <span className="content-parse-message">
                         {parseMessage(MsjChatAnclado.message).content}
                       </span>
                     </p>
@@ -1167,7 +1167,9 @@ export function ChatStreamingVods({
                   <FaReply className="grey-icon" />
                   <span> Respondio </span>
                   <span> @{message.ResNameUser}:</span>
-                  <span>{parseMessage(message.ResMessage).content}</span>
+                  <span className="content-parse-message">
+                    {parseMessage(message.ResMessage).content}
+                  </span>
                 </div>
               )}
               <div className="ChatStreaming-message-main">
@@ -1207,11 +1209,7 @@ export function ChatStreamingVods({
                         <span className="content-info-message-2-nameUser-span">
                           {message.nameUser}:{" "}
                         </span>
-                        <span
-                          style={{
-                            color: "#ffff",
-                          }}
-                        >
+                        <span className="content-parse-message">
                           {parseMessage(message.message).content}
                         </span>
                       </p>

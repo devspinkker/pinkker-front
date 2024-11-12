@@ -1322,7 +1322,8 @@ function NLayout(props) {
               </Link>
 
               <Grid style={{ display: "flex", alignItems: "center" }}>
-                <div
+                {/* comentado quitar*/}
+                {/* <div
                   style={{
                     display: "flex",
                     gap: "5px",
@@ -1330,7 +1331,6 @@ function NLayout(props) {
                 >
                   <div
                     style={{
-                      // width: "500px",
                       display: "flex",
                       justifyContent: "flex-end",
                     }}
@@ -1377,7 +1377,7 @@ function NLayout(props) {
                       </Typography>
                     </button>
                   </Link>
-                </div>
+                </div> */}
               </Grid>
 
               <Grid>
@@ -1589,6 +1589,8 @@ function NLayout(props) {
                         Panel de control del creador
                       </Link> */}
 
+                      {/* comentado quitar*/}
+                      {/* 
                       <Link
                         className="dropdownaccount-link"
                         to="/plataform/cartera"
@@ -1600,7 +1602,7 @@ function NLayout(props) {
                       >
                         <TfiWallet style={{ marginRight: "10px" }} />
                         Cartera
-                      </Link>
+                      </Link> */}
 
                       <Link
                         className="dropdownaccount-link"
@@ -2593,8 +2595,8 @@ function NLayout(props) {
                       />
                       Panel de control del creador
                     </Link> */}
-
-                    <Link
+                    {/* comentado quitar*/}
+                    {/* <Link
                       className="dropdownaccount-link"
                       to="/plataform/cartera"
                       style={{
@@ -2605,7 +2607,7 @@ function NLayout(props) {
                     >
                       <TfiWallet style={{ marginRight: "10px" }} />
                       Cartera
-                    </Link>
+                    </Link> */}
 
                     <Link
                       className="dropdownaccount-link"

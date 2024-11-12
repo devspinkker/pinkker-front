@@ -1426,9 +1426,10 @@ export default function Channel({
                         <Typography style={{ color: "white" }}>
                           | seguidos: {streamerData?.FollowingCount}{" "}
                         </Typography>
-                        <Typography style={{ color: "white" }}>
+                        {/* comentado quitar*/}
+                        {/* <Typography style={{ color: "white" }}>
                           | suscriptores: {streamerData?.SubscribersCount}
-                        </Typography>
+                        </Typography> */}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -1457,7 +1458,8 @@ export default function Channel({
                     }}
                     className="type-set"
                   >
-                    <div
+                    {/* comentado quitar*/}
+                    {/* <div
                       onClick={() => changeType(1)}
                       className={type === 1 ? "type-card active" : "type-card"}
                     >
@@ -1468,19 +1470,20 @@ export default function Channel({
                       className={type === 3 ? "type-card active" : "type-card"}
                     >
                       <h3>Galeria</h3>
-                    </div>
+                    </div> */}
                     <div
                       onClick={() => changeType(0)}
                       className={type === 0 ? "type-card active" : "type-card"}
                     >
                       <h3>Vods</h3>
                     </div>
-                    <div
+                    {/* comentado quitar*/}
+                    {/* <div
                       onClick={() => changeType(4)}
                       className={type === 4 ? "type-card active" : "type-card"}
                     >
                       <h3>Clips</h3>
-                    </div>
+                    </div> */}
                     <div
                       onClick={() => changeType(2)}
                       className={type === 2 ? "type-card active" : "type-card"}

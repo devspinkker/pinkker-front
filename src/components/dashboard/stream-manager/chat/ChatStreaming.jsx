@@ -731,7 +731,8 @@ export function ChatStreaming({
             justifyContent: "center",
           }}
         >
-          {donationsSubscriptions.length >= 1
+          ´{/* comentado quitar*/}
+          {/* {donationsSubscriptions.length >= 1
             ? getDonationSubscriptionCard(donationsSubscriptions)
             : !chatExpandeds && (
                 <h3
@@ -740,13 +741,11 @@ export function ChatStreaming({
                     cursor: "pointer",
                     fontWeight: "bold",
                   }}
-                  // onClick={() => {
-                  //   onMouseEnterPoints();
-                  // }}
+           
                 >
                   Regalá una suscripción
                 </h3>
-              )}
+              )} */}
         </div>
         <div
           className={
@@ -1457,7 +1456,7 @@ export function ChatStreaming({
                       >
                         {MsjChatAnclado.nameUser}:{" "}
                       </span>
-                      <span style={{ color: "#ffff" }}>
+                      <span className="content-parse-message">
                         {parseMessage(MsjChatAnclado.message).content}
                       </span>
                     </p>
@@ -1737,7 +1736,10 @@ export function ChatStreaming({
                 <FaReply className="grey-icon" />
                 <span> Respondio </span>
                 <span> @{message.ResNameUser}:</span>
-                <span> {parseMessage(message.ResMessage).content}</span>
+                <span className="content-parse-message">
+                  {" "}
+                  {parseMessage(message.ResMessage).content}
+                </span>
               </div>
             )}
             <div className="ChatStreaming-message-main">
@@ -1786,7 +1788,7 @@ export function ChatStreaming({
                       >
                         {message.nameUser}:{" "}
                       </span>
-                      <span style={{ color: "#ffff" }}>
+                      <span className="content-parse-message">
                         {parseMessage(message.message).content}
                       </span>
                     </p>
@@ -1907,7 +1909,9 @@ export function ChatStreaming({
                   <FaReply className="grey-icon" />
                   <span> Respondio </span>
                   <span> @{message.ResNameUser}:</span>
-                  <span>{parseMessage(message.ResMessage).content}</span>
+                  <span className="content-parse-message">
+                    {parseMessage(message.ResMessage).content}
+                  </span>
                 </div>
               )}
               <div className="ChatStreaming-message-main">
@@ -1956,11 +1960,7 @@ export function ChatStreaming({
                         >
                           {message.nameUser}:{" "}
                         </span>
-                        <span
-                          style={{
-                            color: "#ffff",
-                          }}
-                        >
+                        <span className="content-parse-message">
                           {parseMessage(message.message).content}
                         </span>
                       </p>
@@ -2087,7 +2087,7 @@ export function ChatStreaming({
                       >
                         {ResMessageschatState.nameUser}:{" "}
                       </span>
-                      <span style={{ color: "#ffff" }}>
+                      <span className="content-parse-message">
                         {parseMessage(ResMessageschatState.message).content}
                       </span>
                     </p>
@@ -2582,11 +2582,12 @@ export function ChatStreaming({
             </form>
           )}
           <div className="actions-chat">
+            {/* comentado quitar*/}
             <button
-              onClick={() => onMouseEnterPoints()}
+              // onClick={() => onMouseEnterPoints()}
               className="button-points gray-button"
             >
-              <img
+              {/* <img
                 style={{ width: false ? "30px" : "16px" }}
                 src="/images/pixel.png"
                 alt=""
@@ -2616,7 +2617,7 @@ export function ChatStreaming({
                 >
                   <p className="text-points-increment2">+{points}</p>
                 </Tippy>
-              )}
+              )} */}
             </button>
             {dropdownChatConfig && (
               <DropdownChatConfig

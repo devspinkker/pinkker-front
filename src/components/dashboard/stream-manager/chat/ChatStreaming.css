@@ -305,6 +305,11 @@
     font-weight: bolder;
 }
 
+.content-parse-message {
+    color: #ffff;
+    word-break: keep-all;
+}
+
 .ChatStreaming_form>button {
     height: 41px;
     background-color: #171a1f;
