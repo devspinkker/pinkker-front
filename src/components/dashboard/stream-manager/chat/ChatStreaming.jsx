@@ -242,10 +242,12 @@ export function ChatStreaming({
     }
     setMessage(inputRef.current.innerHTML);
   };
+  const [chatMsj, setChatMsj] = useState('');
 
   const clickEmoticon = (emoticon) => {
     const imgHTML = `<img src="${emoticon.url}" alt="${emoticon.name}" style="width: 20px; height: 20px;" />`;
     insertHTMLAtCaret(imgHTML);
+    setChatMsj(...chatMsj, imgHTML)
   };
 
   // const handleInput = () => {
@@ -253,12 +255,13 @@ export function ChatStreaming({
   //   setMessage(inputRef.current.innerHTML);
   // };
 
-  const handleInput = (event) => {
-    const content = inputRef.current.innerHTML;
-    const cursorPosition = window.getSelection().getRangeAt(0).startOffset;
 
-    setMessage(content);
-    detectAtSymbolAndFetchUsers(content, cursorPosition); // Detecta solo si el cursor está cerca del @
+  const handleInput = (event) => {
+    const content = event.target.value; // Get text content from TextField
+    const cursorPosition = event.target.selectionStart; // Get cursor position
+
+    setChatMsj(content);
+    detectAtSymbolAndFetchUsers(content, cursorPosition);
   };
 
   const getPlainTextMessage = () => {
@@ -299,6 +302,7 @@ export function ChatStreaming({
     if (inputRef.current) {
       inputRef.current.innerHTML = "";
       setMessage("");
+      setChatMsj("")
       setSuggestedUsers([]);
     }
   };
@@ -2365,14 +2369,28 @@ export function ChatStreaming({
                 //   placeholder="Enviar un mensaje"
                 //   onChange={handleChange}
                 // />
-                <div
-                  contentEditable
-                  className="divinput-chat"
-                  ref={inputRef}
-                  onInput={handleInput}
-                  style={{ color: "#fff" }}
-                  placeholder="Enviar un mensaje..."
+                <TextField
+                  multiline
+                  variant="outlined"
+                  fullWidth
+                  value={chatMsj}
+                  inputRef={inputRef}
+                  onChange={handleInput}
                   onKeyPress={handleKeyPress}
+                  placeholder="Enviar un mensaje..."
+                  InputProps={{
+                    style: { color: "#fff", padding: 0, height:'100%' }, // Quita el padding
+                    disableUnderline: true, // Elimina el subrayado del input
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      padding: 0, // Quita el padding del contenedor
+                      "& fieldset": {
+                        border: "none", // Elimina el borde
+                      },
+                    },
+                  }}
+                  className="divinput-chat"
                 />
               )}
               <Tippy
@@ -2533,14 +2551,28 @@ export function ChatStreaming({
                 //   onChange={handleChange}
                 //   dangerouslySetInnerHTML={{ __html: message }}
                 // />
-                <div
-                  contentEditable
-                  className="divinput-chat"
-                  ref={inputRef}
-                  onInput={handleInput}
-                  style={{ color: "#fff" }}
-                  placeholder="Enviar un mensaje..."
+                <TextField
+                  multiline
+                  variant="outlined"
+                  fullWidth
+                  inputRef={inputRef}
+                  onChange={handleInput}
+                  value={chatMsj}
                   onKeyPress={handleKeyPress}
+                  placeholder="Enviar un mensaje..."
+                  InputProps={{
+                    style: { color: "#fff", padding: 0, height:'100%' }, // Quita el padding
+                    disableUnderline: true, // Elimina el subrayado del input
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      padding: 0, // Quita el padding del contenedor
+                      "& fieldset": {
+                        border: "none", // Elimina el borde
+                      },
+                    },
+                  }}
+                  className="divinput-chat"
                 />
               )}
               <Tippy
