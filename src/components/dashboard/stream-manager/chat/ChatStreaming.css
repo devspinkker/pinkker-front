@@ -6,6 +6,7 @@
     height: 100%;
     width: 100%;
     /* border-left: 1px solid #0f1214; */
+    z-index: 15000;
     background: #080808;
 }
 

@@ -18,6 +18,7 @@ import { ScaleLoader } from "react-spinners";
 import { LuClapperboard } from "react-icons/lu";
 import { MdHd } from "react-icons/md";
 import { Grid, Typography } from "@mui/material";
+import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
 export default function CustomPlayer({
   isMobile,
   expanded,
@@ -27,6 +28,7 @@ export default function CustomPlayer({
   height,
   left,
   marginLeft,
+  chatExpanded,
   time,
   vod,
   popup,
@@ -225,6 +227,7 @@ export default function CustomPlayer({
     return url;
   }
 
+
   function getHlsPlayer() {
     // console.log(getHlsSrc());
     // if (isMobile) {
@@ -242,25 +245,44 @@ export default function CustomPlayer({
     //   );
     // }
     return (
-      <ReactFlvPlayer
-        allowFullScreen
-        id="pinkker-player"
-        videoRef={videoRef}
-        preload={"auto"}
-        webkit-playsinline={true}
-        playsInline={true}
-        src={getHlsSrc()}
-        autoPlay={playing}
-        muted={muted}
-        controls={false}
-        width={width ? width : "100%"}
-        height={height ? height : "835px"}
-        expanded={expanded}
-        quality={quality}
-        stream={stream?.id}
-        streamerDataID={streamerData.id}
-        stream_thumbnail={stream?.stream_thumbnail}
-      />
+      <Grid style={{ display: 'flex', height: FullScreen && '100%', width: FullScreen && chatExpanded && '78%'  }}>
+
+        <ReactFlvPlayer
+          allowFullScreen
+          id="pinkker-player"
+          videoRef={videoRef}
+          preload={"auto"}
+          webkit-playsinline={true}
+          playsInline={true}
+          src={getHlsSrc()}
+          autoPlay={playing}
+          muted={muted}
+          controls={false}
+          width={width ? width : "100%"}
+          height={height ? height : "835px"}
+          expanded={expanded}
+          quality={quality}
+          stream={stream?.id}
+          streamerDataID={streamerData.id}
+          stream_thumbnail={stream?.stream_thumbnail}
+
+        />
+        {FullScreen &&
+          <div className="channel-chat" style={{ width: '340px', display: !chatExpanded && 'none' }}>
+
+            <ChatStreaming
+
+              streamerChat={stream}
+              chatExpandeds={chatExpanded}
+              ToggleChat={ToggleChat}
+              streamerData={streamerData}
+              user={streamer}
+              isMobile={isMobile}
+
+            />
+          </div>
+        }
+      </Grid>
     );
   }
 
@@ -434,7 +456,7 @@ export default function CustomPlayer({
                 style={{
                   display: "flex",
                   flexDirection: "column",
-
+                  textAlign: 'left'
                 }}
               >
                 {/* Nombre del usuario */}
@@ -449,13 +471,30 @@ export default function CustomPlayer({
                   {streamerData?.NameUser}
                 </Typography>
                 <Typography style={{ color: "white", fontSize: 14 }}>
-                  {streamerData?.stream_title}
+                  {stream?.stream_title}
                 </Typography>
                 <Typography style={{ color: "white", fontSize: 14, fontWeight: 800 }}>
-                  Está transmitiendo {streamerData?.stream_category} para {streamerData?.ViewerCount} personas
+                  Está transmitiendo {stream?.stream_category} para {stream?.ViewerCount} personas
                 </Typography>
               </Grid>
             </Grid>
+            {FullScreen &&
+              <img
+                onClick={ToggleChat}
+                style={{
+                  width: "1%",
+                  cursor: "pointer",
+                  textAlign: "center",
+                  color: "white",
+                  position: "fixed",
+                  right: "1%",
+                  transform: "rotate(180deg)",
+                  zIndex: "99999",
+                }}
+                className="chat-button-more"
+                src="/images/iconos/contraer.png"
+              />
+            }
           </div>
         );
       }
@@ -483,7 +522,7 @@ export default function CustomPlayer({
     if (videoRef.current != null && videoRef.current != undefined) {
       if (popup === true) {
         return (
-          <div className="customPlayer-container">
+          <div className="customPlayer-container" style={{ width: FullScreen && chatExpanded && '80% !important' }}>
             <div className="customPlayer-primary">
               <div
                 style={{ justifyContent: "center" }}
@@ -559,9 +598,9 @@ export default function CustomPlayer({
         );
       } else {
         return (
-          <div className="customPlayer-container">
+          <div className="customPlayer-container" style={{ width: FullScreen && chatExpanded && '80%' }}>
             <div
-              style={{ position: "relative", top: "-73px" }}
+              style={{ position: "relative", top: "-73px", width: FullScreen && chatExpanded && '80%' }}
               className="customPlayer-primary"
             >
               <div className="customPlayer-secundary-div">
@@ -726,9 +765,9 @@ export default function CustomPlayer({
       }}
       className={popup === true ? "custom-player-popup" : "custom-player"}
     >
-      {getTopButtom()}
       {popup === false && <div className="customPlayer-shadow-1"></div>}
       <div className="contentCustomScreen">
+        {getTopButtom()}
         {getHlsPlayer()}
 
         {/* {dashboard === false && videoLoading === true && (

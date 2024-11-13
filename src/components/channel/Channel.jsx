@@ -87,7 +87,7 @@ export default function Channel({
 
   const [timeError, setTimeError] = useState(false);
 
-  const [type, setType] = useState(20);
+  const [type, setType] = useState(2);
 
   const [showPopupFollowers, setShowPopupFollowers] = useState(false);
 
@@ -1285,6 +1285,7 @@ export default function Channel({
         isMobile={isMobile}
         expanded={tyExpanded}
         ToggleChat={handleToggleChat}
+        chatExpanded={chatExpanded}
         height={getHeightPlayer()}
         marginLeft={tyExpanded ? "-17px" : "6px"}
         started={started}
@@ -1439,7 +1440,7 @@ export default function Channel({
                         {streamerData?.NameUser}
                       </Typography>
                       <Typography style={{ color: "white", fontSize: 14 }}>
-                        Descripcionssssssss
+                        Descripción
                       </Typography>
                       <Typography style={{ color: "white", fontSize: 14, fontWeight: 800 }}>
                         {streamerData?.FollowersCount} seguidores
@@ -1498,7 +1499,7 @@ export default function Channel({
             {!isMobile && (
               <div
                 style={{
-                  width: chatExpanded ? "0" : "22%",
+                  width: chatExpanded ? "0" : "340px",
                   borderLeft: "1px solid rgb(42, 46, 56)",
                 }}
                 className="channel-chat"
