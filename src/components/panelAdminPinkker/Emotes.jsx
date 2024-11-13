@@ -8,9 +8,8 @@ import {
 } from "../../services/backGo/Emotes";
 
 export default function Emotes({ Code }) {
-  const [PinkkerEmotes, setPinkkerEmotes] = useState(null);
-
-  const [GlobalEmotes, setGlobalEmotes] = useState(null);
+  const [PinkkerEmotes, setPinkkerEmotes] = useState({ emotes: [], id: null });
+  const [GlobalEmotes, setGlobalEmotes] = useState({ emotes: [], id: null });
   const [newEmoteName, setNewEmoteName] = useState("");
   const [newEmoteImage, setNewEmoteImage] = useState(null);
   const [updatedEmoteName, setUpdatedEmoteName] = useState("");
@@ -108,111 +107,109 @@ export default function Emotes({ Code }) {
     <div className="emotes-container">
       <h1 style={{ color: "#fff" }}>Emotes</h1>
 
-      {PinkkerEmotes && (
-        <div key={PinkkerEmotes.id}>
-          <h2 style={{ color: "#fff" }}>{PinkkerEmotes.name}</h2>
-          <div className="emotes-grid">
-            {expandedPinkker &&
-              PinkkerEmotes.emotes.map((emote, index) => (
-                <div key={index} className="emote-card">
-                  <span>{emote.name}</span>
-                  <img src={emote.url} alt={emote.name} />
-                  <div className="emote-buttons">
-                    <button
-                      onClick={() =>
-                        handleDeleteEmote(
-                          emote.name,
-                          index,
-                          "Pinkker",
-                          PinkkerEmotes.id
-                        )
-                      }
-                    >
-                      Delete
-                    </button>
-                    <input
-                      type="text"
-                      value={updatedEmoteName}
-                      onChange={(e) => setUpdatedEmoteName(e.target.value)}
-                    />
-                  </div>
+      <div key={PinkkerEmotes.id}>
+        <h2 style={{ color: "#fff" }}>
+          {PinkkerEmotes.name || "Pinkker Emotes"}
+        </h2>
+        <div className="emotes-grid">
+          {expandedPinkker &&
+            PinkkerEmotes.emotes.map((emote, index) => (
+              <div key={index} className="emote-card">
+                <span>{emote.name}</span>
+                <img src={emote.url} alt={emote.name} />
+                <div className="emote-buttons">
+                  <button
+                    onClick={() =>
+                      handleDeleteEmote(
+                        emote.name,
+                        index,
+                        "Pinkker",
+                        PinkkerEmotes.id
+                      )
+                    }
+                  >
+                    Delete
+                  </button>
+                  <input
+                    type="text"
+                    value={updatedEmoteName}
+                    onChange={(e) => setUpdatedEmoteName(e.target.value)}
+                  />
                 </div>
-              ))}
-          </div>
-          <button onClick={() => setExpandedPinkker(!expandedPinkker)}>
-            {!expandedPinkker ? "Expandir Emotes" : "Comprimir Emotes"}
-          </button>
-          {expandedPinkker && (
-            <div>
-              <h3 style={{ color: "#fff" }}>Add New Emote</h3>
-              <input
-                type="text"
-                placeholder="Emote Name"
-                value={newEmoteName}
-                onChange={(e) => setNewEmoteName(e.target.value)}
-              />
-              <input type="file" onChange={handleImageChange} />
-              <button
-                onClick={() => handleAddEmote("Pinkker", PinkkerEmotes.id)}
-              >
-                Add Emote
-              </button>
-            </div>
-          )}
+              </div>
+            ))}
         </div>
-      )}
+        <button onClick={() => setExpandedPinkker(!expandedPinkker)}>
+          {!expandedPinkker ? "Expandir Emotes" : "Comprimir Emotes"}
+        </button>
+        {expandedPinkker && (
+          <div>
+            <h3 style={{ color: "#fff" }}>Add New Emote</h3>
+            <input
+              type="text"
+              placeholder="Emote Name"
+              value={newEmoteName}
+              onChange={(e) => setNewEmoteName(e.target.value)}
+            />
+            <input type="file" onChange={handleImageChange} />
+            <button onClick={() => handleAddEmote("Pinkker", PinkkerEmotes.id)}>
+              Add Emote
+            </button>
+          </div>
+        )}
+      </div>
 
-      {GlobalEmotes && (
-        <div key={GlobalEmotes.id}>
-          <h2 style={{ color: "#fff" }}>{GlobalEmotes.name}</h2>
-          <div className="emotes-grid">
-            {expandedGlobal &&
-              GlobalEmotes.emotes.map((emote, index) => (
-                <div key={index} className="emote-card">
-                  <span>{emote.name}</span>
-                  <img src={emote.url} alt={emote.name} />
-                  <div className="emote-buttons">
-                    <button
-                      onClick={() =>
-                        handleDeleteEmote(
-                          emote.name,
-                          index,
-                          "Global",
-                          GlobalEmotes.id
-                        )
-                      }
-                    >
-                      Delete
-                    </button>
-                    <input
-                      type="text"
-                      value={updatedEmoteName}
-                      onChange={(e) => setUpdatedEmoteName(e.target.value)}
-                    />
-                  </div>
+      <div key={GlobalEmotes.id}>
+        <h2 style={{ color: "#fff" }}>
+          {GlobalEmotes.name || "Global Emotes"}
+        </h2>
+        <div className="emotes-grid">
+          {expandedGlobal &&
+            GlobalEmotes.emotes.map((emote, index) => (
+              <div key={index} className="emote-card">
+                <span>{emote.name}</span>
+                <img src={emote.url} alt={emote.name} />
+                <div className="emote-buttons">
+                  <button
+                    onClick={() =>
+                      handleDeleteEmote(
+                        emote.name,
+                        index,
+                        "Global",
+                        GlobalEmotes.id
+                      )
+                    }
+                  >
+                    Delete
+                  </button>
+                  <input
+                    type="text"
+                    value={updatedEmoteName}
+                    onChange={(e) => setUpdatedEmoteName(e.target.value)}
+                  />
                 </div>
-              ))}
-          </div>
-          <button onClick={() => setExpandedGlobal(!expandedGlobal)}>
-            {!expandedGlobal ? "Expandir Emotes" : "Comprimir Emotes"}
-          </button>
-          {expandedGlobal && (
-            <div>
-              <h3 style={{ color: "#fff" }}>Add New Emote</h3>
-              <input
-                type="text"
-                placeholder="Emote Name"
-                value={newEmoteName}
-                onChange={(e) => setNewEmoteName(e.target.value)}
-              />
-              <input type="file" onChange={handleImageChange} />
-              <button onClick={() => handleAddEmote("Global", GlobalEmotes.id)}>
-                Add Emote
-              </button>
-            </div>
-          )}
+              </div>
+            ))}
         </div>
-      )}
+        <button onClick={() => setExpandedGlobal(!expandedGlobal)}>
+          {!expandedGlobal ? "Expandir Emotes" : "Comprimir Emotes"}
+        </button>
+        {expandedGlobal && (
+          <div>
+            <h3 style={{ color: "#fff" }}>Add New Emote</h3>
+            <input
+              type="text"
+              placeholder="Emote Name"
+              value={newEmoteName}
+              onChange={(e) => setNewEmoteName(e.target.value)}
+            />
+            <input type="file" onChange={handleImageChange} />
+            <button onClick={() => handleAddEmote("Global", GlobalEmotes.id)}>
+              Add Emote
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
