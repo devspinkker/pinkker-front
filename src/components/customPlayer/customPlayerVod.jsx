@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 
 import { useParams } from "react-router-dom";
 import ReactVideoPlayerVod from "../../player/PlayerVods";
+import { MdOutlineFitScreen } from "react-icons/md";
 
 export default function CustomPlayer({
   isMobile,
@@ -429,13 +430,13 @@ export default function CustomPlayer({
       url,
       title,
       "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=" +
-        w +
-        ", height=" +
-        h +
-        ", top=" +
-        y +
-        ", left=" +
-        x
+      w +
+      ", height=" +
+      h +
+      ", top=" +
+      y +
+      ", left=" +
+      x
     );
   }
 
@@ -664,6 +665,24 @@ export default function CustomPlayer({
                   </Tippy>
                 </div>
 
+                <div className="customPlayer-card">
+                  <Tippy
+                    theme="pinkker"
+                    content={
+                      <h1
+                        style={{ fontSize: "12px", fontFamily: "Montserrat" }}
+                      >
+                        Modo Teatro
+                      </h1>
+                    }
+                  >
+                    <MdOutlineFitScreen
+                      onClick={() => toggleFullScreen()}
+                      style={{ cursor: "pointer" }} />
+
+                  </Tippy>
+                </div>
+                
                 <div className="customPlayer-card">
                   <Tippy
                     theme="pinkker"

@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
 import { LuClapperboard } from "react-icons/lu";
-import { MdHd } from "react-icons/md";
+import { MdHd, MdOutlineFitScreen } from "react-icons/md";
 import { Grid, Typography } from "@mui/material";
 import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
 export default function CustomPlayer({
@@ -29,6 +29,7 @@ export default function CustomPlayer({
   left,
   marginLeft,
   chatExpanded,
+  setChatExpanded,
   time,
   vod,
   popup,
@@ -164,6 +165,7 @@ export default function CustomPlayer({
 
   const toggleFullScreen = () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
+    setChatExpanded(true)
     setFullScreen(!FullScreen);
     if (document.fullscreenElement) {
       if (document.exitFullscreen) {
@@ -189,6 +191,62 @@ export default function CustomPlayer({
       }
     }
   };
+
+  const toggleTheaterMode = () => {
+    const videoContainer = document.querySelector(".contentCustomScreen");
+    const body = document.body;
+  
+    if (!videoContainer) return;
+  
+    // Alterna el modo teatro
+    const isTheaterMode = videoContainer.classList.toggle("theater-mode");
+    body.classList.toggle("theater-mode-active", isTheaterMode);
+  
+    if (isTheaterMode) {
+      // Aplica los estilos de modo teatro
+      videoContainer.style.width = "100vw";
+      videoContainer.style.height = "100vh";
+      videoContainer.style.display = "flex";
+      videoContainer.style.alignItems = "center";
+      videoContainer.style.justifyContent = "center";
+      videoContainer.style.position = "fixed";
+      videoContainer.style.top = "0";
+      videoContainer.style.left = "0";
+      videoContainer.style.backgroundColor = "black";
+      videoContainer.style.zIndex = "9999";
+  
+      // Asegura que el contenido dentro del contenedor se mantenga en su proporción
+      const media = videoContainer.querySelector("img, video");
+      if (media) {
+        media.style.maxWidth = "100%";
+        media.style.maxHeight = "100%";
+        media.style.objectFit = "contain";
+      }
+    } else {
+      // Restaura los estilos originales
+      videoContainer.style.width = "";
+      videoContainer.style.height = "";
+      videoContainer.style.display = "";
+      videoContainer.style.alignItems = "";
+      videoContainer.style.justifyContent = "";
+      videoContainer.style.position = "";
+      videoContainer.style.top = "";
+      videoContainer.style.left = "";
+      videoContainer.style.backgroundColor = "";
+      videoContainer.style.zIndex = "";
+  
+      // Restaura el estilo del contenido interno
+      const media = videoContainer.querySelector("img, video");
+      if (media) {
+        media.style.maxWidth = "";
+        media.style.maxHeight = "";
+        media.style.objectFit = "";
+      }
+    }
+  };
+  
+  
+  
 
   function getHlsSrc() {
     var keyTransmission;
@@ -437,10 +495,10 @@ export default function CustomPlayer({
       } else {
         return (
           <div
-            style={{ width: FullScreen && chatExpanded && '75%'}}
+            style={{ width: FullScreen && chatExpanded && '75%' }}
             className="customPlayer-top"
           >
-            <Grid style={{ display: 'flex', gap: '10px' }}>
+            <Grid style={{ display: 'flex', gap: '10px', borderRadius: '5px', padding: 5 }}>
               <img
                 src={streamerData?.Avatar}
                 style={{
@@ -478,7 +536,7 @@ export default function CustomPlayer({
                 </Typography>
               </Grid>
             </Grid>
-            <Typography style={{ color: "white", fontSize: 14, fontWeight: 800, background:'red', padding: 3, borderRadius: 5 }}>
+            <Typography style={{ color: "white", fontSize: 14, fontWeight: 800, background: 'red', padding: 3, borderRadius: 5 }}>
               EN DIRECTO
             </Typography>
 
@@ -735,7 +793,7 @@ export default function CustomPlayer({
                     />
                   </Tippy>
                 </div>
-
+                
                 <div className="customPlayer-card">
                   <Tippy
                     theme="pinkker"

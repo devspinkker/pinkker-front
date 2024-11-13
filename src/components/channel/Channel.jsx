@@ -1286,6 +1286,7 @@ export default function Channel({
         expanded={tyExpanded}
         ToggleChat={handleToggleChat}
         chatExpanded={chatExpanded}
+        setChatExpanded={setChatExpanded}
         height={getHeightPlayer()}
         marginLeft={tyExpanded ? "-17px" : "6px"}
         started={started}
