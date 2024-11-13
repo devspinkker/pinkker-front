@@ -42,7 +42,7 @@ export function ChatStreaming({
   chatExpandeds,
   ToggleChat,
   streamerData,
-  user,
+  user, // usuario token
   isMobile,
   DashboardStream = false,
   followParam,
