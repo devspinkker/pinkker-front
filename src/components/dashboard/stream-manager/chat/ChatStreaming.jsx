@@ -163,10 +163,10 @@ export function ChatStreaming({
 
   const token = window.localStorage.getItem("token");
   const detectAtSymbolAndFetchUsers = async (content) => {
-    const atSymbolIndex = content.lastIndexOf("@");
+    const atSymbolIndex = content?.lastIndexOf("@");
     if (atSymbolIndex !== -1) {
-      const trimmedContent = content.slice(atSymbolIndex + 1).trim();
-      const spaceIndex = trimmedContent.indexOf(" ");
+      const trimmedContent = content?.slice(atSymbolIndex + 1).trim();
+      const spaceIndex = trimmedContent?.indexOf(" ");
 
       const afterAt =
         spaceIndex === -1
@@ -257,11 +257,11 @@ export function ChatStreaming({
 
 
   const handleInput = (event) => {
-    const content = event.target.value; // Get text content from TextField
-    const cursorPosition = event.target.selectionStart; // Get cursor position
+    const content = inputRef.current.innerHTML;
+    const cursorPosition = window.getSelection().getRangeAt(0).startOffset;
 
-    setChatMsj(content);
-    detectAtSymbolAndFetchUsers(content, cursorPosition);
+    setMessage(content);
+    detectAtSymbolAndFetchUsers(content, cursorPosition); // Detecta solo si el cursor está cerca del @
   };
 
   const getPlainTextMessage = () => {
@@ -302,7 +302,7 @@ export function ChatStreaming({
     if (inputRef.current) {
       inputRef.current.innerHTML = "";
       setMessage("");
-      setChatMsj("")
+     
       setSuggestedUsers([]);
     }
   };
@@ -1417,7 +1417,7 @@ export function ChatStreaming({
                 flexDirection: "row",
               }}
             >
-              <div className="badges" style={{color:'white', fontSize: '12px'}}>
+              <div className="badges" style={{ color: 'white', fontSize: '12px' }}>
                 {MsjChatAnclado.Identidad && (
                   <img src={MsjChatAnclado.Identidad} alt="" />
                 )}
@@ -1462,7 +1462,7 @@ export function ChatStreaming({
                         {MsjChatAnclado.nameUser}
                       </span>
                       <span className="content-parse-message">
-                      :{" "}{parseMessage(MsjChatAnclado.message).content}
+                        :{" "}{parseMessage(MsjChatAnclado.message).content}
                       </span>
                     </p>
                   </div>
@@ -1796,7 +1796,7 @@ export function ChatStreaming({
                     >
 
                       <span className="content-parse-message">
-                      :{" "} {parseMessage(message.message).content}
+                        :{" "} {parseMessage(message.message).content}
                       </span>
                     </p>
                   </div>
@@ -2372,28 +2372,14 @@ export function ChatStreaming({
                 //   placeholder="Enviar un mensaje"
                 //   onChange={handleChange}
                 // />
-                <TextField
-                  multiline
-                  variant="outlined"
-                  fullWidth
-                  value={chatMsj}
-                  inputRef={inputRef}
-                  onChange={handleInput}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Enviar un mensaje..."
-                  InputProps={{
-                    style: { color: "#fff", padding: 0, height: '100%', fontSize: '12px' }, // Quita el padding
-                    disableUnderline: true, // Elimina el subrayado del input
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      padding: 0, // Quita el padding del contenedor
-                      "& fieldset": {
-                        border: "none", // Elimina el borde
-                      },
-                    },
-                  }}
+                < div
+                  contentEditable
                   className="divinput-chat"
+                  ref={inputRef}
+                  onInput={handleInput}
+                  style={{ color: "#fff" }}
+                  placeholder="Enviar un mensaje..."
+                  onKeyPress={handleKeyPress}
                 />
               )}
               <Tippy
@@ -2554,28 +2540,14 @@ export function ChatStreaming({
                 //   onChange={handleChange}
                 //   dangerouslySetInnerHTML={{ __html: message }}
                 // />
-                <TextField
-                  multiline
-                  variant="outlined"
-                  fullWidth
-                  inputRef={inputRef}
-                  onChange={handleInput}
-                  value={chatMsj}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Enviar un mensaje..."
-                  InputProps={{
-                    style: { color: "#fff", padding: 0, height: '100%', fontSize: '12px' }, // Quita el padding
-                    disableUnderline: true, // Elimina el subrayado del input
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      padding: 0, // Quita el padding del contenedor
-                      "& fieldset": {
-                        border: "none", // Elimina el borde
-                      },
-                    },
-                  }}
+                < div
+                  contentEditable
                   className="divinput-chat"
+                  ref={inputRef}
+                  onInput={handleInput}
+                  style={{ color: "#fff" }}
+                  placeholder="Enviar un mensaje..."
+                  onKeyPress={handleKeyPress}
                 />
               )}
               <Tippy
