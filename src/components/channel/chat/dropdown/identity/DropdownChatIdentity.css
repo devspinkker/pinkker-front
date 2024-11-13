@@ -2,7 +2,7 @@
 
 .dropdownchatidentity-menu {
   position: absolute;
-  margin-top: -600px;
+  margin-top: -148%;
   left: 0px;
   width: 342px;
   display: flex;
@@ -11,7 +11,7 @@
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   padding: 10px;
-  border-bottom: 1px solid #ffffff1a;
+
   z-index: 100000000000;
 }
 

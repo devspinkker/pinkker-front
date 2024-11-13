@@ -139,7 +139,7 @@ function DropdownChatIdentity({
   // }
 
   function getBackgroundColorPrime() {
-    if (user.color === "#D500FF") {
+    if (user?.color === "#D500FF") {
       return {
         background:
           "url(https://res.cloudinary.com/pinkker/image/upload/v1677784906/naming/colaborador_qwwmv6.gif) no-repeat",
@@ -148,7 +148,7 @@ function DropdownChatIdentity({
       };
     }
 
-    if (user.color === "#FF0000") {
+    if (user?.color === "#FF0000") {
       return {
         background:
           "url(https://res.cloudinary.com/pinkker/image/upload/v1677825934/naming/admin1_mhgt70.gif) no-repeat",
@@ -157,7 +157,7 @@ function DropdownChatIdentity({
       };
     }
 
-    if (user.color === "#82CD00") {
+    if (user?.color === "#82CD00") {
       return {
         background:
           "url(https://res.cloudinary.com/pinkker/image/upload/v1677825961/naming/moderador_hx3n6w.gif) no-repeat",
@@ -245,14 +245,14 @@ function DropdownChatIdentity({
             <h3
               style={{
                 fontFamily: "Inter",
-                color: user.color ? user.color : "white",
+                color: user?.color ? user?.color : "white",
                 fontWeight: "600",
                 padding: "5px",
                 fontSize: "14px",
               }}
             >
               <a style={{ ...getBackgroundColorPrime(), fontWeight: "600" }}>
-                {user.NameUser}
+                {user?.NameUser}
               </a>
             </h3>
           </div>

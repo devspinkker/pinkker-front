@@ -163,7 +163,7 @@
     /* width: 30px; */
     flex-direction: row;
     align-items: center;
-    color:white;
+    
     font-size: 12px;
 }
 
@@ -230,7 +230,9 @@
     height: 200px;
 }
 
-
+.icono-hover:hover{
+    background-color: #303030;
+}
 .ChatStreaming_form {
     display: flex;
     width: 100%;
@@ -250,7 +252,7 @@
     border-right: none;
     background: #080808;
     text-align: left;
-    padding: 0px 0px 0px 6px;
+    padding: 5px;
     font-weight: bold;
 }
 
@@ -278,11 +280,13 @@
     cursor: pointer;
     display: flex;
     font-size: 16px;
-    height: 28px;
+    height: 38px;
     padding: 5px;
     padding-right: 11px;
 }
-
+.config-buttoncloseNavbarDropdownEmotes:hover{
+    background-color: #303030;
+}
 .divinput-chat {
     width: 95%;
     display: flex;
@@ -293,7 +297,7 @@
     border-left: none;
     border-right: none;
     background: #080808;
-    color: #fff;
+    color: #EFEFF1;
     text-align: left;
     padding: 0px 0px 0px 2px;
     font-weight: bold;
@@ -382,7 +386,7 @@
     width: 100%;
     background: #080808;
     /* box-shadow: 2px 1px 20px -13px lemonchiffon; */
-    border-top: 1px solid #4e223238;
+    border-top: 1px solid #2a2e38;
     border-radius: 3px;
 }
 
