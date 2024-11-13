@@ -39,6 +39,7 @@ export const DeleteEmote = async (name, typeEmote, token) => {
 };
 export const GetEmoteUserandType = async (IdUser, typeEmote, token) => {
     try {
+
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

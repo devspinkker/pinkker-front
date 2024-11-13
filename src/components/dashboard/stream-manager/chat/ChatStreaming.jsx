@@ -881,6 +881,7 @@ export function ChatStreaming({
       setSuggestedUsers([]);
       return;
     }
+    console.log(message);
 
     if (message.startsWith("/vip")) {
       const regex = /\/vip\s+(\S+)\s*(.*)/;
