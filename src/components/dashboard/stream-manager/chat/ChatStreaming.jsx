@@ -2184,28 +2184,14 @@ export function ChatStreaming({
                 //   onChange={handleChange}
                 // />
 
-                <TextField
-                  multiline
-                  variant="outlined"
-                  fullWidth
-                  inputRef={inputRef}
-                  onChange={handleInput}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Enviar un mensaje..."
-                  InputProps={{
-                    style: { color: "#fff", padding: 0, height:'100%' }, // Quita el padding
-                    disableUnderline: true, // Elimina el subrayado del input
-                    
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      padding: 0, // Quita el padding del contenedor
-                      "& fieldset": {
-                        border: "none", // Elimina el borde
-                      },
-                    },
-                  }}
+                < div
+                  contentEditable
                   className="divinput-chat"
+                  ref={inputRef}
+                  onInput={handleInput}
+                  style={{ color: "#fff" }}
+                  placeholder="Enviar un mensaje..."
+                  onKeyPress={handleKeyPress}
                 />
               )}
               <Tippy
@@ -2379,27 +2365,14 @@ export function ChatStreaming({
                 //   placeholder="Enviar un mensaje"
                 //   onChange={handleChange}
                 // />
-                <TextField
-                  multiline
-                  variant="outlined"
-                  fullWidth
-                  inputRef={inputRef}
-                  onChange={handleInput}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Enviar un mensaje..."
-                  InputProps={{
-                    style: { color: "#fff", padding: 0, height:'100%' }, // Quita el padding
-                    disableUnderline: true, // Elimina el subrayado del input
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      padding: 0, // Quita el padding del contenedor
-                      "& fieldset": {
-                        border: "none", // Elimina el borde
-                      },
-                    },
-                  }}
+                <div
+                  contentEditable
                   className="divinput-chat"
+                  ref={inputRef}
+                  onInput={handleInput}
+                  style={{ color: "#fff" }}
+                  placeholder="Enviar un mensaje..."
+                  onKeyPress={handleKeyPress}
                 />
               )}
               <Tippy
@@ -2560,27 +2533,14 @@ export function ChatStreaming({
                 //   onChange={handleChange}
                 //   dangerouslySetInnerHTML={{ __html: message }}
                 // />
-                <TextField
-                  multiline
-                  variant="outlined"
-                  fullWidth
-                  inputRef={inputRef}
-                  onChange={handleInput}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Enviar un mensaje..."
-                  InputProps={{
-                    style: { color: "#fff", padding: 0 , height:'100%'}, // Quita el padding
-                    disableUnderline: true, // Elimina el subrayado del input
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      padding: 0, // Quita el padding del contenedor
-                      "& fieldset": {
-                        border: "none", // Elimina el borde
-                      },
-                    },
-                  }}
+                <div
+                  contentEditable
                   className="divinput-chat"
+                  ref={inputRef}
+                  onInput={handleInput}
+                  style={{ color: "#fff" }}
+                  placeholder="Enviar un mensaje..."
+                  onKeyPress={handleKeyPress}
                 />
               )}
               <Tippy
