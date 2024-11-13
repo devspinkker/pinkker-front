@@ -623,6 +623,7 @@ function NLayout(props) {
       handleChange({ target: { value: text } });
     }
   }, [category]);
+  console.log('props.user', props.user)
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -1445,12 +1446,12 @@ function NLayout(props) {
                       onClick={(e) => habilitarSubMenu(true, e)}
                       onMouseEnter={
                         esClick
-                          ? console.log("activo")
+                          ? console.log("")
                           : () => habilitarSubMenu(true)
                       }
                       onMouseLeave={
                         esClick
-                          ? console.log("activo")
+                          ? console.log("")
                           : () => habilitarSubMenu(false)
                       }
                     >
@@ -2531,7 +2532,7 @@ function NLayout(props) {
                             fontFamily: "Inter",
                           }}
                         >
-                          0 seguidores
+                          {props.user?.Followers ?? 0} seguidores
                         </Typography>
                       </Grid>
                     </Grid>

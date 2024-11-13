@@ -297,9 +297,9 @@ export default function Channel({
     const localType = localStorage.getItem("channelType");
     if (localType) {
       // setType(parseInt(localType));
-      setType(20);
+      setType(2);
     } else {
-      setType(20);
+      setType(2);
     }
 
     setFollowParam(false);
@@ -1461,12 +1461,12 @@ export default function Channel({
                 {stream.online && getStream()}
 
                 {!isMobile && (
-                  <Grid style={{ display: 'flex', justifyContent: 'flex-start', width: !tyExpanded ? "96.5%" : "90%", gap: '10px', marginLeft: '3%' }}>
+                  <Grid style={{ display: 'flex', justifyContent: 'flex-start', width: !tyExpanded ? "96.5%" : "90%", gap: '10px', marginLeft: '3%', borderBottom: '1px solid #2a2e38' }}>
 
-                    <Typography style={{ color: '#fff', fontWeight: 800, cursor: 'pointer', borderBottom: type === 0 && '1px solid #f56096' }} onClick={() => changeType(0)}>
+                    <Typography style={{ color: '#fff', fontWeight: 800, cursor: 'pointer', borderBottom: type === 0 && '1px solid #f56096', zIndex: 9999 }} onClick={() => changeType(0)}>
                       Vods
                     </Typography>
-                    <Typography style={{ color: '#fff', fontWeight: 800, cursor: 'pointer', borderBottom: type === 2 && '1px solid #f56096' }} onClick={() => changeType(2)}>
+                    <Typography style={{ color: '#fff', fontWeight: 800, cursor: 'pointer', borderBottom: type === 2 && '1px solid #f56096', zIndex: 9999 }} onClick={() => changeType(2)}>
                       Acerca De
                     </Typography>
                   </Grid>
