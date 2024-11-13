@@ -11,13 +11,13 @@ export default function AddEmotePopup({ closePopup, emoteType, handleReload }) {
   const { user } = auth;
   const token = window.localStorage.getItem("token");
 
-  const [imageSrc, setImageSrc] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [emoteName, setEmoteName] = useState("");
   const [loading, setLoading] = useState(false);
 
   const alert = useNotification();
 
-  const onFileChange = async (e) => {
+  const onFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       if (file.size > 1024 * 1024) {
@@ -27,23 +27,18 @@ export default function AddEmotePopup({ closePopup, emoteType, handleReload }) {
         });
         return;
       }
-      const reader = new FileReader();
-      reader.onloadend = () => setImageSrc(reader.result);
-      reader.readAsDataURL(file);
+      setImageFile(file);
     }
   };
 
   async function handleSubmit() {
     try {
       setLoading(true);
-      const file = new File([imageSrc], emoteName + ".png", {
-        lastModified: 1534584790000,
-        type: "image/png",
-      });
       let formData = new FormData();
-      formData.append("emoteImage", file);
+      formData.append("emoteImage", imageFile);
       formData.append("name", emoteName);
       formData.append("typeEmote", emoteType);
+
       const res = await CreateOrUpdateEmote(formData, token);
 
       if (res) {
@@ -83,7 +78,7 @@ export default function AddEmotePopup({ closePopup, emoteType, handleReload }) {
           <div className="addmote-popup-content">
             <h3>Agregar un emote a tu canal</h3>
 
-            {imageSrc === null ? (
+            {imageFile === null ? (
               <div
                 style={{
                   width: "150px",
@@ -114,7 +109,7 @@ export default function AddEmotePopup({ closePopup, emoteType, handleReload }) {
                   alignItems: "center",
                   justifyContent: "center",
                 }}
-                src={imageSrc}
+                src={URL.createObjectURL(imageFile)}
                 alt="Emote"
               />
             )}
