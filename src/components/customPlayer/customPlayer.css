@@ -101,10 +101,11 @@
   display: flex;
   text-align: center;
   align-items: center;
-  justify-content: right;
+  justify-content: flex-start;
   margin-top: -20px;
   opacity: 0;
   z-index: 99999;
+  background-color: rgba(0,0,0,0.74);
 }
 
 .channel-custom-player-online {

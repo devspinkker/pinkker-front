@@ -203,7 +203,7 @@ export default function Channel({
     seconds: 0,
   });
   const formatNumber = (number) => (number < 10 ? `0${number}` : number);
-  console.log('streamerData', streamerData)
+
   useEffect(() => {
     if (stream?.online && stream?.start_date) {
       const calculateElapsedTime = () => {
@@ -623,7 +623,7 @@ export default function Channel({
             </div>
           </div>
 
-          <div className="channel-v2-content">
+          <div className="channel-v2-content" style={{marginRight: '5%'}}>
             {/* <div style={{ display: "flex" }}>
               {stream.stream_tag.map((tag) => (
                 <p className="channel-title-tag">#{tag}</p>
@@ -635,6 +635,7 @@ export default function Channel({
                 flexDirection: "column",
                 alignItems: "flex-end",
                 gap: "5px",
+                marginRight: '3%'
               }}
             >
               {getButtonsFromChannel()}
@@ -1283,6 +1284,7 @@ export default function Channel({
         dashboard={false}
         isMobile={isMobile}
         expanded={tyExpanded}
+        ToggleChat={handleToggleChat}
         height={getHeightPlayer()}
         marginLeft={tyExpanded ? "-17px" : "6px"}
         started={started}
@@ -1401,50 +1403,53 @@ export default function Channel({
                 {renderAnnoucement()}
               </div>
 
+              {
+                !stream.online &&
+                <Grid style={{ width: '90%', display: 'flex', margin: '25px', gap: '10px', justifyContent: 'space-between' }}>
+                  {/* Imagen de perfil circular */}
 
-              <Grid style={{ width: '90%', display: 'flex', margin: '25px', gap: '10px', justifyContent: 'space-between' }}>
-                {/* Imagen de perfil circular */}
-
-                <Grid style={{display:'flex', gap:'10px'}}>
-                  <img
-                    src={streamerData?.Avatar}
-                    style={{
-                      width: "60px", // Ajusta este tamaño según tu preferencia
-                      height: "60px",
-                      borderRadius: "50%",
-                      border: '1px solid #fff'
-                    }}
-                  />
-
-                  {/* Contenedor de Nombre y Botones */}
-                  <Grid
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-
-                    }}
-                  >
-                    {/* Nombre del usuario */}
-                    <Typography
+                  <Grid style={{ display: 'flex', gap: '10px' }}>
+                    <img
+                      src={streamerData?.Avatar}
                       style={{
-                        color: "white",
-                        fontWeight: 800,
-                        fontSize: "16px", // Tamaño grande como en la imagen
+                        width: "60px", // Ajusta este tamaño según tu preferencia
+                        height: "60px",
+                        borderRadius: "50%",
+                        border: '1px solid #fff'
+                      }}
+                    />
+
+                    {/* Contenedor de Nombre y Botones */}
+                    <Grid
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
 
                       }}
                     >
-                      {streamerData?.NameUser}
-                    </Typography>
-                    <Typography style={{ color: "white", fontSize: 14 }}>
-                      Descripcionssssssss
-                    </Typography>
-                    <Typography style={{ color: "white", fontSize: 14, fontWeight: 800 }}>
-                      {streamerData?.FollowersCount} seguidores
-                    </Typography>
+                      {/* Nombre del usuario */}
+                      <Typography
+                        style={{
+                          color: "white",
+                          fontWeight: 800,
+                          fontSize: "16px", // Tamaño grande como en la imagen
+
+                        }}
+                      >
+                        {streamerData?.NameUser}
+                      </Typography>
+                      <Typography style={{ color: "white", fontSize: 14 }}>
+                        Descripcionssssssss
+                      </Typography>
+                      <Typography style={{ color: "white", fontSize: 14, fontWeight: 800 }}>
+                        {streamerData?.FollowersCount} seguidores
+                      </Typography>
+                    </Grid>
                   </Grid>
+                  {getButtonsFromChannel()}
                 </Grid>
-                {getButtonsFromChannel()}
-              </Grid>
+              }
+
 
               <div
                 style={{

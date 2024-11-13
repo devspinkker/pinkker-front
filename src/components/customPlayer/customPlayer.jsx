@@ -17,6 +17,7 @@ import { useParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
 import { LuClapperboard } from "react-icons/lu";
 import { MdHd } from "react-icons/md";
+import { Grid, Typography } from "@mui/material";
 export default function CustomPlayer({
   isMobile,
   expanded,
@@ -30,10 +31,12 @@ export default function CustomPlayer({
   vod,
   popup,
   closePopup,
+  ToggleChat,
   streamerData,
   stream,
 }) {
   const { streamer } = useParams();
+
 
   const videoRef = useRef();
   const [playing, setPlaying] = useState(true);
@@ -373,7 +376,7 @@ export default function CustomPlayer({
   };
 
   function getTopButtom() {
-    if (videoRef.current != null && videoRef.current != undefined) {
+    if (videoRef?.current != null && videoRef?.current != undefined) {
       if (popup === true) {
         return (
           <div
@@ -412,12 +415,47 @@ export default function CustomPlayer({
       } else {
         return (
           <div
-            style={{ marginLeft: expanded && "-50px" }}
+            style={{ backgroundColor: 'rgba(0,0,0,0.74) !important' }}
             className="customPlayer-top"
           >
-            <div className="channel--player-online">
-              {/* <h4>EN DIRECTO</h4> */}
-            </div>
+            <Grid style={{ display: 'flex', gap: '10px' }}>
+              <img
+                src={streamerData?.Avatar}
+                style={{
+                  width: "60px", // Ajusta este tamaño según tu preferencia
+                  height: "60px",
+                  borderRadius: "50%",
+                  border: '1px solid #fff'
+                }}
+              />
+
+              {/* Contenedor de Nombre y Botones */}
+              <Grid
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+
+                }}
+              >
+                {/* Nombre del usuario */}
+                <Typography
+                  style={{
+                    color: "white",
+                    fontWeight: 800,
+                    fontSize: "16px", // Tamaño grande como en la imagen
+
+                  }}
+                >
+                  {streamerData?.NameUser}
+                </Typography>
+                <Typography style={{ color: "white", fontSize: 14 }}>
+                  {streamerData?.stream_title}
+                </Typography>
+                <Typography style={{ color: "white", fontSize: 14, fontWeight: 800 }}>
+                  Está transmitiendo {streamerData?.stream_category} para {streamerData?.ViewerCount} personas
+                </Typography>
+              </Grid>
+            </Grid>
           </div>
         );
       }
@@ -431,13 +469,13 @@ export default function CustomPlayer({
       url,
       title,
       "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=" +
-        w +
-        ", height=" +
-        h +
-        ", top=" +
-        y +
-        ", left=" +
-        x
+      w +
+      ", height=" +
+      h +
+      ", top=" +
+      y +
+      ", left=" +
+      x
     );
   }
 
