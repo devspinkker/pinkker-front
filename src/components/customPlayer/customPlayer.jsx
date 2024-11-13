@@ -245,7 +245,7 @@ export default function CustomPlayer({
     //   );
     // }
     return (
-      <Grid style={{ display: 'flex', height: FullScreen && '100%', width: FullScreen && chatExpanded && '78%'  }}>
+      <Grid style={{ display: 'flex', height: FullScreen && '100%', width: FullScreen && chatExpanded && '78%' }}>
 
         <ReactFlvPlayer
           allowFullScreen
@@ -268,7 +268,7 @@ export default function CustomPlayer({
 
         />
         {FullScreen &&
-          <div className="channel-chat" style={{ width: '340px', display: !chatExpanded && 'none' }}>
+          <div className="channel-chat" style={{ width: '340px', display: !chatExpanded && 'none', height: '100%', top: '-1%' }}>
 
             <ChatStreaming
 
@@ -437,7 +437,7 @@ export default function CustomPlayer({
       } else {
         return (
           <div
-            style={{ backgroundColor: 'rgba(0,0,0,0.74) !important' }}
+            style={{ width: FullScreen && chatExpanded && '75%'}}
             className="customPlayer-top"
           >
             <Grid style={{ display: 'flex', gap: '10px' }}>
@@ -478,7 +478,11 @@ export default function CustomPlayer({
                 </Typography>
               </Grid>
             </Grid>
-            {FullScreen &&
+            <Typography style={{ color: "white", fontSize: 14, fontWeight: 800, background:'red', padding: 3, borderRadius: 5 }}>
+              EN DIRECTO
+            </Typography>
+
+            {FullScreen && !chatExpanded &&
               <img
                 onClick={ToggleChat}
                 style={{
@@ -600,7 +604,7 @@ export default function CustomPlayer({
         return (
           <div className="customPlayer-container" style={{ width: FullScreen && chatExpanded && '80%' }}>
             <div
-              style={{ position: "relative", top: "-73px", width: FullScreen && chatExpanded && '80%' }}
+              style={{ position: "relative", top: "-73px", width: FullScreen && chatExpanded && '97%' }}
               className="customPlayer-primary"
             >
               <div className="customPlayer-secundary-div">

@@ -163,8 +163,15 @@
     /* width: 30px; */
     flex-direction: row;
     align-items: center;
+    color:white;
+    font-size: 12px;
 }
 
+.badges:hover{
+    cursor: pointer;
+    background-color: #f36396;
+    border-radius: 5px;
+}
 .badges>img {
     margin: 0px 2px;
     width: 18px;
@@ -229,7 +236,7 @@
     width: 100%;
     flex-direction: row;
     align-items: center;
-    border: 1px solid #ffff;
+    border: 1px solid #2a2e38;
     border-radius: 5px;
     gap: 10px;
 }

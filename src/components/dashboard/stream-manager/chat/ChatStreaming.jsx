@@ -1417,7 +1417,7 @@ export function ChatStreaming({
                 flexDirection: "row",
               }}
             >
-              <div className="badges">
+              <div className="badges" style={{color:'white', fontSize: '12px'}}>
                 {MsjChatAnclado.Identidad && (
                   <img src={MsjChatAnclado.Identidad} alt="" />
                 )}
@@ -1456,13 +1456,13 @@ export function ChatStreaming({
                       <span
                         className={`content-info-message-2-nameUser-span ${ResMessageschatState?.PinkkerPrime
                           ? "PinkkerPrime"
-                          : ""
+                          : " "
                           }`}
                       >
-                        {MsjChatAnclado.nameUser}:{" "}
+                        {MsjChatAnclado.nameUser}
                       </span>
                       <span className="content-parse-message">
-                        {parseMessage(MsjChatAnclado.message).content}
+                      :{" "}{parseMessage(MsjChatAnclado.message).content}
                       </span>
                     </p>
                   </div>
@@ -1775,6 +1775,14 @@ export function ChatStreaming({
                     alt="StreamerChannelOwner"
                   />
                 )}
+
+                <span
+                  className={`content-info-message-2-nameUser-span ${message.PinkkerPrime ? "PinkkerPrime" : ""
+                    }`}
+                >
+                  {message.nameUser}
+                </span>
+
               </div>
               <div className="MessagesChat">
                 <div className="content-info-message">
@@ -1786,14 +1794,9 @@ export function ChatStreaming({
                         fontSize: changeTextSizeState,
                       }}
                     >
-                      <span
-                        className={`content-info-message-2-nameUser-span ${message.PinkkerPrime ? "PinkkerPrime" : ""
-                          }`}
-                      >
-                        {message.nameUser}:{" "}
-                      </span>
+
                       <span className="content-parse-message">
-                        {parseMessage(message.message).content}
+                      :{" "} {parseMessage(message.message).content}
                       </span>
                     </p>
                   </div>
@@ -2379,7 +2382,7 @@ export function ChatStreaming({
                   onKeyPress={handleKeyPress}
                   placeholder="Enviar un mensaje..."
                   InputProps={{
-                    style: { color: "#fff", padding: 0, height:'100%' }, // Quita el padding
+                    style: { color: "#fff", padding: 0, height: '100%', fontSize: '12px' }, // Quita el padding
                     disableUnderline: true, // Elimina el subrayado del input
                   }}
                   sx={{
@@ -2561,7 +2564,7 @@ export function ChatStreaming({
                   onKeyPress={handleKeyPress}
                   placeholder="Enviar un mensaje..."
                   InputProps={{
-                    style: { color: "#fff", padding: 0, height:'100%' }, // Quita el padding
+                    style: { color: "#fff", padding: 0, height: '100%', fontSize: '12px' }, // Quita el padding
                     disableUnderline: true, // Elimina el subrayado del input
                   }}
                   sx={{
