@@ -40,7 +40,6 @@ export default function CustomPlayer({
 }) {
   const { streamer } = useParams();
 
-
   const videoRef = useRef();
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(false);
@@ -165,7 +164,7 @@ export default function CustomPlayer({
 
   const toggleFullScreen = () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
-    setChatExpanded(true)
+    setChatExpanded(true);
     setFullScreen(!FullScreen);
     if (document.fullscreenElement) {
       if (document.exitFullscreen) {
@@ -195,13 +194,13 @@ export default function CustomPlayer({
   const toggleTheaterMode = () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
     const body = document.body;
-  
+
     if (!videoContainer) return;
-  
+
     // Alterna el modo teatro
     const isTheaterMode = videoContainer.classList.toggle("theater-mode");
     body.classList.toggle("theater-mode-active", isTheaterMode);
-  
+
     if (isTheaterMode) {
       // Aplica los estilos de modo teatro
       videoContainer.style.width = "100vw";
@@ -214,7 +213,7 @@ export default function CustomPlayer({
       videoContainer.style.left = "0";
       videoContainer.style.backgroundColor = "black";
       videoContainer.style.zIndex = "9999";
-  
+
       // Asegura que el contenido dentro del contenedor se mantenga en su proporción
       const media = videoContainer.querySelector("img, video");
       if (media) {
@@ -234,7 +233,7 @@ export default function CustomPlayer({
       videoContainer.style.left = "";
       videoContainer.style.backgroundColor = "";
       videoContainer.style.zIndex = "";
-  
+
       // Restaura el estilo del contenido interno
       const media = videoContainer.querySelector("img, video");
       if (media) {
@@ -244,9 +243,6 @@ export default function CustomPlayer({
       }
     }
   };
-  
-  
-  
 
   function getHlsSrc() {
     var keyTransmission;
@@ -285,7 +281,6 @@ export default function CustomPlayer({
     return url;
   }
 
-
   function getHlsPlayer() {
     // console.log(getHlsSrc());
     // if (isMobile) {
@@ -303,8 +298,13 @@ export default function CustomPlayer({
     //   );
     // }
     return (
-      <Grid style={{ display: 'flex', height: FullScreen && '100%', width: FullScreen && chatExpanded && '78%' }}>
-
+      <Grid
+        style={{
+          display: "flex",
+          height: FullScreen && "100%",
+          width: FullScreen && chatExpanded && "78%",
+        }}
+      >
         <ReactFlvPlayer
           allowFullScreen
           id="pinkker-player"
@@ -323,23 +323,27 @@ export default function CustomPlayer({
           stream={stream?.id}
           streamerDataID={streamerData.id}
           stream_thumbnail={stream?.stream_thumbnail}
-
         />
-        {FullScreen &&
-          <div className="channel-chat" style={{ width: '340px', display: !chatExpanded && 'none', height: '100%', top: '-1%' }}>
-
+        {FullScreen && (
+          <div
+            className="channel-chat"
+            style={{
+              width: "340px",
+              display: !chatExpanded && "none",
+              height: "100%",
+              top: "-1%",
+            }}
+          >
             <ChatStreaming
-
               streamerChat={stream}
               chatExpandeds={chatExpanded}
               ToggleChat={ToggleChat}
               streamerData={streamerData}
               user={streamer}
               isMobile={isMobile}
-
             />
           </div>
-        }
+        )}
       </Grid>
     );
   }
@@ -495,17 +499,24 @@ export default function CustomPlayer({
       } else {
         return (
           <div
-            style={{ width: FullScreen && chatExpanded && '75%' }}
+            style={{ width: FullScreen && chatExpanded && "75%" }}
             className="customPlayer-top"
           >
-            <Grid style={{ display: 'flex', gap: '10px', borderRadius: '5px', padding: 5 }}>
+            <Grid
+              style={{
+                display: "flex",
+                gap: "10px",
+                borderRadius: "5px",
+                padding: 5,
+              }}
+            >
               <img
                 src={streamerData?.Avatar}
                 style={{
                   width: "60px", // Ajusta este tamaño según tu preferencia
                   height: "60px",
                   borderRadius: "50%",
-                  border: '1px solid #fff'
+                  border: "1px solid #fff",
                 }}
               />
 
@@ -514,7 +525,7 @@ export default function CustomPlayer({
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  textAlign: 'left'
+                  textAlign: "left",
                 }}
               >
                 {/* Nombre del usuario */}
@@ -523,7 +534,6 @@ export default function CustomPlayer({
                     color: "white",
                     fontWeight: 800,
                     fontSize: "16px", // Tamaño grande como en la imagen
-
                   }}
                 >
                   {streamerData?.NameUser}
@@ -531,16 +541,28 @@ export default function CustomPlayer({
                 <Typography style={{ color: "white", fontSize: 14 }}>
                   {stream?.stream_title}
                 </Typography>
-                <Typography style={{ color: "white", fontSize: 14, fontWeight: 800 }}>
-                  Está transmitiendo {stream?.stream_category} para {stream?.ViewerCount} personas
+                <Typography
+                  style={{ color: "white", fontSize: 14, fontWeight: 800 }}
+                >
+                  Está transmitiendo {stream?.stream_category} para{" "}
+                  {stream?.ViewerCount} personas
                 </Typography>
               </Grid>
             </Grid>
-            <Typography style={{ color: "white", fontSize: 14, fontWeight: 800, background: 'red', padding: 3, borderRadius: 5 }}>
+            <Typography
+              style={{
+                color: "white",
+                fontSize: 14,
+                fontWeight: 800,
+                background: "red",
+                padding: 3,
+                borderRadius: 5,
+              }}
+            >
               EN DIRECTO
             </Typography>
 
-            {FullScreen && !chatExpanded &&
+            {FullScreen && !chatExpanded && (
               <img
                 onClick={ToggleChat}
                 style={{
@@ -556,7 +578,7 @@ export default function CustomPlayer({
                 className="chat-button-more"
                 src="/images/iconos/contraer.png"
               />
-            }
+            )}
           </div>
         );
       }
@@ -570,13 +592,13 @@ export default function CustomPlayer({
       url,
       title,
       "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=" +
-      w +
-      ", height=" +
-      h +
-      ", top=" +
-      y +
-      ", left=" +
-      x
+        w +
+        ", height=" +
+        h +
+        ", top=" +
+        y +
+        ", left=" +
+        x
     );
   }
 
@@ -584,7 +606,10 @@ export default function CustomPlayer({
     if (videoRef.current != null && videoRef.current != undefined) {
       if (popup === true) {
         return (
-          <div className="customPlayer-container" style={{ width: FullScreen && chatExpanded && '80% !important' }}>
+          <div
+            className="customPlayer-container"
+            style={{ width: FullScreen && chatExpanded && "80% !important" }}
+          >
             <div className="customPlayer-primary">
               <div
                 style={{ justifyContent: "center" }}
@@ -660,9 +685,16 @@ export default function CustomPlayer({
         );
       } else {
         return (
-          <div className="customPlayer-container" style={{ width: FullScreen && chatExpanded && '80%' }}>
+          <div
+            className="customPlayer-container"
+            style={{ width: FullScreen && chatExpanded && "80%" }}
+          >
             <div
-              style={{ position: "relative", top: "-73px", width: FullScreen && chatExpanded && '97%' }}
+              style={{
+                position: "relative",
+                top: "-73px",
+                width: FullScreen && chatExpanded && "97%",
+              }}
               className="customPlayer-primary"
             >
               <div className="customPlayer-secundary-div">
@@ -738,8 +770,7 @@ export default function CustomPlayer({
                                 </div>*/}
 
                 <div className="customPlayer-card">
-                  {/* comentado quitar*/}
-                  {/* <Tippy
+                  <Tippy
                     theme="pinkker"
                     content={
                       <h1
@@ -754,7 +785,7 @@ export default function CustomPlayer({
                       onClick={() => handleClip()}
                       style={{ cursor: "pointer", fontSize: "18px !important" }}
                     />
-                  </Tippy> */}
+                  </Tippy>
                 </div>
                 <div className="customPlayer-card">
                   <Tippy
@@ -793,7 +824,7 @@ export default function CustomPlayer({
                     />
                   </Tippy>
                 </div>
-                
+
                 <div className="customPlayer-card">
                   <Tippy
                     theme="pinkker"

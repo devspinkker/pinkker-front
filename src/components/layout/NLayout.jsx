@@ -623,7 +623,7 @@ function NLayout(props) {
       handleChange({ target: { value: text } });
     }
   }, [category]);
-  console.log('props.user', props.user)
+  console.log("props.user", props.user);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -1385,8 +1385,7 @@ function NLayout(props) {
                 <Grid
                   style={{ display: "flex", alignItems: "center", gap: "10px" }}
                 >
-                  {/* comentado quitar*/}
-                  {/* <div
+                  <div
                     onClick={() => habilitarNotificaciones()}
                     className="navbar-image-avatar-container"
                   >
@@ -1410,7 +1409,8 @@ function NLayout(props) {
                       />
                     </div>
                   </div>
-                  <div
+                  {/* comentado quitar*/}
+                  {/* <div
                     onClick={() => habilitarMensaje()}
                     className="navbar-image-avatar-container"
                   >
@@ -1445,9 +1445,7 @@ function NLayout(props) {
                       className="navbar-image-avatar"
                       onClick={(e) => habilitarSubMenu(true, e)}
                       onMouseEnter={
-                        esClick
-                          ? console.log("")
-                          : () => habilitarSubMenu(true)
+                        esClick ? console.log("") : () => habilitarSubMenu(true)
                       }
                       onMouseLeave={
                         esClick
