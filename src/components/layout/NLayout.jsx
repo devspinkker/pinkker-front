@@ -1073,8 +1073,7 @@ function NLayout(props) {
                   </li>
                 </Link>
 
-                {/* comentado quitar*/}
-                {/* <Link
+                <Link
                   style={{ textDecoration: "none" }}
                   className="menu-aside-option"
                   to="/plataform/clips"
@@ -1096,12 +1095,13 @@ function NLayout(props) {
                         : "item-li"
                     }
                   >
-             
                     <FiSearch />
                     {props.tyExpanded && <span>Explorar</span>}
                   </li>
                 </Link>
-                <Link
+                {/* comentado quitar*/}
+
+                {/* <Link
                   style={{ textDecoration: "none" }}
                   className="menu-aside-option"
                   to="/plataform/Comunidades"
@@ -3100,7 +3100,7 @@ function NLayout(props) {
               <span>Directos</span>
             </Link>
             {/* comentado quitar*/}
-            {/* <Link
+            <Link
               to="/plataform/explore?tipo=categories"
               className={
                 location.pathname === "/plataform/explore?tipo=categories"
@@ -3111,6 +3111,7 @@ function NLayout(props) {
               <FaLayerGroup className="icon" />
               <span>Categorías</span>
             </Link>
+            {/*
             <Link
               to="/plataform/Comunidades"
               className={
