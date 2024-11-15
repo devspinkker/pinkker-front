@@ -350,7 +350,7 @@ export function ChatStreaming({
         newSocket.send("closing");
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
       setSocket(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -436,7 +436,7 @@ export function ChatStreaming({
         }
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
       setsocketDeleteMsj(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -519,7 +519,7 @@ export function ChatStreaming({
   useEffect(() => {
     SetModSlowMode(streamerChat?.ModSlowMode);
     SetModChat(streamerChat?.ModChat);
-
+    if (!user) return;
     const fetchGetSubsAct = async () => {
       const res = await GetSubsAct(user?.id, streamerData?.id);
       if (res?.data && res?.message === "ok") {
@@ -529,13 +529,14 @@ export function ChatStreaming({
         SetSubStateAct(false);
       }
     };
+
     if (user?.id !== streamerData?.id) {
       fetchGetSubsAct();
     } else {
       SetSubStateAct(true);
       SetFollowParamOwner(true);
     }
-  }, []);
+  }, [user]);
   const scrollToBottom = () => {
     if (conversationRef.current) {
       conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
@@ -775,48 +776,48 @@ export function ChatStreaming({
           >
             {displayDonations[0] !== undefined
               ? [...displayDonations].map((donation, index) => (
-                <Donation
-                  key={index}
-                  donation={donation}
-                  index={index}
-                  callback={() => {
-                    toggleDonationCard(
-                      donation?.Pixeles,
-                      donation?.FromUserInfo.NameUser,
-                      donation?.FromUserInfo.Avatar,
-                      donation?.Text,
-                      donation?.userLook,
-                      donation?.userColor
-                    );
-                    setShowAllDonations(true);
-                    setDonationCardVisible(donationCardVisible);
-                    setSelectedDonation(donation);
+                  <Donation
+                    key={index}
+                    donation={donation}
+                    index={index}
+                    callback={() => {
+                      toggleDonationCard(
+                        donation?.Pixeles,
+                        donation?.FromUserInfo.NameUser,
+                        donation?.FromUserInfo.Avatar,
+                        donation?.Text,
+                        donation?.userLook,
+                        donation?.userColor
+                      );
+                      setShowAllDonations(true);
+                      setDonationCardVisible(donationCardVisible);
+                      setSelectedDonation(donation);
 
-                    setClickCount((prevCount) => prevCount + 1);
+                      setClickCount((prevCount) => prevCount + 1);
 
-                    if (clickCount >= 1) {
-                      setFirstClick(true);
-                    }
+                      if (clickCount >= 1) {
+                        setFirstClick(true);
+                      }
 
-                    setAllDonationsExpanded(true);
-                  }}
-                  ShowAllDonations={setShowAllDonations}
-                />
-              ))
+                      setAllDonationsExpanded(true);
+                    }}
+                    ShowAllDonations={setShowAllDonations}
+                  />
+                ))
               : !chatExpandeds && (
-                <h3
-                  style={{
-                    color: "#f36196",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                  }}
-                  onClick={() => {
-                    onMouseEnterPoints();
-                  }}
-                >
-                  Envia pixeles
-                </h3>
-              )}
+                  <h3
+                    style={{
+                      color: "#f36196",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                    }}
+                    onClick={() => {
+                      onMouseEnterPoints();
+                    }}
+                  >
+                    Envia pixeles
+                  </h3>
+                )}
           </div>
           <button
             style={{
@@ -1456,10 +1457,11 @@ export function ChatStreaming({
                       style={{ color: MsjChatAnclado.Color }}
                     >
                       <span
-                        className={`content-info-message-2-nameUser-span ${ResMessageschatState?.PinkkerPrime
-                          ? "PinkkerPrime"
-                          : " "
-                          }`}
+                        className={`content-info-message-2-nameUser-span ${
+                          ResMessageschatState?.PinkkerPrime
+                            ? "PinkkerPrime"
+                            : " "
+                        }`}
                       >
                         {MsjChatAnclado.nameUser}
                       </span>
@@ -1472,7 +1474,7 @@ export function ChatStreaming({
                 {GetInfoUserInRoom &&
                   (GetInfoUserInRoom.Moderator ||
                     streamerChat.streamerId ==
-                    window.localStorage.getItem("_id")) && (
+                      window.localStorage.getItem("_id")) && (
                     <div
                       className="hover-button"
                       onClick={(e) => {
@@ -1604,8 +1606,8 @@ export function ChatStreaming({
               )}
             </div>
             {GetInfoUserInRoom &&
-              GetInfoUserInRoom.Moderator &&
-              streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
+            GetInfoUserInRoom.Moderator &&
+            streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
               <div className="ShowGetUserTheChat-actions-Moderator">
                 <div
                   onClick={() =>
@@ -1779,8 +1781,9 @@ export function ChatStreaming({
                 )}
 
                 <span
-                  className={`content-info-message-2-nameUser-span ${message.PinkkerPrime ? "PinkkerPrime" : ""
-                    }`}
+                  className={`content-info-message-2-nameUser-span ${
+                    message.PinkkerPrime ? "PinkkerPrime" : ""
+                  }`}
                   style={{ color: `${message.Color}` }}
                 >
                   {message.nameUser}
@@ -1803,8 +1806,8 @@ export function ChatStreaming({
                   </div>
                 </div>
                 {GetInfoUserInRoom &&
-                  (GetInfoUserInRoom.Moderator ||
-                    streamerChat.streamerId ==
+                (GetInfoUserInRoom.Moderator ||
+                  streamerChat.streamerId ==
                     window.localStorage.getItem("_id")) ? (
                   <div
                     className="hover-button"
@@ -1962,9 +1965,9 @@ export function ChatStreaming({
                         }}
                       >
                         <span
-                          className={`content-info-message-2-nameUser-span ${message.PinkkerPrime ? "PinkkerPrime" : ""
-                            }`}
-                          
+                          className={`content-info-message-2-nameUser-span ${
+                            message.PinkkerPrime ? "PinkkerPrime" : ""
+                          }`}
                         >
                           {message.nameUser}:{" "}
                         </span>
@@ -1975,8 +1978,8 @@ export function ChatStreaming({
                     </div>
                   </div>
                   {GetInfoUserInRoom &&
-                    (GetInfoUserInRoom.Moderator ||
-                      streamerChat.streamerId ==
+                  (GetInfoUserInRoom.Moderator ||
+                    streamerChat.streamerId ==
                       window.localStorage.getItem("_id")) ? (
                     <div
                       className="hover-button"
@@ -2087,11 +2090,11 @@ export function ChatStreaming({
                       }}
                     >
                       <span
-                        className={`content-info-message-2-nameUser-span ${ResMessageschatState?.PinkkerPrime
-                          ? "PinkkerPrime"
-                          : ""
-                          }`}
-                        
+                        className={`content-info-message-2-nameUser-span ${
+                          ResMessageschatState?.PinkkerPrime
+                            ? "PinkkerPrime"
+                            : ""
+                        }`}
                       >
                         {ResMessageschatState.nameUser}:{" "}
                       </span>
@@ -2125,8 +2128,9 @@ export function ChatStreaming({
               suggestedUsers.map((u, index) => (
                 <span
                   key={u}
-                  className={`suggestedUsers-span ${index === activeSuggestionIndex ? "active" : ""
-                    }`}
+                  className={`suggestedUsers-span ${
+                    index === activeSuggestionIndex ? "active" : ""
+                  }`}
                   onClick={() => handleSuggestionSelect(u)}
                 >
                   {u}
@@ -2293,7 +2297,7 @@ export function ChatStreaming({
                 type="text"
                 // value={message}
                 placeholder="solo seguidores"
-              // onChange={handleChange}
+                // onChange={handleChange}
               />
               <Tippy
                 theme="pinkker"
@@ -2474,7 +2478,7 @@ export function ChatStreaming({
                 type="text"
                 // value={message}
                 placeholder="solo suscriptores"
-              // onChange={handleChange}
+                // onChange={handleChange}
               />
               <Tippy
                 theme="pinkker"
@@ -2503,12 +2507,14 @@ export function ChatStreaming({
                 style={{
                   cursor: "pointer",
                   display: "flex",
-                  alignItems: "center"
+                  alignItems: "center",
                 }}
                 onClick={() => closeNavbar()}
                 className="icono-hover"
               >
-                <BsFillPersonVcardFill style={{ color: "#fff", fontSize: 18 }} />
+                <BsFillPersonVcardFill
+                  style={{ color: "#fff", fontSize: 18 }}
+                />
               </span>
               {isNavbarOpen && (
                 <DropdownChatIdentity
