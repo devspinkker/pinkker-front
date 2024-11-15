@@ -3,12 +3,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15.5px 5.8rem;
+    padding: 15.5px 0rem;
     position: sticky;
     top: 0px;
     z-index: 9999;
     background-color: rgb(8, 8, 8);
-    width: 103.5%;
+    width: 100%;
+    margin: 0 auto;
+    max-width: calc(1200px + 6vw);
     box-shadow: 6px 2px 20px 0px #e172ff0f;
 }
 

@@ -275,14 +275,15 @@ export default function Categorie() {
   }
 
   return (
-    <Grid>
+    <Grid style={{maxWidth: 'calc(1200px + 6vw)', margin: '0 auto'}}>
       <Grid
         style={{
           display: "flex",
           alignItems: "flex-end",
           justifyContent: "space-between",
           borderBottom: "1px solid rgb(42, 46, 56)",
-          padding: "0px 5.8rem 0px",
+          padding: "10px 0px",
+          width: "100%",
         }}
       >
         {categorie?.data?.img ? (
@@ -373,7 +374,7 @@ export default function Categorie() {
           alignItems: "center",
           justifyContent: "space-between",
           borderBottom: " 1px solid rgb(42, 46, 56)",
-          padding: "20px 5.3rem",
+          padding: "10px 0rem",
         }}
       >
         <div className="explorecategories-card-container-filter-input">
@@ -410,8 +411,9 @@ export default function Categorie() {
       <Grid
         style={{
           display: "flex",
-          padding: "1.2rem 5.8rem",
+          padding: "10px 0rem",
           flexDirection: "column",
+          width: "100%",
         }}
       >
         <div

@@ -31,7 +31,7 @@ export default function CustomCard(props) {
     // Verifica si la longitud de la cadena es mayor a 22
     if (texto.length > 20) {
       // Corta la cadena hasta el carácter 22 y añade "..."
-      return texto.slice(0, 21) + '...';
+      return texto.slice(0, 18) + '...';
     }
     // Si la cadena es menor o igual a 22 caracteres, devuelve el texto original
     return texto;
@@ -61,8 +61,8 @@ export default function CustomCard(props) {
               <img
                 style={{
                   border: `1px solid rgb(229, 224, 218)`,
-                  width: `${props.width}`,
-                  height: `${props.height}`,
+                  width: `100%`,
+                  height: `100%`,
                 }}
                 className="img-categorie-card"
                 src={props.image}

@@ -10,6 +10,8 @@ const LayoutMessageNotis = ({
   openMessage,
   PinkerNotifications,
   setOpenMessage,
+  setOpenNotification,
+  openNotification
 }) => {
   const token = window.localStorage.getItem("token");
 
@@ -30,7 +32,7 @@ const LayoutMessageNotis = ({
         }}
       >
         <IoMdClose
-          onClick={() => setOpenMessage(false)}
+          onClick={() => openMessage ? setOpenMessage(false) : setOpenNotification(false)}
           style={{ color: "white", cursor: "pointer" }}
         />
         <Typography

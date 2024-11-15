@@ -62,7 +62,7 @@ function SliderLayout(props) {
         flexDirection: "column-reverse",
         width: "100%",
       }}
-      spaceBetween={props.clipT || props.Vod ? 20 : 0}
+      spaceBetween={props.clipT || props.Vod ? 20 : 30}
       navigation={{
         nextEl: ".custom-next",
         prevEl: ".custom-prev",
@@ -74,10 +74,10 @@ function SliderLayout(props) {
             ? 1
             : 3
           : props.Vod || props.clipT
-          ? 4.5
-          : isFullHD
-          ? 9.5
-          : 7
+            ? 4.5
+            : isFullHD
+              ? 9.5
+              : 7
       }
       Pagination
       onSlideChange={handleSlideChange}
@@ -147,7 +147,7 @@ function SliderLayout(props) {
         )} */}
 
         {/* comentado quitar*/}
-        {/* <div className="manager-recommended-actions-arrow">
+        <div className="manager-recommended-actions-arrow">
           <div
             className={`custom-prev ${isBeginning ? "disabled" : ""}`}
             style={{
@@ -156,10 +156,7 @@ function SliderLayout(props) {
               pointerEvents: isBeginning ? "none" : "auto",
             }}
           >
-            <i
-              style={{ margin: "0px 10px", cursor: "pointer" }}
-              className="fas fa-chevron-left"
-            ></i>
+            <i className="fas fa-chevron-left"></i>
           </div>
           <div
             className={`custom-next ${isEnd ? "disabled" : ""}`}
@@ -169,12 +166,9 @@ function SliderLayout(props) {
               pointerEvents: isEnd ? "none" : "auto",
             }}
           >
-            <i
-              style={{ cursor: "pointer" }}
-              className="fas fa-chevron-right"
-            ></i>
+            <i className="fas fa-chevron-right"></i>
           </div>
-        </div> */}
+        </div>
       </Grid>
 
       {props.Categoria && (

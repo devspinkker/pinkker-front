@@ -30,7 +30,7 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid rgb(42, 46, 56);
-    padding: 10px 4rem 10px 4rem;
+    padding: 10px 0px;
     
 }
 
@@ -38,7 +38,7 @@
     display: grid;
     gap: 10px;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    padding: .5rem 3.7rem .5rem 5.8rem;
+    padding: .5rem 0rem;
 }
 
 .explore-card-not-results {

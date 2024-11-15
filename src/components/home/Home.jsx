@@ -248,8 +248,9 @@ const Home = ({
   return (
     <div
       style={{
-        padding: isMobile ? "1rem 1rem 10rem 1rem" : "2rem 5.8rem",
-        width: isMobile ? "89%" : "90%",
+        padding: isMobile ? "1rem 1rem 10rem 1rem" : "2rem 0rem",
+        width: isMobile ? "89%" : "100%",
+        maxWidth: !isMobile && 'calc(1200px + 6vw)',
         height: isMobile && "100vh",
         margin: "0 auto",
       }}
@@ -318,9 +319,9 @@ const Home = ({
         clipT={false}
         isMobile={isMobile}
       ></SliderLayout>
-      {<Clips isMobile={isMobile} />}
+      {/* {<Clips isMobile={isMobile} />}
 
-      {<Vods isMobile={isMobile} />}
+      {<Vods isMobile={isMobile} />} */}
 
       {/* {<Clips isMobile={isMobile} titulo={"Vods"} />} */}
 

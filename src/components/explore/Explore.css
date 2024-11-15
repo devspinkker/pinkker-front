@@ -4,10 +4,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  max-width: calc(1200px + 6vw);
+  margin: 0 auto;
   overflow: hidden;
-
-
 }
 
 .explore-container {

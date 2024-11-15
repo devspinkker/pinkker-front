@@ -1479,7 +1479,7 @@ function NLayout(props) {
                       position: "absolute",
                       padding: "1rem",
                       width: "16.25rem",
-                      right: "105px",
+                      right: "2%",
                       borderRadius: "0.5rem",
                       zIndex: 99999,
                     }}
@@ -1631,7 +1631,7 @@ function NLayout(props) {
 
           <Grid
             style={{
-              width: "102%",
+              width: "100%",
               padding: props.isMobile && "0px 0px 25% 0px",
             }}
             onClick={() => setEsClick(false)}
@@ -2175,6 +2175,8 @@ function NLayout(props) {
           <Grid className={"openNotificationopenMessage"}>
             <LayoutMessageNotis
               setOpenMessage={setOpenMessage}
+              setOpenNotification= {setOpenNotification}
+              openNotification={openNotification}
               openMessage={openMessage}
               messagesOpen={messagesOpen}
               PinkerNotifications={PinkerNotifications}

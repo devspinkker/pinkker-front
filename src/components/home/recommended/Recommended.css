@@ -66,51 +66,38 @@
 .manager-recommended-actions-arrow {
     display: flex;
     align-items: center;
-    gap: 5px
-}
-
-
-
-.manager-recommended-actions-arrow>i {
-    display: flex !important;
-    width: 1.875rem !important;
-    height: 1.875rem;
-    text-align: center;
-    border-radius: 50%;
-    padding: 5px;
-    font-size: 12px;
-    font-weight: 800;
-    cursor: pointer;
+    gap: 0px;
     background: #2a2e38;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
+    border-radius: 30px;
+    overflow: hidden;
 }
 
-.manager-recommended-actions-arrow>div {
-    display: flex !important;
-    width: 1.875rem !important;
-    height: 1.875rem;
-    text-align: center;
-    border-radius: 50%;
-    padding: 5px;
-    font-size: 12px;
-    font-weight: 800;
+.manager-recommended-actions-arrow > div {
+    display: flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    background: #2a2e38;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
     color: #fff;
+    transition: background 0.3s;
 }
 
-.manager-recommended-actions-arrow>i:hover {
+.manager-recommended-actions-arrow .custom-prev {
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.manager-recommended-actions-arrow .custom-next {
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.manager-recommended-actions-arrow > div:hover {
     background: #343843;
 }
 
-.manager-recommended-actions-arrow>div:hover {
-    background: #343843;
+.manager-recommended-actions-arrow > div.disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 @media screen and (max-width: 768px) {
