@@ -62,7 +62,7 @@ function SliderLayout(props) {
         flexDirection: "column-reverse",
         width: "100%",
       }}
-      spaceBetween={props.clipT || props.Vod ? 20 : 30}
+      spaceBetween={props.clipT || props.Vod ? 20 : 5}
       navigation={{
         nextEl: ".custom-next",
         prevEl: ".custom-prev",
@@ -77,7 +77,7 @@ function SliderLayout(props) {
             ? 4.5
             : isFullHD
               ? 9.5
-              : 7
+              : 8.5
       }
       Pagination
       onSlideChange={handleSlideChange}

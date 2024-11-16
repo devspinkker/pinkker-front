@@ -85,6 +85,10 @@
         padding: 10px;
     }
 
+    .pinkker-button-more:hover{
+        background-color: rgba(255, 255, 255, 0.13);
+        padding: 10px !important;
+    }
     .player-controls>svg {
         padding: 10px;
     }

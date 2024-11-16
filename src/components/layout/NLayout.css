@@ -9,12 +9,27 @@
     z-index: 9999;
     background-color: rgb(8, 8, 8);
     width: 100%;
-    margin: 0 auto;
-    max-width: calc(1200px + 6vw);
+    
+    
     box-shadow: 6px 2px 20px 0px #e172ff0f;
 }
+.navTop{
+    max-width: calc(1400px + 6vw);
+}
 
-
+@media (min-width: 1200px) and (max-width: 1599px) {
+    /* Estilos para desktops estándar */
+    .navTop{
+        width: 85% !important;
+    }
+  }
+/* Pantallas extra grandes */
+@media (min-width: 1600px) and (max-width: 1800px){
+    /* Estilos para monitores 4K o ultra-wide */
+    .navTop{
+        width: 85% !important;
+    }
+  }
 .menu-aside-option {
     width: 100%;
     transition: all .2s ease-in-out;

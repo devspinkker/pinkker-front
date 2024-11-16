@@ -311,7 +311,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
           {!showTOTPInput ? (
             <>
               <div className="auth-content-input">
-                <p>Username*</p>
+                <p style={{fontSize:'12px'}}>Usuario*</p>
                 <input
                   onChange={(e) => setlUsername(e.target.value)}
                   type="text"
@@ -320,7 +320,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               </div>
 
               <div className="auth-content-input">
-                <p>Contraseña</p>
+                <p style={{fontSize:'12px'}}>Contraseña</p>
                 <input
                   onChange={(e) => setlPassword(e.target.value)}
                   type="password"
@@ -364,7 +364,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               margin: "15px 0px",
             }}
           >
-            Or continue with
+            O continuar con
           </p>
           <OAuth2Login
             className="OAuth2Login"
@@ -380,7 +380,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
             <div className="auth-content">
               <div className="auth-content-input">
                 <p style={{ fontSize: "12px", fontFamily: "inter" }}>
-                  Username*{" "}
+                  Usuario*{" "}
                   {errorUserName === "" && (
                     <i
                       style={{ color: "lightgreen", marginLeft: "109px" }}
@@ -411,7 +411,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
 
               <div className="auth-content-input">
                 <p style={{ fontSize: "12px", fontFamily: "inter" }}>
-                  Email*{" "}
+                Correo electrónico*{" "}
                   {errorEmail === "" && (
                     <i
                       style={{ color: "lightgreen", marginLeft: "109px" }}
@@ -438,7 +438,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               </div>
               <div className="auth-content-input">
                 <p style={{ fontSize: "12px", fontFamily: "inter" }}>
-                  Password*{" "}
+                  Contraseña*{" "}
                   {errorPassword === "" && (
                     <i
                       style={{ color: "lightgreen", marginLeft: "159px" }}
@@ -467,15 +467,15 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
               </div>
 
               <div className="auth-text">
-                <input type="checkbox" style={{ width: "5%", border: 0 }} />
+                <input type="checkbox" style={{ width: "5%" }} />
                 <p className="" style={{ fontSize: "11px" }}>
-                  I agree to the
+                  Estoy de acuerdo con los
                   <a style={{ color: "#ff64b0", cursor: "pointer" }}>
-                    Terms & Conditions
+                  terminos y condiciones
                   </a>{" "}
-                  and{" "}
+                  y las {" "}
                   <a style={{ color: "#ff64b0", cursor: "pointer" }}>
-                    Privacy Policy.
+                  politicas de privacidad.
                   </a>
                 </p>
               </div>
@@ -508,7 +508,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                   margin: "15px 0px",
                 }}
               >
-                Or continue with
+                O continuar con
               </p>
               <OAuth2Login
                 className="OAuth2Login"
@@ -685,7 +685,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                     fontWeight: "bold",
                   }}
                 >
-                  Register
+                  Registrarse
                 </h6>
               </div>
 
@@ -702,7 +702,7 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
                     fontWeight: "bold",
                   }}
                 >
-                  Login
+                  Ingresar
                 </h6>
               </div>
             </div>

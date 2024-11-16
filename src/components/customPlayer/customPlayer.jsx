@@ -19,6 +19,10 @@ import { LuClapperboard } from "react-icons/lu";
 import { MdHd, MdOutlineFitScreen } from "react-icons/md";
 import { Grid, Typography } from "@mui/material";
 import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
+import { IoIosPause, IoMdPause } from "react-icons/io";
+import { AiFillSetting } from "react-icons/ai";
+import { FcClapperboard } from "react-icons/fc";
+
 export default function CustomPlayer({
   isMobile,
   expanded,
@@ -499,63 +503,67 @@ export default function CustomPlayer({
       } else {
         return (
           <div
-            style={{ width: FullScreen && chatExpanded && "75%" }}
+            style={{ width: FullScreen && chatExpanded && "75%", justifyContent: !FullScreen && 'flex-end' }}
             className="customPlayer-top"
           >
-            <Grid
-              style={{
-                display: "flex",
-                gap: "10px",
-                borderRadius: "5px",
-                padding: 5,
-              }}
-            >
-              <img
-                src={streamerData?.Avatar}
-                style={{
-                  width: "60px", // Ajusta este tamaño según tu preferencia
-                  height: "60px",
-                  borderRadius: "50%",
-                  border: "1px solid #fff",
-                }}
-              />
-
-              {/* Contenedor de Nombre y Botones */}
+            {FullScreen && (
               <Grid
                 style={{
                   display: "flex",
-                  flexDirection: "column",
-                  textAlign: "left",
+                  gap: "10px",
+                  borderRadius: "5px",
+                  padding: 5,
                 }}
               >
-                {/* Nombre del usuario */}
-                <Typography
+                <img
+                  src={streamerData?.Avatar}
                   style={{
-                    color: "white",
-                    fontWeight: 800,
-                    fontSize: "16px", // Tamaño grande como en la imagen
+                    width: "60px", // Ajusta este tamaño según tu preferencia
+                    height: "60px",
+                    borderRadius: "50%",
+                    border: "1px solid #fff",
+                  }}
+                />
+
+                {/* Contenedor de Nombre y Botones */}
+                <Grid
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "left",
                   }}
                 >
-                  {streamerData?.NameUser}
-                </Typography>
-                <Typography style={{ color: "white", fontSize: 14 }}>
-                  {stream?.stream_title}
-                </Typography>
-                <Typography
-                  style={{ color: "white", fontSize: 14, fontWeight: 800 }}
-                >
-                  Está transmitiendo {stream?.stream_category} para{" "}
-                  {stream?.ViewerCount} personas
-                </Typography>
+                  {/* Nombre del usuario */}
+                  <Typography
+                    style={{
+                      color: "white",
+                      fontWeight: 800,
+                      fontSize: "16px", // Tamaño grande como en la imagen
+                    }}
+                  >
+                    {streamerData?.NameUser}
+                  </Typography>
+                  <Typography style={{ color: "white", fontSize: 14 }}>
+                    {stream?.stream_title}
+                  </Typography>
+                  <Typography
+                    style={{ color: "white", fontSize: 14, fontWeight: 800 }}
+                  >
+                    Está transmitiendo {stream?.stream_category} para{" "}
+                    {stream?.ViewerCount} personas
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
+            )}
+
             <Typography
               style={{
                 color: "white",
-                fontSize: 14,
-                fontWeight: 800,
+                fontSize: '.9rem',
+
                 background: "red",
-                padding: 3,
+                padding: '0px .5rem',
+                fontFamily: 'inter',
                 borderRadius: 5,
               }}
             >
@@ -592,13 +600,13 @@ export default function CustomPlayer({
       url,
       title,
       "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=" +
-        w +
-        ", height=" +
-        h +
-        ", top=" +
-        y +
-        ", left=" +
-        x
+      w +
+      ", height=" +
+      h +
+      ", top=" +
+      y +
+      ", left=" +
+      x
     );
   }
 
@@ -639,6 +647,7 @@ export default function CustomPlayer({
                         style={{ cursor: "pointer" }}
                         class="fas fa-pause custom-player-popup-icon"
                       />
+
                     </Tippy>
                   ) : (
                     <Tippy
@@ -656,6 +665,7 @@ export default function CustomPlayer({
                         style={{ cursor: "pointer" }}
                         class="fas fa-play custom-player-popup-icon"
                       />
+
                     </Tippy>
                   )}
                 </div>
@@ -710,11 +720,8 @@ export default function CustomPlayer({
                         </h1>
                       }
                     >
-                      <i
-                        onClick={() => videoHandler()}
-                        style={{ cursor: "pointer" }}
-                        class="fas fa-pause pinkker-button-more"
-                      />
+                      <IoMdPause onClick={() => videoHandler()}
+                        style={{ cursor: "pointer", fontSize: '20px' }} className="pinkker-button-more" />
                     </Tippy>
                   ) : (
                     <Tippy
@@ -780,11 +787,13 @@ export default function CustomPlayer({
                       </h1>
                     }
                   >
-                    <LuClapperboard
-                      class=" pinkker-button-more button-more-player"
-                      onClick={() => handleClip()}
-                      style={{ cursor: "pointer", fontSize: "18px !important" }}
-                    />
+                    <Grid style={{ color: 'white', padding: 5, borderRadius: 5, display: 'flex', alignItems: 'center', backgroundColor: 'rgba(255, 255, 255, 0.13)', gap: '5px', cursor:'pointer' }} onClick={() => handleClip()}>
+
+                      <LuClapperboard
+                        style={{ cursor: "pointer", fontSize: "18px !important", color: 'white' }}
+                      />
+                      <Typography>Crear Clip</Typography>
+                    </Grid>
                   </Tippy>
                 </div>
                 <div className="customPlayer-card">
@@ -817,11 +826,9 @@ export default function CustomPlayer({
                       </h1>
                     }
                   >
-                    <i
-                      onClick={onMouseEnterSettings}
-                      style={{ cursor: "pointer" }}
-                      class="fas fa-cog pinkker-button-more button-more-player"
-                    />
+
+                    <AiFillSetting onClick={onMouseEnterSettings}
+                      style={{ cursor: "pointer", fontSize: '20px' }} className="pinkker-button-more" />
                   </Tippy>
                 </div>
 

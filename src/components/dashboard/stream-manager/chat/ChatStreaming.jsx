@@ -2204,7 +2204,7 @@ export function ChatStreaming({
                   ref={inputRef}
                   onInput={handleInput}
                   style={{ color: "#fff" }}
-                  placeholder="Enviar un mensaje..."
+                  placeholder="Enviar un mensaje"
                   onKeyPress={handleKeyPress}
                 />
               )}
@@ -2385,7 +2385,7 @@ export function ChatStreaming({
                   ref={inputRef}
                   onInput={handleInput}
                   style={{ color: "#fff" }}
-                  placeholder="Enviar un mensaje..."
+                  placeholder="Enviar un mensaje"
                   onKeyPress={handleKeyPress}
                 />
               )}
@@ -2557,7 +2557,7 @@ export function ChatStreaming({
                   ref={inputRef}
                   onInput={handleInput}
                   style={{ color: "#fff" }}
-                  placeholder="Enviar un mensaje..."
+                  placeholder="Enviar un mensaje"
                   onKeyPress={handleKeyPress}
                 />
               )}
@@ -2626,7 +2626,7 @@ export function ChatStreaming({
                 changeTextSize={(e) => changeTextSize(e)}
               />
             )}
-            <div>
+            <div style={{display:'flex', gap:'5px'}}>
               <Tippy
                 theme="pinkker"
                 content={
@@ -2647,7 +2647,7 @@ export function ChatStreaming({
                 </button>
               </Tippy>
 
-              <button onClick={handleSubmit} type="submit">
+              <button onClick={handleSubmit} type="submit"  className="button-enviar">
                 Enviar
               </button>
             </div>

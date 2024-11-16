@@ -129,7 +129,7 @@ code {
 .pinkker-button-more {
   height: 24px;
   min-width: 30px;
-  border-radius: 50%;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,7 +142,7 @@ code {
 
 .pinkker-button-more:hover {
   /* background-color: #303030; */
-  border-radius: 50%;
+  border-radius: 5px;
 }
 
 .pinkker-input {

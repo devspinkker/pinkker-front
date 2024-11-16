@@ -4,12 +4,14 @@ import "./Notificaciones.css";
 import { GetRecentotificaciones } from "../../services/backGo/user";
 
 export default function Notificaciones({ PinkerNotifications }) {
-  const [expandedNotifications, setExpandedNotifications] = useState({});
+  const [expandedNotifications, setExpandedNotifications] = useState({}); 
   const [page, setpage] = useState(2);
   const [notifications, setNotifications] = useState(PinkerNotifications);
   const token = window.localStorage.getItem("token");
 
   const history = useHistory();
+
+
 
   async function HandleGetRecentotificaciones() {
     const res = await GetRecentotificaciones(token, page);

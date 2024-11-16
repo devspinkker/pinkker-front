@@ -6,7 +6,7 @@ import ReactPlayer from "react-player";
 import CardStream from "../../home/categories/CardStream";
 import CardCategorie from "../../home/categories/CardCategorie";
 import Skeleton from "@mui/material/Skeleton";
-
+import chancho from './Chancho skull.png'
 import {
   GetAllsStreamsOnline,
   getCategoriesWithLimit,
@@ -349,7 +349,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: "15px",
+                
                 justifyContent: "center",
                 alignItems: "center",
                 width: "100%",
@@ -361,7 +361,8 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                 borderRadius: "5px",
               }}
             >
-              <ImCross style={{ color: "red", fontSize: "3.5rem" }} />
+              <img src={chancho} style={{width:'18%'}}/>
+              {/* <ImCross style={{ color: "red", fontSize: "3.5rem" }} /> */}
               <Typography
                 style={{
                   fontFamily: "Inter",

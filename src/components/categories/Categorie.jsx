@@ -21,7 +21,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 import CardStreamRecomendado from "../home/categories/CardStreamRecomendado";
-import chancho from './Chancho--dengue.png'
+import chancho from './Chancho skull.png'
 export default function Categorie() {
   const [categorie, setCategorie] = useState(null);
   const [streams, setStreams] = useState(null);
@@ -275,7 +275,7 @@ export default function Categorie() {
   }
 
   return (
-    <Grid style={{maxWidth: 'calc(1200px + 6vw)', margin: '0 auto'}}>
+    <Grid style={{maxWidth: 'calc(1400px + 6vw)', margin: '0 auto'}}>
       <Grid
         style={{
           display: "flex",
@@ -451,7 +451,7 @@ export default function Categorie() {
           {!streams && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
 
-              <img src={chancho} style={{ width: '30%' }} />
+              <img src={chancho} style={{ width: '20%' }} />
               <Typography style={{ color: 'white', textAlign: 'center', fontSize: '18px' }}>No hay directos en este momento!</Typography>
 
             </div>

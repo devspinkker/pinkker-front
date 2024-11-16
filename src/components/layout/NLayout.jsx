@@ -92,6 +92,8 @@ import {
 } from "../../services/backGo/user";
 import logoMobile from "./Recurso 12.png";
 import prime from "./Recurso 25.png";
+import primeCorto from './Recurso 29.png';
+import Prime from "../settings/user/prime/Prime";
 function NLayout(props) {
   const { streamer } = useParams();
   const [locationpath, setLocationPath] = useState();
@@ -337,7 +339,7 @@ function NLayout(props) {
         }
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
 
       setSocket(newSocket);
       window.addEventListener("beforeunload", () => {
@@ -608,9 +610,9 @@ function NLayout(props) {
   const pixeles = props.user?.Pixeles;
   const formattedPixeles = pixeles
     ? new Intl.NumberFormat("es-ES", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 3,
-      }).format(pixeles)
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 3,
+    }).format(pixeles)
     : "0";
   const [category, setCategory] = useState(0); // Estado inicial
 
@@ -870,7 +872,7 @@ function NLayout(props) {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    backgroundColor: "#ff69c4",
+                    backgroundColor: "#ff4fa6",
                     borderTopLeftRadius: ".375rem",
                     borderTopRightRadius: ".375rem",
                     padding: ".4rem",
@@ -983,27 +985,41 @@ function NLayout(props) {
                     : "pixel-coming-soon-navbarLeft-noexpand"
                 }
               >
-                <div className="pixel-coming-soon-navbarLeft-img-pixel-container">
+                <div className="pixel-coming-soon-navbarLeft-img-pixel-container" style={{width: props.tyExpanded ? '30%' : '100%' }}>
                   {new Date(props.user?.PinkkerPrime?.SubscriptionEnd) >
-                  new Date() ? (
+                    new Date() ? (
                     <img
                       className="pixel-coming-soon-navbarLeft-img-pixel"
                       style={{
-                        width: "100%",
+                        width: "80%",
                         padding: "5px",
                       }}
                       src={prime}
                     />
-                  ) : (
-                    <img
-                      className="pixel-coming-soon-navbarLeft-img-pixel"
-                      style={{
-                        width: "100%",
-                        padding: "5px",
-                      }}
-                      src={prime}
-                    />
-                  )}
+                  ) :
+                    props.tyExpanded ?
+                      (
+                        <img
+                          className="pixel-coming-soon-navbarLeft-img-pixel"
+                          style={{
+                            width: "60%",
+                            padding: "5px",
+                          }}
+                          src={prime}
+                        />
+                      )
+                      :
+                      (
+                        <img
+                          className="pixel-coming-soon-navbarLeft-img-pixel"
+                          style={{
+                            width: "70%",
+                            padding: "5px",
+                          }}
+                          src={primeCorto}
+                        />
+                      )
+                  }
                 </div>
                 {props.tyExpanded && (
                   <div
@@ -1248,10 +1264,10 @@ function NLayout(props) {
               props.tyExpanded && props.txExpandedLeft
                 ? "85%"
                 : props.tyExpanded && !props.txExpandedLeft
-                ? "85%"
-                : !props.tyExpanded && props.txExpandedLeft
-                ? "85%"
-                : "95%",
+                  ? "95%"
+                  : !props.tyExpanded && props.txExpandedLeft
+                    ? "85%"
+                    : "100%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1261,46 +1277,66 @@ function NLayout(props) {
           {!props.user?.NameUser ? (
             <Grid
               className="navTopHome"
-              // style={{
-              //   borderBottom: "1px solid #2a2e38",
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "space-between",
-              //   padding: "1rem 5.8rem",
-              //   position: "sticky",
-              //   top: 0,
-              //   zIndex: 9999,
-              //   backgroundColor: "#080808",
-              //   width: "102%",
-              // }}
+            // style={{
+            //   borderBottom: "1px solid #2a2e38",
+            //   display: "flex",
+            //   alignItems: "center",
+            //   justifyContent: "space-between",
+            //   padding: "1rem 5.8rem",
+            //   position: "sticky",
+            //   top: 0,
+            //   zIndex: 9999,
+            //   backgroundColor: "#080808",
+            //   width: "102%",
+            // }}
             >
-              <Link to="/" style={{ width: "230px" }}>
-                <img
-                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
-                  style={{ width: "90%", marginTop: "8px" }}
-                  alt=""
-                />
-              </Link>
               <Grid
-                style={{ display: "flex", alignItems: "center", gap: "5px" }}
-              >
-                <h6
-                  onClick={() => togglePopupAuth(0)}
-                  className="button-navbar-login"
+                className="navTop"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  maxWidth: 'calc(1400px +6vw)',
+                  margin: '0 auto'
+                }}>
+                <Link to="/" style={{ width: "230px" }}>
+                  <img
+                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
+                    style={{ width: "90%", marginTop: "8px" }}
+                    alt=""
+                  />
+                </Link>
+                <Grid
+                  style={{ display: "flex", alignItems: "center", gap: "5px" }}
                 >
-                  Ingresar
-                </h6>
-                <h6
-                  onClick={() => togglePopupAuth(1)}
-                  className="button-navbar-register"
-                >
-                  Registrarse
-                </h6>
+                  <h6
+                    onClick={() => togglePopupAuth(0)}
+                    className="button-navbar-login"
+                  >
+                    Ingresar
+                  </h6>
+                  <h6
+                    onClick={() => togglePopupAuth(1)}
+                    className="button-navbar-register"
+                  >
+                    Registrarse
+                  </h6>
+                </Grid>
               </Grid>
             </Grid>
           ) : (
-            <Grid
-              className="navTopHome"
+            <Grid className="navTopHome">
+              <Grid
+                className="navTop"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  maxWidth: 'calc(1400px +6vw)',
+                  margin: '0 auto'
+                }}
               // style={{
               //   borderBottom: "1px solid #2a2e38",
               //   display: "flex",
@@ -1313,18 +1349,18 @@ function NLayout(props) {
               //   backgroundColor: "#080808",
               //   width: "103.5%",
               // }}
-            >
-              <Link to="/" style={{ width: "230px" }}>
-                <img
-                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
-                  style={{ width: "90%", marginTop: "8px" }}
-                  alt=""
-                />
-              </Link>
+              >
+                <Link to="/" style={{ width: "230px" }}>
+                  <img
+                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
+                    style={{ width: "90%", marginTop: "8px" }}
+                    alt=""
+                  />
+                </Link>
 
-              <Grid style={{ display: "flex", alignItems: "center" }}>
-                {/* comentado quitar*/}
-                {/* <div
+                <Grid style={{ display: "flex", alignItems: "center" }}>
+                  {/* comentado quitar*/}
+                  {/* <div
                   style={{
                     display: "flex",
                     gap: "5px",
@@ -1379,38 +1415,38 @@ function NLayout(props) {
                     </button>
                   </Link>
                 </div> */}
-              </Grid>
+                </Grid>
 
-              <Grid>
-                <Grid
-                  style={{ display: "flex", alignItems: "center", gap: "10px" }}
-                >
-                  <div
-                    onClick={() => habilitarNotificaciones()}
-                    className="navbar-image-avatar-container"
+                <Grid>
+                  <Grid
+                    style={{ display: "flex", alignItems: "center", gap: "10px" }}
                   >
                     <div
-                      style={{
-                        width: "40px",
-                        position: "relative",
-                        left: "  ",
-                        top: "2px",
-                      }}
-                      className="navbar-image-avatar"
+                      onClick={() => habilitarNotificaciones()}
+                      className="navbar-image-avatar-container"
                     >
-                      {unseenNotificationsCount != 0 && (
-                        <span className="messagechat-InfoUserTo-notiNav">
-                          <span>{unseenNotificationsCount}</span>
-                        </span>
-                      )}
-                      <IoMdNotificationsOutline
-                        style={{ fontSize: "20px", color: "white" }}
-                        name="notificaciones"
-                      />
+                      <div
+                        style={{
+                          width: "40px",
+                          position: "relative",
+                          left: "  ",
+                          top: "2px",
+                        }}
+                        className="navbar-image-avatar"
+                      >
+                        {unseenNotificationsCount != 0 && (
+                          <span className="messagechat-InfoUserTo-notiNav">
+                            <span>{unseenNotificationsCount}</span>
+                          </span>
+                        )}
+                        <IoMdNotificationsOutline
+                          style={{ fontSize: "20px", color: "white" }}
+                          name="notificaciones"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  {/* comentado quitar*/}
-                  {/* <div
+                    {/* comentado quitar*/}
+                    {/* <div
                     onClick={() => habilitarMensaje()}
                     className="navbar-image-avatar-container"
                   >
@@ -1433,147 +1469,147 @@ function NLayout(props) {
                     </div>
                   </div> */}
 
-                  <div className="navbar-image-avatar-container">
-                    <div
-                      style={{
-                        width: "40px",
-                        height: "40px",
-                        position: "relative",
-                        left: "  ",
-                        top: "2px",
-                      }}
-                      className="navbar-image-avatar"
-                      onClick={(e) => habilitarSubMenu(true, e)}
-                      onMouseEnter={
-                        esClick ? console.log("") : () => habilitarSubMenu(true)
-                      }
-                      onMouseLeave={
-                        esClick
-                          ? console.log("")
-                          : () => habilitarSubMenu(false)
-                      }
-                    >
-                      <img
-                        src={props.user?.Avatar ?? "/images/pixel.png"}
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </Grid>
-
-                {subMenu && (
-                  <Grid
-                    onMouseEnter={
-                      esClick
-                        ? console.log("activo")
-                        : () => habilitarSubMenu(true)
-                    }
-                    onMouseLeave={
-                      esClick
-                        ? console.log("activo")
-                        : () => habilitarSubMenu(false)
-                    }
-                    style={{
-                      backgroundColor: "#121418",
-                      border: "1px solid #343843",
-                      position: "absolute",
-                      padding: "1rem",
-                      width: "16.25rem",
-                      right: "2%",
-                      borderRadius: "0.5rem",
-                      zIndex: 99999,
-                    }}
-                  >
-                    <Grid
-                      style={{
-                        backgroundColor: "#202329",
-                        borderRadius: "5px",
-                        display: "flex",
-                        flexDirection: "column",
-                        padding: "1rem",
-                      }}
-                    >
-                      <Grid
+                    <div className="navbar-image-avatar-container">
+                      <div
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "15px",
-                          padding: 10,
+                          width: "40px",
+                          height: "40px",
+                          position: "relative",
+                          left: "  ",
+                          top: "2px",
                         }}
+                        className="navbar-image-avatar"
+                        onClick={(e) => habilitarSubMenu(true, e)}
+                        onMouseEnter={
+                          esClick ? console.log("") : () => habilitarSubMenu(true)
+                        }
+                        onMouseLeave={
+                          esClick
+                            ? console.log("")
+                            : () => habilitarSubMenu(false)
+                        }
                       >
                         <img
                           src={props.user?.Avatar ?? "/images/pixel.png"}
                           alt=""
-                          style={{
-                            width: "40px",
-                            height: "40px",
-                            borderRadius: "50%",
-                            objectFit: "cover",
-                          }}
                         />
+                      </div>
+                    </div>
+                  </Grid>
+
+                  {subMenu && (
+                    <Grid
+                      onMouseEnter={
+                        esClick
+                          ? console.log("activo")
+                          : () => habilitarSubMenu(true)
+                      }
+                      onMouseLeave={
+                        esClick
+                          ? console.log("activo")
+                          : () => habilitarSubMenu(false)
+                      }
+                      style={{
+                        backgroundColor: "#121418",
+                        border: "1px solid #343843",
+                        position: "absolute",
+                        padding: "1rem",
+                        width: "16.25rem",
+                        right: "2%",
+                        borderRadius: "0.5rem",
+                        zIndex: 99999,
+                      }}
+                    >
+                      <Grid
+                        style={{
+                          backgroundColor: "#202329",
+                          borderRadius: "5px",
+                          display: "flex",
+                          flexDirection: "column",
+                          padding: "1rem",
+                        }}
+                      >
                         <Grid
                           style={{
                             display: "flex",
-                            flexDirection: "column",
-                            gap: "1px",
+                            alignItems: "center",
+                            gap: "15px",
+                            padding: 10,
                           }}
                         >
-                          <Link
+                          <img
+                            src={props.user?.Avatar ?? "/images/pixel.png"}
+                            alt=""
                             style={{
-                              textDecoration: "none",
-                              margin: 0,
-                              padding: 0,
+                              width: "40px",
+                              height: "40px",
+                              borderRadius: "50%",
+                              objectFit: "cover",
                             }}
-                            to={"/" + props.user?.NameUser}
+                          />
+                          <Grid
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "1px",
+                            }}
                           >
+                            <Link
+                              style={{
+                                textDecoration: "none",
+                                margin: 0,
+                                padding: 0,
+                              }}
+                              to={"/" + props.user?.NameUser}
+                            >
+                              <Typography
+                                style={{
+                                  color: "white",
+                                  fontSize: "1rem",
+                                  fontFamily: "Inter",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {props.user?.NameUser ?? "Usuario"}
+                              </Typography>
+                            </Link>
                             <Typography
                               style={{
                                 color: "white",
-                                fontSize: "1rem",
+                                fontSize: "12px",
                                 fontFamily: "Inter",
-                                fontWeight: 600,
                               }}
                             >
-                              {props.user?.NameUser ?? "Usuario"}
+                              0 seguidores
                             </Typography>
-                          </Link>
-                          <Typography
-                            style={{
-                              color: "white",
-                              fontSize: "12px",
-                              fontFamily: "Inter",
-                            }}
-                          >
-                            0 seguidores
-                          </Typography>
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
 
-                    <Grid
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-start",
-                        gap: "15px",
-                        marginTop: "15px",
-                      }}
-                    >
-                      <Link
-                        className="dropdownaccount-link"
-                        to={"/" + props.user?.NameUser}
+                      <Grid
                         style={{
                           display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          gap: "15px",
+                          marginTop: "15px",
                         }}
                       >
-                        <AiOutlineUser style={{ marginRight: "10px" }} />
-                        Tu canal
-                      </Link>
-                      {/* comentado quitar*/}
+                        <Link
+                          className="dropdownaccount-link"
+                          to={"/" + props.user?.NameUser}
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                          }}
+                        >
+                          <AiOutlineUser style={{ marginRight: "10px" }} />
+                          Tu canal
+                        </Link>
+                        {/* comentado quitar*/}
 
-                      {/* <Link
+                        {/* <Link
                         className="dropdownaccount-link"
                         to={"/" + props.user?.NameUser + "/dashboard/stream"}
                         style={{
@@ -1588,8 +1624,8 @@ function NLayout(props) {
                         Panel de control del creador
                       </Link> */}
 
-                      {/* comentado quitar*/}
-                      {/* 
+                        {/* comentado quitar*/}
+                        {/* 
                       <Link
                         className="dropdownaccount-link"
                         to="/plataform/cartera"
@@ -1603,29 +1639,32 @@ function NLayout(props) {
                         Cartera
                       </Link> */}
 
-                      <Link
-                        className="dropdownaccount-link"
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
-                        to={"/" + props.user?.NameUser + "/settings"}
-                      >
-                        <AiOutlineSetting style={{ marginRight: "10px" }} />
-                        Configuración
-                      </Link>
-                      <div
-                        className="dropdownaccount-link"
-                        onClick={() => handleLogout()}
-                      >
-                        <TbLogout2 style={{ marginRight: "10px" }} />
-                        Cerrar sesión
-                      </div>
+                        <Link
+                          className="dropdownaccount-link"
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                          }}
+                          to={"/" + props.user?.NameUser + "/settings"}
+                        >
+                          <AiOutlineSetting style={{ marginRight: "10px" }} />
+                          Configuración
+                        </Link>
+                        <div
+                          className="dropdownaccount-link"
+                          onClick={() => handleLogout()}
+                        >
+                          <TbLogout2 style={{ marginRight: "10px" }} />
+                          Cerrar sesión
+                        </div>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                )}
+                  )}
+                </Grid>
               </Grid>
+
+
             </Grid>
           )}
 
@@ -1760,7 +1799,7 @@ function NLayout(props) {
                                 style={{ backgroundColor: "#080808" }}
                               >
                                 {!game?.streamThumbnail &&
-                                !game?.StreamThumbnail ? (
+                                  !game?.StreamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
@@ -1835,7 +1874,7 @@ function NLayout(props) {
                                         game?.url,
                                         game?.StreamThumbnail && true,
                                         game?.StreamThumbnail &&
-                                          game?.UserInfo?.NameUser,
+                                        game?.UserInfo?.NameUser,
                                         game?.StreamThumbnail && game?.id
                                       )
                                     }
@@ -2175,7 +2214,7 @@ function NLayout(props) {
           <Grid className={"openNotificationopenMessage"}>
             <LayoutMessageNotis
               setOpenMessage={setOpenMessage}
-              setOpenNotification= {setOpenNotification}
+              setOpenNotification={setOpenNotification}
               openNotification={openNotification}
               openMessage={openMessage}
               messagesOpen={messagesOpen}
@@ -2754,17 +2793,17 @@ function NLayout(props) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2776,7 +2815,7 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
@@ -2923,7 +2962,7 @@ function NLayout(props) {
                               style={{ backgroundColor: "#080808" }}
                             >
                               {!game?.streamThumbnail &&
-                              !game?.StreamThumbnail ? (
+                                !game?.StreamThumbnail ? (
                                 <Link
                                   key={index}
                                   to={`/${game?.NameUser}`}
@@ -2998,7 +3037,7 @@ function NLayout(props) {
                                       game?.url,
                                       game?.StreamThumbnail && true,
                                       game?.StreamThumbnail &&
-                                        game?.UserInfo?.NameUser,
+                                      game?.UserInfo?.NameUser,
                                       game?.StreamThumbnail && game?.id
                                     )
                                   }

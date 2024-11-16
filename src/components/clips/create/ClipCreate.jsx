@@ -27,6 +27,7 @@ export function CreateClip() {
 
   const videoRef = useRef(null);
 
+  console.log('videoUrl', videoUrl)
   const baseUrl = process.env.REACT_APP_BACKRTMP;
   const queryParams = new URLSearchParams(window.location.search);
   const totalKey = queryParams.get("totalKey");
@@ -172,6 +173,8 @@ export function CreateClip() {
           style={{ position: "relative", top: "-86px" }}
           className="CrearClip-Playing"
         >
+
+
           <div className="customPlayer-secundary-div">
             <div className="customPlayer-card">
               {isPlaying ? (
@@ -209,9 +212,8 @@ export function CreateClip() {
             <div className="customPlayer-card">
               <i
                 onClick={handleMuteToggle}
-                className={`fas ${
-                  isMuted ? "fa-volume-mute" : "fa-volume-up"
-                } pinkker-button-more`}
+                className={`fas ${isMuted ? "fa-volume-mute" : "fa-volume-up"
+                  } pinkker-button-more`}
               />
             </div>
             <div
@@ -259,6 +261,7 @@ export function CreateClip() {
       ) : (
         <div className="player-container-ch">
           <div>
+          
             <VideoPlayerCreateClips
               src={videoUrl}
               videoRef={videoRef}

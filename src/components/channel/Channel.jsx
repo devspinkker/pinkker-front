@@ -623,7 +623,7 @@ export default function Channel({
             </div>
           </div>
 
-          <div className="channel-v2-content" style={{marginRight: '5%'}}>
+          <div className="channel-v2-content" style={{ marginRight: '5%' }}>
             {/* <div style={{ display: "flex" }}>
               {stream.stream_tag.map((tag) => (
                 <p className="channel-title-tag">#{tag}</p>
@@ -1368,6 +1368,7 @@ export default function Channel({
             <div
               style={{
                 width: getWithChannelVideo(),
+                marginTop: '1%'
               }}
               className="channel-video"
             >
@@ -1414,10 +1415,10 @@ export default function Channel({
                     <img
                       src={streamerData?.Avatar}
                       style={{
-                        width: "60px", // Ajusta este tamaño según tu preferencia
-                        height: "60px",
+                        width: "75px", // Ajusta este tamaño según tu preferencia
+                        height: "75px",
                         borderRadius: "50%",
-                        border: '1px solid #fff'
+                        border: '1px solid #696969'
                       }}
                     />
 
@@ -1426,23 +1427,22 @@ export default function Channel({
                       style={{
                         display: "flex",
                         flexDirection: "column",
+                        gap: '15px'
 
                       }}
                     >
                       {/* Nombre del usuario */}
                       <Typography
                         style={{
-                          color: "white",
+                          color: "#ededed",
                           fontWeight: 800,
-                          fontSize: "16px", // Tamaño grande como en la imagen
-
+                          fontSize: "24px", // Tamaño grande como en la imagen
+                          textShadow: ' rgb(0, 0, 0) 0px 1px 0px'
                         }}
                       >
                         {streamerData?.NameUser}
                       </Typography>
-                      <Typography style={{ color: "white", fontSize: 14 }}>
-                        Descripción
-                      </Typography>
+
                       <Typography style={{ color: "white", fontSize: 14, fontWeight: 800 }}>
                         {streamerData?.FollowersCount} seguidores
                       </Typography>

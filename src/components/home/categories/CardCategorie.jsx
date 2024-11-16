@@ -61,7 +61,7 @@ export default function CustomCard(props) {
               <img
                 style={{
                   border: `1px solid rgb(229, 224, 218)`,
-                  width: `100%`,
+                  width: `80%`,
                   height: `100%`,
                 }}
                 className="img-categorie-card"
@@ -72,7 +72,7 @@ export default function CustomCard(props) {
               {props?.titulo && <span style={{ position: 'relative', top: '-188px', left: '65px' }}>Ver Todos</span>}
             </Link>
           </div>
-          <Typography style={{color:'white', marginLeft: props.isMobile ? '25%' :'5px', textAlign: 'left', fontSize: 14, fontWeight: 600, width: props.isMobile && '100%' }}>{cortarCadena(props.name)}</Typography>
+          <Typography style={{color:'#EDEDED', marginLeft: props.isMobile ? '25%' :'5px', textAlign: 'left', fontSize: 14, fontWeight: 600, width: props.isMobile && '100%' }}>{cortarCadena(props.name)}</Typography>
           <div className="user_data_contain">
             <div className="custom-categories-p-2">
 

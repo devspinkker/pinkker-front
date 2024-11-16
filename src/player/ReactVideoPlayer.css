@@ -21,9 +21,9 @@
 
 
 .video-player {
-    max-height: calc(84dvh - var(--navbar-height) - var(--channel-info-height))
+    max-height: calc(84dvh - var(--navbar-height) - var(--channel-info-height));
         /* height: 649px !important; */
-
+    object-fit:cover;
 }
 
 .fullscreen {

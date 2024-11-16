@@ -506,7 +506,9 @@
 
 /* V2 */
 
-.channel-custom-player-main-div {}
+.channel-custom-player-main-div {
+    width: 100%;
+}
 
 .Channel-info-streamMain {
     width: 96%;
@@ -772,5 +774,5 @@
     display: flex;
     background: #000000;
     border-radius: 0px 0px 10px 10px;
-    justify-content: space-evenly;
+    
 }

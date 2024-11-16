@@ -281,8 +281,9 @@
 
 
 .button-navbar-register {
-  background-color: #ff69c4;
-  border: 1px solid #ff69c4;
+  background-color: #ff50a6
+  ;
+  border: 1px solid #ff50a6;
   display: flex;
   text-shadow: rgb(0, 0, 0) 0px 1px 0px;
   align-items: center;

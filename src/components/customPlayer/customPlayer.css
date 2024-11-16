@@ -35,6 +35,7 @@
   justify-content: center;
   position: relative;
   top: -64px;
+  background: linear-gradient(0deg,#000 0,rgba(0,0,0,.5) 60%,transparent);
 }
 
 
@@ -53,6 +54,7 @@
   display: flex;
   justify-content: right;
   align-items: center;
+  gap: 5px;
 }
 
 .customPlayer-card {

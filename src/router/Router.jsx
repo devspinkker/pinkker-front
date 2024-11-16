@@ -466,15 +466,14 @@ const AppRouter = () => {
               <Channel
                 isMobile={isMobile}
                 socketMain={socketMain}
+                user={user}
                 handleMessage={(e) => addOpenMessage(e)}
                 expanded={expanded}
                 tyExpanded={expanded}
               />
             </Route>
 
-            <Route exact path="/clips/create">
-              <CreateClip />
-            </Route>
+
             <Route exact path="/clips/getId">
               <GetClip />
             </Route>
@@ -484,11 +483,16 @@ const AppRouter = () => {
                 socketMain={socketMain}
                 handleMessage={(e) => addOpenMessage(e)}
                 expanded={expanded}
+                user={user}
                 tyExpanded={expanded}
               />
             </Route>
+            <Route exact path="/clips/create">
+              <CreateClip />
+            </Route>
           </Switch>
         </NLayout>
+
       </LastLocationProvider>
     </Router>
   );
