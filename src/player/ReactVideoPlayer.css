@@ -22,8 +22,8 @@
 
 .video-player {
     max-height: calc(84dvh - var(--navbar-height) - var(--channel-info-height));
-        /* height: 649px !important; */
-    object-fit:cover;
+    /* height: 649px !important; */
+    object-fit: cover;
 }
 
 .fullscreen {
@@ -105,7 +105,7 @@
 
 .base-dialog-player {
     display: flex;
-    /* width: 70%; */
+    width: 36%;
     max-height: 0;
     -webkit-text-size-adjust: 100%;
     tab-size: 4;

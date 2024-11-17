@@ -12,7 +12,7 @@ interface ReactVideoPlayerProps {
   width: string;
   quality: string;
   stream: string;
-  streamerDataID: string;
+  streamerDataID: string;  
   stream_thumbnail: string;
 }
 
@@ -266,17 +266,14 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
     }
   };
 
-  useEffect(() => {
-    handleStartWatchingClick()
-  }, [showWarning])
   const handleRedirectHome = () => {
     history.push("/");
   };
   useEffect(() => {
     const handleFullScreenChange = () => {
       const isFullScreen = !!(
-        document.fullscreenElement
-
+        document.fullscreenElement 
+     
       );
       setIsFullScreen(isFullScreen);
     };
@@ -295,83 +292,82 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   }, []);
   return (
     <>
-      {showWarning && (
-        <div
-          style={{
-            backgroundImage: `url(${stream_thumbnail})`,
-          }}
-          className='thumbnail-prev-PlayerMain'
-        >
-          <div className="base-dialog-player">
-            {/* <button
-              style={
-                {
-                  background: "#000000"
-                }
+    {showWarning && (
+  <div
+    style={{
+      backgroundImage: `url(${stream_thumbnail})`,
+    }}
+        className='thumbnail-prev-PlayerMain'
+  >
+    <div className="base-dialog-player">
+      <button
+         style={
+          {
+            background:"#000000"
+          }
+        }
+        
+       onClick={handleStartWatchingClick}>
+        <div>
+          <i
+            style={
+              {
+                color:"#ffff"
               }
-
-              onClick={handleStartWatchingClick}>
-              <div>
-                <i
-                  style={
-                    {
-                      color: "#ffff"
-                    }
-                  }
-                  className='fas fa-play pinkker-button-more' ></i>
-              </div>
-            </button> */}
-          </div>
+            }
+          className='fas fa-play pinkker-button-more' ></i>
         </div>
-      )}
-
-      {Commercial && (
-        <div style={{ textAlign: 'center' }}>
-          <video
-            id='commercial-player'
-            ref={commercialRef}
-            width={width}
-            height={height}
-            onEnded={handleCommercialEnded}
-            controls={false}
-            style={{ objectFit: 'contain' }}
-          />
-          {countdown > 0 ? (
-            <div style={{
-              position: 'relative',
-              top: '-130px',
-              left: "17px",
-              zIndex: "10000",
-              padding: '5px 10px',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              color: 'white',
-              width: "100px",
-            }}>
-              Cargando en {countdown}...
+      </button>
+    </div>
+  </div>
+)}
+ 
+          {Commercial && (
+            <div style={{ textAlign: 'center' }}>
+              <video
+               id='commercial-player'
+                ref={commercialRef}
+                width={width}
+                height={height}
+                onEnded={handleCommercialEnded}
+                controls={false}
+                style={{ objectFit: 'contain' }}
+              />
+              {countdown > 0 ? (
+                <div style={{
+                  position: 'relative',
+                  top: '-130px',
+                  left: "17px",
+                  zIndex:"10000",
+                  padding: '5px 10px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  color: 'white',
+                  width: "100px", }}>
+                  Cargando en {countdown}...
+                </div>
+              ) : (
+                <button
+                onClick={handleCommercialEnded}
+                style={{
+                  position: 'relative',
+                  top: '-130px',
+                  left: "17px",
+                  padding: '5px 10px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  zIndex:"10000"
+                }}
+                >
+                  Cerrar anuncio
+                </button>
+              )}
             </div>
-          ) : (
-            <button
-              onClick={handleCommercialEnded}
-              style={{
-                position: 'relative',
-                top: '-130px',
-                left: "17px",
-                padding: '5px 10px',
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                zIndex: "10000"
-              }}
-            >
-              Cerrar anuncio
-            </button>
-          )}
-        </div>
-      )}
+          ) }
       <video
         ref={videoRef}
-        style={{ width, height, display: Commercial || Player ? "none" : "" }}
+        style={{ width, height, display: Commercial ||  Player ? "none" : "" }}
         height={HeightVideo()}
         width={width}
         controls
