@@ -141,48 +141,44 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   }, [socket]);
 
   useEffect(() => {
-    var srcQ = "";
     const qualities = ["720", "480", "360"];
     let currentQualityIndex = 0;
-  
-    if (quality === "auto") {
-      srcQ = `${src}`; // URL base sin sufijo
-    } else if (quality === "1080") {
-      srcQ = `${src}`;
-    } else {
-      srcQ = `${src}_${quality}`;
-    }
-  
+    let lastPlaybackTime = 0; // Última posición del video detectada
+    let bufferingStartTime: number | null = null; // Momento en que comienza el buffering
+    
     let flvPlayer: flvjs.Player | null = null;
     let hls: Hls | null = null;
   
-    async function initializePlayer() {
+    const cleanUpPlayer = () => {
+      if (flvPlayer) {
+        flvPlayer.pause();
+        flvPlayer.unload();
+        flvPlayer.detachMediaElement();
+        flvPlayer.destroy();
+        flvPlayer = null;
+      }
+      if (hls) {
+        hls.destroy();
+        hls = null;
+      }
+    };
+  
+    const initializePlayer = async () => {
       try {
-        // Limpieza de instancias anteriores
-        if (flvPlayer) {
-          flvPlayer.pause();
-          flvPlayer.unload();
-          flvPlayer.detachMediaElement();
-          flvPlayer.destroy();
-          flvPlayer = null;
-        }
-        if (hls) {
-          hls.destroy();
-          hls = null;
-        }
+        cleanUpPlayer();
+  
+        const isAutoQuality = quality === "auto";
+        const currentQuality = isAutoQuality ? qualities[currentQualityIndex] : quality;
+        const srcQ = isAutoQuality
+          ? `${src}_${currentQuality}`
+          : `${src}${quality !== "1080" ? `_${quality}` : ""}`;
   
         if (flvjs.isSupported()) {
-          let finalSrc = srcQ;
-  
-          if (quality === "auto" && currentQualityIndex > 0) {
-            finalSrc = `${src}_${qualities[currentQualityIndex]}`;
-          }
           flvPlayer = flvjs.createPlayer({
             type: "flv",
-            url: `${finalSrc}.flv`,
+            url: `${srcQ}.flv`,
             isLive: true,
           });
-          
   
           if (videoRef.current) {
             flvPlayer.attachMediaElement(videoRef.current);
@@ -193,21 +189,19 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
                 await flvPlayer?.play();
                 setIsPlaying(true);
               } catch (error) {
-                console.error("Error playing video:", error);
+                console.error("Error al reproducir el video:", error);
               }
             });
   
-            // Manejo de problemas de reproducción
             videoRef.current.addEventListener("stalled", handlePlaybackIssue);
             videoRef.current.addEventListener("error", handlePlaybackIssue);
           }
         } else {
-          // Configuración para HLS
           const mobileInformation = isMobile().toLowerCase();
           if (mobileInformation.includes("iphone") || mobileInformation.includes("ipad")) {
             videoRef.current!.src = `${srcQ}/index.m3u8`;
             videoRef.current!.play().catch((error) => {
-              console.error("Error playing video:", error);
+              console.error("Error al reproducir video en iOS:", error);
             });
           } else {
             hls = new Hls({ startLevel: -1 });
@@ -216,65 +210,77 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
             if (videoRef.current) {
               hls.loadSource(`${srcQ}/index.m3u8`);
               hls.attachMedia(videoRef.current);
+  
               videoRef.current.addEventListener("click", () => {
                 if (!isPlaying) {
                   videoRef.current?.play();
                   setIsPlaying(true);
                 }
               });
-              videoRef.current?.play();
+  
               hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                console.log("Manifest parsed");
+                console.log("Manifesto cargado correctamente");
               });
+  
               hls.on(Hls.Events.ERROR, (event, data) => {
-                console.error("HLS Error:", data);
+                console.error("Error de HLS:", data);
               });
+  
+              await videoRef.current?.play();
             }
           }
         }
       } catch (error) {
-        console.error("Error initializing video player:", error);
+        console.error("Error inicializando el reproductor:", error);
       }
-    }
+    };
   
-    function handlePlaybackIssue() {
-      console.log("what");
-      
-
-      if (quality === "auto" && currentQualityIndex < qualities.length) {
-      console.log("what 22");
- 
-        console.warn(`Playback issue detected, lowering quality to ${qualities[currentQualityIndex]}`);
-        currentQualityIndex++;
-        initializePlayer(); // Reinicializa con la nueva calidad
+    let lastQualityChangeTime = 0; // Controla el tiempo de cambio de calidad
+    const handlePlaybackIssue = () => {
+      if (quality === "auto") {
+        const now = Date.now();
+        // Cambiar la calidad solo si ha pasado un tiempo considerable
+        if (now - lastQualityChangeTime >= 10000 && currentQualityIndex < qualities.length - 1) {
+          currentQualityIndex++;
+          console.warn(`Problema de reproducción detectado, cambiando a calidad ${qualities[currentQualityIndex]}`);
+          lastQualityChangeTime = now;
+          initializePlayer();
+        }
       } else {
-        console.error("Playback issue could not be resolved");
+        console.error("No se pudo resolver el problema de reproducción");
       }
-    }
+    };
   
-    // Inicialización del reproductor
+    const monitorBuffering = () => {
+      if (videoRef.current) {
+        const currentTime = videoRef.current.currentTime;
+  
+        if (currentTime === lastPlaybackTime && !videoRef.current.paused) {
+          // Si no avanza el tiempo de reproducción
+          if (!bufferingStartTime) {
+            bufferingStartTime = Date.now();
+          } else if (Date.now() - bufferingStartTime >= 3000) {
+            // Si lleva más de 3 segundos detenido
+            console.warn("Detección de buffering prolongado, intentando resolver...");
+            handlePlaybackIssue();
+            bufferingStartTime = null; // Reinicia el monitoreo de buffering
+          }
+        } else {
+          // El video está avanzando normalmente
+          bufferingStartTime = null;
+        }
+  
+        lastPlaybackTime = currentTime; // Actualiza la última posición
+      }
+    };
+  
     initializePlayer();
   
-    const timeoutId = setTimeout(() => {
-      if (!videoRef.current?.readyState || videoRef.current.readyState < 3) {
-        initializePlayer();
-      }
-    }, 5000);
+    const bufferCheckInterval = setInterval(monitorBuffering, 3000);
   
-    // Cleanup
     return () => {
-      clearTimeout(timeoutId);
-      if (hls) {
-        hls.destroy();
-        hls = null;
-      }
-      if (flvPlayer) {
-        flvPlayer.pause();
-        flvPlayer.unload();
-        flvPlayer.detachMediaElement();
-        flvPlayer.destroy();
-        flvPlayer = null;
-      }
+      clearInterval(bufferCheckInterval);
+      cleanUpPlayer();
       if (videoRef.current) {
         videoRef.current.removeEventListener("stalled", handlePlaybackIssue);
         videoRef.current.removeEventListener("error", handlePlaybackIssue);
