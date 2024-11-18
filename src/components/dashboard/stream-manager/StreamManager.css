@@ -4,10 +4,11 @@
 }
 
 .channel-chat {
-    position: sticky; /* Asegúrate de que el contenedor tenga posición relativa */
+    position: sticky;
+    /* Asegúrate de que el contenedor tenga posición relativa */
     top: 0px;
-    z-index: 150000;
- }
+    z-index: 888;
+}
 
 .streammanager-body {
     width: 100%;
