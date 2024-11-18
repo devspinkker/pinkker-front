@@ -182,7 +182,7 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
 
           <hr style={{ border: "1px solid #4b4b4b8f", margin: "10px auto" }} />
 
-          {/* <li onClick={() => changeQuality("auto")}>
+          <li onClick={() => changeQuality("auto")}>
             <div className="dropdownsettings-content">
               <div
                 className="dropdownsettings-radio"
@@ -192,7 +192,7 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
                 <span style={{ marginLeft: "5px" }}>Automática</span>
               </div>
             </div>
-          </li> */}
+          </li>
           <li onClick={() => changeQuality("1080")}>
             <div className="dropdownsettings-content">
               <div

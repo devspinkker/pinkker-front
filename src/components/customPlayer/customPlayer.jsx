@@ -255,29 +255,29 @@ export default function CustomPlayer({
       streamerData.keyTransmission.length
     );
 
-    if (quality === "720") {
-      keyTransmission =
-        streamerData.keyTransmission.substring(
-          4,
-          streamerData.keyTransmission.length
-        ) + "_720";
-    }
+    // if (quality === "720") {
+    //   keyTransmission =
+    //     streamerData.keyTransmission.substring(
+    //       4,
+    //       streamerData.keyTransmission.length
+    //     ) + "_720";
+    // }
 
-    if (quality === "480") {
-      keyTransmission =
-        streamerData.keyTransmission.substring(
-          4,
-          streamerData.keyTransmission.length
-        ) + "_480";
-    }
+    // if (quality === "480") {
+    //   keyTransmission =
+    //     streamerData.keyTransmission.substring(
+    //       4,
+    //       streamerData.keyTransmission.length
+    //     ) + "_480";
+    // }
 
-    if (quality === "360") {
-      keyTransmission =
-        streamerData.keyTransmission.substring(
-          4,
-          streamerData.keyTransmission.length
-        ) + "_360";
-    }
+    // if (quality === "360") {
+    //   keyTransmission =
+    //     streamerData.keyTransmission.substring(
+    //       4,
+    //       streamerData.keyTransmission.length
+    //     ) + "_360";
+    // }
 
     const rtmp = process.env.REACT_APP_RTMP;
     // const rtmp = "http://localhost:8000/live";
@@ -503,7 +503,10 @@ export default function CustomPlayer({
       } else {
         return (
           <div
-            style={{ width: FullScreen && chatExpanded && "75%", justifyContent: !FullScreen && 'flex-end' }}
+            style={{
+              width: FullScreen && chatExpanded && "75%",
+              justifyContent: !FullScreen && "flex-end",
+            }}
             className="customPlayer-top"
           >
             {FullScreen && (
@@ -559,11 +562,11 @@ export default function CustomPlayer({
             <Typography
               style={{
                 color: "white",
-                fontSize: '.9rem',
+                fontSize: ".9rem",
 
                 background: "red",
-                padding: '0px .5rem',
-                fontFamily: 'inter',
+                padding: "0px .5rem",
+                fontFamily: "inter",
                 borderRadius: 5,
               }}
             >
@@ -600,13 +603,13 @@ export default function CustomPlayer({
       url,
       title,
       "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=" +
-      w +
-      ", height=" +
-      h +
-      ", top=" +
-      y +
-      ", left=" +
-      x
+        w +
+        ", height=" +
+        h +
+        ", top=" +
+        y +
+        ", left=" +
+        x
     );
   }
 
@@ -647,7 +650,6 @@ export default function CustomPlayer({
                         style={{ cursor: "pointer" }}
                         class="fas fa-pause custom-player-popup-icon"
                       />
-
                     </Tippy>
                   ) : (
                     <Tippy
@@ -665,7 +667,6 @@ export default function CustomPlayer({
                         style={{ cursor: "pointer" }}
                         class="fas fa-play custom-player-popup-icon"
                       />
-
                     </Tippy>
                   )}
                 </div>
@@ -720,8 +721,11 @@ export default function CustomPlayer({
                         </h1>
                       }
                     >
-                      <IoMdPause onClick={() => videoHandler()}
-                        style={{ cursor: "pointer", fontSize: '20px' }} className="pinkker-button-more" />
+                      <IoMdPause
+                        onClick={() => videoHandler()}
+                        style={{ cursor: "pointer", fontSize: "20px" }}
+                        className="pinkker-button-more"
+                      />
                     </Tippy>
                   ) : (
                     <Tippy
@@ -787,10 +791,25 @@ export default function CustomPlayer({
                       </h1>
                     }
                   >
-                    <Grid style={{ color: 'white', padding: 5, borderRadius: 5, display: 'flex', alignItems: 'center', backgroundColor: 'rgba(255, 255, 255, 0.13)', gap: '5px', cursor:'pointer' }} onClick={() => handleClip()}>
-
+                    <Grid
+                      style={{
+                        color: "white",
+                        padding: 5,
+                        borderRadius: 5,
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: "rgba(255, 255, 255, 0.13)",
+                        gap: "5px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleClip()}
+                    >
                       <LuClapperboard
-                        style={{ cursor: "pointer", fontSize: "18px !important", color: 'white' }}
+                        style={{
+                          cursor: "pointer",
+                          fontSize: "18px !important",
+                          color: "white",
+                        }}
                       />
                       <Typography>Crear Clip</Typography>
                     </Grid>
@@ -826,9 +845,11 @@ export default function CustomPlayer({
                       </h1>
                     }
                   >
-
-                    <AiFillSetting onClick={onMouseEnterSettings}
-                      style={{ cursor: "pointer", fontSize: '20px' }} className="pinkker-button-more" />
+                    <AiFillSetting
+                      onClick={onMouseEnterSettings}
+                      style={{ cursor: "pointer", fontSize: "20px" }}
+                      className="pinkker-button-more"
+                    />
                   </Tippy>
                 </div>
 
@@ -920,17 +941,17 @@ export default function CustomPlayer({
                   style={{ border: "1px solid #4b4b4b8f", margin: "10px auto" }}
                 />
 
-                {/* <li onClick={() => changeQuality("auto")}>
-                <div className="dropdownsettings-content">
-                  <div
-                    className="dropdownsettings-radio"
-                    style={{ display: "flex", alignItems: "center" }}
-                  >
-                    <input type="radio" />
-                    <span style={{ marginLeft: "5px" }}>Automática</span>
+                <li onClick={() => setQuality("auto")}>
+                  <div className="dropdownsettings-content">
+                    <div
+                      className="dropdownsettings-radio"
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <input type="radio" checked={quality === "auto"} />
+                      <span style={{ marginLeft: "5px" }}>Automática</span>
+                    </div>
                   </div>
-                </div>
-              </li> */}
+                </li>
                 <li onClick={() => setQuality("1080")}>
                   <div className="dropdownsettings-content">
                     <div
