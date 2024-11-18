@@ -473,7 +473,9 @@ const AppRouter = () => {
               />
             </Route>
 
-
+            <Route exact path="/clips/create">
+              <CreateClip />
+            </Route>
             <Route exact path="/clips/getId">
               <GetClip />
             </Route>
@@ -487,9 +489,7 @@ const AppRouter = () => {
                 tyExpanded={expanded}
               />
             </Route>
-            <Route exact path="/clips/create">
-              <CreateClip />
-            </Route>
+           
           </Switch>
         </NLayout>
 

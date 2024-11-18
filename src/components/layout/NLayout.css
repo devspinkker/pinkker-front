@@ -23,13 +23,7 @@
         width: 85% !important;
     }
   }
-/* Pantallas extra grandes */
-@media (min-width: 1600px) and (max-width: 1800px){
-    /* Estilos para monitores 4K o ultra-wide */
-    .navTop{
-        width: 85% !important;
-    }
-  }
+
 .menu-aside-option {
     width: 100%;
     transition: all .2s ease-in-out;

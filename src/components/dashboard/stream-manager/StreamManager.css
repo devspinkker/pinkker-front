@@ -4,17 +4,10 @@
 }
 
 .channel-chat {
-    height: -webkit-fill-available;
-    position: fixed;
-    right: 0;
-    top: 74px;
-    background-color: #131418;
-    transition: 0.15s;
-    overflow-y: unset;
-    z-index: 8888;
-    padding: 0rem;
-    /* box-shadow: -2px 1px 14px -13px #ff69c48f; */
-}
+    position: sticky; /* Asegúrate de que el contenedor tenga posición relativa */
+    top: 0px;
+    z-index: 150000;
+ }
 
 .streammanager-body {
     width: 100%;

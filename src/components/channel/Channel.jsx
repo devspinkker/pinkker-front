@@ -58,6 +58,7 @@ import NotificationProvider from "../../components/Notifications/NotificationPro
 import { LuShare } from "react-icons/lu";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { Button, Grid, Typography } from "@mui/material";
+import Auth from "../auth/Auth";
 
 export default function Channel({
   isMobile,
@@ -130,7 +131,10 @@ export default function Channel({
 
   const [time, setTime] = useState(0);
   let currentTime = 0;
-
+  const [showPopupAuth, setShowPopupAuth] = useState(false);
+  function togglePopupAuth() {
+    setShowPopupAuth(!showPopupAuth);
+  }
   // chat emergente
   const [chatWindow, setChatWindow] = useState(null);
   const openChatWindow = () => {
@@ -416,7 +420,7 @@ export default function Channel({
             </button>
           ) : (
             <button
-              onClick={() => followUser()}
+              onClick={() => user?.NameUser?.length ? followUser() : togglePopupAuth()}
               style={{ marginLeft: "5px" }}
               className="channel-bottom-v2-button-follow"
             >
@@ -471,6 +475,7 @@ export default function Channel({
       );
     }
   }
+
 
   const followUser = async () => {
     let loggedUser = window.localStorage.getItem("token");
@@ -1275,7 +1280,7 @@ export default function Channel({
       return tyExpanded ? "400px" : "400px";
     }
 
-    return tyExpanded ? "760px" : "849px";
+    return tyExpanded ? "100%" : "849px";
   }
 
   function renderPlayer() {
@@ -1346,11 +1351,11 @@ export default function Channel({
     }
     return tyExpanded
       ? chatExpanded
-        ? "97%"
-        : "80%"
+        ? "90%"
+        : "95%"
       : chatExpanded
-        ? "100%"
-        : "80%";
+        ? "90%"
+        : "90%";
   }
 
   function getChannel() {
@@ -1497,47 +1502,7 @@ export default function Channel({
               </div>
             </div>
 
-            {!isMobile && (
-              <div
-                style={{
-                  width: chatExpanded ? "0" : "340px",
-                  borderLeft: "1px solid rgb(42, 46, 56)",
-                }}
-                className="channel-chat"
-              >
-                {announce === true && (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "200px",
-                      backgroundColor: "black",
-                    }}
-                  >
-                    {streamerData && (
-                      <CustomPlayer
-                        isMobile={isMobile}
-                        height={"200px"}
-                        vod={false}
-                        streamerName={streamer}
-                        time={stream && stream.start_date}
-                      ></CustomPlayer>
-                    )}
-                  </div>
-                )}
 
-                <ChatStreaming
-                  openChatWindow={openChatWindow}
-                  streamerChat={stream}
-                  chatExpandeds={chatExpanded}
-                  ToggleChat={handleToggleChat}
-                  streamerData={streamerData}
-                  user={user}
-                  isMobile={isMobile}
-                  followParam={followParam}
-                  GetInfoUserInRoom={GetInfoUserInRoom}
-                />
-              </div>
-            )}
           </div>
         </div >
       );
@@ -1583,6 +1548,53 @@ export default function Channel({
           closePopup={() => togglePopupFollowers()}
           streamer={streamer}
         />
+      )}
+
+      {showPopupAuth === true &&
+        <Auth typeDefault={1} closePopup={() => togglePopupAuth()} />}
+
+
+
+      { stream?.streamer && !isMobile && (
+        <div
+          style={{
+            width: chatExpanded ? "0" : "340px",
+            borderLeft: "1px solid rgb(42, 46, 56)",
+          }}
+          className="channel-chat"
+        >
+          {announce === true && (
+            <div
+              style={{
+                width: "100%",
+                height: "200px",
+                backgroundColor: "black",
+              }}
+            >
+              {streamerData && (
+                <CustomPlayer
+                  isMobile={isMobile}
+                  height={"200px"}
+                  vod={false}
+                  streamerName={streamer}
+                  time={stream && stream.start_date}
+                ></CustomPlayer>
+              )}
+            </div>
+          )}
+
+          <ChatStreaming
+            openChatWindow={openChatWindow}
+            streamerChat={stream}
+            chatExpandeds={chatExpanded}
+            ToggleChat={handleToggleChat}
+            streamerData={streamerData}
+            user={user}
+            isMobile={isMobile}
+            followParam={followParam}
+            GetInfoUserInRoom={GetInfoUserInRoom}
+          />
+        </div>
       )}
     </div>
   );

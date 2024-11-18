@@ -306,7 +306,7 @@ export default function CustomPlayer({
         style={{
           display: "flex",
           height: FullScreen && "100%",
-          width: FullScreen && chatExpanded && "78%",
+          width: FullScreen && chatExpanded && "100%",
         }}
       >
         <ReactFlvPlayer
@@ -320,8 +320,8 @@ export default function CustomPlayer({
           autoPlay={playing}
           muted={muted}
           controls={false}
-          width={width ? width : "100%"}
-          height={height ? height : "835px"}
+          width={width ? width : FullScreen ? "80% " : '100%'}
+          height={height ? height : FullScreen ? '100%': "835px"}
           expanded={expanded}
           quality={quality}
           stream={stream?.id}
@@ -332,7 +332,7 @@ export default function CustomPlayer({
           <div
             className="channel-chat"
             style={{
-              width: "340px",
+              width: "30%",
               display: !chatExpanded && "none",
               height: "100%",
               top: "-1%",

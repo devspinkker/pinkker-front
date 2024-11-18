@@ -294,11 +294,13 @@ export async function GetNotificacionesLastConnection(token) {
             },
         });
         const res = response.data.data
+        
         const followInfo = res.FollowInfo?.map((follow) => ({
             Avatar: follow.Avatar || 'defaultAvatarUrl',
             Nameuser: follow.NameUser || 'Nameuser',
             Type: 'follow',
             visto: false,
+            since: follow.since
         })) || [];
 
         const resDonation = res.ResDonation?.map((donation) => ({

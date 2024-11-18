@@ -4,7 +4,7 @@ import "./Notificaciones.css";
 import { GetRecentotificaciones } from "../../services/backGo/user";
 
 export default function Notificaciones({ PinkerNotifications }) {
-  const [expandedNotifications, setExpandedNotifications] = useState({}); 
+  const [expandedNotifications, setExpandedNotifications] = useState({});
   const [page, setpage] = useState(2);
   const [notifications, setNotifications] = useState(PinkerNotifications);
   const token = window.localStorage.getItem("token");
@@ -12,9 +12,9 @@ export default function Notificaciones({ PinkerNotifications }) {
   const history = useHistory();
 
 
-
   async function HandleGetRecentotificaciones() {
     const res = await GetRecentotificaciones(token, page);
+
     if (res.message == "ok" && res?.notifications) {
       setNotifications((prevNotifications) => [
         ...prevNotifications,
@@ -109,6 +109,27 @@ export default function Notificaciones({ PinkerNotifications }) {
     HandleGetRecentotificaciones();
   };
 
+  function calcularTiempoTranscurrido(notificacion) {
+
+    const ahora = new Date();
+    const fechaNotificacion = new Date(notificacion);
+
+    const diferenciaMs = ahora - fechaNotificacion;
+    const diferenciaSegundos = Math.floor(diferenciaMs / 1000);
+    const diferenciaMinutos = Math.floor(diferenciaSegundos / 60);
+    const diferenciaHoras = Math.floor(diferenciaMinutos / 60);
+    const diferenciaDias = Math.floor(diferenciaHoras / 24);
+
+    if (diferenciaSegundos < 60) {
+      return "Hace unos segundos";
+    } else if (diferenciaMinutos < 60) {
+      return `Hace ${diferenciaMinutos} minuto${diferenciaMinutos > 1 ? "s" : ""}`;
+    } else if (diferenciaHoras < 24) {
+      return `Hace ${diferenciaHoras} hora${diferenciaHoras > 1 ? "s" : ""}`;
+    } else {
+      return `Hace ${diferenciaDias} día${diferenciaDias > 1 ? "s" : ""}`;
+    }
+  }
   return (
     <div className="notifications-container">
       <ul
@@ -133,6 +154,9 @@ export default function Notificaciones({ PinkerNotifications }) {
               <p className="notification-user">
                 <strong>{notification.Nameuser}</strong>{" "}
                 {renderNotificationText(notification, index)}
+              </p>
+              <p style={{fontSize: 12}}>
+               { calcularTiempoTranscurrido(notification?.since)}
               </p>
             </div>
           </li>

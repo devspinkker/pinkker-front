@@ -1,12 +1,28 @@
+.channel-chat {
+    position: relative;  /* Este es el contexto para el sticky */
+    top: 0px;
+    z-index: 8888;
+    height: 100vh;
+}
+
 .ChatStreaming {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    /* border-left: 1px solid #0f1214; */
+    position: sticky;
+    top:0px;  /* Ajusta este valor según sea necesario */
     z-index: 15000;
+    background: #080808;
+    height: calc(100vh - 74px); /* Ajuste de altura */
+}
+.Conversation {
+    display: flex;
+    width: 100%;
+    flex: 1; /* Esto asegura que ocupe todo el espacio vertical disponible */
+    align-items: flex-start;
+    flex-direction: column;
+    max-height: unset; /* Elimina la restricción de altura fija */
+    overflow-y: auto;
     background: #080808;
 }
 
@@ -366,10 +382,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        position: absolute;
+        position: relative;
         width: 100%;
         left: 0;
-        height: 47%;
+        height: 100%;
     }
 
     .channel-chat {

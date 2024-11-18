@@ -32,7 +32,7 @@
 
 .thumbnail-prev-PlayerMain {
     height: calc(84dvh - var(--navbar-height) - var(--channel-info-height));
-    width: calc(111dvh - var(--navbar-height) - var(--channel-info-height));
+    width: 100%;
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
@@ -44,7 +44,7 @@
 @media screen and (max-width: 758px) {
     .thumbnail-prev-PlayerMain {
         height: calc(40dvh - var(--navbar-height) - var(--channel-info-height));
-        width: calc(36dvh - var(--navbar-height) - var(--channel-info-height));
+        width: 100%;
     }
 }
 
@@ -105,7 +105,7 @@
 
 .base-dialog-player {
     display: flex;
-    width: 36%;
+    width: 10%;
     max-height: 0;
     -webkit-text-size-adjust: 100%;
     tab-size: 4;
