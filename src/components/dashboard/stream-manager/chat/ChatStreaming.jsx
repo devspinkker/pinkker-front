@@ -2279,9 +2279,7 @@ export function ChatStreaming({
                 xmlns="http://www.w3.org/2000/svg"
                 style={{
                   padding: "9px",
-                  background: "#171a1f",
-                  border: "#545658 1px solid",
-                  borderRight: "none",
+                  
                 }}
               >
                 <path
@@ -2292,7 +2290,7 @@ export function ChatStreaming({
               <input
                 style={{
                   borderRadius: "0px 5px 5px 0px",
-                  borderLeft: "none",
+                  
                 }}
                 type="text"
                 // value={message}

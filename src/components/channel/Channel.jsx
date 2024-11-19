@@ -1352,7 +1352,7 @@ export default function Channel({
     return tyExpanded
       ? chatExpanded
         ? "90%"
-        : "100%"
+        : "95%"
       : chatExpanded
         ? "90%"
         : "90%";
