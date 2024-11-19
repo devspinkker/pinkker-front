@@ -1533,6 +1533,18 @@ export default function Channel({
                     >
                       Acerca De
                     </Typography>
+                    <Typography
+                      style={{
+                        color: "#fff",
+                        fontWeight: 800,
+                        cursor: "pointer",
+                        borderBottom: type === 4 && "1px solid #f56096",
+                        zIndex: 9999,
+                      }}
+                      onClick={() => changeType(4)}
+                    >
+                      Clips
+                    </Typography>
                   </Grid>
                 )}
                 <div style={{ width: "100%", margin: "0 auto" }}>

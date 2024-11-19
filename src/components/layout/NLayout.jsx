@@ -1474,28 +1474,27 @@ function NLayout(props) {
                       </div>
                     </div>
                     {/* comentado quitar*/}
-                    {/* <div
-                    onClick={() => habilitarMensaje()}
-                    className="navbar-image-avatar-container"
-                  >
                     <div
-                      style={{
-                        width: "40px",
-                        position: "relative",
-                        left: "  ",
-                        top: "2px",
-                      }}
-                      className="navbar-image-avatar"
+                      onClick={() => habilitarMensaje()}
+                      className="navbar-image-avatar-container"
                     >
-             
-                      {notificacion && (
-                        <span className="messagechat-InfoUserTo-notiNav"></span>
-                      )}
-                      <BsChatDots
-                        style={{ fontSize: "20px", color: "white" }}
-                      />
+                      <div
+                        style={{
+                          width: "40px",
+                          position: "relative",
+                          left: "  ",
+                          top: "2px",
+                        }}
+                        className="navbar-image-avatar"
+                      >
+                        {notificacion && (
+                          <span className="messagechat-InfoUserTo-notiNav"></span>
+                        )}
+                        <BsChatDots
+                          style={{ fontSize: "20px", color: "white" }}
+                        />
+                      </div>
                     </div>
-                  </div> */}
 
                     <div className="navbar-image-avatar-container">
                       <div

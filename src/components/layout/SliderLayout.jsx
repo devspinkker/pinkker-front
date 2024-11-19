@@ -74,10 +74,10 @@ function SliderLayout(props) {
             ? 1
             : 3
           : props.Vod || props.clipT
-            ? 4.5
-            : isFullHD
-              ? 9.5
-              : 8.5
+          ? 4.5
+          : isFullHD
+          ? 9.5
+          : 8.5
       }
       Pagination
       onSlideChange={handleSlideChange}
@@ -107,7 +107,7 @@ function SliderLayout(props) {
           </div>
         )}
         {/* comentado quitar*/}
-        {/* {props.clipT && (
+        {props.clipT && (
           <Grid
             style={{
               display: "flex",
@@ -144,7 +144,7 @@ function SliderLayout(props) {
               {props.isMobile ? "Vods" : "Vods más vistos"}{" "}
             </h2>
           </Grid>
-        )} */}
+        )}
 
         {/* comentado quitar*/}
         <div className="manager-recommended-actions-arrow">
@@ -260,7 +260,7 @@ function SliderLayout(props) {
         </>
       )}
       {/* comentado quitar*/}
-      {/* {props.clipT && (
+      {props.clipT && (
         <>
           {props?.clips?.length ? (
             props?.clips
@@ -417,7 +417,7 @@ function SliderLayout(props) {
             </SwiperSlide>
           )}
         </>
-      )} */}
+      )}
     </Swiper>
   );
 }
