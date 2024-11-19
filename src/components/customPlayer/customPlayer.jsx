@@ -320,8 +320,8 @@ export default function CustomPlayer({
           autoPlay={playing}
           muted={muted}
           controls={false}
-          width={width ? width : FullScreen ? "80% " : '100%'}
-          height={height ? height : FullScreen ? '100%': "835px"}
+          width={width ? width : FullScreen ? "80% " : "100%"}
+          height={height ? height : FullScreen ? "100%" : "835px"}
           expanded={expanded}
           quality={quality}
           stream={stream?.id}

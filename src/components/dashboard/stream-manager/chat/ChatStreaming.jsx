@@ -2626,7 +2626,7 @@ export function ChatStreaming({
                 changeTextSize={(e) => changeTextSize(e)}
               />
             )}
-            <div style={{display:'flex', gap:'5px'}}>
+            <div style={{ display: "flex", gap: "5px" }}>
               <Tippy
                 theme="pinkker"
                 content={
@@ -2647,7 +2647,11 @@ export function ChatStreaming({
                 </button>
               </Tippy>
 
-              <button onClick={handleSubmit} type="submit"  className="button-enviar">
+              <button
+                onClick={handleSubmit}
+                type="submit"
+                className="button-enviar"
+              >
                 Enviar
               </button>
             </div>

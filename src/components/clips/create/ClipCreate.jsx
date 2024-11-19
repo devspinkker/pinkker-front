@@ -27,6 +27,7 @@ export function CreateClip() {
 
   const videoRef = useRef(null);
 
+  console.log("videoUrl", videoUrl);
   const baseUrl = process.env.REACT_APP_BACKRTMP;
   const queryParams = new URLSearchParams(window.location.search);
   const totalKey = queryParams.get("totalKey");

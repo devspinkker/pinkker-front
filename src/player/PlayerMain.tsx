@@ -33,6 +33,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   const canvasRef = useRef(null);
   const [videoHover, setVideoHover] = useState(false);
 
+  const [playLive, setPlayLive] = useState(1);
   const handleCommercialEnded = async () => {
     let token = window.localStorage.getItem("token");
     await AdsAddStreamSummary(token, streamerDataID, Commercial._id);
@@ -141,6 +142,8 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   }, [socket]);
 
   useEffect(() => {
+    console.log("AAA");
+    
     const qualities = ["720", "480", "360"];
     let currentQualityIndex = 0;
     let lastPlaybackTime = 0; // Última posición del video detectada
@@ -344,6 +347,46 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
       document.removeEventListener('MSFullscreenChange', handleFullScreenChange);
     };
   }, []);
+
+
+//   const handlePlay = () => {
+//     console.log("Reproducción iniciada...");
+//     setPlayLive(prev => prev +1); // Alterna el estado de reproducción
+//     // if (videoRef.current) {
+//     //     // Detenemos el video
+//     //     videoRef.current.pause();
+
+//     //     // Desconectamos el flujo actual, esto puede incluir limpiar el SourceBuffer si usas MSE
+//     //     if (videoRef.current.srcObject) {
+//     //         videoRef.current.srcObject = null; // Desconectar la fuente actual
+//     //     }
+
+//     //     // Reconfiguramos el flujo FLV desde el principio
+//     //     // El flujo debe comenzar desde la URL original del archivo FLV
+//     //     videoRef.current.src = 'URL_DEL_FLV'; // Asigna la URL de tu archivo FLV o el flujo en vivo
+
+//     //     // Reproducimos el video desde el principio
+//     //     videoRef.current.play().catch(error => {
+//     //         console.error('Error al reproducir el video:', error);
+//     //     });
+//     // }
+// };
+
+
+
+  // useEffect(() => {
+  //   const videoElement = videoRef.current;
+  //   if (videoElement) {
+  //     videoElement.addEventListener("play", handlePlay);
+  //   }
+
+  //   return () => {
+  //     if (videoElement) {
+  //       videoElement.removeEventListener("play", handlePlay);
+  //     }
+  //   };
+  // }, [videoRef]);
+  
   return (
     <>
     {showWarning && (
