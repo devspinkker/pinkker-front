@@ -250,7 +250,7 @@ const Home = ({
       style={{
         padding: isMobile ? "1rem 1rem 10rem 1rem" : "2rem 0rem",
         width: isMobile ? "89%" : isFullHD? "100%" : '100%',
-        maxWidth: !isMobile ? isFullHD ? 'calc(1400px + 6vw)' : 'calc(1200px + 6vw)' : '',
+        maxWidth: !isMobile ? isFullHD ? 'calc(1450px + 6vw)' : 'calc(1200px + 6vw)' : '',
         height: isMobile && "100vh",
         margin: "0 auto",
       }}

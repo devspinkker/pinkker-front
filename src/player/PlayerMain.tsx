@@ -14,9 +14,10 @@ interface ReactVideoPlayerProps {
   stream: string;
   streamerDataID: string;  
   stream_thumbnail: string;
+  dashboard: boolean;
 }
 
-function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID, stream_thumbnail }: ReactVideoPlayerProps) {
+function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID, stream_thumbnail, dashboard }: ReactVideoPlayerProps) {
   const history = useHistory();
   const [isPlaying, setIsPlaying] = useState(false);
   const [Commercial, setCommercial] = useState<any>(null);
@@ -393,8 +394,10 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   <div
     style={{
       backgroundImage: `url(${stream_thumbnail})`,
+      height: dashboard ? '30vh' : '',
     }}
         className='thumbnail-prev-PlayerMain'
+        
   >
     <div className="base-dialog-player">
       <button

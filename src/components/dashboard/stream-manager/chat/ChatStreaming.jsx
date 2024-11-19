@@ -1279,8 +1279,8 @@ export function ChatStreaming({
     <div
       className="ChatStreaming"
       style={{
-        maxWidth: DashboardStream ? "25%" : "",
-        height: DashboardStream ? "100%" : "",
+        width: DashboardStream ? "25%" : "",
+        height: DashboardStream ? "80vh" : "",
         position: DashboardStream && "relative",
       }}
     >

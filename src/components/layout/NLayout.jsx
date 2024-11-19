@@ -132,6 +132,7 @@ function NLayout(props) {
     };
   }, []);
 
+
   
 
 // Message
@@ -1360,7 +1361,7 @@ const getNavDesktop = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 width: is1920x1080 ? '100%' : '80%',
-                maxWidth: is1920x1080 ? 'calc(1400px + 6vw)' : 'calc(1200px + 6vw)',
+                maxWidth: is1920x1080 ? 'calc(1450px + 6vw)' : 'calc(1200px + 6vw)',
                 margin: '0 auto'
               }}
             // style={{

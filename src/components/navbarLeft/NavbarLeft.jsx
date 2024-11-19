@@ -189,7 +189,7 @@ export default function NavbarLeft({
   };
 
   function getNormalNavbar() {
-    console.log('dashboard', dashboard)
+   
 
     return (
       <MainDeshboard

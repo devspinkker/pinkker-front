@@ -70,7 +70,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     let id = window.localStorage.getItem("_id");
     const connectWebSocket = () => {
       const newSocket = new WebSocket(
-        `wss://www.pinkker.tv/8084/ws/notification/ActivityFeed/${id}`
+        `${REACT_APP_BACKCOMMERCIALWS}/ws/notification/ActivityFeed/${id}`
       );
 
       newSocket.onerror = (error) => {
@@ -78,6 +78,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
       };
 
       newSocket.onmessage = (event) => {
+
         try {
           const receivedMessage = JSON.parse(event.data);
           console.log(event);
@@ -91,7 +92,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
         }
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
 
       setSocket(newSocket);
 
@@ -343,11 +344,11 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     alert({ type: "SUCCESS", message: "Copiado correctamente!" });
   };
   const [expanded, setExpanded] = useState(true);
-
+  
   return (
     <DashboarLayout user={user} isMobile={isMobile}>
       {/* Contenido */}
-      <div style={{ height: "100%" }}>
+      <div style={{ height: "80%" }}>
         <div className="content" style={{ gap: "1%" }}>
           {/* Parte 2 */}
           <div className="part-two">
@@ -452,6 +453,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                     autoPlay={true}
                     muted={true}
                     controls={false}
+                    dashboard={true}
                     width={"100%"}
                     height={"100%"}
                   />
@@ -771,7 +773,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
             style={{
               backgroundColor: "#131418",
               width: "50%",
-              height: "100% !important",
+              height: "85%",
             }}
           >
             <div
@@ -847,7 +849,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
               </section>
             </div>
 
-            <div className="Feeddeactividades_container">
+            <div className="Feeddeactividades_container" style={{ height: '58vh' }}>
               <div title="Feed de actividades" className="Feeddeactividades">
                 <span
                   className="max-w-full shrink truncate text-base font-bold text-white"
@@ -872,28 +874,32 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                       {/* )} */}
                       <div className="activity-feed-item__info">
                         <span className="activity-feed-item__info_name">
-                          {item?.data}
+                          {item?.Nameuser}
                         </span>
-                        <span>
-                          {item?.action === "follow" && (
+
+                        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                          {item?.Type === "follow" && (
                             <span className="activity-feed-item__info_action">
                               {" "}
                               Te comenzó a seguir
                             </span>
                           )}
-                          {item?.action === "DonatePixels" && (
+                          {item?.Type === "DonatePixels" && (
                             <span className="activity-feed-item__info_action">
                               {" "}
                               Dono {item?.Pixeles} Pixeles
                             </span>
                           )}
-                          {item?.action === "Suscribirse" && (
+                          {item?.Type === "Suscribirse" && (
                             <span className="activity-feed-item__info_action">
                               {" "}
                               Se suscribió
                             </span>
                           )}
+
+                          {/* <span>Ahora</span> */}
                         </span>
+
                       </div>
                     </div>
                   ))}
