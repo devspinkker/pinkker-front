@@ -37,6 +37,8 @@ import DropdownEmotes from "../../../channel/chat/dropdown/emotes/DropdownEmotes
 import { TextField } from "@mui/material";
 import { MdBlockFlipped } from "react-icons/md";
 export function ChatStreaming({
+  updateStreamTitleCategoria,
+
   openChatWindow,
   streamerChat,
   chatExpandeds,
@@ -406,6 +408,12 @@ export function ChatStreaming({
             setTimeout(() => {
               history.push("/" + receivedMessage?.hostA?.nameUser);
             }, delay);
+          }
+          if (receivedMessage?.action === "updateInfoStream") {
+            updateStreamTitleCategoria(
+              receivedMessage.title,
+              receivedMessage.StreamCategory
+            );
           }
           if (receivedMessage?.action === "Host") {
             SetNewHost({
@@ -2279,7 +2287,6 @@ export function ChatStreaming({
                 xmlns="http://www.w3.org/2000/svg"
                 style={{
                   padding: "9px",
-                  
                 }}
               >
                 <path
@@ -2290,7 +2297,6 @@ export function ChatStreaming({
               <input
                 style={{
                   borderRadius: "0px 5px 5px 0px",
-                  
                 }}
                 type="text"
                 // value={message}
