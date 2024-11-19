@@ -37,7 +37,7 @@
     scrollbar-width: none;
     z-index: 10000;
     overflow-x: hidden;
-    width: 100%;
+    width: 75%;
 }
 
 .hide-scrollbar::-webkit-scrollbar {

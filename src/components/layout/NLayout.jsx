@@ -279,6 +279,7 @@ async function HandleGetRecentotificaciones() {
     ]);
   }
 }
+
 useEffect(() => {
   if (token) {
     HandleGetNotificacionesLastConnection();

@@ -9,6 +9,7 @@ export default function Notificaciones({ PinkerNotifications }) {
   const [notifications, setNotifications] = useState(PinkerNotifications);
   const token = window.localStorage.getItem("token");
 
+
   const history = useHistory();
 
 
@@ -110,9 +111,9 @@ export default function Notificaciones({ PinkerNotifications }) {
   };
 
   function calcularTiempoTranscurrido(notificacion) {
-
+    console.log('notificacion', notificacion)
     const ahora = new Date();
-    const fechaNotificacion = new Date(notificacion);
+    const fechaNotificacion = new Date(notificacion?.since);
 
     const diferenciaMs = ahora - fechaNotificacion;
     const diferenciaSegundos = Math.floor(diferenciaMs / 1000);
@@ -155,8 +156,8 @@ export default function Notificaciones({ PinkerNotifications }) {
                 <strong>{notification.Nameuser}</strong>{" "}
                 {renderNotificationText(notification, index)}
               </p>
-              <p style={{fontSize: 12}}>
-               { calcularTiempoTranscurrido(notification?.since)}
+              <p style={{ fontSize: 12 }}>
+                {calcularTiempoTranscurrido(notification)}
               </p>
             </div>
           </li>

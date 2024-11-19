@@ -1352,7 +1352,7 @@ export default function Channel({
     return tyExpanded
       ? chatExpanded
         ? "90%"
-        : "95%"
+        : "100%"
       : chatExpanded
         ? "90%"
         : "90%";
@@ -1558,7 +1558,7 @@ export default function Channel({
       { stream?.streamer && !isMobile && (
         <div
           style={{
-            width: chatExpanded ? "0" : "340px",
+            width: chatExpanded ? "0" : "25%",
             borderLeft: "1px solid rgb(42, 46, 56)",
           }}
           className="channel-chat"
