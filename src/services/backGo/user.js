@@ -341,6 +341,7 @@ export async function GetRecentotificaciones(token, page = 1) {
             Nameuser: follow.NameUser || 'Nameuser',
             Type: 'follow',
             visto: true,
+            since: follow.since
         })) || [];
 
         const resDonation = res.ResDonation?.map((donation) => ({
@@ -350,6 +351,7 @@ export async function GetRecentotificaciones(token, page = 1) {
             Text: donation.Text || '',
             Type: 'DonatePixels',
             visto: true,
+            since: donation.since
         })) || [];
 
         console.log(res);
@@ -358,6 +360,7 @@ export async function GetRecentotificaciones(token, page = 1) {
             Nameuser: s.FromUserInfo?.NameUser || 'Unknown',
             Type: "Suscribirse",
             visto: true,
+            since: s.since
         })) || [];
 
         const notifications = [...followInfo, ...resDonation, ...ressubs];
