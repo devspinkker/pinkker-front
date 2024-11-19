@@ -4,6 +4,7 @@ import "./ReactVideoPlayer.css";
 
 interface ReactVideoPlayerProps {
   src: string;
+  streamThumbnail:string;
   videoRef: React.RefObject<HTMLVideoElement>;
   height: string;
   width: string;
@@ -22,6 +23,7 @@ interface TSFilePath {
 }
 
 function VideoClipsExplorar({
+  streamThumbnail,
   src,
   videoRef,
   height,
@@ -42,7 +44,12 @@ function VideoClipsExplorar({
       }
 
       if (Hls.isSupported()) {
-        const hls = new Hls();
+        const hls = new Hls({
+          maxBufferLength: 30, // Configura el buffer a 30 segundos
+          maxMaxBufferLength: 60,
+          startLevel: -1, // Permite a HLS.js seleccionar el nivel inicial automáticamente
+          capLevelToPlayerSize: true,
+        });
         hlsRef.current = hls;
 
         if (videoRef.current) {
@@ -64,6 +71,9 @@ function VideoClipsExplorar({
       if (hlsRef.current) {
         hlsRef.current.destroy();
       }
+
+      // Eliminar archivos .ts innecesarios
+      deleteUnusedTSFiles(src);
     };
   }, [src, videoRef]);
 
@@ -103,6 +113,21 @@ function VideoClipsExplorar({
     }
   };
 
+  const deleteUnusedTSFiles = async (videoSrc: string) => {
+    try {
+      const response = await fetch(`/delete-unused-ts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoSrc }),
+      });
+      if (!response.ok) {
+        console.error("Error deleting .ts files:", await response.text());
+      }
+    } catch (error) {
+      console.error("Failed to delete .ts files:", error);
+    }
+  };
+
   useEffect(() => {
     fetchM3U8AndExtractTSUrls();
   }, [src]);
@@ -119,6 +144,7 @@ function VideoClipsExplorar({
         loop
         autoPlay
         playsInline
+        poster={streamThumbnail}
       />
     </div>
   );

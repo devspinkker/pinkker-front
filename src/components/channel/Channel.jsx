@@ -31,7 +31,7 @@ import Clips from "./clips/Clips";
 import ShareDropdown from "./dropdown/ShareDropdown";
 
 import { Link } from "react-router-dom";
-import verificado from './VERIFICADO.jpg'
+import verificado from "./VERIFICADO.jpg";
 import {
   addRecientsChannel,
   existsRecientsChannelName,
@@ -129,12 +129,21 @@ export default function Channel({
 
   const [loadingFollow, setLoadingFollow] = useState(false);
 
+  const updateStreamTitleCategoria = (newTitle, category) => {
+    setStream((prevStream) => ({
+      ...prevStream,
+      stream_title: newTitle,
+      stream_category: category,
+    }));
+  };
+
   const [time, setTime] = useState(0);
   let currentTime = 0;
   const [showPopupAuth, setShowPopupAuth] = useState(false);
   function togglePopupAuth() {
     setShowPopupAuth(!showPopupAuth);
   }
+
   // chat emergente
   const [chatWindow, setChatWindow] = useState(null);
   const openChatWindow = () => {
@@ -161,6 +170,7 @@ export default function Channel({
         <NotificationProvider>
           <MemoryRouter>
             <ChatStreaming
+              updateStreamTitleCategoria={updateStreamTitleCategoria}
               openChatWindow={openChatWindow}
               streamerChat={stream}
               chatExpandeds={chatExpanded}
@@ -250,7 +260,7 @@ export default function Channel({
     }
   }, []);
 
-  const loadDataOnlyOnce = () => { };
+  const loadDataOnlyOnce = () => {};
 
   function togglePopupFollowers(typeDefault) {
     setTypeFollowers(typeDefault);
@@ -289,7 +299,7 @@ export default function Channel({
           setUser(res.data);
           return res.data;
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   }
   const [streamData, setStreamData] = useState();
@@ -318,8 +328,8 @@ export default function Channel({
     setReadMore(false);
     setTimeCount(null);
 
-    const interval_id = window.setInterval(function () { },
-      Number.MAX_SAFE_INTEGER);
+    const interval_id = window.setInterval(function () {},
+    Number.MAX_SAFE_INTEGER);
     for (let i = 1; i < interval_id; i++) {
       window.clearInterval(i);
     }
@@ -335,7 +345,6 @@ export default function Channel({
 
           setStreamerData(InfoStreamData.user);
           setStream(InfoStreamData.stream);
-          console.log(InfoStreamData.stream);
 
           if (InfoStreamData.stream?.online == true) {
             // expanded();
@@ -420,7 +429,9 @@ export default function Channel({
             </button>
           ) : (
             <button
-              onClick={() => user?.NameUser?.length ? followUser() : togglePopupAuth()}
+              onClick={() =>
+                user?.NameUser?.length ? followUser() : togglePopupAuth()
+              }
               style={{ marginLeft: "5px" }}
               className="channel-bottom-v2-button-follow"
             >
@@ -475,7 +486,6 @@ export default function Channel({
       );
     }
   }
-
 
   const followUser = async () => {
     let loggedUser = window.localStorage.getItem("token");
@@ -602,9 +612,7 @@ export default function Channel({
                           width: "20px",
                           height: "20px",
                         }}
-                        src={
-                          verificado
-                        }
+                        src={verificado}
                       />
                     )}{" "}
                   </h2>
@@ -628,7 +636,7 @@ export default function Channel({
             </div>
           </div>
 
-          <div className="channel-v2-content" style={{ marginRight: '5%' }}>
+          <div className="channel-v2-content" style={{ marginRight: "5%" }}>
             {/* <div style={{ display: "flex" }}>
               {stream.stream_tag.map((tag) => (
                 <p className="channel-title-tag">#{tag}</p>
@@ -640,7 +648,7 @@ export default function Channel({
                 flexDirection: "column",
                 alignItems: "flex-end",
                 gap: "5px",
-                marginRight: '3%'
+                marginRight: "3%",
               }}
             >
               {getButtonsFromChannel()}
@@ -1144,12 +1152,7 @@ export default function Channel({
               >
                 {streamer} <a style={{ marginRight: "5px" }}></a>{" "}
                 {streamerData && streamerData.Partner.active && (
-                  <Emblem
-                    name={"Verificado"}
-                    img={
-                      verificado
-                    }
-                  />
+                  <Emblem name={"Verificado"} img={verificado} />
                 )}{" "}
               </h2>
               {!isMobile && (
@@ -1354,8 +1357,8 @@ export default function Channel({
         ? "100%"
         : "100%"
       : chatExpanded
-        ? "90%"
-        : "90%";
+      ? "90%"
+      : "90%";
   }
 
   function getChannel() {
@@ -1373,7 +1376,7 @@ export default function Channel({
             <div
               style={{
                 width: getWithChannelVideo(),
-                marginTop: '1%'
+                marginTop: "1%",
               }}
               className="channel-video"
             >
@@ -1399,31 +1402,56 @@ export default function Channel({
                       boxShadow: "0 0 8px 2px #000",
                     }}
                   >
-
-                    <Grid style={{ backgroundColor: 'rgba(0,0,0,0.74)', display: 'flex', gap: '15px', padding: 15, borderRadius: 5, alignItems: 'center' }}>
-                      <Typography style={{ background: '#fff', fontWeight: 'bold', padding: 5, borderRadius: 5 }}>Desconectado</Typography>
-                      <Typography style={{ color: '#fff', fontSize: 18 }}>{streamerData?.NameUser} está fuera de línea</Typography>
+                    <Grid
+                      style={{
+                        backgroundColor: "rgba(0,0,0,0.74)",
+                        display: "flex",
+                        gap: "15px",
+                        padding: 15,
+                        borderRadius: 5,
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography
+                        style={{
+                          background: "#fff",
+                          fontWeight: "bold",
+                          padding: 5,
+                          borderRadius: 5,
+                        }}
+                      >
+                        Desconectado
+                      </Typography>
+                      <Typography style={{ color: "#fff", fontSize: 18 }}>
+                        {streamerData?.NameUser} está fuera de línea
+                      </Typography>
                     </Grid>
                   </Grid>
-
                 )}
 
                 {renderAnnoucement()}
               </div>
 
-              {
-                !stream.online &&
-                <Grid style={{ width: '90%', display: 'flex', margin: '25px', gap: '10px', justifyContent: 'space-between' }}>
+              {!stream.online && (
+                <Grid
+                  style={{
+                    width: "90%",
+                    display: "flex",
+                    margin: "25px",
+                    gap: "10px",
+                    justifyContent: "space-between",
+                  }}
+                >
                   {/* Imagen de perfil circular */}
 
-                  <Grid style={{ display: 'flex', gap: '10px' }}>
+                  <Grid style={{ display: "flex", gap: "10px" }}>
                     <img
                       src={streamerData?.Avatar}
                       style={{
                         width: "75px", // Ajusta este tamaño según tu preferencia
                         height: "75px",
                         borderRadius: "50%",
-                        border: '1px solid #696969'
+                        border: "1px solid #696969",
                       }}
                     />
 
@@ -1432,8 +1460,7 @@ export default function Channel({
                       style={{
                         display: "flex",
                         flexDirection: "column",
-                        gap: '15px'
-
+                        gap: "15px",
                       }}
                     >
                       {/* Nombre del usuario */}
@@ -1442,21 +1469,26 @@ export default function Channel({
                           color: "#ededed",
                           fontWeight: 800,
                           fontSize: "24px", // Tamaño grande como en la imagen
-                          textShadow: ' rgb(0, 0, 0) 0px 1px 0px'
+                          textShadow: " rgb(0, 0, 0) 0px 1px 0px",
                         }}
                       >
                         {streamerData?.NameUser}
                       </Typography>
 
-                      <Typography style={{ color: "white", fontSize: 14, fontWeight: 800 }}>
+                      <Typography
+                        style={{
+                          color: "white",
+                          fontSize: 14,
+                          fontWeight: 800,
+                        }}
+                      >
                         {streamerData?.FollowersCount} seguidores
                       </Typography>
                     </Grid>
                   </Grid>
                   {getButtonsFromChannel()}
                 </Grid>
-              }
-
+              )}
 
               <div
                 style={{
@@ -1467,16 +1499,41 @@ export default function Channel({
                 {stream.online && getStream()}
 
                 {!isMobile && (
-                  <Grid style={{ display: 'flex', justifyContent: 'flex-start', width: !tyExpanded ? "96.5%" : "90%", gap: '10px', marginLeft: '3%', borderBottom: '1px solid #2a2e38' }}>
-
-                    <Typography style={{ color: '#fff', fontWeight: 800, cursor: 'pointer', borderBottom: type === 0 && '1px solid #f56096', zIndex: 9999 }} onClick={() => changeType(0)}>
+                  <Grid
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      width: !tyExpanded ? "96.5%" : "90%",
+                      gap: "10px",
+                      marginLeft: "3%",
+                      borderBottom: "1px solid #2a2e38",
+                    }}
+                  >
+                    <Typography
+                      style={{
+                        color: "#fff",
+                        fontWeight: 800,
+                        cursor: "pointer",
+                        borderBottom: type === 0 && "1px solid #f56096",
+                        zIndex: 9999,
+                      }}
+                      onClick={() => changeType(0)}
+                    >
                       Vods
                     </Typography>
-                    <Typography style={{ color: '#fff', fontWeight: 800, cursor: 'pointer', borderBottom: type === 2 && '1px solid #f56096', zIndex: 9999 }} onClick={() => changeType(2)}>
+                    <Typography
+                      style={{
+                        color: "#fff",
+                        fontWeight: 800,
+                        cursor: "pointer",
+                        borderBottom: type === 2 && "1px solid #f56096",
+                        zIndex: 9999,
+                      }}
+                      onClick={() => changeType(2)}
+                    >
                       Acerca De
                     </Typography>
                   </Grid>
-
                 )}
                 <div style={{ width: "100%", margin: "0 auto" }}>
                   {streamerData && !isMobile && getType()}
@@ -1488,6 +1545,7 @@ export default function Channel({
                 )}
                 {isMobile && (
                   <ChatStreaming
+                    updateStreamTitleCategoria={updateStreamTitleCategoria}
                     openChatWindow={openChatWindow}
                     streamerChat={stream}
                     chatExpandeds={chatExpanded}
@@ -1501,10 +1559,8 @@ export default function Channel({
                 )}
               </div>
             </div>
-
-
           </div>
-        </div >
+        </div>
       );
     } else {
       setTimeout(() => {
@@ -1550,12 +1606,11 @@ export default function Channel({
         />
       )}
 
-      {showPopupAuth === true &&
-        <Auth typeDefault={1} closePopup={() => togglePopupAuth()} />}
+      {showPopupAuth === true && (
+        <Auth typeDefault={1} closePopup={() => togglePopupAuth()} />
+      )}
 
-
-
-      { stream?.streamer && !isMobile && (
+      {stream?.streamer && !isMobile && (
         <div
           style={{
             width: chatExpanded ? "0" : "25%",
@@ -1584,6 +1639,7 @@ export default function Channel({
           )}
 
           <ChatStreaming
+            updateStreamTitleCategoria={updateStreamTitleCategoria}
             openChatWindow={openChatWindow}
             streamerChat={stream}
             chatExpandeds={chatExpanded}

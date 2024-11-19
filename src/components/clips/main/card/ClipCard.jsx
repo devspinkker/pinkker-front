@@ -439,21 +439,6 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
               ) : null}
               <canvas ref={canvasRef} width="400" height="300" id="ambilight" />
 
-              {/* <video
-                  crossOrigin="anonymous"
-                  style={{ display: videoPlaying ? "" : "none" }}
-                  onTimeUpdate={handleProgress}
-                  onClick={handlePlay}
-                  ref={playerRef}
-                  loop={true}
-                  autoPlay={true}
-                  muted={muted}
-                  controls={false}
-                  playsInline
-                  src={clip.url}
-                  onPlay={handleVideoPlay} // Llama al handler cuando el video comienza a reproducirse
-                  onLoadStart={() => setLoading(true)}
-                /> */}
               <div
                 style={{
                   display: videoPlaying ? "" : "none",
@@ -462,6 +447,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
                 <VideoClipsExplorar
                   videoRef={playerRef}
                   src={clip.url}
+                  streamThumbnail={clip.streamThumbnail}
                   isMuted={muted}
                   volume={0.5}
                   onTimeUpdate={handleProgress} // Actualiza el progreso del video
