@@ -22,6 +22,7 @@ import { ChatStreaming } from "../dashboard/stream-manager/chat/ChatStreaming";
 import { IoIosPause, IoMdPause } from "react-icons/io";
 import { AiFillSetting } from "react-icons/ai";
 import { FcClapperboard } from "react-icons/fc";
+import { getUserByIdTheToken } from "../../services/backGo/user";
 
 export default function CustomPlayer({
   isMobile,
@@ -43,12 +44,16 @@ export default function CustomPlayer({
   stream,
 }) {
   const { streamer } = useParams();
+  let token = window.localStorage.getItem("token");
+  const [user, setUser] = useState(null);
 
   const videoRef = useRef();
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(false);
   const [volumePlayer, setVolumePlayer] = useState(0.5);
+  const [GetInfoUserInRoom, setGetInfoUserInRoom] = useState(null);
 
+  const [followParam, setFollowParam] = useState(false);
   const [dropdownSettings, setDropdownSettings] = useState(false);
 
   const [popupClipCreator, setPopupClipCreator] = useState(false);
@@ -74,6 +79,19 @@ export default function CustomPlayer({
 
   const [videoLoading, setVideoLoading] = useState(true);
 
+  async function getUserToken() {
+    if (token) {
+      try {
+        const res = await getUserByIdTheToken(token);
+        if (res?.message === "ok" && res?.data?.id) {
+          setUser(res.data);
+          return res.data;
+        }
+      } catch (error) { }
+    }
+  }
+
+  
   useEffect(() => {
     if (videoRef.current != null && videoRef.current != undefined) {
       const videoPlayer = videoRef.current;
@@ -342,9 +360,10 @@ export default function CustomPlayer({
               streamerChat={stream}
               chatExpandeds={chatExpanded}
               ToggleChat={ToggleChat}
-              streamerData={streamerData}
-              user={streamer}
+              streamerData={streamerData}             
+              user={user}
               isMobile={isMobile}
+              
             />
           </div>
         )}
