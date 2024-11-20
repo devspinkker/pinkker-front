@@ -4,22 +4,17 @@ import "./ReactVideoPlayer.css";
 
 interface ReactVideoPlayerProps {
   src: string;
-  streamThumbnail:string;
+  streamThumbnail: string;
   videoRef: React.RefObject<HTMLVideoElement>;
   height: string;
   width: string;
   onVideoURLsReady: (urls: { url: string, start: number, end: number }[]) => void;
   isMuted: boolean;
   volume: number;
+  preferredQuality: number; // Índice del nivel deseado, por ejemplo, 720p
   onTimeUpdate?: (event: React.SyntheticEvent<HTMLVideoElement, Event>) => void;
   onClick?: (event: React.SyntheticEvent<HTMLVideoElement, Event>) => void;
   onPlay?: () => void;
-}
-
-interface TSFilePath {
-  url: string;
-  start: number;
-  end: number;
 }
 
 function VideoClipsExplorar({
@@ -31,6 +26,7 @@ function VideoClipsExplorar({
   onVideoURLsReady,
   isMuted,
   volume,
+  preferredQuality,
   onTimeUpdate,
   onClick,
   onPlay,
@@ -45,16 +41,23 @@ function VideoClipsExplorar({
 
       if (Hls.isSupported()) {
         const hls = new Hls({
-          maxBufferLength: 30, // Configura el buffer a 30 segundos
+          maxBufferLength: 30,
           maxMaxBufferLength: 60,
-          startLevel: -1, // Permite a HLS.js seleccionar el nivel inicial automáticamente
-          capLevelToPlayerSize: true,
+          capLevelToPlayerSize: true, // Ajusta al tamaño del reproductor
         });
         hlsRef.current = hls;
 
         if (videoRef.current) {
-          hls.loadSource(src.replace(".mp4", ".m3u8")); // Cambia a m3u8
+          hls.loadSource(src.replace(".mp4", ".m3u8"));
           hls.attachMedia(videoRef.current);
+
+          // Configura el nivel preferido tras cargar el manifiesto
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            const levelIndex = hls.levels.findIndex(level => level.height === preferredQuality);
+            if (levelIndex >= 0) {
+              hls.currentLevel = levelIndex; // Cambia al nivel de 720p (u otro especificado)
+            }
+          });
 
           hls.on(Hls.Events.ERROR, (event, data) => {
             console.error('HLS Error:', data);
@@ -71,11 +74,8 @@ function VideoClipsExplorar({
       if (hlsRef.current) {
         hlsRef.current.destroy();
       }
-
-      // Eliminar archivos .ts innecesarios
-      deleteUnusedTSFiles(src);
     };
-  }, [src, videoRef]);
+  }, [src, videoRef, preferredQuality]);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -83,54 +83,6 @@ function VideoClipsExplorar({
       videoRef.current.volume = volume;
     }
   }, [isMuted, volume, videoRef]);
-
-  const fetchM3U8AndExtractTSUrls = async () => {
-    try {
-      const response = await fetch(src.replace(".mp4", ".m3u8"));
-      const playlistText = await response.text();
-
-      const tsFilePaths: TSFilePath[] = [];
-      let accumulatedTime = 0;
-
-      playlistText.split("\n").forEach((line, index, arr) => {
-        if (line.startsWith("#EXTINF:")) {
-          const duration = parseFloat(line.split(":")[1]);
-          const tsFile = arr[index + 1];
-          if (tsFile && tsFile.endsWith(".ts")) {
-            const startTime = accumulatedTime;
-            const endTime = accumulatedTime + duration;
-            tsFilePaths.push({ url: new URL(tsFile, src).toString(), start: startTime, end: endTime });
-            accumulatedTime = endTime;
-          }
-        }
-      });
-
-      if (tsFilePaths.length > 0) {
-        onVideoURLsReady(tsFilePaths);
-      }
-    } catch (error) {
-      console.error("Error fetching M3U8 playlist:", error);
-    }
-  };
-
-  const deleteUnusedTSFiles = async (videoSrc: string) => {
-    try {
-      const response = await fetch(`/delete-unused-ts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ videoSrc }),
-      });
-      if (!response.ok) {
-        console.error("Error deleting .ts files:", await response.text());
-      }
-    } catch (error) {
-      console.error("Failed to delete .ts files:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchM3U8AndExtractTSUrls();
-  }, [src]);
 
   return (
     <div style={{ height: "100%" }}>

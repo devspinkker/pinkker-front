@@ -456,6 +456,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
                   onLoadStart={() => setLoading(true)}
                   height="100%"
                   width="100%"
+                  preferredQuality={720}
                 />
               </div>
             </div>
