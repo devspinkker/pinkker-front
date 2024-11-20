@@ -225,8 +225,8 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
     }
 
     const clipsToRender = finalClips.slice(
-      Math.max(clipIndex - 1, 0),
-      Math.min(clipIndex + 2, finalClips.length)
+      Math.max(clipIndex - 0, 0),
+      Math.min(clipIndex + 1, finalClips.length)
     );
 
     return clipsToRender.map((clip) => (

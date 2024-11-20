@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import Hls from 'hls.js';
+import React, { useEffect, useRef } from "react";
+import Hls from "hls.js";
 import "./ReactVideoPlayer.css";
 
 interface ReactVideoPlayerProps {
@@ -8,7 +8,7 @@ interface ReactVideoPlayerProps {
   videoRef: React.RefObject<HTMLVideoElement>;
   height: string;
   width: string;
-  onVideoURLsReady: (urls: { url: string, start: number, end: number }[]) => void;
+  onVideoURLsReady: (urls: { url: string; start: number; end: number }[]) => void;
   isMuted: boolean;
   volume: number;
   preferredQuality: number; // Índice del nivel deseado, por ejemplo, 720p
@@ -34,45 +34,51 @@ function VideoClipsExplorar({
   const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
-    const initializePlayer = async () => {
-      if (hlsRef.current) {
-        hlsRef.current.destroy();
-      }
+    if (Hls.isSupported() && videoRef.current) {
+      const hls = new Hls({
+        maxBufferLength: 10, // Tiempo máximo de buffer en segundos
+        maxMaxBufferLength: 30, // Máximo absoluto del buffer
+        liveSyncDuration: 3, // Retraso para sincronización en vivo
+        liveMaxLatencyDuration: 5, // Máximo retraso aceptable en vivo
+      });
 
-      if (Hls.isSupported()) {
-        const hls = new Hls({
-          maxBufferLength: 30,
-          maxMaxBufferLength: 60,
-          capLevelToPlayerSize: true, // Ajusta al tamaño del reproductor
-        });
-        hlsRef.current = hls;
+      hlsRef.current = hls;
 
-        if (videoRef.current) {
-          hls.loadSource(src.replace(".mp4", ".m3u8"));
-          hls.attachMedia(videoRef.current);
+      hls.loadSource(src.replace(".mp4", ".m3u8"));
+      hls.attachMedia(videoRef.current);
 
-          // Configura el nivel preferido tras cargar el manifiesto
-          hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            const levelIndex = hls.levels.findIndex(level => level.height === preferredQuality);
-            if (levelIndex >= 0) {
-              hls.currentLevel = levelIndex; // Cambia al nivel de 720p (u otro especificado)
-            }
-          });
-
-          hls.on(Hls.Events.ERROR, (event, data) => {
-            console.error('HLS Error:', data);
-          });
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        const preferredLevel = hls.levels.findIndex(
+          (level) => level.height === preferredQuality
+        );
+        if (preferredLevel >= 0) {
+          hls.currentLevel = preferredLevel;
         }
-      } else if (videoRef.current && videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
-        videoRef.current.src = src.replace(".mp4", ".m3u8");
-      }
-    };
+      });
 
-    initializePlayer();
+      hls.on(Hls.Events.ERROR, (_, data) => {
+        if (data.fatal) {
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+            console.error("HLS Network Error:", data);
+            hls.startLoad(); // Reintentar cargar fuente
+          } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+            console.error("HLS Media Error:", data);
+            hls.recoverMediaError(); // Intentar recuperación de errores
+          } else {
+            console.error("Fatal HLS Error:", data);
+            hls.destroy(); // Destruir la instancia en caso de error fatal
+          }
+        }
+      });
+    } else if (videoRef.current) {
+      // Fallback para navegadores que no soportan HLS.js
+      videoRef.current.src = src.replace(".mp4", ".m3u8");
+    }
 
     return () => {
       if (hlsRef.current) {
         hlsRef.current.destroy();
+        hlsRef.current = null;
       }
     };
   }, [src, videoRef, preferredQuality]);
@@ -82,7 +88,7 @@ function VideoClipsExplorar({
       videoRef.current.muted = isMuted;
       videoRef.current.volume = volume;
     }
-  }, [isMuted, volume, videoRef]);
+  }, [isMuted, volume]);
 
   return (
     <div style={{ height: "100%" }}>

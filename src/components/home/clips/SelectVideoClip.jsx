@@ -25,7 +25,7 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
 
       if (newProgress > 50.0 && newProgress < 50.5) {
         if (token) {
-          await MoreViewOfTheClip(clip.id);
+          await MoreViewOfTheClip(clip.id, token);
         }
       }
     }

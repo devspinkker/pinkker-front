@@ -12,6 +12,7 @@ import {
   GetClipComments,
   GetClipCommentsLoguedo,
   likeClip,
+  MoreViewOfTheClip,
 } from "../../../../services/backGo/clip";
 import { Grid, Typography } from "@mui/material";
 import { retweet } from "../../../../services/tweet";
@@ -27,6 +28,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
   const [isLiked, setIsLiked] = useState(false);
   const playerRef = useRef();
   const [videoHover, setVideoHover] = useState(false);
+  let token = window.localStorage.getItem("token");
 
   const [showComment, SetshowComment] = useState(false);
   const [comments, setComments] = useState([]);
@@ -78,7 +80,6 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
   const getCommentsClipScroll = async (pageNumber = 1) => {
     console.log(pageNumber);
 
-    let token = window.localStorage.getItem("token");
     if (!token) {
       const response = await GetClipComments(pageNumber, clip?.id);
       if (response?.data?.message === "ok") {
@@ -245,9 +246,23 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
     setPlaying(!playing);
   };
 
+  const hasTriggered = useRef(false);
+
+  const handleAddviewClip = async () => {
+    const videoElement = playerRef.current;
+    if (videoElement) {
+      const percentageWatched =
+        videoElement.currentTime / videoElement.duration;
+      if (percentageWatched >= 0.5 && !hasTriggered.current) {
+        hasTriggered.current = true;
+        const res = await MoreViewOfTheClip(clip?.id, token);
+      }
+    }
+  };
   const handleProgress = (e) => {
     const { duration, currentTime } = e.target;
     setProgress((currentTime / duration) * 100);
+    handleAddviewClip();
   };
 
   const handleMute = () => {
@@ -650,7 +665,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
                 className="fas fa-comment"
               />
               <h3 style={{ fontSize: "15px", marginTop: "5px" }}>
-                {clip.totalComments}
+                {clip.CommentsCount}
               </h3>
             </div>
 

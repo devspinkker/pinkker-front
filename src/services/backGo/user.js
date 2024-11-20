@@ -294,7 +294,7 @@ export async function GetNotificacionesLastConnection(token) {
             },
         });
         const res = response.data.data
-        
+
         const followInfo = res.FollowInfo?.map((follow) => ({
             Avatar: follow.Avatar || 'defaultAvatarUrl',
             Nameuser: follow.NameUser || 'Nameuser',
@@ -354,7 +354,6 @@ export async function GetRecentotificaciones(token, page = 1) {
             since: donation.since
         })) || [];
 
-        console.log(res);
         const ressubs = res.Subscription?.map((s) => ({
             Avatar: s.FromUserInfo?.Avatar || 'defaultAvatarUrl',
             Nameuser: s.FromUserInfo?.NameUser || 'Unknown',

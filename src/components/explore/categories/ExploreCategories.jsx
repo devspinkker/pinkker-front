@@ -6,7 +6,7 @@ import ReactPlayer from "react-player";
 import CardStream from "../../home/categories/CardStream";
 import CardCategorie from "../../home/categories/CardCategorie";
 import Skeleton from "@mui/material/Skeleton";
-import chancho from './Chancho skull.png'
+import chancho from "./Chancho skull.png";
 import {
   GetAllsStreamsOnline,
   getCategoriesWithLimit,
@@ -99,7 +99,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
     if (newProgress > 50.0 && newProgress < 50.5) {
       setHasCalledFunction(true);
       if (token) {
-        await MoreViewOfTheClip(selectedVideo.video.id);
+        await MoreViewOfTheClip(selectedVideo.video.id, token);
       }
     }
   };
@@ -150,7 +150,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
   }, []);
 
   return (
-    <div className="explorecategories-body" style={{width:'100%'}}>
+    <div className="explorecategories-body" style={{ width: "100%" }}>
       {isLoading && (
         <div
           style={{
@@ -169,7 +169,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           alignItems: "center",
           justifyContent: "space-between",
           borderBottom: "1px solid rgb(42, 46, 56)",
-          padding: isMobile && "5px  5.8rem" ,
+          padding: isMobile && "5px  5.8rem",
           margin: "1rem 0px 1rem 0px",
         }}
       >
@@ -349,7 +349,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                
+
                 justifyContent: "center",
                 alignItems: "center",
                 width: "100%",
@@ -361,7 +361,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                 borderRadius: "5px",
               }}
             >
-              <img src={chancho} style={{width:'18%'}}/>
+              <img src={chancho} style={{ width: "18%" }} />
               {/* <ImCross style={{ color: "red", fontSize: "3.5rem" }} /> */}
               <Typography
                 style={{
