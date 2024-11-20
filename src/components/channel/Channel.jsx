@@ -136,7 +136,12 @@ export default function Channel({
       stream_category: category,
     }));
   };
-
+  const updateStreamOnline = (State) => {
+    setStream((prevStream) => ({
+      ...prevStream,
+      online: State,
+    }));
+  };
   const [time, setTime] = useState(0);
   let currentTime = 0;
   const [showPopupAuth, setShowPopupAuth] = useState(false);
@@ -171,6 +176,7 @@ export default function Channel({
           <MemoryRouter>
             <ChatStreaming
               updateStreamTitleCategoria={updateStreamTitleCategoria}
+              updateStreamOnline={updateStreamOnline}
               openChatWindow={openChatWindow}
               streamerChat={stream}
               chatExpandeds={chatExpanded}
@@ -1558,6 +1564,7 @@ export default function Channel({
                 {isMobile && (
                   <ChatStreaming
                     updateStreamTitleCategoria={updateStreamTitleCategoria}
+                    updateStreamOnline={updateStreamOnline}
                     openChatWindow={openChatWindow}
                     streamerChat={stream}
                     chatExpandeds={chatExpanded}
@@ -1652,6 +1659,7 @@ export default function Channel({
 
           <ChatStreaming
             updateStreamTitleCategoria={updateStreamTitleCategoria}
+            updateStreamOnline={updateStreamOnline}
             openChatWindow={openChatWindow}
             streamerChat={stream}
             chatExpandeds={chatExpanded}

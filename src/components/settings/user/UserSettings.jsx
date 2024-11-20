@@ -58,7 +58,7 @@ export default function UserSettings({ isMobile, user }) {
       formData.append("avatar", file);
       let token = window.localStorage.getItem("token");
       const res = await editAvatar(token, formData);
-    } catch (err) { }
+    } catch (err) {}
   };
 
   function getType() {
@@ -210,10 +210,9 @@ export default function UserSettings({ isMobile, user }) {
     if (type === 4) {
       return (
         <div>
-
           <Seguridad usuario={user} />
         </div>
-      )
+      );
     }
     if (type === 3) {
       return (

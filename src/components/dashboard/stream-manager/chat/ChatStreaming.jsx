@@ -38,7 +38,7 @@ import { TextField } from "@mui/material";
 import { MdBlockFlipped } from "react-icons/md";
 export function ChatStreaming({
   updateStreamTitleCategoria,
-
+  updateStreamOnline,
   openChatWindow,
   streamerChat,
   chatExpandeds,
@@ -414,6 +414,9 @@ export function ChatStreaming({
               receivedMessage.title,
               receivedMessage.StreamCategory
             );
+          }
+          if (receivedMessage?.action === "Online") {
+            updateStreamOnline(receivedMessage.Online);
           }
           if (receivedMessage?.action === "Host") {
             SetNewHost({
