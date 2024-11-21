@@ -38,9 +38,13 @@ function VideoClipsExplorar({
       const hls = new Hls({
         maxBufferLength: 10, // Tiempo máximo de buffer en segundos
         maxMaxBufferLength: 30, // Máximo absoluto del buffer
+        maxBufferSize: 60 * 1024 * 1024, // Límite del buffer en bytes (60MB)
+        maxBufferHole: 0.5, // Permite un pequeño agujero de 0.5s entre segmentos
         liveSyncDuration: 3, // Retraso para sincronización en vivo
         liveMaxLatencyDuration: 5, // Máximo retraso aceptable en vivo
+        liveBackBufferLength: 0,
       });
+      
 
       hlsRef.current = hls;
 

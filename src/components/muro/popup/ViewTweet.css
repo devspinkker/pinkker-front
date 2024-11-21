@@ -26,7 +26,7 @@
     margin-top: 10px;
     padding: 3px 30px;
     text-align: center;
-    background: #000;
+    background: #000000a6;
     box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
 }
 
@@ -42,7 +42,7 @@
         margin-top: 10px;
         padding: 3px 30px;
         text-align: center;
-        background: #000;
+        background: #000000a6;
         box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
     }
 }
