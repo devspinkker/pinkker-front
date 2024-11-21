@@ -42,6 +42,7 @@ function DropdownChatIdentity({
     }
   }
   async function handleChangeEmblema(Emblema) {
+    
     let token = window.localStorage.getItem("token");
     if (token) {
       await ActionIdentidadUser(chatData?.Room, "", Emblema, token);
@@ -190,18 +191,18 @@ function DropdownChatIdentity({
 
     const days = [20, 19, 21, 20, 21, 21, 23, 23, 23, 23, 22, 21]; // Último día de cada signo
     const signs = [
-      "Capricornio",
-      "Acuario",
-      "Piscis",
-      "Aries",
-      "Tauro",
-      "Geminis",
-      "Cancer",
-      "Leo",
-      "Virgo",
-      "Libra",
-      "Escorpio",
-      "Sagitario",
+      "CAPRICORNIO",
+      "ACUARIO",
+      "PISCIS",
+      "ARIES",
+      "TAURO",
+      "GEMINIS",
+      "CANCER",
+      "LEO",
+      "VIRGO",
+      "LIBRA",
+      "ESCORPIO",
+      "SAGITARIO",
     ];
 
     let month = date.getMonth(); // Meses van de 0 a 11
@@ -215,7 +216,7 @@ function DropdownChatIdentity({
   };
 
 
-  const zodiacSign = getZodiacSign(user.birthDate);
+  const zodiacSign = getZodiacSign(user?.birthDate);
   const zodiacImage = zodiacImages[zodiacSign] || 'https://static.twitchcdn.net/assets/dark-40f6c299eb07b670b88d.svg'; // Imagen predeterminada si no encuentra el signo
 
   function getdropdownchatidentity() {
