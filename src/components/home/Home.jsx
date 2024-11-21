@@ -326,7 +326,7 @@ const Home = ({
 
       {<Clips isMobile={isMobile} />}
 
-      {/* {<Vods isMobile={isMobile} />} */}
+      {<Vods isMobile={isMobile} />}
 
       {/* {<Clips isMobile={isMobile} titulo={"Vods"} />} */}
 
