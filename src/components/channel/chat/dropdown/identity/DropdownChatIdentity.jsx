@@ -48,6 +48,7 @@ function DropdownChatIdentity({
       closeNavbar();
     }
   }
+
   const findSign = (dateS) => {
     const date = new Date(dateS);
     const days = [21, 20, 21, 21, 22, 22, 23, 24, 24, 24, 23, 22];
@@ -166,6 +167,57 @@ function DropdownChatIdentity({
       };
     }
   }
+  // Definir las imágenes de los signos zodiacales
+  
+  const zodiacImages = {
+    Capricornio: "/images/signos/capricornio.jpg",
+    Acuario: "/images/signos/aquario.jpg",
+    Piscis: "/images/signos/piscis.jpg",
+    Aries: "/images/signos/aries.jpg",
+    Tauro: "/images/signos/tauro.jpg",
+    Geminis: "/images/signos/geminis.jpg",
+    Cancer: "/images/signos/cancer.jpg",
+    Leo: "/images/signos/leo.jpg",
+    Virgo: "/images/signos/virgo.jpg",
+    Libra: "/images/signos/libra.jpg",
+    Escorpio: "/images/signos/escorpio.jpg",
+    Sagitario: "/images/signos/sagitario.jpg",
+  };
+
+  // Función para calcular el signo zodiacal
+  const getZodiacSign = (dateS) => {
+    const date = new Date(dateS);
+
+    const days = [20, 19, 21, 20, 21, 21, 23, 23, 23, 23, 22, 21]; // Último día de cada signo
+    const signs = [
+      "Capricornio",
+      "Acuario",
+      "Piscis",
+      "Aries",
+      "Tauro",
+      "Geminis",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Escorpio",
+      "Sagitario",
+    ];
+
+    let month = date.getMonth(); // Meses van de 0 a 11
+    let day = date.getDate(); // Día del mes
+
+    if (day <= days[month]) {
+      month = month === 0 ? 11 : month - 1;
+    }
+
+    return signs[month];
+  };
+
+
+  const zodiacSign = getZodiacSign(user.birthDate);
+  const zodiacImage = zodiacImages[zodiacSign] || 'https://static.twitchcdn.net/assets/dark-40f6c299eb07b670b88d.svg'; // Imagen predeterminada si no encuentra el signo
+
   function getdropdownchatidentity() {
     if (type === 0) {
       return (
@@ -344,12 +396,12 @@ function DropdownChatIdentity({
                 </svg>
               </div>
               <div
-                onClick={() => handleChangeEmblema("mute")}
+                onClick={() => handleChangeEmblema(zodiacSign)}
                 className="emblemamute"
               >
                 <img
                   className="dropdownchatidentity-card-emote"
-                  src="https://static.twitchcdn.net/assets/dark-40f6c299eb07b670b88d.svg"
+                  src={zodiacImage}
                 />
               </div>
             </div>

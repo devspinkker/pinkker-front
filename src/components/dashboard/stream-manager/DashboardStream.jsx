@@ -13,8 +13,9 @@ import { getStream } from "../../../services/stream";
 import ReactFlvPlayer from "../../../player/PlayerMain";
 import PopupEditInfo from "./popup/PopupEditInfo";
 import ConfigComandosChat from "./ConfigComandosChat";
-import { Button, Drawer, Grid, TextField, Typography } from "@mui/material";
+import { Button, Drawer, Grid, Slider, TextField, Typography } from "@mui/material";
 import {
+  AiFillSetting,
   AiFillThunderbolt,
   AiOutlineSetting,
   AiOutlineUser,
@@ -23,17 +24,19 @@ import { TbEdit, TbLogout2 } from "react-icons/tb";
 import { TfiWallet } from "react-icons/tfi";
 import { LiaSlidersHSolid } from "react-icons/lia";
 import { BsChatDots } from "react-icons/bs";
-import { IoMdNotificationsOutline } from "react-icons/io";
+import { IoMdNotificationsOutline, IoMdPause } from "react-icons/io";
 import { Link } from "react-router-dom";
 import SettingsStream from "../settings/stream/SettingsStream";
 import { useNotification } from "../../Notifications/NotificationProvider";
 import { CiStreamOn } from "react-icons/ci";
-import { MdOutlineOndemandVideo, MdSlowMotionVideo } from "react-icons/md";
+import { MdHd, MdOutlineOndemandVideo, MdSlowMotionVideo } from "react-icons/md";
 import { SlUserFollow } from "react-icons/sl";
 import { FaGratipay, FaHeart } from "react-icons/fa6";
 import { GoHeartFill } from "react-icons/go";
 import NavbarLeft from "../../navbarLeft/NavbarLeft";
 import DashboarLayout from "../DashboarLayout";
+import Tippy from "@tippyjs/react";
+import { LuClapperboard } from "react-icons/lu";
 
 export default function DashboardStream({ isMobile, tyExpanded, user }) {
   const [showComandosList, setShowComandosList] = useState(false);
@@ -46,6 +49,11 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
   const [categorie, setCategorie] = useState(null);
   const [stream, setStream] = useState(null);
   const videoRef = useRef();
+  const [playing, setPlaying] = useState(true);
+  const [muted, setMuted] = useState(false);
+  const [volumeHovered, setVolumeHovered] = useState(false);
+
+  const [volumePlayer, setVolumePlayer] = useState(0.5);
   const [videoLoading, setVideoLoading] = useState(true);
   const [mostrarditInfoStream, setditInfoStreamN] = useState(false);
   const [QuickActionShow, setQuickActionSHow] = useState(true);
@@ -273,6 +281,255 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     return url;
   }
 
+  function getHlsPlayer() {
+    // console.log(getHlsSrc());
+    // if (isMobile) {
+    //   alert("mobile es true");
+    //   return (
+    //     <video
+    //       id="pinkker-player"
+    //       style={{ position: "relative", top: "60px" }}
+    //       controls={isMobile}
+    //       autoPlay={true}
+    //       onPlaying={true}
+    //     >
+    //       <source src={getHlsSrc()} type="application/x-mpegURL" />
+    //     </video>
+    //   );
+    // }
+    return (
+      <Grid
+        style={{
+          display: "flex",
+        }}
+      >
+        <ReactFlvPlayer
+          allowFullScreen
+          id="pinkker-player"
+          videoRef={videoRef}
+          preload={"auto"}
+          webkit-playsinline={true}
+          playsInline={true}
+          src={getHlsSrc()}
+          autoPlay={false}
+          muted={true}
+          controls={true}
+          dashboard={true}
+          width={"100%"}
+          height={"100%"}
+        />
+      </Grid>
+    );
+  }
+
+  function getVolumeButton() {
+    if (muted === true) {
+      return (
+        <Tippy
+          theme="pinkker"
+          content={
+            <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+              Volumen
+            </h1>
+          }
+        >
+          <i
+            onMouseEnter={() => setVolumeHovered(true)}
+            onMouseLeave={() => setVolumeHovered(false)}
+            onClick={() => mutedPlayer()}
+            style={{ cursor: "pointer" }}
+            className="fas fa-volume-mute pinkker-button-more"
+          />
+        </Tippy>
+      );
+    } else {
+      if (volumePlayer === 0) {
+        return (
+          <Tippy
+            theme="pinkker"
+            content={
+              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                Volumen
+              </h1>
+            }
+          >
+            <i
+              onMouseEnter={() => setVolumeHovered(true)}
+              onMouseLeave={() => setVolumeHovered(false)}
+              onClick={() => mutedPlayer()}
+              style={{ cursor: "pointer" }}
+              className="fas fa-volume-down pinkker-button-more"
+            />
+          </Tippy>
+        );
+      }
+
+      if (volumePlayer <= 0.5) {
+        return (
+          <Tippy
+            theme="pinkker"
+            content={
+              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                Volumen
+              </h1>
+            }
+          >
+            <i
+              onMouseEnter={() => setVolumeHovered(true)}
+              onMouseLeave={() => setVolumeHovered(false)}
+              onClick={() => mutedPlayer()}
+              style={{ cursor: "pointer" }}
+              className="fas fa-volume-down pinkker-button-more"
+            />
+          </Tippy>
+        );
+      }
+      if (volumePlayer > 0.5) {
+        return (
+          <Tippy
+            theme="pinkker"
+            content={
+              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                Volumen
+              </h1>
+            }
+          >
+            <i
+              onMouseEnter={() => setVolumeHovered(true)}
+              onMouseLeave={() => setVolumeHovered(false)}
+              onClick={() => mutedPlayer()}
+              style={{ cursor: "pointer" }}
+              className="fas fa-volume-down pinkker-button-more"
+            />
+          </Tippy>
+        );
+      }
+    }
+  }
+  const mutedPlayer = () => {
+    if (!videoLoading) {
+      if (muted === true) {
+        videoRef.current.muted = false;
+        setMuted(false);
+        setVolumePlayer(0.2);
+      } else if (muted === false) {
+        videoRef.current.muted = true;
+        setMuted(true);
+        setVolumePlayer(0);
+      }
+    }
+  };
+  const setVolume = (volume) => {
+    if (volume === 0) {
+      setMuted(true);
+      setVolumePlayer(volume);
+    } else {
+      videoRef.current.volume = volume;
+      setVolumePlayer(volume);
+      setMuted(false);
+    }
+  };
+  const videoHandler = () => {
+    if (!videoLoading) {
+      if (playing === false) {
+        videoRef.current.play();
+        setPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setPlaying(false);
+      }
+    }
+  };
+
+  function getBottomButtons() {
+    if (videoRef.current != null && videoRef.current != undefined) {
+
+      return (
+        <div
+          className="customPlayer-container"
+          style={{
+            opacity: 1
+          }}
+        >
+          <div
+            style={{
+              position: "relative",
+              top: "-73px",
+
+            }}
+            className="customPlayer-primary"
+          >
+            <div className="customPlayer-secundary-div" style={{width:'100%'}}>
+              <div className="customPlayer-card">
+                {playing ? (
+                  <Tippy
+                    theme="pinkker"
+                    content={
+                      <h1
+                        style={{ fontSize: "12px", fontFamily: "Montserrat" }}
+                      >
+                        Pausa
+                      </h1>
+                    }
+                  >
+                    <IoMdPause
+                      onClick={() => videoHandler()}
+                      style={{ cursor: "pointer", fontSize: "20px" }}
+                      className="pinkker-button-more"
+                    />
+                  </Tippy>
+                ) : (
+                  <Tippy
+                    theme="pinkker"
+                    content={
+                      <h1
+                        style={{ fontSize: "12px", fontFamily: "Montserrat" }}
+                      >
+                        Play
+                      </h1>
+                    }
+                  >
+                    <i
+                      onClick={() => videoHandler()}
+                      style={{ cursor: "pointer" }}
+                      class="fas fa-play pinkker-button-more"
+                    />
+                  </Tippy>
+                )}
+              </div>
+              <div className="customPlayer-card">{getVolumeButton()}</div>
+
+              <div
+                style={{ marginLeft: "15px", width: "125px" }}
+                className="customPlayer-card"
+              >
+                <Slider
+                  onMouseEnter={() => setVolumeHovered(true)}
+                  onMouseLeave={() => setVolumeHovered(false)}
+                  aria-label="Temperature"
+                  defaultValue={volumePlayer}
+                  max={1}
+                  step={0.01}
+                  color="secondary"
+                  value={volumePlayer}
+                  style={{
+                    color: "#fff",
+                    opacity: volumeHovered ? "1" : "0",
+                  }}
+                  onChange={(e) => setVolume(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+    }
+  }
+
+
+
+
   useEffect(() => {
     if (videoRef.current != null && videoRef.current != undefined) {
       const videoPlayer = videoRef.current;
@@ -344,7 +601,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     alert({ type: "SUCCESS", message: "Copiado correctamente!" });
   };
   const [expanded, setExpanded] = useState(true);
-  
+
   return (
     <DashboarLayout user={user} isMobile={isMobile}>
       {/* Contenido */}
@@ -442,21 +699,10 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                   </span>
                 </div>
                 {streamerData?.online ? (
-                  <ReactFlvPlayer
-                    allowFullScreen
-                    id="pinkker-player"
-                    videoRef={videoRef}
-                    preload={"auto"}
-                    webkit-playsinline={true}
-                    playsInline={true}
-                    src={getHlsSrc()}
-                    autoPlay={true}
-                    muted={true}
-                    controls={false}
-                    dashboard={true}
-                    width={"100%"}
-                    height={"100%"}
-                  />
+                  <>
+                    {getHlsPlayer()}
+                    {getBottomButtons()}
+                  </>
                 ) : (
                   <div
                     style={{
@@ -771,15 +1017,19 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
           <div
             className="base-card-act"
             style={{
-              backgroundColor: "#131418",
+              
               width: "50%",
               height: "85%",
+              display: "flex",
+              flexDirection: "column",
+              gap: '10px'
             }}
           >
             <div
               className="Información-sesión"
               style={{
                 display: showComandosList && "none",
+                borderRadius: '10px'
               }}
             >
               <section className="base-card !p-0">
@@ -849,7 +1099,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
               </section>
             </div>
 
-            <div className="Feeddeactividades_container" style={{ height: '58vh' }}>
+            <div className="Feeddeactividades_container" style={{ height: '58vh', backgroundColor: 'rgb(19, 20, 24)', borderRadius:'10px' }}>
               <div title="Feed de actividades" className="Feeddeactividades">
                 <span
                   className="max-w-full shrink truncate text-base font-bold text-white"

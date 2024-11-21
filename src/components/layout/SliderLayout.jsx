@@ -121,7 +121,7 @@ function SliderLayout(props) {
             />
             <h2 style={{ color: "white", fontSize: "20px" }}>
               {props.titulo
-                ? "Vods más vistos"
+                ? "Vods Recomendados"
                 : props.isMobile
                 ? "Clips"
                 : "Clips más vistos"}{" "}
@@ -141,7 +141,7 @@ function SliderLayout(props) {
               style={{ color: "#ff69c4", fontSize: "20px" }}
             />
             <h2 style={{ color: "white", fontSize: "20px" }}>
-              {props.isMobile ? "Vods" : "Vods más vistos"}{" "}
+              {props.isMobile ? "Vods" : "Vods Recomendados"}{" "}
             </h2>
           </Grid>
         )}

@@ -36,6 +36,7 @@ import {
 import { GrHomeRounded } from "react-icons/gr";
 import { FiSearch } from "react-icons/fi";
 import {
+  AiFillInstagram,
   AiOutlineClose,
   AiOutlineMenu,
   AiOutlinePlayCircle,
@@ -56,8 +57,8 @@ import { TfiWallet } from "react-icons/tfi";
 import { AiOutlineUser } from "react-icons/ai";
 import { LiaSlidersHSolid } from "react-icons/lia";
 import { TbLogout2 } from "react-icons/tb";
-import { FaBullseye } from "react-icons/fa";
-import { FaLayerGroup } from "react-icons/fa6";
+import { FaBullseye, FaTelegramPlane } from "react-icons/fa";
+import { FaLayerGroup, FaSquareInstagram, FaTelegram } from "react-icons/fa6";
 import Messages from "../dashboard/stream-manager/chat/Messages";
 import Message from "../message/Message";
 import { GetChatsByUserIDWithStatus } from "../../services/backGo/Chats";
@@ -360,7 +361,7 @@ function NLayout(props) {
         }
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
 
       setSocket(newSocket);
       window.addEventListener("beforeunload", () => {
@@ -631,9 +632,9 @@ function NLayout(props) {
   const pixeles = props.user?.Pixeles;
   const formattedPixeles = pixeles
     ? new Intl.NumberFormat("es-ES", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 3,
-      }).format(pixeles)
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 3,
+    }).format(pixeles)
     : "0";
   const [category, setCategory] = useState(0); // Estado inicial
 
@@ -756,18 +757,26 @@ function NLayout(props) {
             position: "sticky",
             top: 0,
             fontWeight: "bolder",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: 'space-between'
           }}
         >
-          <Grid
-            style={{
-              padding: props.tyExpanded ? "14.97px 14.5px" : "26.72px 0px",
-              width: "222px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            {/* <i
+          <Grid style={{
+            display: "flex",
+            flexDirection: "column",
+          }}>
+
+            <Grid
+              style={{
+                padding: props.tyExpanded ? "14.97px 14.5px" : "26.72px 0px",
+                width: "222px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              {/* <i
             onClick={() => clickPulsedButton()}
             style={{
               cursor: "pointer",
@@ -780,363 +789,363 @@ function NLayout(props) {
             }}
             className="fas fa-bars"
           /> */}
-            {/* <img  src="/images/menu.svg" className="img-bars" /> */}
-            <AiOutlineMenu
-              style={{
-                display: "flex",
-                color: "white",
-                fontSize: "26px",
-                padding: !props.tyExpanded && "0px 14.5px",
-              }}
-              onClick={() => clickPulsedButton()}
-              className="img-bars"
-            />
-
-            {props.tyExpanded && (
-              <Grid
+              {/* <img  src="/images/menu.svg" className="img-bars" /> */}
+              <AiOutlineMenu
                 style={{
                   display: "flex",
-                  textAlign: "center",
-                  alignItems: "center",
-                  borderRadius: ".375rem",
-                  backgroundColor: "#2a2e38",
-                  border: "1px solid #343843",
+                  color: "white",
+                  fontSize: "26px",
+                  padding: !props.tyExpanded && "0px 14.5px",
                 }}
-                className="contenedor-directos-cat"
-              >
-                <Link
-                  style={{ textDecoration: "none", padding: 0 }}
-                  to="/plataform/explore?tipo=streams"
-                >
-                  <Grid
-                    className="button-casino"
-                    style={{
-                      height: "3rem",
-                      color: "white",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "70px",
-                      background:
-                        ' url("/images/BOTON-DIRECTO-blanco-y-negro.jpg") ',
-                      backgroundSize: "cover",
-                      padding: ".5rem",
-                      borderRadius: ".375rem",
-                      animation: !props.tyExpanded && "ease-in-out 1.5s linear",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: 600,
-                        textShadow: "0 1px 0 #000",
-                      }}
-                    >
-                      Directos{" "}
-                    </span>
-                  </Grid>
-                </Link>
+                onClick={() => clickPulsedButton()}
+                className="img-bars"
+              />
 
-                <Link
-                  style={{ textDecoration: "none", padding: 0 }}
-                  to="/plataform/explore?tipo=categories"
-                >
-                  <Grid
-                    style={{
-                      height: "3rem",
-                      color: "white",
-                      display: "flex",
-                      alignItems: "center",
-                      padding: ".5rem",
-                      borderRadius: ".375rem",
-                      width: "70px",
-                      justifyContent: "center",
-                      animation: !props.tyExpanded && "ease-in-out 1.5s linear",
-                    }}
-                    className="button-sports"
-                  >
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: 600,
-                        textShadow: "0 1px 0 #000",
-                      }}
-                    >
-                      Categorias
-                    </span>
-                  </Grid>
-                </Link>
-              </Grid>
-            )}
-          </Grid>
-
-          <Grid
-            style={{
-              padding: "1.3rem 20px",
-              border: "1px solid #2a2e38",
-              borderRight: "none",
-              borderLeft: "none",
-              width: "100%",
-              display: "flex",
-              flexDirection: props.tyExpanded ? "row" : "column",
-              alignItems: "center",
-              justifyContent: "space-around",
-              gap: "15px",
-            }}
-          >
-            {!props.tyExpanded && (
-              <Grid style={{ display: "flex", flexDirection: "column" }}>
+              {props.tyExpanded && (
                 <Grid
                   style={{
-                    height: "100%",
-                    color: "white",
                     display: "flex",
+                    textAlign: "center",
                     alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#ff4fa6",
-                    borderTopLeftRadius: ".375rem",
-                    borderTopRightRadius: ".375rem",
-                    padding: ".4rem",
+                    borderRadius: ".375rem",
+                    backgroundColor: "#2a2e38",
+                    border: "1px solid #343843",
                   }}
-                  className="button-casino"
+                  className="contenedor-directos-cat"
                 >
-                  {/* <img src="/images/dice.svg" /> */}
                   <Link
-                    style={{
-                      textDecoration: "none",
-                      padding: 0,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    to="/"
+                    style={{ textDecoration: "none", padding: 0 }}
+                    to="/plataform/explore?tipo=streams"
                   >
-                    <AiOutlinePlayCircle
-                      style={{ fontSize: "20px", fontWeight: 600 }}
-                    />
+                    <Grid
+                      className="button-casino"
+                      style={{
+                        height: "3rem",
+                        color: "white",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "70px",
+                        background:
+                          ' url("/images/BOTON-DIRECTO-blanco-y-negro.jpg") ',
+                        backgroundSize: "cover",
+                        padding: ".5rem",
+                        borderRadius: ".375rem",
+                        animation: !props.tyExpanded && "ease-in-out 1.5s linear",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 600,
+                          textShadow: "0 1px 0 #000",
+                        }}
+                      >
+                        Directos{" "}
+                      </span>
+                    </Grid>
                   </Link>
-                </Grid>
 
-                <Grid
-                  style={{
-                    height: "100%",
-                    color: "white",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#343843",
-                    borderBottomLeftRadius: ".375rem",
-                    borderBottomRightRadius: ".375rem",
-                    padding: ".4rem",
-                  }}
-                  className="button-sports"
-                >
-                  {/* <img src="/images/tennis.svg" /> */}
                   <Link
-                    style={{
-                      textDecoration: "none",
-                      padding: 0,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
+                    style={{ textDecoration: "none", padding: 0 }}
                     to="/plataform/explore?tipo=categories"
                   >
-                    <FaLayerGroup style={{ fontSize: "20px" }} />
+                    <Grid
+                      style={{
+                        height: "3rem",
+                        color: "white",
+                        display: "flex",
+                        alignItems: "center",
+                        padding: ".5rem",
+                        borderRadius: ".375rem",
+                        width: "70px",
+                        justifyContent: "center",
+                        animation: !props.tyExpanded && "ease-in-out 1.5s linear",
+                      }}
+                      className="button-sports"
+                    >
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 600,
+                          textShadow: "0 1px 0 #000",
+                        }}
+                      >
+                        Categorias
+                      </span>
+                    </Grid>
                   </Link>
                 </Grid>
-              </Grid>
-            )}
-
-            <div
-              ref={divRef}
-              style={{
-                padding: props.tyExpanded && "0 0 0 1rem",
-                height: props.tyExpanded && "3rem",
-                lineHeight: props.tyExpanded && 2,
-                display: "flex",
-                width: props.tyExpanded && "88% !important",
-                cursor: "pointer",
-              }}
-              onClick={() => props.setExpanded(true)}
-              className={"navbar-search-dark"}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: props.isMobile ? "50px" : "",
-                }}
-              >
-                <img
-                  src="/images/search.svg"
-                  style={{
-                    fontSize: props.tyExpanded ? "18px" : "16px",
-                    color: "rgb(89 89 89)",
-                    margin: props.tyExpanded ? "5px" : "8px",
-                  }}
-                />
-
-                {props.tyExpanded && (
-                  <input
-                    style={{ fontSize: "16px" }}
-                    onClickCapture={() => setHabilitar(!habilitar)}
-                    placeholder="Buscar"
-                    type="search"
-                    className="input-searchbar"
-                  />
-                )}
-              </div>
-            </div>
-          </Grid>
-
-          <Grid>
-            <Grid
-              className="pixel-li"
-              style={{
-                transition: "all 1s ease",
-                animation: "ease-in-out 1s linear",
-              }}
-            >
-              <div
-                className={
-                  props.tyExpanded
-                    ? "pixel-coming-soon-navbarLeft"
-                    : "pixel-coming-soon-navbarLeft-noexpand"
-                }
-              >
-                <div
-                  className="pixel-coming-soon-navbarLeft-img-pixel-container"
-                  style={{ width: props.tyExpanded ? "30%" : "100%" }}
-                >
-                  {new Date(props.user?.PinkkerPrime?.SubscriptionEnd) >
-                  new Date() ? (
-                    <img
-                      className="pixel-coming-soon-navbarLeft-img-pixel"
-                      style={{
-                        width: "80%",
-                        padding: "5px",
-                      }}
-                      src={prime}
-                    />
-                  ) : props.tyExpanded ? (
-                    <img
-                      className="pixel-coming-soon-navbarLeft-img-pixel"
-                      style={{
-                        width: "60%",
-                        padding: "5px",
-                      }}
-                      src={prime}
-                    />
-                  ) : (
-                    <img
-                      className="pixel-coming-soon-navbarLeft-img-pixel"
-                      style={{
-                        width: "70%",
-                        padding: "5px",
-                      }}
-                      src={primeCorto}
-                    />
-                  )}
-                </div>
-                {props.tyExpanded && (
-                  <div
-                    style={{
-                      animation: "ease-in-out 3s linear",
-                    }}
-                    className="pixel-coming-soon-text-container"
-                  >
-                    <div className="pixel-coming-soon-text">
-                      <span className="pixel-coming-soon-text-pixel">
-                        Pinkker Prime
-                      </span>
-                      {/* <span className="pixel-coming-soon-text-pxl">(PXL)</span> */}
-                    </div>
-                    <span className="pixel-coming-soon-navbarLeft-Comming-soon">
-                      Proximamente
-                    </span>
-                  </div>
-                )}
-              </div>
+              )}
             </Grid>
 
             <Grid
               style={{
-                margin: ".625rem 0",
+                padding: "1.3rem 20px",
+                border: "1px solid #2a2e38",
+                borderRight: "none",
+                borderLeft: "none",
                 width: "100%",
                 display: "flex",
+                flexDirection: props.tyExpanded ? "row" : "column",
                 alignItems: "center",
                 justifyContent: "space-around",
+                gap: "15px",
               }}
             >
-              <ul
-                style={{
-                  listStyle: "none",
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  transition: "all 1s ease",
-                }}
-              >
-                <Link
-                  style={{ textDecoration: "none" }}
-                  className="menu-aside-option"
-                  to="/"
-                >
-                  <li
+              {!props.tyExpanded && (
+                <Grid style={{ display: "flex", flexDirection: "column" }}>
+                  <Grid
                     style={{
+                      height: "100%",
                       color: "white",
                       display: "flex",
-                      gap: "10px",
                       alignItems: "center",
-                      width: "100% !important",
-                      padding: props.tyExpanded ? "0rem 15px" : "0px",
-                      justifyContent: !props.tyExpanded && "center",
-                      animation: !props.tyExpanded && "ease-in-out 1s linear",
+                      justifyContent: "center",
+                      backgroundColor: "#ff4fa6",
+                      borderTopLeftRadius: ".375rem",
+                      borderTopRightRadius: ".375rem",
+                      padding: ".4rem",
                     }}
-                    className={
-                      location.pathname === "/" ? "item-liActive" : "item-li"
-                    }
+                    className="button-casino"
                   >
-                    <GrHomeRounded />
-                    {/* <i
+                    {/* <img src="/images/dice.svg" /> */}
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        padding: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                      to="/"
+                    >
+                      <AiOutlinePlayCircle
+                        style={{ fontSize: "20px", fontWeight: 600 }}
+                      />
+                    </Link>
+                  </Grid>
+
+                  <Grid
+                    style={{
+                      height: "100%",
+                      color: "white",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "#343843",
+                      borderBottomLeftRadius: ".375rem",
+                      borderBottomRightRadius: ".375rem",
+                      padding: ".4rem",
+                    }}
+                    className="button-sports"
+                  >
+                    {/* <img src="/images/tennis.svg" /> */}
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        padding: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                      to="/plataform/explore?tipo=categories"
+                    >
+                      <FaLayerGroup style={{ fontSize: "20px" }} />
+                    </Link>
+                  </Grid>
+                </Grid>
+              )}
+
+              <div
+                ref={divRef}
+                style={{
+                  padding: props.tyExpanded && "0 0 0 1rem",
+                  height: props.tyExpanded && "3rem",
+                  lineHeight: props.tyExpanded && 2,
+                  display: "flex",
+                  width: props.tyExpanded && "88% !important",
+                  cursor: "pointer",
+                }}
+                onClick={() => props.setExpanded(true)}
+                className={"navbar-search-dark"}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: props.isMobile ? "50px" : "",
+                  }}
+                >
+                  <img
+                    src="/images/search.svg"
+                    style={{
+                      fontSize: props.tyExpanded ? "18px" : "16px",
+                      color: "rgb(89 89 89)",
+                      margin: props.tyExpanded ? "5px" : "8px",
+                    }}
+                  />
+
+                  {props.tyExpanded && (
+                    <input
+                      style={{ fontSize: "16px" }}
+                      onClickCapture={() => setHabilitar(!habilitar)}
+                      placeholder="Buscar"
+                      type="search"
+                      className="input-searchbar"
+                    />
+                  )}
+                </div>
+              </div>
+            </Grid>
+
+            <Grid>
+              <Grid
+                className="pixel-li"
+                style={{
+                  transition: "all 1s ease",
+                  animation: "ease-in-out 1s linear",
+                }}
+              >
+                <div
+                  className={
+                    props.tyExpanded
+                      ? "pixel-coming-soon-navbarLeft"
+                      : "pixel-coming-soon-navbarLeft-noexpand"
+                  }
+                >
+                  <div
+                    className="pixel-coming-soon-navbarLeft-img-pixel-container"
+                    style={{ width: props.tyExpanded ? "30%" : "100%" }}
+                  >
+                    {new Date(props.user?.PinkkerPrime?.SubscriptionEnd) >
+                      new Date() ? (
+                      <img
+                        className="pixel-coming-soon-navbarLeft-img-pixel"
+                        style={{
+                          width: "80%",
+                          padding: "5px",
+                        }}
+                        src={prime}
+                      />
+                    ) : props.tyExpanded ? (
+                      <img
+                        className="pixel-coming-soon-navbarLeft-img-pixel"
+                        style={{
+                          width: "60%",
+                          padding: "5px",
+                        }}
+                        src={prime}
+                      />
+                    ) : (
+                      <img
+                        className="pixel-coming-soon-navbarLeft-img-pixel"
+                        style={{
+                          width: "70%",
+                          padding: "5px",
+                        }}
+                        src={primeCorto}
+                      />
+                    )}
+                  </div>
+                  {props.tyExpanded && (
+                    <div
+                      style={{
+                        animation: "ease-in-out 3s linear",
+                      }}
+                      className="pixel-coming-soon-text-container"
+                    >
+                      <div className="pixel-coming-soon-text">
+                        <span className="pixel-coming-soon-text-pixel">
+                          Pinkker Prime
+                        </span>
+                        {/* <span className="pixel-coming-soon-text-pxl">(PXL)</span> */}
+                      </div>
+                      <span className="pixel-coming-soon-navbarLeft-Comming-soon">
+                        Proximamente
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </Grid>
+
+              <Grid
+                style={{
+                  margin: ".625rem 0",
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-around",
+                }}
+              >
+                <ul
+                  style={{
+                    listStyle: "none",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    transition: "all 1s ease",
+                  }}
+                >
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    className="menu-aside-option"
+                    to="/"
+                  >
+                    <li
+                      style={{
+                        color: "white",
+                        display: "flex",
+                        gap: "10px",
+                        alignItems: "center",
+                        width: "100% !important",
+                        padding: props.tyExpanded ? "0rem 15px" : "0px",
+                        justifyContent: !props.tyExpanded && "center",
+                        animation: !props.tyExpanded && "ease-in-out 1s linear",
+                      }}
+                      className={
+                        location.pathname === "/" ? "item-liActive" : "item-li"
+                      }
+                    >
+                      <GrHomeRounded />
+                      {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
                   /> */}
-                    {props.tyExpanded && <span>Inicio</span>}
-                  </li>
-                </Link>
+                      {props.tyExpanded && <span>Inicio</span>}
+                    </li>
+                  </Link>
 
-                <Link
-                  style={{ textDecoration: "none" }}
-                  className="menu-aside-option"
-                  to="/plataform/clips"
-                >
-                  <li
-                    style={{
-                      color: "white",
-                      display: "flex",
-                      gap: "10px",
-                      alignItems: "center",
-                      width: "100% !important",
-                      padding: props.tyExpanded ? "0rem 15px" : "0px",
-                      justifyContent: !props.tyExpanded && "center",
-                      animation: !props.tyExpanded && "ease-in-out 1s linear",
-                    }}
-                    className={
-                      location.pathname === "/plataform/clips"
-                        ? "item-liActive"
-                        : "item-li"
-                    }
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    className="menu-aside-option"
+                    to="/plataform/clips"
                   >
-                    <FiSearch />
-                    {props.tyExpanded && <span>Explorar</span>}
-                  </li>
-                </Link>
-                {/* comentado quitar*/}
+                    <li
+                      style={{
+                        color: "white",
+                        display: "flex",
+                        gap: "10px",
+                        alignItems: "center",
+                        width: "100% !important",
+                        padding: props.tyExpanded ? "0rem 15px" : "0px",
+                        justifyContent: !props.tyExpanded && "center",
+                        animation: !props.tyExpanded && "ease-in-out 1s linear",
+                      }}
+                      className={
+                        location.pathname === "/plataform/clips"
+                          ? "item-liActive"
+                          : "item-li"
+                      }
+                    >
+                      <FiSearch />
+                      {props.tyExpanded && <span>Explorar</span>}
+                    </li>
+                  </Link>
+                  {/* comentado quitar*/}
 
-                {/* <Link
+                  {/* <Link
                   style={{ textDecoration: "none" }}
                   className="menu-aside-option"
                   to="/plataform/Comunidades"
@@ -1161,118 +1170,129 @@ function NLayout(props) {
                     {props.tyExpanded && <span>Comunidades</span>}
                   </li>
                 </Link> */}
-              </ul>
-            </Grid>
-            <Grid
-              style={{
-                backgroundColor: "#080808",
-                padding: streams?.length ? "0.5rem 15px" : 0,
-                borderTop: "1px solid #2a2e38",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-              }}
-            >
-              {props.tyExpanded && streams?.length ? (
-                <>
-                  <Grid
-                    style={{
-                      display: "flex",
-                      width: "100%",
-                      alignItems: "center",
-                      padding: "5px",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: "white",
-                        fontFamily: "Inter",
-                        fontWeight: "600",
-                        fontSize: "13px",
-                      }}
-                    >
-                      CANALES RECOMENDADOS
-                    </span>
-                    <i
-                      style={{
-                        color: "white",
-                        marginLeft: "5px",
-                        backgroundColor: "#080808",
-                        cursor: "pointer",
-                        transform: abrir ? "rotate(0deg)" : "rotate(-180deg)",
-                        transition: "all 0.5s ",
-                      }}
-                      class={
-                        props.abrir
-                          ? "fas fa-chevron-down"
-                          : "fas fa-chevron-up"
-                      }
-                      onClick={() => cerrarCanalesRecomendados()}
-                    />
-                  </Grid>
-
-                  <Grid
-                    style={{
-                      display: abrir ? "flex" : "none",
-                      flexDirection: "column",
-                      gap: "15px",
-                      maxHeight: abrir ? "100% !important" : "0px !important",
-                      transition: "all 0.5s ease-out",
-                    }}
-                  >
-                    {[...Array(streams?.length)].map((_, index) => (
-                      <CanalesRecomendados
-                        abrir={true}
-                        streamer={streams[index]?.streamer ?? "Cargando.."}
-                        categorie={
-                          streams[index]?.stream_category ?? "Cargando.."
-                        }
-                        avatarStreamer={
-                          streams[index]?.streamer_avatar ?? "Cargando.."
-                        }
-                        spectators={streams[index]?.ViewerCount ?? ""}
-                        title={streams[index]?.stream_title ?? "Cargando.."}
-                      />
-                    ))}
-                  </Grid>
-                </>
-              ) : (
-                streams?.length && (
+                </ul>
+              </Grid>
+              <Grid
+                style={{
+                  backgroundColor: "#080808",
+                  padding: streams?.length ? "0.5rem 15px" : 0,
+                  borderTop: "1px solid #2a2e38",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                {props.tyExpanded && streams?.length ? (
                   <>
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      style={{ margin: "0 auto" }}
-                      className="icono-recomendados"
+                    <Grid
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        alignItems: "center",
+                        padding: "5px",
+                        justifyContent: "space-between",
+                      }}
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M12.002 3.999a2 2 0 0 1 2 2v2L18 6v8l-3.998-2v2a2 2 0 0 1-2 1.999h-8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8zM12 6H4v8h8V6z"
-                        clip-rule="evenodd"
-                        fill="#fff"
-                      ></path>
-                    </svg>
-                    {[...Array(streams?.length)].map((_, index) => (
-                      <CanalesRecomendados
-                        abrir={false}
-                        streamer={streams[index]?.streamer ?? "Cargando.."}
-                        categorie={
-                          streams[index]?.stream_category ?? "Cargando.."
+                      <span
+                        style={{
+                          color: "white",
+                          fontFamily: "Inter",
+                          fontWeight: "600",
+                          fontSize: "13px",
+                        }}
+                      >
+                        CANALES RECOMENDADOS
+                      </span>
+                      <i
+                        style={{
+                          color: "white",
+                          marginLeft: "5px",
+                          backgroundColor: "#080808",
+                          cursor: "pointer",
+                          transform: abrir ? "rotate(0deg)" : "rotate(-180deg)",
+                          transition: "all 0.5s ",
+                        }}
+                        class={
+                          props.abrir
+                            ? "fas fa-chevron-down"
+                            : "fas fa-chevron-up"
                         }
-                        avatarStreamer={
-                          streams[index]?.streamer_avatar ?? "Cargando.."
-                        }
-                        spectators={streams[index]?.ViewerCount ?? ""}
-                        title={streams[index]?.stream_title ?? "Cargando.."}
+                        onClick={() => cerrarCanalesRecomendados()}
                       />
-                    ))}
+                    </Grid>
+
+                    <Grid
+                      style={{
+                        display: abrir ? "flex" : "none",
+                        flexDirection: "column",
+                        gap: "15px",
+                        maxHeight: abrir ? "100% !important" : "0px !important",
+                        transition: "all 0.5s ease-out",
+                      }}
+                    >
+                      {[...Array(streams?.length)].map((_, index) => (
+                        <CanalesRecomendados
+                          abrir={true}
+                          streamer={streams[index]?.streamer ?? "Cargando.."}
+                          categorie={
+                            streams[index]?.stream_category ?? "Cargando.."
+                          }
+                          avatarStreamer={
+                            streams[index]?.streamer_avatar ?? "Cargando.."
+                          }
+                          spectators={streams[index]?.ViewerCount ?? ""}
+                          title={streams[index]?.stream_title ?? "Cargando.."}
+                        />
+                      ))}
+                    </Grid>
                   </>
-                )
-              )}
+                ) : (
+                  streams?.length && (
+                    <>
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        style={{ margin: "0 auto" }}
+                        className="icono-recomendados"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12.002 3.999a2 2 0 0 1 2 2v2L18 6v8l-3.998-2v2a2 2 0 0 1-2 1.999h-8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8zM12 6H4v8h8V6z"
+                          clip-rule="evenodd"
+                          fill="#fff"
+                        ></path>
+                      </svg>
+                      {[...Array(streams?.length)].map((_, index) => (
+                        <CanalesRecomendados
+                          abrir={false}
+                          streamer={streams[index]?.streamer ?? "Cargando.."}
+                          categorie={
+                            streams[index]?.stream_category ?? "Cargando.."
+                          }
+                          avatarStreamer={
+                            streams[index]?.streamer_avatar ?? "Cargando.."
+                          }
+                          spectators={streams[index]?.ViewerCount ?? ""}
+                          title={streams[index]?.stream_title ?? "Cargando.."}
+                        />
+                      ))}
+                    </>
+                  )
+                )}
+              </Grid>
             </Grid>
           </Grid>
+
+          <Grid style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: '10px' }}>
+            <Link to="https://t.me/+75VGebsdAcdiMTBh" style={{textDecoration:'none'}}>
+              <FaTelegramPlane style={{ color: '#f86bb9', fontSize: '1.5rem' }} className="icono-sociales" />
+            </Link>
+            <Link to="http://instagram.com/pinkker.tv" style={{textDecoration:'none'}}>
+              <AiFillInstagram style={{ color: '#f86bb9', fontSize: '1.5rem' }} className="icono-sociales"/>
+            </Link>
+          </Grid>
+
         </Grid>
 
         {/* GRID NAV - MAIN */}
@@ -1283,10 +1303,10 @@ function NLayout(props) {
               props.tyExpanded && props.txExpandedLeft
                 ? "85%"
                 : props.tyExpanded && !props.txExpandedLeft
-                ? "95%"
-                : !props.tyExpanded && props.txExpandedLeft
-                ? "85%"
-                : "100%",
+                  ? "95%"
+                  : !props.tyExpanded && props.txExpandedLeft
+                    ? "85%"
+                    : "100%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1296,18 +1316,18 @@ function NLayout(props) {
           {!props.user?.NameUser ? (
             <Grid
               className="navTopHome"
-              // style={{
-              //   borderBottom: "1px solid #2a2e38",
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "space-between",
-              //   padding: "1rem 5.8rem",
-              //   position: "sticky",
-              //   top: 0,
-              //   zIndex: 9999,
-              //   backgroundColor: "#080808",
-              //   width: "102%",
-              // }}
+            // style={{
+            //   borderBottom: "1px solid #2a2e38",
+            //   display: "flex",
+            //   alignItems: "center",
+            //   justifyContent: "space-between",
+            //   padding: "1rem 5.8rem",
+            //   position: "sticky",
+            //   top: 0,
+            //   zIndex: 9999,
+            //   backgroundColor: "#080808",
+            //   width: "102%",
+            // }}
             >
               <Grid
                 className="navTop"
@@ -1361,18 +1381,18 @@ function NLayout(props) {
                     : "calc(1200px + 6vw)",
                   margin: "0 auto",
                 }}
-                // style={{
-                //   borderBottom: "1px solid #2a2e38",
-                //   display: "flex",
-                //   alignItems: "center",
-                //   justifyContent: "space-between",
-                //   padding: "15.5px 5.8rem",
-                //   position: "sticky",
-                //   top: 0,
-                //   zIndex: 9999,
-                //   backgroundColor: "#080808",
-                //   width: "103.5%",
-                // }}
+              // style={{
+              //   borderBottom: "1px solid #2a2e38",
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "space-between",
+              //   padding: "15.5px 5.8rem",
+              //   position: "sticky",
+              //   top: 0,
+              //   zIndex: 9999,
+              //   backgroundColor: "#080808",
+              //   width: "103.5%",
+              // }}
               >
                 <Link to="/" style={{ width: "230px" }}>
                   <img
@@ -1825,7 +1845,7 @@ function NLayout(props) {
                                 style={{ backgroundColor: "#080808" }}
                               >
                                 {!game?.streamThumbnail &&
-                                !game?.StreamThumbnail ? (
+                                  !game?.StreamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
@@ -1900,7 +1920,7 @@ function NLayout(props) {
                                         game?.url,
                                         game?.StreamThumbnail && true,
                                         game?.StreamThumbnail &&
-                                          game?.UserInfo?.NameUser,
+                                        game?.UserInfo?.NameUser,
                                         game?.StreamThumbnail && game?.id
                                       )
                                     }
@@ -2363,7 +2383,7 @@ function NLayout(props) {
               <img src={logoMobile} style={{ width: "100%" }} alt="" />
             </Link>
 
-            <Grid
+            {/* <Grid
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -2442,7 +2462,7 @@ function NLayout(props) {
                   </button>
                 </Link>
               </div>
-            </Grid>
+            </Grid> */}
 
             <Grid
               style={{ display: "flex", alignItems: "center", gap: "10px" }}
@@ -2818,17 +2838,17 @@ function NLayout(props) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2840,7 +2860,7 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
@@ -2987,7 +3007,7 @@ function NLayout(props) {
                               style={{ backgroundColor: "#080808" }}
                             >
                               {!game?.streamThumbnail &&
-                              !game?.StreamThumbnail ? (
+                                !game?.StreamThumbnail ? (
                                 <Link
                                   key={index}
                                   to={`/${game?.NameUser}`}
@@ -3062,7 +3082,7 @@ function NLayout(props) {
                                       game?.url,
                                       game?.StreamThumbnail && true,
                                       game?.StreamThumbnail &&
-                                        game?.UserInfo?.NameUser,
+                                      game?.UserInfo?.NameUser,
                                       game?.StreamThumbnail && game?.id
                                     )
                                   }
@@ -3138,7 +3158,7 @@ function NLayout(props) {
           )}
         </Grid>
 
-        {(!location.pathname.includes("/dashboard") || isStreamerPath) && (
+        {!(location.pathname.includes("/dashboard") || isStreamerPath) && (
           <div className="mobile-menu">
             <Link to="/" className={location.pathname === "/" ? "active" : ""}>
               <GrHomeRounded className="icon" />

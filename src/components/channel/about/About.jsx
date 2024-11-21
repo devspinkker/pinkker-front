@@ -63,30 +63,33 @@ export default function About({ streamer }) {
     return age;
   }
 
-  const findSignName = (dateS) => {
+  const getZodiacSign = (dateS) => {
     const date = new Date(dateS);
-    const days = [21, 20, 21, 21, 22, 22, 23, 24, 24, 24, 23, 22];
+  
+    const days = [20, 19, 21, 20, 21, 21, 23, 23, 23, 23, 22, 21]; // Último día de cada signo
     const signs = [
-      "Aquario",
-      "Piscis",
-      "Aries",
-      "Tauro",
-      "Geminis",
-      "Cancer",
-      "Leo",
-      "Virgo",
-      "Libra",
-      "Escorpio",
-      "Sagitario",
-      "Capricornio",
+      "Capricornio", // Diciembre 22 - Enero 19
+      "Acuario",     // Enero 20 - Febrero 18
+      "Piscis",      // Febrero 19 - Marzo 20
+      "Aries",       // Marzo 21 - Abril 19
+      "Tauro",       // Abril 20 - Mayo 20
+      "Geminis",     // Mayo 21 - Junio 20
+      "Cancer",      // Junio 21 - Julio 22
+      "Leo",         // Julio 23 - Agosto 22
+      "Virgo",       // Agosto 23 - Septiembre 22
+      "Libra",       // Septiembre 23 - Octubre 22
+      "Escorpio",    // Octubre 23 - Noviembre 21
+      "Sagitario",   // Noviembre 22 - Diciembre 21
     ];
-    let month = date.getMonth();
-    let day = date.getDate();
-    if (month == 0 && day <= 20) {
-      month = 11;
-    } else if (day < days[month]) {
-      month--;
+  
+    let month = date.getMonth(); // Meses van de 0 a 11
+    let day = date.getDate(); // Día del mes
+  
+    // Ajustar el mes si el día es menor o igual al límite
+    if (day <= days[month]) {
+      month = month === 0 ? 11 : month - 1;
     }
+  
     return signs[month];
   };
 
@@ -116,7 +119,7 @@ export default function About({ streamer }) {
           <div className="channel-about-secondary-card">
             <h4 style={{ fontFamily: "Poppins" }}>Signo zodiacal</h4>
             <p style={{ color: "darkgray" }}>
-              {findSignName(streamer.birthDate)}
+              {getZodiacSign(streamer.birthDate)}
             </p>
           </div>
           <div className="channel-about-secondary-card">

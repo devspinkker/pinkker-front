@@ -35,7 +35,7 @@
 .channel-body {
     background-color: #080808;
     scrollbar-width: none;
-    z-index: 10000;
+    z-index: 888;
     overflow-x: hidden;
     width: 95%;
 }
@@ -768,8 +768,8 @@
 @media screen and (max-width: 768px) {
     .channel-body {
         width: 100%;
-        height: 1200px;
-        min-height: 1200px;
+        height: 100%;
+        
         overflow: hidden;
     }
 

@@ -35,7 +35,9 @@ import DropdownChatConfig from "../../../channel/chat/dropdown/config/DropdownCh
 import DropdownChatIdentity from "../../../channel/chat/dropdown/identity/DropdownChatIdentity";
 import DropdownEmotes from "../../../channel/chat/dropdown/emotes/DropdownEmotes";
 import { TextField } from "@mui/material";
-import { MdBlockFlipped } from "react-icons/md";
+import { MdBlockFlipped, MdHeartBroken } from "react-icons/md";
+import { IoHeartSharp } from "react-icons/io5";
+import { RiMessage3Line } from "react-icons/ri";
 export function ChatStreaming({
   updateStreamTitleCategoria,
   updateStreamOnline,
@@ -81,6 +83,7 @@ export function ChatStreaming({
   const alert = useNotification();
   const history = useHistory();
 
+  console.log('message',messagesold)
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isNavbarOpenDropdownEmotes, setisNavbarOpenDropdownEmotes] =
     useState(false);
@@ -352,7 +355,7 @@ export function ChatStreaming({
         newSocket.send("closing");
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
       setSocket(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -447,7 +450,7 @@ export function ChatStreaming({
         }
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
       setsocketDeleteMsj(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -787,48 +790,48 @@ export function ChatStreaming({
           >
             {displayDonations[0] !== undefined
               ? [...displayDonations].map((donation, index) => (
-                  <Donation
-                    key={index}
-                    donation={donation}
-                    index={index}
-                    callback={() => {
-                      toggleDonationCard(
-                        donation?.Pixeles,
-                        donation?.FromUserInfo.NameUser,
-                        donation?.FromUserInfo.Avatar,
-                        donation?.Text,
-                        donation?.userLook,
-                        donation?.userColor
-                      );
-                      setShowAllDonations(true);
-                      setDonationCardVisible(donationCardVisible);
-                      setSelectedDonation(donation);
+                <Donation
+                  key={index}
+                  donation={donation}
+                  index={index}
+                  callback={() => {
+                    toggleDonationCard(
+                      donation?.Pixeles,
+                      donation?.FromUserInfo.NameUser,
+                      donation?.FromUserInfo.Avatar,
+                      donation?.Text,
+                      donation?.userLook,
+                      donation?.userColor
+                    );
+                    setShowAllDonations(true);
+                    setDonationCardVisible(donationCardVisible);
+                    setSelectedDonation(donation);
 
-                      setClickCount((prevCount) => prevCount + 1);
+                    setClickCount((prevCount) => prevCount + 1);
 
-                      if (clickCount >= 1) {
-                        setFirstClick(true);
-                      }
+                    if (clickCount >= 1) {
+                      setFirstClick(true);
+                    }
 
-                      setAllDonationsExpanded(true);
-                    }}
-                    ShowAllDonations={setShowAllDonations}
-                  />
-                ))
+                    setAllDonationsExpanded(true);
+                  }}
+                  ShowAllDonations={setShowAllDonations}
+                />
+              ))
               : !chatExpandeds && (
-                  <h3
-                    style={{
-                      color: "#f36196",
-                      cursor: "pointer",
-                      fontWeight: "bold",
-                    }}
-                    onClick={() => {
-                      onMouseEnterPoints();
-                    }}
-                  >
-                    Envia pixeles
-                  </h3>
-                )}
+                <h3
+                  style={{
+                    color: "#f36196",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                  }}
+                  onClick={() => {
+                    onMouseEnterPoints();
+                  }}
+                >
+                  Envia pixeles
+                </h3>
+              )}
           </div>
           <button
             style={{
@@ -1119,6 +1122,7 @@ export function ChatStreaming({
   }, []);
 
   const GetUserTheChatFunc = async (message) => {
+
     setInfoUserChatSelect(message);
     const res = await getUserByNameUser(message.nameUser);
     if (res.message == "ok") {
@@ -1131,6 +1135,7 @@ export function ChatStreaming({
       }
     }
   };
+
 
   const GetUserTheChatFuncfollow = async () => {
     const token = window.localStorage.getItem("token");
@@ -1468,11 +1473,10 @@ export function ChatStreaming({
                       style={{ color: MsjChatAnclado.Color }}
                     >
                       <span
-                        className={`content-info-message-2-nameUser-span ${
-                          ResMessageschatState?.PinkkerPrime
-                            ? "PinkkerPrime"
-                            : " "
-                        }`}
+                        className={`content-info-message-2-nameUser-span ${ResMessageschatState?.PinkkerPrime
+                          ? "PinkkerPrime"
+                          : " "
+                          }`}
                       >
                         {MsjChatAnclado.nameUser}
                       </span>
@@ -1485,7 +1489,7 @@ export function ChatStreaming({
                 {GetInfoUserInRoom &&
                   (GetInfoUserInRoom.Moderator ||
                     streamerChat.streamerId ==
-                      window.localStorage.getItem("_id")) && (
+                    window.localStorage.getItem("_id")) && (
                     <div
                       className="hover-button"
                       onClick={(e) => {
@@ -1535,37 +1539,20 @@ export function ChatStreaming({
         </div>
       </div>
       <div className="Conversation" ref={conversationRef}>
-        {ShowGetUserTheChat && GetUserTheChat && (
-          <div className="ShowGetUserTheChat">
+
+        {ShowGetUserTheChat && GetUserTheChat?.NameUser?.length && (
+
+          <div className="ShowGetUserTheChat" style={{ zIndex: 150000 }}>
+
+
             <div className="ShowGetUserTheChat-InfoUser">
-              <Link to={"/" + GetUserTheChat?.NameUser}>
-                <img src={GetUserTheChat?.Avatar} alt="" />
-              </Link>
-              <div className="ShowGetUserTheChat-InfoUser-gsd">
-                <Link to={"/" + GetUserTheChat?.NameUser}>
-                  <span
-                    style={{
-                      fontFamily: "inter",
-                      fontSize: "0.875rem",
-                      lineHeight: "1.25rem",
-                      fontWeight: "700",
-                    }}
-                  >
-                    {GetUserTheChat?.NameUser}
-                  </span>
+              <div style={{display:'flex', alignItems:'center', justifyContent:'flex-start'}}>
+                <Link to={"/" + GetUserTheChat?.NameUser} style={{width:'25%'}}>
+                  <img src={GetUserTheChat?.Avatar} alt="" style={{borderRadius:'50%', width:'80%'}}/>
                 </Link>
-                {GetUserTheChatFollowing && (
-                  <div className="followingFrom">
-                    <span
-                      style={{
-                        fontFamily: "inter",
-                        fontSize: "0.675rem",
-                        lineHeight: "1.25rem",
-                        fontWeight: "700",
-                      }}
-                    >
-                      Siguido desde
-                    </span>
+
+                <div className="ShowGetUserTheChat-InfoUser-gsd">
+                  <Link to={"/" + GetUserTheChat?.NameUser}>
                     <span
                       style={{
                         fontFamily: "inter",
@@ -1574,15 +1561,43 @@ export function ChatStreaming({
                         fontWeight: "700",
                       }}
                     >
-                      {followingFrom && (
-                        <p>{new Date(followingFrom).toLocaleDateString()}</p>
-                      )}
+                      {GetUserTheChat?.NameUser}
                     </span>
-                  </div>
-                )}
+                  </Link>
+
+
+                  {GetUserTheChatFollowing && (
+                    <div className="followingFrom">
+                      <span
+                        style={{
+                          fontFamily: "inter",
+                          fontSize: "0.675rem",
+                          lineHeight: "1.25rem",
+                          fontWeight: "700",
+                        }}
+                      >
+                        Siguiendo desde
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: "inter",
+                          fontSize: "0.875rem",
+                          lineHeight: "1.25rem",
+                          fontWeight: "700",
+                        }}
+                      >
+                        {followingFrom && (
+                          <p>{new Date(followingFrom).toLocaleDateString()}</p>
+                        )}
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
+
+
               <span
-                className="ShowGetUserTheChat-InfoUser-gsd-x"
+
                 onClick={() => setShowGetUserTheChat(false)}
               >
                 <i
@@ -1591,7 +1606,11 @@ export function ChatStreaming({
                 />
               </span>
             </div>
+
+
+
             <div className="ShowGetUserTheChat-actions">
+
               <span
                 style={{
                   marginLeft: "0px",
@@ -1601,8 +1620,9 @@ export function ChatStreaming({
                   GetUserTheChatFuncfollow();
                 }}
               >
-                {GetUserTheChatFollowing ? "dejar de seguir" : "seguir"}
+                {GetUserTheChatFollowing ? <MdHeartBroken /> : <IoHeartSharp />}
               </span>
+
               {GetUserTheChat.id !== window.localStorage.getItem("_id") && (
                 <div
                   onClick={() => GiftsubscriptionTheChat()}
@@ -1614,11 +1634,14 @@ export function ChatStreaming({
                   />
                   <span>Regalar una suscripción</span>
                 </div>
+
               )}
+
+              <span><RiMessage3Line/> </span>
             </div>
             {GetInfoUserInRoom &&
-            GetInfoUserInRoom.Moderator &&
-            streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
+              GetInfoUserInRoom.Moderator &&
+              streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
               <div className="ShowGetUserTheChat-actions-Moderator">
                 <div
                   onClick={() =>
@@ -1631,7 +1654,7 @@ export function ChatStreaming({
                   }
                   className="ShowGetUserTheChat-actions-Moderator-banear"
                 >
-                  <span>banear</span>
+                  <span>Banear</span>
                 </div>
                 <div
                   onClick={() =>
@@ -1663,7 +1686,7 @@ export function ChatStreaming({
                   }
                   className="ShowGetUserTheChat-actions-Moderator-banear"
                 >
-                  <span>banear</span>
+                  <span>Banear</span>
                 </div>
                 <div
                   onClick={() =>
@@ -1690,7 +1713,7 @@ export function ChatStreaming({
                     }
                     className="ShowGetUserTheChat-actions-Moderator-vip"
                   >
-                    <span>vip</span>
+                    <span>Vip</span>
                   </div>
                 ) : (
                   <div
@@ -1704,7 +1727,7 @@ export function ChatStreaming({
                     }
                     className="ShowGetUserTheChat-actions-Moderator-vip"
                   >
-                    <span>sacar vip</span>
+                    <span>Sacar VIP</span>
                   </div>
                 )}
 
@@ -1720,7 +1743,7 @@ export function ChatStreaming({
                     }
                     className="ShowGetUserTheChat-actions-Moderator-vip"
                   >
-                    <span>moderator</span>
+                    <span>Moderador</span>
                   </div>
                 ) : (
                   <div
@@ -1734,7 +1757,7 @@ export function ChatStreaming({
                     }
                     className="ShowGetUserTheChat-actions-Moderator-vip"
                   >
-                    <span>sacar Mod</span>
+                    <span>Sacar Mod</span>
                   </div>
                 )}
               </div>
@@ -1792,9 +1815,8 @@ export function ChatStreaming({
                 )}
 
                 <span
-                  className={`content-info-message-2-nameUser-span ${
-                    message.PinkkerPrime ? "PinkkerPrime" : ""
-                  }`}
+                  className={`content-info-message-2-nameUser-span ${message.PinkkerPrime ? "PinkkerPrime" : ""
+                    }`}
                   style={{ color: `${message.Color}` }}
                 >
                   {message.nameUser}
@@ -1817,8 +1839,8 @@ export function ChatStreaming({
                   </div>
                 </div>
                 {GetInfoUserInRoom &&
-                (GetInfoUserInRoom.Moderator ||
-                  streamerChat.streamerId ==
+                  (GetInfoUserInRoom.Moderator ||
+                    streamerChat.streamerId ==
                     window.localStorage.getItem("_id")) ? (
                   <div
                     className="hover-button"
@@ -1964,6 +1986,13 @@ export function ChatStreaming({
                       alt="StreamerChannelOwner"
                     />
                   )}
+                  <span
+                    className={`content-info-message-2-nameUser-span ${message.PinkkerPrime ? "PinkkerPrime" : ""
+                      }`}
+                    style={{ color: `${message.Color}` }}
+                  >
+                    {message.nameUser}
+                  </span>
                 </div>
                 <div className="MessagesChat">
                   <div className="content-info-message">
@@ -1975,22 +2004,16 @@ export function ChatStreaming({
                           fontSize: changeTextSizeState,
                         }}
                       >
-                        <span
-                          className={`content-info-message-2-nameUser-span ${
-                            message.PinkkerPrime ? "PinkkerPrime" : ""
-                          }`}
-                        >
-                          {message.nameUser}:{" "}
-                        </span>
+
                         <span className="content-parse-message">
-                          {parseMessage(message.message).content}
+                          :  {parseMessage(message.message).content}
                         </span>
                       </p>
                     </div>
                   </div>
                   {GetInfoUserInRoom &&
-                  (GetInfoUserInRoom.Moderator ||
-                    streamerChat.streamerId ==
+                    (GetInfoUserInRoom.Moderator ||
+                      streamerChat.streamerId ==
                       window.localStorage.getItem("_id")) ? (
                     <div
                       className="hover-button"
@@ -2101,11 +2124,10 @@ export function ChatStreaming({
                       }}
                     >
                       <span
-                        className={`content-info-message-2-nameUser-span ${
-                          ResMessageschatState?.PinkkerPrime
-                            ? "PinkkerPrime"
-                            : ""
-                        }`}
+                        className={`content-info-message-2-nameUser-span ${ResMessageschatState?.PinkkerPrime
+                          ? "PinkkerPrime"
+                          : ""
+                          }`}
                       >
                         {ResMessageschatState.nameUser}:{" "}
                       </span>
@@ -2139,9 +2161,8 @@ export function ChatStreaming({
               suggestedUsers.map((u, index) => (
                 <span
                   key={u}
-                  className={`suggestedUsers-span ${
-                    index === activeSuggestionIndex ? "active" : ""
-                  }`}
+                  className={`suggestedUsers-span ${index === activeSuggestionIndex ? "active" : ""
+                    }`}
                   onClick={() => handleSuggestionSelect(u)}
                 >
                   {u}
@@ -2304,7 +2325,7 @@ export function ChatStreaming({
                 type="text"
                 // value={message}
                 placeholder="solo seguidores"
-                // onChange={handleChange}
+              // onChange={handleChange}
               />
               <Tippy
                 theme="pinkker"
@@ -2485,7 +2506,7 @@ export function ChatStreaming({
                 type="text"
                 // value={message}
                 placeholder="solo suscriptores"
-                // onChange={handleChange}
+              // onChange={handleChange}
               />
               <Tippy
                 theme="pinkker"

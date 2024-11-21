@@ -305,6 +305,9 @@
 .button-navbar-register:hover {
   background-color: #ff86e4;
 }
+.icono-sociales:hover {
+  color: #ff86e4 !important;
+}
 
 .navbar-userlink {
   height: 40px;

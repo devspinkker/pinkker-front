@@ -266,7 +266,7 @@ export default function Channel({
     }
   }, []);
 
-  const loadDataOnlyOnce = () => {};
+  const loadDataOnlyOnce = () => { };
 
   function togglePopupFollowers(typeDefault) {
     setTypeFollowers(typeDefault);
@@ -305,7 +305,7 @@ export default function Channel({
           setUser(res.data);
           return res.data;
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   }
   const [streamData, setStreamData] = useState();
@@ -334,8 +334,8 @@ export default function Channel({
     setReadMore(false);
     setTimeCount(null);
 
-    const interval_id = window.setInterval(function () {},
-    Number.MAX_SAFE_INTEGER);
+    const interval_id = window.setInterval(function () { },
+      Number.MAX_SAFE_INTEGER);
     for (let i = 1; i < interval_id; i++) {
       window.clearInterval(i);
     }
@@ -925,8 +925,9 @@ export default function Channel({
     );
   }
 
+
   function getButtonsFromChannel() {
-    if (streamer === user?.name) {
+    if (streamer === user?.NameUser) {
       return (
         <div
           style={{ marginLeft: tyExpanded && "-50px" }}
@@ -1060,9 +1061,10 @@ export default function Channel({
           <></>
         )}
 
+
         {getFollowButton()}
 
-        {/* <Tippy
+        <Tippy
           theme="pinkker"
           content={
             <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
@@ -1072,11 +1074,16 @@ export default function Channel({
         >
           <button
             onClick={() => handleMessage(streamer)}
-            className="channel-bottom-v2-button-icon"
+
+            className="channel-bottom-v2-button-follow"
+            style={{width: '100%', display:'flex', alignItems: 'center', margin: 0 , justifyContent: 'center', gap:'10px'}}
           >
             <i class="fas fa-envelope" />
+            <span>Enviar Mensaje </span>
           </button>
-        </Tippy> */}
+        </Tippy>
+
+
 
         {dropdownShare && (
           <ShareDropdown title={stream.stream_title} streamer={streamer} />
@@ -1363,8 +1370,8 @@ export default function Channel({
         ? "100%"
         : "100%"
       : chatExpanded
-      ? "90%"
-      : "90%";
+        ? "90%"
+        : "90%";
   }
 
   function getChannel() {
