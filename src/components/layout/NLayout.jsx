@@ -1285,12 +1285,12 @@ function NLayout(props) {
           </Grid>
 
           <Grid style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: '10px' }}>
-            <Link to="https://t.me/+75VGebsdAcdiMTBh" style={{textDecoration:'none'}}>
+            <a href="https://t.me/+75VGebsdAcdiMTBh" target="_blank" style={{textDecoration:'none'}}>
               <FaTelegramPlane style={{ color: '#f86bb9', fontSize: '1.5rem' }} className="icono-sociales" />
-            </Link>
-            <Link to="http://instagram.com/pinkker.tv" style={{textDecoration:'none'}}>
+            </a>
+            <a href="http://instagram.com/pinkker.tv" style={{textDecoration:'none'}}>
               <AiFillInstagram style={{ color: '#f86bb9', fontSize: '1.5rem' }} className="icono-sociales"/>
-            </Link>
+            </a>
           </Grid>
 
         </Grid>
