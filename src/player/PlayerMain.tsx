@@ -143,7 +143,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   }, [socket]);
 
   useEffect(() => {
-    console.log("AAA");
+
     
     const qualities = ["720", "480", "360"];
     let currentQualityIndex = 0;
@@ -223,7 +223,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
               });
   
               hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                console.log("Manifesto cargado correctamente");
+       
               });
   
               hls.on(Hls.Events.ERROR, (event, data) => {

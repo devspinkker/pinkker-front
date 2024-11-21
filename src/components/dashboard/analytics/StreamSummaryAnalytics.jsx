@@ -30,7 +30,7 @@ export default function StreamSummaryAnalytics({ user, tyExpanded, isMobile }) {
       try {
         const token = localStorage.getItem("token");
         const a = await AWeekOfStreaming(token, filtro);
-        console.log(a);
+        
         const date = new Date();
         const res = await GetLastSixStreamSummaries(token, date);
 

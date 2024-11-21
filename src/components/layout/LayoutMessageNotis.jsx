@@ -16,7 +16,7 @@ const LayoutMessageNotis = ({
   const token = window.localStorage.getItem("token");
 
   useEffect(() => {
-    console.log(messagesOpen);
+
   }, []);
 
   return (

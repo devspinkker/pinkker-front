@@ -50,7 +50,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
         player.pause();
         URL.revokeObjectURL(player.src); // Limpiar el Blob
         player.src = "";
-        console.log("cliean player");
+        
       }
 
       if (canvas) {
@@ -78,7 +78,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
     }
   };
   const getCommentsClipScroll = async (pageNumber = 1) => {
-    console.log(pageNumber);
+
 
     if (!token) {
       const response = await GetClipComments(pageNumber, clip?.id);

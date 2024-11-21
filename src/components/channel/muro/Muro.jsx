@@ -25,9 +25,9 @@ export default function Muro({ streamer }) {
   const UserFollowsFunc = async (e) => {
     const ExcludeIDs = [];
     const res = await GetRecommendedUsers(token, ExcludeIDs);
-    console.log(res);
+    
     if (res.message === "ok" && res.data) {
-      console.log(res.data);
+      
       setUserFollows(res.data);
     }
   };
@@ -46,7 +46,7 @@ export default function Muro({ streamer }) {
 
   const ComunidadHandleFollow = async (e) => {
     const res = await CommunityOwnerUser({ UserId: streamer?.id });
-    console.log(res);
+    
 
     if (res.message === "StatusOK" && res.data) {
       ComunidadesMember(res.data);
@@ -96,7 +96,7 @@ export default function Muro({ streamer }) {
         return;
       }
     } catch (error) {
-      console.log("");
+      
     }
   };
 

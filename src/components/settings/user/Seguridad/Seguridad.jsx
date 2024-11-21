@@ -55,7 +55,7 @@ function Seguridad(props) {
 
     async function handleGenerateTotp() {
         const result = await generateTotpKey(token);
-        console.log('result', result)
+
         if (result.message === "StatusOK") {
             setTotpSecret(result.secret);
             setShowTotpModal(true);

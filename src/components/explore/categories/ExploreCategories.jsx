@@ -48,7 +48,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
     setSelectedVideo(!selectedVideo);
   };
   const token = window.localStorage.getItem("token");
-  console.log("ruta", ruta);
+ 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tipo = params.get("tipo");

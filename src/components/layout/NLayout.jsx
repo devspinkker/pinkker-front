@@ -135,7 +135,7 @@ function NLayout(props) {
 
   // Message
   useEffect(() => {
-    console.log("right now");
+
     fetchData();
   }, [openMessage]);
 
@@ -420,7 +420,7 @@ function NLayout(props) {
   const [streams, setStreams] = useState(null);
   let location = useLocation();
   const isStreamerPath = /^\/[^\/]+$/.test(location.pathname);
-  console.log(isStreamerPath);
+
   // console.log("props.user?.NameUser?.length", props.user?.NameUser?.length);
   // console.log(
   //   "location.pathname.includes",
@@ -647,11 +647,11 @@ function NLayout(props) {
       handleChange({ target: { value: text } });
     }
   }, [category]);
-  console.log("props.user", props.user);
+
 
   const handleChange = (e) => {
     const value = e.target.value;
-    console.log("category", category);
+
     if (value.length <= 0) {
       setSearch([]);
       setText(null);
@@ -660,7 +660,7 @@ function NLayout(props) {
 
       const getUser = () => {
         return fetchSearch(value).then((res) => {
-          console.log("fetchSearch result:", res.data.data);
+     
           return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
         });
       };
@@ -677,18 +677,18 @@ function NLayout(props) {
       };
 
       if (category == 3) {
-        console.log("entra en 3");
+
 
         getVods()
           .then((data) => {
-            console.log("Vods:", data);
+   ;
             setSearch(data);
           })
           .catch((error) => {
             console.error("Error getting clips:", error);
           });
       } else if (category == 2) {
-        console.log("entra en 2");
+     
 
         getClip()
           .then((data) => {
@@ -1288,7 +1288,7 @@ function NLayout(props) {
             <a href="https://t.me/+75VGebsdAcdiMTBh" target="_blank" style={{textDecoration:'none'}}>
               <FaTelegramPlane style={{ color: '#f86bb9', fontSize: '1.5rem' }} className="icono-sociales" />
             </a>
-            <a href="http://instagram.com/pinkker.tv" style={{textDecoration:'none'}}>
+            <a href="http://instagram.com/pinkker.tv"  target="_blank" style={{textDecoration:'none'}}>
               <AiFillInstagram style={{ color: '#f86bb9', fontSize: '1.5rem' }} className="icono-sociales"/>
             </a>
           </Grid>

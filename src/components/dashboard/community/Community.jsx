@@ -62,7 +62,7 @@ export default function Community() {
   const fetchData = async () => {
     let IdUser = window.localStorage.getItem("_id");
     let response = await GetEmoteUserandType(IdUser, "", token);
-    console.log(response);
+    
     if (response != null && response.data) {
       setEmotesFree(response.data);
     }
@@ -77,7 +77,7 @@ export default function Community() {
 
   async function removeEmote(name, typeEmote) {
     let response = await DeleteEmote(name, typeEmote, token);
-    console.log(response);
+   
     if (response?.message === "ok" && emotesFree) {
       if (typeEmote == "") {
         setEmotesFree((prevEmotesFree) => ({
@@ -98,7 +98,7 @@ export default function Community() {
   }
 
   function handleReload() {
-    console.log("algo");
+
   }
 
   return (

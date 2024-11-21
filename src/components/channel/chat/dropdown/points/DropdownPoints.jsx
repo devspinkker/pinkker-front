@@ -53,7 +53,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
           totpCode
         );
         // callback(selectedAmount, textDonation, data.data.donation);
-        console.log(data);
+        
         if (data.message === "ok") {
           closeNavbar();
           alert({

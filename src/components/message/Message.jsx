@@ -50,15 +50,15 @@ export default function Message({
   };
   let userID = window.localStorage.getItem("_id");
   const handleStatusChange = (newStatus, idChangeStatus) => {
-    console.log("El estado del chat ha cambiado a:", newStatus);
-    console.log(idChangeStatus);
+  
+
 
     setMessagesOpen((prevChats) =>
       prevChats.filter((chat) => chat.chatID !== idChangeStatus)
     );
   };
   useEffect(() => {
-    console.log(messagesOpen1);
+
   }, [messagesOpen1]);
 
   useEffect(() => {
@@ -124,7 +124,7 @@ export default function Message({
     // setMessagesOpen(messagesOpen1);
     if (token && userID) {
       const response = await GetChatsByUserIDWithStatus(token, "primary");
-      console.log(response);
+
       if (response) {
         const updatedMessagesOpen = response.map((chat) => ({
           chatID: chat.ID,
@@ -210,7 +210,7 @@ export default function Message({
 
       if (id) {
         const chat = await CreateChatOrGetChats(token, id);
-        console.log(chat);
+ 
 
         if (chat) {
           const updatedMessagesOpen = messagesOpen.map((c) => ({

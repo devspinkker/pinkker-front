@@ -177,7 +177,7 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
     initializePlayer();
 
     return () => {
-      console.log(src);
+
       
       if (hlsRef.current) {
         hlsRef.current.destroy();

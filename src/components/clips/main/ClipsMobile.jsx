@@ -47,20 +47,20 @@ const ClipsMobile = () => {
     const player = playerRef.current;
 
     return () => {
-      console.log(player);
+      
 
       if (player) {
         player.pause();
         URL.revokeObjectURL(player.src); // Limpiar el Blob
         player.src = "";
-        console.log("clean player");
+        
       }
     };
   }, []);
 
   const handlePlay = () => {
     if (playing) {
-      console.log("playing", playing);
+      
       playerRef.current.pause();
     } else {
       playerRef.current.play();

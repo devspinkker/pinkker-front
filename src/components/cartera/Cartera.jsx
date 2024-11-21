@@ -60,7 +60,7 @@ export default function Cartera({ user }) {
 
   const handleWithdrawSubmit = (e) => {
     e.preventDefault();
-    console.log("Amount:", amount, "Alias:", alias);
+    
     setShowWithdraw(false); // Close popup after submit
   };
 

@@ -111,7 +111,7 @@ export default function Notificaciones({ PinkerNotifications }) {
   };
 
   function calcularTiempoTranscurrido(notificacion) {
-    console.log('notificacion', notificacion)
+
     const ahora = new Date();
     const fechaNotificacion = new Date(notificacion?.since);
 

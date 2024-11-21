@@ -217,7 +217,7 @@ function DropdownChatIdentity({
 
 
   const zodiacSign = getZodiacSign(user?.birthDate);
-  console.log('zodiacSign', zodiacSign)
+  
   const zodiacImage = zodiacImages[zodiacSign] || 'https://static.twitchcdn.net/assets/dark-40f6c299eb07b670b88d.svg'; // Imagen predeterminada si no encuentra el signo
 
   function getdropdownchatidentity() {

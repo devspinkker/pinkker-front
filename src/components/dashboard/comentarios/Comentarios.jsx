@@ -13,14 +13,14 @@ function Comentarios({ user, isMobile }) {
     // Función para obtener datos de Clips
     const fetchDataClips = async () => {
         const data = await getTweetUser(user?.id, 1, 1);
-        console.log('data', data)
+     
         setPosteos(data.data);
     };
 
     useEffect(() => {
         fetchDataClips();
     }, [user]);
-    console.log('posteos', posteos)
+  
     return (
         <DashboarLayout user={user} isMobile={isMobile}>
             <Typography style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}>Comentarios</Typography>

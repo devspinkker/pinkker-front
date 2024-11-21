@@ -361,7 +361,7 @@ export default function Channel({
           } else {
             setFollowParam(false);
           }
-          console.log(InfoStreamData?.UserInfo);
+          
 
           setGetInfoUserInRoom(InfoStreamData?.UserInfo);
         }

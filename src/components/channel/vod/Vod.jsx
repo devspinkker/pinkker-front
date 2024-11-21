@@ -21,7 +21,7 @@ export default function Vod({ streamer }) {
     const fetchData = async () => {
       const data = await getStreamSummariesByStreamerIDLast30Days(streamer?.id);
       if (data.message == "ok" && data.data) {
-        console.log(data.data);
+        
         setVideos(data.data);
       }
     };

@@ -94,7 +94,7 @@ export default function Muro({ isMobile, userName }) {
 
       if (token) {
         const ExcludeIDs = Posts.map((tweet) => tweet._id);
-        console.log("PUITA", valorTab);
+
 
         data = await GetPostCommunitiesFromUser(token, ExcludeIDs);
       } else {
@@ -150,7 +150,7 @@ export default function Muro({ isMobile, userName }) {
   }, [orderCount]);
 
   const scrollToTop = () => {
-    console.log("WTF");
+
     setOrderCount(0);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };

@@ -40,14 +40,14 @@ function NLayout(props) {
     const fetchData = async () => {
       const response = await GetAllsStreamsOnline();
       if (response != null && response != undefined) {
-        console.log(response);
+        
         setStreams(response.data);
       }
     };
     fetchData();
   }, [props.tyExpanded]);
 
-  console.log('steams', streams);
+
 
   const [subMenu, setSubMenu] = useState(false);
   const habilitarSubMenu = (valor) => {

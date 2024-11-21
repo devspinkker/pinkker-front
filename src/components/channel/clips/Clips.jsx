@@ -23,7 +23,7 @@ export default function Clips(props) {
           dateFilter // Ahora se incluye el filtro de fecha en la solicitud
         );
         if (data.message === "Clips fetched successfully" && data.data) {
-          console.log(data.data);
+          
           setVideos(data.data);
         } else {
           setVideos(props?.video);
