@@ -171,18 +171,18 @@ function DropdownChatIdentity({
   // Definir las imágenes de los signos zodiacales
   
   const zodiacImages = {
-    Capricornio: "/images/signos/capricornio.jpg",
-    Acuario: "/images/signos/aquario.jpg",
-    Piscis: "/images/signos/piscis.jpg",
-    Aries: "/images/signos/aries.jpg",
-    Tauro: "/images/signos/tauro.jpg",
-    Geminis: "/images/signos/geminis.jpg",
-    Cancer: "/images/signos/cancer.jpg",
-    Leo: "/images/signos/leo.jpg",
-    Virgo: "/images/signos/virgo.jpg",
-    Libra: "/images/signos/libra.jpg",
-    Escorpio: "/images/signos/escorpio.jpg",
-    Sagitario: "/images/signos/sagitario.jpg",
+    CAPRICORNIO: "/images/signos/capricornio.jpg",
+    ACUARIO: "/images/signos/aquario.jpg",
+    PISCIS: "/images/signos/piscis.jpg",
+    ARIES: "/images/signos/aries.jpg",
+    TAURO: "/images/signos/tauro.jpg",
+    GEMINIS: "/images/signos/geminis.jpg",
+    CANCER: "/images/signos/cancer.jpg",
+    LEO: "/images/signos/leo.jpg",
+    VIRGO: "/images/signos/virgo.jpg",
+    LIBRA: "/images/signos/libra.jpg",
+    ESCORPIO: "/images/signos/escorpio.jpg",
+    SAGITARIO: "/images/signos/sagitario.jpg",
   };
 
   // Función para calcular el signo zodiacal
@@ -217,6 +217,7 @@ function DropdownChatIdentity({
 
 
   const zodiacSign = getZodiacSign(user?.birthDate);
+  console.log('zodiacSign', zodiacSign)
   const zodiacImage = zodiacImages[zodiacSign] || 'https://static.twitchcdn.net/assets/dark-40f6c299eb07b670b88d.svg'; // Imagen predeterminada si no encuentra el signo
 
   function getdropdownchatidentity() {
