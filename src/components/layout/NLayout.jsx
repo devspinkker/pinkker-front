@@ -135,7 +135,6 @@ function NLayout(props) {
 
   // Message
   useEffect(() => {
-
     fetchData();
   }, [openMessage]);
 
@@ -361,7 +360,7 @@ function NLayout(props) {
         }
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
 
       setSocket(newSocket);
       window.addEventListener("beforeunload", () => {
@@ -632,9 +631,9 @@ function NLayout(props) {
   const pixeles = props.user?.Pixeles;
   const formattedPixeles = pixeles
     ? new Intl.NumberFormat("es-ES", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 3,
-    }).format(pixeles)
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 3,
+      }).format(pixeles)
     : "0";
   const [category, setCategory] = useState(0); // Estado inicial
 
@@ -648,7 +647,6 @@ function NLayout(props) {
     }
   }, [category]);
 
-
   const handleChange = (e) => {
     const value = e.target.value;
 
@@ -660,7 +658,6 @@ function NLayout(props) {
 
       const getUser = () => {
         return fetchSearch(value).then((res) => {
-     
           return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
         });
       };
@@ -677,19 +674,14 @@ function NLayout(props) {
       };
 
       if (category == 3) {
-
-
         getVods()
           .then((data) => {
-   ;
             setSearch(data);
           })
           .catch((error) => {
             console.error("Error getting clips:", error);
           });
       } else if (category == 2) {
-     
-
         getClip()
           .then((data) => {
             setSearch(data);
@@ -759,14 +751,15 @@ function NLayout(props) {
             fontWeight: "bolder",
             display: "flex",
             flexDirection: "column",
-            justifyContent: 'space-between'
+            justifyContent: "space-between",
           }}
         >
-          <Grid style={{
-            display: "flex",
-            flexDirection: "column",
-          }}>
-
+          <Grid
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <Grid
               style={{
                 padding: props.tyExpanded ? "14.97px 14.5px" : "26.72px 0px",
@@ -831,7 +824,8 @@ function NLayout(props) {
                         backgroundSize: "cover",
                         padding: ".5rem",
                         borderRadius: ".375rem",
-                        animation: !props.tyExpanded && "ease-in-out 1.5s linear",
+                        animation:
+                          !props.tyExpanded && "ease-in-out 1.5s linear",
                       }}
                     >
                       <span
@@ -860,7 +854,8 @@ function NLayout(props) {
                         borderRadius: ".375rem",
                         width: "70px",
                         justifyContent: "center",
-                        animation: !props.tyExpanded && "ease-in-out 1.5s linear",
+                        animation:
+                          !props.tyExpanded && "ease-in-out 1.5s linear",
                       }}
                       className="button-sports"
                     >
@@ -1020,7 +1015,7 @@ function NLayout(props) {
                     style={{ width: props.tyExpanded ? "30%" : "100%" }}
                   >
                     {new Date(props.user?.PinkkerPrime?.SubscriptionEnd) >
-                      new Date() ? (
+                    new Date() ? (
                       <img
                         className="pixel-coming-soon-navbarLeft-img-pixel"
                         style={{
@@ -1145,31 +1140,31 @@ function NLayout(props) {
                   </Link>
                   {/* comentado quitar*/}
 
-                  {/* <Link
-                  style={{ textDecoration: "none" }}
-                  className="menu-aside-option"
-                  to="/plataform/Comunidades"
-                >
-                  <li
-                    style={{
-                      color: "white",
-                      display: "flex",
-                      gap: "10px",
-                      alignItems: "center",
-                      padding: props.tyExpanded ? "0rem 15px" : "0px",
-                      justifyContent: !props.tyExpanded && "center",
-                      animation: !props.tyExpanded && "ease-in-out 3s linear",
-                    }}
-                    className={
-                      location.pathname === "/plataform/Comunidades"
-                        ? "item-liActive"
-                        : "item-li"
-                    }
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    className="menu-aside-option"
+                    to="/plataform/Comunidades"
                   >
-                    <BsChatSquareText />
-                    {props.tyExpanded && <span>Comunidades</span>}
-                  </li>
-                </Link> */}
+                    <li
+                      style={{
+                        color: "white",
+                        display: "flex",
+                        gap: "10px",
+                        alignItems: "center",
+                        padding: props.tyExpanded ? "0rem 15px" : "0px",
+                        justifyContent: !props.tyExpanded && "center",
+                        animation: !props.tyExpanded && "ease-in-out 3s linear",
+                      }}
+                      className={
+                        location.pathname === "/plataform/Comunidades"
+                          ? "item-liActive"
+                          : "item-li"
+                      }
+                    >
+                      <BsChatSquareText />
+                      {props.tyExpanded && <span>Comunidades</span>}
+                    </li>
+                  </Link>
                 </ul>
               </Grid>
               <Grid
@@ -1284,15 +1279,35 @@ function NLayout(props) {
             </Grid>
           </Grid>
 
-          <Grid style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: '10px' }}>
-            <a href="https://t.me/+75VGebsdAcdiMTBh" target="_blank" style={{textDecoration:'none'}}>
-              <FaTelegramPlane style={{ color: '#f86bb9', fontSize: '1.5rem' }} className="icono-sociales" />
+          <Grid
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              padding: "10px",
+            }}
+          >
+            <a
+              href="https://t.me/+75VGebsdAcdiMTBh"
+              target="_blank"
+              style={{ textDecoration: "none" }}
+            >
+              <FaTelegramPlane
+                style={{ color: "#f86bb9", fontSize: "1.5rem" }}
+                className="icono-sociales"
+              />
             </a>
-            <a href="http://instagram.com/pinkker.tv"  target="_blank" style={{textDecoration:'none'}}>
-              <AiFillInstagram style={{ color: '#f86bb9', fontSize: '1.5rem' }} className="icono-sociales"/>
+            <a
+              href="http://instagram.com/pinkker.tv"
+              target="_blank"
+              style={{ textDecoration: "none" }}
+            >
+              <AiFillInstagram
+                style={{ color: "#f86bb9", fontSize: "1.5rem" }}
+                className="icono-sociales"
+              />
             </a>
           </Grid>
-
         </Grid>
 
         {/* GRID NAV - MAIN */}
@@ -1301,12 +1316,12 @@ function NLayout(props) {
           style={{
             width:
               props.tyExpanded && props.txExpandedLeft
-                ? "85%"
+                ? "100%"
                 : props.tyExpanded && !props.txExpandedLeft
-                  ? "95%"
-                  : !props.tyExpanded && props.txExpandedLeft
-                    ? "85%"
-                    : "100%",
+                ? "100%"
+                : !props.tyExpanded && props.txExpandedLeft
+                ? "100%"
+                : "100%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1316,18 +1331,18 @@ function NLayout(props) {
           {!props.user?.NameUser ? (
             <Grid
               className="navTopHome"
-            // style={{
-            //   borderBottom: "1px solid #2a2e38",
-            //   display: "flex",
-            //   alignItems: "center",
-            //   justifyContent: "space-between",
-            //   padding: "1rem 5.8rem",
-            //   position: "sticky",
-            //   top: 0,
-            //   zIndex: 9999,
-            //   backgroundColor: "#080808",
-            //   width: "102%",
-            // }}
+              // style={{
+              //   borderBottom: "1px solid #2a2e38",
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "space-between",
+              //   padding: "1rem 5.8rem",
+              //   position: "sticky",
+              //   top: 0,
+              //   zIndex: 9999,
+              //   backgroundColor: "#080808",
+              //   width: "102%",
+              // }}
             >
               <Grid
                 className="navTop"
@@ -1381,18 +1396,18 @@ function NLayout(props) {
                     : "calc(1200px + 6vw)",
                   margin: "0 auto",
                 }}
-              // style={{
-              //   borderBottom: "1px solid #2a2e38",
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "space-between",
-              //   padding: "15.5px 5.8rem",
-              //   position: "sticky",
-              //   top: 0,
-              //   zIndex: 9999,
-              //   backgroundColor: "#080808",
-              //   width: "103.5%",
-              // }}
+                // style={{
+                //   borderBottom: "1px solid #2a2e38",
+                //   display: "flex",
+                //   alignItems: "center",
+                //   justifyContent: "space-between",
+                //   padding: "15.5px 5.8rem",
+                //   position: "sticky",
+                //   top: 0,
+                //   zIndex: 9999,
+                //   backgroundColor: "#080808",
+                //   width: "103.5%",
+                // }}
               >
                 <Link to="/" style={{ width: "230px" }}>
                   <img
@@ -1404,61 +1419,63 @@ function NLayout(props) {
 
                 <Grid style={{ display: "flex", alignItems: "center" }}>
                   {/* comentado quitar*/}
-                  {/* <div
-                  style={{
-                    display: "flex",
-                    gap: "5px",
-                  }}
-                >
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "flex-end",
+                      gap: "5px",
                     }}
-                    className="button-purchase-pixels"
-                    onClick={() => handleExpandCartera()}
                   >
-                    <button
+                    <div
                       style={{
                         display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
+                        justifyContent: "flex-end",
                       }}
+                      className="button-purchase-pixels"
+                      onClick={() => handleExpandCartera()}
                     >
-                      <Grid
+                      <button
                         style={{
                           display: "flex",
-                          gap: "5px",
+                          justifyContent: "space-between",
                           alignItems: "center",
-                          width: "50%",
                         }}
                       >
-                        <img
+                        <Grid
                           style={{
-                            width: props.isMobile ? "25px" : "17px",
+                            display: "flex",
+                            gap: "5px",
+                            alignItems: "center",
+                            width: "50%",
                           }}
-                          src={imagenPixel}
-                          alt=""
-                        />{" "}
-                        <span style={{ fontSize: "14px" }}>
-                          {props.user?.Pixeles != 0 ? formattedPixeles : "0.00"}
-                        </span>
-                      </Grid>
+                        >
+                          <img
+                            style={{
+                              width: props.isMobile ? "25px" : "17px",
+                            }}
+                            src={imagenPixel}
+                            alt=""
+                          />{" "}
+                          <span style={{ fontSize: "14px" }}>
+                            {props.user?.Pixeles != 0
+                              ? formattedPixeles
+                              : "0.00"}
+                          </span>
+                        </Grid>
 
-                      {expandCartera ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                    </button>
+                        {expandCartera ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                      </button>
+                    </div>
+                    {expandCartera && <DropdownPurchase />}
+
+                    <Link to="/plataform/cartera">
+                      <button className="boton-comprar">
+                        <BsWallet />
+                        <Typography style={{ fontSize: "14px" }}>
+                          Comprar{" "}
+                        </Typography>
+                      </button>
+                    </Link>
                   </div>
-                  {expandCartera && <DropdownPurchase />}
-
-                  <Link to="/plataform/cartera">
-                    <button className="boton-comprar">
-                      <BsWallet />
-                      <Typography style={{ fontSize: "14px" }}>
-                        Comprar{" "}
-                      </Typography>
-                    </button>
-                  </Link>
-                </div> */}
                 </Grid>
 
                 <Grid>
@@ -1845,7 +1862,7 @@ function NLayout(props) {
                                 style={{ backgroundColor: "#080808" }}
                               >
                                 {!game?.streamThumbnail &&
-                                  !game?.StreamThumbnail ? (
+                                !game?.StreamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
@@ -1920,7 +1937,7 @@ function NLayout(props) {
                                         game?.url,
                                         game?.StreamThumbnail && true,
                                         game?.StreamThumbnail &&
-                                        game?.UserInfo?.NameUser,
+                                          game?.UserInfo?.NameUser,
                                         game?.StreamThumbnail && game?.id
                                       )
                                     }
@@ -2681,7 +2698,7 @@ function NLayout(props) {
                       Panel de control del creador
                     </Link>
                     {/* comentado quitar*/}
-                    {/* <Link
+                    <Link
                       className="dropdownaccount-link"
                       to="/plataform/cartera"
                       style={{
@@ -2692,7 +2709,7 @@ function NLayout(props) {
                     >
                       <TfiWallet style={{ marginRight: "10px" }} />
                       Cartera
-                    </Link> */}
+                    </Link>
 
                     <Link
                       className="dropdownaccount-link"
@@ -2838,17 +2855,17 @@ function NLayout(props) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "white",
-                        },
+                          {
+                            borderColor: "white",
+                          },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2860,7 +2877,7 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
@@ -3007,7 +3024,7 @@ function NLayout(props) {
                               style={{ backgroundColor: "#080808" }}
                             >
                               {!game?.streamThumbnail &&
-                                !game?.StreamThumbnail ? (
+                              !game?.StreamThumbnail ? (
                                 <Link
                                   key={index}
                                   to={`/${game?.NameUser}`}
@@ -3082,7 +3099,7 @@ function NLayout(props) {
                                       game?.url,
                                       game?.StreamThumbnail && true,
                                       game?.StreamThumbnail &&
-                                      game?.UserInfo?.NameUser,
+                                        game?.UserInfo?.NameUser,
                                       game?.StreamThumbnail && game?.id
                                     )
                                   }
@@ -3197,7 +3214,7 @@ function NLayout(props) {
               <FaLayerGroup className="icon" />
               <span>Categorías</span>
             </Link>
-            {/*
+
             <Link
               to="/plataform/Comunidades"
               className={
@@ -3206,7 +3223,7 @@ function NLayout(props) {
             >
               <BsChatSquareText className="icon" />
               <span>Comunidades</span>
-            </Link> */}
+            </Link>
           </div>
         )}
 

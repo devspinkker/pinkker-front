@@ -83,7 +83,6 @@ export function ChatStreaming({
   const alert = useNotification();
   const history = useHistory();
 
-  
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isNavbarOpenDropdownEmotes, setisNavbarOpenDropdownEmotes] =
     useState(false);
@@ -125,8 +124,6 @@ export function ChatStreaming({
       };
     }
   }, [suggestedUsers, activeSuggestionIndex]);
-
-
 
   // buscqueda de usuario en el chat
 
@@ -339,7 +336,7 @@ export function ChatStreaming({
         try {
           const receivedMessage = JSON.parse(event.data);
           newSocket.send("onmessage");
-         
+
           if (stopIteration) {
             setMessageold((prevMessages) => [...prevMessages, receivedMessage]);
             scrollToBottom();
@@ -356,7 +353,7 @@ export function ChatStreaming({
         newSocket.send("closing");
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
       setSocket(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -451,7 +448,7 @@ export function ChatStreaming({
         }
       };
 
-      newSocket.onopen = () => { };
+      newSocket.onopen = () => {};
       setsocketDeleteMsj(newSocket);
 
       window.addEventListener("beforeunload", () => {
@@ -791,48 +788,48 @@ export function ChatStreaming({
           >
             {displayDonations[0] !== undefined
               ? [...displayDonations].map((donation, index) => (
-                <Donation
-                  key={index}
-                  donation={donation}
-                  index={index}
-                  callback={() => {
-                    toggleDonationCard(
-                      donation?.Pixeles,
-                      donation?.FromUserInfo.NameUser,
-                      donation?.FromUserInfo.Avatar,
-                      donation?.Text,
-                      donation?.userLook,
-                      donation?.userColor
-                    );
-                    setShowAllDonations(true);
-                    setDonationCardVisible(donationCardVisible);
-                    setSelectedDonation(donation);
+                  <Donation
+                    key={index}
+                    donation={donation}
+                    index={index}
+                    callback={() => {
+                      toggleDonationCard(
+                        donation?.Pixeles,
+                        donation?.FromUserInfo.NameUser,
+                        donation?.FromUserInfo.Avatar,
+                        donation?.Text,
+                        donation?.userLook,
+                        donation?.userColor
+                      );
+                      setShowAllDonations(true);
+                      setDonationCardVisible(donationCardVisible);
+                      setSelectedDonation(donation);
 
-                    setClickCount((prevCount) => prevCount + 1);
+                      setClickCount((prevCount) => prevCount + 1);
 
-                    if (clickCount >= 1) {
-                      setFirstClick(true);
-                    }
+                      if (clickCount >= 1) {
+                        setFirstClick(true);
+                      }
 
-                    setAllDonationsExpanded(true);
-                  }}
-                  ShowAllDonations={setShowAllDonations}
-                />
-              ))
+                      setAllDonationsExpanded(true);
+                    }}
+                    ShowAllDonations={setShowAllDonations}
+                  />
+                ))
               : !chatExpandeds && (
-                <h3
-                  style={{
-                    color: "#f36196",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                  }}
-                  onClick={() => {
-                    onMouseEnterPoints();
-                  }}
-                >
-                  Envia pixeles
-                </h3>
-              )}
+                  <h3
+                    style={{
+                      color: "#f36196",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                    }}
+                    onClick={() => {
+                      onMouseEnterPoints();
+                    }}
+                  >
+                    Envia pixeles
+                  </h3>
+                )}
           </div>
           <button
             style={{
@@ -1123,7 +1120,6 @@ export function ChatStreaming({
   }, []);
 
   const GetUserTheChatFunc = async (message) => {
-
     setInfoUserChatSelect(message);
     const res = await getUserByNameUser(message.nameUser);
     if (res.message == "ok") {
@@ -1136,7 +1132,6 @@ export function ChatStreaming({
       }
     }
   };
-
 
   const GetUserTheChatFuncfollow = async () => {
     const token = window.localStorage.getItem("token");
@@ -1474,10 +1469,11 @@ export function ChatStreaming({
                       style={{ color: MsjChatAnclado.Color }}
                     >
                       <span
-                        className={`content-info-message-2-nameUser-span ${ResMessageschatState?.PinkkerPrime
-                          ? "PinkkerPrime"
-                          : " "
-                          }`}
+                        className={`content-info-message-2-nameUser-span ${
+                          ResMessageschatState?.PinkkerPrime
+                            ? "PinkkerPrime"
+                            : " "
+                        }`}
                       >
                         {MsjChatAnclado.nameUser}
                       </span>
@@ -1490,7 +1486,7 @@ export function ChatStreaming({
                 {GetInfoUserInRoom &&
                   (GetInfoUserInRoom.Moderator ||
                     streamerChat.streamerId ==
-                    window.localStorage.getItem("_id")) && (
+                      window.localStorage.getItem("_id")) && (
                     <div
                       className="hover-button"
                       onClick={(e) => {
@@ -1540,16 +1536,25 @@ export function ChatStreaming({
         </div>
       </div>
       <div className="Conversation" ref={conversationRef}>
-
         {ShowGetUserTheChat && GetUserTheChat?.NameUser?.length && (
-
           <div className="ShowGetUserTheChat" style={{ zIndex: 150000 }}>
-
-
             <div className="ShowGetUserTheChat-InfoUser">
-              <div style={{display:'flex', alignItems:'center', justifyContent:'flex-start'}}>
-                <Link to={"/" + GetUserTheChat?.NameUser} style={{width:'25%'}}>
-                  <img src={GetUserTheChat?.Avatar} alt="" style={{borderRadius:'50%', width:'80%'}}/>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Link
+                  to={"/" + GetUserTheChat?.NameUser}
+                  style={{ width: "25%" }}
+                >
+                  <img
+                    src={GetUserTheChat?.Avatar}
+                    alt=""
+                    style={{ borderRadius: "50%", width: "80%" }}
+                  />
                 </Link>
 
                 <div className="ShowGetUserTheChat-InfoUser-gsd">
@@ -1565,7 +1570,6 @@ export function ChatStreaming({
                       {GetUserTheChat?.NameUser}
                     </span>
                   </Link>
-
 
                   {GetUserTheChatFollowing && (
                     <div className="followingFrom">
@@ -1596,11 +1600,7 @@ export function ChatStreaming({
                 </div>
               </div>
 
-
-              <span
-
-                onClick={() => setShowGetUserTheChat(false)}
-              >
+              <span onClick={() => setShowGetUserTheChat(false)}>
                 <i
                   style={{ cursor: "pointer", color: "#ffff" }}
                   class="fas fa-times"
@@ -1608,10 +1608,7 @@ export function ChatStreaming({
               </span>
             </div>
 
-
-
             <div className="ShowGetUserTheChat-actions">
-
               <span
                 style={{
                   marginLeft: "0px",
@@ -1635,14 +1632,15 @@ export function ChatStreaming({
                   />
                   <span>Regalar una suscripción</span>
                 </div>
-
               )}
 
-              <span><RiMessage3Line/> </span>
+              <span>
+                <RiMessage3Line />{" "}
+              </span>
             </div>
             {GetInfoUserInRoom &&
-              GetInfoUserInRoom.Moderator &&
-              streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
+            GetInfoUserInRoom.Moderator &&
+            streamerChat.streamerId !== window.localStorage.getItem("_id") ? (
               <div className="ShowGetUserTheChat-actions-Moderator">
                 <div
                   onClick={() =>
@@ -1671,9 +1669,6 @@ export function ChatStreaming({
                 >
                   <span>TimeOut</span>
                 </div>
-
-
-
               </div>
             ) : (
               <></>
@@ -1820,8 +1815,9 @@ export function ChatStreaming({
                 )}
 
                 <span
-                  className={`content-info-message-2-nameUser-span ${message.PinkkerPrime ? "PinkkerPrime" : ""
-                    }`}
+                  className={`content-info-message-2-nameUser-span ${
+                    message.PinkkerPrime ? "PinkkerPrime" : ""
+                  }`}
                   style={{ color: `${message.Color}` }}
                 >
                   {message.nameUser}
@@ -1844,8 +1840,8 @@ export function ChatStreaming({
                   </div>
                 </div>
                 {GetInfoUserInRoom &&
-                  (GetInfoUserInRoom.Moderator ||
-                    streamerChat.streamerId ==
+                (GetInfoUserInRoom.Moderator ||
+                  streamerChat.streamerId ==
                     window.localStorage.getItem("_id")) ? (
                   <div
                     className="hover-button"
@@ -1992,9 +1988,13 @@ export function ChatStreaming({
                     />
                   )}
                   <span
-                    className={`content-info-message-2-nameUser-span ${message.PinkkerPrime ? "PinkkerPrime" : ""
-                      }`}
-                    style={{ color: `${message.Color}`, fontSize: changeTextSizeState }}
+                    className={`content-info-message-2-nameUser-span ${
+                      message.PinkkerPrime ? "PinkkerPrime" : ""
+                    }`}
+                    style={{
+                      color: `${message.Color}`,
+                      fontSize: changeTextSizeState,
+                    }}
                   >
                     {message.nameUser}
                   </span>
@@ -2009,16 +2009,15 @@ export function ChatStreaming({
                           fontSize: changeTextSizeState,
                         }}
                       >
-
                         <span className="content-parse-message">
-                          :  {parseMessage(message.message).content}
+                          : {parseMessage(message.message).content}
                         </span>
                       </p>
                     </div>
                   </div>
                   {GetInfoUserInRoom &&
-                    (GetInfoUserInRoom.Moderator ||
-                      streamerChat.streamerId ==
+                  (GetInfoUserInRoom.Moderator ||
+                    streamerChat.streamerId ==
                       window.localStorage.getItem("_id")) ? (
                     <div
                       className="hover-button"
@@ -2129,10 +2128,11 @@ export function ChatStreaming({
                       }}
                     >
                       <span
-                        className={`content-info-message-2-nameUser-span ${ResMessageschatState?.PinkkerPrime
-                          ? "PinkkerPrime"
-                          : ""
-                          }`}
+                        className={`content-info-message-2-nameUser-span ${
+                          ResMessageschatState?.PinkkerPrime
+                            ? "PinkkerPrime"
+                            : ""
+                        }`}
                       >
                         {ResMessageschatState.nameUser}:{" "}
                       </span>
@@ -2166,8 +2166,9 @@ export function ChatStreaming({
               suggestedUsers.map((u, index) => (
                 <span
                   key={u}
-                  className={`suggestedUsers-span ${index === activeSuggestionIndex ? "active" : ""
-                    }`}
+                  className={`suggestedUsers-span ${
+                    index === activeSuggestionIndex ? "active" : ""
+                  }`}
                   onClick={() => handleSuggestionSelect(u)}
                 >
                   {u}
@@ -2330,7 +2331,7 @@ export function ChatStreaming({
                 type="text"
                 // value={message}
                 placeholder="solo seguidores"
-              // onChange={handleChange}
+                // onChange={handleChange}
               />
               <Tippy
                 theme="pinkker"
@@ -2511,7 +2512,7 @@ export function ChatStreaming({
                 type="text"
                 // value={message}
                 placeholder="solo suscriptores"
-              // onChange={handleChange}
+                // onChange={handleChange}
               />
               <Tippy
                 theme="pinkker"
@@ -2618,10 +2619,10 @@ export function ChatStreaming({
           <div className="actions-chat">
             {/* comentado quitar*/}
             <button
-              // onClick={() => onMouseEnterPoints()}
+              onClick={() => onMouseEnterPoints()}
               className="button-points gray-button"
             >
-              {/* <img
+              <img
                 style={{ width: false ? "30px" : "16px" }}
                 src="/images/pixel.png"
                 alt=""
@@ -2651,7 +2652,7 @@ export function ChatStreaming({
                 >
                   <p className="text-points-increment2">+{points}</p>
                 </Tippy>
-              )} */}
+              )}
             </button>
             {dropdownChatConfig && (
               <DropdownChatConfig

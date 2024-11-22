@@ -374,19 +374,21 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
 // };
 
 
+  const handlePlay = () => {
+    setShowWarning(false)
+};
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      videoElement.addEventListener("play", handlePlay);
+    }
 
-  // useEffect(() => {
-  //   const videoElement = videoRef.current;
-  //   if (videoElement) {
-  //     videoElement.addEventListener("play", handlePlay);
-  //   }
-
-  //   return () => {
-  //     if (videoElement) {
-  //       videoElement.removeEventListener("play", handlePlay);
-  //     }
-  //   };
-  // }, [videoRef]);
+    return () => {
+      if (videoElement) {
+        videoElement.removeEventListener("play", handlePlay);
+      }
+    };
+  }, [videoRef]);
   
   return (
     <>

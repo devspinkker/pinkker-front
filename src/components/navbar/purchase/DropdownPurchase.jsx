@@ -50,14 +50,12 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
     <>
       {/* comentado quitar*/}
 
-      {/* <ul
+      <ul
         ref={divRef}
         className={
           click ? "dropdownpurchase-menu clicked" : "dropdownpurchase-menu"
         }
       >
-
-
         <div style={{ width: "99%" }} className="dropdowncomunidad-container">
           <div
             style={{ width: "95%", borderBottom: "1px solid #4b4b4b8f" }}
@@ -79,7 +77,6 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
               >
                 Comprar Pixeles
               </h3>
-  
             </div>
           </div>
 
@@ -267,7 +264,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
             />
           )}
         </div>
-      </ul> */}
+      </ul>
     </>
   );
 }
