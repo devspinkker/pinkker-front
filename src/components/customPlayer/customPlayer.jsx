@@ -213,6 +213,51 @@ export default function CustomPlayer({
     }
   };
 
+
+  const screen = window.screen.orientation;
+  const toggleFullScreenMobile = async () => {
+    const videoContainer = document.querySelector(".contentCustomScreen");
+  
+    // Verificar si estamos en un dispositivo móvil
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+    if (!isMobile) {
+      console.warn("Esta función está diseñada exclusivamente para dispositivos móviles.");
+      return;
+    }
+  
+    try {
+      if (document.fullscreenElement) {
+        // Salir del modo pantalla completa
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        }
+  
+        // Restaurar la orientación al estado predeterminado
+        if (screen.orientation && screen.orientation.unlock) {
+          await screen.orientation.unlock();
+        }
+      } else {
+        // Entrar en modo pantalla completa
+        if (videoContainer) {
+          if (videoContainer.requestFullscreen) {
+            await videoContainer.requestFullscreen();
+          }
+        }
+  
+        // Bloquear la orientación en modo horizontal
+        if (screen.orientation && screen.orientation.lock) {
+          await screen.orientation.lock("landscape").catch((err) => {
+            console.error("No se pudo bloquear la orientación:", err);
+          });
+        }
+      }
+    } catch (err) {
+      console.error("Error al alternar pantalla completa en móvil:", err);
+    }
+  };
+  
+
   const toggleTheaterMode = () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
     const body = document.body;
@@ -884,7 +929,7 @@ export default function CustomPlayer({
                     }
                   >
                     <i
-                      onClick={() => toggleFullScreen()}
+                      onClick={() =>  toggleFullScreen()}
                       style={{ cursor: "pointer" }}
                       class="fas fa-expand pinkker-button-more button-more-player"
                     />

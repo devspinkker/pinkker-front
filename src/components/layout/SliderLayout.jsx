@@ -16,6 +16,7 @@ import { GrGamepad } from "react-icons/gr";
 import SelectVideoClip from "../home/clips/SelectVideoClip";
 import VodCard from "../card/VodCard";
 import ClipCardChannel from "../card/ClipCardChannel";
+import CardStreamRecomendado from "../home/categories/CardStreamRecomendado";
 
 function SliderLayout(props) {
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -74,10 +75,10 @@ function SliderLayout(props) {
             ? 1
             : 3
           : props.Vod || props.clipT
-          ? 4.5
-          : isFullHD
-          ? 9.5
-          : 8.5
+            ? 4.5
+            : isFullHD
+              ? 9.5
+              : 8.5
       }
       Pagination
       onSlideChange={handleSlideChange}
@@ -91,85 +92,210 @@ function SliderLayout(props) {
           justifyContent: "space-between",
         }}
       >
-        {props.Categoria && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              width: !props.isMobile && "80%",
-            }}
-          >
-            {/* <img src="/images/original.svg" style={{ width: '2%', color:'#856ffc' }} /> */}
+        {props.streams && props.streamsCard?.length && (
+          <>
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                width: "100%",
+              }}
+            >
 
-            <GrGamepad style={{ color: "#ff69c4", fontSize: "20px" }} />
-            <h2 style={{ fontFamily: "Inter", color: "white" }}>Categorias</h2>
-          </div>
+              <GrGamepad style={{ color: "#ff69c4", fontSize: "20px" }} />
+              <h2 style={{ color: "white", fontSize: "20px" }}>Directos Recomendados</h2>
+            </Grid>
+
+            <div className="manager-recommended-actions-arrow">
+              <div
+                className={`custom-prev ${isBeginning ? "disabled" : ""}`}
+                style={{
+                  fontSize: "14px",
+                  opacity: isBeginning ? 0.5 : 1,
+                  pointerEvents: isBeginning ? "none" : "auto",
+                }}
+              >
+                <i className="fas fa-chevron-left"></i>
+              </div>
+              <div
+                className={`custom-next ${isEnd ? "disabled" : ""}`}
+                style={{
+                  fontSize: "14px",
+                  opacity: isEnd ? 0.5 : 1,
+                  pointerEvents: isEnd ? "none" : "auto",
+                }}
+              >
+                <i className="fas fa-chevron-right"></i>
+              </div>
+            </div>
+
+          </>
+        )}
+
+        {props.Categoria && (
+          <>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                width: !props.isMobile && "80%",
+              }}
+            >
+              {/* <img src="/images/original.svg" style={{ width: '2%', color:'#856ffc' }} /> */}
+
+              <GrGamepad style={{ color: "#ff69c4", fontSize: "20px" }} />
+              <h2 style={{ fontFamily: "Inter", color: "white" }}>Categorias</h2>
+            </div>
+
+            <div className="manager-recommended-actions-arrow">
+              <div
+                className={`custom-prev ${isBeginning ? "disabled" : ""}`}
+                style={{
+                  fontSize: "14px",
+                  opacity: isBeginning ? 0.5 : 1,
+                  pointerEvents: isBeginning ? "none" : "auto",
+                }}
+              >
+                <i className="fas fa-chevron-left"></i>
+              </div>
+              <div
+                className={`custom-next ${isEnd ? "disabled" : ""}`}
+                style={{
+                  fontSize: "14px",
+                  opacity: isEnd ? 0.5 : 1,
+                  pointerEvents: isEnd ? "none" : "auto",
+                }}
+              >
+                <i className="fas fa-chevron-right"></i>
+              </div>
+            </div>
+          </>
+
         )}
         {/* comentado quitar*/}
         {props.clipT && (
-          <Grid
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              width: "30%",
-            }}
-          >
-            <AiOutlinePlayCircle
-              style={{ color: "#ff69c4", fontSize: "20px" }}
-            />
-            <h2 style={{ color: "white", fontSize: "20px" }}>
-              {props.titulo
-                ? "Vods Recomendados"
-                : props.isMobile
-                ? "Clips"
-                : "Clips más vistos"}{" "}
-            </h2>
-          </Grid>
+          <>
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                width: "30%",
+              }}
+            >
+              <AiOutlinePlayCircle
+                style={{ color: "#ff69c4", fontSize: "20px" }}
+              />
+              <h2 style={{ color: "white", fontSize: "20px" }}>
+                {props.titulo
+                  ? "Vods Recomendados"
+                  : props.isMobile
+                    ? "Clips"
+                    : "Clips más vistos"}{" "}
+              </h2>
+            </Grid>
+
+            <div className="manager-recommended-actions-arrow">
+              <div
+                className={`custom-prev ${isBeginning ? "disabled" : ""}`}
+                style={{
+                  fontSize: "14px",
+                  opacity: isBeginning ? 0.5 : 1,
+                  pointerEvents: isBeginning ? "none" : "auto",
+                }}
+              >
+                <i className="fas fa-chevron-left"></i>
+              </div>
+              <div
+                className={`custom-next ${isEnd ? "disabled" : ""}`}
+                style={{
+                  fontSize: "14px",
+                  opacity: isEnd ? 0.5 : 1,
+                  pointerEvents: isEnd ? "none" : "auto",
+                }}
+              >
+                <i className="fas fa-chevron-right"></i>
+              </div>
+            </div>
+          </>
         )}
+
         {props.Vods && (
-          <Grid
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              width: "30%",
-            }}
-          >
-            <AiOutlinePlayCircle
-              style={{ color: "#ff69c4", fontSize: "20px" }}
-            />
-            <h2 style={{ color: "white", fontSize: "20px" }}>
-              {props.isMobile ? "Vods" : "Vods Recomendados"}{" "}
-            </h2>
-          </Grid>
+          <>
+            <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                width: "30%",
+              }}
+            >
+              <AiOutlinePlayCircle
+                style={{ color: "#ff69c4", fontSize: "20px" }}
+              />
+              <h2 style={{ color: "white", fontSize: "20px" }}>
+                {props.isMobile ? "Vods" : "Vods Recomendados"}{" "}
+              </h2>
+            </Grid>
+            
+            <div className="manager-recommended-actions-arrow">
+              <div
+                className={`custom-prev ${isBeginning ? "disabled" : ""}`}
+                style={{
+                  fontSize: "14px",
+                  opacity: isBeginning ? 0.5 : 1,
+                  pointerEvents: isBeginning ? "none" : "auto",
+                }}
+              >
+                <i className="fas fa-chevron-left"></i>
+              </div>
+              <div
+                className={`custom-next ${isEnd ? "disabled" : ""}`}
+                style={{
+                  fontSize: "14px",
+                  opacity: isEnd ? 0.5 : 1,
+                  pointerEvents: isEnd ? "none" : "auto",
+                }}
+              >
+                <i className="fas fa-chevron-right"></i>
+              </div>
+            </div>
+          </>
         )}
 
         {/* comentado quitar*/}
-        <div className="manager-recommended-actions-arrow">
-          <div
-            className={`custom-prev ${isBeginning ? "disabled" : ""}`}
-            style={{
-              fontSize: "14px",
-              opacity: isBeginning ? 0.5 : 1,
-              pointerEvents: isBeginning ? "none" : "auto",
-            }}
-          >
-            <i className="fas fa-chevron-left"></i>
-          </div>
-          <div
-            className={`custom-next ${isEnd ? "disabled" : ""}`}
-            style={{
-              fontSize: "14px",
-              opacity: isEnd ? 0.5 : 1,
-              pointerEvents: isEnd ? "none" : "auto",
-            }}
-          >
-            <i className="fas fa-chevron-right"></i>
-          </div>
-        </div>
+
+
       </Grid>
+
+      {props?.streams && (
+        <>
+          {props?.streamsCard?.length && (
+            props?.streamsCard?.filter((stream, index) => index < 10)
+                .map((stream) => (
+                  <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
+                    <CardStreamRecomendado
+                      tags={stream.stream_tag}
+                      isMobile={props.isMobile}
+                      streamer={stream.streamer}
+                      categorie={stream.stream_category}
+                      title={stream.stream_title}
+                      viewers={stream.ViewerCount}
+                      name={stream.streamer}
+                      isLoading={false}
+                      avatarStreamer={stream.streamer_avatar}
+                      image={
+                        stream.stream_thumbnail ?? "/images/pinkker-stream.png"
+                      }
+                      ViewerCount={stream.ViewerCount}
+                    />
+                  </SwiperSlide>
+                ))
+          )}
+        </>
+      )}
 
       {props.Categoria && (
         <>

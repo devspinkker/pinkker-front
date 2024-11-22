@@ -9,6 +9,7 @@ import { GetAllsStreamsOnline } from "../../../services/backGo/streams";
 import CardStreamRecomendado from "../categories/CardStreamRecomendado";
 import { Grid } from "@mui/material";
 import { GrGamepad } from "react-icons/gr";
+import SliderLayout from "../../layout/SliderLayout";
 
 function CardSkeleto() {
   return (
@@ -106,44 +107,6 @@ export default function DirectosRecommended({
     fetchData();
   }, [expanded]);
 
-  const streamsData = [
-    {
-      streamer: "eldenguee",
-      title: "Jugando league of legends",
-      viewers: "50000",
-      tags: ["lol", "league of legends"],
-    },
-    {
-      streamer: "eldenguee",
-      title: "Jugando league of legends",
-      viewers: "50000",
-      tags: ["lol", "league of legends"],
-    },
-    {
-      streamer: "eldenguee",
-      title: "Jugando league of legends",
-      viewers: "50000",
-      tags: ["lol", "league of legends"],
-    },
-    {
-      streamer: "eldenguee",
-      title: "Jugando league of legends",
-      viewers: "50000",
-      tags: ["lol", "league of legends"],
-    },
-    {
-      streamer: "eldenguee",
-      title: "Jugando league of legends",
-      viewers: "50000",
-      tags: ["lol", "league of legends"],
-    },
-    {
-      streamer: "eldenguee",
-      title: "Jugando league of legends",
-      viewers: "50000",
-      tags: ["lol", "league of legends"],
-    },
-  ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -158,7 +121,7 @@ export default function DirectosRecommended({
 
   return (
     <div className="home-recommended">
-      {streams?.length && <div className="manager-recommended">
+      {/* {streams?.length && <div className="manager-recommended">
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '50%' }}>
           <GrGamepad style={{ color: '#ff69c4', fontSize: '20px' }} />
@@ -185,7 +148,7 @@ export default function DirectosRecommended({
             ></i>
           </div>
         </div>
-      </div>}
+      </div>} */}
 
 
       {/* {isMobile && (
@@ -210,91 +173,17 @@ export default function DirectosRecommended({
             )}
         </div>
       )} */}
+
+      
       <div style={{ display: "flex", overflow: "hidden" }}>
-        <div
-          className="home-recommended-card-container"
-          style={{
-            transition: "transform 0.5s ease",
-            transform: `translateX(${currentIndex * -20}%)`,
-          }}
-        >
-          {streams == null && isLoading == true ? (
-            [...Array(3)]?.map((_, index) => (
-              <div
-                style={{ marginRight: "9px" }}
-                key={index}
-              >
-                
-                <Skeleton
-                  variant="rectangular"
-                  width={500}
-                  height={250}
-                  style={{ backgroundColor: "rgb(32, 32, 31)", marginBottom: '10px' }}
-                />
-                <Grid style={{ display: 'flex', gap: '5px', alignItems: 'flex-start' }} >
-                  <Skeleton
-                    variant="circular"
-                    width={50}
-                    height={50}
 
-                    style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                  />
-                  <Grid style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-
-                    <Skeleton
-                      variant="text"
-                      width={120}
-                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                    />
-                    <Skeleton
-                      variant="text"
-                      width={100}
-                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                    />
-
-                  </Grid>
-                </Grid>
-
-              </div>
-            ))
-
-          ) : (
-            streams?.map((stream, index) => (
-              <div
-                style={{ marginRight: "9px" }}
-                key={index}
-              >
-                <CardStreamRecomendado
-                  tags={stream.stream_tag}
-                  isMobile={isMobile}
-                  streamer={stream.streamer}
-                  categorie={stream.stream_category}
-                  title={stream.stream_title}
-                  viewers={stream.ViewerCount}
-                  name={stream.streamer}
-                  isLoading={false}
-                  avatarStreamer={stream.streamer_avatar}
-                  image={
-                    stream.stream_thumbnail ?? "/images/pinkker-stream.png"
-                  }
-                  ViewerCount={stream.ViewerCount}
-                />
-
-                {/* <VideoCard
-                  tags={stream.stream_tag}
-                  isMobile={isMobile}
-                  streamerImage={stream.streamer_avatar}
-                  streamer={stream.streamer}
-                  categorie={stream.stream_category}
-                  title={stream.stream_title}
-                  viewers={stream.ViewerCount}
-                  image={stream.stream_thumbnail}
-                /> */}
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-    </div >
-  );
+        <SliderLayout
+          streams={true}
+          Categoria={false}
+          streamsCard={streams}
+          isMobile={isMobile}
+        />
+      </div >
+    </div>
+      );
 }

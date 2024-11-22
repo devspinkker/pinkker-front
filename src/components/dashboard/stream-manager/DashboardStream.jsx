@@ -742,6 +742,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                       display: "flex",
                       justifyContent: "space-between",
                       width: "79%",
+                      wordBreak:'break-word'
                     }}
                   >
                     <Typography style={{ fontWeight: "bold", color: "white" }}>

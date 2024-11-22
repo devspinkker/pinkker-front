@@ -6,7 +6,7 @@
 .channel-chat {
     position: sticky;
     /* Asegúrate de que el contenedor tenga posición relativa */
-    top: 0px;
+    top: 80px;
     z-index: 888;
 }
 

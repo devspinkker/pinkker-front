@@ -83,7 +83,7 @@ export function ChatStreaming({
   const alert = useNotification();
   const history = useHistory();
 
-  console.log('message',messagesold)
+  
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isNavbarOpenDropdownEmotes, setisNavbarOpenDropdownEmotes] =
     useState(false);
@@ -125,6 +125,8 @@ export function ChatStreaming({
       };
     }
   }, [suggestedUsers, activeSuggestionIndex]);
+
+
 
   // buscqueda de usuario en el chat
 
@@ -337,8 +339,7 @@ export function ChatStreaming({
         try {
           const receivedMessage = JSON.parse(event.data);
           newSocket.send("onmessage");
-          console.log(receivedMessage);
-
+         
           if (stopIteration) {
             setMessageold((prevMessages) => [...prevMessages, receivedMessage]);
             scrollToBottom();
@@ -1656,6 +1657,7 @@ export function ChatStreaming({
                 >
                   <span>Banear</span>
                 </div>
+
                 <div
                   onClick={() =>
                     ModeratorUserChat(
@@ -1669,6 +1671,9 @@ export function ChatStreaming({
                 >
                   <span>TimeOut</span>
                 </div>
+
+
+
               </div>
             ) : (
               <></>
@@ -1989,7 +1994,7 @@ export function ChatStreaming({
                   <span
                     className={`content-info-message-2-nameUser-span ${message.PinkkerPrime ? "PinkkerPrime" : ""
                       }`}
-                    style={{ color: `${message.Color}` }}
+                    style={{ color: `${message.Color}`, fontSize: changeTextSizeState }}
                   >
                     {message.nameUser}
                   </span>

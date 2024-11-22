@@ -96,13 +96,25 @@
 @media screen and (max-width: 960px) {
 
   .dropdownsettings-menu {
-    width: 220%;
-    top: 60px;
-    z-index: 200;
+    width: 100%;
+    bottom: 20%;
+    z-index: 99999;
+    height: fit-content;
 
   }
 
   .fa-caret-down {
     display: none;
+  }
+
+  .dropdownsettings-FullScreen{
+    width: 100%;
+    
+    height: fit-content;
+    z-index: 99999;
+    position: absolute;
+    
+    top: 25%;
+    left: auto;
   }
 }
