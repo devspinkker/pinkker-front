@@ -2619,10 +2619,10 @@ export function ChatStreaming({
           <div className="actions-chat">
             {/* comentado quitar*/}
             <button
-              onClick={() => onMouseEnterPoints()}
+              // onClick={() => onMouseEnterPoints()}
               className="button-points gray-button"
             >
-              <img
+              {/* <img
                 style={{ width: false ? "30px" : "16px" }}
                 src="/images/pixel.png"
                 alt=""
@@ -2652,7 +2652,7 @@ export function ChatStreaming({
                 >
                   <p className="text-points-increment2">+{points}</p>
                 </Tippy>
-              )}
+              )} */}
             </button>
             {dropdownChatConfig && (
               <DropdownChatConfig

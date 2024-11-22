@@ -1419,7 +1419,7 @@ function NLayout(props) {
 
                 <Grid style={{ display: "flex", alignItems: "center" }}>
                   {/* comentado quitar*/}
-                  <div
+                  {/* <div
                     style={{
                       display: "flex",
                       gap: "5px",
@@ -1475,7 +1475,7 @@ function NLayout(props) {
                         </Typography>
                       </button>
                     </Link>
-                  </div>
+                  </div> */}
                 </Grid>
 
                 <Grid>
@@ -2698,7 +2698,7 @@ function NLayout(props) {
                       Panel de control del creador
                     </Link>
                     {/* comentado quitar*/}
-                    <Link
+                    {/* <Link
                       className="dropdownaccount-link"
                       to="/plataform/cartera"
                       style={{
@@ -2709,7 +2709,7 @@ function NLayout(props) {
                     >
                       <TfiWallet style={{ marginRight: "10px" }} />
                       Cartera
-                    </Link>
+                    </Link> */}
 
                     <Link
                       className="dropdownaccount-link"
