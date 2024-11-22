@@ -350,46 +350,24 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   }, []);
 
 
-//   const handlePlay = () => {
-//     console.log("Reproducción iniciada...");
-//     setPlayLive(prev => prev +1); // Alterna el estado de reproducción
-//     // if (videoRef.current) {
-//     //     // Detenemos el video
-//     //     videoRef.current.pause();
-
-//     //     // Desconectamos el flujo actual, esto puede incluir limpiar el SourceBuffer si usas MSE
-//     //     if (videoRef.current.srcObject) {
-//     //         videoRef.current.srcObject = null; // Desconectar la fuente actual
-//     //     }
-
-//     //     // Reconfiguramos el flujo FLV desde el principio
-//     //     // El flujo debe comenzar desde la URL original del archivo FLV
-//     //     videoRef.current.src = 'URL_DEL_FLV'; // Asigna la URL de tu archivo FLV o el flujo en vivo
-
-//     //     // Reproducimos el video desde el principio
-//     //     videoRef.current.play().catch(error => {
-//     //         console.error('Error al reproducir el video:', error);
-//     //     });
-//     // }
-// };
-
-
-  const handlePlay = () => {
-    setShowWarning(false)
-};
   useEffect(() => {
-    const videoElement = videoRef.current;
-    if (videoElement) {
-      videoElement.addEventListener("play", handlePlay);
-    }
-
-    return () => {
-      if (videoElement) {
-        videoElement.removeEventListener("play", handlePlay);
+  if (showWarning) {
+    const timeout = setTimeout(() => {
+      setShowWarning(false);
+      
+      if (videoRef.current) {
+        videoRef.current.muted = false;
+        setPlayer(false);
+        videoRef.current.play().catch((error) => {
+          console.error('Error al iniciar la reproducción automáticamente:', error);
+        });
       }
-    };
-  }, [videoRef]);
-  
+    }, 700); 
+
+    return () => clearTimeout(timeout); 
+  }
+}, [showWarning]);
+
   return (
     <>
     {showWarning && (
@@ -401,7 +379,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         className='thumbnail-prev-PlayerMain'
         
   >
-    <div className="base-dialog-player">
+    {/* <div className="base-dialog-player">
       <button
          style={
           {
@@ -420,7 +398,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
           className='fas fa-play pinkker-button-more' ></i>
         </div>
       </button>
-    </div>
+    </div> */}
   </div>
 )}
  
@@ -475,6 +453,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         controls
         muted={Player}
         className={`video-player  ${isFullScreen ? 'fullscreen' : ''}`}
+        poster={stream_thumbnail}
       />
     </>
   );
