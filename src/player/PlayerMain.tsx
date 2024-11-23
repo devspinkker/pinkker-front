@@ -15,9 +15,11 @@ interface ReactVideoPlayerProps {
   streamerDataID: string;  
   stream_thumbnail: string;
   dashboard: boolean;
+  onPauseDuration?: (duration: number) => void; // Nueva prop para enviar duración de pausas
+  reset?: boolean; // Nueva prop para reiniciar el reproductor
 }
 
-function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID, stream_thumbnail, dashboard }: ReactVideoPlayerProps) {
+function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID, stream_thumbnail, dashboard, onPauseDuration,reset}: ReactVideoPlayerProps) {
   const history = useHistory();
   const [isPlaying, setIsPlaying] = useState(false);
   const [Commercial, setCommercial] = useState<any>(null);
@@ -290,7 +292,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         videoRef.current.removeEventListener("error", handlePlaybackIssue);
       }
     };
-  }, [src, quality]);
+  }, [src, quality,reset]);
   
 
   function isMobile() {
@@ -324,9 +326,36 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
     }
   };
 
-  const handleRedirectHome = () => {
-    history.push("/");
-  };
+  const pauseStartRef = useRef<number | null>(null); // Registro del inicio de la pausa
+
+  useEffect(() => {
+    if (videoRef.current) {
+      // Detectar pausa
+      const handlePause = () => {
+        pauseStartRef.current = Date.now(); // Registrar momento de pausa
+      };
+
+      // Detectar reanudación y calcular duración
+      const handlePlay = () => {
+        if (pauseStartRef.current) {
+          const duration = (Date.now() - pauseStartRef.current) / 1000; // Calcular en segundos
+          pauseStartRef.current = null;
+          if (onPauseDuration) {
+            onPauseDuration(duration); // Enviar al padre
+          }
+        }
+      };
+
+      videoRef.current.addEventListener('pause', handlePause);
+      videoRef.current.addEventListener('play', handlePlay);
+
+      return () => {
+        videoRef.current?.removeEventListener('pause', handlePause);
+        videoRef.current?.removeEventListener('play', handlePlay);
+      };
+    }
+  }, [videoRef, onPauseDuration]);
+
   useEffect(() => {
     const handleFullScreenChange = () => {
       const isFullScreen = !!(
@@ -355,11 +384,13 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
     const timeout = setTimeout(() => {
       setShowWarning(false);
       
-      if (videoRef.current) {
+        // Reproducir de forma silente primero
+        if (videoRef.current) {
         videoRef.current.muted = false;
         setPlayer(false);
         videoRef.current.play().catch((error) => {
           console.error('Error al iniciar la reproducción automáticamente:', error);
+setShowWarning(false)
         });
       }
     }, 700); 
@@ -379,7 +410,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         className='thumbnail-prev-PlayerMain'
         
   >
-    {/* <div className="base-dialog-player">
+    <div className="base-dialog-player">
       <button
          style={
           {
@@ -398,7 +429,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
           className='fas fa-play pinkker-button-more' ></i>
         </div>
       </button>
-    </div> */}
+    </div>
   </div>
 )}
  
@@ -451,7 +482,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         height={HeightVideo()}
         width={width}
         controls
-        muted={Player}
+        muted={true}
         className={`video-player  ${isFullScreen ? 'fullscreen' : ''}`}
         poster={stream_thumbnail}
       />
