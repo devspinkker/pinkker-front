@@ -142,6 +142,12 @@ export default function Channel({
       online: State,
     }));
   };
+  const updateStreamviews = (views) => {
+    setStream((prevStream) => ({
+      ...prevStream,
+      ViewerCount: views,
+    }));
+  };
   const [time, setTime] = useState(0);
   let currentTime = 0;
   const [showPopupAuth, setShowPopupAuth] = useState(false);
@@ -177,6 +183,7 @@ export default function Channel({
             <ChatStreaming
               updateStreamTitleCategoria={updateStreamTitleCategoria}
               updateStreamOnline={updateStreamOnline}
+              updateStreamviews={updateStreamviews}
               openChatWindow={openChatWindow}
               streamerChat={stream}
               chatExpandeds={chatExpanded}
@@ -266,7 +273,7 @@ export default function Channel({
     }
   }, []);
 
-  const loadDataOnlyOnce = () => { };
+  const loadDataOnlyOnce = () => {};
 
   function togglePopupFollowers(typeDefault) {
     setTypeFollowers(typeDefault);
@@ -305,7 +312,7 @@ export default function Channel({
           setUser(res.data);
           return res.data;
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   }
   const [streamData, setStreamData] = useState();
@@ -334,8 +341,8 @@ export default function Channel({
     setReadMore(false);
     setTimeCount(null);
 
-    const interval_id = window.setInterval(function () { },
-      Number.MAX_SAFE_INTEGER);
+    const interval_id = window.setInterval(function () {},
+    Number.MAX_SAFE_INTEGER);
     for (let i = 1; i < interval_id; i++) {
       window.clearInterval(i);
     }
@@ -361,7 +368,6 @@ export default function Channel({
           } else {
             setFollowParam(false);
           }
-          
 
           setGetInfoUserInRoom(InfoStreamData?.UserInfo);
         }
@@ -925,7 +931,6 @@ export default function Channel({
     );
   }
 
-
   function getButtonsFromChannel() {
     if (streamer === user?.NameUser) {
       return (
@@ -1061,7 +1066,6 @@ export default function Channel({
           <></>
         )}
 
-
         {getFollowButton()}
 
         <Tippy
@@ -1074,16 +1078,20 @@ export default function Channel({
         >
           <button
             onClick={() => handleMessage(streamer)}
-
             className="channel-bottom-v2-button-follow"
-            style={{width: '100%', display:'flex', alignItems: 'center', margin: 0 , justifyContent: 'center', gap:'10px'}}
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              margin: 0,
+              justifyContent: "center",
+              gap: "10px",
+            }}
           >
             <i class="fas fa-envelope" />
             <span>Enviar Mensaje </span>
           </button>
         </Tippy>
-
-
 
         {dropdownShare && (
           <ShareDropdown title={stream.stream_title} streamer={streamer} />
@@ -1370,8 +1378,8 @@ export default function Channel({
         ? "100%"
         : "100%"
       : chatExpanded
-        ? "90%"
-        : "90%";
+      ? "90%"
+      : "90%";
   }
 
   function getChannel() {
@@ -1572,6 +1580,7 @@ export default function Channel({
                   <ChatStreaming
                     updateStreamTitleCategoria={updateStreamTitleCategoria}
                     updateStreamOnline={updateStreamOnline}
+                    updateStreamviews={updateStreamviews}
                     openChatWindow={openChatWindow}
                     streamerChat={stream}
                     chatExpandeds={chatExpanded}
@@ -1667,6 +1676,7 @@ export default function Channel({
           <ChatStreaming
             updateStreamTitleCategoria={updateStreamTitleCategoria}
             updateStreamOnline={updateStreamOnline}
+            updateStreamviews={updateStreamviews}
             openChatWindow={openChatWindow}
             streamerChat={stream}
             chatExpandeds={chatExpanded}

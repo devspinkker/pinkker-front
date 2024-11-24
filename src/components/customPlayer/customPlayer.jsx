@@ -79,6 +79,7 @@ export default function CustomPlayer({
   const HandleResetPlayerLive = () => {
     setBackLive(false);
     setReset(!reset);
+    setPlaying(true);
   };
 
   const handlePauseDuration = (duration) => {

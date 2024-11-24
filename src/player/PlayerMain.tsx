@@ -390,10 +390,12 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         setPlayer(false);
         videoRef.current.play().catch((error) => {
           console.error('Error al iniciar la reproducción automáticamente:', error);
-setShowWarning(false)
+          setShowWarning(true)
+          setPlayer(true);
+          
         });
       }
-    }, 700); 
+    }, 500); 
 
     return () => clearTimeout(timeout); 
   }
