@@ -3,18 +3,31 @@ import React, { useState, useEffect } from "react";
 import "./CommentCard.css";
 import { Link } from "react-router-dom";
 import {
+  DeleteComment,
   LikeCommentClip,
   UnlikeComment,
 } from "../../../../services/backGo/clip";
+import { IconButton } from "@mui/material";
+import { FaTrashAlt } from "react-icons/fa";
 
-export default function CommentCard({ comment }) {
+export default function CommentCard({
+  comment,
+  OwnerClip = null,
+  idCommentDelete,
+}) {
   const [isLiked, setIsLiked] = useState(null);
 
   const [likes, setLikes] = useState(null);
   const [respuesta, setRespuesta] = useState(false);
+  let id = window.localStorage.getItem("_id");
+  let token = window.localStorage.getItem("token");
 
   const [commentAnswer, setCommentAnswer] = useState(false);
   const [avatar, SetAvatar] = useState(null);
+  const HandleDeleteComment = async () => {
+    await DeleteComment(token, comment._id);
+    idCommentDelete(comment._id);
+  };
 
   useEffect(() => {
     let avatar = window.localStorage.getItem("avatar");
@@ -22,7 +35,6 @@ export default function CommentCard({ comment }) {
       SetAvatar(avatar);
     }
     setIsLiked(true);
-    let id = window.localStorage.getItem("_id");
     if (id) {
       setIsLiked(comment?.isLikedByID);
     }
@@ -31,7 +43,6 @@ export default function CommentCard({ comment }) {
     try {
       if (isLiked) {
         setIsLiked(false);
-        let token = window.localStorage.getItem("token");
         let id = window.localStorage.getItem("_id");
         if (token && id) {
           const res = await UnlikeComment(token, comment._id);
@@ -41,8 +52,6 @@ export default function CommentCard({ comment }) {
         }
       } else {
         setIsLiked(true);
-        let token = window.localStorage.getItem("token");
-        let id = window.localStorage.getItem("_id");
 
         if (token && id) {
           const res = await LikeCommentClip(token, comment._id);
@@ -227,6 +236,16 @@ export default function CommentCard({ comment }) {
           ))} */}
       </div>
 
+      {OwnerClip && OwnerClip === id && (
+        <IconButton
+          aria-label="delete"
+          color="inherit"
+          onClick={HandleDeleteComment}
+        >
+          {" "}
+          <FaTrashAlt style={{ color: "white", fontSize: "20px" }} />
+        </IconButton>
+      )}
       <div style={{ color: isLiked && "red" }} className="tweetcard-icon-like">
         {isLiked ? (
           <i

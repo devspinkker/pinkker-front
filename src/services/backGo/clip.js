@@ -193,6 +193,24 @@ export const CommentClip = async (token, ClipId, CommentClip) => {
         return error
     }
 };
+export const DeleteComment = async (token, ClipId,) => {
+    try {
+
+        const res = await axios.post(
+            `${url}/clips/DeleteComment`,
+            {
+                IdClip: ClipId,
+            },
+            {
+                headers: { Authorization: token },
+            }
+        );
+        return res;
+    } catch (error) {
+        return error
+    }
+};
+
 export const GetClipComments = async (page, IdClip) => {
     try {
         const response = await axios.get(`${url}/clips/GetClipComments?page=${page}&IdClip=${IdClip}`)
