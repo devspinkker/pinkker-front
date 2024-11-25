@@ -142,19 +142,14 @@ const AppRouter = () => {
 
   const [messagesOpen, setMessagesOpen] = useState([]);
   const [NewChatMessageForChannel, setNewChatMessageForChannel] = useState("");
-  const [renderTrigger, setRenderTrigger] = useState(0);
+  const [OpenNewChat, setOpenNewChat] = useState(false);
 
   const addOpenMessage = (id) => {
     if (id) {
       setNewChatMessageForChannel(id);
-
-      setRenderTrigger((prev) => prev + 1);
+      setOpenNewChat(!OpenNewChat); // Incrementa el contador para notificar cambios
     }
   };
-
-  useEffect(() => {
-    setNewChatMessageForChannel("");
-  }, [NewChatMessageForChannel, renderTrigger]);
 
   function removeOpenMessage(streamer) {
     setMessagesOpen(
@@ -312,6 +307,7 @@ const AppRouter = () => {
           txExpandedLeft={expandedLeft}
           setExpandedLeft={setexpandedLeft}
           NewChatMessageForChannel={NewChatMessageForChannel}
+          OpenNewChat={OpenNewChat}
         >
           <Switch>
             <Route exact path="/panel/PaneldminPinkker">

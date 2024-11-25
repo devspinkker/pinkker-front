@@ -192,10 +192,10 @@ export default function Message({
         if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
           setChatrequest(updatedMessagesOpen);
           setMessagesOpen(updatedMessagesOpen);
-        } else {
-          setChatrequest([]);
-          setMessagesOpen([]);
+          return;
         }
+        setChatrequest([]);
+        setMessagesOpen([]);
       }
     }
   };
@@ -206,7 +206,7 @@ export default function Message({
     try {
       let token = window.localStorage.getItem("token");
 
-      if (id && !NewChatMessageForChannel) {
+      if (id) {
         const chat = await CreateChatOrGetChats(token, id);
 
         if (chat) {
@@ -247,22 +247,21 @@ export default function Message({
   const handleNewChatWithMessage = async () => {
     try {
       let token = window.localStorage.getItem("token");
-      // if (!token || !NewChatMessageForChannel) {
-      //   return;
-      // }
+      if (!token || NewChatMessageForChannel === "") {
+        return;
+      }
+
       const chat = await CreateChatOrGetChats(token, NewChatMessageForChannel);
 
       if (chat) {
         // Identifica al usuario actual
         const currentUserInfo = chat.Users.find((user) => user.ID === idUser);
-        console.log(currentUserInfo);
 
         // Verifica si existe el usuario actual
         if (!currentUserInfo) {
           console.error("Usuario actual no encontrado en el chat.");
           return;
         }
-        console.log("AA");
 
         // Determina el estado que corresponde al usuario actual
         const currentUserStatus =
@@ -273,34 +272,35 @@ export default function Message({
         const chatExists = messagesOpen.some((c) => c.chatID === chat.ID);
 
         if (!chatExists) {
-          const updatedMessagesOpen = messagesOpen.map((c) => ({
-            ...c,
-            openedWindow: false,
-          }));
-          let objInfo = [
-            {
-              chatID: chat.ID,
-              openedWindow: false,
-              user1: chat.User1ID,
-              user2: chat.User2ID,
-              usersInfo: chat.Users,
-              messages: chat.messages || [],
-              NotifyA: chat.NotifyA,
-              StatusUser1: chat.StatusUser1,
-              StatusUser2: chat.StatusUser2,
-            },
-            ...updatedMessagesOpen,
-          ];
-          console.log(currentUserStatus);
+          // const updatedMessagesOpen = messagesOpen.map((c) => ({
+          //   ...c,
+          //   openedWindow: false,
+          // }));
+          // let objInfo = [
+          //   {
+          //     chatID: chat.ID,
+          //     openedWindow: false,
+          //     user1: chat.User1ID,
+          //     user2: chat.User2ID,
+          //     usersInfo: chat.Users,
+          //     messages: chat.messages || [],
+          //     NotifyA: chat.NotifyA,
+          //     StatusUser1: chat.StatusUser1,
+          //     StatusUser2: chat.StatusUser2,
+          //   },
+          //   ...updatedMessagesOpen,
+          // ];
+          // console.log(currentUserStatus);
 
-          if (currentUserStatus === "primary") {
-            setMessagesOpen(objInfo);
-          } else if (currentUserStatus === "secondary") {
-            setChatsecondary(objInfo);
-          } else if (currentUserInfo === "requests") {
-            setChatrequest(objInfo);
+          // setMessagesOpen(objInfo);
+          if (currentUserStatus == "primary") {
+            primaryChats();
+          } else if (currentUserInfo === "secondary") {
+            secondaryChats();
+          } else {
+            requestChats();
           }
-          setActiveTab(currentUserInfo);
+          setActiveTab(currentUserStatus);
 
           setOpenChatIndex(0); // Establecer el índice del chat abierto
         }

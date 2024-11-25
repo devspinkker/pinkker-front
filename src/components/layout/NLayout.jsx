@@ -81,7 +81,7 @@ function NLayout(props) {
       console.log("Received in NLayout:", props.NewChatMessageForChannel);
       setOpenMessage(true);
     }
-  }, [props.NewChatMessageForChannel]);
+  }, [props.OpenNewChat]);
 
   useEffect(() => {
     const checkScreenSize = () => {
