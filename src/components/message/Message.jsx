@@ -15,11 +15,13 @@ export default function Message({
   socketMain,
   closeMessageChat,
   messagesOpen1,
+  NewChatMessageForChannel,
 }) {
   const [messagesOpen, setMessagesOpen] = useState(messagesOpen1);
   const [Chatrequest, setChatrequest] = useState([]);
   const [Chatsecondary, setChatsecondary] = useState([]);
   const [activeTab, setActiveTab] = useState("primary");
+  const idUser = window.localStorage.getItem("_id");
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -50,16 +52,13 @@ export default function Message({
   };
   let userID = window.localStorage.getItem("_id");
   const handleStatusChange = (newStatus, idChangeStatus) => {
-  
-
-
     setMessagesOpen((prevChats) =>
       prevChats.filter((chat) => chat.chatID !== idChangeStatus)
     );
   };
   useEffect(() => {
-
-  }, [messagesOpen1]);
+    handleNewChatWithMessage();
+  }, [NewChatMessageForChannel]);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
@@ -203,25 +202,85 @@ export default function Message({
   const handleClosePopUp = () => {
     setIsPopUpOpen(false);
   };
-
   const handleUserSelect = async (id) => {
     try {
       let token = window.localStorage.getItem("token");
 
-      if (id) {
+      if (id && !NewChatMessageForChannel) {
         const chat = await CreateChatOrGetChats(token, id);
- 
 
         if (chat) {
+          const chatExists = messagesOpen.some((c) => c.chatID === chat.ID);
+
+          if (!chatExists) {
+            const updatedMessagesOpen = messagesOpen.map((c) => ({
+              ...c,
+              openedWindow: false,
+            }));
+
+            setMessagesOpen([
+              {
+                chatID: chat.ID,
+                openedWindow: true,
+                user1: chat.User1ID,
+                user2: chat.User2ID,
+                usersInfo: chat.Users,
+                messages: chat.messages || [],
+                NotifyA: chat.NotifyA,
+                StatusUser1: chat.StatusUser1,
+                StatusUser2: chat.StatusUser2,
+              },
+              ...updatedMessagesOpen,
+            ]);
+
+            setOpenChatIndex(0); // Establecer el índice del chat abierto
+          }
+        }
+      } else if (NewChatMessageForChannel) {
+        await handleNewChatWithMessage();
+      }
+    } catch (error) {
+      console.error("Error creating/getting chat:", error);
+    }
+  };
+
+  const handleNewChatWithMessage = async () => {
+    try {
+      let token = window.localStorage.getItem("token");
+      // if (!token || !NewChatMessageForChannel) {
+      //   return;
+      // }
+      const chat = await CreateChatOrGetChats(token, NewChatMessageForChannel);
+
+      if (chat) {
+        // Identifica al usuario actual
+        const currentUserInfo = chat.Users.find((user) => user.ID === idUser);
+        console.log(currentUserInfo);
+
+        // Verifica si existe el usuario actual
+        if (!currentUserInfo) {
+          console.error("Usuario actual no encontrado en el chat.");
+          return;
+        }
+        console.log("AA");
+
+        // Determina el estado que corresponde al usuario actual
+        const currentUserStatus =
+          currentUserInfo.ID === chat.User1ID
+            ? chat.StatusUser1
+            : chat.StatusUser2;
+
+        const chatExists = messagesOpen.some((c) => c.chatID === chat.ID);
+
+        if (!chatExists) {
           const updatedMessagesOpen = messagesOpen.map((c) => ({
             ...c,
             openedWindow: false,
           }));
-
-          setMessagesOpen([
+          let objInfo = [
             {
               chatID: chat.ID,
-              openedWindow: true,
+              openedWindow: false,
               user1: chat.User1ID,
               user2: chat.User2ID,
               usersInfo: chat.Users,
@@ -231,15 +290,29 @@ export default function Message({
               StatusUser2: chat.StatusUser2,
             },
             ...updatedMessagesOpen,
-          ]);
+          ];
+          console.log(currentUserStatus);
+
+          if (currentUserStatus === "primary") {
+            setMessagesOpen(objInfo);
+          } else if (currentUserStatus === "secondary") {
+            setChatsecondary(objInfo);
+          } else if (currentUserInfo === "requests") {
+            setChatrequest(objInfo);
+          }
+          setActiveTab(currentUserInfo);
 
           setOpenChatIndex(0); // Establecer el índice del chat abierto
         }
       }
     } catch (error) {
-      console.error("Error creating/getting chat:", error);
+      console.error(
+        "Error handling chat with NewChatMessageForChannel:",
+        error
+      );
     }
   };
+
   return (
     <div className="message-body">
       <div className="ContNewChat">

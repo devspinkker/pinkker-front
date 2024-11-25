@@ -139,14 +139,14 @@ export default function CommentCard({
               {comment.likeCount} Me gustas
             </p>
           </div>
-          <div style={{ color: "lightgray", marginLeft: "10px" }}>
+          {/* <div style={{ color: "lightgray", marginLeft: "10px" }}>
             <p
               onClick={() => setRespuesta(!respuesta)}
               style={{ fontSize: "13px" }}
             >
               Responder
             </p>
-          </div>
+          </div> */}
         </div>
 
         {respuesta === true && (

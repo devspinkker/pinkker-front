@@ -11,13 +11,10 @@ const LayoutMessageNotis = ({
   PinkerNotifications,
   setOpenMessage,
   setOpenNotification,
-  openNotification
+  openNotification,
+  NewChatMessageForChannel,
 }) => {
   const token = window.localStorage.getItem("token");
-
-  useEffect(() => {
-
-  }, []);
 
   return (
     <div>
@@ -32,7 +29,9 @@ const LayoutMessageNotis = ({
         }}
       >
         <IoMdClose
-          onClick={() => openMessage ? setOpenMessage(false) : setOpenNotification(false)}
+          onClick={() =>
+            openMessage ? setOpenMessage(false) : setOpenNotification(false)
+          }
           style={{ color: "white", cursor: "pointer" }}
         />
         <Typography
@@ -53,7 +52,10 @@ const LayoutMessageNotis = ({
         }}
       >
         {openMessage && messagesOpen ? (
-          <Message messagesOpen1={messagesOpen} />
+          <Message
+            messagesOpen1={messagesOpen}
+            NewChatMessageForChannel={NewChatMessageForChannel}
+          />
         ) : (
           <Notificaciones PinkerNotifications={PinkerNotifications} />
         )}

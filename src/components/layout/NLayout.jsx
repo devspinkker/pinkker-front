@@ -1,31 +1,19 @@
 import {
-  AppBar,
   Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   CardMedia,
-  Dialog,
   DialogContent,
   Drawer,
-  FormControl,
   Grid,
   IconButton,
   InputBase,
-  MenuItem,
-  Select,
-  Tab,
-  Tabs,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import NavbarLeft from "../navbarLeft/NavbarLeft";
-import Search from "../navbar/search/Search";
 import "./NLayout.css";
-import DropdownBalance from "../navbar/balance/DropdownBalance";
-import DropdownPurchase from "../navbar/purchase/DropdownPurchase";
 import CanalesRecomendados from "./CanalesRecomendados";
 import Auth from "../auth/Auth";
 import { Link, useLocation, useParams } from "react-router-dom";
@@ -40,52 +28,27 @@ import {
   AiOutlineClose,
   AiOutlineMenu,
   AiOutlinePlayCircle,
+  AiOutlineSetting,
 } from "react-icons/ai";
 import { BsChatDots, BsChatSquareText, BsWallet } from "react-icons/bs";
-import { CgTennis } from "react-icons/cg";
-import { ImDice } from "react-icons/im";
-import { AiOutlineSetting } from "react-icons/ai";
-import {
-  IoIosArrowDown,
-  IoIosArrowUp,
-  IoMdNotificationsOutline,
-} from "react-icons/io";
-import { HiChatBubbleLeftEllipsis } from "react-icons/hi2";
+import { IoMdNotificationsOutline } from "react-icons/io";
 
-import { MdArrowDropDown } from "react-icons/md"; // Icono de dropdown
-import { TfiWallet } from "react-icons/tfi";
 import { AiOutlineUser } from "react-icons/ai";
 import { LiaSlidersHSolid } from "react-icons/lia";
 import { TbLogout2 } from "react-icons/tb";
-import { FaBullseye, FaTelegramPlane } from "react-icons/fa";
+import { FaTelegramPlane } from "react-icons/fa";
 import { FaLayerGroup, FaSquareInstagram, FaTelegram } from "react-icons/fa6";
-import Messages from "../dashboard/stream-manager/chat/Messages";
-import Message from "../message/Message";
 import { GetChatsByUserIDWithStatus } from "../../services/backGo/Chats";
-import logoPinkker from "./LOGOPINKKER.png";
-import SearchPopup from "../navbar/search/SearchPopup";
 import { fetchSearch } from "../../redux/actions/searchAction";
 import { GetClipsByTitle } from "../../redux/actions/searchAction";
-import {
-  PostCreate,
-  setToken,
-  PostGets,
-  GetTweetsRecommended,
-} from "../../services/backGo/tweet";
+import { PostCreate, setToken } from "../../services/backGo/tweet";
 import {
   IoArrowBackCircleOutline,
-  IoChatbubbleOutline,
   IoCloseCircleOutline,
   IoSearch,
 } from "react-icons/io5";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import zIndex from "@mui/material/styles/zIndex";
-import Notificaciones from "../Notificaciones/Notificaciones";
 import Loading from "./Loading";
-import axios from "axios";
-import { MdManageSearch, MdOndemandVideo } from "react-icons/md";
-import { RiUserSearchLine } from "react-icons/ri";
-import imagenPixel from "./imagenPixel.png";
 import LayoutMessageNotis from "./LayoutMessageNotis";
 import {
   GetNotificacionesLastConnection,
@@ -96,8 +59,6 @@ import prime from "./Recurso 25.png";
 import primeCorto from "./Recurso 29.png";
 import Prime from "../settings/user/prime/Prime";
 function NLayout(props) {
-  const { streamer } = useParams();
-  const [locationpath, setLocationPath] = useState();
   const [dashboard, setDashboard] = useState(false);
   const [pulse, setPulse] = useState(false);
   const [abrir, setAbrir] = useState(true);
@@ -115,6 +76,12 @@ function NLayout(props) {
   const [notificacion, setNotificacion] = useState(false);
 
   const [is1920x1080, setIs1920x1080] = useState(false);
+  useEffect(() => {
+    if (props.NewChatMessageForChannel) {
+      console.log("Received in NLayout:", props.NewChatMessageForChannel);
+      setOpenMessage(true);
+    }
+  }, [props.NewChatMessageForChannel]);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -197,44 +164,6 @@ function NLayout(props) {
       }
     }
   };
-  // const fetchData = async () => {
-  //   let token = window.localStorage.getItem("token");
-  //   let userID = window.localStorage.getItem("_id");
-  //   if (token && userID) {
-  //     try {
-  //       const response = await GetChatsByUserIDWithStatus(token);
-  //       console.log("!!0");
-  //       if (response) {
-  //         console.log("!!0x");
-
-  //         const updatedMessagesOpen = response.map((chat) => ({
-  //           chatID: chat.ID,
-  //           openedWindow: false,
-  //           user1: chat.User1ID,
-  //           user2: chat.User2ID,
-  //           usersInfo: chat.Users,
-  //           NotifyA: chat.NotifyA,
-  //           StatusUser1: chat.StatusUser1,
-  //           StatusUser2: chat.StatusUser2,
-  //           Blocked: chat.Blocked,
-  //           messages: [],
-  //         }));
-  //         console.log("AAAAAAAAAAAAA");
-
-  //         setMessagesOpen(updatedMessagesOpen);
-  //         const hasNotification = updatedMessagesOpen.some(
-  //           (chat) => chat.NotifyA === userID
-  //         );
-  //         setNotificacion(hasNotification);
-  //       }
-  //     } catch (error) {
-  //       console.log("!!1");
-
-  //       console.error("Error fetching chats:", error);
-  //     }
-  //   }
-  //   console.log("!!2");
-  // };
 
   function clickPulsedButton() {
     props.setExpanded(!props.tyExpanded);
@@ -2282,6 +2211,7 @@ function NLayout(props) {
               openMessage={openMessage}
               messagesOpen={messagesOpen}
               PinkerNotifications={PinkerNotifications}
+              NewChatMessageForChannel={props.NewChatMessageForChannel}
             />
           </Grid>
         )}
@@ -3234,6 +3164,7 @@ function NLayout(props) {
               openMessage={openMessage}
               messagesOpen={messagesOpen}
               PinkerNotifications={PinkerNotifications}
+              NewChatMessageForChannel={props.NewChatMessageForChannel}
             />
           </Grid>
         )}

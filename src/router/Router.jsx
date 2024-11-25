@@ -140,28 +140,29 @@ const AppRouter = () => {
   //   getUser();
   // }, []);
 
-  const [openMessage, setOpenMessage] = useState(false);
-  const [openMessageStreamer, setOpenMessageStreamer] = useState(null);
-
   const [messagesOpen, setMessagesOpen] = useState([]);
+  const [NewChatMessageForChannel, setNewChatMessageForChannel] = useState("");
+  const [renderTrigger, setRenderTrigger] = useState(0);
 
-  function addOpenMessage(streamer, openedWindow) {
-    if (!messagesOpen.filter((e) => e.streamer === streamer).length > 0) {
-      if (messagesOpen.length <= 5) {
-        setMessagesOpen([...messagesOpen, { streamer, openedWindow }]);
-        setOpenMessage(true);
-        setOpenMessageStreamer(streamer);
-      }
+  const addOpenMessage = (id) => {
+    if (id) {
+      setNewChatMessageForChannel(id);
+
+      setRenderTrigger((prev) => prev + 1);
     }
-  }
+  };
+
+  useEffect(() => {
+    setNewChatMessageForChannel("");
+  }, [NewChatMessageForChannel, renderTrigger]);
 
   function removeOpenMessage(streamer) {
     setMessagesOpen(
       messagesOpen.filter((message) => message.streamer !== streamer)
     );
     if (messagesOpen.length === 0) {
-      setOpenMessage(false);
-      setOpenMessageStreamer(null);
+      // setOpenMessage(false);
+      // setOpenMessageStreamer(null);
     }
   }
   return (
@@ -310,6 +311,7 @@ const AppRouter = () => {
           setExpanded={setExpanded}
           txExpandedLeft={expandedLeft}
           setExpandedLeft={setexpandedLeft}
+          NewChatMessageForChannel={NewChatMessageForChannel}
         >
           <Switch>
             <Route exact path="/panel/PaneldminPinkker">
@@ -489,10 +491,8 @@ const AppRouter = () => {
                 tyExpanded={expanded}
               />
             </Route>
-           
           </Switch>
         </NLayout>
-
       </LastLocationProvider>
     </Router>
   );

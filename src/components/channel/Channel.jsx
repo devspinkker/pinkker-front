@@ -1077,7 +1077,7 @@ export default function Channel({
           }
         >
           <button
-            onClick={() => handleMessage(streamer)}
+            onClick={() => handleMessage(stream.streamerId)}
             className="channel-bottom-v2-button-follow"
             style={{
               width: "100%",
