@@ -200,7 +200,7 @@ export default function CustomPlayer({
 
   const toggleFullScreen = () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
-    setChatExpanded(true);
+    setChatExpanded(!chatExpanded);
     setFullScreen(!FullScreen);
     if (document.fullscreenElement) {
       if (document.exitFullscreen) {
@@ -416,8 +416,8 @@ export default function CustomPlayer({
             style={{
               width: "30%",
               display: !chatExpanded && "none",
-              height: "100%",
-              top: "-1%",
+              height: "50%",
+              top: "2.5%",
             }}
           >
             <ChatStreaming

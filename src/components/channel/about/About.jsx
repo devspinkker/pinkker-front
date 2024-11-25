@@ -66,6 +66,8 @@ export default function About({ streamer }) {
   const getZodiacSign = (dateS) => {
     const date = new Date(dateS);
   
+    console.log('dateS',dateS)
+    console.log('date',date)
     const days = [20, 19, 21, 20, 21, 21, 23, 23, 23, 23, 22, 21]; // Último día de cada signo
     const signs = [
       "Capricornio", // Diciembre 22 - Enero 19

@@ -17,6 +17,7 @@ export default function Biography(props) {
   const { user } = auth;
   const alert = useNotification();
   const [biography, setBiography] = useState(null);
+  const [birthday, setBirthday] = useState(null);
   const [country, setCountry] = useState(null);
   const [phone, setPhone] = useState(null);
   const [website, setWebsite] = useState(null);
@@ -48,7 +49,7 @@ export default function Biography(props) {
       country,
       Phone: phone,
       Website: website,
-      birthDate,
+      birthDate: birthday ?? birthDate,
       situation: sentimental,
     });
     if (data.error) {
@@ -152,7 +153,7 @@ export default function Biography(props) {
           </div>
         </div>
 
-        <div className="biography-content">
+        <div className="biography-content" style={{display:'flex', flexDirection:'column', gap: '10px'}}>
           <div
             style={{
               display: "flex",
@@ -178,7 +179,34 @@ export default function Biography(props) {
               menos de 200 caracteres.
             </p>
           </div>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <h4>Fecha De Cumpleaños </h4>
+            <TbEdit style={{ fontSize: "24px", cursor: "pointer" }} />
+          </div>
+
+          <div
+            className="biography-input"
+            style={{ display: "flex", flexDirection: "column", gap: "5px" }}
+          >
+            <input
+              placeholder="Ejemplo: 1888-10-05"
+              type="text"
+              onChange={(e) => setBirthday(e.target.value)}
+            />
+            <p style={{ fontSize: "13px", color: "darkgray" }}>
+              Fecha de cumpleaños YYYY-MM-DD
+            </p>
+          </div>
         </div>
+        
         
 
           <button
