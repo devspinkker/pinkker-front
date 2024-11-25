@@ -72,6 +72,21 @@ export default function CustomPlayer({
   const [enableQuality, setEnableQuality] = useState(false);
   const [currentTime, setCurrentTime] = useState(null);
 
+  const [reset, setReset] = useState(false);
+
+  const [BackLive, setBackLive] = useState(false);
+
+  const HandleResetPlayerLive = () => {
+    setBackLive(false);
+    setReset(!reset);
+    setPlaying(true);
+  };
+
+  const handlePauseDuration = (duration) => {
+    if (duration > 3) {
+      setBackLive(true);
+    }
+  };
   const togglePopupClipCreator = (video) => {
     setVideo(video);
     setPopupClipCreator(!popupClipCreator);
@@ -87,11 +102,10 @@ export default function CustomPlayer({
           setUser(res.data);
           return res.data;
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   }
 
-  
   useEffect(() => {
     if (videoRef.current != null && videoRef.current != undefined) {
       const videoPlayer = videoRef.current;
@@ -213,26 +227,30 @@ export default function CustomPlayer({
     }
   };
 
-
   const screen = window.screen.orientation;
   const toggleFullScreenMobile = async () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
-  
+
     // Verificar si estamos en un dispositivo móvil
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  
+    const isMobile =
+      /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+
     if (!isMobile) {
-      console.warn("Esta función está diseñada exclusivamente para dispositivos móviles.");
+      console.warn(
+        "Esta función está diseñada exclusivamente para dispositivos móviles."
+      );
       return;
     }
-  
+
     try {
       if (document.fullscreenElement) {
         // Salir del modo pantalla completa
         if (document.exitFullscreen) {
           await document.exitFullscreen();
         }
-  
+
         // Restaurar la orientación al estado predeterminado
         if (screen.orientation && screen.orientation.unlock) {
           await screen.orientation.unlock();
@@ -244,7 +262,7 @@ export default function CustomPlayer({
             await videoContainer.requestFullscreen();
           }
         }
-  
+
         // Bloquear la orientación en modo horizontal
         if (screen.orientation && screen.orientation.lock) {
           await screen.orientation.lock("landscape").catch((err) => {
@@ -256,7 +274,6 @@ export default function CustomPlayer({
       console.error("Error al alternar pantalla completa en móvil:", err);
     }
   };
-  
 
   const toggleTheaterMode = () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
@@ -390,6 +407,8 @@ export default function CustomPlayer({
           stream={stream?.id}
           streamerDataID={streamerData.id}
           stream_thumbnail={stream?.stream_thumbnail}
+          onPauseDuration={handlePauseDuration}
+          reset={reset}
         />
         {FullScreen && (
           <div
@@ -405,10 +424,9 @@ export default function CustomPlayer({
               streamerChat={stream}
               chatExpandeds={chatExpanded}
               ToggleChat={ToggleChat}
-              streamerData={streamerData}             
+              streamerData={streamerData}
               user={user}
               isMobile={isMobile}
-              
             />
           </div>
         )}
@@ -773,6 +791,16 @@ export default function CustomPlayer({
               className="customPlayer-primary"
             >
               <div className="customPlayer-secundary-div">
+                <div className="InLiveCustomPlayer">
+                  <span
+                    id={
+                      BackLive
+                        ? "LiveCustomPlayerSpanNolive"
+                        : "LiveCustomPlayerSpan"
+                    }
+                    onClick={() => HandleResetPlayerLive()}
+                  ></span>
+                </div>
                 <div className="customPlayer-card">
                   {playing ? (
                     <Tippy
@@ -810,6 +838,7 @@ export default function CustomPlayer({
                     </Tippy>
                   )}
                 </div>
+
                 <div className="customPlayer-card">{getVolumeButton()}</div>
 
                 <div
@@ -929,7 +958,7 @@ export default function CustomPlayer({
                     }
                   >
                     <i
-                      onClick={() =>  toggleFullScreen()}
+                      onClick={() => toggleFullScreen()}
                       style={{ cursor: "pointer" }}
                       class="fas fa-expand pinkker-button-more button-more-player"
                     />

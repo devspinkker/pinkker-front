@@ -41,6 +41,7 @@ import { RiMessage3Line } from "react-icons/ri";
 export function ChatStreaming({
   updateStreamTitleCategoria,
   updateStreamOnline,
+  updateStreamviews,
   openChatWindow,
   streamerChat,
   chatExpandeds,
@@ -418,6 +419,9 @@ export function ChatStreaming({
           }
           if (receivedMessage?.action === "Online") {
             updateStreamOnline(receivedMessage.Online);
+          }
+          if (receivedMessage?.action === "views") {
+            updateStreamviews(receivedMessage.views);
           }
           if (receivedMessage?.action === "Host") {
             SetNewHost({

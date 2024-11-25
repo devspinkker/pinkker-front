@@ -52,7 +52,7 @@ export default function Communities({ isMobile }) {
   const fetchDataScroll = async () => {
     try {
       if (token) {
-        const ExcludeIDs = Posts.map((Post) => Post.id);
+        const ExcludeIDs = Posts.map((Post) => Post._id);
         const res = await GetRandomPostcommunities(token, ExcludeIDs);
         if (res?.data) {
           setPosts((Prev) => [...Prev, ...res?.data]);
