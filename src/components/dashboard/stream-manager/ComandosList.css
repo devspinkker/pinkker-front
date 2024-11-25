@@ -1,5 +1,7 @@
 .socialnetwork-body {
-    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+
 }
 
 .socialnetwork-container {
@@ -141,6 +143,7 @@
 .socialnetwork-body-conteiner {
     padding: 10px;
     background-color: #191b1f;
+    border-radius: 5px;
 }
 
 .content-commands {

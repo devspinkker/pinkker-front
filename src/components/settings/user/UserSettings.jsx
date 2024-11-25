@@ -186,7 +186,7 @@ export default function UserSettings({ isMobile, user }) {
               </div>
             </div>
             <Biography user={user} />
-            {/* <SocialNetwork user={user} /> */}
+            <SocialNetwork user={user} />
           </div>
           {showPopupSettings === true && (
             <UserSettingsPopup

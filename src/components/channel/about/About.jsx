@@ -353,7 +353,7 @@ export default function About({ streamer }) {
           <h5>Redes</h5>
         </div>
 
-        <div
+        {/* <div
           style={{ width: "90%" }}
           onClick={() => setType(2)}
           className={
@@ -363,7 +363,7 @@ export default function About({ streamer }) {
           }
         >
           <h5>Emblemas</h5>
-        </div>
+        </div> */}
 
         <div
           style={{ width: "90%" }}

@@ -1389,7 +1389,7 @@ export default function Channel({
             <div
               style={{
                 width: getWithChannelVideo(),
-                marginTop: "1%",
+                marginTop: "2%",
               }}
               className="channel-video"
             >

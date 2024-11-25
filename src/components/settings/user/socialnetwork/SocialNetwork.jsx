@@ -32,7 +32,7 @@ export default function SocialNetwork({ user }) {
   async function handleSubmit() {
     try {
       const token = window.localStorage.getItem("token");
-      console.log(socialNetworks);
+
       const data = await EditSocialNetworks(token, socialNetworks);
 
       alert({ type: "SUCCESS", message: data.message });
@@ -71,17 +71,16 @@ export default function SocialNetwork({ user }) {
             </div>
           ))}
         </div>
-        <div className="button-content-social">
-          <button
-            onClick={handleSubmit}
-            className="variant-highlight size-md base-button w-[111px]"
-            type="button"
-          >
-            <div className="button-content">
-              <div className="inner-label">Guardar</div>
-            </div>
-          </button>
-        </div>
+
+
+        <button
+          style={{ width: "105px", float:'right' }}
+          onClick={handleSubmit}
+          className="biography-button pink-button"
+        >
+          Guardar
+        </button>
+
       </div>
     </div>
   );
