@@ -141,8 +141,12 @@ export default function Message({
         if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
           setChatsecondary(updatedMessagesOpen);
           setMessagesOpen(updatedMessagesOpen);
+        } else {
+          setChatrequest([]);
+          setMessagesOpen([]);
         }
       } else {
+        setChatrequest([]);
         setMessagesOpen([]);
       }
     }
@@ -167,8 +171,12 @@ export default function Message({
         if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
           setChatsecondary(updatedMessagesOpen);
           setMessagesOpen(updatedMessagesOpen);
+        } else {
+          setChatrequest([]);
+          setMessagesOpen([]);
         }
       } else {
+        setChatrequest([]);
         setMessagesOpen([]);
       }
     }
@@ -193,7 +201,11 @@ export default function Message({
           setChatrequest(updatedMessagesOpen);
           setMessagesOpen(updatedMessagesOpen);
           return;
+        } else {
+          setChatrequest([]);
+          setMessagesOpen([]);
         }
+      } else {
         setChatrequest([]);
         setMessagesOpen([]);
       }
@@ -245,6 +257,8 @@ export default function Message({
   };
 
   const handleNewChatWithMessage = async () => {
+    console.log("ALGO");
+
     try {
       let token = window.localStorage.getItem("token");
       if (!token || NewChatMessageForChannel === "") {
@@ -293,9 +307,12 @@ export default function Message({
           // console.log(currentUserStatus);
 
           // setMessagesOpen(objInfo);
+          console.log(currentUserStatus);
+          console.log("currentUserStatus");
+
           if (currentUserStatus == "primary") {
             primaryChats();
-          } else if (currentUserInfo === "secondary") {
+          } else if (currentUserStatus == "secondary") {
             secondaryChats();
           } else {
             requestChats();

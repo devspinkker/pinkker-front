@@ -78,7 +78,6 @@ function NLayout(props) {
   const [is1920x1080, setIs1920x1080] = useState(false);
   useEffect(() => {
     if (props.NewChatMessageForChannel) {
-      console.log("Received in NLayout:", props.NewChatMessageForChannel);
       setOpenMessage(true);
     }
   }, [props.OpenNewChat]);
