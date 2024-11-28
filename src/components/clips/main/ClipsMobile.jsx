@@ -290,6 +290,7 @@ const ClipsMobile = () => {
                 ref={playerRef}
                 loop={true}
                 autoPlay={true}
+                controls={true}
                 muted={muted}
                 playsInline
                 src={clip.url}
