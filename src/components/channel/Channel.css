@@ -23,8 +23,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    justify-content: flex-end;
-    margin-top: 9px;
+    justify-content: center;
+    height: 100%;
 }
 
 .conetent-player-clip>video {
