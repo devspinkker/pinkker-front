@@ -24,14 +24,14 @@ export default function Emotes({ Code }) {
         if (resPinkker.message === "ok") {
           setPinkkerEmotes(resPinkker.data[0]);
         } else {
-          console.error("Failed to fetch Pinkker emotes", resPinkker);
+          console.error("Failed to fetch pinkker emotes", resPinkker);
         }
 
         const resGlobal = await GetGlobalEmotes();
         if (resGlobal.message === "ok") {
           setGlobalEmotes(resGlobal.data[0]);
         } else {
-          console.error("Failed to fetch Global emotes", resGlobal);
+          console.error("Failed to fetch global emotes", resGlobal);
         }
       }
     };
@@ -49,11 +49,11 @@ export default function Emotes({ Code }) {
 
       const res = await DeleteEmoteAut(formData, token);
       if (res.message === "OK") {
-        if (type === "Pinkker") {
+        if (type === "pinkker") {
           const updatedPinkkerEmotes = { ...PinkkerEmotes };
           updatedPinkkerEmotes.emotes.splice(emoteIndex, 1);
           setPinkkerEmotes(updatedPinkkerEmotes);
-        } else if (type === "Global") {
+        } else if (type === "global") {
           const updatedGlobalEmotes = { ...GlobalEmotes };
           updatedGlobalEmotes.emotes.splice(emoteIndex, 1);
           setGlobalEmotes(updatedGlobalEmotes);
@@ -72,14 +72,14 @@ export default function Emotes({ Code }) {
       formData.append("emoteImage", newEmoteImage);
       formData.append("name", newEmoteName);
       formData.append("Code", Code);
-      formData.append("typeEmote", type); // Adjust if typeEmote is necessary
+      formData.append("type", type); // Adjust if typeEmote is necessary
       formData.append("id", id); // Adjust if typeEmote is necessary
 
       const res = await AddEmoteAut(formData, token);
       if (res.message === "OK") {
-        if (type === "Pinkker") {
+        if (type === "pinkker") {
           setPinkkerEmotes(res.data);
-        } else if (type === "Global") {
+        } else if (type === "global") {
           setGlobalEmotes(res.data);
         }
         setNewEmoteName("");
@@ -109,7 +109,7 @@ export default function Emotes({ Code }) {
 
       <div key={PinkkerEmotes.id}>
         <h2 style={{ color: "#fff" }}>
-          {PinkkerEmotes.name || "Pinkker Emotes"}
+          {PinkkerEmotes.name || "pinkker Emotes"}
         </h2>
         <div className="emotes-grid">
           {expandedPinkker &&
@@ -123,7 +123,7 @@ export default function Emotes({ Code }) {
                       handleDeleteEmote(
                         emote.name,
                         index,
-                        "Pinkker",
+                        "pinkker",
                         PinkkerEmotes.id
                       )
                     }
@@ -152,7 +152,7 @@ export default function Emotes({ Code }) {
               onChange={(e) => setNewEmoteName(e.target.value)}
             />
             <input type="file" onChange={handleImageChange} />
-            <button onClick={() => handleAddEmote("Pinkker", PinkkerEmotes.id)}>
+            <button onClick={() => handleAddEmote("pinkker", PinkkerEmotes.id)}>
               Add Emote
             </button>
           </div>
@@ -161,7 +161,7 @@ export default function Emotes({ Code }) {
 
       <div key={GlobalEmotes.id}>
         <h2 style={{ color: "#fff" }}>
-          {GlobalEmotes.name || "Global Emotes"}
+          {GlobalEmotes.name || "global Emotes"}
         </h2>
         <div className="emotes-grid">
           {expandedGlobal &&
@@ -175,7 +175,7 @@ export default function Emotes({ Code }) {
                       handleDeleteEmote(
                         emote.name,
                         index,
-                        "Global",
+                        "global",
                         GlobalEmotes.id
                       )
                     }
@@ -204,7 +204,7 @@ export default function Emotes({ Code }) {
               onChange={(e) => setNewEmoteName(e.target.value)}
             />
             <input type="file" onChange={handleImageChange} />
-            <button onClick={() => handleAddEmote("Global", GlobalEmotes.id)}>
+            <button onClick={() => handleAddEmote("global", GlobalEmotes.id)}>
               Add Emote
             </button>
           </div>

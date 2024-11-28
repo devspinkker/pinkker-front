@@ -15,12 +15,13 @@
 }
 
 .category-item {
-    background-color: #461212;
+    background-color: #0000;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.3s ease;
+    width: 140px;
 }
 
 .category-item:hover {

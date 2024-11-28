@@ -130,7 +130,7 @@ export default function Main() {
 
   return (
     <div className="main-container">
-      <div>
+      <div className="containerPanelAdmin">
         <div className="button-container">
           <button onClick={() => setActivePanel("categorias")}>
             Categorías

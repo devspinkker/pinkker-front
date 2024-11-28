@@ -1,61 +1,118 @@
 .emotes-container {
-    font-family: Arial, sans-serif;
+    font-family: "Inter", sans-serif;
     padding: 20px;
-    background-color: #080808;
-    width: 700px;
+    background-color: #1f1f1f;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+h1,
+h2 {
+    color: #ffffff;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #ff9900;
 }
 
 .emotes-grid {
-    display: flex;
-    flex-wrap: wrap;
-    overflow: scroll;
-    width: 820px;
-    /* height: 180px; */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    padding: 10px;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    overflow-y: auto;
+    max-height: 300px;
 }
 
 .emote-card {
-    width: 260px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    padding: 2px;
-    border-radius: 3px;
-    margin-top: 7px;
-    margin-right: 4px;
-    background-color: #121418;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
+    justify-content: space-between;
+    background-color: #343434;
+    border-radius: 8px;
+    padding: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .emote-card:hover {
-    transform: translateY(-5px);
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
 
 .emote-card img {
-    width: 37%;
-    height: auto;
-    border-radius: 8px;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+    border-radius: 4px;
 }
 
 .emote-card span {
-    display: block;
-    font-size: 16px;
+    font-size: 14px;
     color: #ffffff;
-    margin-bottom: 10px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.emote-buttons {
+    display: flex;
+    gap: 5px;
 }
 
 .emote-buttons button {
     background-color: #ff4d4d;
     color: #fff;
     border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    font-size: 14px;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 12px;
     cursor: pointer;
-    margin-right: 5px;
 }
 
 .emote-buttons button:hover {
-    background-color: #cc0000;
+    background-color: #d42d2d;
+}
+
+.add-emote-container {
+    margin-top: 20px;
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.add-emote-container h3 {
+    font-size: 18px;
+    color: #ff9900;
+    margin-bottom: 10px;
+}
+
+.add-emote-container input {
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.add-emote-container button {
+    width: 100%;
+    background-color: #ff9900;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.add-emote-container button:hover {
+    background-color: #cc7a00;
 }

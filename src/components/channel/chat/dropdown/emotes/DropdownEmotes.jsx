@@ -15,6 +15,7 @@ function DropdownEmotes({
   muro,
   idStreamer,
   SubStateAct,
+  user,
 }) {
   const [click, setClick] = useState(false);
   const [PinkkerEmotes, setPinkkerEmotes] = useState(null);
@@ -22,6 +23,7 @@ function DropdownEmotes({
   const [GetEmotesidStreamer, setGetEmotesidStreamer] = useState(null);
   const [GetEmotesSubsidStreamer, setGetEmotesSubsidStreamer] = useState(null);
   const [selectedEmoteType, setSelectedEmoteType] = useState("Pinkker");
+  const [pinkkerPrime, setPinkkerPrime] = useState(false);
 
   const token = window.localStorage.getItem("token");
   const fetchData = async () => {
@@ -44,10 +46,18 @@ function DropdownEmotes({
       setGetEmotesidStreamer(responseFree.data);
     }
   };
+  const isPinkkerPrimeActive = (user) => {
+    const subscriptionEnd = new Date(user.SubscriptionEnd);
+    const now = new Date();
 
+    return subscriptionEnd > now;
+  };
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (user) {
+      fetchData();
+      setPinkkerPrime(isPinkkerPrimeActive(user?.PinkkerPrime));
+    }
+  }, [user]);
 
   function renderPinkkerEmotes() {
     if (!PinkkerEmotes) return null;
@@ -77,10 +87,37 @@ function DropdownEmotes({
           {PinkkerEmotes[0]?.emotes?.map((emote) => (
             <div
               key={emote.name}
-              onClick={() => clickEmoticon(emote)}
+              onClick={pinkkerPrime ? () => clickEmoticon(emote) : undefined}
               className="dropdownemotes-emote"
+              style={{ position: "relative" }}
             >
               <img style={{ width: "25px" }} src={emote.url} alt={emote.name} />
+              {!pinkkerPrime && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    borderRadius: "5px",
+                  }}
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M11.75 6.25V1H4.75V6.25H3V15H13.5V6.25H11.75ZM6.5 2.75H10V6.25H6.5V2.75ZM10.4375 10.625H9.125V12.375H7.375V10.625H6.0625V8.875H10.4375V10.625Z" />
+                  </svg>
+                </div>
+              )}
             </div>
           ))}
         </div>

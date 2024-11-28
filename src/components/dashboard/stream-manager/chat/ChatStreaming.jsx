@@ -267,7 +267,14 @@ export function ChatStreaming({
     setMessage(content);
     detectAtSymbolAndFetchUsers(content, cursorPosition); // Detecta solo si el cursor está cerca del @
   };
+  const isPinkkerPrimeActive = (user) => {
+    console.log(user);
 
+    const subscriptionEnd = new Date(user.SubscriptionEnd);
+    const now = new Date();
+
+    return subscriptionEnd > now;
+  };
   const getPlainTextMessage = () => {
     const inputElement = inputRef.current;
     let messageWithImages = "";
@@ -285,6 +292,16 @@ export function ChatStreaming({
           src.includes("subs")
         ) {
           if (!SubStateAct) {
+            return;
+          }
+        }
+        console.log(isPinkkerPrimeActive(user.PinkkerPrime));
+
+        if (
+          src.includes("res.cloudinary.com/depcty8j1/") &&
+          src.includes("pinkker")
+        ) {
+          if (!isPinkkerPrimeActive(user.PinkkerPrime)) {
             return;
           }
         }
