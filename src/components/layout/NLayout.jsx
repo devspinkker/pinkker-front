@@ -52,6 +52,8 @@ import Loading from "./Loading";
 import LayoutMessageNotis from "./LayoutMessageNotis";
 import {
   GetNotificacionesLastConnection,
+  GetNotificacionesRecent,
+  GetOldNotifications,
   GetRecentotificaciones,
 } from "../../services/backGo/user";
 import logoMobile from "./Recurso 12.png";
@@ -183,6 +185,8 @@ function NLayout(props) {
   ).length;
 
   async function HandleGetNotificacionesLastConnection() {
+    await GetNotificacionesRecent(token);
+    await GetOldNotifications(token);
     const res = await GetNotificacionesLastConnection(token);
 
     if (res?.notifications[0]) {

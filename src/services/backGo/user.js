@@ -370,6 +370,99 @@ export async function GetRecentotificaciones(token, page = 1) {
         return { notifications: [], message: 'Error' };
     }
 }
+
+
+export async function GetNotificacionesRecent(token, page = 1) {
+    try {
+        const response = await axios.get(`${baseURL}/notifications/recent?page=${page}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const res = response.data
+        console.log(res);
+
+        //     const followInfo = res.FollowInfo?.map((follow) => ({
+        //         Avatar: follow.Avatar || 'defaultAvatarUrl',
+        //         Nameuser: follow.NameUser || 'Nameuser',
+        //         Type: 'follow',
+        //         visto: false,
+        //         since: follow.since
+        //     })) || [];
+
+        //     const resDonation = res.ResDonation?.map((donation) => ({
+        //         Avatar: donation.FromUserInfo?.Avatar || 'defaultAvatarUrl',
+        //         Nameuser: donation.FromUserInfo?.NameUser || 'Unknown',
+        //         Pixeles: donation.Pixeles,
+        //         Text: donation.Text || '',
+        //         Type: 'DonatePixels',
+        //         visto: false,
+        //     })) || [];
+
+        //     console.log(res);
+        //     const ressubs = res.Subscription?.map((s) => ({
+        //         Avatar: s.FromUserInfo?.Avatar || 'defaultAvatarUrl',
+        //         Nameuser: s.FromUserInfo?.NameUser || 'Unknown',
+        //         Type: "Suscribirse",
+        //         visto: false,
+        //     })) || [];
+
+        //     const notifications = [...followInfo, ...resDonation, ...ressubs];
+
+        //     return { notifications, message: response.data.message };
+    } catch (error) {
+        console.error('Error fetching notifications:', error);
+        return { notifications: [], message: 'Error' };
+    }
+}
+export async function GetOldNotifications(token, page = 1) {
+    try {
+        const response = await axios.get(`${baseURL}/notifications/GetOldNotifications?page=${page}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const res = response.data
+        console.log(res);
+
+        // const followInfo = res.FollowInfo?.map((follow) => ({
+        //     Avatar: follow.Avatar || 'defaultAvatarUrl',
+        //     Nameuser: follow.NameUser || 'Nameuser',
+        //     Type: 'follow',
+        //     visto: true,
+        //     since: follow.since
+        // })) || [];
+
+        // const resDonation = res.ResDonation?.map((donation) => ({
+        //     Avatar: donation.FromUserInfo?.Avatar || 'defaultAvatarUrl',
+        //     Nameuser: donation.FromUserInfo?.NameUser || 'Unknown',
+        //     Pixeles: donation.Pixeles,
+        //     Text: donation.Text || '',
+        //     Type: 'DonatePixels',
+        //     visto: true,
+        //     since: donation.since
+        // })) || [];
+
+        // const ressubs = res.Subscription?.map((s) => ({
+        //     Avatar: s.FromUserInfo?.Avatar || 'defaultAvatarUrl',
+        //     Nameuser: s.FromUserInfo?.NameUser || 'Unknown',
+        //     Type: "Suscribirse",
+        //     visto: true,
+        //     since: s.since
+        // })) || [];
+
+        // const notifications = [...followInfo, ...resDonation, ...ressubs];
+
+        // return { notifications, message: response.data.message };
+    } catch (error) {
+        console.error('Error fetching notifications:', error);
+        return { notifications: [], message: 'Error' };
+    }
+}
+
+
+
+
 export async function unfollow(token, userId) {
     try {
         const response = await axios.post(
