@@ -3160,6 +3160,8 @@ function NLayout(props) {
           <Grid className={"openNotificationopenMessage"}>
             <LayoutMessageNotis
               setOpenMessage={setOpenMessage}
+              setOpenNotification={setOpenNotification}
+              openNotification={openNotification}
               openMessage={openMessage}
               messagesOpen={messagesOpen}
               PinkerNotifications={PinkerNotifications}

@@ -138,6 +138,7 @@ export default function Clips(props) {
           Categoria={false}
           clips={clips}
           isMobile={props.isMobile}
+          id="clips"
         />
 
         {selectedVideo && (

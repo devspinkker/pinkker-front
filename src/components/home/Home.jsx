@@ -277,6 +277,7 @@ const Home = ({
         socketMain={socketMain}
         handleMessage={handleMessage}
         expanded={expanded}
+        id="streams"
       />
 
       <div className="categories-home-manager"></div>
@@ -322,6 +323,7 @@ const Home = ({
         Categoria={true}
         clipT={false}
         isMobile={isMobile}
+        id="categorias"
       ></SliderLayout>
 
       {<Clips isMobile={isMobile} />}

@@ -72,7 +72,7 @@ export default function CustomCard(props) {
               {props?.titulo && <span style={{ position: 'relative', top: '-188px', left: '65px' }}>Ver Todos</span>}
             </Link>
           </div>
-          <Typography style={{color:'#EDEDED', marginLeft: props.isMobile ? '25%' :'5px', textAlign: 'left', fontSize: 14, fontWeight: 600, width: props.isMobile && '100%' }}>{cortarCadena(props.name)}</Typography>
+          <Typography style={{color:'#EDEDED', marginLeft: props.isMobile ? '15px' :'5px', marginTop: props.isMobile && '5px' , textAlign: 'left', fontSize: 14, fontWeight: 600, width: props.isMobile && '100%' }}>{cortarCadena(props.name)}</Typography>
           <div className="user_data_contain">
             <div className="custom-categories-p-2">
 

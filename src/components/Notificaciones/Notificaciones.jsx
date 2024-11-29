@@ -13,6 +13,7 @@ export default function Notificaciones({ PinkerNotifications }) {
   const history = useHistory();
 
 
+
   async function HandleGetRecentotificaciones() {
     const res = await GetRecentotificaciones(token, page);
 

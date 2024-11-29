@@ -90,6 +90,7 @@ export default function Vods(props) {
           Categoria={false}
           Vods={Vods}
           isMobile={props.isMobile}
+          id="vods"
         />
       </div>
     </div>

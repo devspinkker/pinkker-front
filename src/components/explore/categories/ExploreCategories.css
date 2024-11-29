@@ -192,6 +192,6 @@ input {
         display: grid !important;
         ;
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
-        padding: 1rem 0px 25% 0px !important;
+        padding: 3%  !important;
     }
 }

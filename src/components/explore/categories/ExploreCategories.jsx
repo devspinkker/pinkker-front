@@ -169,7 +169,7 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
           alignItems: "center",
           justifyContent: "space-between",
           borderBottom: "1px solid rgb(42, 46, 56)",
-          padding: isMobile && "5px  5.8rem",
+          padding: isMobile && "5px  1rem",
           margin: "1rem 0px 1rem 0px",
         }}
       >
@@ -315,6 +315,8 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
                       spectators={categorie.spectators}
                       tags={categorie.tags}
                       TopColor={categorie.TopColor}
+                      isMobile={isMobile}
+                      explore={true}
                     />
                   ))
                 )}

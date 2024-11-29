@@ -250,7 +250,7 @@ const ClipsMobile = () => {
   }, [loadClips]);
 
   const memoizedClips = useMemo(() => {
-    if (!viewedClip || clips.length === 0) return <Loading />;
+    // if (!viewedClip || clips.length === 0) return <Loading />;
 
     const clipIndex = clips.findIndex((clip) => clip.id === viewedClip);
 
@@ -291,7 +291,7 @@ const ClipsMobile = () => {
                 loop={true}
                 autoPlay={true}
                 controls={true}
-                muted={muted}
+                muted={false}
                 playsInline
                 src={clip.url}
                 onPlay={handleVideoPlay} // Llama al handler cuando el video comienza a reproducirse

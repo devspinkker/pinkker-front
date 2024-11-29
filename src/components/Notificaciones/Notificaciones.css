@@ -11,6 +11,19 @@
     max-height: 80vh;
 }
 
+@media screen and (max-width: 768px) {
+    .notifications-container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: scroll;
+        overflow-y: auto;
+        height: 100%;
+    }
+}
+
 .notifications-list {
     list-style-type: none;
     padding: 0;

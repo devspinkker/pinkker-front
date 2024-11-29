@@ -56,6 +56,7 @@ function SliderLayout(props) {
   useEffect(() => {
     generateColor();
   }, []);
+
   return (
     <Swiper
       style={{
@@ -65,8 +66,8 @@ function SliderLayout(props) {
       }}
       spaceBetween={props.clipT || props.Vod ? 20 : 5}
       navigation={{
-        nextEl: ".custom-next",
-        prevEl: ".custom-prev",
+        nextEl: `.custom-next-${props.id}`,
+        prevEl: `.custom-prev-${props.id}`,
       }}
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       slidesPerView={
@@ -92,6 +93,7 @@ function SliderLayout(props) {
           justifyContent: "space-between",
         }}
       >
+
         {props.streams && props.streamsCard?.length && (
           <>
             <Grid
@@ -109,7 +111,7 @@ function SliderLayout(props) {
 
             <div className="manager-recommended-actions-arrow">
               <div
-                className={`custom-prev ${isBeginning ? "disabled" : ""}`}
+                className={`custom-prev-${props.id} ${isBeginning ? "disabled" : ""}`}
                 style={{
                   fontSize: "14px",
                   opacity: isBeginning ? 0.5 : 1,
@@ -119,7 +121,7 @@ function SliderLayout(props) {
                 <i className="fas fa-chevron-left"></i>
               </div>
               <div
-                className={`custom-next ${isEnd ? "disabled" : ""}`}
+                className={`custom-next-${props.id} ${isEnd ? "disabled" : ""}`}
                 style={{
                   fontSize: "14px",
                   opacity: isEnd ? 0.5 : 1,
@@ -143,15 +145,13 @@ function SliderLayout(props) {
                 width: !props.isMobile && "80%",
               }}
             >
-              {/* <img src="/images/original.svg" style={{ width: '2%', color:'#856ffc' }} /> */}
-
               <GrGamepad style={{ color: "#ff69c4", fontSize: "20px" }} />
               <h2 style={{ fontFamily: "Inter", color: "white" }}>Categorias</h2>
             </div>
-
+            {/* Flechas solo para Categoria */}
             <div className="manager-recommended-actions-arrow">
               <div
-                className={`custom-prev ${isBeginning ? "disabled" : ""}`}
+                className={`custom-prev-${props.id} ${isBeginning ? "disabled" : ""}`}
                 style={{
                   fontSize: "14px",
                   opacity: isBeginning ? 0.5 : 1,
@@ -161,7 +161,7 @@ function SliderLayout(props) {
                 <i className="fas fa-chevron-left"></i>
               </div>
               <div
-                className={`custom-next ${isEnd ? "disabled" : ""}`}
+                className={`custom-next-${props.id} ${isEnd ? "disabled" : ""}`}
                 style={{
                   fontSize: "14px",
                   opacity: isEnd ? 0.5 : 1,
@@ -172,9 +172,8 @@ function SliderLayout(props) {
               </div>
             </div>
           </>
-
         )}
-        {/* comentado quitar*/}
+
         {props.clipT && (
           <>
             <Grid
@@ -185,9 +184,7 @@ function SliderLayout(props) {
                 width: "30%",
               }}
             >
-              <AiOutlinePlayCircle
-                style={{ color: "#ff69c4", fontSize: "20px" }}
-              />
+              <AiOutlinePlayCircle style={{ color: "#ff69c4", fontSize: "20px" }} />
               <h2 style={{ color: "white", fontSize: "20px" }}>
                 {props.titulo
                   ? "Vods Recomendados"
@@ -196,10 +193,10 @@ function SliderLayout(props) {
                     : "Clips más vistos"}{" "}
               </h2>
             </Grid>
-
+            {/* Flechas solo para Clips */}
             <div className="manager-recommended-actions-arrow">
               <div
-                className={`custom-prev ${isBeginning ? "disabled" : ""}`}
+                className={`custom-prev-${props.id} ${isBeginning ? "disabled" : ""}`}
                 style={{
                   fontSize: "14px",
                   opacity: isBeginning ? 0.5 : 1,
@@ -209,7 +206,7 @@ function SliderLayout(props) {
                 <i className="fas fa-chevron-left"></i>
               </div>
               <div
-                className={`custom-next ${isEnd ? "disabled" : ""}`}
+                className={`custom-next-${props.id} ${isEnd ? "disabled" : ""}`}
                 style={{
                   fontSize: "14px",
                   opacity: isEnd ? 0.5 : 1,
@@ -222,7 +219,7 @@ function SliderLayout(props) {
           </>
         )}
 
-        {props.Vods && (
+        {props.Vod && (
           <>
             <Grid
               style={{
@@ -232,17 +229,15 @@ function SliderLayout(props) {
                 width: "30%",
               }}
             >
-              <AiOutlinePlayCircle
-                style={{ color: "#ff69c4", fontSize: "20px" }}
-              />
+              <AiOutlinePlayCircle style={{ color: "#ff69c4", fontSize: "20px" }} />
               <h2 style={{ color: "white", fontSize: "20px" }}>
                 {props.isMobile ? "Vods" : "Vods Recomendados"}{" "}
               </h2>
             </Grid>
-            
+            {/* Flechas solo para Vods */}
             <div className="manager-recommended-actions-arrow">
               <div
-                className={`custom-prev ${isBeginning ? "disabled" : ""}`}
+                className={`custom-prev-${props.id} ${isBeginning ? "disabled" : ""}`}
                 style={{
                   fontSize: "14px",
                   opacity: isBeginning ? 0.5 : 1,
@@ -252,7 +247,7 @@ function SliderLayout(props) {
                 <i className="fas fa-chevron-left"></i>
               </div>
               <div
-                className={`custom-next ${isEnd ? "disabled" : ""}`}
+                className={`custom-next-${props.id} ${isEnd ? "disabled" : ""}`}
                 style={{
                   fontSize: "14px",
                   opacity: isEnd ? 0.5 : 1,
@@ -264,35 +259,31 @@ function SliderLayout(props) {
             </div>
           </>
         )}
-
-        {/* comentado quitar*/}
-
-
       </Grid>
 
       {props?.streams && (
         <>
           {props?.streamsCard?.length && (
             props?.streamsCard?.filter((stream, index) => index < 10)
-                .map((stream) => (
-                  <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
-                    <CardStreamRecomendado
-                      tags={stream.stream_tag}
-                      isMobile={props.isMobile}
-                      streamer={stream.streamer}
-                      categorie={stream.stream_category}
-                      title={stream.stream_title}
-                      viewers={stream.ViewerCount}
-                      name={stream.streamer}
-                      isLoading={false}
-                      avatarStreamer={stream.streamer_avatar}
-                      image={
-                        stream.stream_thumbnail ?? "/images/pinkker-stream.png"
-                      }
-                      ViewerCount={stream.ViewerCount}
-                    />
-                  </SwiperSlide>
-                ))
+              .map((stream) => (
+                <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
+                  <CardStreamRecomendado
+                    tags={stream.stream_tag}
+                    isMobile={props.isMobile}
+                    streamer={stream.streamer}
+                    categorie={stream.stream_category}
+                    title={stream.stream_title}
+                    viewers={stream.ViewerCount}
+                    name={stream.streamer}
+                    isLoading={false}
+                    avatarStreamer={stream.streamer_avatar}
+                    image={
+                      stream.stream_thumbnail ?? "/images/pinkker-stream.png"
+                    }
+                    ViewerCount={stream.ViewerCount}
+                  />
+                </SwiperSlide>
+              ))
           )}
         </>
       )}
