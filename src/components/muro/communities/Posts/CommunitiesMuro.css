@@ -3,6 +3,18 @@
     margin-left: 110px;
 }
 
+@media screen and (max-width: 768px) {
+    .PostComunidad-conteiner {
+        width: 100%;
+        margin: 0px;
+        padding: 0px !important;
+        max-height: 85dvh !important;
+    }
+    .CommunityInfo{
+        padding: 0px !important;
+    }
+}
+
 .mod-comunidad-actions-container {
     display: flex;
     background-color: #080808;

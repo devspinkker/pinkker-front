@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom"; // Asegúrate de importar useHistory
 import "./Notificaciones.css";
-import { GetRecentotificaciones } from "../../services/backGo/user";
+import { GetNotificacionesRecent, GetOldNotifications, follow, unfollow } from "../../services/backGo/user";
 
 export default function Notificaciones({ PinkerNotifications }) {
   const [expandedNotifications, setExpandedNotifications] = useState({});
-  const [page, setpage] = useState(2);
+  const [page, setpage] = useState(1);
   const [notifications, setNotifications] = useState(PinkerNotifications);
+
   const token = window.localStorage.getItem("token");
 
 
   const history = useHistory();
 
 
-
   async function HandleGetRecentotificaciones() {
-    const res = await GetRecentotificaciones(token, page);
+    const res = await GetNotificacionesRecent(token, page);
 
     if (res.message == "ok" && res?.notifications) {
       setNotifications((prevNotifications) => [
@@ -46,8 +46,8 @@ export default function Notificaciones({ PinkerNotifications }) {
   const renderNotificationText = (notification, index) => {
     const isExpanded = expandedNotifications[index];
 
-    switch (notification.Type) {
-      case "follow":
+    switch (notification.type) {
+      case "Follow":
         return `te ha comenzado a seguir.`;
       case "DonatePixels":
         return (
@@ -108,13 +108,42 @@ export default function Notificaciones({ PinkerNotifications }) {
 
   const handleLoadMore = () => {
     setpage((prevPage) => prevPage + 1);
-    HandleGetRecentotificaciones();
+    // HandleGetRecentotificaciones();
   };
 
+  useEffect(() => {
+    HandleGetRecentotificaciones();
+  }, [])
+
+
+
+
+  const [followParametro, setFollowParametro] = useState(false);
+
+  async function followUser(userId) {
+
+    const data = await follow(token, userId);
+    if (data != null) {
+
+      setFollowParametro(true);
+    } else {
+      alert(data);
+    }
+  }
+
+  async function unfollowUser(userId) {
+    const data = await unfollow(token, userId);
+    if (data != null) {
+
+      setFollowParametro(false);
+    } else {
+      alert(data);
+    }
+  }
   function calcularTiempoTranscurrido(notificacion) {
 
     const ahora = new Date();
-    const fechaNotificacion = new Date(notificacion?.since);
+    const fechaNotificacion = new Date(notificacion?.timestamp);
 
     const diferenciaMs = ahora - fechaNotificacion;
     const diferenciaSegundos = Math.floor(diferenciaMs / 1000);
@@ -140,33 +169,65 @@ export default function Notificaciones({ PinkerNotifications }) {
         }}
         className="notifications-list"
       >
-        {notifications.map((notification, index) => (
-          <li
-            className="notification-item"
-            key={index}
-            onClick={() => handleNotificationClick(notification.Nameuser)} // Maneja el clic aquí
-          >
-            <img
-              className="notification-avatar"
-              src={notification.Avatar}
-              alt={`${notification.Nameuser}'s avatar`}
-              width={50}
-            />
-            <div className="notification-content">
-              <p className="notification-user">
-                <strong>{notification.Nameuser}</strong>{" "}
-                {renderNotificationText(notification, index)}
-              </p>
-              <p style={{ fontSize: 12 }}>
-                {calcularTiempoTranscurrido(notification)}
-              </p>
-            </div>
-          </li>
-        ))}
+        {notifications.map((notification, index) => {
+          console.log('notification44', notification)
+          return (
+            <li
+              className="notification-item"
+              key={index}
+              onClick={() => handleNotificationClick(notification.nameuser)} // Maneja el clic aquí
+            >
+              <img
+                className="notification-avatar"
+                src={notification.avatar}
+                alt={`${notification.nameuser}'s avatar`}
+                width={50}
+              />
+
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', width: '100%' }}>
+
+                <div className="notification-content">
+
+                  <p className="notification-user">
+                    <strong>{notification.nameuser}</strong>{" "}
+                    {renderNotificationText(notification, index)}
+                  </p>
+                  <p style={{ fontSize: 12 }}>
+                    {calcularTiempoTranscurrido(notification)}
+                  </p>
+
+                </div>
+
+
+                {followParametro ? (
+                  <button
+                    style={{ marginLeft: "5px" }}
+                    className="channel-bottom-v2-button-follow"
+                    onClick={() => unfollowUser(notification.idUser)}
+                  >
+                    dejar de seguir
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => followUser(notification.idUser)}
+                    style={{ marginLeft: "5px" }}
+                    className="channel-bottom-v2-button-follow"
+                  >
+                    Seguir
+                  </button>
+                )}
+
+              </div>
+
+            </li>
+          )
+
+        }
+        )}
       </ul>
-      <div className="load-more-button" onClick={handleLoadMore}>
+      {/* <div className="load-more-button" onClick={handleLoadMore}>
         <i className=" fas fa-chevron-down"></i>
-      </div>
-    </div>
+      </div> */}
+    </div >
   );
 }

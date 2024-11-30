@@ -312,7 +312,7 @@ export async function GetNotificacionesLastConnection(token) {
             visto: false,
         })) || [];
 
-        console.log(res);
+        
         const ressubs = res.Subscription?.map((s) => ({
             Avatar: s.FromUserInfo?.Avatar || 'defaultAvatarUrl',
             Nameuser: s.FromUserInfo?.NameUser || 'Unknown',
@@ -341,7 +341,8 @@ export async function GetRecentotificaciones(token, page = 1) {
             Nameuser: follow.NameUser || 'Nameuser',
             Type: 'follow',
             visto: true,
-            since: follow.since
+            since: follow.since,
+            idUser: follow.idUser
         })) || [];
 
         const resDonation = res.ResDonation?.map((donation) => ({
@@ -351,7 +352,8 @@ export async function GetRecentotificaciones(token, page = 1) {
             Text: donation.Text || '',
             Type: 'DonatePixels',
             visto: true,
-            since: donation.since
+            since: donation.since,
+            idUser: donation.idUser
         })) || [];
 
         const ressubs = res.Subscription?.map((s) => ({
@@ -359,7 +361,8 @@ export async function GetRecentotificaciones(token, page = 1) {
             Nameuser: s.FromUserInfo?.NameUser || 'Unknown',
             Type: "Suscribirse",
             visto: true,
-            since: s.since
+            since: s.since,
+            idUser: s.idUser
         })) || [];
 
         const notifications = [...followInfo, ...resDonation, ...ressubs];
@@ -380,7 +383,7 @@ export async function GetNotificacionesRecent(token, page = 1) {
             },
         });
         const res = response.data
-        console.log(res);
+        return res
 
         //     const followInfo = res.FollowInfo?.map((follow) => ({
         //         Avatar: follow.Avatar || 'defaultAvatarUrl',
@@ -410,6 +413,7 @@ export async function GetNotificacionesRecent(token, page = 1) {
         //     const notifications = [...followInfo, ...resDonation, ...ressubs];
 
         //     return { notifications, message: response.data.message };
+
     } catch (error) {
         console.error('Error fetching notifications:', error);
         return { notifications: [], message: 'Error' };
@@ -423,8 +427,8 @@ export async function GetOldNotifications(token, page = 1) {
             },
         });
         const res = response.data
-        console.log(res);
-
+        
+        return res
         // const followInfo = res.FollowInfo?.map((follow) => ({
         //     Avatar: follow.Avatar || 'defaultAvatarUrl',
         //     Nameuser: follow.NameUser || 'Nameuser',

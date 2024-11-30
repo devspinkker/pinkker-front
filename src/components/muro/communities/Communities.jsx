@@ -79,7 +79,7 @@ export default function Communities({ isMobile }) {
       style={{
         overflowY: "auto",
         maxHeight: "80vh",
-        padding: "0px 23px",
+        padding: !isMobile && "0px 23px",
         // border: "1px solid #f36197d7",
       }}
       className={`communities-container ${isMobile ? "mobile" : ""}`}

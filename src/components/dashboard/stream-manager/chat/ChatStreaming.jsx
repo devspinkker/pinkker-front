@@ -52,6 +52,7 @@ export function ChatStreaming({
   DashboardStream = false,
   followParam,
   GetInfoUserInRoom,
+  fullscreen
 }) {
   const [messages, setMessages] = useState([]);
   const messagesRef = useRef([]);
@@ -1330,11 +1331,11 @@ export function ChatStreaming({
             <img
               onClick={ToggleChat}
               style={{
-                width: "1%",
+                width: fullscreen ? '5%' :  "1%",
                 cursor: "pointer",
                 textAlign: "center",
                 color: "white",
-                position: "fixed",
+                position: fullscreen ? 'relative': "fixed",
                 right: "1%",
                 transform: "rotate(180deg)",
                 zIndex: "99999",

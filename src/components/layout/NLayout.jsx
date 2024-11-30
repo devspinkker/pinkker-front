@@ -54,7 +54,7 @@ import {
   GetNotificacionesLastConnection,
   GetNotificacionesRecent,
   GetOldNotifications,
-  GetRecentotificaciones,
+
 } from "../../services/backGo/user";
 import logoMobile from "./Recurso 12.png";
 import prime from "./Recurso 25.png";
@@ -197,8 +197,18 @@ function NLayout(props) {
     }
   }
 
+  async function HandleGetOldNotifications() {
+    const res = await GetOldNotifications(token, 1);
+    
+
+    setPinkerNotifications((prevNotifications) => [
+      ...prevNotifications,
+      ...res.notifications,
+    ]);
+
+  }
   async function HandleGetRecentotificaciones() {
-    const res = await GetRecentotificaciones(token);
+    const res = await GetNotificacionesRecent(token);
     if (res?.notifications[0]) {
       setPinkerNotifications((prevNotifications) => [
         ...prevNotifications,
@@ -211,6 +221,7 @@ function NLayout(props) {
     if (token) {
       HandleGetNotificacionesLastConnection();
       HandleGetRecentotificaciones();
+      HandleGetOldNotifications();
     }
   }, []);
 
@@ -292,7 +303,7 @@ function NLayout(props) {
         }
       };
 
-      newSocket.onopen = () => {};
+      newSocket.onopen = () => { };
 
       setSocket(newSocket);
       window.addEventListener("beforeunload", () => {
@@ -563,9 +574,9 @@ function NLayout(props) {
   const pixeles = props.user?.Pixeles;
   const formattedPixeles = pixeles
     ? new Intl.NumberFormat("es-ES", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 3,
-      }).format(pixeles)
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 3,
+    }).format(pixeles)
     : "0";
   const [category, setCategory] = useState(0); // Estado inicial
 
@@ -947,7 +958,7 @@ function NLayout(props) {
                     style={{ width: props.tyExpanded ? "30%" : "100%" }}
                   >
                     {new Date(props.user?.PinkkerPrime?.SubscriptionEnd) >
-                    new Date() ? (
+                      new Date() ? (
                       <img
                         className="pixel-coming-soon-navbarLeft-img-pixel"
                         style={{
@@ -1250,10 +1261,10 @@ function NLayout(props) {
               props.tyExpanded && props.txExpandedLeft
                 ? "100%"
                 : props.tyExpanded && !props.txExpandedLeft
-                ? "100%"
-                : !props.tyExpanded && props.txExpandedLeft
-                ? "100%"
-                : "100%",
+                  ? "100%"
+                  : !props.tyExpanded && props.txExpandedLeft
+                    ? "100%"
+                    : "100%",
             display: "flex",
             flexDirection: "column",
             transition: "width .2s ease-in-out",
@@ -1263,18 +1274,18 @@ function NLayout(props) {
           {!props.user?.NameUser ? (
             <Grid
               className="navTopHome"
-              // style={{
-              //   borderBottom: "1px solid #2a2e38",
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "space-between",
-              //   padding: "1rem 5.8rem",
-              //   position: "sticky",
-              //   top: 0,
-              //   zIndex: 9999,
-              //   backgroundColor: "#080808",
-              //   width: "102%",
-              // }}
+            // style={{
+            //   borderBottom: "1px solid #2a2e38",
+            //   display: "flex",
+            //   alignItems: "center",
+            //   justifyContent: "space-between",
+            //   padding: "1rem 5.8rem",
+            //   position: "sticky",
+            //   top: 0,
+            //   zIndex: 9999,
+            //   backgroundColor: "#080808",
+            //   width: "102%",
+            // }}
             >
               <Grid
                 className="navTop"
@@ -1328,18 +1339,18 @@ function NLayout(props) {
                     : "calc(1200px + 6vw)",
                   margin: "0 auto",
                 }}
-                // style={{
-                //   borderBottom: "1px solid #2a2e38",
-                //   display: "flex",
-                //   alignItems: "center",
-                //   justifyContent: "space-between",
-                //   padding: "15.5px 5.8rem",
-                //   position: "sticky",
-                //   top: 0,
-                //   zIndex: 9999,
-                //   backgroundColor: "#080808",
-                //   width: "103.5%",
-                // }}
+              // style={{
+              //   borderBottom: "1px solid #2a2e38",
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "space-between",
+              //   padding: "15.5px 5.8rem",
+              //   position: "sticky",
+              //   top: 0,
+              //   zIndex: 9999,
+              //   backgroundColor: "#080808",
+              //   width: "103.5%",
+              // }}
               >
                 <Link to="/" style={{ width: "230px" }}>
                   <img
@@ -1794,7 +1805,7 @@ function NLayout(props) {
                                 style={{ backgroundColor: "#080808" }}
                               >
                                 {!game?.streamThumbnail &&
-                                !game?.StreamThumbnail ? (
+                                  !game?.StreamThumbnail ? (
                                   <Link
                                     key={index}
                                     to={`/${game?.NameUser}`}
@@ -1869,7 +1880,7 @@ function NLayout(props) {
                                         game?.url,
                                         game?.StreamThumbnail && true,
                                         game?.StreamThumbnail &&
-                                          game?.UserInfo?.NameUser,
+                                        game?.UserInfo?.NameUser,
                                         game?.StreamThumbnail && game?.id
                                       )
                                     }
@@ -2788,17 +2799,17 @@ function NLayout(props) {
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
+                        {
+                          borderColor: "white",
+                        },
                         "& .MuiInputBase-input": {
                           color: "white",
                         },
@@ -2810,7 +2821,7 @@ function NLayout(props) {
                           opacity: 1,
                         },
                       }}
-                      // sx={{ flex: 1, marginBottom: 2, color:'white' }}
+                    // sx={{ flex: 1, marginBottom: 2, color:'white' }}
                     />
                     <Typography
                       variant="subtitle1"
@@ -2957,7 +2968,7 @@ function NLayout(props) {
                               style={{ backgroundColor: "#080808" }}
                             >
                               {!game?.streamThumbnail &&
-                              !game?.StreamThumbnail ? (
+                                !game?.StreamThumbnail ? (
                                 <Link
                                   key={index}
                                   to={`/${game?.NameUser}`}
@@ -3032,7 +3043,7 @@ function NLayout(props) {
                                       game?.url,
                                       game?.StreamThumbnail && true,
                                       game?.StreamThumbnail &&
-                                        game?.UserInfo?.NameUser,
+                                      game?.UserInfo?.NameUser,
                                       game?.StreamThumbnail && game?.id
                                     )
                                   }

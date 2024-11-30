@@ -400,7 +400,7 @@ export default function CustomPlayer({
           autoPlay={playing}
           muted={muted}
           controls={false}
-          width={width ? width : FullScreen ? "80% " : "100%"}
+          width={width ? width : FullScreen && chatExpanded ? "80% " : "100%"}
           height={height ? height : FullScreen ? "100%" : "835px"}
           expanded={expanded}
           quality={quality}
@@ -416,7 +416,7 @@ export default function CustomPlayer({
             style={{
               width: "30%",
               display: !chatExpanded && "none",
-              height: "50%",
+              height: "100%",
               top: "2.5%",
             }}
           >
@@ -427,6 +427,7 @@ export default function CustomPlayer({
               streamerData={streamerData}
               user={user}
               isMobile={isMobile}
+              fullscreen = {FullScreen}
             />
           </div>
         )}
