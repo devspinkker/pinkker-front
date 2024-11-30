@@ -15,6 +15,8 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import "./NLayout.css";
 import CanalesRecomendados from "./CanalesRecomendados";
+import imagenPixel from "./imagenPixel.png";
+import DropdownPurchase from "../navbar/purchase/DropdownPurchase";
 import Auth from "../auth/Auth";
 import { Link, useLocation, useParams } from "react-router-dom";
 import {
@@ -31,7 +33,11 @@ import {
   AiOutlineSetting,
 } from "react-icons/ai";
 import { BsChatDots, BsChatSquareText, BsWallet } from "react-icons/bs";
-import { IoMdNotificationsOutline } from "react-icons/io";
+import {
+  IoIosArrowDown,
+  IoIosArrowUp,
+  IoMdNotificationsOutline,
+} from "react-icons/io";
 
 import { AiOutlineUser } from "react-icons/ai";
 import { LiaSlidersHSolid } from "react-icons/lia";
@@ -1351,7 +1357,7 @@ function NLayout(props) {
 
                 <Grid style={{ display: "flex", alignItems: "center" }}>
                   {/* comentado quitar*/}
-                  {/* <div
+                  <div
                     style={{
                       display: "flex",
                       gap: "5px",
@@ -1407,7 +1413,7 @@ function NLayout(props) {
                         </Typography>
                       </button>
                     </Link>
-                  </div> */}
+                  </div>
                 </Grid>
 
                 <Grid>
