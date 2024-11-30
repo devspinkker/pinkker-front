@@ -154,7 +154,7 @@ input {
 }
 
 .home-categories-car-recomendado {
-    width: 48vh !important;
+    width: 100%;
     padding: 10px;
     transition: 200ms all;
 }

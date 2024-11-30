@@ -64,7 +64,7 @@ function SliderLayout(props) {
         flexDirection: "column-reverse",
         width: "100%",
       }}
-      spaceBetween={props.clipT || props.Vod ? 20 : 5}
+      spaceBetween={props.clipT || props.Vod ? 20 :  props.streams ? 30 :  5}
       navigation={{
         nextEl: `.custom-next-${props.id}`,
         prevEl: `.custom-prev-${props.id}`,
@@ -72,14 +72,14 @@ function SliderLayout(props) {
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       slidesPerView={
         props.isMobile
-          ? props.Vod || props.clipT
+          ? props.Vod || props.clipT || props.streams
             ? 1
             : 3
-          : props.Vod || props.clipT
+          : props.Vod || props.clipT 
             ? 4.5
             : isFullHD
               ? 9.5
-              : 8.5
+              : props.streams ? 4 : 8.5
       }
       Pagination
       onSlideChange={handleSlideChange}
