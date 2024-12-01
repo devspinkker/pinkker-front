@@ -367,7 +367,7 @@ export default function UserSettings({ isMobile, user }) {
             >
               <Typography>Mis anuncios</Typography>
             </Grid> */}
-            {/* <Grid
+            <Grid
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -378,7 +378,7 @@ export default function UserSettings({ isMobile, user }) {
               onClick={() => setType(8)}
             >
               <Typography>Comprar anuncios </Typography>
-            </Grid> */}
+            </Grid>
             {/* <Grid
               style={{
                 display: "flex",

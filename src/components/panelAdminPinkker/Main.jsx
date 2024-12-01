@@ -31,7 +31,12 @@ export default function Main() {
   const renderActivePanel = () => {
     switch (activePanel) {
       case "categorias":
-        return <UpdateCategorie />;
+        return (
+          <div style={{ width: "700px" }}>
+            <UpdateCategorie />
+          </div>
+        );
+
       case "retiros":
         return (
           <div style={{ width: "700px" }}>
@@ -91,7 +96,11 @@ export default function Main() {
         );
       case "Emotes":
         return (
-          <div>
+          <div
+            style={{
+              width: "100%",
+            }}
+          >
             <form
               className="renderActivePanel-main"
               onSubmit={handleCodeSubmit}

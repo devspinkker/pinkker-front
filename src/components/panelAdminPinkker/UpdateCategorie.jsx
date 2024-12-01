@@ -91,28 +91,6 @@ export default function UpdateCategorie() {
   return (
     <div className="update-categorie-container">
       {error && <p className="error-message">{error}</p>}
-      <div className="categories-list">
-        {categories?.map((category, index) => (
-          <div
-            className="category-item"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleEditCategory(category);
-            }}
-            key={index}
-          >
-            <h5 className="category-name">{category.nombre}</h5>
-            <CardCategorie
-              width={"160px"}
-              isLoading={false}
-              name={category.nombre}
-              image={category.img ?? "/images/pinkker-stream.png"}
-              spectators={category.spectators}
-              TopColor={category.TopColor}
-            />
-          </div>
-        ))}
-      </div>
       <div className="edit-category-panel">
         <button
           className="edit-button"
@@ -159,6 +137,28 @@ export default function UpdateCategorie() {
             </button>
           </div>
         )}
+      </div>
+      <div className="categories-list">
+        {categories?.map((category, index) => (
+          <div
+            className="category-item"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleEditCategory(category);
+            }}
+            key={index}
+          >
+            <h5 className="category-name">{category.nombre}</h5>
+            <CardCategorie
+              width={"160px"}
+              isLoading={false}
+              name={category.nombre}
+              image={category.img ?? "/images/pinkker-stream.png"}
+              spectators={category.spectators}
+              TopColor={category.TopColor}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
