@@ -410,7 +410,7 @@ export default function CustomPlayer({
           onPauseDuration={handlePauseDuration}
           reset={reset}
         />
-        {FullScreen && (
+        {FullScreen && !isMobile && (
           <div
             className="channel-chat"
             style={{
@@ -904,7 +904,7 @@ export default function CustomPlayer({
                           color: "white",
                         }}
                       />
-                      <Typography>Crear Clip</Typography>
+                      <Typography>Clip</Typography>
                     </Grid>
                   </Tippy>
                 </div>

@@ -162,7 +162,7 @@
   position: relative;
   background-color: transparent;
   z-index: 10;
-  width: 98%;
+  width: 98% !important;
   background: #000000a2;
 }
 
@@ -204,8 +204,39 @@
     position: relative;
     background-color: transparent;
     z-index: 10;
-    width: 100%;
+    width: 100% !important;
     height: -webkit-fill-available;
+    position: relative;
+    background-color: transparent;
+    z-index: 10;
+    /* width: 100%; */
+    /* width: 0%; */
+    height: 100% !important;
+  }
+
+  .customPlayer-top {
+    position: relative;
+    top: 111px;
+    left: 13px;
+    width: 90% !important;
+    height: 0px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: -20px;
+    opacity: 0;
+    z-index: 99999;
+    background-color: rgba(0, 0, 0, 0.74);
+  }
+
+  .customPlayer-primary {
+
+    width: 93% !important;
+  }
+
+  .customPlayer-container {
+    width: 100% !important;
   }
 
   .customPlayer-sound {
