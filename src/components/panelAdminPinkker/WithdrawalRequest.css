@@ -190,7 +190,7 @@
 }
 
 /* Background color for input fields */
-input {
+.main-container input {
     width: 100%;
     padding: 10px;
     /* margin-top: 15px;     */
@@ -204,7 +204,7 @@ input {
     transition: border 0.3s ease;
 }
 
-input:focus {
+.main-container input:focus {
     outline: none;
     border: 1px solid #4caf50;
     /* Color verde cuando está enfocado */

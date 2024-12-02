@@ -1,0 +1,68 @@
+.clip-card-mobile {
+    display: flex;
+    flex-direction: column;
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 347px;
+    margin: 10px 0;
+    position: relative;
+    top: 248px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.clip-video-mobile {
+    width: 100%;
+    height: auto;
+    background: #000;
+}
+
+.video-info-mobile {
+    position: absolute;
+    bottom: 15%;
+    left: 2%;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.text-info {
+    margin-bottom: 10px;
+}
+
+.text-info h3 {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.text-info h6 {
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+
+
+.video-actions-mobile {
+    position: absolute;
+    right: 2%;
+    bottom: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.action-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff !important;
+}
+
+.action-icon svg {
+    margin-bottom: 5px;
+}
+
+.profile-pic {
+    border: 2px solid #fff;
+}

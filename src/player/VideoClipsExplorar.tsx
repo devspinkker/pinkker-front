@@ -44,11 +44,12 @@ function VideoClipsExplorar({
         liveMaxLatencyDuration: 5, // Máximo retraso aceptable en vivo
         liveBackBufferLength: 0,
       });
-      
+
 
       hlsRef.current = hls;
+      console.log(src);
 
-      hls.loadSource(src.replace(".mp4", ".m3u8"));
+      hls.loadSource(src?.replace(".mp4", ".m3u8"));
       hls.attachMedia(videoRef.current);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
