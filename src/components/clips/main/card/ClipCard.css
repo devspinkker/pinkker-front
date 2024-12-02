@@ -111,6 +111,7 @@ a {
     position: relative;
     left: -30px;
     animation: 1s moveToRight ease-in-out;
+    overflow-y: auto;
 }
 
 /* .clipsmain-right-buttons {

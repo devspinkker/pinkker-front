@@ -131,6 +131,8 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile }) => {
       }
     }
   }
+
+
   return (
     <div className={`clip-card-mobile ${loading ? "loading" : ""}`}>
       {/* Video */}
@@ -162,10 +164,10 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile }) => {
               {clip.NameUser} ●
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              Clipeado por {clip.NameUserCreator}
+              Clipeado por {clip.nameUserCreator}
             </Typography>
           </Grid>
-          <Typography variant="subtitle1">{clip.ClipTitle}</Typography>
+          <Typography variant="subtitle1">{clip.clipTitle}</Typography>
         </Box>
       </Box>
 
@@ -174,15 +176,15 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile }) => {
              
         <IconButton className="action-icon" onClick={handleLike}>
           <FaHeart size={24} color={isLiked ? "red" : "white"} />
-          <Typography variant="body2">{clip.Likes}</Typography>
+          <Typography variant="body2">{clip.likeCount}</Typography>
         </IconButton>
         <IconButton
-          onClick={() => SetshowComment(!showComment)}
+          onClick={() =>getCommentsClipAndShow()}
 
           className="action-icon"
         >
           <FaComment size={24}  />
-          <Typography variant="body2">{clip.Comments}</Typography>
+          <Typography variant="body2">{clip.CommentsCount}</Typography>
         </IconButton>
         <Tippy
           content={<ShareDropdown clip={clip} />}
@@ -199,7 +201,7 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile }) => {
       {/* Sección de comentarios */}
 
       {showComment && (
-        <div className="clipmain-comments-container">
+        <div className="clipmain-comments-container-mobile">
           <div
             style={{
               width: "375px",
@@ -214,7 +216,7 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile }) => {
               className="embleminfo-close"
             >
               <i
-                onClick={() => getCommentsClipAndShow()}
+                onClick={() => SetshowComment(false)}
                 style={{
                   cursor: "pointer",
                   color: "#ededed",

@@ -780,7 +780,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
             <div className="-input">
               <textarea
                 value={comment}
-                onChange={(e) => setComment(e.target.value)}
+                onChange={(e) => setComment(e.target.value)}  
                 style={{
                   fontSize: "16px",
                 }}

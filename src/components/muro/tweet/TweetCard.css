@@ -4,6 +4,7 @@
     display: flex;
     padding: 10px;
     z-index: 1000;
+    flex-direction: row;
 }
 
 .DropdownReTweet-main {
@@ -229,14 +230,14 @@
         width: 97.8%;
         height: 100% !important;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         padding: 10px;
-        z-index: 1000;
+
     }
 
     .tweetcard-avatar {
-        width: 100% !important;
+        /* width: 100% !important; */
         display: flex;
         text-align: center;
     }

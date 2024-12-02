@@ -66,3 +66,12 @@
 .profile-pic {
     border: 2px solid #fff;
 }
+
+.clipmain-comments-container-mobile {
+    z-index: 8888;
+    position: fixed;
+    left: 17%;
+    /* top: -689px; */
+    animation: 1s moveToRight ease-in-out;
+    overflow-y: auto;
+}
