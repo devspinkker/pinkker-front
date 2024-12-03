@@ -2,8 +2,8 @@
 
 .dropdownsettings-menu {
   position: absolute;
-  left: 58.5%;
-  top: 12%;
+  left: 56.5%;
+  top: 22%;
   display: flex;
   background: #18181bf8;
   box-shadow: 0px 5px 20px 5px black;
@@ -96,10 +96,11 @@
 @media screen and (max-width: 960px) {
 
   .dropdownsettings-menu {
-    width: 100%;
-    bottom: 20%;
+    bottom: 22%;
     z-index: 99999;
+    height: -moz-fit-content;
     height: fit-content;
+    left: 25%;
 
   }
 
@@ -107,14 +108,12 @@
     display: none;
   }
 
-  .dropdownsettings-FullScreen{
-    width: 100%;
-    
+  .dropdownsettings-FullScreen {
+    height: -moz-fit-content;
     height: fit-content;
     z-index: 99999;
     position: absolute;
-    
     top: 25%;
-    left: auto;
+    left: 20%;
   }
 }

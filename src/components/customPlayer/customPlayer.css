@@ -21,8 +21,8 @@
 
 .dropdownsettings-FullScreen {
   position: fixed;
-  left: 71%;
-  top: 46%;
+  left: 55%;
+  /* top: 49%;   */
   background: inherit;
 }
 

@@ -387,6 +387,7 @@ export default function CustomPlayer({
           display: "flex",
           height: FullScreen && "100%",
           width: FullScreen && chatExpanded && "100%",
+          alignItems:"center"
         }}
       >
         <ReactFlvPlayer
@@ -410,7 +411,7 @@ export default function CustomPlayer({
           onPauseDuration={handlePauseDuration}
           reset={reset}
         />
-        {FullScreen && !isMobile && (
+        {FullScreen && !isMobile && user && (
           <div
             className="channel-chat"
             style={{
