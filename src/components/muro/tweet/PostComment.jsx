@@ -167,9 +167,9 @@ export default function PostComment({ tweet, isMobile }) {
         <div className="tweetcard-body">
           <div
             onClick={() => togglePopupTweetView()}
-            className="tweetcard-container"
+            className="Postcard-container"
           >
-            <div className="tweetcard-avatar">
+            <div className="PostCommentsClipcard-avatar">
               {tweet?.Type === "RePost" ? (
                 <Link
                   to={"/" + tweet.UserInfo.NameUser}

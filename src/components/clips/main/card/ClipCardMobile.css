@@ -71,7 +71,19 @@
     z-index: 8888;
     position: fixed;
     left: 17%;
-    /* top: -689px; */
-    animation: 1s moveToRight ease-in-out;
+    position: fixed;
+    top: 10px;
     overflow-y: auto;
+}
+
+.clipsmain-top-buttons-mobile {
+    align-items: center;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    left: -5px;
+    margin: 0 auto;
+    position: relative;
+    top: -7px;
+    /* top: 47px; */
 }

@@ -61,6 +61,11 @@
     text-align: center;
 }
 
+.PostCommentsClipcard-avatar {
+    width: 50px;
+    text-align: center;
+}
+
 .tweetcard-primary {
     color: white;
     width: 100%;
@@ -237,6 +242,12 @@
     }
 
     .tweetcard-avatar {
+        width: 100% !important;
+        display: flex;
+        text-align: center;
+    }
+
+    .PostCommentsClipcard {
         /* width: 100% !important; */
         display: flex;
         text-align: center;

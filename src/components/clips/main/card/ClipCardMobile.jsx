@@ -99,6 +99,11 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile   ,HandleShowComments}) =
       setComment("");
     }
   };
+  const handleMute = () => {
+    playerRef.current.muted = !muted;
+    setMuted(!muted);
+  };
+
   const createComment = () => {
     const token = window.localStorage.getItem("token");
     if (comment.trim() != "") {
@@ -178,7 +183,34 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile   ,HandleShowComments}) =
 
       {/* Iconos de interacción */}
       <Box className="video-actions-mobile">
-             
+      <div className="clipsmain-top-buttons-mobile">
+              {playing ? (
+                <i
+                  style={{ opacity: "0" }}
+                  className="fas fa-pause button-more-player"
+                />
+              ) : (
+                <i
+                  style={{ opacity: "0" }}
+                  className="fas fa-play button-more-player"
+                />
+              )}
+              <Tippy
+                theme="pinkker"
+                content={
+                  <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
+                    Volumen
+                  </h1>
+                }
+              >
+                <i
+                  onClick={handleMute}
+                  className={`fas ${
+                    muted ? "fa-volume-mute" : "fa-volume-up"
+                  } button-more-player`}
+                />
+              </Tippy>
+            </div>
         <IconButton className="action-icon" onClick={handleLike}>
           <FaHeart size={24} color={isLiked ? "red" : "white"} />
           <Typography variant="body2">{clip.likeCount}</Typography>
