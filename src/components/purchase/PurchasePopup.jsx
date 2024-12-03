@@ -33,7 +33,8 @@ export default function PurchasePopup({ amountt, closePopup }) {
   async function handleSubmit() {
     try {
       let token = window.localStorage.getItem("token");
-      const data = await compradePixeles(token, amount);
+      let amountEnd = getTotalPrice()
+      const data = await compradePixeles(token, amountEnd);
       if (data?.init_point) {
         window.open(
           data.init_point,
@@ -68,7 +69,7 @@ export default function PurchasePopup({ amountt, closePopup }) {
   }
 
   function getTotalPrice() {
-    return amount * 1.21;
+    return (amount * 1.13).toFixed(3)
   }
 
   return (

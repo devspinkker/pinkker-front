@@ -82,7 +82,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
 
           <li>
             <div
-              onClick={() => togglePopupPurchase(500)}
+              onClick={() => togglePopupPurchase(1000)}
               className="dropdownpurchase-news-card"
             >
               <div>
@@ -103,7 +103,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
               </div>
             </div>
             <div
-              onClick={() => togglePopupPurchase(1000)}
+              onClick={() => togglePopupPurchase(3500)}
               className="dropdownpurchase-news-card"
             >
               <div>
@@ -127,7 +127,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
 
           <li style={{ borderTop: "1px solid #2a2e38" }}>
             <div
-              onClick={() => togglePopupPurchase(1500)}
+              onClick={() => togglePopupPurchase(5500)}
               style={{ width: "40%" }}
             >
               <div
@@ -159,7 +159,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
             </div>
 
             <div
-              onClick={() => togglePopupPurchase(5000)}
+              onClick={() => togglePopupPurchase(7000)}
               style={{ width: "40%" }}
             >
               <div
@@ -225,7 +225,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
             </div>
 
             <div
-              onClick={() => togglePopupPurchase(20000)}
+              onClick={() => togglePopupPurchase(50000)}
               style={{ width: "40%" }}
             >
               <div
