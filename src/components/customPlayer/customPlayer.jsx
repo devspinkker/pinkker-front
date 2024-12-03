@@ -411,14 +411,14 @@ export default function CustomPlayer({
           onPauseDuration={handlePauseDuration}
           reset={reset}
         />
-        {FullScreen && !isMobile && user && (
+        {FullScreen && !isMobile  && (
           <div
             className="channel-chat"
             style={{
               width: "30%",
               display: !chatExpanded && "none",
-              height: "50%",
-              top: "2.5%",
+              height: "91%",
+              top: "5.5%",
             }}
           >
             <ChatStreaming
@@ -702,7 +702,10 @@ export default function CustomPlayer({
         return (
           <div
             className="customPlayer-container"
-            style={{ width: FullScreen && chatExpanded && "80% !important" }}
+            style={{
+              width:"100%"
+            }}
+            // style={{ width: FullScreen && chatExpanded && "80% !important" }}
           >
             <div className="customPlayer-primary">
               <div
@@ -781,7 +784,10 @@ export default function CustomPlayer({
         return (
           <div
             className="customPlayer-container"
-            style={{ width: FullScreen && chatExpanded && "80%" }}
+            style={{
+              width:"100%"
+            }}
+            // style={{ width: FullScreen && chatExpanded && "80%" }}
           >
             <div
               style={{
