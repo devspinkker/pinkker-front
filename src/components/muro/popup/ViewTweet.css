@@ -26,8 +26,8 @@
     margin-top: 10px;
     padding: 3px 30px;
     text-align: center;
-    background: #000000a6;
-    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+    /* background: #000000a6; */
+    /* box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651); */
 }
 
 /* Dispositivos pequeños (teléfonos en modo vertical) */
@@ -55,12 +55,10 @@
         width: 100%;
         min-height: 800px;
         overflow: scroll;
-        /* margin: auto; */
         margin-top: 10px;
         padding: 3px 30px;
         text-align: center;
-        background: #000;
-        box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+        background: none;
     }
 }
 
@@ -174,14 +172,16 @@
 .usersettings-popup-close {
     display: flex;
     justify-content: right;
-
+    height: 30px;
 }
 
 .usersettings-popup-close button {
+    display: flex;
     border: none;
     color: #ededed;
     cursor: pointer;
     border-radius: 10px;
+    align-items: center;
 }
 
 .muro-send-tweet-input-respuesta {
@@ -193,7 +193,7 @@
     color: white;
     font-size: 18px;
     outline: none;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     resize: none;
 }
 

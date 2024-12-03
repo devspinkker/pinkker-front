@@ -22,6 +22,10 @@
     border-radius: 10px;
 }
 
+.Postcard-container {
+    display: flex;
+}
+
 .tweetcard-container {
     width: 100%;
     min-height: 75px;
@@ -229,8 +233,29 @@
     color: white;
 }
 
+.container-data-user-posts {
+    width: 80%;
+    display: flex;
+    gap: 5px;
+    align-items: flex-start;
+    flex-direction: column;
+}
 
 @media screen and (max-width: 768px) {
+
+
+    .Postcard-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .PostCommentsClipcard-avatar {
+        display: flex;
+        width: 100%;
+        text-align: center;
+    }
+
     .tweetcard-body {
         width: 97.8%;
         height: 100% !important;
