@@ -19,7 +19,7 @@
 
 .video-info-mobile {
     position: absolute;
-    bottom: 15%;
+    bottom: 0%;
     left: 2%;
     display: flex;
     align-items: center;
@@ -81,9 +81,16 @@
     color: #fff;
     display: flex;
     justify-content: space-between;
-    left: -5px;
-    margin: 0 auto;
+    left: 16px;
+    /* margin: 0 auto; */
     position: relative;
     top: -7px;
-    /* top: 47px; */
+    width: 49px;
+    height: 43px;
+}
+
+.clipcard-muted-mobile {
+    position: absolute;
+    top: 38%;
+    left: -220px;
 }

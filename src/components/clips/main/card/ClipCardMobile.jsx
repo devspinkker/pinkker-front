@@ -17,6 +17,7 @@ import VideoClipsExplorar from "../../../../player/VideoClipsExplorar";
 import "./ClipCardMobile.css";
 import { IoMdSend } from "react-icons/io";
 import { useNotification } from "../../../Notifications/NotificationProvider";
+import { Link } from "react-router-dom";
 
 const ClipCardMobile = ({ clip, isActive = 0, isMobile   ,HandleShowComments}) => {
   const [playing, setPlaying] = useState(true);
@@ -141,10 +142,62 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile   ,HandleShowComments}) =
       }
     }
   }
+  useEffect(() => {
+    setIsLiked(clip.isLikedByID)
+    const player = playerRef.current;
 
+    if (!player) return;
+
+    if (isActive === 2) {
+      player.pause();
+      player.muted = true;
+      setMuted(true);
+
+      setTimeout(() => {
+        player
+          .play()
+          .then(() => {
+            setTimeout(() => {
+              player.muted = false;
+              setMuted(false);
+            }, 200);
+          })
+          .catch((error) => {
+            console.error("Error playing video:", error);
+          });
+      }, 200);
+    } else if (isActive === 1) {
+      player.pause();
+      setTimeout(() => {
+        player.muted = true;
+        setMuted(true);
+      }, 200);
+    } else {
+      player
+        .play()
+        .then(() => {
+          setPlaying(false);
+          setTimeout(() => {
+            player.muted = false;
+            setMuted(false);
+          }, 200);
+        })
+        .catch((error) => {
+          console.error("Error playing video:", error);
+        });
+    }
+  }, [isActive]);
+  const handlePlay = () => {
+    if (playing) {
+      playerRef.current.pause();
+    } else {
+      playerRef.current.play();
+    }
+    setPlaying(!playing);
+  };
 
   return (
-    <div className={`clip-card-mobile ${loading ? "loading" : ""}`}>
+    <div   className={`clip-card-mobile ${loading ? "loading" : ""}`}>
       {/* Video */}
       <VideoClipsExplorar
         videoRef={playerRef}
@@ -153,7 +206,7 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile   ,HandleShowComments}) =
         isMuted={muted}
         volume={0.5}
         onTimeUpdate={(e) => setProgress(e.target.currentTime)}
-        onClick={() => setPlaying(!playing)}
+        onClick={handlePlay}
         onLoadStart={() => setLoading(true)}
         onLoadedData={() => setLoading(false)}
         height="100%"
@@ -171,7 +224,10 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile   ,HandleShowComments}) =
                 alt=""
               />
             <Typography variant="h6" component="h3">
+              <Link to={`/${clip.NameUser}`}>
               {clip.NameUser} ●
+              
+              </Link>
             </Typography>
             <Typography variant="body2" color="textSecondary">
               Clipeado por {clip.nameUserCreator}
@@ -183,18 +239,37 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile   ,HandleShowComments}) =
 
       {/* Iconos de interacción */}
       <Box className="video-actions-mobile">
-      <div className="clipsmain-top-buttons-mobile">
+      {playing === false && (
+              <div className="clipcard-muted-mobile">
+                <i
+                  onClick={handlePlay}
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "44px",
+                    color: "lightgray",
+                  }}
+                  className="fas fa-play button-more-player"
+                />
+              </div>
+             )} 
+            <div>
               {playing ? (
+
                 <i
                   style={{ opacity: "0" }}
                   className="fas fa-pause button-more-player"
                 />
               ) : (
+                // <h2>AAAA</h2>
                 <i
                   style={{ opacity: "0" }}
                   className="fas fa-play button-more-player"
                 />
               )}
+            </div>
+
+      <div className="clipsmain-top-buttons-mobile">
+
               <Tippy
                 theme="pinkker"
                 content={
