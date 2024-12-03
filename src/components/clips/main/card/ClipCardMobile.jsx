@@ -18,7 +18,7 @@ import "./ClipCardMobile.css";
 import { IoMdSend } from "react-icons/io";
 import { useNotification } from "../../../Notifications/NotificationProvider";
 
-const ClipCardMobile = ({ clip, isActive = 0, isMobile }) => {
+const ClipCardMobile = ({ clip, isActive = 0, isMobile   ,HandleShowComments}) => {
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -117,7 +117,12 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile }) => {
   };
   async function getCommentsClipAndShow() {
     let token = window.localStorage.getItem("token");
-    if (!token && !showComment) {
+    if (showComment) {
+      SetshowComment(false)
+      return
+    }
+
+    if (!token ) {
       const response = await GetClipComments(1, clip?.id);
       SetshowComment(!showComment);
       if (response?.data?.message === "ok") {
@@ -179,7 +184,7 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile }) => {
           <Typography variant="body2">{clip.likeCount}</Typography>
         </IconButton>
         <IconButton
-          onClick={() =>getCommentsClipAndShow()}
+          onClick={() =>{getCommentsClipAndShow();HandleShowComments(showComment)}}
 
           className="action-icon"
         >
@@ -215,8 +220,8 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile }) => {
               style={{ position: "relative", top: "-20px" }}
               className="embleminfo-close"
             >
-              <i
-                onClick={() => SetshowComment(false)}
+              <i 
+                onClick={() => {SetshowComment(false);HandleShowComments(true)}}
                 style={{
                   cursor: "pointer",
                   color: "#ededed",

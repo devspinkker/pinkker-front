@@ -21,6 +21,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [transitionDirection, setTransitionDirection] = useState(null);
   const [blobUrls, setBlobUrls] = useState({}); // Almacena las URLs de los blobs
+  const [CancelScroll, setCancelScroll] = useState(true); 
 
   let startY = 0;
 
@@ -101,8 +102,11 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
       });
     }
   };
-
+  const HandleShowComments =(state) =>{
+    setCancelScroll(state)
+  }
   useEffect(() => {
+  
     const handleScroll = (e) => {
       if (e.deltaY > 0) {
         nextClip();
@@ -133,7 +137,9 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
         previewClip();
       }
     };
-
+    if (CancelScroll === false) {
+      return
+    }
     window.addEventListener("wheel", handleScroll);
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("touchstart", handleTouchStart);
@@ -145,7 +151,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [nextClip, previewClip]);
+  }, [nextClip, previewClip,CancelScroll]);
 
   const loadClips = useCallback(async () => {
     try {
@@ -238,6 +244,8 @@ if(!isMobile){
       id={clip.id}
     >
       <ClipCard
+      HandleShowComments={HandleShowComments}
+      CancelScroll={CancelScroll}
         tyExpanded={tyExpanded}
         type={0}
         clip={clip}
@@ -254,6 +262,8 @@ if(!isMobile){
       id={clip.id}
     >
       <ClipCardMobile
+         HandleShowComments={HandleShowComments}
+         CancelScroll={CancelScroll}
         tyExpanded={tyExpanded}
         type={0}
         clip={clip}

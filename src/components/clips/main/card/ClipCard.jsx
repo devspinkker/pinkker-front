@@ -21,7 +21,7 @@ import ShareDropdown from "../../../channel/dropdown/ShareDropdown";
 import { useNotification } from "../../../Notifications/NotificationProvider";
 import VideoClipsExplorar from "../../../../player/VideoClipsExplorar";
 
-export default function ClipCard({ clip, isActive = 0, isMobile }) {
+export default function ClipCard({ clip, isActive = 0, isMobile ,HandleShowComments}) {
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -208,10 +208,14 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
     }
   };
   async function getCommentsClipAndShow() {
+    if (showComment) {
+      SetshowComment(false)
+      return
+    }
+
     let token = window.localStorage.getItem("token");
-    if (!token && !showComment) {
+    if (!token ) {
       const response = await GetClipComments(1, clip?.id);
-      SetshowComment(!showComment);
       if (response?.data?.message === "ok") {
         setComments(response.data.data);
       }
@@ -645,7 +649,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
               </div>
             )}
             <div
-              onClick={() => getCommentsClipAndShow()}
+              onClick={() => {getCommentsClipAndShow();HandleShowComments(showComment)}}
               className="clipcard-icon-comment"
             >
               <i
@@ -718,7 +722,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile }) {
               className="embleminfo-close"
             >
               <i
-                onClick={() => getCommentsClipAndShow()}
+                onClick={() => {SetshowComment(false);HandleShowComments(true)}}
                 style={{
                   cursor: "pointer",
                   color: "#ededed",
