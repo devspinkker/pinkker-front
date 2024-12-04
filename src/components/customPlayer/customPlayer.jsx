@@ -42,10 +42,10 @@ export default function CustomPlayer({
   ToggleChat,
   streamerData,
   stream,
+  user
 }) {
   const { streamer } = useParams();
   let token = window.localStorage.getItem("token");
-  const [user, setUser] = useState(null);
 
   const videoRef = useRef();
   const [playing, setPlaying] = useState(true);
@@ -99,7 +99,7 @@ export default function CustomPlayer({
       try {
         const res = await getUserByIdTheToken(token);
         if (res?.message === "ok" && res?.data?.id) {
-          setUser(res.data);
+          // setUser(res.data);
           return res.data;
         }
       } catch (error) {}
@@ -436,7 +436,10 @@ export default function CustomPlayer({
           reset={reset}
         />
         </div>
-        {FullScreen && !isMobile   && (
+
+{console.log(user)}
+
+        {FullScreen && !isMobile && (
           <div
             className="channel-chat-fullscreen"
             style={{
