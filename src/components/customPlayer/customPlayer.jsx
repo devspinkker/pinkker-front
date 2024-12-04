@@ -197,7 +197,27 @@ export default function CustomPlayer({
       setMuted(false);
     }
   };
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      setFullScreen(!!document.fullscreenElement); // Actualiza el estado de fullscreen
+    };
 
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape" && FullScreen) {
+        toggleFullScreen(); // Salir de pantalla completa al presionar Esc
+      }
+    };
+
+    // Agregar listeners
+    document.addEventListener("fullscreenchange", handleFullScreenChange);
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Limpieza de los listeners
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullScreenChange);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [FullScreen]);
   const toggleFullScreen = () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
     setChatExpanded(!chatExpanded);
@@ -390,6 +410,10 @@ export default function CustomPlayer({
           alignItems:"center"
         }}
       >
+        <div
+        className="conteiner-playerFlv-Stream"
+        >
+
         <ReactFlvPlayer
           allowFullScreen
           id="pinkker-player"
@@ -411,14 +435,12 @@ export default function CustomPlayer({
           onPauseDuration={handlePauseDuration}
           reset={reset}
         />
-        {FullScreen && !isMobile  && (
+        </div>
+        {FullScreen && !isMobile   && (
           <div
-            className="channel-chat"
+            className="channel-chat-fullscreen"
             style={{
-              width: "30%",
               display: !chatExpanded && "none",
-              height: "91%",
-              top: "5.5%",
             }}
           >
             <ChatStreaming
@@ -793,7 +815,7 @@ export default function CustomPlayer({
               style={{
                 position: "relative",
                 top: "-73px",
-                width: FullScreen && chatExpanded && "97%",
+                width: FullScreen && chatExpanded && "73%",
               }}
               className="customPlayer-primary"
             >

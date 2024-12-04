@@ -26,6 +26,26 @@
   background: inherit;
 }
 
+.conteiner-playerFlv-Stream {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.channel-chat-fullscreen {
+  height: 105%;
+  position: relative;
+  right: 0;
+  width: 500px;
+  background-color: #080808;
+  transition: 0.15s;
+  overflow-y: unset;
+  z-index: 8888;
+  top: 44px;
+
+}
+
 .customPlayer-primary {
   padding: 1rem 1rem;
   display: flex;
