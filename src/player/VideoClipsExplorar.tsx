@@ -100,13 +100,14 @@ function VideoClipsExplorar({
       <video
         style={{ height, width }}
         ref={videoRef}
-        controls
         onTimeUpdate={onTimeUpdate}
         onClick={onClick}
         onPlay={onPlay}
         loop
         autoPlay
         playsInline
+        webkit-playsinline="true"
+        disablePictureInPicture
         poster={streamThumbnail}
       />
     </div>
