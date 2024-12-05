@@ -1,17 +1,17 @@
 .gallery-viewtweet-popup-body {
     display: flex;
     position: fixed;
-    width: 55%;
-    height: 80%;
+    width: 67%;
+    height: 91%;
     /* padding: 3rem 24rem; */
     top: 8%;
-
     left: 23%;
     right: 0;
     bottom: 0;
     margin: auto;
     background-color: rgba(0, 0, 0, 0.0);
     margin: 0px;
+    z-index: 10;
 
 }
 
@@ -21,7 +21,7 @@
 }
 
 .gallery-viewtweet-popup-container {
-    width: 82%;
+    width: 86%;
     min-height: 800px;
     overflow: scroll;
     position: absolute;
@@ -32,8 +32,9 @@
     margin-top: 10px;
     padding: 3px 30px;
     text-align: center;
-    background: #000;
-    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651);
+    background: #080808;
+    /* z-index: 1000000000000000000000000000000000000000000000000000000000000; */
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.651)
 }
 
 /* Dispositivos pequeños (teléfonos en modo vertical) */
@@ -104,6 +105,11 @@
     border-radius: 5px;
     font-weight: 600;
     cursor: pointer;
+}
+
+.viewComentPost {
+    display: flex;
+    align-items: center;
 }
 
 .gallery-popupgallery-view-secondary {
@@ -201,6 +207,7 @@
     outline: none;
     margin-top: 10px;
     resize: none;
+    margin-left: 13px;
 }
 
 .gallery-back-viewTweet {

@@ -10,6 +10,7 @@ import {
 } from "../../../services/backGo/clip";
 import { BarLoader } from "react-spinners";
 import ClipsMobile from "./ClipsMobile";
+import ClipCardMobile from "./card/ClipCardMobile";
 
 const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
   const { clipId } = useParams();
@@ -20,6 +21,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [transitionDirection, setTransitionDirection] = useState(null);
   const [blobUrls, setBlobUrls] = useState({}); // Almacena las URLs de los blobs
+  const [CancelScroll, setCancelScroll] = useState(true); 
 
   let startY = 0;
 
@@ -100,8 +102,11 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
       });
     }
   };
-
+  const HandleShowComments =(state) =>{
+    setCancelScroll(state)
+  }
   useEffect(() => {
+  
     const handleScroll = (e) => {
       if (e.deltaY > 0) {
         nextClip();
@@ -132,7 +137,9 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
         previewClip();
       }
     };
-
+    if (CancelScroll === false) {
+      return
+    }
     window.addEventListener("wheel", handleScroll);
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("touchstart", handleTouchStart);
@@ -144,7 +151,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [nextClip, previewClip]);
+  }, [nextClip, previewClip,CancelScroll]);
 
   const loadClips = useCallback(async () => {
     try {
@@ -228,21 +235,46 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
       Math.max(clipIndex - 0, 0),
       Math.min(clipIndex + 1, finalClips.length)
     );
+if(!isMobile){
 
-    return clipsToRender.map((clip) => (
-      <div
-        key={`${clip.id}-${clipIndex}`} // Usamos clipIndex para asegurar claves únicas
-        className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
-        id={clip.id}
-      >
-        <ClipCard
-          tyExpanded={tyExpanded}
-          type={0}
-          clip={clip}
-          isActive={clip.id === viewedClip ? 2 : 1}
-        />
-      </div>
-    ));
+  return clipsToRender.map((clip) => (
+    <div
+      key={`${clip.id}-${clipIndex}`} // Usamos clipIndex para asegurar claves únicas
+      className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
+      id={clip.id}
+    >
+      <ClipCard
+      HandleShowComments={HandleShowComments}
+      CancelScroll={CancelScroll}
+        tyExpanded={tyExpanded}
+        type={0}
+        clip={clip}
+        isActive={clip.id === viewedClip ? 2 : 1}
+      />
+    </div>
+  ));
+}else{
+
+  return clipsToRender.map((clip) => (
+    <div
+      key={`${clip.id}-${clipIndex}`} // Usamos clipIndex para asegurar claves únicas
+      className={`clip-wrapper ${clip.id === viewedClip ? "active" : ""}`}
+      id={clip.id}
+    >
+      <ClipCardMobile
+         HandleShowComments={HandleShowComments}
+         CancelScroll={CancelScroll}
+        tyExpanded={tyExpanded}
+        type={0}
+        clip={clip}
+        isActive={clip.id === viewedClip ? 2 : 1}
+      />
+    </div>
+  ));
+}
+
+    
+
   }, [clips, viewedClip, tyExpanded]);
 
   return (
@@ -258,7 +290,7 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
         >
           <BarLoader color="#36d7b7" />
         </div>
-      ) : !isMobile ? (
+      ) :  (
         <>
           <div className={`clips-container ${transitionDirection}`}>
             {memoizedClips}
@@ -322,9 +354,8 @@ const ClipsMain = ({ tyExpanded, expandedLeft, isMobile }) => {
             </div>
           </div>
         </>
-      ) : (
-        <ClipsMobile />
-      )}
+
+      ) }
     </div>
   );
 };

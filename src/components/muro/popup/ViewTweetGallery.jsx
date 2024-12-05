@@ -303,7 +303,7 @@ export default function ViewTweetGallery({
               onClick={closePopup}
             />
             <Typography
-              style={{ color: "white", fontSize: "1.5rem", marginLeft: "30px" }}
+              style={{ color: "white", fontSize: "1.5rem", marginLeft: "40px" }}
             >
               Volver
             </Typography>
@@ -322,7 +322,9 @@ export default function ViewTweetGallery({
                   paddingBottom: "10px",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div 
+                className="viewComentPost"
+                >
                   <div>
                     <img
                       style={{

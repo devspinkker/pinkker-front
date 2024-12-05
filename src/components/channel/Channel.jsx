@@ -1324,6 +1324,7 @@ export default function Channel({
         time={stream && stream.start_date}
         streamerData={streamerData}
         stream={stream}
+        user={user}
       ></CustomPlayer>
     );
   }
@@ -1668,6 +1669,7 @@ export default function Channel({
                   vod={false}
                   streamerName={streamer}
                   time={stream && stream.start_date}
+                  user={user}
                 ></CustomPlayer>
               )}
             </div>

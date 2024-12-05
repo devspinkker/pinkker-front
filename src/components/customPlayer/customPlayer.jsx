@@ -42,10 +42,10 @@ export default function CustomPlayer({
   ToggleChat,
   streamerData,
   stream,
+  user
 }) {
   const { streamer } = useParams();
   let token = window.localStorage.getItem("token");
-  const [user, setUser] = useState(null);
 
   const videoRef = useRef();
   const [playing, setPlaying] = useState(true);
@@ -99,7 +99,7 @@ export default function CustomPlayer({
       try {
         const res = await getUserByIdTheToken(token);
         if (res?.message === "ok" && res?.data?.id) {
-          setUser(res.data);
+          // setUser(res.data);
           return res.data;
         }
       } catch (error) {}
@@ -197,7 +197,27 @@ export default function CustomPlayer({
       setMuted(false);
     }
   };
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      setFullScreen(!!document.fullscreenElement); // Actualiza el estado de fullscreen
+    };
 
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape" && FullScreen) {
+        toggleFullScreen(); // Salir de pantalla completa al presionar Esc
+      }
+    };
+
+    // Agregar listeners
+    document.addEventListener("fullscreenchange", handleFullScreenChange);
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Limpieza de los listeners
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullScreenChange);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [FullScreen]);
   const toggleFullScreen = () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
     setChatExpanded(!chatExpanded);
@@ -387,8 +407,13 @@ export default function CustomPlayer({
           display: "flex",
           height: FullScreen && "100%",
           width: FullScreen && chatExpanded && "100%",
+          alignItems:"center"
         }}
       >
+        <div
+        className="conteiner-playerFlv-Stream"
+        >
+
         <ReactFlvPlayer
           allowFullScreen
           id="pinkker-player"
@@ -410,11 +435,14 @@ export default function CustomPlayer({
           onPauseDuration={handlePauseDuration}
           reset={reset}
         />
-        {FullScreen && (
+        </div>
+
+{console.log(user)}
+
+        {FullScreen && !isMobile && (
           <div
-            className="channel-chat"
+            className="channel-chat-fullscreen"
             style={{
-              width: "30%",
               display: !chatExpanded && "none",
               height: "100%",
               top: "2.5%",
@@ -702,7 +730,10 @@ export default function CustomPlayer({
         return (
           <div
             className="customPlayer-container"
-            style={{ width: FullScreen && chatExpanded && "80% !important" }}
+            style={{
+              width:"100%"
+            }}
+            // style={{ width: FullScreen && chatExpanded && "80% !important" }}
           >
             <div className="customPlayer-primary">
               <div
@@ -781,13 +812,16 @@ export default function CustomPlayer({
         return (
           <div
             className="customPlayer-container"
-            style={{ width: FullScreen && chatExpanded && "80%" }}
+            style={{
+              width:"100%"
+            }}
+            // style={{ width: FullScreen && chatExpanded && "80%" }}
           >
             <div
               style={{
                 position: "relative",
                 top: "-73px",
-                width: FullScreen && chatExpanded && "97%",
+                width: FullScreen && chatExpanded && "73%",
               }}
               className="customPlayer-primary"
             >
@@ -905,7 +939,7 @@ export default function CustomPlayer({
                           color: "white",
                         }}
                       />
-                      <Typography>Crear Clip</Typography>
+                      <Typography>Clip</Typography>
                     </Grid>
                   </Tippy>
                 </div>

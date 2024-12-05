@@ -1360,6 +1360,7 @@ export default function Channel({
         stream={stream}
         videoRef={videoRef}
         Vod={VodData}
+        user={user}
       ></CustomPlayer>
     );
   }
@@ -1543,6 +1544,7 @@ export default function Channel({
                         time={stream && stream.start_date}
                         videoRef={videoRef}
                         Vod={VodData}
+                        user={user}
                       ></CustomPlayer>
                     )}
                   </div>

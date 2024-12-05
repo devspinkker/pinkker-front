@@ -27,7 +27,7 @@ import { ScaleLoader, BarLoader } from "react-spinners";
 import { ImCross } from "react-icons/im";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
-export default function ExploreCategories({ isMobile, tyExpanded }) {
+export default function ExploreCategories({  tyExpanded }) {
   const history = useHistory();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
@@ -148,6 +148,22 @@ export default function ExploreCategories({ isMobile, tyExpanded }) {
   useEffect(() => {
     generateColor();
   }, []);
+
+  const [width, setWidth] = useState(window.innerWidth);
+
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
+
+  const isMobile = width <= 768;
 
   return (
     <div className="explorecategories-body" style={{ width: "100%" }}>

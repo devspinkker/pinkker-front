@@ -107,13 +107,12 @@ export default function CommentCard({
 
   return (
     <div style={{ minHeight: "25px" }} className="tweetcard-body">
-      <div className="tweetcard-avatar">
+      <div className="PostCommentsClipcardr">
         <img
           style={{
             width: "50px",
             borderRadius: "100%",
             position: "relative",
-            left: "-10px",
           }}
           src={comment.Avatar}
         />

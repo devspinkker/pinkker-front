@@ -14,20 +14,26 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
   const [NameUserNew, setNameUserNew] = useState("");
   const [level, setLevel] = useState(0);
 
+  const [loading, setLoading] = useState(false);
+
   const handleBanStreamerClick = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
+      setLoading(true);
       try {
         const res = await PanelAdminPinkkerbanStreamer(
           Code,
           userInfo.id,
           token
         );
+        setLoading(false);
       } catch (error) {
         console.error("Error banning streamer:", error);
+        setLoading(false);
       }
     }
   };
+
   const handlePanelAdminPinkkerPartnerUser = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
@@ -122,11 +128,11 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
             <strong>Nombre de Usuario:</strong> {userInfo.NameUser}
           </p>
           <p>
-            <strong>Subscribers:</strong> {userInfo.Subscribers?.length}
+            <strong>Subscribers:</strong>
+            {userInfo?.SubscribersCount}
           </p>
           <p>
-            <strong>Followers:</strong>{" "}
-            {/* {Object.keys(userInfo?.Followers).length} */}
+            <strong>Followers:</strong> {userInfo?.FollowersCount}
           </p>
           <p>
             <strong>Email:</strong> {userInfo?.Email}
@@ -135,9 +141,10 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
           {userInfo.Banned ? (
             <button
               className="banButton"
-              onClick={handleRemoveBanStreamerClick}
+              onClick={handleBanStreamerClick}
+              disabled={loading}
             >
-              Quitar Ban
+              {loading ? "Banning..." : "Ban Streamer"}
             </button>
           ) : (
             <button className="banButton" onClick={handleBanStreamerClick}>
@@ -160,7 +167,7 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
             </button>
           )}
           <button className="banButton" onClick={handleCreatePartnerClick}>
-            Crear Partner
+            Crear admin
           </button>
           <label className="banButton">
             Nombre de Usuario a Remover:
@@ -192,6 +199,9 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
             <strong>Idioma:</strong> {streamInfo.stream_idiom}
           </p>
           <p>
+            <strong>Horas de stream:</strong> {streamInfo.TotalTimeOnline}
+          </p>
+          <p>
             <strong>Fecha de Inicio:</strong>{" "}
             {new Date(streamInfo.start_date).toLocaleString()}
           </p>
@@ -199,7 +209,7 @@ export default function UserStreamInfoPanel({ Code, userInfo, streamInfo }) {
       </section>
       {showPartnerPanel && (
         <div className="partnerPanel">
-          <h3>Crear Partner</h3>
+          <h3>Crear admin</h3>
           <label>
             Nuevo Código:
             <input
