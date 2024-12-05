@@ -66,6 +66,7 @@ import logoMobile from "./Recurso 12.png";
 import prime from "./Recurso 25.png";
 import primeCorto from "./Recurso 29.png";
 import Prime from "../settings/user/prime/Prime";
+import { TfiWallet } from "react-icons/tfi";
 function NLayout(props) {
   const [dashboard, setDashboard] = useState(false);
   const [pulse, setPulse] = useState(false);
@@ -1368,7 +1369,7 @@ function NLayout(props) {
 
                 <Grid style={{ display: "flex", alignItems: "center" }}>
                   {/* comentado quitar*/}
-                  {/* <div
+                  <div
                     style={{
                       display: "flex",
                       gap: "5px",
@@ -1424,7 +1425,7 @@ function NLayout(props) {
                         </Typography>
                       </button>
                     </Link>
-                  </div> */}
+                  </div>
                 </Grid>
 
                 <Grid>
@@ -1639,7 +1640,7 @@ function NLayout(props) {
                         </Link>
 
                         {/* comentado quitar*/}
-                        {/* 
+                        
                       <Link
                         className="dropdownaccount-link"
                         to="/plataform/cartera"
@@ -1651,7 +1652,7 @@ function NLayout(props) {
                       >
                         <TfiWallet style={{ marginRight: "10px" }} />
                         Cartera
-                      </Link> */}
+                      </Link>
 
                         <Link
                           className="dropdownaccount-link"
@@ -2457,7 +2458,7 @@ function NLayout(props) {
                     {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
                     {unseenNotificationsCount >= 1 && (
                       <span className="messagechat-InfoUserTo-notiNav">
-                        <h2>{unseenNotificationsCount}</h2>
+                        <h1>{unseenNotificationsCount}</h1>
                       </span>
                     )}
                     <IoMdNotificationsOutline
@@ -2648,7 +2649,7 @@ function NLayout(props) {
                       Panel de control del creador
                     </Link>
                     {/* comentado quitar*/}
-                    {/* <Link
+                    <Link
                       className="dropdownaccount-link"
                       to="/plataform/cartera"
                       style={{
@@ -2659,7 +2660,7 @@ function NLayout(props) {
                     >
                       <TfiWallet style={{ marginRight: "10px" }} />
                       Cartera
-                    </Link> */}
+                    </Link>
 
                     <Link
                       className="dropdownaccount-link"
