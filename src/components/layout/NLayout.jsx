@@ -216,7 +216,9 @@ function NLayout(props) {
   }
   async function HandleGetRecentotificaciones() {
     const res = await GetNotificacionesRecent(token);
-    if (res?.notifications[0]) {
+   
+
+    if (res?.notifications !== null) {
       setPinkerNotifications((prevNotifications) => [
         ...prevNotifications,
         ...res.notifications,
