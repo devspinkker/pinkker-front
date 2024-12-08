@@ -196,7 +196,7 @@ function NLayout(props) {
     await GetOldNotifications(token);
     const res = await GetNotificacionesLastConnection(token);
 
-    if (res?.notifications[0]) {
+    if(res?.notifications[0]) {
       setPinkerNotifications((prevNotifications) => [
         ...prevNotifications,
         ...res.notifications,
