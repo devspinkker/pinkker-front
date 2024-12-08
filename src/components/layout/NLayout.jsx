@@ -29,6 +29,7 @@ import {
   AiFillInstagram,
   AiOutlineClose,
   AiOutlineMenu,
+  AiOutlineMessage,
   AiOutlinePlayCircle,
   AiOutlineSetting,
 } from "react-icons/ai";
@@ -196,7 +197,7 @@ function NLayout(props) {
     await GetOldNotifications(token);
     const res = await GetNotificacionesLastConnection(token);
 
-    if(res?.notifications[0]) {
+    if (res?.notifications[0]) {
       setPinkerNotifications((prevNotifications) => [
         ...prevNotifications,
         ...res.notifications,
@@ -206,7 +207,7 @@ function NLayout(props) {
 
   async function HandleGetOldNotifications() {
     const res = await GetOldNotifications(token, 1);
-    
+
 
     setPinkerNotifications((prevNotifications) => [
       ...prevNotifications,
@@ -216,7 +217,7 @@ function NLayout(props) {
   }
   async function HandleGetRecentotificaciones() {
     const res = await GetNotificacionesRecent(token);
-   
+
 
     if (res?.notifications !== null) {
       setPinkerNotifications((prevNotifications) => [
@@ -1456,10 +1457,13 @@ function NLayout(props) {
                             <span>{unseenNotificationsCount}</span>
                           </span>
                         )}
-                        <IoMdNotificationsOutline
-                          style={{ fontSize: "20px", color: "white" }}
-                          name="notificaciones"
-                        />
+                        <IconButton sx={{ color: "#fff", backgroundColor: '#343843' }}>
+
+                          <IoMdNotificationsOutline
+                            style={{ fontSize: "20px", color: "white" }}
+                            name="notificaciones"
+                          />
+                        </IconButton>
                       </div>
                     </div>
                     {/* comentado quitar*/}
@@ -1479,9 +1483,12 @@ function NLayout(props) {
                         {notificacion && (
                           <span className="messagechat-InfoUserTo-notiNav"></span>
                         )}
-                        <BsChatDots
-                          style={{ fontSize: "20px", color: "white" }}
-                        />
+                        <IconButton sx={{ color: "#fff", backgroundColor: '#343843' }}>
+
+                          <BsChatDots
+                            style={{ fontSize: "20px", color: "white" }}
+                          />
+                        </IconButton>
                       </div>
                     </div>
 
@@ -1642,19 +1649,19 @@ function NLayout(props) {
                         </Link>
 
                         {/* comentado quitar*/}
-                        
-                      <Link
-                        className="dropdownaccount-link"
-                        to="/plataform/cartera"
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
-                      >
-                        <TfiWallet style={{ marginRight: "10px" }} />
-                        Cartera
-                      </Link>
+
+                        <Link
+                          className="dropdownaccount-link"
+                          to="/plataform/cartera"
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                          }}
+                        >
+                          <TfiWallet style={{ marginRight: "10px" }} />
+                          Cartera
+                        </Link>
 
                         <Link
                           className="dropdownaccount-link"
@@ -2440,8 +2447,12 @@ function NLayout(props) {
               <Grid
                 style={{ display: "flex", alignItems: "center", gap: "5px" }}
               >
-                <IconButton sx={{ color: "#fff" }}>
+                <IconButton sx={{ color: "#fff", backgroundColor: '#343843' }}>
                   <IoSearch onClick={() => setHabilitar(!habilitar)} />
+                </IconButton>
+
+                <IconButton sx={{ color: "#fff", backgroundColor: '#343843' }}>
+                  <AiOutlineMessage onClick={() => habilitarMensaje()}   />
                 </IconButton>
 
                 <div
@@ -2460,14 +2471,18 @@ function NLayout(props) {
                     {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
                     {unseenNotificationsCount >= 1 && (
                       <span className="messagechat-InfoUserTo-notiNav">
-                        <h1>{unseenNotificationsCount}</h1>
+                        <h1 style={{ fontSize: '1rem', color: 'white', zIndex: 10 }}>{unseenNotificationsCount}</h1>
                       </span>
                     )}
-                    <IoMdNotificationsOutline
-                      style={{ fontSize: "24px", color: "white" }}
-                      name="notificaciones"
-                    />
+                    <IconButton sx={{ color: "#fff", backgroundColor: '#343843' }}>
+
+                      <IoMdNotificationsOutline
+                        style={{ fontSize: "24px", color: "white", backgroundColor: '#343843' }}
+                        name="notificaciones"
+                      />
+                    </IconButton>
                   </div>
+
                 </div>
               </Grid>
               <Grid

@@ -36,7 +36,7 @@
     height: 100vh;
     background-color: #080808;
     position: fixed;
-    z-index: 999999;
+    z-index: 100000;
     top: 0px;
     transition: left 0.5s ease
 }
@@ -277,6 +277,7 @@
     align-items: center;
     font-size: 12px;
     justify-content: center;
+    z-index: 10;
     /* font-weight: 700; */
     color: #d3c9cc;
 }
@@ -302,7 +303,7 @@
         border: 1px solid rgb(42, 46, 56);
         background-color: #080808;
         position: fixed;
-        z-index: 999;
+        z-index: 10000;
         top: 5%;
         transition: left 0.5s ease
     }
