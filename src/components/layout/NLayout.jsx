@@ -2617,7 +2617,7 @@ function NLayout(props) {
                       marginTop: "15px",
                     }}
                   >
-                    <div
+                    {/* <div
                       onClick={() => habilitarMensaje()}
                       className="dropdownaccount-link"
                       style={{
@@ -2637,7 +2637,7 @@ function NLayout(props) {
                         }}
                       />
                       Mensajes
-                    </div>
+                    </div> */}
 
                     <Link
                       className="dropdownaccount-link"

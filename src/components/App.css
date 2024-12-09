@@ -311,3 +311,7 @@ video::-webkit-media-controls-toggle-closed-captions-button::-webkit-media-contr
 video::-webkit-media-controls-toggle-closed-captions-button::-webkit-media-controls-toggle-closed-captions-button::-webkit-media-controls-toggle-closed-captions-button::-webkit-media-controls-toggle-closed-captions-button {
   display: none;
 }*/
+#root {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch; /* Mantener scrolling fluido */
+}
