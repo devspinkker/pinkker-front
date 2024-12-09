@@ -198,10 +198,10 @@ function NLayout(props) {
     const res = await GetNotificacionesLastConnection(token);
 
     if (res?.notifications[0]) {
-      setPinkerNotifications((prevNotifications) => [
-        ...prevNotifications,
-        ...res.notifications,
-      ]);
+      // setPinkerNotifications((prevNotifications) => [
+      //   ...prevNotifications,
+      //   ...res.notifications,
+      // ]);
     }
   }
 
@@ -209,10 +209,10 @@ function NLayout(props) {
     const res = await GetOldNotifications(token, 1);
 
 
-    setPinkerNotifications((prevNotifications) => [
-      ...prevNotifications,
-      ...res.notifications,
-    ]);
+    // setPinkerNotifications((prevNotifications) => [
+    //   ...prevNotifications,
+    //   ...res.notifications,
+    // ]);
 
   }
   async function HandleGetRecentotificaciones() {
