@@ -11,11 +11,11 @@ interface ReactVideoPlayerProps {
   width: string;
   quality: string;
   stream: string;
-  streamerDataID: string; 
+  streamerDataID: string;
   stream_thumbnail: string;
 }
 
-function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, streamerDataID,stream_thumbnail }: ReactVideoPlayerProps) {
+function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, streamerDataID, stream_thumbnail }: ReactVideoPlayerProps) {
   const history = useHistory();
   const [isPlaying, setIsPlaying] = useState(false);
   const [Commercial, setCommercial] = useState<any>(null);
@@ -37,7 +37,7 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
 
   const playCommercial = () => {
     if (commercialRef.current && Commercial) {
-      commercialRef.current.src = Commercial.UrlVideo; 
+      commercialRef.current.src = Commercial.UrlVideo;
       commercialRef.current.muted = false;
       commercialRef.current.play().catch(error => {
         console.error('Error playing commercial:', error);
@@ -143,47 +143,63 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
     async function initializePlayer() {
       try {
         if (hlsRef.current) {
-          hlsRef.current.destroy();
+          hlsRef.current.destroy(); // Destruir cualquier instancia previa de Hls
         }
 
-        hls = new Hls();
+        hls = new Hls(); // Crear una nueva instancia de Hls
         hlsRef.current = hls;
 
         if (videoRef.current) {
-          hls.loadSource(src);
-          hls.attachMedia(videoRef.current);
+          hls.loadSource(src); // Cargar el archivo M3U8
+          hls.attachMedia(videoRef.current); // Adjuntar el video al objeto hls
 
-          videoRef.current.addEventListener('click', () => {
-            if (!isPlaying) {
-              videoRef.current?.play();
-              setIsPlaying(true);
-            }
-          });
-
+          // Configurar eventos para manejar la carga del manifiesto y errores
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             console.log('Manifest parsed');
-            videoRef.current?.play(); // Asegúrate de que el video comience después de cargar el manifiesto
+            videoRef.current?.play(); // Asegúrate de que el video empiece a reproducirse
           });
 
           hls.on(Hls.Events.ERROR, (event, data) => {
-            console.error('HLS Error:', data);
+            if (data.fatal) {
+              switch (data.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR:
+                  console.error('Error de red: No se pudo cargar el archivo M3U8');
+                  break;
+                case Hls.ErrorTypes.MEDIA_ERROR:
+                  console.error('Error al procesar los segmentos de video');
+                  break;
+                case Hls.ErrorTypes.OTHER_ERROR:
+                  console.error('Error desconocido', data);
+                  break;
+                default:
+                  console.error('Error fatal', data);
+                  break;
+              }
+            }
+          });
+
+          hls.on(Hls.Events.LEVEL_LOADED, (event, data) => {
+            console.log(`Nivel cargado: ${data.level}`);
+          });
+
+          hls.on(Hls.Events.MANIFEST_LOADING, (event, data) => {
+            console.log('Cargando el manifiesto...', data);
           });
         }
       } catch (error) {
-        console.error('Error initializing video player:', error);
+        console.error('Error inicializando el reproductor de video:', error);
       }
     }
 
     initializePlayer();
 
     return () => {
-
-      
       if (hlsRef.current) {
         hlsRef.current.destroy();
       }
     };
-  }, [src]);
+  }, [src]); // Solo se ejecuta cuando cambia `src`
+
 
   function isMobile() {
     var check = false;
@@ -209,8 +225,8 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
   useEffect(() => {
     const handleFullScreenChange = () => {
       const isFullScreen = !!(
-        document.fullscreenElement 
-     
+        document.fullscreenElement
+
       );
       setIsFullScreen(isFullScreen);
     };
@@ -255,42 +271,42 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
 
   return (
     <>
-{showWarning && (
-  <div
-    style={{
-      backgroundImage: `url(${stream_thumbnail})`,
+      {showWarning && (
+        <div
+          style={{
+            backgroundImage: `url(${stream_thumbnail})`,
 
-      
-    }}
-    className='thumbnail-prev-PlayerMain'
-  >
-    <div className="base-dialog-player">
-      <button
-      style={
-        {
-          background:"#000000"
-        }
-      }
-      
-       onClick={handleStartWatchingClick}>
-        <div>
-          <i 
-             style={
-              {
-                color:"#ffff"
+
+          }}
+          className='thumbnail-prev-PlayerMain'
+        >
+          <div className="base-dialog-player">
+            <button
+              style={
+                {
+                  background: "#000000"
+                }
               }
-            }
-          className='fas fa-play pinkker-button-more' ></i>
+
+              onClick={handleStartWatchingClick}>
+              <div>
+                <i
+                  style={
+                    {
+                      color: "#ffff"
+                    }
+                  }
+                  className='fas fa-play pinkker-button-more' ></i>
+              </div>
+            </button>
+          </div>
         </div>
-      </button>
-    </div>
-  </div>
-)}
+      )}
       {Commercial && (
         <div>
 
           <video
-          style={{ width, height }}
+            style={{ width, height }}
             id='commercial-player'
             muted={true}
             controls={false}
@@ -298,42 +314,42 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
             ref={commercialRef}
             onClick={() => window.open(Commercial?.LinkReference, '_blank')}
           />
-              {countdown > 0 ? (
-                <div style={{ 
-                  position: 'relative',
-                  top: '-130px',
-                  left: "17px",
-                  zIndex:"10000",
-                  padding: '5px 10px',
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: 'white',
-                  width: "100px",
-                }}>
-                  omitir en {countdown}...
-                </div>
-              ) : (
-                <button
-                onClick={handleCommercialEnded}
-                style={{
-                  position: 'relative',
-                  top: '-130px',
-                  left: "17px",
-                  padding: '5px 10px',
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  border: 'none',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                  zIndex:"10000"
-                }}
-              >
-                Cerrar anuncio
-              </button>
-              )}
+          {countdown > 0 ? (
+            <div style={{
+              position: 'relative',
+              top: '-130px',
+              left: "17px",
+              zIndex: "10000",
+              padding: '5px 10px',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              color: 'white',
+              width: "100px",
+            }}>
+              omitir en {countdown}...
+            </div>
+          ) : (
+            <button
+              onClick={handleCommercialEnded}
+              style={{
+                position: 'relative',
+                top: '-130px',
+                left: "17px",
+                padding: '5px 10px',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                zIndex: "10000"
+              }}
+            >
+              Cerrar anuncio
+            </button>
+          )}
         </div>
-        
+
       )}
       <video
-        style={{ width, height, display: Commercial ||  Player ? "none" : "" }}
+        style={{ width, height, display: Commercial || Player ? "none" : "" }}
         className={`video-player  ${isFullScreen ? 'fullscreen' : ''}`}
         muted={true}
         controls={false}
