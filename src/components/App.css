@@ -312,6 +312,6 @@ video::-webkit-media-controls-toggle-closed-captions-button::-webkit-media-contr
   display: none;
 }*/
 #root {
-  overflow: auto;
+  
   -webkit-overflow-scrolling: touch; /* Mantener scrolling fluido */
 }
