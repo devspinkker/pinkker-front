@@ -11,6 +11,7 @@
     align-items: center;
     justify-content: right;
     flex-direction: column;
+    gap: 15px;
 }
 
 .ContNewChat {
@@ -18,7 +19,7 @@
     display: flex;
     flex-direction: column;
     top: 20px;
-    left: 20%;
+    right:  20px;
     width: 45px;
 }
 
@@ -141,7 +142,10 @@
     justify-content: space-around;
     position: relative;
     border-bottom: 1px solid #471f2e;
-    width: 95%
+    width: 95%;
+    gap: 10px;
+    padding: 5px;
+
 }
 
 .typesofchats span {

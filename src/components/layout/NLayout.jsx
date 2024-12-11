@@ -209,10 +209,10 @@ function NLayout(props) {
     const res = await GetOldNotifications(token, 1);
 
 
-    // setPinkerNotifications((prevNotifications) => [
-    //   ...prevNotifications,
-    //   ...res.notifications,
-    // ]);
+    setPinkerNotifications((prevNotifications) => [
+      ...prevNotifications,
+      ...res.notifications,
+    ]);
 
   }
   async function HandleGetRecentotificaciones() {
@@ -2722,7 +2722,7 @@ function NLayout(props) {
                   bottom: "10%",
                   right: "3%",
                   backgroundColor: "#ff69c4",
-                  zIndex: 99999999,
+                  zIndex: 9999,
                 }}
                 aria-label="fingerprint"
                 color="secondary"

@@ -117,14 +117,15 @@
 
 .general-chat-selected-message-message {
     border-radius: 8px;
-    background-color: #101010;
+    background-color: rgb(248, 107, 185);
     color: #fff;
     padding: 10px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 18px;
     font-family: "Roboto";
     margin-right: 5px;
     font-weight: bolder;
+    width: fit-content;
 }
 
 .general-chat-selected-input {

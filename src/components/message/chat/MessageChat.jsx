@@ -4,6 +4,7 @@ import Loader from "react-loader-spinner";
 import { getMessages, sendMessage } from "../../../services/backGo/Chats";
 import Emblem from "../../emblem/Emblem";
 import ChatSettings from "../settingchat/ChatSettings";
+import { IoMdCloseCircle, IoMdSettings } from "react-icons/io";
 
 export default function MessageChat({
   openedWindow,
@@ -68,7 +69,7 @@ export default function MessageChat({
       connectWebSocket();
     }
   }, [opened, chatID, token]);
-
+  console.log('to', to)
   useEffect(() => {
     setNotifyState(NotifyA === id);
 
@@ -139,9 +140,8 @@ export default function MessageChat({
     } else if (diffDays < 7) {
       return dayOfWeek[messageDate.getDay()];
     } else {
-      return `${messageDate.getDate()}/${
-        messageDate.getMonth() + 1
-      }/${messageDate.getFullYear()}`;
+      return `${messageDate.getDate()}/${messageDate.getMonth() + 1
+        }/${messageDate.getFullYear()}`;
     }
   }
 
@@ -150,7 +150,7 @@ export default function MessageChat({
       {opened && (
         <div className="messagechat-opened">
           <div
-            onClick={() => setOpened(false)}
+
             className="messagechat-opened-close"
           >
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -169,7 +169,7 @@ export default function MessageChat({
                   src={to.Avatar}
                   alt=""
                   onLoad={() => setImageLoaded(true)}
-                  style={{ display: imageLoaded ? "block" : "none" }}
+                  style={{ display: imageLoaded ? "block" : "none", height: '50px', width: '50px' }}
                 />
               </div>
 
@@ -184,8 +184,10 @@ export default function MessageChat({
                 />
               )}
             </div>
-            <div>
-              <i
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+
+              {/* <i
                 style={{
                   marginRight: "10px",
                   cursor: "pointer",
@@ -194,16 +196,25 @@ export default function MessageChat({
                   borderRadius: "3px",
                 }}
                 className="fas fa-times gray-button"
-              />
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
+              /> */}
 
-                  setShowSettings((prev) => !prev);
-                }}
-              >
-                {!showSettings && "Mostrar Configuración"}
-              </button>
+
+              <IoMdCloseCircle
+                onClick={() => setOpened(false)}
+                style={{ color: 'rgb(248, 107, 185)', fontSize: '32px' }}
+              />
+              {
+                !showSettings && (
+
+                  <IoMdSettings style={{ color: 'rgb(248, 107, 185)', fontSize: '32px' }} onClick={(e) => {
+                    e.stopPropagation();
+
+                    setShowSettings((prev) => !prev);
+                  }} />
+                )
+              }
+
+
             </div>
           </div>
           {showSettings && (
@@ -225,15 +236,14 @@ export default function MessageChat({
                 <div key={index}>
                   {(index === 0 ||
                     formatDate(message.CreatedAt) !==
-                      formatDate(messages[index - 1].CreatedAt)) && (
-                    <div className="messagechat-date">
-                      <span>{formatDate(message.CreatedAt)}</span>
-                    </div>
-                  )}
+                    formatDate(messages[index - 1].CreatedAt)) && (
+                      <div className="messagechat-date">
+                        <span>{formatDate(message.CreatedAt)}</span>
+                      </div>
+                    )}
                   <div
-                    className={`general-chat-selected-message${
-                      message.SenderID === id ? "right" : "left"
-                    }`}
+                    className={`general-chat-selected-message${message.SenderID === id ? "right" : "left"
+                      }`}
                   >
                     {message.SenderID !== id && (
                       <div
@@ -265,40 +275,10 @@ export default function MessageChat({
                         </div>
                       </div>
                     )}
-                    {message.SenderID === id && (
-                      <div
-                        className="navbar-image-avatar-container"
-                        style={{
-                          width: "45px",
-                          position: "relative",
-                          left: "10px",
-                          marginRight: "5px",
-                        }}
-                      >
-                        <div className="navbar-image-avatar">
-                          {!imageLoaded && (
-                            <div className="image-placeholder">
-                              <Loader
-                                type="TailSpin"
-                                color="#ff60b2"
-                                height={20}
-                                width={20}
-                              />
-                            </div>
-                          )}
-                          <img
-                            src={Avatar}
-                            alt=""
-                            onLoad={() => setImageLoaded(true)}
-                            style={{ display: imageLoaded ? "block" : "none" }}
-                          />
-                        </div>
-                      </div>
-                    )}
+
                     <div
-                      className={`general-chat-selected-message-message ${
-                        message.SenderID === id ? "own-message" : ""
-                      }`}
+                      className={`general-chat-selected-message-message ${message.SenderID === id ? "own-message" : ""
+                        }`}
                     >
                       <p>{message.Content}</p>
                       <p className="messagechat-time">
@@ -378,8 +358,13 @@ export default function MessageChat({
               />
             )}
           </div>
+
           {NotifyState && <span className="messagechat-InfoUserTo-noti"></span>}
-          <h5 style={{ color: "#ededed", marginLeft: "5px" }}>{to.NameUser}</h5>
+          <div>
+
+            <h5 style={{ color: "#ededed", marginLeft: "5px", fontSize: '18px' }}>{to.NameUser}</h5>
+          </div>
+
           <div className="navbar-image-avatar-messagechat">
             {!imageLoaded && (
               <div className="image-placeholder">

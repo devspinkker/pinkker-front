@@ -32,19 +32,21 @@ const LayoutMessageNotis = ({
           onClick={() =>
             openMessage ? setOpenMessage(false) : setOpenNotification(false)
           }
-          style={{ color: "white", cursor: "pointer" }}
+          style={{ color: "white", cursor: "pointer", fontSize: 24 }}
         />
         <Typography
           style={{
             color: "white",
             fontWeight: 600,
             textAlign: "center",
-            fontSize: "18px",
+            fontSize: "24px",
             width: "100%",
           }}
         >
           {openMessage ? "Mensajes" : "Notificaciones"}
         </Typography>
+
+        
       </Grid>
       <div
         style={{

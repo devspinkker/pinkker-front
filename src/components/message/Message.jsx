@@ -329,7 +329,7 @@ export default function Message({
       );
     }
   };
-
+console.log('activeTab', activeTab)
   return (
     <div className="message-body">
       <div className="ContNewChat">
@@ -355,6 +355,9 @@ export default function Message({
       <div className="typesofchats">
         <span
           className={activeTab === "primary" ? "active" : ""}
+          style={{backgroundColor: activeTab === 'primary' ? '#ff86e4' : '#ebebec', borderRadius: '5px' ,padding: '15px 30px', color:  activeTab === 'primary' ? 'white': 'black', width: '30%', textAlign: 'center', fontSize: '16px'}}
+
+
           onClick={() => {
             setActiveTab("primary");
             primaryChats(); // Ejecuta la función correspondiente
@@ -362,8 +365,12 @@ export default function Message({
         >
           Principal
         </span>
+
         <span
           className={activeTab === "secondary" ? "active" : ""}
+          style={{backgroundColor: activeTab === 'secondary' ? '#ff86e4' : '#ebebec', borderRadius: '5px', padding: '15px 30px', color:  activeTab === 'secondary' ? 'white': 'black' , width: '30%', textAlign: 'center', fontSize: '16px'}}
+
+
           onClick={() => {
             setActiveTab("secondary");
             secondaryChats(); // Ejecuta la función correspondiente
@@ -371,8 +378,11 @@ export default function Message({
         >
           General
         </span>
+        
         <span
           className={activeTab === "request" ? "active" : ""}
+          style={{backgroundColor: activeTab === 'request' ? '#ff86e4' : '#ebebec', borderRadius: '5px',padding: '15px 30px', color:  activeTab === 'request' ? 'white': 'black' , width: '30%', textAlign: 'center', fontSize: '16px'}}
+
           onClick={() => {
             setActiveTab("request");
             requestChats(); // Ejecuta la función correspondiente
@@ -382,7 +392,7 @@ export default function Message({
         </span>
 
         {/* Línea de navegación animada */}
-        <div className={`underline ${activeTab}`}></div>
+        {/* <div className={`underline ${activeTab}`}></div> */}
       </div>
 
       {messagesOpen.map((chat, index) => {

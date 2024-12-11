@@ -192,7 +192,7 @@ export default function Notificaciones({ PinkerNotifications }) {
                     <strong>{notification.nameuser}</strong>{" "}
                     {renderNotificationText(notification, index)}
                   </p>
-                  <p style={{ fontSize: 12 }}>
+                  <p style={{ fontSize: 16 }}>
                     {calcularTiempoTranscurrido(notification)}
                   </p>
 
