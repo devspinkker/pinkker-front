@@ -208,11 +208,13 @@ function NLayout(props) {
   async function HandleGetOldNotifications() {
     const res = await GetOldNotifications(token, 1);
 
+    if (res?.notifications !== null) {
 
-    setPinkerNotifications((prevNotifications) => [
-      ...prevNotifications,
-      ...res.notifications,
-    ]);
+      setPinkerNotifications((prevNotifications) => [
+        ...prevNotifications,
+        ...res.notifications,
+      ]);
+    }
 
   }
   async function HandleGetRecentotificaciones() {
@@ -2452,7 +2454,7 @@ function NLayout(props) {
                 </IconButton>
 
                 <IconButton sx={{ color: "#fff", backgroundColor: '#343843' }}>
-                  <AiOutlineMessage onClick={() => habilitarMensaje()}   />
+                  <AiOutlineMessage onClick={() => habilitarMensaje()} />
                 </IconButton>
 
                 <div
