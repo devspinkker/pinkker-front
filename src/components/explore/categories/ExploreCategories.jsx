@@ -306,7 +306,7 @@ export default function ExploreCategories({  tyExpanded }) {
                       style={{
                         width: "9.5rem",
                       }}
-                      src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927463/logos/Chancho_skull_jdtg05.png"
+                      src="/static/media/Chancho skull.de3b6e78a5dff4a9bfda.png"
                       alt="Chancho skull"
                     />
 

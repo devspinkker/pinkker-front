@@ -64,6 +64,23 @@ export async function GetGlobalEmotes() {
         return error;
     }
 }
+export async function AddImgUtilsAut(formData, token) {
+    try {
+        const response = await axios.post(
+            `${baseURL}/utils/imgs`,
+            formData
+            , {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
 export async function AddEmoteAut(formData, token) {
     try {
         const response = await axios.post(

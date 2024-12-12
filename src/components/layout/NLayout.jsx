@@ -1314,7 +1314,7 @@ function NLayout(props) {
               >
                 <Link to="/" style={{ width: "230px" }}>
                   <img
-                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
+                    src="https://www.pinkker.tv/uploads/assets/Pinkkerlogohome.png"
                     style={{ width: "90%", marginTop: "8px" }}
                     alt=""
                   />
@@ -1366,7 +1366,7 @@ function NLayout(props) {
               >
                 <Link to="/" style={{ width: "230px" }}>
                   <img
-                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
+                    src="https://www.pinkker.tv/uploads/assets/Pinkkerlogohome.png"
                     style={{ width: "90%", marginTop: "8px" }}
                     alt=""
                   />
@@ -2049,7 +2049,7 @@ function NLayout(props) {
               <Grid style={{ width: "20%" }}>
                 <Link to="/">
                   <img
-                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
+                    src="https://www.pinkker.tv/uploads/assets/Pinkkerlogohome.png"
                     style={{ width: "70%" }}
                     alt=""
                   />

@@ -142,7 +142,7 @@ function DashboarLayout({ user, isMobile, children }) {
                 <a href="/" style={{ width: "20%" }}>
                   <img
                     style={{ width: "90%" }}
-                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1726509395/Emblemas/Pinkker_dmzobi.png"
+                    src="https://www.pinkker.tv/uploads/assets/Pinkkerlogohome.png"
                     alt="Avatar"
                   />
                 </a>

@@ -8,6 +8,7 @@ import FindUsersPanel from "./FindUsersPanel";
 import Advertisements from "./Advertisements";
 import Emotes from "./Emotes";
 import Ingresos from "./Ingresos";
+import UtilsPinkkerImgs from "./UtilsPinkkerImgs";
 
 export default function Main() {
   const [code, setCode] = useState("");
@@ -132,6 +133,24 @@ export default function Main() {
             <Ingresos Code={code} />
           </div>
         );
+
+      case "Utils imgs":
+        return (
+          <div>
+            <form
+              className="renderActivePanel-main"
+              onSubmit={handleCodeSubmit}
+            >
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="Ingrese el código"
+              />
+            </form>
+            <UtilsPinkkerImgs Code={code} />
+          </div>
+        );
       default:
         return null;
     }
@@ -149,6 +168,7 @@ export default function Main() {
           <button onClick={() => setActivePanel("Ads")}>Ads</button>
           <button onClick={() => setActivePanel("Emotes")}>Emotes</button>
           <button onClick={() => setActivePanel("Ingresos")}>Ingresos</button>
+            <button onClick={() => setActivePanel("Utils imgs")}>Utils imgs</button>
         </div>
         <div className="categories-container">{renderActivePanel()}</div>
       </div>

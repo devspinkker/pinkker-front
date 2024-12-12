@@ -290,7 +290,7 @@ function DropdownChatIdentity({
               {chatData?.StreamerChannelOwner && (
                 <img
                   src={
-                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg "
+                    "ttps://www.pinkker.tv/uploads/assets/emblemas/OWNER.jpg "
                   }
                   alt="StreamerChannelOwner"
                 />

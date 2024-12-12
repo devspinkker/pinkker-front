@@ -1476,7 +1476,7 @@ export function ChatStreaming({
                 {MsjChatAnclado?.StreamerChannelOwner && (
                   <img
                     src={
-                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg "
+                      "https://www.pinkker.tv/uploads/assets/emblemas/OWNER.jpg"
                     }
                     alt="StreamerChannelOwner"
                   />
@@ -1829,7 +1829,7 @@ export function ChatStreaming({
                 {message?.StreamerChannelOwner && (
                   <img
                     src={
-                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg "
+                      "https://www.pinkker.tv/uploads/assets/emblemas/OWNER.jpg"
                     }
                     alt="StreamerChannelOwner"
                   />
@@ -2003,7 +2003,7 @@ export function ChatStreaming({
                   {message?.StreamerChannelOwner && (
                     <img
                       src={
-                        "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg "
+                        "https://www.pinkker.tv/uploads/assets/emblemas/OWNER.jpg"
                       }
                       alt="StreamerChannelOwner"
                     />
@@ -2133,7 +2133,7 @@ export function ChatStreaming({
                 {ResMessageschatState?.StreamerChannelOwner && (
                   <img
                     src={
-                      "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404308/Emblemas/OWNER_ixhnvh.jpg "
+                      "https://www.pinkker.tv/uploads/assets/emblemas/OWNER.jpg"
                     }
                     alt="StreamerChannelOwner"
                   />
