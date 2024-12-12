@@ -34,22 +34,22 @@ function VideoClipsExplorar({
   const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
-    if (Hls.isSupported() && videoRef.current) {
+    const isM3U8 = src.endsWith(".m3u8");
+    const isMP4 = src.endsWith(".mp4");
+
+    if (isM3U8 && Hls.isSupported() && videoRef.current) {
       const hls = new Hls({
-        maxBufferLength: 10, // Tiempo máximo de buffer en segundos
-        maxMaxBufferLength: 30, // Máximo absoluto del buffer
-        maxBufferSize: 60 * 1024 * 1024, // Límite del buffer en bytes (60MB)
-        maxBufferHole: 0.5, // Permite un pequeño agujero de 0.5s entre segmentos
-        liveSyncDuration: 3, // Retraso para sincronización en vivo
-        liveMaxLatencyDuration: 5, // Máximo retraso aceptable en vivo
+        maxBufferLength: 10,
+        maxMaxBufferLength: 30,
+        maxBufferSize: 60 * 1024 * 1024,
+        maxBufferHole: 0.5,
+        liveSyncDuration: 3,
+        liveMaxLatencyDuration: 5,
         liveBackBufferLength: 0,
       });
 
-
       hlsRef.current = hls;
-      console.log(src);
-
-      hls.loadSource(src?.replace(".mp4", ".m3u8"));
+      hls.loadSource(src);
       hls.attachMedia(videoRef.current);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -65,19 +65,19 @@ function VideoClipsExplorar({
         if (data.fatal) {
           if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
             console.error("HLS Network Error:", data);
-            hls.startLoad(); // Reintentar cargar fuente
+            hls.startLoad();
           } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
             console.error("HLS Media Error:", data);
-            hls.recoverMediaError(); // Intentar recuperación de errores
+            hls.recoverMediaError();
           } else {
             console.error("Fatal HLS Error:", data);
-            hls.destroy(); // Destruir la instancia en caso de error fatal
+            hls.destroy();
           }
         }
       });
-    } else if (videoRef.current) {
-      // Fallback para navegadores que no soportan HLS.js
-      videoRef.current.src = src.replace(".mp4", ".m3u8");
+    } else if (isMP4 && videoRef.current) {
+      // Soporte directo para .mp4
+      videoRef.current.src = src;
     }
 
     return () => {
@@ -100,7 +100,6 @@ function VideoClipsExplorar({
       <video
         style={{ height, width }}
         ref={videoRef}
-        
         onTimeUpdate={onTimeUpdate}
         onClick={onClick}
         onPlay={onPlay}
