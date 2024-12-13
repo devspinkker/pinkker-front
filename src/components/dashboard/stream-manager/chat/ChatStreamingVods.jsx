@@ -601,7 +601,7 @@ export function ChatStreamingVods({
 
     const content = message.split(urlRegex).map((part, index) => {
       if (part.match(urlRegex)) {
-        if (part.includes("res.cloudinary.com/depcty8j1/")) {
+        if (part.includes("pinkker.tv/")) {
           const decodedUrl = decodeURIComponent(part);
           const cutoffIndex = decodedUrl.indexOf("&");
           const imageUrl =
@@ -638,7 +638,7 @@ export function ChatStreamingVods({
         }
       } else if (part.match(imgRegex)) {
         return part.replace(imgRegex, (match, src) => {
-          if (src.includes("res.cloudinary.com/depcty8j1/")) {
+          if (src.includes("pinkker.tv/")) {
             // Si el src coincide con res.cloudinary.com/depcty8j1/, reemplazamos la etiqueta img con un párrafo
             return `${match}`;
           } else {
