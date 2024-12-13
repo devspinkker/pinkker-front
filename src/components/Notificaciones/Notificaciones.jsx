@@ -170,7 +170,6 @@ export default function Notificaciones({ PinkerNotifications }) {
         className="notifications-list"
       >
         {notifications.map((notification, index) => {
-          console.log('notification44', notification)
           return (
             <li
               className="notification-item"

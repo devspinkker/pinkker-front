@@ -251,7 +251,8 @@ function NLayout(props) {
 
         newSocket.onmessage = (event) => {
           const receivedMessage = JSON.parse(event.data);
-
+   console.log(receivedMessage);
+   
           setPinkerNotifications((prevNotifications) => [
             ...prevNotifications,
             { ...receivedMessage, visto: false },
@@ -290,17 +291,18 @@ function NLayout(props) {
     let id = window.localStorage.getItem("_id");
     const connectWebSocket = () => {
       const newSocket = new WebSocket(
-        `wss://www.pinkker.tv/8084/ws/notification/ActivityFeed/${id}`
+        `${REACT_APP_BACKCOMMERCIALWS}/ws/notification/ActivityFeed/${id}`
         // `ws://localhost:8084/ws/notification/ActivityFeed/${id}`
       );
 
       newSocket.onerror = (error) => {
         console.error("WebSocket error:", error);
       };
-
+      
       newSocket.onmessage = (event) => {
         try {
           const receivedMessage = JSON.parse(event.data);
+          console.log(receivedMessage);
 
           if (receivedMessage?.Type == "message") {
             HandleNotificationMessage(receivedMessage.UserId);
