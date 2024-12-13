@@ -35,15 +35,7 @@ export const Create_Clip = async ({ tsUrls, startTime, endTime, streamKey, title
     );
     return response
 }
-export const GetBuffer = async (streamKey, config) => {
-    // return axios.get(`${process.env.REACT_APP_BACKRTMP}/stream/${streamKey}`, {
-    //     ...config,
-    // });
 
-    return axios.get(`http://localhost:8002/stream/${streamKey}`, {
-        ...config,
-    });
-};
 
 // export const GetBuffer = async (totalKey) => {
 

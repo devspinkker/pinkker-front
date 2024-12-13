@@ -686,13 +686,6 @@ const Chat = ({
     }
   };
 
-  const handleHotel = () => {
-    window.open(
-      "http://localhost:3002?name=" + user.name,
-      "newwin",
-      "width=1200,height=800"
-    );
-  };
 
   function popupwindow(url, title, w, h) {
     var y = window.outerHeight / 2 + window.screenY - h / 2;

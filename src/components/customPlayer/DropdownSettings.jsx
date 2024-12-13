@@ -110,14 +110,14 @@ function DropdownSettings({ streamer, closeNavbar, quality, changeQuality }) {
           </li>
 
           <li
-            onClick={() =>
-              popupwindow(
-                `http://localhost:3000/${streamer}/popout/player`,
-                "Player",
-                1280,
-                720
-              )
-            }
+            // onClick={() =>
+            //   popupwindow(
+            //     `http://localhost:3000/${streamer}/popout/player`,
+            //     "Player",
+            //     1280,
+            //     720
+            //   )
+            // }
           >
             <div className="dropdownsettings-content">
               <div>

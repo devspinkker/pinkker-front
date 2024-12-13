@@ -1255,7 +1255,7 @@ function NLayout(props) {
               />
             </a>
             <a
-              href="http://instagram.com/pinkker.tv"
+              href="https://instagram.com/pinkker.tv"
               target="_blank"
               style={{ textDecoration: "none" }}
             >
