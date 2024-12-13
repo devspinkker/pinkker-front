@@ -298,10 +298,7 @@ export function ChatStreaming({
         }
         console.log(isPinkkerPrimeActive(user.PinkkerPrime));
 
-        if (
-          src.includes("pinkker") &&
-          src.includes("pinkker")
-        ) {
+        if ((src.match(/pinkker/g) || []).length >= 2) {
           if (!isPinkkerPrimeActive(user.PinkkerPrime)) {
             return;
           }
