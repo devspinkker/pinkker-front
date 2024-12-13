@@ -289,7 +289,7 @@ export function ChatStreaming({
       ) {
         const src = node.src;
         if (
-          src.includes("pinkker.tv/") &&
+          src.includes("pinkker") &&
           src.includes("subs")
         ) {
           if (!SubStateAct) {
@@ -299,7 +299,7 @@ export function ChatStreaming({
         console.log(isPinkkerPrimeActive(user.PinkkerPrime));
 
         if (
-          src.includes("pinkker.tv/") &&
+          src.includes("pinkker") &&
           src.includes("pinkker")
         ) {
           if (!isPinkkerPrimeActive(user.PinkkerPrime)) {
@@ -1241,7 +1241,7 @@ export function ChatStreaming({
 
     const content = message.split(urlRegex).map((part, index) => {
       if (part.match(urlRegex)) {
-        if (part.includes("pinkker.tv/")) {
+        if (part.includes("pinkker")) {
           const decodedUrl = decodeURIComponent(part);
           const cutoffIndex = decodedUrl.indexOf("&");
           const imageUrl =
@@ -1278,7 +1278,7 @@ export function ChatStreaming({
         }
       } else if (part.match(imgRegex)) {
         return part.replace(imgRegex, (match, src) => {
-          if (src.includes("pinkker.tv/")) {
+          if (src.includes("pinkker")) {
             // Si el src coincide con res.cloudinary.com/depcty8j1/, reemplazamos la etiqueta img con un párrafo
             return `${match}`;
           } else {
