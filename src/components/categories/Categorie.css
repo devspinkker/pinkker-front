@@ -103,7 +103,7 @@
     .home-categories-card {
         max-width: 100%;
         /* min-width: 400px; */
-        padding: 4px;
+        padding: 1rem 2rem
     }
 }
 

@@ -8,7 +8,7 @@ import {
   GetClipId,
   GetClipIdlogeado,
 } from "../../../services/backGo/clip";
-import { BarLoader } from "react-spinners";
+import { BarLoader, ScaleLoader } from "react-spinners";
 import ClipsMobile from "./ClipsMobile";
 import ClipCardMobile from "./card/ClipCardMobile";
 
@@ -288,7 +288,9 @@ if(!isMobile){
             justifyContent: "center",
           }}
         >
-          <BarLoader color="#36d7b7" />
+          {/* <BarLoader color="#36d7b7" /> */}
+        <ScaleLoader width={4} height={20} color="#f36197d7" />
+          
         </div>
       ) :  (
         <>

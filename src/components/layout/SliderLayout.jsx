@@ -64,7 +64,7 @@ function SliderLayout(props) {
         flexDirection: "column-reverse",
         width: "100%",
       }}
-      spaceBetween={props.clipT || props.Vod ? 20 :  props.streams ? 30 :  5}
+      spaceBetween={props.clipT || props.Vod ? 20 :  props.streams ? 30 :  props.isMobile ? 7 : 5}
       navigation={{
         nextEl: `.custom-next-${props.id}`,
         prevEl: `.custom-prev-${props.id}`,
@@ -295,7 +295,7 @@ function SliderLayout(props) {
               (categorie, index) => (
                 <SwiperSlide style={{ color: "white" }}>
                   <CardCategorie
-                    width={props.isMobile ? "180px" : "140px"}
+                    width={props.isMobile ? "200px" : "140px"}
                     height={props.isMobile ? "100%" : "180px"}
                     name={categorie.nombre}
                     image={categorie.img ?? "/images/pinkker-stream.png"}
@@ -361,7 +361,7 @@ function SliderLayout(props) {
                 }}
               >
                 <CardCategorie
-                  width={"140px"}
+                  width={"180px"}
                   height={"100%"}
                   name={categorie.nombre}
                   titulo={"Ver Todos"}

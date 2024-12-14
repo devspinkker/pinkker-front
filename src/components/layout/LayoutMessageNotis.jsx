@@ -28,12 +28,7 @@ const LayoutMessageNotis = ({
           padding: "1.70rem",
         }}
       >
-        <IoMdClose
-          onClick={() =>
-            openMessage ? setOpenMessage(false) : setOpenNotification(false)
-          }
-          style={{ color: "white", cursor: "pointer", fontSize: 24 }}
-        />
+
         <Typography
           style={{
             color: "white",
@@ -46,7 +41,14 @@ const LayoutMessageNotis = ({
           {openMessage ? "Mensajes" : "Notificaciones"}
         </Typography>
 
-        
+        <IoMdClose
+          onClick={() =>
+            openMessage ? setOpenMessage(false) : setOpenNotification(false)
+          }
+          style={{ color: "white", cursor: "pointer", fontSize: 24 }}
+        />
+
+
       </Grid>
       <div
         style={{

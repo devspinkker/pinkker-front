@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import "./Message.css";
 import MessageChat from "./chat/MessageChat";
 import Loader from "react-loader-spinner";
-import { getUserByNameUser } from "../../services/backGo/user";
+import { SearchUser, getUserByNameUser } from "../../services/backGo/user";
 import {
   GetChatsByUserIDWithStatus,
   CreateChatOrGetChats,
 } from "../../services/backGo/Chats";
 import PopUpSearch from "./PopUpSearch";
 import { TbEdit } from "react-icons/tb";
-import { Typography } from "@mui/material";
-
+import { Box, Drawer, Grid, InputAdornment, List, ListItem, TextField, Typography } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
+import { IoMdClose } from "react-icons/io";
 export default function Message({
   socketMain,
   closeMessageChat,
@@ -215,6 +216,7 @@ export default function Message({
     setIsPopUpOpen(false);
   };
   const handleUserSelect = async (id) => {
+    setOpen(false)
     try {
       let token = window.localStorage.getItem("token");
 
@@ -329,10 +331,43 @@ export default function Message({
       );
     }
   };
-console.log('activeTab', activeTab)
+  const [open, setOpen] = useState(false);
+  const [searchChat, setSearchChat] = useState('');
+  const [results, setResults] = useState([]);
+
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    if (searchChat.trim() === "") {
+      setUsers([]);
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      searchUserByName(searchChat);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchChat]);
+
+  async function searchUserByName(nameUser) {
+    setLoading(true);
+    try {
+      const res = await SearchUser(nameUser);
+      let response = res.data;
+      if (response.message === "ok" && response?.data) {
+        setUsers(response.data);
+      }
+    } catch (error) {
+      console.error("Error searching user:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
     <div className="message-body">
-      <div className="ContNewChat">
+      {/* <div className="ContNewChat">
         <div className="message-bodysearch-input">
           <div>
             <TbEdit
@@ -351,11 +386,44 @@ console.log('activeTab', activeTab)
             )}
           </div>
         </div>
-      </div>
+      </div> */}
+
+      <TextField
+        placeholder="Buscar "
+        variant="outlined"
+        style={{ width: '95%', margin: '0 auto', borderRadius: '10px' }}
+        sx={{
+          backgroundColor: '#282828', // Color de fondo oscuro
+          color: '#fff', // Texto blanco
+          borderRadius: '8px',
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'transparent',
+            },
+            '&:hover fieldset': {
+              borderColor: '#4f4f4f',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#4f4f4f',
+            },
+          },
+          '& .MuiInputBase-input': {
+            color: '#fff',
+          },
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon sx={{ color: '#a3a3a3' }} />
+            </InputAdornment>
+          ),
+        }}
+        onClick={() => setOpen(true)} // Abre el Drawer
+      />
       <div className="typesofchats">
         <span
           className={activeTab === "primary" ? "active" : ""}
-          style={{backgroundColor: activeTab === 'primary' ? '#ff86e4' : '#ebebec', borderRadius: '5px' ,padding: '15px 30px', color:  activeTab === 'primary' ? 'white': 'black', width: '30%', textAlign: 'center', fontSize: '16px'}}
+          style={{ backgroundColor: activeTab === 'primary' ? '#ff86e4' : '#ebebec', borderRadius: '5px', padding: '15px 30px', color: activeTab === 'primary' ? 'white' : 'black', width: '30%', textAlign: 'center', fontSize: '16px' }}
 
 
           onClick={() => {
@@ -368,7 +436,7 @@ console.log('activeTab', activeTab)
 
         <span
           className={activeTab === "secondary" ? "active" : ""}
-          style={{backgroundColor: activeTab === 'secondary' ? '#ff86e4' : '#ebebec', borderRadius: '5px', padding: '15px 30px', color:  activeTab === 'secondary' ? 'white': 'black' , width: '30%', textAlign: 'center', fontSize: '16px'}}
+          style={{ backgroundColor: activeTab === 'secondary' ? '#ff86e4' : '#ebebec', borderRadius: '5px', padding: '15px 30px', color: activeTab === 'secondary' ? 'white' : 'black', width: '30%', textAlign: 'center', fontSize: '16px' }}
 
 
           onClick={() => {
@@ -378,10 +446,10 @@ console.log('activeTab', activeTab)
         >
           General
         </span>
-        
+
         <span
           className={activeTab === "request" ? "active" : ""}
-          style={{backgroundColor: activeTab === 'request' ? '#ff86e4' : '#ebebec', borderRadius: '5px',padding: '15px 30px', color:  activeTab === 'request' ? 'white': 'black' , width: '30%', textAlign: 'center', fontSize: '16px'}}
+          style={{ backgroundColor: activeTab === 'request' ? '#ff86e4' : '#ebebec', borderRadius: '5px', padding: '15px 30px', color: activeTab === 'request' ? 'white' : 'black', width: '30%', textAlign: 'center', fontSize: '16px' }}
 
           onClick={() => {
             setActiveTab("request");
@@ -420,6 +488,57 @@ console.log('activeTab', activeTab)
           </div>
         );
       })}
+
+
+      {/* Drawer */}
+      <Drawer style={{ zIndex: 1000000 }} anchor="top" open={open} onClose={() => setOpen(false)}>
+        <Box sx={{ padding: 2, backgroundColor: '#121212', height: '100vh' }}>
+          <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '10px' }} onClick={() => setOpen(false)}>
+            <IoMdClose style={{ fontSize: '2rem', color: 'white' }} />
+            <Typography style={{ color: 'white' }}>Cerrar búsqueda</Typography>
+          </Grid>
+          {/* Barra de búsqueda dentro del Drawer */}
+          <TextField
+            fullWidth
+            placeholder="Buscar..."
+            value={searchChat}
+            onChange={(e) => setSearchChat(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: '#a3a3a3' }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              backgroundColor: '#1f1f1f',
+              borderRadius: '8px',
+              input: { color: '#fff' },
+            }}
+          />
+
+          {/* Resultados en tiempo real */}
+          <Box mt={2}>
+            {users.length > 0 ? (
+              <List>
+                {users.map((user, index) => (
+                  <ListItem  key={user.id} sx={{ color: '#fff' }} onClick={() => handleUserSelect(user.id)}>
+                    <img src={user.Avatar} alt={user.NameUser} className="avatar" />
+                    <div className="user-iten-names">
+                      <p>{"@" + user.NameUser}</p>
+                      <p>{user.FullName}</p>
+                    </div>
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <Typography color="gray" mt={2}>
+                No hay resultados
+              </Typography>
+            )}
+          </Box>
+        </Box>
+      </Drawer>
     </div>
   );
 }

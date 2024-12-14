@@ -61,7 +61,7 @@ export default function CustomCard(props) {
               <img
                 style={{
                   border: `1px solid rgb(229, 224, 218)`,
-                  width: `80%`,
+                  width: `90%`,
                   height: `100%`,
                 }}
                 className="img-categorie-card"

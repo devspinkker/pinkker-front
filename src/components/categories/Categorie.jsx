@@ -282,7 +282,7 @@ export default function Categorie() {
           alignItems: "flex-end",
           justifyContent: "space-between",
           borderBottom: "1px solid rgb(42, 46, 56)",
-          padding: "10px 0px",
+          padding: "1rem 2rem",
           width: "100%",
         }}
       >
@@ -374,7 +374,7 @@ export default function Categorie() {
           alignItems: "center",
           justifyContent: "space-between",
           borderBottom: " 1px solid rgb(42, 46, 56)",
-          padding: "10px 0rem",
+          padding: "1rem 2rem",
         }}
       >
         <div className="explorecategories-card-container-filter-input">

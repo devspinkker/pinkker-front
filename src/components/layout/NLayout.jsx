@@ -192,6 +192,9 @@ function NLayout(props) {
     (notification) => !notification.visto
   ).length;
 
+  console.log('PinkerNotifications', PinkerNotifications)
+  console.log('unseenNotificationsCount', unseenNotificationsCount)
+
   async function HandleGetNotificacionesLastConnection() {
     await GetNotificacionesRecent(token);
     await GetOldNotifications(token);
@@ -277,6 +280,7 @@ function NLayout(props) {
       }
     }
   }, [token, socket]);
+
   const markAllAsSeen = () => {
     setPinkerNotifications((prevNotifications) =>
       prevNotifications.map((notification) => ({
@@ -285,6 +289,7 @@ function NLayout(props) {
       }))
     );
   };
+  
   const pingIntervalRef = useRef();
   useEffect(() => {
     const REACT_APP_BACKCOMMERCIALWS = process.env.REACT_APP_BACKCOMMERCIALWS;
@@ -2451,11 +2456,11 @@ function NLayout(props) {
               <Grid
                 style={{ display: "flex", alignItems: "center", gap: "5px" }}
               >
-                <IconButton sx={{ color: "#fff", backgroundColor: '#343843' }}>
+                <IconButton sx={{ color: "#fff", backgroundColor: '#343843', fontSize:'2rem' }}>
                   <IoSearch onClick={() => setHabilitar(!habilitar)} />
                 </IconButton>
 
-                <IconButton sx={{ color: "#fff", backgroundColor: '#343843' }}>
+                <IconButton sx={{ color: "#fff", backgroundColor: '#343843' , fontSize:'2rem' }}>
                   <AiOutlineMessage onClick={() => habilitarMensaje()} />
                 </IconButton>
 
@@ -2478,10 +2483,10 @@ function NLayout(props) {
                         <h1 style={{ fontSize: '1rem', color: 'white', zIndex: 10 }}>{unseenNotificationsCount}</h1>
                       </span>
                     )}
-                    <IconButton sx={{ color: "#fff", backgroundColor: '#343843' }}>
+                    <IconButton sx={{ color: "#fff", backgroundColor: '#343843', fontSize:'2rem'  }}>
 
                       <IoMdNotificationsOutline
-                        style={{ fontSize: "24px", color: "white", backgroundColor: '#343843' }}
+                        style={{  color: "white", backgroundColor: '#343843' }}
                         name="notificaciones"
                       />
                     </IconButton>
@@ -2495,8 +2500,8 @@ function NLayout(props) {
                 <div className="navbar-image-avatar-container">
                   <div
                     style={{
-                      width: "40px",
-                      height: "40px",
+                      width: "50px",
+                      height: "50px",
                       position: "relative",
                       left: "  ",
                       top: "2px",

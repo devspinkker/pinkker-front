@@ -185,7 +185,7 @@ export default function ExploreCategories({  tyExpanded }) {
           alignItems: "center",
           justifyContent: "space-between",
           borderBottom: "1px solid rgb(42, 46, 56)",
-          padding: isMobile && "5px  1rem",
+          padding: isMobile && "5px  2rem",
           margin: "1rem 0px 1rem 0px",
         }}
       >
