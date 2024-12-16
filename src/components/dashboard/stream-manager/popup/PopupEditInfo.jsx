@@ -32,16 +32,30 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
   const [idiom, setIdiom] = useState("");
 
   const [categories, setCategories] = useState([]);
+  const [thumbnail, setThumbnail] = useState(null); 
+  const [thumbnailPermanent, setThumbnailPermanent] = useState(false); 
+  const [authorizationToView, setAuthorizationToView] = useState({});
+
 
   useEffect(() => {
     setTitle(stream?.stream_title);
     setNotification(stream?.stream_notification);
     setCategory(stream?.stream_category);
     setTag(stream?.stream_tag);
-    setIdiom(stream?.stream_idiom);
+    setIdiom(stream?.stream_idiom); 
+    setThumbnailPermanent(stream?.StreamThumbnailPermanent || false);
+    setAuthorizationToView(
+      Object.keys(stream?.AuthorizationToView || {}).reduce((acc, key) => {
+        acc[key] = stream?.AuthorizationToView[key]; // Copiar valores directamente
+        return acc;
+      }, {})
+    );
+    console.log(stream?.AuthorizationToView);
+    
+  
     async function fetchData() {
       const res = await getCategoriesWithLimit();
-      if (res.data != null && res.message == "ok") {
+      if (res.data != null && res.message === "ok") {
         const s = [];
         const categorie = res.data;
         await categorie.map((categorie) =>
@@ -55,15 +69,23 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
 
   async function handleSubmit() {
     let token = window.localStorage.getItem("token");
-    const dataSendUpdata = {
-      title,
-      notification,
-      category,
-      tag,
-      idiom,
-      keyTransmission: user.keyTransmission,
-    };
-    const data = await updateStreamInfo(token, dataSendUpdata);
+
+    // Usar FormData para manejar imagen y datos
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("notification", notification);
+    formData.append("category", category);
+    formData.append("tag", tag.join(",")); // Convertir array en string
+    formData.append("idiom", idiom);
+    formData.append("StreamThumbnailPermanent", thumbnailPermanent);
+    formData.append("keyTransmission", user.keyTransmission);
+
+    if (thumbnail) {
+      formData.append("ThumbnailImage", thumbnail);
+    }
+    formData.append("AuthorizationToView", JSON.stringify(authorizationToView));
+
+    const data = await updateStreamInfo(token, formData); // Enviar como FormData
     if (data?.message !== "ok") {
       alert({ type: "ERROR", message: data });
     } else {
@@ -102,7 +124,14 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
       onChangeTag("IRL");
     }
   };
-
+  const handleAuthorizationChange = (value, checked) => {
+    setAuthorizationToView((prev) => ({
+      ...prev, // Copia las claves existentes
+      [value]: checked, // Actualiza la clave con el nuevo valor
+    }));
+  };
+  
+  
   const onChangeTag = async (e) => {
     if (tag?.includes(e)) {
       return;
@@ -131,18 +160,11 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
       return (
         <div>
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#ededed",
-              fontSize: "14px",
-            }}
+             className="popup-content-class"
           >
             <div style={{ width: "30%" }}>
-              <h3>Titulo</h3>
+              <h3>Título</h3>
             </div>
-
             <div style={{ width: "70%" }}>
               <input
                 maxLength={70}
@@ -150,7 +172,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
                 defaultValue={title}
                 className="popupeditinfo-input"
                 type="text"
-                placeholder="Introduce un titulo"
+                placeholder="Introduce un título"
               />
               <div
                 style={{
@@ -160,7 +182,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
                 }}
               >
                 <p style={{ fontSize: "13px", color: "lightgray" }}>
-                  te quedan{" "}
+                  Te quedan{" "}
                   <a style={{ color: "#ff60b2" }}>
                     {70 - title?.length} caracteres.
                   </a>
@@ -170,19 +192,11 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
           </div>
 
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#ededed",
-              margin: "10px auto",
-              fontSize: "14px",
-            }}
+             className="popup-content-class"
           >
             <div style={{ width: "30%" }}>
-              <h3>Notificación de emisión en directo</h3>
+              <h3>Notificación de emisión</h3>
             </div>
-
             <div style={{ width: "70%" }}>
               <input
                 onChange={(e) => setNotification(e.target.value)}
@@ -198,7 +212,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
                 }}
               >
                 <p style={{ fontSize: "13px", color: "lightgray" }}>
-                  te quedan{" "}
+                  Te quedan{" "}
                   <a style={{ color: "#ff60b2" }}>
                     {30 - notification?.length} caracteres.
                   </a>
@@ -208,22 +222,14 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
           </div>
 
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#ededed",
-              margin: "40px auto",
-              fontSize: "14px",
-            }}
+               className="popup-content-class"
           >
             <div style={{ width: "30%" }}>
               <h3>Categoría</h3>
             </div>
-
             <div style={{ width: "70%" }}>
               <SelectSearch
-                options={categories && categories}
+                options={categories}
                 filterOptions={fuzzySearch}
                 value={category}
                 placeholder="Selecciona una categoría"
@@ -234,19 +240,12 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
           </div>
 
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#ededed",
-              margin: "20px auto",
-              fontSize: "14px",
-            }}
+          className="popup-content-class"
+   
           >
             <div style={{ width: "30%" }}>
               <h3>Etiquetas</h3>
             </div>
-
             <div style={{ width: "70%" }}>
               <SelectSearch
                 options={tagsOp}
@@ -256,7 +255,6 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
                 onChange={(e) => onChangeTag(e)}
                 search
               />
-
               <div
                 style={{
                   width: "80%",
@@ -266,6 +264,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
                   display: "flex",
                   alignItems: "center",
                 }}
+                
               >
                 {tag?.map((t) => (
                   <p
@@ -275,24 +274,11 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
                     {t}
                     <i
                       style={{ marginLeft: "5px", color: "darkgray" }}
-                      class="fas fa-times"
+                      className="fas fa-times"
                     />
                   </p>
                 ))}
               </div>
-
-              <p
-                style={{
-                  width: "80%",
-                  marginLeft: "50px",
-                  fontSize: "12px",
-                  color: "darkgray",
-                  marginTop: "5px",
-                }}
-              >
-                Las etiquetas son detalles que se comparten en público sobre tu
-                contenido que permiten que te descubran con más facilidad.
-              </p>
             </div>
           </div>
 
@@ -307,9 +293,8 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
             }}
           >
             <div style={{ width: "30%" }}>
-              <h3>Idioma de la transmisión</h3>
+              <h3>Idioma</h3>
             </div>
-
             <div style={{ width: "70%" }}>
               <input
                 onChange={(e) => setIdiom(e.target.value)}
@@ -319,6 +304,75 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
               />
             </div>
           </div>
+
+          {/* Nuevo: Subir imagen */}
+            
+          <div className="popup-field">
+          <div className="popup-content-class">
+            <div style={{ width: "30%" }}>
+              <h3>Subir imagen</h3>
+            </div>
+            <div style={{ width: "70%" }}>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setThumbnail(e.target.files[0])}
+              />
+            </div>
+          </div>
+          </div>
+
+
+          {/* Nuevo: Checkbox para thumbnail permanente */}
+          <div className="popup-field">
+          <div className="popup-content-class">
+            <div style={{ width: "30%" }}>
+              <h3>Thumbnail Permanente</h3>
+            </div>
+            <div style={{ width: "70%" }}>
+              <input
+                type="checkbox"
+                checked={thumbnailPermanent}
+                onChange={(e) => setThumbnailPermanent(e.target.checked)}
+              />{" "}
+              Usar thumbnail permanente
+            </div>
+          </div>
+          </div>
+          <div className="popup-content-class">
+  <div style={{ width: "30%" }}>
+    <h3>Opciones de visualización</h3>
+  </div>
+  <div style={{ width: "70%" }}>
+    <div>
+      <label
+     className="popup-content-class-label"
+      >
+        <input
+          type="checkbox"
+          value="pinkker_prime"
+          checked={!!authorizationToView["pinkker_prime"]}
+          onChange={(e) => handleAuthorizationChange(e.target.value, e.target.checked)}
+        />
+        Pinkker Prime
+      </label>
+    </div>
+    <div>
+      <label
+     className="popup-content-class-label"
+      >
+        <input
+          type="checkbox"
+          value="subscription"
+          checked={!!authorizationToView["subscription"]}
+          onChange={(e) => handleAuthorizationChange(e.target.value, e.target.checked)}
+        />
+        Subscription
+      </label>
+    </div>
+  </div>
+</div>
+
 
           <div className="popup-new-container-button">
             <button
@@ -345,7 +399,7 @@ export default function PopupEditInfo({ closePopup, stream, user }) {
       <div className={"popup-container"}>
         <div className="popup-close">
           <button className="pinkker-button-more" onClick={closePopup}>
-            <i class="fas fa-times" />
+            <i className="fas fa-times" />
           </button>
         </div>
 

@@ -486,3 +486,18 @@ select:focus {
     width: 75%;
   }
 }
+
+.popup-content-class {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ededed;
+  margin: 20px auto;
+  font-size: 14px;
+}
+
+.popup-content-class-label {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
