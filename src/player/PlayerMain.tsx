@@ -12,14 +12,14 @@ interface ReactVideoPlayerProps {
   width: string;
   quality: string;
   stream: string;
-  streamerDataID: string;  
+  streamerDataID: string;
   stream_thumbnail: string;
   dashboard: boolean;
   onPauseDuration?: (duration: number) => void; // Nueva prop para enviar duración de pausas
   reset?: boolean; // Nueva prop para reiniciar el reproductor
 }
 
-function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID, stream_thumbnail, dashboard, onPauseDuration,reset}: ReactVideoPlayerProps) {
+function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID, stream_thumbnail, dashboard, onPauseDuration, reset }: ReactVideoPlayerProps) {
   const history = useHistory();
   const [isPlaying, setIsPlaying] = useState(false);
   const [Commercial, setCommercial] = useState<any>(null);
@@ -35,10 +35,10 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   const playerRef = useRef();
   const canvasRef = useRef(null);
   const [videoHover, setVideoHover] = useState(false);
+  let token = window.localStorage.getItem("token");
 
   const [playLive, setPlayLive] = useState(1);
   const handleCommercialEnded = async () => {
-    let token = window.localStorage.getItem("token");
     await AdsAddStreamSummary(token, streamerDataID, Commercial._id);
     setCommercial(null);
   };
@@ -146,15 +146,15 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
 
   useEffect(() => {
 
-    
+
     const qualities = ["720", "480", "360"];
     let currentQualityIndex = 0;
     let lastPlaybackTime = 0; // Última posición del video detectada
     let bufferingStartTime: number | null = null; // Momento en que comienza el buffering
-    
+
     let flvPlayer: flvjs.Player | null = null;
     let hls: Hls | null = null;
-  
+
     const cleanUpPlayer = () => {
       if (flvPlayer) {
         flvPlayer.pause();
@@ -168,28 +168,28 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         hls = null;
       }
     };
-  
+
     const initializePlayer = async () => {
       try {
         cleanUpPlayer();
-  
+
         const isAutoQuality = quality === "auto";
         const currentQuality = isAutoQuality ? qualities[currentQualityIndex] : quality;
         const srcQ = isAutoQuality
           ? `${src}_${currentQuality}`
           : `${src}${quality !== "1080" ? `_${quality}` : ""}`;
-  
+
         if (flvjs.isSupported()) {
           flvPlayer = flvjs.createPlayer({
             type: "flv",
-            url: `${srcQ}.flv`,
+            url: `${srcQ}.flv?token=${token}`,
             isLive: true,
           });
-  
+
           if (videoRef.current) {
             flvPlayer.attachMediaElement(videoRef.current);
             flvPlayer.load();
-  
+
             videoRef.current.addEventListener("loadedmetadata", async () => {
               try {
                 await flvPlayer?.play();
@@ -198,40 +198,40 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
                 console.error("Error al reproducir el video:", error);
               }
             });
-  
+
             videoRef.current.addEventListener("stalled", handlePlaybackIssue);
             videoRef.current.addEventListener("error", handlePlaybackIssue);
           }
         } else {
           const mobileInformation = isMobile().toLowerCase();
           if (mobileInformation.includes("iphone") || mobileInformation.includes("ipad")) {
-            videoRef.current!.src = `${srcQ}/index.m3u8`;
+            videoRef.current!.src = `${srcQ}/index.m3u8?token=${token}`;
             videoRef.current!.play().catch((error) => {
               console.error("Error al reproducir video en iOS:", error);
             });
           } else {
             hls = new Hls({ startLevel: -1 });
             hlsRef.current = hls;
-  
+
             if (videoRef.current) {
-              hls.loadSource(`${srcQ}/index.m3u8`);
+              hls.loadSource(`${srcQ}/index.m3u8?token=${token}`);
               hls.attachMedia(videoRef.current);
-  
+
               videoRef.current.addEventListener("click", () => {
                 if (!isPlaying) {
                   videoRef.current?.play();
                   setIsPlaying(true);
                 }
               });
-  
+
               hls.on(Hls.Events.MANIFEST_PARSED, () => {
-       
+
               });
-  
+
               hls.on(Hls.Events.ERROR, (event, data) => {
                 console.error("Error de HLS:", data);
               });
-  
+
               await videoRef.current?.play();
             }
           }
@@ -240,7 +240,7 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         console.error("Error inicializando el reproductor:", error);
       }
     };
-  
+
     let lastQualityChangeTime = 0; // Controla el tiempo de cambio de calidad
     const handlePlaybackIssue = () => {
       if (quality === "auto") {
@@ -256,11 +256,11 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         console.error("No se pudo resolver el problema de reproducción");
       }
     };
-  
+
     const monitorBuffering = () => {
       if (videoRef.current) {
         const currentTime = videoRef.current.currentTime;
-  
+
         if (currentTime === lastPlaybackTime && !videoRef.current.paused) {
           // Si no avanza el tiempo de reproducción
           if (!bufferingStartTime) {
@@ -275,15 +275,15 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
           // El video está avanzando normalmente
           bufferingStartTime = null;
         }
-  
+
         lastPlaybackTime = currentTime; // Actualiza la última posición
       }
     };
-  
+
     initializePlayer();
-  
+
     const bufferCheckInterval = setInterval(monitorBuffering, 3000);
-  
+
     return () => {
       clearInterval(bufferCheckInterval);
       cleanUpPlayer();
@@ -292,8 +292,8 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         videoRef.current.removeEventListener("error", handlePlaybackIssue);
       }
     };
-  }, [src, quality,reset]);
-  
+  }, [src, quality, reset]);
+
 
   function isMobile() {
     var check = false;
@@ -359,8 +359,8 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   useEffect(() => {
     const handleFullScreenChange = () => {
       const isFullScreen = !!(
-        document.fullscreenElement 
-     
+        document.fullscreenElement
+
       );
       setIsFullScreen(isFullScreen);
     };
@@ -380,107 +380,108 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
 
 
   useEffect(() => {
-  if (showWarning) {
-    const timeout = setTimeout(() => {
-      setShowWarning(false);
-      
+    if (showWarning) {
+      const timeout = setTimeout(() => {
+        setShowWarning(false);
+
         // Reproducir de forma silente primero
         if (videoRef.current) {
-        videoRef.current.muted = false;
-        setPlayer(false);
-        videoRef.current.play().catch((error) => {
-          console.error('Error al iniciar la reproducción automáticamente:', error);
-          setShowWarning(true)
-          setPlayer(true);
-          
-        });
-      }
-    }, 500); 
+          videoRef.current.muted = false;
+          setPlayer(false);
+          videoRef.current.play().catch((error) => {
+            console.error('Error al iniciar la reproducción automáticamente:', error);
+            setShowWarning(true)
+            setPlayer(true);
 
-    return () => clearTimeout(timeout); 
-  }
-}, [showWarning]);
+          });
+        }
+      }, 500);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [showWarning]);
 
   return (
     <>
-    {showWarning && (
-  <div
-    style={{
-      backgroundImage: `url(${stream_thumbnail})`,
-      height: dashboard ? '30vh' : '',
-    }}
-        className='thumbnail-prev-PlayerMain'
-        
-  >
-    <div className="base-dialog-player">
-      <button
-         style={
-          {
-            background:"#000000"
-          }
-        }
-        
-       onClick={handleStartWatchingClick}>
-        <div>
-          <i
-            style={
-              {
-                color:"#ffff"
+      {showWarning && (
+        <div
+          style={{
+            backgroundImage: `url(${stream_thumbnail})`,
+            height: dashboard ? '30vh' : '',
+          }}
+          className='thumbnail-prev-PlayerMain'
+
+        >
+          <div className="base-dialog-player">
+            <button
+              style={
+                {
+                  background: "#000000"
+                }
               }
-            }
-          className='fas fa-play pinkker-button-more' ></i>
+
+              onClick={handleStartWatchingClick}>
+              <div>
+                <i
+                  style={
+                    {
+                      color: "#ffff"
+                    }
+                  }
+                  className='fas fa-play pinkker-button-more' ></i>
+              </div>
+            </button>
+          </div>
         </div>
-      </button>
-    </div>
-  </div>
-)}
- 
-          {Commercial && (
-            <div style={{ textAlign: 'center' }}>
-              <video
-               id='commercial-player'
-                ref={commercialRef}
-                width={width}
-                height={height}
-                onEnded={handleCommercialEnded}
-                controls={false}
-                style={{ objectFit: 'contain' }}
-              />
-              {countdown > 0 ? (
-                <div style={{
-                  position: 'relative',
-                  top: '-130px',
-                  left: "17px",
-                  zIndex:"10000",
-                  padding: '5px 10px',
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: 'white',
-                  width: "100px", }}>
-                  Cargando en {countdown}...
-                </div>
-              ) : (
-                <button
-                onClick={handleCommercialEnded}
-                style={{
-                  position: 'relative',
-                  top: '-130px',
-                  left: "17px",
-                  padding: '5px 10px',
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  border: 'none',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                  zIndex:"10000"
-                }}
-                >
-                  Cerrar anuncio
-                </button>
-              )}
+      )}
+
+      {Commercial && (
+        <div style={{ textAlign: 'center' }}>
+          <video
+            id='commercial-player'
+            ref={commercialRef}
+            width={width}
+            height={height}
+            onEnded={handleCommercialEnded}
+            controls={false}
+            style={{ objectFit: 'contain' }}
+          />
+          {countdown > 0 ? (
+            <div style={{
+              position: 'relative',
+              top: '-130px',
+              left: "17px",
+              zIndex: "10000",
+              padding: '5px 10px',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              color: 'white',
+              width: "100px",
+            }}>
+              Cargando en {countdown}...
             </div>
-          ) }
+          ) : (
+            <button
+              onClick={handleCommercialEnded}
+              style={{
+                position: 'relative',
+                top: '-130px',
+                left: "17px",
+                padding: '5px 10px',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                zIndex: "10000"
+              }}
+            >
+              Cerrar anuncio
+            </button>
+          )}
+        </div>
+      )}
       <video
         ref={videoRef}
-        style={{ width, height, display: Commercial ||  Player ? "none" : "" }}
+        style={{ width, height, display: Commercial || Player ? "none" : "" }}
         height={HeightVideo()}
         width={width}
         controls

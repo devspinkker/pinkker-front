@@ -52,6 +52,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(false);
   const [volumeHovered, setVolumeHovered] = useState(false);
+  let token = window.localStorage.getItem("token");
 
   const [volumePlayer, setVolumePlayer] = useState(0.5);
   const [videoLoading, setVideoLoading] = useState(true);
@@ -277,7 +278,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     );
     const rtmp = process.env.REACT_APP_RTMP;
     // const rtmp = "http://localhost:8000/live";
-    var url = `${rtmp}/${keyTransmission}.flv`;
+    var url = `${rtmp}/${keyTransmission}`;
     return url;
   }
 
@@ -317,6 +318,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
           dashboard={true}
           width={"100%"}
           height={"100%"}
+          quality={"1080"}
         />
       </Grid>
     );

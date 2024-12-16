@@ -14,7 +14,7 @@ interface ReactVideoPlayerProps {
 function FloatingPlayerReproduccion({ src, videoRef, height, width }: ReactVideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const hlsRef = useRef<Hls | null>(null);
-
+  let token = window.localStorage.getItem("token");
   useEffect(() => {
     let flvPlayer: flvjs.Player | null = null;
     let hls: Hls | null = null;
@@ -39,7 +39,7 @@ function FloatingPlayerReproduccion({ src, videoRef, height, width }: ReactVideo
         if (flvjs.isSupported()) {
           flvPlayer = flvjs.createPlayer({
             type: 'flv',
-            url: src + ".flv",
+            url: src + `.flv?token=${token}`,
           });
 
           if (videoRef.current) {
@@ -60,7 +60,7 @@ function FloatingPlayerReproduccion({ src, videoRef, height, width }: ReactVideo
           hlsRef.current = hls;
 
           if (videoRef.current) {
-            hls.loadSource(src + "/index.m3u8");
+            hls.loadSource(src + `/index.m3u8?token=${token}`);
             hls.attachMedia(videoRef.current);
             videoRef.current.addEventListener('click', () => {
               if (!isPlaying) {
