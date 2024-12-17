@@ -133,24 +133,21 @@ export default function Notificaciones({ PinkerNotifications,user }) {
 
 
 
-  const [followParametro, setFollowParametro] = useState(false);
+  const [followStatus, setFollowStatus] = useState({}); 
 
   async function followUser(userId) {
-
     const data = await follow(token, userId);
     if (data != null) {
-
-      setFollowParametro(true);
+      setFollowStatus((prev) => ({ ...prev, [userId]: true })); 
     } else {
       alert(data);
     }
   }
-
+  
   async function unfollowUser(userId) {
     const data = await unfollow(token, userId);
     if (data != null) {
-
-      setFollowParametro(false);
+      setFollowStatus((prev) => ({ ...prev, [userId]: false })); 
     } else {
       alert(data);
     }
@@ -184,60 +181,78 @@ export default function Notificaciones({ PinkerNotifications,user }) {
         }}
         className="notifications-list"
       >
-        {notifications.map((notification, index) => {
-          return (
-            <li
-              className="notification-item"
-              key={index}
-              onClick={() => handleNotificationClick(notification.nameuser)} // Maneja el clic aquí
-            >
-              <img
-                className="notification-avatar"
-                src={notification.avatar}
-                alt={`${notification.nameuser}'s avatar`}
-                width={50}
-              />
+{notifications.map((notification, index) => {
+  const isFollowing = followStatus[notification.idUser] || false; // Verifica si se sigue al usuario
 
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', width: '100%' }}>
+  return (
+    <li
+      className="notification-item"
+      key={index}
+      onClick={() => handleNotificationClick(notification.nameuser)}
+    >
+      <img
+        className="notification-avatar"
+        src={notification.avatar}
+        alt={`${notification.nameuser}'s avatar`}
+        width={50}
+      />
 
-                <div className="notification-content">
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        <div className="notification-content">
+          <p className="notification-user">
+            <strong>{notification.nameuser}</strong>{" "}
+            {renderNotificationText(notification, index)}
+          </p>
+          <p style={{ fontSize: 16 }}>
+            {calcularTiempoTranscurrido(notification)}
+          </p>
+        </div>
 
-                  <p className="notification-user">
-                    <strong>{notification.nameuser}</strong>{" "}
-                    {renderNotificationText(notification, index)}
-                  </p>
-                  <p style={{ fontSize: 16 }}>
-                    {calcularTiempoTranscurrido(notification)}
-                  </p>
-
-                </div>
-
-
-                {followParametro ? (
-                  <button
-                    style={{ marginLeft: "5px", fontSize: isMobile &&'16px', width: isMobile &&'25%', padding:isMobile && '8px' }}
-                    className="channel-bottom-v2-button-follow"
-                    onClick={() => unfollowUser(notification.idUser)}
-                  >
-                    dejar de seguir
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => followUser(notification.idUser)}
-                    style={{ marginLeft: "5px", fontSize: isMobile &&'16px', width: isMobile &&'25%', padding: isMobile &&'8px' }}
-                    className="channel-bottom-v2-button-follow"
-                  >
-                    Seguir
-                  </button>
-                )}
-
-              </div>
-
-            </li>
-          )
-
-        }
+        {isFollowing ? (
+          <button
+            style={{
+              marginLeft: "5px",
+              fontSize: isMobile && "16px",
+              width: isMobile && "25%",
+              padding: isMobile && "8px",
+            }}
+            className="channel-bottom-v2-button-follow"
+            onClick={(e) => {
+              e.stopPropagation(); 
+              unfollowUser(notification.idUser);
+            }}
+          >
+            Dejar de seguir
+          </button>
+        ) : (
+          <button
+            onClick={(e) => {
+              e.stopPropagation(); 
+              followUser(notification.idUser);
+            }}
+            style={{
+              marginLeft: "5px",
+              fontSize: isMobile && "16px",
+              width: isMobile && "25%",
+              padding: isMobile && "8px",
+            }}
+            className="channel-bottom-v2-button-follow"
+          >
+            Seguir
+          </button>
         )}
+      </div>
+    </li>
+  );
+})}
+
       </ul>
       {/* <div className="load-more-button" onClick={handleLoadMore}>
         <i className=" fas fa-chevron-down"></i>

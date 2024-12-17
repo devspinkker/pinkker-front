@@ -196,27 +196,28 @@ function NLayout(props) {
   console.log('unseenNotificationsCount', unseenNotificationsCount)
 
   async function HandleGetNotificacionesLastConnection() {
-    await GetNotificacionesRecent(token);
-    await GetOldNotifications(token);
-    const res = await GetNotificacionesLastConnection(token);
 
-    if (res?.notifications[0]) {
-      // setPinkerNotifications((prevNotifications) => [
-      //   ...prevNotifications,
-      //   ...res.notifications,
-      // ]);
-    }
+ 
   }
 
   async function HandleGetOldNotifications() {
-    const res = await GetOldNotifications(token, 1);
-
-    if (res?.notifications !== null) {
-
-      setPinkerNotifications((prevNotifications) => [
-        ...prevNotifications,
-        ...res.notifications,
-      ]);
+    try {
+      
+      const res = await GetOldNotifications(token, 1);
+    console.log("nno se ejecuta");
+    console.log(res);
+    
+      if (res) {
+  
+        setPinkerNotifications((prevNotifications) => [
+          ...prevNotifications,
+          ...res,
+        ]);
+      }
+    } catch (error) {
+      console.log(error);
+      console.log("era vacio")
+      
     }
 
   }
@@ -234,7 +235,6 @@ function NLayout(props) {
 
   useEffect(() => {
     if (token) {
-      HandleGetNotificacionesLastConnection();
       HandleGetRecentotificaciones();
       HandleGetOldNotifications();
     }

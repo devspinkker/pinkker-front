@@ -312,7 +312,7 @@ export async function GetNotificacionesLastConnection(token) {
             visto: false,
         })) || [];
 
-        
+
         const ressubs = res.Subscription?.map((s) => ({
             Avatar: s.FromUserInfo?.Avatar || 'defaultAvatarUrl',
             Nameuser: s.FromUserInfo?.NameUser || 'Unknown',
@@ -426,9 +426,16 @@ export async function GetOldNotifications(token, page = 1) {
                 Authorization: `Bearer ${token}`,
             },
         });
+
         const res = response.data
-        
-        return res
+        console.log(res);
+        console.log("OLAA");
+        const notificationsWithVisto = res.notifications?.map(notification => ({
+            ...notification,
+            visto: true,
+        }));
+
+        return notificationsWithVisto
         // const followInfo = res.FollowInfo?.map((follow) => ({
         //     Avatar: follow.Avatar || 'defaultAvatarUrl',
         //     Nameuser: follow.NameUser || 'Nameuser',
