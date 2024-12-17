@@ -3,13 +3,28 @@ import { Link, useHistory } from "react-router-dom"; // Asegúrate de importar u
 import "./Notificaciones.css";
 import { GetNotificacionesRecent, GetOldNotifications, follow, unfollow } from "../../services/backGo/user";
 
-export default function Notificaciones({ PinkerNotifications }) {
+export default function Notificaciones({ PinkerNotifications,user }) {
   const [expandedNotifications, setExpandedNotifications] = useState({});
   const [page, setpage] = useState(1);
   const [notifications, setNotifications] = useState(PinkerNotifications);
 
   const token = window.localStorage.getItem("token");
 
+  const [width, setWidth] = useState(window.innerWidth);
+
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    }
+  }, []);
+
+  const isMobile = width <= 768;
 
   const history = useHistory();
 
@@ -48,7 +63,7 @@ export default function Notificaciones({ PinkerNotifications }) {
 
     switch (notification.type) {
       case "Follow":
-        return `te ha comenzado a seguir.`;
+        return `comenzó a seguirte.`;
       case "DonatePixels":
         return (
           <>
@@ -200,7 +215,7 @@ export default function Notificaciones({ PinkerNotifications }) {
 
                 {followParametro ? (
                   <button
-                    style={{ marginLeft: "5px" }}
+                    style={{ marginLeft: "5px", fontSize: isMobile &&'16px', width: isMobile &&'25%', padding:isMobile && '8px' }}
                     className="channel-bottom-v2-button-follow"
                     onClick={() => unfollowUser(notification.idUser)}
                   >
@@ -209,7 +224,7 @@ export default function Notificaciones({ PinkerNotifications }) {
                 ) : (
                   <button
                     onClick={() => followUser(notification.idUser)}
-                    style={{ marginLeft: "5px" }}
+                    style={{ marginLeft: "5px", fontSize: isMobile &&'16px', width: isMobile &&'25%', padding: isMobile &&'8px' }}
                     className="channel-bottom-v2-button-follow"
                   >
                     Seguir

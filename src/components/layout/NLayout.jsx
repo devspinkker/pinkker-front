@@ -254,8 +254,8 @@ function NLayout(props) {
 
         newSocket.onmessage = (event) => {
           const receivedMessage = JSON.parse(event.data);
-   console.log(receivedMessage);
-   
+          console.log(receivedMessage);
+
           setPinkerNotifications((prevNotifications) => [
             ...prevNotifications,
             { ...receivedMessage, visto: false },
@@ -289,7 +289,7 @@ function NLayout(props) {
       }))
     );
   };
-  
+
   const pingIntervalRef = useRef();
   useEffect(() => {
     const REACT_APP_BACKCOMMERCIALWS = process.env.REACT_APP_BACKCOMMERCIALWS;
@@ -303,7 +303,7 @@ function NLayout(props) {
       newSocket.onerror = (error) => {
         console.error("WebSocket error:", error);
       };
-      
+
       newSocket.onmessage = (event) => {
         try {
           const receivedMessage = JSON.parse(event.data);
@@ -2251,6 +2251,7 @@ function NLayout(props) {
               messagesOpen={messagesOpen}
               PinkerNotifications={PinkerNotifications}
               NewChatMessageForChannel={props.NewChatMessageForChannel}
+              user={props.user}
             />
           </Grid>
         )}
@@ -2456,26 +2457,23 @@ function NLayout(props) {
               <Grid
                 style={{ display: "flex", alignItems: "center", gap: "5px" }}
               >
-                <IconButton sx={{ color: "#fff", backgroundColor: '#343843', fontSize:'2rem' }}>
+                <IconButton sx={{ color: "#fff", backgroundColor: '#343843', fontSize: '2rem' }}>
                   <IoSearch onClick={() => setHabilitar(!habilitar)} />
                 </IconButton>
 
-                <IconButton sx={{ color: "#fff", backgroundColor: '#343843' , fontSize:'2rem' }}>
+                <IconButton sx={{ color: "#fff", backgroundColor: '#343843', fontSize: '2rem' }}>
                   <AiOutlineMessage onClick={() => habilitarMensaje()} />
                 </IconButton>
 
-                <div
-                  onClick={() => habilitarNotificaciones()}
-                  className="navbar-image-avatar-container"
-                >
+                <IconButton sx={{ color: "#fff", backgroundColor: '#343843', fontSize: '2rem', display:'flex', flexDirection:'column' }}  onClick={() => habilitarNotificaciones()}>
                   <div
                     style={{
                       width: "40px",
-                      position: "relative",
+                      position: "absolute",
                       left: "  ",
                       top: "2px",
                     }}
-                    className="navbar-image-avatar"
+                  
                   >
                     {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
                     {unseenNotificationsCount >= 1 && (
@@ -2483,16 +2481,13 @@ function NLayout(props) {
                         <h1 style={{ fontSize: '1rem', color: 'white', zIndex: 10 }}>{unseenNotificationsCount}</h1>
                       </span>
                     )}
-                    <IconButton sx={{ color: "#fff", backgroundColor: '#343843', fontSize:'2rem'  }}>
-
-                      <IoMdNotificationsOutline
-                        style={{  color: "white", backgroundColor: '#343843' }}
-                        name="notificaciones"
-                      />
-                    </IconButton>
                   </div>
+                  <IoMdNotificationsOutline
+                    style={{ color: "white", backgroundColor: '#343843' }}
+                    name="notificaciones"
+                  />
+                </IconButton>
 
-                </div>
               </Grid>
               <Grid
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}

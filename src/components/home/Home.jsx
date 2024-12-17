@@ -92,28 +92,24 @@ const Home = ({
   const [Categories, setCategories] = useState([]);
   useEffect(() => {
     // Primero, intenta cargar las categorías desde localStorage
-    const storedCategories = localStorage.getItem("categories");
+    // Si no hay datos en localStorage, realiza la solicitud a la API
+    const fetchData = async () => {
+      const getCategoriesWithLimitData = await getCategoriesWithLimit();
+ 
+      if (getCategoriesWithLimitData?.message === "ok") {
+        setCategories(getCategoriesWithLimitData.data);
+        // Guarda los datos en localStorage para futuras cargas
+        // localStorage.setItem(
+        //   "categories",
+        //   JSON.stringify(getCategoriesWithLimitData.data)
+        // );
+      }
+    };
 
-    if (storedCategories) {
-      setCategories(JSON.parse(storedCategories));
-    } else {
-      // Si no hay datos en localStorage, realiza la solicitud a la API
-      const fetchData = async () => {
-        const getCategoriesWithLimitData = await getCategoriesWithLimit();
+    fetchData();
 
-        if (getCategoriesWithLimitData?.message === "ok") {
-          setCategories(getCategoriesWithLimitData.data);
-          // Guarda los datos en localStorage para futuras cargas
-          localStorage.setItem(
-            "categories",
-            JSON.stringify(getCategoriesWithLimitData.data)
-          );
-        }
-      };
-
-      fetchData();
-    }
   }, []);
+
   function getStyleFromRandom() {
     return;
   }

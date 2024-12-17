@@ -13,6 +13,7 @@ const LayoutMessageNotis = ({
   setOpenNotification,
   openNotification,
   NewChatMessageForChannel,
+  user
 }) => {
   const token = window.localStorage.getItem("token");
 
@@ -61,7 +62,7 @@ const LayoutMessageNotis = ({
             NewChatMessageForChannel={NewChatMessageForChannel}
           />
         ) : (
-          <Notificaciones PinkerNotifications={PinkerNotifications} />
+          <Notificaciones PinkerNotifications={PinkerNotifications} user={user}/>
         )}
       </div>
     </div>

@@ -169,15 +169,17 @@ export default function ExploreCategories({  tyExpanded }) {
     <div className="explorecategories-body" style={{ width: "100%" }}>
       {isLoading && (
         <div
-          style={{
-            height: "800px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <BarLoader color="#36d7b7" />
-        </div>
+        style={{
+          height: "800px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {/* <BarLoader color="#36d7b7" /> */}
+      <ScaleLoader width={4} height={20} color="#f36197d7" />
+        
+      </div>
       )}
       <Grid
         style={{
@@ -245,7 +247,7 @@ export default function ExploreCategories({  tyExpanded }) {
             >
               {!isMobile && (
                 <div className="explorecategories-card-container-filters">
-                  <div className="explorecategories-card-container-filter-input navbar-search-dark">
+                  <div className="explorecategories-card-container-filter-input navbar-search-dark" >
                     <img
                       src="/images/search.svg"
                       style={{

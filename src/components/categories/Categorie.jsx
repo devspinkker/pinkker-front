@@ -41,6 +41,21 @@ export default function Categorie() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  const [width, setWidth] = useState(window.innerWidth);
+
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    }
+  }, []);
+
+  const isMobile = width <= 768;
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -358,7 +373,7 @@ export default function Categorie() {
         )}
         <img
           style={{
-            width: "4.19%",
+            width: isMobile ? '10%': "4.19%",
 
             boxShadow: "1px 1px 15px rgba(0,0,0,0.75)",
             borderRadius: "5px",
@@ -377,7 +392,7 @@ export default function Categorie() {
           padding: "1rem 2rem",
         }}
       >
-        <div className="explorecategories-card-container-filter-input">
+        <div className="explorecategories-card-container-filter-input" style={{width: '55%'}}>
           <img
             src="/images/search.svg"
             style={{
