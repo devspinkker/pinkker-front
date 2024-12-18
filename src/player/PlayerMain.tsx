@@ -481,8 +481,8 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
       )}
       <video
         ref={videoRef}
-        style={{ width, height, display: Commercial || Player ? "none" : "" }}
-        height={HeightVideo()}
+        style={{ width, height: "", display: Commercial || Player ? "none" : "" }}
+        // height={HeightVideo()}
         width={width}
         controls
         muted={true}

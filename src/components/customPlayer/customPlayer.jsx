@@ -437,7 +437,6 @@ export default function CustomPlayer({
         />
         </div>
 
-{console.log(user)}
 
         {FullScreen && !isMobile && (
           <div
