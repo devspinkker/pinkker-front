@@ -527,6 +527,11 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
         muted={true}
         className={`video-player  ${isFullScreen ? 'fullscreen' : ''}`}
         poster={stream_thumbnail}
+        loop
+        autoPlay
+        playsInline
+        webkit-playsinline="true"
+        disablePictureInPicture
       />
     </>
   );
