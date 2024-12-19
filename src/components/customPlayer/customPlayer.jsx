@@ -429,7 +429,7 @@ export default function CustomPlayer({
           height={height ? height : FullScreen ? "100%" : "835px"}
           expanded={expanded}
           quality={quality}
-          stream={stream?.id}
+          stream={stream}
           streamerDataID={streamerData.id}
           stream_thumbnail={stream?.stream_thumbnail}
           onPauseDuration={handlePauseDuration}

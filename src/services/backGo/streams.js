@@ -142,6 +142,22 @@ export async function getStreamByUserName(userName) {
 		return error
 	}
 }
+export const validateToken = async (src) => {
+	try {
+		const response = await fetch(`${src}`);
+
+		if (!response.ok) {
+			// Si la respuesta no es exitosa (ej. 401), extrae el mensaje del servidor
+			const errorData = await response.json(); // Usa .json() si el servidor envía JSON
+			throw new Error(errorData.message || "Error desconocido en la validación del token");
+		}
+
+		return response; // Devuelve la respuesta si todo está bien
+	} catch (error) {
+		console.error("Error al validar el token:", error.message);
+		return { error: true, message: error.message }; // Devuelve un objeto con el mensaje
+	}
+};
 
 // Función para obtener streams de usuarios que sigo
 async function getStreamsIFollow(followingIds) {

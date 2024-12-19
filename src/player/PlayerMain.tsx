@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import flvjs from 'flv.js';
 import Hls from 'hls.js';
 import "./ReactVideoPlayer.css";
-import { AdsAddStreamSummary } from '../services/backGo/streams';
+import { AdsAddStreamSummary, validateToken } from '../services/backGo/streams';
 import { useHistory } from "react-router-dom";
 
 interface ReactVideoPlayerProps {
@@ -11,12 +11,17 @@ interface ReactVideoPlayerProps {
   height: string;
   width: string;
   quality: string;
-  stream: string;
+  stream: {
+    [key: string]: any;
+    AuthorizationToView?: {
+      [key: string]: boolean;
+    };
+  };
   streamerDataID: string;
   stream_thumbnail: string;
   dashboard: boolean;
-  onPauseDuration?: (duration: number) => void; // Nueva prop para enviar duración de pausas
-  reset?: boolean; // Nueva prop para reiniciar el reproductor
+  onPauseDuration?: (duration: number) => void;
+  reset?: boolean;
 }
 
 function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, streamerDataID, stream_thumbnail, dashboard, onPauseDuration, reset }: ReactVideoPlayerProps) {
@@ -35,6 +40,8 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
   const playerRef = useRef();
   const canvasRef = useRef(null);
   const [videoHover, setVideoHover] = useState(false);
+  const [validationFaild, setValidationFaild] = useState(false);
+
   let token = window.localStorage.getItem("token");
 
   const [playLive, setPlayLive] = useState(1);
@@ -146,7 +153,6 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
 
   useEffect(() => {
 
-
     const qualities = ["720", "480", "360"];
     let currentQualityIndex = 0;
     let lastPlaybackTime = 0; // Última posición del video detectada
@@ -171,13 +177,35 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
 
     const initializePlayer = async () => {
       try {
-        cleanUpPlayer();
 
         const isAutoQuality = quality === "auto";
         const currentQuality = isAutoQuality ? qualities[currentQualityIndex] : quality;
         const srcQ = isAutoQuality
           ? `${src}_${currentQuality}`
           : `${src}${quality !== "1080" ? `_${quality}` : ""}`;
+
+        if (validationFaild) {
+          return
+        }
+
+        let checkAuthorization = false
+        let resCheck: Response | { error: boolean; message: any } | undefined = undefined;
+        if (stream.AuthorizationToView) {
+          checkAuthorization = Object.values(stream.AuthorizationToView).some(value => value === true);
+
+        }
+        if (checkAuthorization) {
+          resCheck = await validateToken(`${srcQ}.flv?token=${token}`);
+        }
+
+
+        if (resCheck && "error" in resCheck && resCheck.error) {
+          setValidationFaild(true)
+          return
+        }
+
+
+        cleanUpPlayer();
 
         if (flvjs.isSupported()) {
           flvPlayer = flvjs.createPlayer({
@@ -479,6 +507,17 @@ function ReactVideoPlayer({ src, videoRef, height, width, quality, stream, strea
           )}
         </div>
       )}
+      {validationFaild && stream.AuthorizationToView && (
+        <div className="validationFaildPlayer">
+          ❌ Fallo: Necesita autorización para acceder. Requiere:
+          <ul>
+            {Object.entries(stream.AuthorizationToView).map(([key, value]) => {
+              return value ? <li key={key}>{key.replace('_', ' ')}</li> : null;
+            })}
+          </ul>
+        </div>
+      )}
+
       <video
         ref={videoRef}
         style={{ width, height: "", display: Commercial || Player ? "none" : "" }}
