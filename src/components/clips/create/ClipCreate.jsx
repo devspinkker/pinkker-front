@@ -252,7 +252,7 @@ export function CreateClip() {
           />
         ) : (
           <img
-            src="https://res.cloudinary.com/dcj8krp42/image/upload/v1730916690/logos/Clip_qbjvcg.png"
+            src="https://www.pinkker.tv/uploads/assets/Clip.png"
             alt="Loading video"
             style={{ width: "80vh", height: "80vh", objectFit: "cover" }}
           />
