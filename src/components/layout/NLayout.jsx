@@ -1381,7 +1381,7 @@ function NLayout(props) {
 
                 <Grid style={{ display: "flex", alignItems: "center" }}>
                   {/* comentado quitar*/}
-                  <div
+                  {/* <div
                     style={{
                       display: "flex",
                       gap: "5px",
@@ -1437,7 +1437,7 @@ function NLayout(props) {
                         </Typography>
                       </button>
                     </Link>
-                  </div>
+                  </div> */}
                 </Grid>
 
                 <Grid>
