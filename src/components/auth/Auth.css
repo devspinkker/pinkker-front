@@ -119,7 +119,7 @@
 
 .auth-close button:hover {
     background-color: #303030;
-   
+
 }
 
 .auth-title-card {
@@ -286,7 +286,7 @@ select:focus {
     padding: 30px;
     width: 32%;
     text-align: center;
-    background-image: url("https://res.cloudinary.com/dcj8krp42/image/upload/v1727214303/Emblemas/485_x_712_p3vtdj.jpg");
+    background-image: url("https://www.pinkker.tv/uploads/assets/login.jpg");
     background-size: cover;
     background-position: center;
 
@@ -403,6 +403,6 @@ select:focus {
     cursor: pointer;
 }
 
-.OAuth2Login:hover{
+.OAuth2Login:hover {
     background-color: #2a2e38;
 }
