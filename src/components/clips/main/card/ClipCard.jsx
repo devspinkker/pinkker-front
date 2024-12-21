@@ -157,47 +157,43 @@ export default function ClipCard({ clip, isActive = 0, isMobile ,HandleShowComme
   const alert = useNotification();
   useEffect(() => {
     const player = playerRef.current;
-
+  
     if (!player) return;
-
-    if (isActive === 2) {
-      player.pause();
-      player.muted = true;
-      setMuted(true);
-
-      setTimeout(() => {
-        player
-          .play()
-          .then(() => {
-            setTimeout(() => {
-              player.muted = false;
-              setMuted(false);
-            }, 200);
-          })
-          .catch((error) => {
-            console.error("Error playing video:", error);
-          });
-      }, 200);
-    } else if (isActive === 1) {
-      player.pause();
-      setTimeout(() => {
-        player.muted = true;
-        setMuted(true);
-      }, 200);
-    } else {
-      player
-        .play()
+  
+    const handlePlay = () => {
+      player.play()
         .then(() => {
-          setPlaying(false);
+          setPlaying(true);
           setTimeout(() => {
-            player.muted = false;
+            player.muted = false; // Desmutea el video después de un pequeño retraso
             setMuted(false);
           }, 200);
         })
         .catch((error) => {
           console.error("Error playing video:", error);
+          // Si hay un error al intentar reproducir, pausa el video
+          player.pause();
+          setPlaying(false);
+          setMuted(true); // Mantenerlo en estado mute si no se puede reproducir
         });
+    };
+  
+    // En caso de que el video no se pueda reproducir o desmutear
+    if (isActive === 2) {
+      player.pause();
+      player.muted = true;
+      setMuted(true);
+  
+      setTimeout(() => {
+        handlePlay(); // Intentar reproducir después de un retraso
+      }, 200);
+    } else if (isActive === 1) {
+      player.pause();
+      setMuted(true); // Mantener el video en mute
+    } else {
+      handlePlay(); // Si no hay error, intenta reproducir directamente
     }
+  
   }, [isActive]);
 
   const onMouseEnterShare = () => {
@@ -309,7 +305,22 @@ export default function ClipCard({ clip, isActive = 0, isMobile ,HandleShowComme
       );
     }
   }
-
+  useEffect(() => {
+    const player = playerRef.current;
+  
+    if (!player) return;
+  
+    const handlePause = () => {
+      setPlaying(false);
+    };
+  
+    player.addEventListener("pause", handlePause);
+  
+    return () => {
+      player.removeEventListener("pause", handlePause);
+    };
+  }, []);
+  
   const handleLike = async () => {
     try {
       if (isLiked) {
@@ -460,6 +471,8 @@ export default function ClipCard({ clip, isActive = 0, isMobile ,HandleShowComme
                   display: videoPlaying ? "" : "none",
                 }}
               >
+                {
+                  clip &&
                 <VideoClipsExplorar
                   videoRef={playerRef}
                   src={clip.url}
@@ -474,22 +487,24 @@ export default function ClipCard({ clip, isActive = 0, isMobile ,HandleShowComme
                   width="100%"
                   preferredQuality={720}
                 />
+                }
               </div>
             </div>
             {getButtonDuration()}
-            {playing === false && (
-              <div className="clipcard-muted">
-                <i
-                  onClick={handlePlay}
-                  style={{
-                    cursor: "pointer",
-                    fontSize: "44px",
-                    color: "lightgray",
-                  }}
-                  className="fas fa-play button-more-player"
-                />
-              </div>
-            )}
+            {!playing && (
+  <div className="clipcard-muted">
+    <i
+      onClick={handlePlay}
+      style={{
+        cursor: "pointer",
+        fontSize: "44px",
+        color: "lightgray",
+      }}
+      className="fas fa-play button-more-player"
+    />
+  </div>
+)}
+
             <div className="clipsmain-bottom-buttons">
               <div className="channel-v2-info">
                 <div
