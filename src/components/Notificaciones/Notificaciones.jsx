@@ -1,22 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom"; // Asegúrate de importar useHistory
-import "./Notificaciones.css";
-import { GetNotificacionesRecent, GetOldNotifications, follow, unfollow } from "../../services/backGo/user";
+  import React, { useEffect, useState } from "react";
+  import { Link, useHistory } from "react-router-dom"; // Asegúrate de importar useHistory
+  import "./Notificaciones.css";
+  import { GetNotificacionesRecent, GetOldNotifications, follow, unfollow } from "../../services/backGo/user";
 
-export default function Notificaciones({ PinkerNotifications,user }) {
-  const [expandedNotifications, setExpandedNotifications] = useState({});
-  const [page, setpage] = useState(1);
-  const [notifications, setNotifications] = useState(PinkerNotifications);
+  export default function Notificaciones({ PinkerNotifications,user }) {
+    const [expandedNotifications, setExpandedNotifications] = useState({});
+    const [page, setpage] = useState(1);
+    const [notifications, setNotifications] = useState(PinkerNotifications);
 
-  const token = window.localStorage.getItem("token");
+    const token = window.localStorage.getItem("token");
 
-  const [width, setWidth] = useState(window.innerWidth);
+    const [width, setWidth] = useState(window.innerWidth);
 
-  function handleWindowSizeChange() {
-    setWidth(window.innerWidth);
-  }
+    function handleWindowSizeChange() {
+      setWidth(window.innerWidth);
+    }
 
+  useEffect(() => {
+    if (PinkerNotifications && PinkerNotifications.length > 0) {
+      const newNotifications = PinkerNotifications.filter(
+        (newNotif) =>
+          !notifications.some((notif) => notif.timestamp === newNotif.timestamp)
+      );
 
+      if (newNotifications.length > 0) {
+        setNotifications((prev) => [...newNotifications, ...prev]);
+      }
+    }
+  }, [PinkerNotifications]);
   useEffect(() => {
     window.addEventListener('resize', handleWindowSizeChange);
     return () => {
@@ -53,6 +64,7 @@ export default function Notificaciones({ PinkerNotifications,user }) {
       [index]: !prevState[index],
     }));
   };
+
 
   const handleNotificationClick = (userName) => {
     history.push(`/${userName}`);
@@ -136,20 +148,38 @@ export default function Notificaciones({ PinkerNotifications,user }) {
   const [followStatus, setFollowStatus] = useState({}); 
 
   async function followUser(userId) {
-    const data = await follow(token, userId);
-    if (data != null) {
-      setFollowStatus((prev) => ({ ...prev, [userId]: true })); 
-    } else {
-      alert(data);
+    try {
+      const data = await follow(token, userId); // Llamada al servicio para seguir.
+      if (data) {
+        setFollowStatus((prev) => ({ ...prev, [userId]: true })); // Actualiza el estado de seguimiento localmente.
+        setNotifications((prev) =>
+          prev.map((notif) =>
+            notif.idUser === userId ? { ...notif, isFollowed: true } : notif
+          )
+        );
+      } else {
+        alert("No se pudo seguir al usuario.");
+      }
+    } catch (error) {
+      console.error("Error al seguir al usuario:", error);
     }
   }
   
   async function unfollowUser(userId) {
-    const data = await unfollow(token, userId);
-    if (data != null) {
-      setFollowStatus((prev) => ({ ...prev, [userId]: false })); 
-    } else {
-      alert(data);
+    try {
+      const data = await unfollow(token, userId); // Llamada al servicio para dejar de seguir.
+      if (data) {
+        setFollowStatus((prev) => ({ ...prev, [userId]: false })); // Actualiza el estado de seguimiento localmente.
+        setNotifications((prev) =>
+          prev.map((notif) =>
+            notif.idUser === userId ? { ...notif, isFollowed: false } : notif
+          )
+        );
+      } else {
+        alert("No se pudo dejar de seguir al usuario.");
+      }
+    } catch (error) {
+      console.error("Error al dejar de seguir al usuario:", error);
     }
   }
   function calcularTiempoTranscurrido(notificacion) {
@@ -182,7 +212,7 @@ export default function Notificaciones({ PinkerNotifications,user }) {
         className="notifications-list"
       >
 {notifications.map((notification, index) => {
-  const isFollowing = followStatus[notification.idUser] || false; // Verifica si se sigue al usuario
+  const isFollowing = notification.isFollowed; // Prioriza el estado local si existe.
 
   return (
     <li
@@ -225,7 +255,7 @@ export default function Notificaciones({ PinkerNotifications,user }) {
             }}
             className="channel-bottom-v2-button-follow"
             onClick={(e) => {
-              e.stopPropagation(); 
+              e.stopPropagation();
               unfollowUser(notification.idUser);
             }}
           >
@@ -234,7 +264,7 @@ export default function Notificaciones({ PinkerNotifications,user }) {
         ) : (
           <button
             onClick={(e) => {
-              e.stopPropagation(); 
+              e.stopPropagation();
               followUser(notification.idUser);
             }}
             style={{
@@ -252,6 +282,7 @@ export default function Notificaciones({ PinkerNotifications,user }) {
     </li>
   );
 })}
+
 
       </ul>
       {/* <div className="load-more-button" onClick={handleLoadMore}>

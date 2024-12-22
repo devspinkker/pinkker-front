@@ -17,6 +17,8 @@ const LayoutMessageNotis = ({
 }) => {
   const token = window.localStorage.getItem("token");
 
+
+
   return (
     <div>
       <Grid
@@ -56,14 +58,22 @@ const LayoutMessageNotis = ({
           transition: "width 1s ease-in-out",
         }}
       >
-        {openMessage && messagesOpen ? (
+        {openMessage && messagesOpen &&(
           <Message
             messagesOpen1={messagesOpen}
             NewChatMessageForChannel={NewChatMessageForChannel}
           />
-        ) : (
-          <Notificaciones PinkerNotifications={PinkerNotifications} user={user}/>
-        )}
+        ) }
+        {
+          <div
+          style={{
+            display: !messagesOpen || !openMessage ? "block" : "none",
+          }}
+          >
+              <Notificaciones PinkerNotifications={PinkerNotifications} user={user}/>
+
+          </div>
+        }
       </div>
     </div>
   );

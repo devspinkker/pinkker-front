@@ -213,16 +213,9 @@ export default function StreamSummaryAnalytics({ user, tyExpanded, isMobile }) {
 
     <DashboarLayout user={user} isMobile={isMobile} >
 
-      <Grid style={{
-        display: 'flex', alignItems: 'center', width: '100%', gap: '15px', backgroundImage: `url(${bg})`, // Imagen de fondo
-        backgroundSize: 'cover', // Escala la imagen para cubrir completamente el contenedor
-        backgroundPosition: 'center', // Centra la imagen de fondo
-        backgroundRepeat: 'no-repeat', // Evita que la imagen se repita
-
-        padding: '20px', // Espaciado interno opcional
-        height: '30%',
-        boxShadow: '0 0 8px 2px #000'
-      }}>
+      <Grid 
+      className="SummaryAnalitycsbackgroundDashboarLayout"
+    >
         {/* Imagen de perfil circular */}
         <img
           src={user?.Avatar}

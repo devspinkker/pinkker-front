@@ -66,3 +66,20 @@
     font-weight: 700;
     font-family: inter;
 }
+
+.SummaryAnalitycsbackgroundDashboarLayout {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+    background-image: url("https://www.pinkker.tv/uploads/assets/Banner2.jpg");
+    /* Imagen de fondo */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding: 20px;
+    height: 30%;
+    box-shadow: rgb(0, 0, 0) 0px 0px 8px 2px;
+    /* Rota la imagen 90 grados */
+
+}
