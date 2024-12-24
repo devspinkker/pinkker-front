@@ -343,7 +343,7 @@ export default function UserSettings({ isMobile, user }) {
             >
               <Typography>Sesiones</Typography>
             </Grid> */}
-            {/* <Grid
+            <Grid
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -354,7 +354,7 @@ export default function UserSettings({ isMobile, user }) {
               onClick={() => setType(1)}
             >
               <Typography>Pinkker Prime</Typography>
-            </Grid> */}
+            </Grid>
             {/* <Grid
               style={{  
                 display: "flex",

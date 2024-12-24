@@ -769,7 +769,7 @@ export function ChatStreaming({
           }}
         >
           {/* comentado quitar*/}
-          {donationsSubscriptions.length >= 1
+          {/* {donationsSubscriptions.length >= 1
             ? getDonationSubscriptionCard(donationsSubscriptions)
             : !chatExpandeds && (
                 <h3
@@ -781,7 +781,7 @@ export function ChatStreaming({
                 >
                   Regalá una suscripción
                 </h3>
-              )}
+              )} */}
         </div>
         <div
           className={
@@ -2637,15 +2637,15 @@ export function ChatStreaming({
           <div className="actions-chat">
             {/* comentado quitar*/}
             <button
-              onClick={() => onMouseEnterPoints()}
+              // onClick={() => onMouseEnterPoints()}
               className="button-points gray-button"
             >
-              <img
+              {/* <img
                 style={{ width: false ? "30px" : "16px" }}
                 src="/images/pixel.png"
                 alt=""
-              />
-              <h3
+              /> */}
+              {/* <h3
                 style={{
                   fontFamily: "Poppins",
                   minWidth: "15px",
@@ -2670,7 +2670,7 @@ export function ChatStreaming({
                 >
                   <p className="text-points-increment2">+{points}</p>
                 </Tippy>
-              )}
+              )} */}
             </button>
             {dropdownChatConfig && (
               <DropdownChatConfig
