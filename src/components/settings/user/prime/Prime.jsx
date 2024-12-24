@@ -62,7 +62,7 @@ export default function Prime() {
             imageWidth={"25px"}
             style={{ marginTop: "10px" }}
             name="Pinkker Prime"
-            img="https://res.cloudinary.com/pinkker/image/upload/v1677782920/emblem/PRIME_PINKKER_fwsdcm.png"
+            img="https://www.pinkker.tv/uploads/assets/pinkkerprime.png"
           />
         </div>
 
@@ -83,7 +83,7 @@ export default function Prime() {
               imageWidth={"17px"}
               style={{ marginRight: "5px" }}
               name="Pinkker Prime"
-              img="https://res.cloudinary.com/pinkker/image/upload/v1677782920/emblem/PRIME_PINKKER_fwsdcm.png"
+              img="https://www.pinkker.tv/uploads/assets/pinkkerprime.png"
             />
             <a
               style={{
@@ -111,7 +111,7 @@ export default function Prime() {
               imageWidth={"17px"}
               style={{ marginRight: "5px" }}
               name="Pinkker Prime"
-              img="https://res.cloudinary.com/pinkker/image/upload/v1677782920/emblem/PRIME_PINKKER_fwsdcm.png"
+              img="https://www.pinkker.tv/uploads/assets/pinkkerprime.png"
             />
             <a
               style={{
@@ -139,7 +139,7 @@ export default function Prime() {
               imageWidth={"17px"}
               style={{ marginRight: "5px" }}
               name="Pinkker Prime"
-              img="https://res.cloudinary.com/pinkker/image/upload/v1677782920/emblem/PRIME_PINKKER_fwsdcm.png"
+              img="https://www.pinkker.tv/uploads/assets/pinkkerprime.png"
             />
             <a
               style={{
