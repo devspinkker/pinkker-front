@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./UserSettingsPopup.css";
 import CropImage from "./CropImage";
-import { getRotatedImage } from "./canvasUtils";
-import { getOrientation } from "get-orientation/browser";
 import { updateCustomAvatar } from "../../../../services/user";
 import { Grid } from "@mui/material";
 
@@ -14,30 +12,19 @@ export default function UserSettingsPopup({ closePopup, usuario, changeType }) {
 
   const [showPopupCrop, setShowpopupCrop] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
+  const [image, setImage] = useState(null);
 
   function togglePopupCrop() {
     setShowpopupCrop(!showPopupCrop);
   }
 
-  const ORIENTATION_TO_ANGLE = {
-    3: 180,
-    6: 90,
-    8: -90,
-  };
-
   const onFileChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      let imageDataUrl = await readFile(file);
-
-      // Apply rotation if needed
-      const orientation = await getOrientation(file);
-      const rotation = ORIENTATION_TO_ANGLE[orientation];
-      if (rotation) {
-        imageDataUrl = await getRotatedImage(imageDataUrl, rotation);
-      }
+      const imageDataUrl = await readFile(file);
 
       setImageSrc(imageDataUrl);
+      setImage(file)
       togglePopupCrop();
     }
   };
@@ -108,7 +95,8 @@ export default function UserSettingsPopup({ closePopup, usuario, changeType }) {
       </div>
       {showPopupCrop && (
         <CropImage
-          image={imageSrc}
+          imageSrc={imageSrc}
+          image={image}
           closePopup={() => togglePopupCrop()}
           changeType={changeType}
         />

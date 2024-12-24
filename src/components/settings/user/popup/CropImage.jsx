@@ -4,7 +4,7 @@ import { getCroppedImg } from "./canvasUtils";
 import { editAvatar, editBanner } from "../../../../services/backGo/user";
 import { useNotification } from "../../../Notifications/NotificationProvider";
 
-export default function CropImage({ closePopup, image, changeType }) {
+export default function CropImage({ closePopup, image,imageSrc, changeType }) {
   const [cropper, setCropper] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
@@ -20,18 +20,18 @@ export default function CropImage({ closePopup, image, changeType }) {
   const changeImage = async (e) => {
     e.preventDefault();
     try {
-      const fileCropped = await getCroppedImg(
-        image,
-        croppedAreaPixels,
-        rotation
-      );
+      // const fileCropped = await getCroppedImg(
+      //   image,
+      //   croppedAreaPixels,
+      //   rotation
+      // );
 
-      const file = new File([fileCropped], `${changeType}.png`, {
-        lastModified: new Date().getTime(),
-        type: "image/png",
-      });
+      // const file = new File([fileCropped], `${changeType}.png`, {
+      //   lastModified: new Date().getTime(),
+      //   type: "image/png",
+      // });
       let formData = new FormData();
-      formData.append(changeType, file);
+      formData.append(changeType, image);
 
       const token = window.localStorage.getItem("token");
       const res =
@@ -64,7 +64,7 @@ export default function CropImage({ closePopup, image, changeType }) {
 
       <div className={"usersettings-crop-container"}>
         <Cropper
-          image={image}
+          image={imageSrc}
           crop={crop}
           rotation={rotation}
           zoom={zoom}
@@ -76,7 +76,7 @@ export default function CropImage({ closePopup, image, changeType }) {
         />
       </div>
 
-      <div className="usersettings-crop-input-container">
+      {/* <div className="usersettings-crop-input-container">
         <i
           style={{ color: "darkgray", marginRight: "10px" }}
           className="fas fa-search-minus"
@@ -93,8 +93,8 @@ export default function CropImage({ closePopup, image, changeType }) {
           style={{ color: "darkgray", marginLeft: "10px" }}
           className="fas fa-search-plus"
         ></i>
-      </div>
-
+      </div> */}
+{/* 
       <div className="usersettings-crop-input-container">
         <i
           style={{ color: "darkgray", marginRight: "10px" }}
@@ -108,7 +108,7 @@ export default function CropImage({ closePopup, image, changeType }) {
           step={1}
           onChange={(e) => setRotation(parseFloat(e.target.value))}
         />
-      </div>
+      </div> */}
 
       <div style={{ textAlign: "right", marginTop: "20px" }}>
         <button onClick={closePopup} className="usersettings-popup-cancel">
