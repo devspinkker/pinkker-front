@@ -201,10 +201,8 @@ function NLayout(props) {
     try {
       
       const res = await GetOldNotifications(token, 1);
-    console.log("nno se ejecuta");
-    console.log(res);
     
-      if (res) {
+      if (res && res.notifications?.length > 0) {
   
         setPinkerNotifications((prevNotifications) => [
           ...prevNotifications,
