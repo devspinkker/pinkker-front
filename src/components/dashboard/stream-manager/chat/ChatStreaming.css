@@ -1,8 +1,9 @@
 .channel-chat {
-    position: relative;  /* Este es el contexto para el sticky */
+    position: relative;
+    /* Este es el contexto para el sticky */
     top: 0px;
     z-index: 8888;
-    
+
 }
 
 .ChatStreaming {
@@ -10,18 +11,23 @@
     flex-direction: column;
     align-items: center;
     position: sticky;
-    top:0px;  /* Ajusta este valor según sea necesario */
+    top: 0px;
+    /* Ajusta este valor según sea necesario */
     z-index: 15000;
     background: #080808;
-    height: calc(100vh - 74px); /* Ajuste de altura */
+    height: calc(100vh - 74px);
+    /* Ajuste de altura */
 }
+
 .Conversation {
     display: flex;
     width: 100%;
-    flex: 1; /* Esto asegura que ocupe todo el espacio vertical disponible */
+    flex: 1;
+    /* Esto asegura que ocupe todo el espacio vertical disponible */
     align-items: flex-start;
     flex-direction: column;
-    max-height: unset; /* Elimina la restricción de altura fija */
+    max-height: unset;
+    /* Elimina la restricción de altura fija */
     overflow-y: auto;
     background: #080808;
 }
@@ -179,15 +185,16 @@
     /* width: 30px; */
     flex-direction: row;
     align-items: center;
-    
+
     font-size: 12px;
 }
 
-.badges:hover{
+.badges:hover {
     cursor: pointer;
     background-color: #f36396;
     border-radius: 5px;
 }
+
 .badges>img {
     margin: 0px 2px;
     width: 18px;
@@ -246,9 +253,10 @@
     height: 200px;
 }
 
-.icono-hover:hover{
+.icono-hover:hover {
     background-color: #303030;
 }
+
 .ChatStreaming_form {
     display: flex;
     width: 100%;
@@ -264,7 +272,7 @@
     align-items: center;
     height: 38px;
     border-radius: 5px 0px 0px 5px;
-    
+
     border-right: none;
     background: #080808;
     text-align: left;
@@ -297,13 +305,15 @@
     padding: 5px;
     padding-right: 11px;
 }
-.config-buttoncloseNavbarDropdownEmotes:hover{
+
+.config-buttoncloseNavbarDropdownEmotes:hover {
     background-color: #303030;
 }
+
 .divinput-chat {
     width: 95%;
     display: flex;
-   font-size: 12px;
+    font-size: 12px;
     overflow: hidden;
     border-radius: 0px 0px 0px 0px;
     height: 100%;
@@ -317,7 +327,8 @@
     outline: none;
     align-items: center;
 }
-.button-enviar{
+
+.button-enviar {
     background-color: #ff50a6;
     border: 1px solid #ff50a6;
     display: flex;
@@ -338,7 +349,7 @@
     font-weight: 500;
 }
 
-.button-enviar:hover{
+.button-enviar:hover {
     background-color: #ff86e4;
 }
 
@@ -723,4 +734,41 @@
 .suggestedUsers-span.active {
     background-color: #555;
     /* Cambia el color para resaltar la sugerencia activa */
+}
+
+.scrollToBottomChat {
+    background-color: #393b40;
+    padding: 3px;
+    border-radius: 6px;
+    width: 86%;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 10px;
+    animation: slideUp 0.3s ease-in-out forwards;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Ocultar el botón al final de la animación */
+.scrollToBottomChat.hidden {
+    opacity: 0;
+    pointer-events: none;
+    animation: none;
+}
+
+.scrollToBottomChat>span {
+    font-family: inter;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+/* Animación de subida */
+@keyframes slideUp {
+    0% {
+        transform: translateY(10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
