@@ -88,7 +88,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
               <div>
                 <img
                   style={{ width: "35px" }}
-                  src="/images/donaciones/100.png"
+                  src="/images/monedas/marron.png"
                 />
                 <h3>1000 PXL</h3>
                 <h4
@@ -109,7 +109,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
               <div>
                 <img
                   style={{ width: "35px" }}
-                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927824/monedas/Recurso_5_wxh2ra.png"
+                  src="/images/monedas/PIXEL-VERDE.png"
                 />
                 <h3>3500 PXL</h3>
                 <h4
@@ -137,7 +137,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                 <div>
                   <img
                     style={{ width: "35px" }}
-                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927824/monedas/Recurso_1_c9gixs.png"
+                    src="/images/monedas/plata.png"
                   />
                   <h3>5500 PXL</h3>
                   <h4
@@ -169,7 +169,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                 <div>
                   <img
                     style={{ width: "35px" }}
-                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927823/monedas/PIXEL_VERDE_yqvfyf.png"
+                    src="/images/monedas/pixeldorado.png"
                   />
                   <h3>7000 PXL</h3>
                   <h4
@@ -203,7 +203,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                 <div>
                   <img
                     style={{ width: "35px" }}
-                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927823/monedas/pixel_dorado_snq7oh.png"
+                    src="/images/monedas/rosa.png"
                   />
                   <h3>10,000 PXL</h3>
                   <h4
@@ -235,7 +235,7 @@ function DropdownPurchase({ closeNavbar, handleMessage }) {
                 <div>
                   <img
                     style={{ width: "35px" }}
-                    src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927823/monedas/PIXEL_AZUL_o0xzeo.png"
+                    src="/images/monedas/PIXEL-AZUL.png"
                   />
                   <h3>50,000 PXL</h3>
                   <h4

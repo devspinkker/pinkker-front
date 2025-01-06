@@ -146,7 +146,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
               <div>
                 <img
                   style={{ width: "35px" }}
-                  src="/images/donaciones/100.png"
+                  src="/images/monedas/PIXEL-VERDE.png"
                   alt=""
                 />
                 <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>1000</p>
@@ -163,7 +163,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
               <div>
                 <img
                   style={{ width: "40px" }}
-                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927824/monedas/Recurso_5_wxh2ra.png"
+                  src="/images/monedas/plata.png"
                   alt=""
                 />
                 <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>3500</p>
@@ -180,7 +180,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
               <div>
                 <img
                   style={{ width: "42px" }}
-                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927824/monedas/Recurso_1_c9gixs.png"
+                  src="/images/monedas/pixeldorado.png"
                   alt=""
                 />
                 <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>5500</p>
@@ -197,7 +197,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
               <div>
                 <img
                   style={{ width: "45px" }}
-                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927823/monedas/PIXEL_VERDE_yqvfyf.png"
+                  src="/images/monedas/rosa.png"
                   alt=""
                 />
                 <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>7000</p>
@@ -214,7 +214,7 @@ function DropdownPoints({ socketMain, streamer, closeNavbar, callback }) {
               <div>
                 <img
                   style={{ width: "50px" }}
-                  src="https://res.cloudinary.com/dcj8krp42/image/upload/v1725927823/monedas/pixel_dorado_snq7oh.png"
+                  src="/images/monedas/PIXEL-AZUL.png"
                   alt=""
                 />
                 <p style={{ fontSize: "14px", fontFamily: "Poppins" }}>8500</p>
