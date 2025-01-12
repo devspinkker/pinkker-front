@@ -355,6 +355,11 @@ function ReactVideoPlayerVod({ src, videoRef, height, width, quality, stream, st
         controls={false}
         playsInline
         ref={videoRef}
+        poster={stream_thumbnail}
+        loop
+        autoPlay
+        webkit-playsinline="true"
+        disablePictureInPicture
       />
       {/* <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
         <button onClick={skipBackward}>Retroceder 10 segundos</button>

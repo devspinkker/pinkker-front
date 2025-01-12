@@ -195,6 +195,21 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile   ,HandleShowComments}) =
     }
     setPlaying(!playing);
   };
+useEffect(() => {
+  const player = playerRef.current;
+
+  if (!player) return;
+
+  const handlePause = () => {
+    setPlaying(false);
+  };
+
+  player.addEventListener("pause", handlePause);
+
+  return () => {
+    player.removeEventListener("pause", handlePause);
+  };
+}, []);
 
   return (
     <div   className={`clip-card-mobile ${loading ? "loading" : ""}`}>
@@ -239,7 +254,7 @@ const ClipCardMobile = ({ clip, isActive = 0, isMobile   ,HandleShowComments}) =
 
       {/* Iconos de interacción */}
       <Box className="video-actions-mobile">
-      {playing === false && (
+      {!playing  && (
               <div className="clipcard-muted-mobile">
                 <i
                   onClick={handlePlay}

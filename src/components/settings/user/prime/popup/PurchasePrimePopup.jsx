@@ -72,7 +72,7 @@ export default function PurchasePrimePopup({ closePopup }) {
               <div className="purchaseprime-popup-product">
                 <img
                   style={{ width: "40px", marginRight: "10px" }}
-                  src="https://res.cloudinary.com/pinkker/image/upload/v1677782920/emblem/PRIME_PINKKER_fwsdcm.png"
+                  src="https://www.pinkker.tv/uploads/assets/pinkkerprime.png"
                 />
                 <div>
                   <p style={{ fontSize: "14px" }}>Pinkker Prime</p>
@@ -126,7 +126,7 @@ export default function PurchasePrimePopup({ closePopup }) {
             <h3 style={{ fontFamily: "Poppins", color: "white" }}>
               Total{" "}
               <a style={{ marginLeft: "50px", fontFamily: "Poppins" }}>
-                {1000 * months}{" "}
+                {2000 * months}{" "}
                 <img
                   style={{
                     width: "25px",

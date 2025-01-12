@@ -137,7 +137,7 @@ export default function OAuth2callback() {
             onSubmit={handleUsernameFormSubmit}
           >
             <label>
-              Nombre de usuario:
+              {/* Nombre de usuario: */}
               <input
                 className="auth-contentOAuth2callback"
                 placeholder="nameUser"
@@ -146,30 +146,9 @@ export default function OAuth2callback() {
                 onChange={(e) => setUsername(e.target.value)}
               />
             </label>
-            {/* <label>
-              País:
-              <Select
-                className="auth-contentOAuth2callback"
-                options={countries}
-                value={selectedCountry}
-                onChange={(selectedOption) =>
-                  setSelectedCountry(selectedOption)
-                }
-              />
-            </label> */}
-            {/* <label>
-              Provincia:
-              <Select
-                className="auth-contentOAuth2callback"
-                options={provinces}
-                value={selectedProvince}
-                onChange={(selectedOption) =>
-                  setSelectedProvince(selectedOption)
-                }
-              />
-            </label> */}
+
             <label>
-              Contraseña:
+              {/* Contraseña: */}
               <input
                 className="auth-contentOAuth2callback"
                 placeholder="password"
@@ -178,14 +157,7 @@ export default function OAuth2callback() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </label>
-            {/* <label>
-              Biografía:
-              <textarea
-                className="auth-contentOAuth2callback"
-                value={biography}
-                onChange={(e) => setBiography(e.target.value)}
-              />
-            </label> */}
+   
             <button type="submit">Enviar</button>
           </form>
         </div>

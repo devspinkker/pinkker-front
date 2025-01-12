@@ -5,6 +5,7 @@ import Skeleton from "@mui/material/Skeleton";
 import {
   ClipsRecommended,
   GetClipsMostViewed,
+  GetClipsWeightedByDate,
   MoreViewOfTheClip,
 } from "../../../services/backGo/clip";
 import { Link } from "react-router-dom";
@@ -38,7 +39,7 @@ export default function Clips(props) {
       try {
         let token = window.localStorage.getItem("token");
         let response;
-        response = await GetClipsMostViewed(1);
+        response = await GetClipsWeightedByDate(1);
         if (response.data?.message === "ok" && response.data?.data.length > 1) {
           setClips(response.data.data);
         }

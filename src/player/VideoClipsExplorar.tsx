@@ -76,8 +76,8 @@ function VideoClipsExplorar({
         }
       });
     } else if (isMP4 && videoRef.current) {
-      // Soporte directo para .mp4
       videoRef.current.src = src;
+      videoRef.current.load(); // Carga el nuevo video
     }
 
     return () => {
@@ -85,8 +85,14 @@ function VideoClipsExplorar({
         hlsRef.current.destroy();
         hlsRef.current = null;
       }
+      if (videoRef.current) {
+        videoRef.current.pause(); // Detiene la reproducción
+        videoRef.current.src = ""; // Limpia la referencia al video
+        videoRef.current.load(); // Limpia cualquier buffer
+      }
     };
   }, [src, videoRef, preferredQuality]);
+
 
   useEffect(() => {
     if (videoRef.current) {

@@ -568,12 +568,31 @@ export function ChatStreaming({
       SetFollowParamOwner(true);
     }
   }, [user]);
+
+  // scroll chat
+  const [autoScroll, setAutoScroll] = useState(true);
+
   const scrollToBottom = () => {
     if (conversationRef.current) {
-      conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
+      const { scrollTop, scrollHeight, clientHeight } = conversationRef.current;
+  
+      const isNearBottom = scrollHeight - scrollTop - clientHeight <= 150;
+  
+      if (isNearBottom) {
+        conversationRef.current.scrollTop = scrollHeight;
+        setAutoScroll(true)
+      }else{
+        setAutoScroll(false)
+      }
     }
   };
-
+    const scrollToBottomEnd = () => {
+      if (conversationRef.current) {
+        conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
+        setAutoScroll(true); // Reactivar el autoscroll al ir manualmente al final
+      }
+  };
+  
   const gets = async () => {
     try {
       const resDonations = await GetPixelesDonationsChat(streamerData.id);
@@ -769,7 +788,7 @@ export function ChatStreaming({
           }}
         >
           {/* comentado quitar*/}
-          {donationsSubscriptions.length >= 1
+          {/* {donationsSubscriptions.length >= 1
             ? getDonationSubscriptionCard(donationsSubscriptions)
             : !chatExpandeds && (
                 <h3
@@ -781,7 +800,7 @@ export function ChatStreaming({
                 >
                   Regalá una suscripción
                 </h3>
-              )}
+              )} */}
         </div>
         <div
           className={
@@ -1090,7 +1109,7 @@ export function ChatStreaming({
     if (subscriptionEndTimestamp < currentTimestamp) {
       return null;
     } else {
-      return "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/SUBSCRIPTOR.jpg_pxzloq.png";
+      return "/images/emblem/subscriptor.jpg";
     }
   };
 
@@ -1238,7 +1257,7 @@ export function ChatStreaming({
 
     const content = message.split(urlRegex).map((part, index) => {
       if (part.match(urlRegex)) {
-        if (part.includes("pinkker")) {
+        if (part.includes("pinkker") && part.includes("emotes")) {
           const decodedUrl = decodeURIComponent(part);
           const cutoffIndex = decodedUrl.indexOf("&");
           const imageUrl =
@@ -1276,10 +1295,10 @@ export function ChatStreaming({
       } else if (part.match(imgRegex)) {
         return part.replace(imgRegex, (match, src) => {
           if (src.includes("pinkker")) {
-            // Si el src coincide con res.cloudinary.com/depcty8j1/, reemplazamos la etiqueta img con un párrafo
+            // Si el src coincide con pinkker, reemplazamos la etiqueta img con un párrafo
             return `${match}`;
           } else {
-            // Si el src no coincide con res.cloudinary.com/depcty8j1/, devolvemos la etiqueta img original
+            // Si el src no coincide con pinkker, devolvemos la etiqueta img original
             return match;
           }
         });
@@ -1473,7 +1492,7 @@ export function ChatStreaming({
                 {MsjChatAnclado?.StreamerChannelOwner && (
                   <img
                     src={
-                      "https://www.pinkker.tv/uploads/assets/emblemas/OWNER.jpg"
+                      "/images/emblem/emisor.png"
                     }
                     alt="StreamerChannelOwner"
                   />
@@ -1560,7 +1579,7 @@ export function ChatStreaming({
               <div
                 style={{
                   display: "flex",
-                  alignItems: "center",
+                  alignItems: "center", 
                   justifyContent: "flex-start",
                 }}
               >
@@ -1577,11 +1596,11 @@ export function ChatStreaming({
 
                 <div className="ShowGetUserTheChat-InfoUser-gsd">
                   <Link to={"/" + GetUserTheChat?.NameUser}>
-                    <span
+                    <span 
                       style={{
                         fontFamily: "inter",
                         fontSize: "0.875rem",
-                        lineHeight: "1.25rem",
+                        lineHeight: "1.25rem", 
                         fontWeight: "700",
                       }}
                     >
@@ -1593,10 +1612,10 @@ export function ChatStreaming({
                     <div className="followingFrom">
                       <span
                         style={{
-                          fontFamily: "inter",
-                          fontSize: "0.675rem",
-                          lineHeight: "1.25rem",
-                          fontWeight: "700",
+                          fontFamily: "inter", 
+                          fontSize: "0.675rem", 
+                          lineHeight: "1.25rem", 
+                          fontWeight: "700", 
                         }}
                       >
                         Siguiendo desde
@@ -1646,7 +1665,7 @@ export function ChatStreaming({
                 >
                   <img
                     style={{ width: "19px", paddingLeft: "2px" }}
-                    src="https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png"
+                    // src="https://static.twitchcdn.net/assets/GiftBadge-Gold_72-6e5e65687a6ca6959e08.png"
                   />
                   <span>Regalar una suscripción</span>
                 </div>
@@ -1826,7 +1845,7 @@ export function ChatStreaming({
                 {message?.StreamerChannelOwner && (
                   <img
                     src={
-                      "https://www.pinkker.tv/uploads/assets/emblemas/OWNER.jpg"
+                      "/images/emblem/emisor.png"
                     }
                     alt="StreamerChannelOwner"
                   />
@@ -2000,7 +2019,7 @@ export function ChatStreaming({
                   {message?.StreamerChannelOwner && (
                     <img
                       src={
-                        "https://www.pinkker.tv/uploads/assets/emblemas/OWNER.jpg"
+                        "/images/emblem/emisor.png"
                       }
                       alt="StreamerChannelOwner"
                     />
@@ -2092,10 +2111,20 @@ export function ChatStreaming({
                 </div>
               </div>
             </div>
-          );
+          );  
         })}
       </div>
+      {!autoScroll && (
+  <div
+    onClick={scrollToBottomEnd}
+    className="scrollToBottomChat"
+  >
+    <span>chat en pausa</span>
+  </div>
+)}
+
       <div className="actions-chat-conteiner">
+ 
         <div className="actions-chat-conteiner-content">
           {ResMessageschatState != null && (
             <div
@@ -2130,7 +2159,7 @@ export function ChatStreaming({
                 {ResMessageschatState?.StreamerChannelOwner && (
                   <img
                     src={
-                      "https://www.pinkker.tv/uploads/assets/emblemas/OWNER.jpg"
+                      "/images/emblem/emisor.png"
                     }
                     alt="StreamerChannelOwner"
                   />
@@ -2179,6 +2208,8 @@ export function ChatStreaming({
               </div>
             </div>
           )}
+
+
           <div className="suggestedUsers">
             {suggestedUsers?.length > 0 &&
               suggestedUsers.map((u, index) => (
@@ -2637,15 +2668,15 @@ export function ChatStreaming({
           <div className="actions-chat">
             {/* comentado quitar*/}
             <button
-              onClick={() => onMouseEnterPoints()}
+              // onClick={() => onMouseEnterPoints()}
               className="button-points gray-button"
             >
               {/* <img
                 style={{ width: false ? "30px" : "16px" }}
                 src="/images/pixel.png"
                 alt=""
-              />
-              <h3
+              /> */}
+              {/* <h3
                 style={{
                   fontFamily: "Poppins",
                   minWidth: "15px",

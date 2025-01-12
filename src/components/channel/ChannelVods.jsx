@@ -1425,7 +1425,7 @@ export default function Channel({
           className="channel-body"
           style={
             {
-              // padding: expanded ? "0rem 0rem " : "0rem 10rem",
+              width:"100%"
             }
           }
         >
@@ -1524,7 +1524,7 @@ export default function Channel({
 
             {!isMobile && user && (
               <div
-                style={{ width: chatExpanded ? "0" : "22%" }}
+                style={{ width: chatExpanded ? "0" : "22%",top:"20px" }}
                 className="channel-chat"
               >
                 {announce === true && (

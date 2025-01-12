@@ -68,9 +68,17 @@ export const GetClipsCategory = async (Category, page, lastClip) => {
 }
 export const GetClipsMostViewed = async (page) => {
 
-    const response = await axios.get(`${url}/clips/GetClipsMostViewed?page=${page}`)
+    const response = await axios.get(`${url}/clips/GetClipsWeightedByDate?page=${page}`)
     return response
 }
+
+export const GetClipsWeightedByDate = async (page) => {
+
+    const response = await axios.get(`${url}/clips/GetClipsWeightedByDate?page=${page}`)
+
+    return response
+}
+
 export const ClipsRecommended = async (token, ExcludeIDs) => {
     try {
         const res = await axios.post(

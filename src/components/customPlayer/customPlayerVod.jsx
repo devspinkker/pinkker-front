@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import ReactVideoPlayerVod from "../../player/PlayerVods";
 import { MdOutlineFitScreen } from "react-icons/md";
+import { Grid } from "@mui/material";
 
 export default function CustomPlayer({
   isMobile,
@@ -183,7 +184,27 @@ export default function CustomPlayer({
       setMuted(false);
     }
   };
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      setFullScreen(!!document.fullscreenElement); // Actualiza el estado de fullscreen
+    };
 
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape" && FullScreen) {
+        toggleFullScreen(); // Salir de pantalla completa al presionar Esc
+      }
+    };
+
+    // Agregar listeners
+    document.addEventListener("fullscreenchange", handleFullScreenChange);
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Limpieza de los listeners
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullScreenChange);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [FullScreen]);
   const toggleFullScreen = () => {
     const videoContainer = document.querySelector(".contentCustomScreen");
     setFullScreen(!FullScreen);
@@ -243,6 +264,18 @@ export default function CustomPlayer({
     //   );
     // }
     return (
+      <Grid
+      style={{
+        display: "flex",
+        height: FullScreen && "100%",
+        // width: FullScreen && chatExpanded && "100%",
+        alignItems:"center"
+      }}
+    >
+          <div
+        className="conteiner-playerFlv-Stream"
+        >
+
       <ReactVideoPlayerVod
         allowFullScreen
         id="pinkker-player"
@@ -262,6 +295,9 @@ export default function CustomPlayer({
         stream_thumbnail={stream?.stream_thumbnail}
         streamerDataID={streamerData.id}
       />
+             </div>
+      </Grid>
+
     );
   }
 

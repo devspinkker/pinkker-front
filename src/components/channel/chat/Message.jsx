@@ -64,7 +64,7 @@ const Message = ({
             chat={true}
             name="Pinkker Prime"
             img={
-              "https://res.cloudinary.com/pinkker/image/upload/v1677782920/emblem/PRIME_PINKKER_fwsdcm.png"
+              "https://www.pinkker.tv/uploads/assets/pinkkerprime.png"
             }
           />
         )}

@@ -28,68 +28,46 @@ export function rotateSize(width, height, rotation) {
 /**
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
-export async function getCroppedImg(
-  imageSrc,
-  pixelCrop,
-  rotation = 0,
-  flip = { horizontal: false, vertical: false }
-) {
-  const image = await createImage(imageSrc)
-  const canvas = document.createElement('canvas')
-  const ctx = canvas.getContext('2d')
+export async function getCroppedImg(imageSrc, pixelCrop, rotation = 0, flip = { horizontal: false, vertical: false }) {
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
 
   if (!ctx) {
-    return null
+    console.error("Canvas context not found");
+    return null;
   }
 
-  const rotRad = getRadianAngle(rotation)
+  const rotRad = getRadianAngle(rotation);
 
-  // calculate bounding box of the rotated image
-  const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
-    image.width,
-    image.height,
-    rotation
-  )
+  // Calcular tamaño del canvas para manejar rotación
+  const { width: bBoxWidth, height: bBoxHeight } = rotateSize(image.width, image.height, rotation);
+  canvas.width = bBoxWidth;
+  canvas.height = bBoxHeight;
 
-  // set canvas size to match the bounding box
-  canvas.width = bBoxWidth
-  canvas.height = bBoxHeight
+  // Configurar transformación en el canvas
+  ctx.translate(bBoxWidth / 2, bBoxHeight / 2);
+  ctx.rotate(rotRad);
+  ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
+  ctx.translate(-image.width / 2, -image.height / 2);
 
-  // translate canvas context to a central location to allow rotating and flipping around the center
-  ctx.translate(bBoxWidth / 2, bBoxHeight / 2)
-  ctx.rotate(rotRad)
-  ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1)
-  ctx.translate(-image.width / 2, -image.height / 2)
+  // Dibujar imagen rotada
+  ctx.drawImage(image, 0, 0);
 
-  // draw rotated image
-  ctx.drawImage(image, 0, 0)
+  // Extraer la región recortada
+  const data = ctx.getImageData(pixelCrop.x, pixelCrop.y, pixelCrop.width, pixelCrop.height);
 
-  // croppedAreaPixels values are bounding box relative
-  // extract the cropped image using these values
-  const data = ctx.getImageData(
-    pixelCrop.x,
-    pixelCrop.y,
-    pixelCrop.width,
-    pixelCrop.height
-  )
+  // Ajustar canvas al tamaño del recorte
+  canvas.width = pixelCrop.width;
+  canvas.height = pixelCrop.height;
 
-  // set canvas width to final desired crop size - this will clear existing context
-  canvas.width = pixelCrop.width
-  canvas.height = pixelCrop.height
+  // Dibujar los datos recortados en el nuevo canvas
+  ctx.putImageData(data, 0, 0);
 
-  // paste generated rotate image at the top left corner
-  ctx.putImageData(data, 0, 0)
-
-  // As Base64 string
-   return canvas.toDataURL('image/jpeg');
-
-  // As a blob
-  return new Promise((resolve, reject) => {
-    canvas.toBlob((file) => {
-      resolve(URL.createObjectURL(file))
-    }, 'image/jpeg')
-  })
+  // Retornar como Base64
+  return canvas.toDataURL('image/jpeg');
 }
+
 
 export async function getRotatedImage(imageSrc, rotation = 0) {
   const image = await createImage(imageSrc)

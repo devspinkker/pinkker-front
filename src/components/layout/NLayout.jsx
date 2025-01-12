@@ -192,9 +192,6 @@ function NLayout(props) {
     (notification) => !notification.visto
   ).length;
 
-  console.log('PinkerNotifications', PinkerNotifications)
-  console.log('unseenNotificationsCount', unseenNotificationsCount)
-
   async function HandleGetNotificacionesLastConnection() {
 
 
@@ -1381,7 +1378,7 @@ function NLayout(props) {
 
                 <Grid style={{ display: "flex", alignItems: "center" }}>
                   {/* comentado quitar*/}
-                  {/* <div
+                  <div
                     style={{
                       display: "flex",
                       gap: "5px",
@@ -1437,7 +1434,7 @@ function NLayout(props) {
                         </Typography>
                       </button>
                     </Link>
-                  </div> */}
+                  </div>
                 </Grid>
 
                 <Grid>
@@ -2241,8 +2238,12 @@ function NLayout(props) {
           </Grid> */}
         </Grid>
 
-        {(openNotification || openMessage) && !props.tyExpande && (
-          <Grid className={"openNotificationopenMessage"}>
+          <Grid className={"openNotificationopenMessage"}
+          
+          style={{
+            display: (openNotification || openMessage) && !props.tyExpande ? "block" : "none",
+          }}
+          >
             <LayoutMessageNotis
               setOpenMessage={setOpenMessage}
               setOpenNotification={setOpenNotification}
@@ -2254,7 +2255,6 @@ function NLayout(props) {
               user={props.user}
             />
           </Grid>
-        )}
       </Grid>
     );
   };
@@ -3188,20 +3188,23 @@ function NLayout(props) {
             </Link>
           </div>
         )}
+  <Grid
+  className={"openNotificationopenMessage"}
+  style={{
+    display: (openNotification || openMessage) && !props.tyExpande ? "block" : "none",
+  }}
+>
+  <LayoutMessageNotis
+    setOpenMessage={setOpenMessage}
+    setOpenNotification={setOpenNotification}
+    openNotification={openNotification}
+    openMessage={openMessage}
+    messagesOpen={messagesOpen}
+    PinkerNotifications={PinkerNotifications}
+    NewChatMessageForChannel={props.NewChatMessageForChannel}
+  />
+</Grid>
 
-        {(openNotification || openMessage) && !props.tyExpande && (
-          <Grid className={"openNotificationopenMessage"}>
-            <LayoutMessageNotis
-              setOpenMessage={setOpenMessage}
-              setOpenNotification={setOpenNotification}
-              openNotification={openNotification}
-              openMessage={openMessage}
-              messagesOpen={messagesOpen}
-              PinkerNotifications={PinkerNotifications}
-              NewChatMessageForChannel={props.NewChatMessageForChannel}
-            />
-          </Grid>
-        )}
       </Grid>
     );
   };

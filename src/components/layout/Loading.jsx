@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import logo from './LOGOPINKKER.png'; // Importa el logo de tu empresa o imagen de carga
 import './loading.css'
-import loader from './Chancho--dengue.png'
+import loader from './Chancho--dengue.webp'
 import pinnkker from './Pinkker_dmzobi.png'
 import { Box, LinearProgress } from '@mui/material';
 const Loading = () => {
