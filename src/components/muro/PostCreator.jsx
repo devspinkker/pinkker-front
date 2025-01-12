@@ -86,11 +86,11 @@ const PostCreator = ({
             InputProps={{
               style: {
                 color: "white",
-                borderColor: "white",
+                borderColor: "#2a2e38",
               },
               classes: {
                 notchedOutline: {
-                  borderColor: "white",
+                  borderColor: "#2a2e38",
                 },
               },
             }}
@@ -99,15 +99,15 @@ const PostCreator = ({
             }}
             sx={{
               "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                borderColor: "white",
+                borderColor: "#2a2e38",
               },
               "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
                 {
-                  borderColor: "white",
+                  borderColor: "#2a2e38",
                 },
               "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
                 {
-                  borderColor: "white",
+                  borderColor: "#2a2e38",
                 },
               "& .MuiInputBase-input": {
                 color: "white",

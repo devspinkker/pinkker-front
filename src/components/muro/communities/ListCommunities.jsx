@@ -49,6 +49,8 @@ export default function ListCommunities({ communities }) {
             </div>
           </div>
         ))}
+
+        
     </div>
   );
 }

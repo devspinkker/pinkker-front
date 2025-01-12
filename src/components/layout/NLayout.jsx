@@ -204,13 +204,13 @@ function NLayout(props) {
       console.log("nno se ejecuta");
       console.log(res);
 
-      if (res) {
+      // if (res) {
 
-        setPinkerNotifications((prevNotifications) => [
-          ...prevNotifications,
-          ...res,
-        ]);
-      }
+      //   setPinkerNotifications((prevNotifications) => [
+      //     ...prevNotifications,
+      //     ...res,
+      //   ]);
+      // }
     } catch (error) {
       console.log(error);
       console.log("era vacio")
@@ -609,77 +609,114 @@ function NLayout(props) {
   const handleChange = (e) => {
     const value = e.target.value;
 
-    if (value.length <= 0) {
-      setSearch([]);
-      setText(null);
+    // Almacena el texto del buscador
+    setText(value);
+
+    // Funciones para obtener datos
+    const getUser = () => {
+      return fetchSearch(value || "").then((res) => {
+        return Array.isArray(res.data.data) ? res.data.data : [];
+      });
+    };
+
+    const getClip = () => {
+      return GetClipsByTitle(value || "").then((res) => {
+        return Array.isArray(res.data.data) ? res.data.data : [];
+      });
+    };
+
+    const getVods = () => {
+      return getStreamSummariesByTitle(value || "").then((res) => {
+        return Array.isArray(res.data) ? res.data : [];
+      });
+    };
+
+    // Manejo por categoría
+    if (category === 3) {
+      getVods()
+        .then((data) => {
+          setSearch(data);
+        })
+        .catch((error) => {
+          console.error("Error getting VODs:", error);
+        });
+    } else if (category === 2) {
+      getClip()
+        .then((data) => {
+          setSearch(data);
+        })
+        .catch((error) => {
+          console.error("Error getting clips:", error);
+        });
+    } else if (category === 0) {
+      // Carga combinada para "Todos"
+      Promise.all([getUser(), getClip(), getVods()])
+        .then((results) => {
+          const userResults = Array.isArray(results[0]) ? results[0] : [];
+          const clipResults = Array.isArray(results[1]) ? results[1] : [];
+          const vodsResults = Array.isArray(results[2]) ? results[2] : [];
+
+          const combinedResults = [
+            ...userResults,
+            ...clipResults,
+            ...vodsResults,
+          ];
+
+          setSearch(combinedResults);
+        })
+        .catch((error) => {
+          console.error("Error combining results:", error);
+        });
     } else {
-      setText(value);
-
-      const getUser = () => {
-        return fetchSearch(value).then((res) => {
-          return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
+      getUser()
+        .then((data) => {
+          setSearch(data);
+        })
+        .catch((error) => {
+          console.error("Error getting user:", error);
         });
-      };
-
-      const getClip = () => {
-        return GetClipsByTitle(value).then((res) => {
-          return Array.isArray(res.data.data) ? res.data.data : []; // Asegurarse de que es un array
-        });
-      };
-      const getVods = () => {
-        return getStreamSummariesByTitle(value).then((res) => {
-          return Array.isArray(res.data) ? res.data : []; // Asegurarse de que es un array
-        });
-      };
-
-      if (category == 3) {
-        getVods()
-          .then((data) => {
-            setSearch(data);
-          })
-          .catch((error) => {
-            console.error("Error getting clips:", error);
-          });
-      } else if (category == 2) {
-        getClip()
-          .then((data) => {
-            setSearch(data);
-          })
-          .catch((error) => {
-            console.error("Error getting clips:", error);
-          });
-      } else if (category == 0) {
-        console.log("entra en 0");
-        Promise.all([getUser(), getClip(), getVods()])
-          .then((results) => {
-            const userResults = Array.isArray(results[0]) ? results[0] : [];
-            const clipResults = Array.isArray(results[1]) ? results[1] : [];
-            const VodsResults = Array.isArray(results[2]) ? results[2] : [];
-
-            const combinedResults = [
-              ...userResults,
-              ...clipResults,
-              ...VodsResults,
-            ];
-
-            setSearch(combinedResults);
-          })
-          .catch((error) => {
-            console.error("Error combining results:", error);
-          });
-      } else {
-        console.log("entra en 1");
-
-        getUser()
-          .then((data) => {
-            setSearch(data);
-          })
-          .catch((error) => {
-            console.error("Error getting user:", error);
-          });
-      }
     }
   };
+
+  // Carga inicial al montar el componente
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let results = [];
+
+        if (category === 3) {
+          const vods = await getStreamSummariesByTitle(text || "");
+          results = Array.isArray(vods.data) ? vods.data : [];
+        } else if (category === 2) {
+          const clips = await GetClipsByTitle(text || "");
+          results = Array.isArray(clips.data.data) ? clips.data.data : [];
+        } else if (category === 0) {
+          const [users, clips, vods] = await Promise.all([
+            fetchSearch(text || "").then((res) =>
+              Array.isArray(res.data.data) ? res.data.data : []
+            ),
+            GetClipsByTitle(text || "").then((res) =>
+              Array.isArray(res.data.data) ? res.data.data : []
+            ),
+            getStreamSummariesByTitle(text || "").then((res) =>
+              Array.isArray(res.data) ? res.data : []
+            ),
+          ]);
+          results = [...users, ...clips, ...vods];
+        } else {
+          const users = await fetchSearch(text || "");
+          results = Array.isArray(users.data.data) ? users.data.data : [];
+        }
+
+        setSearch(results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [category, text]); // Dependencias del efecto
+
   const getNavDesktop = () => {
     return loading ? (
       <div className={`loading-overlay ${loading ? "fade-out" : ""}`}>
@@ -1349,9 +1386,9 @@ function NLayout(props) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  width: is1920x1080 ? "100%" : "80%",
+                  width: is1920x1080 ? "100%" : "100%",
                   maxWidth: is1920x1080
-                    ? "calc(1450px + 6vw)"
+                    ? "calc(1400px + 6vw)"
                     : "calc(1200px + 6vw)",
                   margin: "0 auto",
                 }}
@@ -1546,7 +1583,7 @@ function NLayout(props) {
                         position: "absolute",
                         padding: "1rem",
                         width: "16.25rem",
-                        right: "2%",
+                        right: "5%",
                         borderRadius: "0.5rem",
                         zIndex: 99999,
                       }}
@@ -1706,16 +1743,16 @@ function NLayout(props) {
             {props.children}
             {habilitar && (
               <div className="auth-body-container">
-                <div className={"auth-body"}>
+                <div className={"auth-body1"}>
                   <div
                     style={{
                       height: "95% ",
                       textAlign: "center",
-                      backgroundColor: "#121418",
+
                       borderRadius: "5px",
                       zIndex: 9999,
                       display: "flex",
-                      boxShadow: "5px 5px 20px 5px rgba(0, 0, 0, 0.651)",
+
                       width: "85%",
                     }}
                   >
@@ -2238,23 +2275,23 @@ function NLayout(props) {
           </Grid> */}
         </Grid>
 
-          <Grid className={"openNotificationopenMessage"}
-          
+        <Grid className={"openNotificationopenMessage"}
+
           style={{
             display: (openNotification || openMessage) && !props.tyExpande ? "block" : "none",
           }}
-          >
-            <LayoutMessageNotis
-              setOpenMessage={setOpenMessage}
-              setOpenNotification={setOpenNotification}
-              openNotification={openNotification}
-              openMessage={openMessage}
-              messagesOpen={messagesOpen}
-              PinkerNotifications={PinkerNotifications}
-              NewChatMessageForChannel={props.NewChatMessageForChannel}
-              user={props.user}
-            />
-          </Grid>
+        >
+          <LayoutMessageNotis
+            setOpenMessage={setOpenMessage}
+            setOpenNotification={setOpenNotification}
+            openNotification={openNotification}
+            openMessage={openMessage}
+            messagesOpen={messagesOpen}
+            PinkerNotifications={PinkerNotifications}
+            NewChatMessageForChannel={props.NewChatMessageForChannel}
+            user={props.user}
+          />
+        </Grid>
       </Grid>
     );
   };
@@ -2490,7 +2527,7 @@ function NLayout(props) {
 
 
 
-                <IconButton sx={{ color: "#fff", backgroundColor: '#343843', width:48, height:48 }} onClick={(e) => habilitarSubMenu(true, e)}
+                <IconButton sx={{ color: "#fff", backgroundColor: '#343843', width: 48, height: 48 }} onClick={(e) => habilitarSubMenu(true, e)}
                   onMouseEnter={
                     esClick
                       ? console.log("activo")
@@ -2505,7 +2542,7 @@ function NLayout(props) {
                   <img
                     src={props.user?.Avatar ?? "/images/pixel.png"}
                     alt=""
-                    style={{width:48, height:48, borderRadius: '50%'}}
+                    style={{ width: 48, height: 48, borderRadius: '50%' }}
                   />
                 </IconButton>
               </Grid>
@@ -3188,22 +3225,22 @@ function NLayout(props) {
             </Link>
           </div>
         )}
-  <Grid
-  className={"openNotificationopenMessage"}
-  style={{
-    display: (openNotification || openMessage) && !props.tyExpande ? "block" : "none",
-  }}
->
-  <LayoutMessageNotis
-    setOpenMessage={setOpenMessage}
-    setOpenNotification={setOpenNotification}
-    openNotification={openNotification}
-    openMessage={openMessage}
-    messagesOpen={messagesOpen}
-    PinkerNotifications={PinkerNotifications}
-    NewChatMessageForChannel={props.NewChatMessageForChannel}
-  />
-</Grid>
+        <Grid
+          className={"openNotificationopenMessage"}
+          style={{
+            display: (openNotification || openMessage) && !props.tyExpande ? "block" : "none",
+          }}
+        >
+          <LayoutMessageNotis
+            setOpenMessage={setOpenMessage}
+            setOpenNotification={setOpenNotification}
+            openNotification={openNotification}
+            openMessage={openMessage}
+            messagesOpen={messagesOpen}
+            PinkerNotifications={PinkerNotifications}
+            NewChatMessageForChannel={props.NewChatMessageForChannel}
+          />
+        </Grid>
 
       </Grid>
     );

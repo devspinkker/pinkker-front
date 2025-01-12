@@ -113,7 +113,6 @@ export default function Communities({ isMobile }) {
           token={token}
         /> */}
       </div>
-
       <div>
         <ListCommunities communities={ComunidadesRecommended} />
       </div>

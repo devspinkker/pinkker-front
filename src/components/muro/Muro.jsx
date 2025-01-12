@@ -327,7 +327,7 @@ export default function Muro({ isMobile, userName }) {
             <Box sx={{ width: "100%" }}>
               <Tabs value={valorTab} aria-label="basic tabs example">
                 <Tab
-                  label="Para Ti"
+                  label="Mis comunidades"
                   style={{
                     width: "50%",
                     color: "white",
@@ -353,9 +353,7 @@ export default function Muro({ isMobile, userName }) {
             {userName?.NameUser ? (
               <></>
             ) : (
-              <Grid style={{ color: "white", width: "67%", margin: "0 auto" }}>
-                <h3 style={{ color: "white" }}>Muro de Pinkker</h3>
-              </Grid>
+              <></>
             )}
 
             {isMobile &&
@@ -533,7 +531,7 @@ export default function Muro({ isMobile, userName }) {
                     Posts.length > 0 &&
                     Posts.map((P) => (
                       <div>
-                        <div className="communitiesRedirect-post">
+                        {/* <div className="communitiesRedirect-post">
                           <Link
                             to={
                               "/plataform/communities/" + P.CommunityInfo?._id
@@ -544,7 +542,7 @@ export default function Muro({ isMobile, userName }) {
                               {P.CommunityInfo?.CommunityName}
                             </span>
                           </Link>
-                        </div>
+                        </div> */}
                         <TweetCard tweet={P} isMobile={isMobile} />
                       </div>
                     ))}

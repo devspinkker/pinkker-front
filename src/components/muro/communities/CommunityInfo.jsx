@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
 } from "@mui/material";
 import { AddMember, RemoveMember } from "../../../services/backGo/communities";
 import "./Communities.css";
@@ -143,11 +144,10 @@ const CommunityInfo = ({ community }) => {
       {/* Banner */}
       <Box
         style={{
-          backgroundImage: `url(${
-            community?.Banner !== ""
-              ? community?.Banner
-              : community?.creator.banner
-          })`,
+          backgroundImage: `url(${community?.Banner !== ""
+            ? community?.Banner
+            : community?.creator.banner
+            })`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "200px",
@@ -156,7 +156,7 @@ const CommunityInfo = ({ community }) => {
         }}
       >
         {/* Avatar */}
-        <Avatar
+        {/* <Avatar
           src={community?.creator.avatar}
           alt={community?.communityName}
           style={{
@@ -167,7 +167,7 @@ const CommunityInfo = ({ community }) => {
             left: "20px",
             border: "5px solid #2a2e38",
           }}
-        />
+        /> */}
       </Box>
 
       {/* Community Info */}
@@ -175,18 +175,6 @@ const CommunityInfo = ({ community }) => {
         <Typography className="text-Community title">
           {community?.communityName}
         </Typography>
-        <Box
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "10px",
-            marginTop: "20px",
-          }}
-        >
-          <Typography className="text-Community">
-            {community?.description}
-          </Typography>
-        </Box>
         {/* Categories */}
         <Box
           style={{
@@ -205,34 +193,52 @@ const CommunityInfo = ({ community }) => {
               )
           )}
         </Box>
-
-        <Typography
-          variant="body2"
-          style={{ color: "gray", marginBottom: "10px" }}
+        <Box
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            marginTop: "20px",
+          }}
         >
-          {community?.membersCount} miembros
-        </Typography>
+          <Typography className="text-Community">
+            {community?.description}
+          </Typography>
+        </Box>
 
-        {/* Botón de Unirse o Salir según si es miembro */}
-        {isMember ? (
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{ marginTop: "20px", background: "#351823" }}
-            onClick={() => handleOpenConfirm("leave")}
+        <Grid style={{
+          display: 'flex', alignItems: 'center', justifyContent:'space-between'
+        }}>
+
+          <Typography
+            variant="body2"
+            style={{ color: "gray" }}
           >
-            Salir de la Comunidad
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginTop: "20px", background: "#351823" }}
-            onClick={() => handleOpenConfirm("join")}
-          >
-            Unirse a la Comunidad
-          </Button>
-        )}
+            <b>{community?.membersCount}</b> miembros
+          </Typography>
+
+          {/* Botón de Unirse o Salir según si es miembro */}
+          {isMember ? (
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{  background: "#351823" }}
+              onClick={() => handleOpenConfirm("leave")}
+            >
+              Salir de la Comunidad
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              style={{  background: "#351823" }}
+              onClick={() => handleOpenConfirm("join")}
+            >
+              Unirse a la Comunidad
+            </Button>
+          )}
+        </Grid>
+
       </Box>
 
       {/* Modal de confirmación */}

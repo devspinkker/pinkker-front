@@ -18,6 +18,7 @@ import VodCard from "../card/VodCard";
 import ClipCardChannel from "../card/ClipCardChannel";
 import CardStreamRecomendado from "../home/categories/CardStreamRecomendado";
 import Communities from "../muro/communities/Communities";
+import { FaPeopleGroup } from "react-icons/fa6";
 
 function SliderLayout(props) {
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -65,7 +66,7 @@ function SliderLayout(props) {
         flexDirection: "column-reverse",
         width: "100%",
       }}
-      spaceBetween={props.clipT || props.Vod ? 20 :  props.streams ? 30 :  props.isMobile ? 7 : 5}
+      spaceBetween={props.clipT || props.Vod ? 20 : props.streams ? 30 : props.isMobile ? 7 : 5}
       navigation={{
         nextEl: `.custom-next-${props.id}`,
         prevEl: `.custom-prev-${props.id}`,
@@ -76,7 +77,7 @@ function SliderLayout(props) {
           ? props.Vod || props.clipT || props.streams
             ? 1
             : 3
-          : props.Vod || props.clipT 
+          : props.Vod || props.clipT
             ? 4.5
             : isFullHD
               ? 9.5
@@ -95,7 +96,7 @@ function SliderLayout(props) {
         }}
       >
 
-        {props.streams && props.streamsCard?.length && (
+        {props.streams && (
           <>
             <Grid
               style={{
@@ -230,41 +231,20 @@ function SliderLayout(props) {
                 width: "30%",
               }}
             >
-              <AiOutlinePlayCircle style={{ color: "#ff69c4", fontSize: "20px" }} />
+              <FaPeopleGroup style={{ color: "#ff69c4", fontSize: "20px" }} />
               <h2 style={{ color: "white", fontSize: "20px" }}>
-                {props.isMobile ? "Vods" : "Vods Recomendados"}{" "}
+                {props.isMobile ? "Comunidades recomendadas" : "Comunidades recomendadas"}{" "}
               </h2>
             </Grid>
-            <div className="manager-recommended-actions-arrow">
-              <div
-                className={`custom-prev-${props.id} ${isBeginning ? "disabled" : ""}`}
-                style={{
-                  fontSize: "14px",
-                  opacity: isBeginning ? 0.5 : 1,
-                  pointerEvents: isBeginning ? "none" : "auto",
-                }}
-              >
-                <i className="fas fa-chevron-left"></i>
-              </div>
-              <div
-                className={`custom-next-${props.id} ${isEnd ? "disabled" : ""}`}
-                style={{
-                  fontSize: "14px",
-                  opacity: isEnd ? 0.5 : 1,
-                  pointerEvents: isEnd ? "none" : "auto",
-                }}
-              >
-                <i className="fas fa-chevron-right"></i>
-              </div>
-            </div>
+            
           </>
         )} */}
       </Grid>
 
       {props?.streams && (
         <>
-          {props?.streamsCard?.length && (
-            props?.streamsCard?.filter((stream, index) => index < 10)
+          {props?.streamsCard?.length ? (
+            props?.streamsCard?.filter((stream, index) => index < 14)
               .map((stream) => (
                 <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
                   <CardStreamRecomendado
@@ -284,6 +264,71 @@ function SliderLayout(props) {
                   />
                 </SwiperSlide>
               ))
+          ) : (
+            <SwiperSlide
+              className="hoverSwiper"
+              style={{
+                color: "white",
+                display: "flex",
+                gap: "2rem",
+                width: "100%",
+              }}
+            >
+              {[...Array(props.isMobile ? 1 : 5)].map((_, index) => (
+                <div
+                  style={{
+                    margin: "2px",
+                    marginTop: "15px",
+                    width: props.isMobile && "100%",
+                  }}
+                >
+                  <Skeleton
+                    variant="rectangular"
+                    width={props.isMobile ? "100%" : "260px"}
+                    height={props.isMobile ? "280px" : "150px"}
+                    style={{
+                      backgroundColor: "rgb(32, 32, 31)",
+                      borderRadius: "5px",
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: "5px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <Skeleton
+                      variant="circular"
+                      width={40}
+                      height={40}
+                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                    />
+                    <div>
+                      <Skeleton
+                        variant="text"
+                        width={100}
+                        height={15}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
+                      <Skeleton
+                        variant="text"
+                        width={50}
+                        height={15}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
+                      <Skeleton
+                        variant="text"
+                        width={100}
+                        height={15}
+                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </SwiperSlide>
           )}
         </>
       )}
@@ -291,7 +336,7 @@ function SliderLayout(props) {
       {props.Categoria && (
         <>
           {props.Categories?.length ? (
-            props?.Categories?.filter((categorie, index) => index < 10).map(
+            props?.Categories?.filter((categorie, index) => index < 14).map(
               (categorie, index) => (
                 <SwiperSlide style={{ color: "white" }}>
                   <CardCategorie
@@ -316,7 +361,7 @@ function SliderLayout(props) {
                 gap: props.isMobile ? ".8rem" : "2rem",
               }}
             >
-              {[...Array(props.isMobile ? 3 : isFullHD ? 9 : 7)].map(
+              {[...Array(props.isMobile ? 3 : isFullHD ? 9 : 9)].map(
                 (_, index) => (
                   <div
                     style={{
@@ -330,10 +375,10 @@ function SliderLayout(props) {
                   >
                     <Skeleton
                       variant="rectangular"
-                      width={props.isMobile ? 182 : 142}
-                      height={props.isMobile ? 241 : 182}
+                      width={props.isMobile ? 182 : 137}
+                      height={props.isMobile ? 241 : 171.51}
                       style={{
-                        backgroundColor: "#202329",
+                        backgroundColor: "rgb(32, 32, 31)",
                         border: `1px solid #${color}`,
                         borderRadius: "5px",
                       }}
@@ -341,6 +386,12 @@ function SliderLayout(props) {
                     <Skeleton
                       variant="text"
                       width={100}
+                      height={15}
+                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      width={130}
                       height={15}
                       style={{ backgroundColor: "rgb(32, 32, 31)" }}
                     />
@@ -381,7 +432,7 @@ function SliderLayout(props) {
         <>
           {props?.clips?.length ? (
             props?.clips
-              ?.filter((clip, index) => index < 10)
+              ?.filter((clip, index) => index < 14)
               .map((clip) => (
                 <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
                   <ClipCard video={clip} id={clip.id} />
@@ -454,12 +505,28 @@ function SliderLayout(props) {
             </SwiperSlide>
           )}
         </>
-      )}  
+      )}
 
 
       {props.Vod && (
-   <Communities/>
+        <Grid style={{ display: 'flex', flexDirection: 'column' }}>
+          
+          <Grid
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                width: "30%",
+              }}
+            >
+              <FaPeopleGroup style={{ color: "#ff69c4", fontSize: "20px" }} />
+              <h2 style={{ color: "white", fontSize: "20px" }}>
+                {props.isMobile ? "Comunidades recomendadas" : "Comunidades recomendadas"}{" "}
+              </h2>
+            </Grid>
+          <Communities />
 
+        </Grid>
       )}
 
     </Swiper>

@@ -233,7 +233,7 @@ export default function ClipCard({ video, ...props }) {
             borderRadius: "15px",
             width: "100%",
           }}
-          src={video?.streamThumbnail ?? video?.StreamThumbnail}
+          src={video?.streamThumbnail ?? video?.StreamThumbnail }
           alt=""
         />
         <div style={{ display: "flex", alignItems: "center" }}>

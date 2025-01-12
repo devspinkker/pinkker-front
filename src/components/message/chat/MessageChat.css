@@ -21,7 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 200px;
+    width: 100%;
     cursor: pointer;
 }
 
@@ -30,12 +30,13 @@
     position: fixed;
     top: 3px;
     right: 0px;
-    width: 76.5%;
+    width: 75%;
     height: 100vh;
     background-position: center;
     background-size: cover;
     z-index: 100000;
     background-image: url("../../../images/back-message.png");
+    background-color: #080808;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -91,6 +92,7 @@
     border-top: 1px solid #2b2b2b3f;
     border-radius: 0px 0px 10px 10px;
     margin-bottom: 9px;
+    align-items: center;
 }
 
 
@@ -169,6 +171,7 @@
     flex-direction: row-reverse;
     align-items: center;
     justify-content: flex-end;
+    width: 100%;
     gap: 5px;
 }
 

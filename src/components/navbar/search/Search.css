@@ -8,6 +8,7 @@
   border-radius: 6px;
   overflow: hidden;
   transition: all 1s;
+  display: flex;
   /* Oculta el contenido que se desborda */
 }
 

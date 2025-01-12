@@ -5,6 +5,7 @@ import { getMessages, sendMessage } from "../../../services/backGo/Chats";
 import Emblem from "../../emblem/Emblem";
 import ChatSettings from "../settingchat/ChatSettings";
 import { IoMdCloseCircle, IoMdSettings } from "react-icons/io";
+import { Grid, Typography } from "@mui/material";
 
 export default function MessageChat({
   openedWindow,
@@ -29,6 +30,8 @@ export default function MessageChat({
   const [showSettings, setShowSettings] = useState(false); // Estado para mostrar configuración
 
   const messagesEndRef = useRef(null);
+
+  
 
   useEffect(() => {
     console.log(chat);
@@ -279,6 +282,7 @@ export default function MessageChat({
                     <div
                       className={`general-chat-selected-message-message ${message.SenderID === id ? "own-message" : ""
                         }`}
+                        style={{backgroundColor: message.SenderID === id ? '#075e54' : '#16252d' }}
                     >
                       <p>{message.Content}</p>
                       <p className="messagechat-time">
@@ -324,13 +328,21 @@ export default function MessageChat({
               }}
               autoComplete="off"
             />
-            <button
+            {/* <button
               style={{ marginRight: "3px" }}
               className="config-button"
               onClick={handleSendMessage}
             >
               <i className="fas fa-paper-plane" />
-            </button>
+            </button> */}
+            <button
+                onClick={handleSendMessage}
+                type="submit"
+                className="button-enviar"
+                style={{width: '6%'}}
+              >
+                Enviar
+              </button>
           </div>
         </div>
       )}
@@ -360,9 +372,13 @@ export default function MessageChat({
           </div>
 
           {NotifyState && <span className="messagechat-InfoUserTo-noti"></span>}
-          <div>
+          <div style={{width:'100%'}}>
 
-            <h5 style={{ color: "#ededed", marginLeft: "5px", fontSize: '18px' }}>{to.NameUser}</h5>
+            <h5 style={{ color: "#ededed",  fontSize: '18px' }}>{to.NameUser}</h5>
+            <Grid style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%'}}>
+              <Typography style={{ color: "#ededed", fontSize: '14px' }}>Hola..</Typography>
+              <Typography style={{ color: "#ededed", fontSize: '14px' }}>1d</Typography>
+            </Grid>
           </div>
 
           <div className="navbar-image-avatar-messagechat">

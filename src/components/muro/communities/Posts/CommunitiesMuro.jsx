@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Typography, Avatar, TextField, Grid } from "@mui/material";
+import { Typography, Avatar, TextField, Grid, Box, Tabs, Tab } from "@mui/material";
 import "./CommunitiesMuro.css";
 import TweetCard from "../../tweet/TweetCard";
 import { FileUploader } from "react-drag-drop-files";
@@ -190,6 +190,9 @@ export default function CommunitiesMuro({ isMobile, userName }) {
       }
     }
   };
+
+  const [valorTab, setValorTab] = useState("posts");
+
   return (
     <div
       className="PostComunidad-conteiner"
@@ -223,7 +226,8 @@ export default function CommunitiesMuro({ isMobile, userName }) {
         onDrag={onDrag}
         setOnDrag={setOnDrag}
       />
-      <div className="comunidad-info-set">
+
+      {/* <div className="comunidad-info-set">
         <div className="type-set-comunidad">
           <div
             className={`type-post-comunidad ${
@@ -242,7 +246,35 @@ export default function CommunitiesMuro({ isMobile, userName }) {
             <h3>Galería</h3>
           </div>
         </div>
-      </div>
+      </div> */}
+
+      <Box sx={{ width: "100%", display: 'flex', justifyContent: 'center' }} >
+        <Tabs value={valorTab} aria-label="basic tabs example">
+          <Tab
+            label="Posts"
+            style={{
+              width: "50%",
+              color: "white",
+              padding: "0 !important",
+              borderBottom: valorTab === "posts" && "1px solid #f06fc0",
+              fontSize: isMobile ? "22px" : "18px",
+            }}
+            onClick={() => setValorTab("posts")}
+          />
+          <Tab
+            label="Galería"
+            style={{
+              width: "50%",
+              color: "white",
+              padding: "0 !important",
+              borderBottom: valorTab === "gallery" && "1px solid #f06fc0",
+              fontSize: isMobile ? "22px" : "18px",
+            }}
+            onClick={() => setValorTab("gallery")}
+          />
+        </Tabs>
+      </Box>
+
       <div className="muro-tweet-container">
         {!Member && (
           <div className="information_for_member">
@@ -275,27 +307,27 @@ export default function CommunitiesMuro({ isMobile, userName }) {
             <div>
               {(communityInfo?.isUserModerator ||
                 communityInfo.creator.userID == idUser) && (
-                <div className="mod-comunidad-actions-container">
-                  <span
-                    onClick={() => HandleBanMember(P.UserID)}
-                    className="mod-comunidad-actions"
-                  >
-                    Banear
-                  </span>
-                  <span
-                    onClick={() => HandleDeletePost(P._id)}
-                    className="mod-comunidad-actions"
-                  >
-                    EliminarPost
-                  </span>
-                  <span
-                    onClick={() => HandleAddModerator(P.UserID)}
-                    className="mod-comunidad-actions"
-                  >
-                    mod
-                  </span>
-                </div>
-              )}
+                  <div className="mod-comunidad-actions-container">
+                    <span
+                      onClick={() => HandleBanMember(P.UserID)}
+                      className="mod-comunidad-actions"
+                    >
+                      Banear
+                    </span>
+                    <span
+                      onClick={() => HandleDeletePost(P._id)}
+                      className="mod-comunidad-actions"
+                    >
+                      EliminarPost
+                    </span>
+                    <span
+                      onClick={() => HandleAddModerator(P.UserID)}
+                      className="mod-comunidad-actions"
+                    >
+                      mod
+                    </span>
+                  </div>
+                )}
               <TweetCard tweet={P} isMobile={isMobile} />
             </div>
           ))}

@@ -99,15 +99,8 @@ export default function Tendency() {
   return (
     <div className="muro-tweet-secondary">
       <div
-        style={{
-          backgroundColor: "#3a3b3c",
-          width: "92% !important",
-          display: "flex",
-          alignItems: "center",
-          height: "40px",
-          padding: "0px 10px",
-          borderRadius: "5px",
-        }}
+        
+        className="navbar-search-dark"
       >
         <img
           src="/images/search.svg"

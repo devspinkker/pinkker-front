@@ -111,7 +111,7 @@
 }
 
 .muro-tweet-secondary {
-    position: fixed;
+    /* position: fixed; */
     width: 18%;
     right: 4%;
     z-index: 1000;
