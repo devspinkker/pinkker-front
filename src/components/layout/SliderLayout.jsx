@@ -17,6 +17,7 @@ import SelectVideoClip from "../home/clips/SelectVideoClip";
 import VodCard from "../card/VodCard";
 import ClipCardChannel from "../card/ClipCardChannel";
 import CardStreamRecomendado from "../home/categories/CardStreamRecomendado";
+import Communities from "../muro/communities/Communities";
 
 function SliderLayout(props) {
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -219,7 +220,7 @@ function SliderLayout(props) {
           </>
         )}
 
-        {props.Vod && (
+        {/* {props.Vod && (
           <>
             <Grid
               style={{
@@ -234,7 +235,6 @@ function SliderLayout(props) {
                 {props.isMobile ? "Vods" : "Vods Recomendados"}{" "}
               </h2>
             </Grid>
-            {/* Flechas solo para Vods */}
             <div className="manager-recommended-actions-arrow">
               <div
                 className={`custom-prev-${props.id} ${isBeginning ? "disabled" : ""}`}
@@ -258,7 +258,7 @@ function SliderLayout(props) {
               </div>
             </div>
           </>
-        )}
+        )} */}
       </Grid>
 
       {props?.streams && (
@@ -454,87 +454,14 @@ function SliderLayout(props) {
             </SwiperSlide>
           )}
         </>
-      )}
+      )}  
+
+
       {props.Vod && (
-        <>
-          {props?.Vods?.length ? (
-            props?.Vods?.filter((Vods, index) => index < 10).map((Vods) => (
-              <SwiperSlide className="hoverSwiper" style={{ color: "white" }}>
-                <ClipCard video={Vods} id={Vods.id} User={Vods.UserInfo} />
-              </SwiperSlide>
-            ))
-          ) : (
-            <SwiperSlide
-              className="hoverSwiper"
-              style={{
-                color: "white",
-                display: "flex",
-                gap: "2rem",
-                width: "100%",
-              }}
-            >
-              {[...Array(props.isMobile ? 1 : 5)].map((_, index) => (
-                <div
-                  style={{
-                    margin: "2px",
-                    marginTop: "15px",
-                    width: props.isMobile && "100%",
-                  }}
-                >
-                  <Skeleton
-                    variant="rectangular"
-                    width={
-                      props.isMobile ? "570px" : isFullHD ? "320px" : "260px"
-                    }
-                    height={
-                      props.isMobile ? "280px" : isFullHD ? "180px" : "150px"
-                    }
-                    style={{
-                      backgroundColor: "rgb(32, 32, 31)",
-                      borderRadius: "5px",
-                    }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: "5px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <Skeleton
-                      variant="circular"
-                      width={40}
-                      height={40}
-                      style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                    />
-                    <div>
-                      <Skeleton
-                        variant="text"
-                        width={100}
-                        height={15}
-                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                      />
-                      <Skeleton
-                        variant="text"
-                        width={50}
-                        height={15}
-                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                      />
-                      <Skeleton
-                        variant="text"
-                        width={100}
-                        height={15}
-                        style={{ backgroundColor: "rgb(32, 32, 31)" }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </SwiperSlide>
-          )}
-        </>
+   <Communities/>
+
       )}
+
     </Swiper>
   );
 }
