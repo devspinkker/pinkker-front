@@ -197,18 +197,18 @@ function NLayout(props) {
 
   async function HandleGetNotificacionesLastConnection() {
 
- 
+
   }
 
   async function HandleGetOldNotifications() {
     try {
-      
+
       const res = await GetOldNotifications(token, 1);
-    console.log("nno se ejecuta");
-    console.log(res);
-    
+      console.log("nno se ejecuta");
+      console.log(res);
+
       if (res) {
-  
+
         setPinkerNotifications((prevNotifications) => [
           ...prevNotifications,
           ...res,
@@ -217,7 +217,7 @@ function NLayout(props) {
     } catch (error) {
       console.log(error);
       console.log("era vacio")
-      
+
     }
 
   }
@@ -2465,7 +2465,7 @@ function NLayout(props) {
                   <AiOutlineMessage onClick={() => habilitarMensaje()} />
                 </IconButton>
 
-                <IconButton sx={{ color: "#fff", backgroundColor: '#343843', fontSize: '2rem', display:'flex', flexDirection:'column' }}  onClick={() => habilitarNotificaciones()}>
+                <IconButton sx={{ color: "#fff", backgroundColor: '#343843', fontSize: '2rem', display: 'flex', flexDirection: 'column' }} onClick={() => habilitarNotificaciones()}>
                   <div
                     style={{
                       width: "40px",
@@ -2473,7 +2473,7 @@ function NLayout(props) {
                       left: "  ",
                       top: "2px",
                     }}
-                  
+
                   >
                     {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
                     {unseenNotificationsCount >= 1 && (
@@ -2488,39 +2488,29 @@ function NLayout(props) {
                   />
                 </IconButton>
 
+
+
+                <IconButton sx={{ color: "#fff", backgroundColor: '#343843', width:48, height:48 }} onClick={(e) => habilitarSubMenu(true, e)}
+                  onMouseEnter={
+                    esClick
+                      ? console.log("activo")
+                      : () => habilitarSubMenu(true)
+                  }
+                  onMouseLeave={
+                    esClick
+                      ? console.log("activo")
+                      : () => habilitarSubMenu(false)
+                  }>
+
+                  <img
+                    src={props.user?.Avatar ?? "/images/pixel.png"}
+                    alt=""
+                    style={{width:48, height:48, borderRadius: '50%'}}
+                  />
+                </IconButton>
               </Grid>
-              <Grid
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
-                <div className="navbar-image-avatar-container">
-                  <div
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      position: "relative",
-                      left: "  ",
-                      top: "2px",
-                    }}
-                    className="navbar-image-avatar"
-                    onClick={(e) => habilitarSubMenu(true, e)}
-                    onMouseEnter={
-                      esClick
-                        ? console.log("activo")
-                        : () => habilitarSubMenu(true)
-                    }
-                    onMouseLeave={
-                      esClick
-                        ? console.log("activo")
-                        : () => habilitarSubMenu(false)
-                    }
-                  >
-                    <img
-                      src={props.user?.Avatar ?? "/images/pixel.png"}
-                      alt=""
-                    />
-                  </div>
-                </div>
-              </Grid>
+
+
 
               {subMenu && (
                 <Grid
