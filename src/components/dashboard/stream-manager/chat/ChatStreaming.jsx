@@ -1492,7 +1492,7 @@ export function ChatStreaming({
                 {MsjChatAnclado?.StreamerChannelOwner && (
                   <img
                     src={
-                      "/images/emblem/emisor.png"
+                    "/images/emblem/emisor.jpg"
                     }
                     alt="StreamerChannelOwner"
                   />
@@ -1845,7 +1845,7 @@ export function ChatStreaming({
                 {message?.StreamerChannelOwner && (
                   <img
                     src={
-                      "/images/emblem/emisor.png"
+                    "/images/emblem/emisor.jpg"
                     }
                     alt="StreamerChannelOwner"
                   />
@@ -2019,7 +2019,7 @@ export function ChatStreaming({
                   {message?.StreamerChannelOwner && (
                     <img
                       src={
-                        "/images/emblem/emisor.png"
+                      "/images/emblem/emisor.jpg"
                       }
                       alt="StreamerChannelOwner"
                     />
@@ -2159,7 +2159,7 @@ export function ChatStreaming({
                 {ResMessageschatState?.StreamerChannelOwner && (
                   <img
                     src={
-                      "/images/emblem/emisor.png"
+                    "/images/emblem/emisor.jpg"
                     }
                     alt="StreamerChannelOwner"
                   />
