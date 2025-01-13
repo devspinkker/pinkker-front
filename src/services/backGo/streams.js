@@ -7,6 +7,7 @@ export const setToken = (newObject) => {
 
 const baseURL = process.env.REACT_APP_BACKGO;
 
+const REACT_APP_BACKRTMP = process.env.REACT_APP_BACKRTMP;
 
 export const DeleteStreamSummaryByIDAndStreamerID = async (IdVod, token) => {
 	try {
@@ -382,3 +383,25 @@ export async function AWeekOfStreaming(token, page) {
 	}
 }
 
+
+export const downloadStream = async (id, token) => {
+	const downloadUrl = `${REACT_APP_BACKRTMP}/stream/download/vod/${id}`;
+	window.open(downloadUrl, '_blank');
+	// try {
+	// 	const response = await axios.get(`${REACT_APP_BACKRTMP}/stream/download/vod/${id}`, {
+	// 		headers: { Authorization: token },
+	// 		responseType: 'blob', // Importante para manejar archivos binarios
+	// 	});
+
+	// 	// Crear un enlace para descargar el archivo
+	// 	const url = window.URL.createObjectURL(new Blob([response.data], { type: 'video/mp4' }));
+	// 	const link = document.createElement('a');
+	// 	link.href = url;
+	// 	link.setAttribute('download', `${id}.mp4`); // Nombre del archivo a descargar
+	// 	document.body.appendChild(link);
+	// 	link.click(); // Iniciar la descarga
+	// 	link.remove(); // Limpiar el enlace del DOM
+	// } catch (error) {
+	// 	console.error('Error al descargar el VOD:', error);
+	// }
+};

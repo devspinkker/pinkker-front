@@ -22,11 +22,12 @@ import {
   Typography,
 } from "@mui/material";
 import { MdEditSquare } from "react-icons/md";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaDownload, FaTrashAlt } from "react-icons/fa";
 import Slide from "@mui/material/Slide";
 import {
   DeleteStreamSummaryByIDAndStreamerID,
   UpdateStreamSummaryByIDAndStreamerID,
+  downloadStream,
   getStreamSummariesByStreamerIDLast30Days,
 } from "../../../services/backGo/streams";
 import {
@@ -210,7 +211,9 @@ function Contenido({ user, isMobile }) {
 
     setOpenDelete(true);
   };
-
+  const HandledownloadStream = (id) => {
+    downloadStream(id,token)
+  };
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
@@ -376,7 +379,15 @@ function Contenido({ user, isMobile }) {
                                 <IoPlayCircle style={{ color: "white" }} />
                               </IconButton>
                             </a>
+                            <IconButton
+  aria-label="download"
+  color="inherit"
+  onClick={() => HandledownloadStream(vod?.id)}
+>
+  <FaDownload style={{ color: "white" }} />
+</IconButton>
                           </Box>
+
                         )}
                       </Grid>
                     </Box>
