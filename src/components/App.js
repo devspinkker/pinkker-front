@@ -15,6 +15,7 @@ import AppRouter from "../router/Router";
 import ExternalRouter from "../router/ExternalRouter";
 
 import { checkSubscriptions } from "../services/suscribers";
+import { trackReferral } from "../helpers/RegisterPage";
 
 const App = () => {
 
@@ -41,14 +42,9 @@ const App = () => {
 
   const isMobile = width <= 768;
 
-  /*useEffect(() => {
-    const data = async () => {
-      if(isMobile) {
-        window.location.href = 'https://m.pinkker.tv/';
-      }
-    }
-    data()
-  }, [])*/
+  useEffect(() => {
+    trackReferral()
+  }, [])
 
 
   useEffect(() => {

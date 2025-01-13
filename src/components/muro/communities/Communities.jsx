@@ -6,7 +6,7 @@ import {
 } from "../../../services/backGo/communities";
 import "./Communities.css";
 import ListCommunities from "./ListCommunities";
-import { GetRandomPostcommunities } from "../../../services/backGo/tweet";
+import { GetRandomPostcommunities, PostGets } from "../../../services/backGo/tweet";
 import TweetCard from "../tweet/TweetCard";
 import { ScaleLoader } from "react-spinners";
 import { Link } from "react-router-dom";
@@ -37,11 +37,27 @@ export default function Communities({ isMobile }) {
   }, []);
 
   const HandleGetRandomPostcommunities = async () => {
-    const res = await GetRandomPostcommunities(token);
-    if (res?.data) {
-      console.log(res?.data);
-
-      setPosts(res.data);
+    if (token) {
+      
+      const res = await GetRandomPostcommunities(token);
+      if (res?.data) {
+        console.log(res?.data);
+  
+        setPosts(res.data);
+      }
+    }else{
+      const res = await GetRandomPostcommunities(token);
+      if (res?.data) {
+        console.log(res?.data);
+  
+        setPosts(res.data);
+      }
+      const data = await PostGets();
+         if (data.data == null) {
+           setPosts(null);
+         } else {
+           setPosts(data.data);
+         }
     }
   };
 

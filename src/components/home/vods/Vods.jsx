@@ -61,7 +61,7 @@ export default function Vods(props) {
         setVods(response.data);
       }
     };
-    fetchData();
+    // fetchData();
   }, []);
 
   return (
