@@ -1850,7 +1850,7 @@ function NLayout(props) {
                         <Grid
                           container
                           spacing={2}
-                          style={{ backgroundColor: "#080808" }}
+                          style={{ backgroundColor: "#080808",marginLeft:"0px" ,width:"auto"}}
                         >
                           {Array.isArray(search) &&
                             search.length > 0 &&
