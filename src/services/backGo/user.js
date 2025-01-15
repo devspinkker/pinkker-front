@@ -174,9 +174,9 @@ export async function PanelAdminPinkkerPartnerUser(Code, IdUser, token) {
         return error
     }
 }
-export async function SaveUserCodeConfirm(code) {
+export async function SaveUserCodeConfirm(code, referral) {
     try {
-        const response = await axios.post(`${baseURL}/user/SaveUserCodeConfirm`, { code });
+        const response = await axios.post(`${baseURL}/user/SaveUserCodeConfirm`, { code, referral });
         return response.data;
     } catch (error) {
         return error

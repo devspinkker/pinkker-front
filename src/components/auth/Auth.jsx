@@ -202,7 +202,8 @@ export default function Auth({ isMobile, closePopup, typeDefault }) {
     }
   }
   async function handleSubmitCode() {
-    const response = await SaveUserCodeConfirm(CodeConfirmInput);
+    const referral = localStorage.getItem('referral'); 
+    const response = await SaveUserCodeConfirm(CodeConfirmInput,referral);
     if (response && response.message === "token") {
       window.localStorage.setItem("token", String(response.data));
       window.localStorage.setItem("_id", response._id);
