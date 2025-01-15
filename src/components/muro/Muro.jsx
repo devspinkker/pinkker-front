@@ -52,7 +52,10 @@ export default function Muro({ isMobile, userName }) {
   const [UserCommunities, setUserCommunities] = useState([]);
   async function GetCommunityUser() {
     const res = await FindUserCommunities({ UserId });
-    setUserCommunities(res.data); // Guardamos las comunidades en el estado
+    if(res){
+      setUserCommunities(res.data); // Guardamos las comunidades en el estado
+
+    }
   }
 
   useEffect(() => {
@@ -199,7 +202,7 @@ export default function Muro({ isMobile, userName }) {
 
       if (data.data == null) {
         const resRandomPost = await GetRandomPostcommunities(token, ExcludeIDs);
-        if (resRandomPost.data) {
+        if (resRandomPost?.data) {
           setPosts(resRandomPost.data);
         } else {
           setPosts(null);
@@ -220,6 +223,11 @@ export default function Muro({ isMobile, userName }) {
   }
 
   useEffect(() => {
+    let token = window.localStorage.getItem("token");
+    if (!token) {
+      setValorTab("grupos")
+      
+    }
     PostGetsf();
   }, []);
 
@@ -317,7 +325,7 @@ export default function Muro({ isMobile, userName }) {
         <div className="muro-container">
           <div
             style={{
-              width: isMobile ? "100%" : "60%",
+              width: isMobile ? "100%" : "75%",
               display: "flex",
               flexDirection: "column",
               gap: "15px",
@@ -326,17 +334,22 @@ export default function Muro({ isMobile, userName }) {
           >
             <Box sx={{ width: "100%" }}>
               <Tabs value={valorTab} aria-label="basic tabs example">
-                <Tab
-                  label="Mis comunidades"
-                  style={{
-                    width: "50%",
-                    color: "white",
-                    padding: "0 !important",
-                    borderBottom: valorTab === "parati" && "1px solid #f06fc0",
-                    fontSize: isMobile ? "22px" : "18px",
-                  }}
-                  onClick={() => setValorTab("parati")}
-                />
+                {
+                  token && (
+                    <Tab
+                      label="Mis comunidades"
+                      style={{
+                        width: "50%",
+                        color: "white",
+                        padding: "0 !important",
+                        borderBottom: valorTab === "parati" && "1px solid #f06fc0",
+                        fontSize: isMobile ? "22px" : "18px",
+                      }}
+                      onClick={() => setValorTab("parati")}
+                    />
+
+                    )
+                }
                 <Tab
                   label="Descubrir"
                   style={{

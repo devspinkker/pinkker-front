@@ -202,12 +202,17 @@ export const GetCommunityRecommended = async ({ page, token }) => {
 
 
 export const FindUserCommunities = async ({ UserId }) => {
+    try {
+        const response = await axios.post(
+            `${url}/communities/FindUserCommunities`, {
+            UserId: UserId,
+        })
+        return response.data
 
-    const response = await axios.post(
-        `${url}/communities/FindUserCommunities`, {
-        UserId: UserId,
-    })
-    return response.data
+    } catch (error) {
+        return 0
+    }
+
 }
 
 export const CommunityOwnerUser = async ({ UserId }) => {

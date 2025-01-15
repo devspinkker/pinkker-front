@@ -5,7 +5,8 @@
 }
 
 .muro-container {
-    width: 100%;
+    /* width: 52%; */
+    max-width: calc(1200px + 0vw);
     margin: 0 auto;
     display: flex;
     background-color: #080808;
