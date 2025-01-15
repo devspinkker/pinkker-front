@@ -85,6 +85,8 @@ export default function OAuth2callback() {
     e.preventDefault();
 
     try {
+
+      const referral = localStorage.getItem('referral'); 
       const userData = {
         nameUser: username,
         email,
@@ -92,8 +94,9 @@ export default function OAuth2callback() {
         ciudad: selectedProvince ? selectedProvince.label : "",
         biography: biography,
         password,
+        referral:referral
       };
-
+     
       const response = await Google_callback_Complete_Profile_And_Username(
         userData
       );
