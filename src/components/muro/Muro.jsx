@@ -544,7 +544,7 @@ export default function Muro({ isMobile, userName }) {
                     Posts.length > 0 &&
                     Posts.map((P) => (
                       <div>
-                        {/* <div className="communitiesRedirect-post">
+                        <div className="communitiesRedirect-post">
                           <Link
                             to={
                               "/plataform/communities/" + P.CommunityInfo?._id
@@ -555,7 +555,7 @@ export default function Muro({ isMobile, userName }) {
                               {P.CommunityInfo?.CommunityName}
                             </span>
                           </Link>
-                        </div> */}
+                        </div>
                         <TweetCard tweet={P} isMobile={isMobile} />
                       </div>
                     ))}
