@@ -140,7 +140,7 @@ export default function Search() {
                                 <Emblem
                                   name={"Verificado"}
                                   img={
-                                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                                    "https://www.pinkker.tv/uploads/assets/emblemas/VERIFICADO.jpg"
                                   }
                                 />
                               )}{" "}

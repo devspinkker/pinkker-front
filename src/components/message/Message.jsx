@@ -92,29 +92,32 @@ export default function Message({
     }
   }
 
-  const handleCloseChat = () => {
-    setMessagesOpen((prevChats) =>
-      prevChats.map((chat, index) => ({
+  const handleOpenChat = (index) => {
+    setMessagesOpen((prevChats) => {
+      const maxZIndex = prevChats.length > 0 
+        ? Math.max(...prevChats.map(chat => chat.zIndex || 0)) + 1 
+        : 1000;
+  
+      return prevChats.map((chat, i) => ({
         ...chat,
-        openedWindow: false,
+        openedWindow: i === index ? true : chat.openedWindow, // Si ya está abierto, no cambiar
+        NotifyA: i === index ? null : chat.NotifyA,
+        zIndex: i === index ? maxZIndex : chat.zIndex,
+      }));
+    });
+  };
+  
+  const handleCloseChat = (index) => {
+    setMessagesOpen((prevChats) =>
+      prevChats.map((chat, i) => ({
+        ...chat,
+        openedWindow: i === index ? false : chat.openedWindow, // Cierra solo el chat específico
       }))
     );
-
-    setOpenChatIndex(-1); // Restablecer el índice del chat abierto
-    const updatedMessagesOpen = messagesOpen.map((chat) => ({
-      ...chat,
-      NotifyA: chat.openedWindow ? null : chat.NotifyA,
-    }));
-    setMessagesOpen(updatedMessagesOpen);
+  
+    setOpenChatIndex(-1); // Restablecer el índice del chat abierto si se cierra
   };
-
-  const handleOpenChat = (index) => {
-    const updatedMessagesOpen = messagesOpen.map((chat, i) => ({
-      ...chat,
-      NotifyA: i === index ? null : chat.NotifyA,
-    }));
-    setMessagesOpen(updatedMessagesOpen);
-  };
+  
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
   const handleOpenPopUp = () => {
@@ -463,31 +466,33 @@ export default function Message({
         {/* <div className={`underline ${activeTab}`}></div> */}
       </div>
 
-      {messagesOpen.map((chat, index) => {
-        const otherUser = chat.usersInfo.find((user) => user.ID !== userID);
-        return (
-          <div key={index} className="MessageChatContent">
-            {otherUser ? (
-              <MessageChat
-                socketMain={socketMain}
-                closeMessageChat={closeMessageChat}
-                openedWindow={chat.openedWindow}
-                chat={chat}
-                index={index}
-                chatID={chat.chatID}
-                NotifyA={chat.NotifyA}
-                to={otherUser}
-                handleCloseChat={handleCloseChat}
-                handleOpenChat={() => handleOpenChat(index)}
-                activeTab={activeTab}
-                handleStatusChange={handleStatusChange}
-              />
-            ) : (
-              <></>
-            )}
-          </div>
-        );
-      })}
+{messagesOpen.map((chat, index) => {
+  const otherUser = chat.usersInfo.find((user) => user.ID !== userID);
+  return (
+    <div 
+      key={index} 
+      className="MessageChatContent" 
+      style={{ zIndex: chat.zIndex || 1000 }} 
+    >
+      {otherUser && (
+        <MessageChat
+          socketMain={socketMain}
+          closeMessageChat={closeMessageChat}
+          openedWindow={chat.openedWindow}
+          chat={chat}
+          index={index}
+          chatID={chat.chatID}
+          NotifyA={chat.NotifyA}
+          to={otherUser}
+          handleCloseChat={handleCloseChat}
+          handleOpenChat={() => handleOpenChat(index)}
+          activeTab={activeTab}
+          handleStatusChange={handleStatusChange}
+        />
+      )}
+    </div>
+  );
+})}
 
 
       {/* Drawer */}

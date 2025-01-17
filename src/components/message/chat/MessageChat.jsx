@@ -13,6 +13,7 @@ export default function MessageChat({
   chatID,
   NotifyA,
   handleOpenChat,
+  handleCloseChat,
   activeTab,
   chat,
   handleStatusChange,
@@ -34,7 +35,6 @@ export default function MessageChat({
   
 
   useEffect(() => {
-    console.log(chat);
 
     const connectWebSocket = () => {
       const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCOMMERCIALWS;
@@ -72,7 +72,6 @@ export default function MessageChat({
       connectWebSocket();
     }
   }, [opened, chatID, token]);
-  console.log('to', to)
   useEffect(() => {
     setNotifyState(NotifyA === id);
 
@@ -182,7 +181,7 @@ export default function MessageChat({
                   chat={true}
                   name="Pinkker Prime"
                   img={
-                    "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                    "https://www.pinkker.tv/uploads/assets/emblemas/VERIFICADO.jpg"
                   }
                 />
               )}
@@ -203,7 +202,11 @@ export default function MessageChat({
 
 
               <IoMdCloseCircle
-                onClick={() => setOpened(false)}
+                onClick={() => {
+                  
+                  setOpened(false)
+                  handleCloseChat()
+                }}
                 style={{ color: 'rgb(248, 107, 185)', fontSize: '32px' }}
               />
               {
@@ -235,7 +238,7 @@ export default function MessageChat({
             className="messagechat-opened-messages"
           >
             {messages.length > 0 ? (
-              messages.map((message, index) => (
+              messages?.map((message, index) => (
                 <div key={index}>
                   {(index === 0 ||
                     formatDate(message.CreatedAt) !==
@@ -348,8 +351,10 @@ export default function MessageChat({
       )}
       <div
         onClick={() => {
-          setOpened(true);
+       
+            setOpened(true);
           handleOpenChat();
+          
         }}
         className="messagechat-closed"
       >
@@ -365,7 +370,7 @@ export default function MessageChat({
                 chat={true}
                 name="Pinkker Prime"
                 img={
-                  "https://res.cloudinary.com/dcj8krp42/image/upload/v1709404309/Emblemas/VERIFICADO_rlbuwi.jpg"
+                  "https://www.pinkker.tv/uploads/assets/emblemas/VERIFICADO.jpg"
                 }
               />
             )}
