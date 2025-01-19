@@ -11,6 +11,7 @@ import axios from 'axios'
 import { useNotification } from '../../../Notifications/NotificationProvider';
 import { isLength, isMatch } from '../../../../utils/validation/Validation';
 import { useSelector } from 'react-redux';
+import { Get_Recover_lost_password } from '../../../../services/backGo/user';
 
 function Seguridad(props) {
   
@@ -20,6 +21,7 @@ function Seguridad(props) {
     let token = window.localStorage.getItem("token");
     let GoogleAuthenticator = window.localStorage.getItem("GoogleAuthenticator");
     useEffect(() => {
+        
         if (GoogleAuthenticator === "ok") {
             setShowChangeTotp(true);
         }
@@ -33,6 +35,20 @@ function Seguridad(props) {
     const [rPassword, setrPassword] = useState(null);
     const [rConfirmPassword, setrConfirmPassword] = useState(null);
     const alert = useNotification()
+
+    const handlePassword = async()=>{
+      const email =  props.usuario?.Email
+        if (    email) {
+            try {
+                 const res = await Get_Recover_lost_password(email);
+                 if (res.data != null && res.data.msg != null) {
+                   alert({ type: "SUCCESS", message: res.data.msg });
+                 }
+               } catch (err) {
+                 alert({ type: "ERROR", message: err.response.data.msg });
+               }
+        }
+    }
 
     const handleResetPass = async () => {
         if (isLength(rPassword)) return alert({ type: "ERROR", message: "Password must be at least 6 characters." })
@@ -182,7 +198,7 @@ function Seguridad(props) {
                 </div>
 
                 <div className="resetpassword-card-container">
-                    <div className="biography-content">
+                    {/* <div className="biography-content">
                         <div style={{ width: "100%", textAlign: "left" }}>
                             <h4>Contraseña</h4>
                         </div>
@@ -200,12 +216,19 @@ function Seguridad(props) {
                             <input type="password" name="cf_password" id="cf_password" value={rConfirmPassword} onChange={(e) => setrConfirmPassword(e.target.value)} />
                             <p style={{ fontSize: "13px", color: "darkgray" }}>Vuelve a introducir tu nueva contraseña.</p>
                         </div>
-                    </div>
+                    </div> */}
+     <div className="biography-content-soli"
 
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "right" }}>
+     >
+        <button 
+         className='resetpassword-button-soli'
+        onClick={()=>handlePassword()}
+        > solicitud de cambio de contraseña</button>
+     </div>
+                    {/* <div style={{ display: "flex", alignItems: "center", justifyContent: "right" }}>
                         <button className='resetpassword-button' onClick={() => handleResetPass()}>Cambiar Contraseña</button>
 
-                    </div>
+                    </div> */}
 
                 </div>
             </div>
