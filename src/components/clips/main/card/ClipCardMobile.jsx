@@ -227,6 +227,7 @@ useEffect(() => {
         height="100%"
         width="100%"
         preferredQuality={720}
+        m3u8Content={clip.m3u8Content}
       />
 
       {/* Información del video */}

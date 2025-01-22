@@ -15,6 +15,7 @@ interface ReactVideoPlayerProps {
   onTimeUpdate?: (event: React.SyntheticEvent<HTMLVideoElement, Event>) => void;
   onClick?: (event: React.SyntheticEvent<HTMLVideoElement, Event>) => void;
   onPlay?: () => void;
+  m3u8Content: string;
 }
 
 function VideoClipsExplorar({
@@ -30,14 +31,24 @@ function VideoClipsExplorar({
   onTimeUpdate,
   onClick,
   onPlay,
+  m3u8Content,
 }: ReactVideoPlayerProps) {
   const hlsRef = useRef<Hls | null>(null);
+  const m3u8UrlRef = useRef<string | null>(null);
 
   useEffect(() => {
+    let videoSource = src;
     const isM3U8 = src.endsWith(".m3u8");
     const isMP4 = src.endsWith(".mp4");
 
-    if (isM3U8 && Hls.isSupported() && videoRef.current) {
+    // Si `m3u8Content` tiene contenido y `src` NO es un .m3u8, generar un Blob URL
+    if (!isM3U8 && m3u8Content.trim().length > 0) {
+      const blob = new Blob([m3u8Content], { type: "application/x-mpegURL" });
+      m3u8UrlRef.current = URL.createObjectURL(blob);
+      videoSource = m3u8UrlRef.current;
+    }
+
+    if ((isM3U8 || m3u8UrlRef.current) && Hls.isSupported() && videoRef.current) {
       const hls = new Hls({
         maxBufferLength: 10,
         maxMaxBufferLength: 30,
@@ -49,7 +60,7 @@ function VideoClipsExplorar({
       });
 
       hlsRef.current = hls;
-      hls.loadSource(src);
+      hls.loadSource(videoSource);
       hls.attachMedia(videoRef.current);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -76,8 +87,8 @@ function VideoClipsExplorar({
         }
       });
     } else if (isMP4 && videoRef.current) {
-      videoRef.current.src = src;
-      videoRef.current.load(); // Carga el nuevo video
+      videoRef.current.src = videoSource;
+      videoRef.current.load();
     }
 
     return () => {
@@ -86,13 +97,16 @@ function VideoClipsExplorar({
         hlsRef.current = null;
       }
       if (videoRef.current) {
-        videoRef.current.pause(); // Detiene la reproducción
-        videoRef.current.src = ""; // Limpia la referencia al video
-        videoRef.current.load(); // Limpia cualquier buffer
+        videoRef.current.pause();
+        videoRef.current.src = "";
+        videoRef.current.load();
+      }
+      if (m3u8UrlRef.current) {
+        URL.revokeObjectURL(m3u8UrlRef.current);
+        m3u8UrlRef.current = null;
       }
     };
-  }, [src, videoRef, preferredQuality]);
-
+  }, [src, m3u8Content, videoRef, preferredQuality]);
 
   useEffect(() => {
     if (videoRef.current) {

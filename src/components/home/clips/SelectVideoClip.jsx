@@ -5,6 +5,7 @@ import ReactPlayer from "react-player";
 import { MoreViewOfTheClip } from "../../../services/backGo/clip";
 
 import Tippy from "@tippyjs/react";
+import VideoClipsExplorar from "../../../player/VideoClipsExplorar";
 
 export default function SelectVideoClip({ clip, toggleSelect }) {
 
@@ -63,8 +64,15 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
   };
 
   const videoHandler = () => {
-    setPlaying(!playing); // Cambiar entre reproducción y pausa
-  };
+    if (player.current) {
+      if (playing) {
+        player.current.pause(); // Pausar el video
+      } else {
+        player.current.play(); // Reproducir el video
+      }
+      setPlaying(!playing); // Cambiar el estado de reproducción
+    }
+};
 
   const handleVolumeChange = (e) => {
     const volume = parseFloat(e.target.value);
@@ -76,15 +84,23 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
     setVolumePlayer(volume);
   };
   const toggleFullScreen = () => {
-    const player = document.querySelector(".reactPlayer");
-    player.requestFullscreen();
+    const videoElement = player.current; 
+    if (videoElement && videoElement.requestFullscreen) {
+      videoElement.requestFullscreen(); 
+    } else {
+      console.error("El elemento no soporta requestFullscreen o es null.");
+    }
   };
+  
   const handleProgressChange = (e) => {
-    setProgress(e);
-
-    const newTime = (e / 100) * player.current.getDuration();
-    player.current.seekTo(newTime, "seconds");
+    const videoElement = player.current; 
+    if (videoElement && videoElement.duration) {
+      const newTime = (e / 100) * videoElement.duration; 
+      videoElement.currentTime = newTime; 
+      setProgress(e); 
+    }
   };
+  
 
   const ProgressBar = () => {
     return (
@@ -105,6 +121,44 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
   const handleLeave = () => {
     setShowVolumeControls(false);
   };
+
+  const handleDownload = async () => {
+    if (!player.current) {
+      console.error("El reproductor no está inicializado.");
+      return;
+    }
+    
+    const videoElement = player.current;
+    const videoSrc = videoElement.src;
+    
+    if (!videoSrc) {
+      console.error("No se pudo acceder al contenido del video.");
+      return;
+    }
+    
+    if (videoSrc.endsWith(".mp4")) {
+      const anchor = document.createElement("a");
+      anchor.href = videoSrc;
+      anchor.download = "video.mp4";
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+    } else if (clip.m3u8Content) {
+      const blob = new Blob([clip.m3u8Content], { type: "application/vnd.apple.mpegurl" });
+      const m3u8Url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = m3u8Url;
+      anchor.download = "stream.m3u8";
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(m3u8Url);
+    } else {
+      console.error("El formato del video no es compatible para la descarga.");
+    }
+  };
+
+
   function getBottomButtons() {
     return (
       <div className="customPlayer-container-selectClips">
@@ -281,24 +335,29 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
 
         <div
           style={{
-            maxHeight: "455px",
+            height: "50vh",
           }}
         >
-          <ReactPlayer
-            ref={player}
-            url={clip.url}
-            className="reactPlayer"
-            controls={true}
-            playing={playing} // Agregado para controlar la reproducción/pausa
-            volume={volumePlayer} // Agregado para controlar el volumen
-            width="100%"
-            height="100%"
-            onTimeUpdate={handleProgress}
-            onPlay={handleOnReady}
-            onError={handleOnError}
-            style={{ display: showLoader && "none" }}
-            muted={muted}
-          />
+
+<VideoClipsExplorar
+         url={clip.url}
+         className="reactPlayer"
+         controls={true}
+         playing={playing} // Agregado para controlar la reproducción/pausa
+         volume={volumePlayer} // Agregado para controlar el volumen
+         width="100%"
+         height="100%"
+         onError={handleOnError}
+        //  style={{ display: showLoader && "none" }}
+        videoRef={player}
+         src={clip.url}
+         m3u8Content={clip.m3u8Content}
+         streamThumbnail={clip.streamThumbnail}
+         isMuted={muted}
+         onTimeUpdate={handleProgress} 
+         onPlay={handleOnReady}
+
+/>
 
           {!showLoader && getBottomButtons()}
 
@@ -349,14 +408,11 @@ export default function SelectVideoClip({ clip, toggleSelect }) {
                     marginTop: "2px",
                   }}
                 >
-                  <span>
-                    <a
-                      href={clip.url}
-                      download
-                      style={{ color: "#fff", textDecoration: "none" }}
-                    >
+                  <span
+                 onClick={  handleDownload}
+                  >
+            
                       Download
-                    </a>
                   </span>
                 </div>
               </div>

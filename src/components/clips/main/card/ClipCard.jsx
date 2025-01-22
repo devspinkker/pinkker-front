@@ -476,6 +476,7 @@ export default function ClipCard({ clip, isActive = 0, isMobile ,HandleShowComme
                 <VideoClipsExplorar
                   videoRef={playerRef}
                   src={clip.url}
+                  m3u8Content={clip.m3u8Content}
                   streamThumbnail={clip.streamThumbnail}
                   isMuted={muted}
                   volume={0.5}

@@ -86,11 +86,14 @@
 }
 
 .loader-container {
-    width: 400px;
-    height: 200px;
+    left: 51%;
+    position: absolute;
+    /* width: 400px; */
+    /* height: 200px; */
     display: flex;
     align-items: center;
     justify-content: center;
+    top: 50%;
 }
 
 .closedTargetClip {
@@ -126,7 +129,7 @@
 .customPlayer-container-selectClips {
     position: relative;
     z-index: 1000000;
-    top: -61px;
+    top: -60px;
 }
 
 .customPlayer-secundary-div-selectClips {
