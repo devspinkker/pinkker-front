@@ -84,18 +84,25 @@ export function CreateClip() {
     }
   };
 
-  const handleVideoURLsReady = (urls) => {
-    setVideoTSUrls(urls);
-    const lastEndTime = urls[urls.length - 1].end;
-    setDuration(lastEndTime);
-    setEndTime(Math.min(lastEndTime, 60));
+const handleVideoURLsReady = (urls) => {
+  setVideoTSUrls(urls);
+  const lastEndTime = urls[urls.length - 1].end;
+  setDuration(lastEndTime);
+  setEndTime(Math.min(lastEndTime, 60));
 
-    const newMarks = {};
-    urls.forEach(({ start }) => {
-      newMarks[start] = <span className="slider-mark"></span>;
-    });
-    setMarks(newMarks);
-  };
+  const newMarks = {};
+
+  // Crear una marca para cada archivo TS y distribuirlas correctamente
+  urls.forEach(({ start }) => {
+    const markPosition = (start / lastEndTime) * 100;  
+    newMarks[start] = {
+      style: { left: `${markPosition}%` },
+      label: <span className="slider-mark"></span>
+    };  
+  });
+
+  setMarks(newMarks);
+};
 
   const playVideo = () => {
     if (videoRef.current) {
