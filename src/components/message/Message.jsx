@@ -23,12 +23,12 @@ export default function Message({
   const [Chatsecondary, setChatsecondary] = useState([]);
   const [activeTab, setActiveTab] = useState("primary");
   const idUser = window.localStorage.getItem("_id");
-
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [openChatIndex, setOpenChatIndex] = useState(-1); // Índice del chat abierto
+  let token = window.localStorage.getItem("token");
   const deepEqual = (a, b) => {
     if (a === b) return true;
     if (
@@ -124,10 +124,10 @@ export default function Message({
     setIsPopUpOpen(true);
   };
   const primaryChats = async () => {
-    // setMessagesOpen(messagesOpen1);
     if (token && userID) {
+      setMessagesOpen([]); // Cierra todos los chats antes de cargar los nuevos
       const response = await GetChatsByUserIDWithStatus(token, "primary");
-
+  
       if (response) {
         const updatedMessagesOpen = response.map((chat) => ({
           chatID: chat.ID,
@@ -141,24 +141,21 @@ export default function Message({
           Blocked: chat.Blocked,
           messages: [],
         }));
-
-        if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
-          setChatsecondary(updatedMessagesOpen);
-          setMessagesOpen(updatedMessagesOpen);
-        } else {
-          setChatrequest([]);
-          setMessagesOpen([]);
-        }
+  
+        setChatsecondary(updatedMessagesOpen);
+        setMessagesOpen(updatedMessagesOpen);
       } else {
         setChatrequest([]);
         setMessagesOpen([]);
       }
     }
   };
-  let token = window.localStorage.getItem("token");
+  
   const secondaryChats = async () => {
     if (token && userID) {
+      setMessagesOpen([]); // Cierra todos los chats antes de cargar los nuevos
       const response = await GetChatsByUserIDWithStatus(token, "secondary");
+  
       if (response) {
         const updatedMessagesOpen = response.map((chat) => ({
           chatID: chat.ID,
@@ -172,22 +169,21 @@ export default function Message({
           Blocked: chat.Blocked,
           messages: [],
         }));
-        if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
-          setChatsecondary(updatedMessagesOpen);
-          setMessagesOpen(updatedMessagesOpen);
-        } else {
-          setChatrequest([]);
-          setMessagesOpen([]);
-        }
+  
+        setChatsecondary(updatedMessagesOpen);
+        setMessagesOpen(updatedMessagesOpen);
       } else {
         setChatrequest([]);
         setMessagesOpen([]);
       }
     }
   };
+  
   const requestChats = async () => {
     if (token && userID) {
+      setMessagesOpen([]); // Cierra todos los chats antes de cargar los nuevos
       const response = await GetChatsByUserIDWithStatus(token, "request");
+  
       if (response) {
         const updatedMessagesOpen = response.map((chat) => ({
           chatID: chat.ID,
@@ -201,20 +197,18 @@ export default function Message({
           Blocked: chat.Blocked,
           messages: [],
         }));
-        if (!deepEqual(messagesOpen, updatedMessagesOpen)) {
-          setChatrequest(updatedMessagesOpen);
-          setMessagesOpen(updatedMessagesOpen);
-          return;
-        } else {
-          setChatrequest([]);
-          setMessagesOpen([]);
-        }
+  
+        setChatrequest(updatedMessagesOpen);
+        setMessagesOpen(updatedMessagesOpen);
       } else {
         setChatrequest([]);
         setMessagesOpen([]);
       }
     }
   };
+
+    
+  
   const handleClosePopUp = () => {
     setIsPopUpOpen(false);
   };
