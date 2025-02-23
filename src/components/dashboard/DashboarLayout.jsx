@@ -120,104 +120,86 @@ function DashboarLayout({ user, isMobile, children }) {
       <Grid
         style={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
           padding: "0rem 0rem 0rem 0rem",
-          width: isMobile ? '100%' :expanded ? "95%" : "95%",
+          width: isMobile ? '100%' : expanded ? "95%" : "95%",
         }}
       >
-        <div className="first-section">
-          <div
-            className="navigation"
-            style={{ padding: "1rem 4rem !important", width: "100%" }}
-          >
-            <div className="navigation-container-stream-deshboard">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                  padding:  !isMobile && "1rem 5.8rem",
-                }}
+
+        <div
+          className="navigation"
+          style={{ padding: "1rem 4rem !important", width: "100%" }}
+        >
+          <div className="navigation-container-stream-deshboard">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                padding: !isMobile && "1rem 5.8rem",
+              }}
+            >
+              <a href="/" style={{ width: "20%" }}>
+                <img
+                  style={{ width: "90%" }}
+                  src="https://www.pinkker.tv/uploads/assets/Pinkkerlogohome.png"
+                  alt="Avatar"
+                />
+              </a>
+
+
+            </div>
+
+            <Grid>
+              <Grid
+                style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
-                <a href="/" style={{ width: "20%" }}>
-                  <img
-                    style={{ width: "90%" }}
-                    src="https://www.pinkker.tv/uploads/assets/Pinkkerlogohome.png"
-                    alt="Avatar"
-                  />
-                </a>
-
-                
-              </div>
-
-              <Grid>
-                <Grid
-                  style={{ display: "flex", alignItems: "center", gap: "10px" }}
-                >
-                  <div className="navbar-image-avatar-container">
-                    <div
-                      style={{
-                        width: "40px",
-                        background: "#2a2e38",
-                        position: "relative",
-                        left: "  ",
-                        top: "2px",
-                      }}
-                      className="navbar-image-avatar"
-                    >
-                      {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
-                      <IoMdNotificationsOutline
-                        style={{ fontSize: "20px", color: "white" }}
-                      />
-                    </div>
+                <div className="navbar-image-avatar-container">
+                  <div
+                    style={{
+                      width: "40px",
+                      background: "#2a2e38",
+                      position: "relative",
+                      left: "  ",
+                      top: "2px",
+                    }}
+                    className="navbar-image-avatar"
+                  >
+                    {/* <img src={"/images/iconos/notificacion.png"} alt="" style={{ width: '60%' }} /> */}
+                    <IoMdNotificationsOutline
+                      style={{ fontSize: "20px", color: "white" }}
+                    />
                   </div>
-                  <div className="navbar-image-avatar-container">
-                    <div
-                      style={{
-                        width: "40px",
-                        background: "#2a2e38",
-                        position: "relative",
-                        left: "  ",
-                        top: "2px",
-                      }}
-                      className="navbar-image-avatar"
-                    >
-                      {/* <img src={"/images/iconos/mensaje.png"} alt="" style={{ width: '60%' }} /> */}
-                      <BsChatDots
-                        style={{ fontSize: "20px", color: "white" }}
-                      />
-                    </div>
+                </div>
+                <div className="navbar-image-avatar-container">
+                  <div
+                    style={{
+                      width: "40px",
+                      background: "#2a2e38",
+                      position: "relative",
+                      left: "  ",
+                      top: "2px",
+                    }}
+                    className="navbar-image-avatar"
+                  >
+                    {/* <img src={"/images/iconos/mensaje.png"} alt="" style={{ width: '60%' }} /> */}
+                    <BsChatDots
+                      style={{ fontSize: "20px", color: "white" }}
+                    />
                   </div>
-                  <div className="navbar-image-avatar-container">
-                    <div
-                      style={{
-                        width: "40px",
-                        height: "40px",
-                        backgroundColor: "#f36196",
-                        position: "relative",
-                        left: "  ",
-                        top: "2px",
-                      }}
-                      className="navbar-image-avatar"
-                      onClick={(e) => habilitarSubMenu(true, e)}
-                      onMouseEnter={
-                        esClick
-                          ? console.log("activo")
-                          : () => habilitarSubMenu(true)
-                      }
-                      onMouseLeave={
-                        esClick
-                          ? console.log("activo")
-                          : () => habilitarSubMenu(false)
-                      }
-                    >
-                      <img src={user?.Avatar ?? "/images/pixel.png"} alt="" />
-                    </div>
-                  </div>
-                </Grid>
-
-                {subMenu && (
-                  <Grid
+                </div>
+                <div className="navbar-image-avatar-container">
+                  <div
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      backgroundColor: "#f36196",
+                      position: "relative",
+                      left: "  ",
+                      top: "2px",
+                    }}
+                    className="navbar-image-avatar"
+                    onClick={(e) => habilitarSubMenu(true, e)}
                     onMouseEnter={
                       esClick
                         ? console.log("activo")
@@ -228,170 +210,188 @@ function DashboarLayout({ user, isMobile, children }) {
                         ? console.log("activo")
                         : () => habilitarSubMenu(false)
                     }
+                  >
+                    <img src={user?.Avatar ?? "/images/pixel.png"} alt="" />
+                  </div>
+                </div>
+              </Grid>
+
+              {subMenu && (
+                <Grid
+                  onMouseEnter={
+                    esClick
+                      ? console.log("activo")
+                      : () => habilitarSubMenu(true)
+                  }
+                  onMouseLeave={
+                    esClick
+                      ? console.log("activo")
+                      : () => habilitarSubMenu(false)
+                  }
+                  style={{
+                    backgroundColor: "#121418",
+                    border: "1px solid #343843",
+                    position: "absolute",
+                    padding: "1rem",
+                    width: "16.25rem",
+                    right: "105px",
+                    borderRadius: "0.5rem",
+                    zIndex: 99999,
+                  }}
+                >
+                  <Grid
                     style={{
-                      backgroundColor: "#121418",
-                      border: "1px solid #343843",
-                      position: "absolute",
+                      backgroundColor: "#202329",
+                      borderRadius: "5px",
+                      display: "flex",
+                      flexDirection: "column",
                       padding: "1rem",
-                      width: "16.25rem",
-                      right: "105px",
-                      borderRadius: "0.5rem",
-                      zIndex: 99999,
                     }}
                   >
                     <Grid
                       style={{
-                        backgroundColor: "#202329",
-                        borderRadius: "5px",
                         display: "flex",
-                        flexDirection: "column",
-                        padding: "1rem",
+                        alignItems: "center",
+                        gap: "15px",
+                        padding: 10,
                       }}
                     >
+                      <img
+                        src={user?.Avatar ?? "/images/pixel.png"}
+                        alt=""
+                        style={{
+                          width: "20%",
+                          height: "20%",
+                          borderRadius: "50%",
+                        }}
+                      />
                       <Grid
                         style={{
                           display: "flex",
-                          alignItems: "center",
-                          gap: "15px",
-                          padding: 10,
+                          flexDirection: "column",
+                          gap: "1px",
                         }}
                       >
-                        <img
-                          src={user?.Avatar ?? "/images/pixel.png"}
-                          alt=""
+                        <Link
                           style={{
-                            width: "20%",
-                            height: "20%",
-                            borderRadius: "50%",
+                            textDecoration: "none",
+                            margin: 0,
+                            padding: 0,
                           }}
-                        />
-                        <Grid
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "1px",
-                          }}
+                          to={"/" + user.NameUser}
                         >
-                          <Link
-                            style={{
-                              textDecoration: "none",
-                              margin: 0,
-                              padding: 0,
-                            }}
-                            to={"/" + user.NameUser}
-                          >
-                            <Typography
-                              style={{
-                                color: "white",
-                                fontSize: "1rem",
-                                fontFamily: "Inter",
-                                fontWeight: 600,
-                              }}
-                            >
-                              {user?.NameUser ?? "Usuario"}
-                            </Typography>
-                          </Link>
                           <Typography
                             style={{
                               color: "white",
-                              fontSize: "12px",
+                              fontSize: "1rem",
                               fontFamily: "Inter",
+                              fontWeight: 600,
                             }}
                           >
-                            0 seguidores
+                            {user?.NameUser ?? "Usuario"}
                           </Typography>
-                        </Grid>
+                        </Link>
+                        <Typography
+                          style={{
+                            color: "white",
+                            fontSize: "12px",
+                            fontFamily: "Inter",
+                          }}
+                        >
+                          0 seguidores
+                        </Typography>
                       </Grid>
                     </Grid>
+                  </Grid>
 
-                    <Grid
+                  <Grid
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      gap: "15px",
+                      marginTop: "15px",
+                    }}
+                  >
+                    <Link
+                      className="dropdownaccount-link"
+                      to={"/" + user.NameUser}
                       style={{
                         display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-start",
-                        gap: "15px",
-                        marginTop: "15px",
+                        flexDirection: "row",
+                        alignItems: "center",
                       }}
                     >
-                      <Link
-                        className="dropdownaccount-link"
-                        to={"/" + user.NameUser}
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
-                      >
-                        <AiOutlineUser style={{ marginRight: "10px" }} />
-                        Tu canal
-                      </Link>
+                      <AiOutlineUser style={{ marginRight: "10px" }} />
+                      Tu canal
+                    </Link>
 
-                      <Link
-                        className="dropdownaccount-link"
-                        to={"/" + user.NameUser + "/dashboard/stream"}
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
-                      >
-                        <LiaSlidersHSolid
-                          style={{ marginRight: "10px", fontSize: "24px" }}
-                        />
-                        Panel de control del creador
-                      </Link>
+                    <Link
+                      className="dropdownaccount-link"
+                      to={"/" + user.NameUser + "/dashboard/stream"}
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <LiaSlidersHSolid
+                        style={{ marginRight: "10px", fontSize: "24px" }}
+                      />
+                      Panel de control del creador
+                    </Link>
 
-                      <Link
-                        className="dropdownaccount-link"
-                        to="/plataform/cartera"
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
-                      >
-                        <TfiWallet style={{ marginRight: "10px" }} />
-                        Cartera
-                      </Link>
+                    <Link
+                      className="dropdownaccount-link"
+                      to="/plataform/cartera"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <TfiWallet style={{ marginRight: "10px" }} />
+                      Cartera
+                    </Link>
 
-                      <Link
-                        className="dropdownaccount-link"
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
-                        to={"/" + user.NameUser + "/settings"}
-                      >
-                        <AiOutlineSetting style={{ marginRight: "10px" }} />
-                        Configuración
-                      </Link>
-                      <div
-                        className="dropdownaccount-link"
-                        onClick={() => handleLogout()}
-                      >
-                        <TbLogout2 style={{ marginRight: "10px" }} />
-                        Cerrar sesión
-                      </div>
-                    </Grid>
+                    <Link
+                      className="dropdownaccount-link"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                      to={"/" + user.NameUser + "/settings"}
+                    >
+                      <AiOutlineSetting style={{ marginRight: "10px" }} />
+                      Configuración
+                    </Link>
+                    <div
+                      className="dropdownaccount-link"
+                      onClick={() => handleLogout()}
+                    >
+                      <TbLogout2 style={{ marginRight: "10px" }} />
+                      Cerrar sesión
+                    </div>
                   </Grid>
-                )}
-              </Grid>
-            </div>
+                </Grid>
+              )}
+            </Grid>
           </div>
+        </div>
 
-          {/* Contenido */}
-          <div
-            className="content"
-            style={{
-              padding: ".2rem 1rem",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-start",
-            }}
-          >
-            {children}
-          </div>
+        <div
+          className="content"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            position: "relative", // Añadido para que Draggable funcione
+            
+            width: "100%", // Asegura que ocupe todo el ancho
+          }}
+        >
+          {children}
         </div>
       </Grid>
     </Grid>

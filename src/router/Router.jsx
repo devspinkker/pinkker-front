@@ -69,6 +69,11 @@ import Comentarios from "../components/dashboard/comentarios/Comentarios";
 import FloatingPlayer from "../components/FlotingPlayer/FloatingPlayer";
 import Ajustes from "../components/dashboard/ajustes/Ajustes";
 import CommunitiesMuro from "../components/muro/communities/Posts/CommunitiesMuro";
+import ChatManager from "../components/dashboard/stream-manager/ChatManager/ChatManager";
+import ClaveStream from "../components/dashboard/stream-manager/ClaveStream/ClaveStream";
+import Roles from "../components/dashboard/stream-manager/Roles/Roles";
+import Comunidad from "../components/dashboard/stream-manager/Comunidad/Comunidad";
+import Pinkkerbot from "../components/dashboard/stream-manager/PinkkerBot/Pinkkerbot";
 
 const AppRouter = () => {
   const { user } = useContext(AuthContext);
@@ -286,6 +291,21 @@ const AppRouter = () => {
         </Route>
         <Route exact path="/:streamer/dashboard/ajustes">
           <Ajustes user={user} tyExpanded={expanded} isMobile={isMobile} />
+        </Route>
+        <Route exact path="/:streamer/dashboard/chat">
+          <ChatManager user={user} tyExpanded={expanded} isMobile={isMobile} />
+        </Route>
+        <Route exact path="/:streamer/dashboard/clavestream">
+          <ClaveStream user={user} tyExpanded={expanded} isMobile={isMobile} />
+        </Route>
+        <Route exact path="/:streamer/dashboard/roles">
+          <Roles user={user} tyExpanded={expanded} isMobile={isMobile} />
+        </Route>
+        <Route exact path="/:streamer/dashboard/comunidad">
+          <Comunidad user={user} tyExpanded={expanded} isMobile={isMobile} />
+        </Route>
+        <Route exact path="/:streamer/dashboard/pinkkerbot">
+          <Pinkkerbot user={user} tyExpanded={expanded} isMobile={isMobile} />
         </Route>
 
         <Route exact path="/:streamer/dashboard/community">

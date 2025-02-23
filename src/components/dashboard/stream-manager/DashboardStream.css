@@ -342,10 +342,14 @@
     font-family: inter;
     color: #929ea6;
     padding: 10px;
-    border-right: 1px solid #232628;
+   
+    width: 25%;
     justify-content: space-around;
 }
-
+/* Aplica el borde derecho a todos excepto el último */
+.stats-container:not(:last-child) {
+    border-right: 1px solid #232628;
+  }
 .label {
     /* padding: 10px 0px; */
 }
@@ -670,4 +674,11 @@
         padding: 3rem 0rem;
         width: 100% !important;
     }
+  }
+
+
+  
+
+  .draggable-section {
+    transition: all 0.2s ease;
   }

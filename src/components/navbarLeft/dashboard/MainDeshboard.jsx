@@ -10,6 +10,7 @@ import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { MdOndemandVideo, MdOutlinePermMedia } from "react-icons/md";
 import { LiaCommentSolid } from "react-icons/lia";
 import { IoSettingsSharp } from "react-icons/io5";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 
 export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
   const [expandedMenus, setExpandedMenus] = useState({
@@ -23,7 +24,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
     setExpanded(!tyExpanded);
   };
   const location = useLocation()
-  
+
   const handleItemClick = (title) => {
     if (title !== "Stream") {
       setExpandedMenus({
@@ -55,6 +56,8 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
     // { title: "Ajustes", icon: "fas fa-cog" },
     // { title: "Estadisticas", icon: "fas fa-cog" },
   ];
+
+  const [submenu, setSubmenu] = useState(false)
 
   return (
     <div
@@ -131,7 +134,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
               </li>
             </Link>
 
-            
+
             <Link
               style={{ textDecoration: "none" }}
               className="menu-aside-option"
@@ -215,7 +218,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                     : "item-li"
                 }
               >
-                <MdOutlinePermMedia  />
+                <MdOutlinePermMedia />
                 {/* <i
                     style={{ position: "relative", fontSize: "20px" }}
                     class="fa fa-home"
@@ -226,7 +229,7 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
             <Link
               style={{ textDecoration: "none" }}
               className="menu-aside-option"
-              to={"/" + user?.NameUser + "/dashboard/comentarios"}
+              to={"#"}
             >
               <li
                 style={{
@@ -245,15 +248,54 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                     : "item-li"
                 }
               >
-                <LiaCommentSolid   />
-                {/* <i
-                    style={{ position: "relative", fontSize: "20px" }}
-                    class="fa fa-home"
-                  /> */}
-                {tyExpanded && <span>{"Comentarios"}</span>}
+                <LiaCommentSolid />
+
+                <Grid style={{ display: 'flex', justifyContent: 'space-between', width: '70%' }} onClick={() => setSubmenu(!submenu)}>
+
+                  {tyExpanded && <span>{"Canal"}</span>}
+                 { submenu ?  <FaArrowUp/> : <FaArrowDown />}
+                </Grid>
+
+
+                
               </li>
+              {submenu && (
+                  <ul style={{ listStyle: "none", paddingLeft: "30px", margin: "10px 0", display:'flex', flexDirection:'column', gap:'5px' }}>
+
+                    <li className="submenu-dashboard">
+                      <Link to={`/${user?.NameUser}/dashboard/chat`} style={{ color: "white", textDecoration: "none" }}>
+                      <span style={{fontSize:'14px'}}>{"Chat"}</span>
+                      </Link>
+                    </li>
+
+                    <li className="submenu-dashboard">
+                      <Link to={`/${user?.NameUser}/dashboard/roles`} style={{ color: "white", textDecoration: "none" }}>
+                      <span style={{fontSize:'14px'}}>{"Roles"}</span>
+                      </Link>
+                    </li>
+
+                    <li className="submenu-dashboard">
+                      <Link to={`/${user?.NameUser}/dashboard/comunidad`} style={{ color: "white", textDecoration: "none" }}>
+                      <span style={{fontSize:'14px'}}>{"Comunidad"}</span>
+                      </Link>
+                    </li>
+
+                    <li className="submenu-dashboard">
+                      <Link to={`/${user?.NameUser}/dashboard/clavestream`} style={{ color: "white", textDecoration: "none" }}>
+                      <span style={{fontSize:'14px'}}>{"Servidor y Clave de Stream"}</span>
+                      </Link>
+                    </li>
+
+                    <li className="submenu-dashboard">
+                      <Link to={`/${user?.NameUser}/dashboard/pinkkerbot`} style={{ color: "white", textDecoration: "none" }}>
+                      <span style={{fontSize:'14px'}}>{"Pinkker Bot"}</span>
+                      </Link>
+                    </li>
+
+                  </ul>
+                )}
             </Link>
-            <Link
+            {/* <Link
               style={{ textDecoration: "none" }}
               className="menu-aside-option"
               to={"/" + user?.NameUser + "/dashboard/ajustes"}
@@ -276,13 +318,10 @@ export default function MainDeshboard({ user, tyExpanded, setExpanded }) {
                 }
               >
                 <IoSettingsSharp    />
-                {/* <i
-                    style={{ position: "relative", fontSize: "20px" }}
-                    class="fa fa-home"
-                  /> */}
+                
                 {tyExpanded && <span>{"Ajustes"}</span>}
               </li>
-            </Link>
+            </Link> */}
 
           </ul>
         </Grid>

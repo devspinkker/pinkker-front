@@ -339,6 +339,9 @@ export function ChatStreaming({
 
     return () => clearTimeout(timer);
   }, []);
+
+   console.log('streamerChat.id', streamerChat.id)
+   console.log('token', token)
   useEffect(() => {
     const REACT_APP_BACKCHATWS = process.env.REACT_APP_BACKCHATWS;
     const newSocket = new WebSocket(
@@ -1328,8 +1331,8 @@ export function ChatStreaming({
     <div
       className="ChatStreaming"
       style={{
-        width: DashboardStream ? "25%" : "",
-        height: DashboardStream ? "80vh" : "",
+        
+        height: DashboardStream ? "85vh" : "",
         position: DashboardStream && "relative",
       }}
     >

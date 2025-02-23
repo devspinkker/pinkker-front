@@ -2,7 +2,9 @@
 
     height: 100%;
 }
-
+.submenu-dashboard span:hover{
+    color:#f16397;
+}
 .dashboard-left-menu-header {
     position: relative;
     display: flex;

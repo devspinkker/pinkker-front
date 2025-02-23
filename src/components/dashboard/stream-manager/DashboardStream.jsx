@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./DashboardStream.css";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { ChatStreaming } from "./chat/ChatStreaming";
 import { getUserByIdTheToken } from "../../../services/backGo/user";
 import {
@@ -12,58 +13,92 @@ import { getCategorieByName } from "../../../services/categories";
 import { getStream } from "../../../services/stream";
 import ReactFlvPlayer from "../../../player/PlayerMain";
 import PopupEditInfo from "./popup/PopupEditInfo";
-import ConfigComandosChat from "./ConfigComandosChat";
-import { Button, Drawer, Grid, Slider, TextField, Typography } from "@mui/material";
+import { Button, Chip, Grid, Slider, Switch, Typography } from "@mui/material";
 import {
-  AiFillSetting,
   AiFillThunderbolt,
-  AiOutlineSetting,
-  AiOutlineUser,
 } from "react-icons/ai";
-import { TbEdit, TbLogout2 } from "react-icons/tb";
-import { TfiWallet } from "react-icons/tfi";
-import { LiaSlidersHSolid } from "react-icons/lia";
-import { BsChatDots } from "react-icons/bs";
-import { IoMdNotificationsOutline, IoMdPause } from "react-icons/io";
-import { Link } from "react-router-dom";
-import SettingsStream from "../settings/stream/SettingsStream";
-import { useNotification } from "../../Notifications/NotificationProvider";
+import { IoMdPause } from "react-icons/io";
 import { CiStreamOn } from "react-icons/ci";
-import { MdHd, MdOutlineOndemandVideo, MdSlowMotionVideo } from "react-icons/md";
-import { SlUserFollow } from "react-icons/sl";
-import { FaGratipay, FaHeart } from "react-icons/fa6";
+import { MdOutlineOndemandVideo } from "react-icons/md";
 import { GoHeartFill } from "react-icons/go";
-import NavbarLeft from "../../navbarLeft/NavbarLeft";
 import DashboarLayout from "../DashboarLayout";
 import Tippy from "@tippyjs/react";
-import { LuClapperboard } from "react-icons/lu";
+import { FaInfoCircle } from "react-icons/fa";
+import { IoChatboxEllipsesOutline, IoNewspaperOutline, IoVideocam } from "react-icons/io5";
+import { FiTool } from "react-icons/fi";
+import logoPinkker from './Chancho--dengue.webp';
 
 export default function DashboardStream({ isMobile, tyExpanded, user }) {
-  const [showComandosList, setShowComandosList] = useState(false);
-  const handleToggleComandosList = () => {
-    setShowComandosList(!showComandosList);
-  };
-
   const [streamerData, setStreamerData] = useState(null);
-  const [userData, SetUserData] = useState(null);
-  const [categorie, setCategorie] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [stream, setStream] = useState(null);
   const videoRef = useRef();
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(false);
   const [volumeHovered, setVolumeHovered] = useState(false);
-  let token = window.localStorage.getItem("token");
-
   const [volumePlayer, setVolumePlayer] = useState(0.5);
   const [videoLoading, setVideoLoading] = useState(true);
   const [mostrarditInfoStream, setditInfoStreamN] = useState(false);
-  const [QuickActionShow, setQuickActionSHow] = useState(true);
   const [ChatOnliFollowers, setChatOnliFollowers] = useState(false);
   const [ChatOnliSubs, setChatOnliSubs] = useState(false);
-  const [SecondModChatSlowMode, SetSecondModChatSlowMode] = useState(null);
+  const [SecondModChatSlowMode, setSecondModChatSlowMode] = useState(null);
   const [socket, setSocket] = useState(null);
   const pingIntervalRef = useRef();
   const [ActivityFeed, setActivityFeed] = useState([]);
+  const [elapsedTime, setElapsedTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
+  const [menuModChatSlowMode, setModChatSlowMode] = useState(false);
+
+  // Estado para las secciones del dashboard con la posición inicial respetada
+  const [sections, setSections] = useState({
+    left: [
+      { id: "infoSesion", visible: true, title: "Información de la sesión", icon: <CiStreamOn style={{color:'white'}} /> },
+      { id: "vistaPrevia", visible: true, title: "Vista previa del stream", icon: <MdOutlineOndemandVideo style={{color:'white'}}/> },
+      { id: "feedAct", visible: true, title: "Feed de Actividades", icon: <AiFillThunderbolt style={{color:'white'}}/> },
+      { id: "accMod", visible: true, title: "Acciones de Moderador", icon: <IoNewspaperOutline  style={{color:'white'}}/> },
+    ],
+    center: [
+      { id: "chat", visible: true, title: "Chat", icon: <IoChatboxEllipsesOutline style={{color:'white'}}/> },
+    ],
+    right: [
+      { id: "infoStream", visible: true, title: "Información del stream", icon: <FiTool style={{color:'white'}}/> },
+      { id: "accCanal", visible: true, title: "Acciones del canal", icon: <IoVideocam style={{color:'white'}}/> },
+    ],
+  });
+
+  // Manejar el reordenamiento al soltar un elemento, permitiendo mover entre columnas
+  const handleDragEnd = (result) => {
+    const { source, destination } = result;
+    if (!destination) return;
+
+    const sourceSection = source.droppableId;
+    const destSection = destination.droppableId;
+
+    const newSections = { ...sections };
+    const sourceItems = Array.from(newSections[sourceSection]);
+    const destItems = sourceSection === destSection ? sourceItems : Array.from(newSections[destSection]);
+    const [movedItem] = sourceItems.splice(source.index, 1);
+
+    destItems.splice(destination.index, 0, movedItem);
+    newSections[sourceSection] = sourceItems;
+    if (sourceSection !== destSection) newSections[destSection] = destItems;
+
+    setSections(newSections);
+  };
+
+  // Toggle de visibilidad de una sección
+  const toggleSectionVisibility = (sectionId) => {
+    setSections((prevSections) => {
+      const newSections = { ...prevSections };
+      ["left", "center", "right"].forEach((column) => {
+        newSections[column] = newSections[column].map((section) =>
+          section.id === sectionId ? { ...section, visible: !section.visible } : section
+        );
+      });
+      return newSections;
+    });
+  };
+
+  // Funciones existentes
   const speakMessage = (message) => {
     const speech = new SpeechSynthesisUtterance();
     speech.text = message;
@@ -145,379 +180,158 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     };
   }, [socket]);
 
-  const toggleChatOnliSubs = async () => {
-    let token = window.localStorage.getItem("token");
-    if (token && ChatOnliSubs) {
-      await updateModChat(token, { title: "" });
-      setStreamerData({ ...streamerData, ModChat: "" });
-      setChatOnliFollowers(false);
-    } else {
-      await updateModChat(token, { title: "Subscriptions" });
-      setStreamerData({ ...streamerData, ModChat: "Subscriptions" });
-      setChatOnliFollowers(false);
-    }
-    setChatOnliSubs(!ChatOnliSubs);
-  };
-  const [menuModChatSlowMode, setModChatSlowMode] = useState(false);
-  const togglemenuModChatSlowMode = () => {
-    setModChatSlowMode(!menuModChatSlowMode);
-  };
-  const CommercialInStreamFunc = () => {
-    let token = window.localStorage.getItem("token");
-    CommercialInStream(token);
-  };
-  const updateModChatSlowMode = async (second) => {
-    const secondsInt = parseInt(second, 10);
-    let token = window.localStorage.getItem("token");
-    if (token) {
-      const res = await updateModChatSlowModeAxios(token, secondsInt);
-      if (res?.message === "ok") {
-        SetSecondModChatSlowMode(secondsInt);
-      }
-    }
-  };
-  const toggleChatOnliFollowers = async () => {
-    let token = window.localStorage.getItem("token");
-    if (token && ChatOnliFollowers) {
-      await updateModChat(token, { title: "" });
-      setStreamerData({ ...streamerData, ModChat: "" });
-      setChatOnliSubs(false);
-    } else {
-      await updateModChat(token, { title: "Following" });
-      setStreamerData({ ...streamerData, ModChat: "Following" });
-      setChatOnliSubs(false);
-    }
-    setChatOnliFollowers(!ChatOnliFollowers);
-  };
-
-  const toggleEditInfoStream = () => {
-    setditInfoStreamN(!mostrarditInfoStream);
-  };
-  const toggleEQuickActionShow = () => {
-    setQuickActionSHow(!QuickActionShow);
-  };
-  const [Channelshares, setChannelshares] = useState(true);
-
-  const toggleChannelshares = () => {
-    setChannelshares(!Channelshares);
-  };
   useEffect(() => {
     const fetchData = async () => {
       let id = window.localStorage.getItem("_id");
       let token = window.localStorage.getItem("token");
-
-      let resuser = await getUserByIdTheToken(token);
-      if (resuser.message == "ok") {
-        SetUserData(resuser.data);
-      }
+      const resuser = await getUserByIdTheToken(token);
+      if (resuser.message === "ok") setUserData(resuser.data);
       const dataStreamer = await getStreamById(id);
-      if (dataStreamer != null && dataStreamer != undefined) {
+      if (dataStreamer?.data) {
         setStreamerData(dataStreamer.data);
-
-        if (dataStreamer.data?.ModChat == "Following") {
-          setChatOnliFollowers(true);
-        } else {
-          setChatOnliFollowers(false);
-        }
-        if (dataStreamer.data?.ModChat == "Subscriptions") {
-          setChatOnliSubs(true);
-        } else {
-          setChatOnliSubs(false);
-        }
-      }
-      if (dataStreamer.data?.ModSlowMode) {
-        SetSecondModChatSlowMode(dataStreamer.data?.ModSlowMode);
-      } else {
-        SetSecondModChatSlowMode(0);
+        setChatOnliFollowers(dataStreamer.data?.ModChat === "Following");
+        setChatOnliSubs(dataStreamer.data?.ModChat === "Subscriptions");
+        setSecondModChatSlowMode(dataStreamer.data?.ModSlowMode || 0);
       }
       const res = await getStream(token);
-      if (res != null && res != undefined) {
-        setStream(res);
-
-        const dataCategorie = getCategorieByName(res.stream_category);
-        if (dataCategorie != null && dataCategorie != undefined) {
-          setCategorie(dataCategorie);
-        }
-      }
+      if (res) setStream(res);
     };
-
     fetchData();
   }, []);
 
-  const [elapsedTime, setElapsedTime] = useState({
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-  const formatNumber = (number) => (number < 10 ? `0${number}` : number);
-
   useEffect(() => {
     const calculateElapsedTime = () => {
-      const startDateTime = new Date(streamerData?.start_date);
+      if (!streamerData?.start_date) return;
+      const startDateTime = new Date(streamerData.start_date);
       const now = new Date();
-
       const timeDifference = now - startDateTime;
       const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-      const minutes = Math.floor(
-        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-      );
+      const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
       const hours = Math.floor(timeDifference / (1000 * 60 * 60));
-
       setElapsedTime({ hours, minutes, seconds });
     };
-
     const interval = setInterval(calculateElapsedTime, 1000);
-
     return () => clearInterval(interval);
   }, [streamerData?.start_date]);
 
-  function getHlsSrc() {
-    let keyTransmission = userData?.keyTransmission.substring(
-      4,
-      userData?.keyTransmission.length
-    );
-    const rtmp = process.env.REACT_APP_RTMP;
-    // const rtmp = "http://localhost:8000/live";
-    var url = `${rtmp}/${keyTransmission}`;
-    return url;
-  }
+  const formatNumber = (number) => (number < 10 ? `0${number}` : number);
 
-  function getHlsPlayer() {
-    // console.log(getHlsSrc());
-    // if (isMobile) {
-    //   alert("mobile es true");
-    //   return (
-    //     <video
-    //       id="pinkker-player"
-    //       style={{ position: "relative", top: "60px" }}
-    //       controls={isMobile}
-    //       autoPlay={true}
-    //       onPlaying={true}
-    //     >
-    //       <source src={getHlsSrc()} type="application/x-mpegURL" />
-    //     </video>
-    //   );
-    // }
-    return (
-      <Grid
-        style={{
-          display: "flex",
-        }}
-      >
-        <ReactFlvPlayer
-          allowFullScreen
-          id="pinkker-player"
-          videoRef={videoRef}
-          preload={"auto"}
-          webkit-playsinline={true}
-          playsInline={true}
-          src={getHlsSrc()}
-          autoPlay={false}
-          muted={true}
-          controls={true}
-          dashboard={true}
-          width={"100%"}
-          height={"100%"}
-          quality={"1080"}
-        />
-      </Grid>
-    );
-  }
+  const getHlsSrc = () => {
+    const keyTransmission = userData?.keyTransmission?.substring(4);
+    const rtmp = process.env.REACT_APP_RTMP || "http://localhost:8000/live";
+    return `${rtmp}/${keyTransmission}`;
+  };
 
-  function getVolumeButton() {
-    if (muted === true) {
+  const getHlsPlayer = () => (
+    <Grid>
+      <ReactFlvPlayer
+        id="pinkker-player"
+        videoRef={videoRef}
+        preload="auto"
+        playsInline={true}
+        src={getHlsSrc()}
+        autoPlay={false}
+        muted={true}
+        controls={true}
+        width="100%"
+        height="100%"
+        quality="1080"
+      />
+    </Grid>
+  );
+
+  const getVolumeButton = () => {
+    if (muted) {
       return (
-        <Tippy
-          theme="pinkker"
-          content={
-            <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-              Volumen
-            </h1>
-          }
-        >
+        <Tippy content={<h1 style={{ fontSize: "12px" }}>Volumen</h1>}>
           <i
             onMouseEnter={() => setVolumeHovered(true)}
             onMouseLeave={() => setVolumeHovered(false)}
-            onClick={() => mutedPlayer()}
+            onClick={mutedPlayer}
             style={{ cursor: "pointer" }}
             className="fas fa-volume-mute pinkker-button-more"
           />
         </Tippy>
       );
-    } else {
-      if (volumePlayer === 0) {
-        return (
-          <Tippy
-            theme="pinkker"
-            content={
-              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-                Volumen
-              </h1>
-            }
-          >
-            <i
-              onMouseEnter={() => setVolumeHovered(true)}
-              onMouseLeave={() => setVolumeHovered(false)}
-              onClick={() => mutedPlayer()}
-              style={{ cursor: "pointer" }}
-              className="fas fa-volume-down pinkker-button-more"
-            />
-          </Tippy>
-        );
-      }
-
-      if (volumePlayer <= 0.5) {
-        return (
-          <Tippy
-            theme="pinkker"
-            content={
-              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-                Volumen
-              </h1>
-            }
-          >
-            <i
-              onMouseEnter={() => setVolumeHovered(true)}
-              onMouseLeave={() => setVolumeHovered(false)}
-              onClick={() => mutedPlayer()}
-              style={{ cursor: "pointer" }}
-              className="fas fa-volume-down pinkker-button-more"
-            />
-          </Tippy>
-        );
-      }
-      if (volumePlayer > 0.5) {
-        return (
-          <Tippy
-            theme="pinkker"
-            content={
-              <h1 style={{ fontSize: "12px", fontFamily: "Montserrat" }}>
-                Volumen
-              </h1>
-            }
-          >
-            <i
-              onMouseEnter={() => setVolumeHovered(true)}
-              onMouseLeave={() => setVolumeHovered(false)}
-              onClick={() => mutedPlayer()}
-              style={{ cursor: "pointer" }}
-              className="fas fa-volume-down pinkker-button-more"
-            />
-          </Tippy>
-        );
-      }
     }
-  }
+    return (
+      <Tippy content={<h1 style={{ fontSize: "12px" }}>Volumen</h1>}>
+        <i
+          onMouseEnter={() => setVolumeHovered(true)}
+          onMouseLeave={() => setVolumeHovered(false)}
+          onClick={mutedPlayer}
+          style={{ cursor: "pointer" }}
+          className="fas fa-volume-down pinkker-button-more"
+        />
+      </Tippy>
+    );
+  };
+
   const mutedPlayer = () => {
     if (!videoLoading) {
-      if (muted === true) {
-        videoRef.current.muted = false;
-        setMuted(false);
-        setVolumePlayer(0.2);
-      } else if (muted === false) {
-        videoRef.current.muted = true;
-        setMuted(true);
-        setVolumePlayer(0);
-      }
+      videoRef.current.muted = !muted;
+      setMuted(!muted);
+      setVolumePlayer(muted ? 0.2 : 0);
     }
   };
+
   const setVolume = (volume) => {
     if (volume === 0) {
       setMuted(true);
-      setVolumePlayer(volume);
     } else {
       videoRef.current.volume = volume;
-      setVolumePlayer(volume);
       setMuted(false);
     }
+    setVolumePlayer(volume);
   };
+
   const videoHandler = () => {
     if (!videoLoading) {
-      if (playing === false) {
-        videoRef.current.play();
-        setPlaying(true);
-      } else {
+      if (playing) {
         videoRef.current.pause();
         setPlaying(false);
+      } else {
+        videoRef.current.play();
+        setPlaying(true);
       }
     }
   };
 
-  function getBottomButtons() {
-    if (videoRef.current != null && videoRef.current != undefined) {
-
+  const getBottomButtons = () => {
+    if (videoRef.current) {
       return (
-        <div
-          className="customPlayer-container"
-          style={{
-            opacity: 1
-          }}
-        >
-          <div
-            style={{
-              position: "relative",
-              top: "-73px",
-
-            }}
-            className="customPlayer-primary"
-          >
-            <div className="customPlayer-secundary-div" style={{width:'100%'}}>
+        <div className="customPlayer-container" style={{ opacity: 1 }}>
+          <div className="customPlayer-primary" style={{ top: "-73px" }}>
+            <div className="customPlayer-secundary-div" style={{ width: '100%' }}>
               <div className="customPlayer-card">
                 {playing ? (
-                  <Tippy
-                    theme="pinkker"
-                    content={
-                      <h1
-                        style={{ fontSize: "12px", fontFamily: "Montserrat" }}
-                      >
-                        Pausa
-                      </h1>
-                    }
-                  >
+                  <Tippy content={<h1 style={{ fontSize: "12px" }}>Pausa</h1>}>
                     <IoMdPause
-                      onClick={() => videoHandler()}
+                      onClick={videoHandler}
                       style={{ cursor: "pointer", fontSize: "20px" }}
                       className="pinkker-button-more"
                     />
                   </Tippy>
                 ) : (
-                  <Tippy
-                    theme="pinkker"
-                    content={
-                      <h1
-                        style={{ fontSize: "12px", fontFamily: "Montserrat" }}
-                      >
-                        Play
-                      </h1>
-                    }
-                  >
+                  <Tippy content={<h1 style={{ fontSize: "12px" }}>Play</h1>}>
                     <i
-                      onClick={() => videoHandler()}
+                      onClick={videoHandler}
                       style={{ cursor: "pointer" }}
-                      class="fas fa-play pinkker-button-more"
+                      className="fas fa-play pinkker-button-more"
                     />
                   </Tippy>
                 )}
               </div>
               <div className="customPlayer-card">{getVolumeButton()}</div>
-
-              <div
-                style={{ marginLeft: "15px", width: "125px" }}
-                className="customPlayer-card"
-              >
+              <div style={{ marginLeft: "15px", width: "125px" }} className="customPlayer-card">
                 <Slider
                   onMouseEnter={() => setVolumeHovered(true)}
                   onMouseLeave={() => setVolumeHovered(false)}
-                  aria-label="Temperature"
-                  defaultValue={volumePlayer}
+                  value={volumePlayer}
                   max={1}
                   step={0.01}
                   color="secondary"
-                  value={volumePlayer}
-                  style={{
-                    color: "#fff",
-                    opacity: volumeHovered ? "1" : "0",
-                  }}
+                  style={{ color: "#fff", opacity: volumeHovered ? "1" : "0" }}
                   onChange={(e) => setVolume(e.target.value)}
                 />
               </div>
@@ -525,28 +339,16 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
           </div>
         </div>
       );
-
     }
-  }
-
-
-
+  };
 
   useEffect(() => {
-    if (videoRef.current != null && videoRef.current != undefined) {
+    if (videoRef.current) {
       const videoPlayer = videoRef.current;
-
-      const handlePlayerLoad = () => {
-        setVideoLoading(false);
-      };
-
-      const handlePlayerError = () => {
-        setVideoLoading(false);
-      };
-
+      const handlePlayerLoad = () => setVideoLoading(false);
+      const handlePlayerError = () => setVideoLoading(false);
       videoPlayer.addEventListener("loadeddata", handlePlayerLoad);
       videoPlayer.addEventListener("error", handlePlayerError);
-
       return () => {
         videoPlayer.removeEventListener("loadeddata", handlePlayerLoad);
         videoPlayer.removeEventListener("error", handlePlayerError);
@@ -554,636 +356,330 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     }
   }, []);
 
-  const [subMenu, setSubMenu] = useState(false);
-
-  const [esClick, setEsClick] = useState(false);
-  const habilitarSubMenu = (valor, e) => {
-    if (e?.type === "click") {
-      setEsClick(true);
-    } else {
-      setEsClick(false);
+  const toggleChatOnliSubs = async () => {
+    let token = window.localStorage.getItem("token");
+    if (token) {
+      if (ChatOnliSubs) {
+        await updateModChat(token, { title: "" });
+        setStreamerData({ ...streamerData, ModChat: "" });
+        setChatOnliFollowers(false);
+      } else {
+        await updateModChat(token, { title: "Subscriptions" });
+        setStreamerData({ ...streamerData, ModChat: "Subscriptions" });
+        setChatOnliFollowers(false);
+      }
+      setChatOnliSubs(!ChatOnliSubs);
     }
-
-    setTimeout(() => {
-      setSubMenu(valor);
-    }, [100]);
   };
 
-  useEffect(() => {
-    // Función para manejar el clic en cualquier parte de la página
-    const handleClickOutside = () => {
-      setSubMenu(false); // Cambiar el estado a false cuando se hace clic fuera del área deseada
-    };
-
-    // Agregar un event listener para escuchar clics en el documento
-    document.addEventListener("click", handleClickOutside);
-
-    // Limpiar el event listener en la fase de limpieza de useEffect
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-  const handleLogout = async () => {
-    window.localStorage.removeItem("token");
-    window.localStorage.removeItem("_id");
-    window.localStorage.removeItem("avatar");
-    window.location.href = "/";
+  const toggleChatOnliFollowers = async () => {
+    let token = window.localStorage.getItem("token");
+    if (token) {
+      if (ChatOnliFollowers) {
+        await updateModChat(token, { title: "" });
+        setStreamerData({ ...streamerData, ModChat: "" });
+        setChatOnliSubs(false);
+      } else {
+        await updateModChat(token, { title: "Following" });
+        setStreamerData({ ...streamerData, ModChat: "Following" });
+        setChatOnliSubs(false);
+      }
+      setChatOnliFollowers(!ChatOnliFollowers);
+    }
   };
 
-  const alert = useNotification();
-  const [showKey, setShowKey] = useState(false);
+  const toggleEditInfoStream = () => setditInfoStreamN(!mostrarditInfoStream);
 
-  const copyToClipboard = (text) => {
-    var textField = document.createElement("textarea");
-    textField.innerText = text;
-    document.body.appendChild(textField);
-    textField.select();
-    document.execCommand("copy");
-    textField.remove();
-    alert({ type: "SUCCESS", message: "Copiado correctamente!" });
+  const togglemenuModChatSlowMode = () => setModChatSlowMode(!menuModChatSlowMode);
+
+  const updateModChatSlowMode = async (second) => {
+    const secondsInt = parseInt(second, 10);
+    let token = window.localStorage.getItem("token");
+    if (token) {
+      const res = await updateModChatSlowModeAxios(token, secondsInt);
+      if (res?.message === "ok") setSecondModChatSlowMode(secondsInt);
+    }
   };
-  const [expanded, setExpanded] = useState(true);
+
+  const renderSectionContent = (sectionId) => {
+    switch (sectionId) {
+      case "infoSesion":
+        return (
+          <Grid style={{ backgroundColor: '#141517', padding: '5px',display:'flex', alignItems:'center' }}>
+            {!streamerData?.online && <div className="stats-container"><span className="w-fit grow-0 rounded-[2px] px-[0.375rem] py-1 text-center text-[0.625rem] font-bold uppercase bg-[#F4F5F6] text-[#070809]">Sin conexión</span><span>Sesión</span></div>}
+            <div className="stats-container"><span>{streamerData?.online && streamerData?.ViewerCount || "-"}</span><span>espectadores</span></div>
+            <div className="stats-container"><span>{userData?.FollowersCount || "-"}</span><span>seguidores</span></div>
+            <div className="stats-container"><span>{streamerData?.online ? `${formatNumber(elapsedTime.hours)}:${formatNumber(elapsedTime.minutes)}:${formatNumber(elapsedTime.seconds)}` : "-"}</span><span>Tiempo en vivo</span></div>
+          </Grid>
+        );
+      case "vistaPrevia":
+        return streamerData?.online ? (
+          <>
+            {getHlsPlayer()}
+            {getBottomButtons()}
+          </>
+        ) : (
+          <img src={streamerData?.stream_thumbnail} alt="Thumbnail" style={{ width: "100%"}} />
+        );
+      case "feedAct":
+        return (
+          <div style={{ backgroundColor: '#141517', height: '12vh', overflowY: 'auto' }}>
+            {ActivityFeed.map((item, index) => (
+              <div key={index} className="activity-feed-item">
+                <GoHeartFill style={{ color: "#ff69c4" }} />
+                <span>{item.Nameuser}</span>
+                <span>{item.Type === "follow" ? "Te comenzó a seguir" : item.Type === "DonatePixels" ? `Dono ${item.Pixeles} Pixeles` : "Se suscribió"}</span>
+              </div>
+            ))}
+          </div>
+        );
+      case "accMod":
+        return <Grid style={{ backgroundColor: '#141517', height: '12vh' }} />;
+      case "chat":
+        return streamerData && userData && !isMobile ? (
+          <ChatStreaming
+            streamerChat={streamerData}
+            chatExpandeds={true}
+            streamerData={streamerData}
+            user={userData}
+            isMobile={isMobile}
+            DashboardStream={true}
+          />
+        ) : null;
+      case "infoStream":
+        return (
+          <Grid style={{ backgroundColor: '#141517', padding: '10px' }}>
+            <Typography style={{ color: "white", fontWeight: "bold" }}>{streamerData?.stream_title}</Typography>
+            <Grid style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+              <img src="https://files.kick.com/images/subcategories/15/banner/responsives/b697a8a3-62db-4779-aa76-e4e47662af97___banner_294_392.webp" style={{ width: "15%" }} />
+              <Grid>
+                <Typography style={{ color: "#f16397" }}>{streamerData?.stream_category}</Typography>
+                {streamerData?.stream_tag?.map((tag) => <Chip key={tag} label={tag} style={{ color: 'white', backgroundColor: '#35393c' }} />)}
+              </Grid>
+            </Grid>
+            <Button onClick={toggleEditInfoStream} style={{ backgroundColor: '#333436', color: 'white', width: '95%', margin: '0 auto' }}>Editar</Button>
+          </Grid>
+        );
+      case "accCanal":
+        return (
+          <Grid style={{ backgroundColor: '#141517', padding: '10px' }}>
+            <Grid style={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography style={{ color: "white", fontSize: "12px", fontWeight: "bold" }}>Chat solo seguidores</Typography>
+              <Switch checked={ChatOnliFollowers} onChange={toggleChatOnliFollowers} sx={{ '& .Mui-checked': { color: '#f16397' }, '& .Mui-checked + .MuiSwitch-track': { backgroundColor: '#f16397' } }} />
+            </Grid>
+            <Grid style={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography style={{ color: "white", fontSize: "12px", fontWeight: "bold" }}>Chat solo suscriptores</Typography>
+              <Switch checked={ChatOnliSubs} onChange={toggleChatOnliSubs} sx={{ '& .Mui-checked': { color: '#f16397' }, '& .Mui-checked + .MuiSwitch-track': { backgroundColor: '#f16397' } }} />
+            </Grid>
+            <Grid style={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography style={{ color: "white", fontSize: "12px", fontWeight: "bold" }}>Chat modo lento</Typography>
+              <Switch onChange={togglemenuModChatSlowMode} sx={{ '& .Mui-checked': { color: '#f16397' }, '& .Mui-checked + .MuiSwitch-track': { backgroundColor: '#f16397' } }} />
+            </Grid>
+          </Grid>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <DashboarLayout user={user} isMobile={isMobile}>
-      {/* Contenido */}
-      <div style={{ height: "80%" }}>
-        <div className="content" style={{ gap: "1%" }}>
-          {/* Parte 2 */}
-          <div className="part-two">
-            <div className="column">
+      <Grid style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '10px', height: '100%' }}>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          {/* Columna Izquierda */}
+          <Droppable droppableId="left">
+            {(provided) => (
               <Grid
+                {...provided.droppableProps}
+                ref={provided.innerRef}
                 style={{
-                  backgroundColor: "#131418",
-                  borderRadius: "10px",
+                  display: sections.left.some(s => s.visible) ? 'flex' : 'none',
+                  flexDirection: 'column',
+                  padding: '5px',
+                  borderRadius: '5px',
+                  width: '50%',
+                  height: '100%',
                 }}
               >
-                <div
-                  title="Información de sesión"
-                  className="vista-previa-stream-p1"
-                  style={{
-                    backgroundColor: "#131418",
-                  }}
-                >
-                  <CiStreamOn style={{ color: "white", fontSize: "30px" }} />
-
-                  <span
-                    style={{
-                      padding: "0px 10px",
-                    }}
-                    className="max-w-full shrink truncate text-base font-bold text-white"
-                  >
-                    Información de sesión
-                  </span>
-                </div>
-                <div className="session-info">
-                  {!streamerData?.online && (
-                    <div className="stats-container">
-                      <span className="w-fit grow-0 rounded-[2px] px-[0.375rem] py-1 text-center text-[0.625rem] font-bold uppercase bg-[#F4F5F6] text-[#070809]">
-                        Sin conexión
-                      </span>
-                      <span className="label">Sesión</span>
-                    </div>
-                  )}
-                  <div className="stats-container">
-                    <span className="data">
-                      - {streamerData?.online && streamerData?.ViewerCount}
-                    </span>
-                    <span className="label"> espectadores</span>
-                  </div>
-                  <div className="stats-container">
-                    <span className="data">
-                      - {userData && userData.FollowersCount}{" "}
-                    </span>
-                    <span className="label"> seguidores</span>
-                  </div>
-                  <div className="stats-container">
-                    <span className="data">
-                      {streamerData?.online ? (
-                        <p className="elapsedTime">
-                          <p>{`${formatNumber(elapsedTime.hours)}`}</p>
-                          <p>{`: ${formatNumber(elapsedTime.minutes)}`}</p>
-                          <p>{`: ${formatNumber(elapsedTime.seconds)}`}</p>
-                        </p>
-                      ) : (
-                        "-"
+                {sections.left.map((section, index) => (
+                  section.visible && (section.id !== "feedAct" && section.id !== "accMod") && (
+                    <Draggable key={section.id} draggableId={section.id} index={index}>
+                      {(provided) => (
+                        <Grid
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={{
+                            padding: '5px',
+                            borderRadius: '5px',
+                            ...provided.draggableProps.style,
+                          }}
+                        >
+                          <Grid style={{ display: 'flex', alignItems: 'center', backgroundColor: '#131418', padding: '5px' }}>
+                            {section.icon}
+                            <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
+                          </Grid>
+                          {renderSectionContent(section.id)}
+                        </Grid>
                       )}
-                    </span>
-                    <span className="label">Tiempo en vivo</span>
-                  </div>
-                </div>
-              </Grid>
-
-              <div
-                style={{
-                  display: showComandosList && "none",
-                }}
-                className="Broadcast-preview-dashboard"
-              >
-                <div
-                  title="Información de sesión"
-                  className="vista-previa-stream-p1"
-                  style={{
-                    backgroundColor: "#131418",
-                  }}
-                >
-                  <MdOutlineOndemandVideo
-                    style={{ color: "white", fontSize: "30px" }}
-                  />
-
-                  <span
-                    style={{
-                      padding: "0px 10px",
-                    }}
-                    className="max-w-full shrink truncate text-base font-bold text-white"
-                  >
-                    Vista previa del stream
-                  </span>
-                </div>
-                {streamerData?.online ? (
-                  <>
-                    {getHlsPlayer()}
-                    {getBottomButtons()}
-                  </>
-                ) : (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <img
-                      style={{
-                        width: "100%",
-                        maxHeight: "100%",
-                        borderRadius: "5px",
-                      }}
-                      src={streamerData?.stream_thumbnail}
-                      alt=""
-                    />
-                  </div>
-                )}
-                <Grid
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    marginTop: "10px",
-                    alignItems: "center",
-                  }}
-                >
-                  <Grid style={{ width: "10%" }}>
-                    <img
-                      src={streamerData?.ImageCategorie}
-                      style={{ width: "100%" }}
-                    />
-                  </Grid>
-                  <Grid
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      width: "79%",
-                      wordBreak:'break-word'
-                    }}
-                  >
-                    <Typography style={{ fontWeight: "bold", color: "white" }}>
-                      {streamerData?.stream_title}
-                    </Typography>
-                    <TbEdit
-                      style={{
-                        color: "white",
-                        fontSize: "25px",
-                        cursor: "pointer",
-                      }}
-                      onClick={toggleEditInfoStream}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "top",
-                  padding: 3,
-                  gap: "10px",
-                }}
-              >
-                <div style={{ backgroundColor: "#131418", width: "100%" }}>
-                  <div className="right-panel flex flex-col bg-[#171C1E] grow">
-                    <div
-                      className="right-panel__header flex flex-row items-center justify-between gap-2 px-6"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "5px",
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      <div className="flex flex-row items-center">
-                        <span className="text-base font-bold">
-                          Acciones rápidas
-                        </span>
-                      </div>
-                      <Grid
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          width: "100%",
-                          gap: "15px",
-                        }}
-                      >
-                        <Grid
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            width: "30%",
-                          }}
-                        >
-                          <SlUserFollow
+                    </Draggable>
+                  )
+                ))}
+                {/* Contenedor horizontal para feedAct y accMod */}
+                <Grid style={{ display: 'flex', flexDirection: 'row', gap: '5px' }}>
+                  {sections.left.map((section, index) => (
+                    section.visible && (section.id === "feedAct" || section.id === "accMod") && (
+                      <Draggable key={section.id} draggableId={section.id} index={index}>
+                        {(provided) => (
+                          <Grid
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
                             style={{
-                              color: "white",
-                              fontSize: "35px",
-                              borderRadius: "5px",
-                              backgroundColor: ChatOnliFollowers
-                                ? "#fe68c3"
-                                : "#171C1E",
-                              width: "85%",
-                              padding: "10px",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => toggleChatOnliFollowers()}
-                          />
-                          <Typography
-                            style={{
-                              color: "white",
-                              textAlign: "center",
-                              fontSize: "12px",
+                              padding: '5px',
+                              borderRadius: '5px',
+                              width: '50%', // Cada una ocupa la mitad del ancho de la columna izquierda
+                              ...provided.draggableProps.style,
                             }}
                           >
-                            Chat solo seguidores
-                          </Typography>
-                        </Grid>
-                        <Grid
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            width: "30%",
-                          }}
-                        >
-                          <FaGratipay
-                            style={{
-                              color: "white",
-                              fontSize: "35px",
-                              borderRadius: "5px",
-                              backgroundColor: ChatOnliSubs
-                                ? "#fe68c3"
-                                : "#171C1E",
-                              width: "85%",
-                              padding: "10px",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => toggleChatOnliSubs()}
-                          />
-                          <Typography
-                            style={{
-                              color: "white",
-                              textAlign: "center",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Chat solo suscriptores
-                          </Typography>
-                        </Grid>
-                        <Grid
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            width: "30%",
-                          }}
-                        >
-                          <MdSlowMotionVideo
-                            style={{
-                              color: "white",
-                              fontSize: "35px",
-                              borderRadius: "5px",
-                              backgroundColor: "#171C1E",
-                              width: "85%",
-                              padding: "10px",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => {
-                              togglemenuModChatSlowMode();
-                            }}
-                          />
-                          <Typography
-                            style={{
-                              color: "white",
-                              textAlign: "center",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Chat modo lento
-                          </Typography>
-                        </Grid>
-                        <Grid
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            width: "30%",
-                          }}
-                        >
-                          <Typography
-                            style={{
-                              color: "white",
-                              fontSize: "25px",
-                              borderRadius: "5px",
-                              backgroundColor: "#171C1E",
-                              width: "85%",
-                              padding: "10px",
-                              cursor: "pointer",
-                              textAlign: "center",
-                              fontWeight: 600,
-                            }}
-                            onClick={() => {
-                              CommercialInStreamFunc();
-                            }}
-                          >
-                            ADS
-                          </Typography>
-                          <Typography
-                            style={{
-                              color: "white",
-                              textAlign: "center",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Anuncio
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </div>
-
-                    <div className="right-panel__content">
-                      {/* <div className="flex shrinkS2 grow flex-col gap-2 overflow-y-hidden p-2.5">
-                        <div
-                          style={{
-                            animation: "200ms all",
-                            height: Channelshares ? "auto" : "0",
-                            display: Channelshares ? "" : "none",
-                          }}
-                        >
-                          <div>
-                            {menuModChatSlowMode && (
-                              <div className="dropdown-menu">
-                                {[2, 5, 7, 15, 20, 60].map((seconds) => (
-                                  <div
-                                    key={seconds}
-                                    className=" menuModChatSlowMode"
-                                    onClick={() => updateModChatSlowMode(seconds)}
-                                  >
-                                    <div>
-                                      <span
-                                        style={{
-                                          padding: "10px",
-                                        }}
-                                      >
-                                        {seconds}
-                                      </span>
-                                      <span>segundos</span>
-                                    </div>
-                                    <div
-                                      className="toggle-size-sm"
-                                      onClick={() => updateModChatSlowMode(seconds)}
-                                    ></div>
-                                    <div className="base-toggle">
-                                      <div
-                                        className="base-toggle-indicator"
-                                        style={{
-                                          left:
-                                            SecondModChatSlowMode === seconds &&
-                                            "16.4px",
-                                          background:
-                                            SecondModChatSlowMode === seconds &&
-                                            "#53fc18",
-                                        }}
-                                      ></div>
-                                    </div>
-                                  </div>
-                                ))}
-                                <div className="SecondModChatSlowModeInput">
-                                  <input
-                                    type="number"
-                                    placeholder="Escriba un tiempo en segundos"
-                                    value={SecondModChatSlowMode}
-                                    onChange={(e) => {
-                                      SetSecondModChatSlowMode(e.target.value);
-                                    }}
-                                    min="1"
-                                  />
-                                  <button
-                                    onClick={() =>
-                                      updateModChatSlowMode(SecondModChatSlowMode)
-                                    }
-                                  >
-                                    Confirmar
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div> */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* <div
-                style={{
-                  height: showComandosList && "100%",
-                }}
-                className="ConfigComandosChat"
-              >
-                <ConfigComandosChat
-                  showComandosList={showComandosList}
-                  handleToggleComandosList={handleToggleComandosList}
-                />
-              </div> */}
-            </div>
-          </div>
-          <div
-            className="base-card-act"
-            style={{
-              
-              width: "50%",
-              height: "85%",
-              display: "flex",
-              flexDirection: "column",
-              gap: '10px'
-            }}
-          >
-            <div
-              className="Información-sesión"
-              style={{
-                display: showComandosList && "none",
-                borderRadius: '10px'
-              }}
-            >
-              <section className="base-card !p-0">
-                <div className="Información-sesión-p1">
-                  <div
-                    title="Información de sesión"
-                    className="flex flex-row items-center gap-1"
-                  >
-                    <CiStreamOn style={{ color: "white", fontSize: "30px" }} />
-
-                    <span
-                      style={{
-                        padding: "0px 10px",
-                      }}
-                      className="shrinkS2"
-                    >
-                      Servidor y clave de stream
-                    </span>
-                  </div>
-                  <Grid style={{ display: "flex", alignItems: "center" }}>
-                    <Grid
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        width: "80%",
-                      }}
-                    >
-                      <input
-                        value={process.env.REACT_APP_RTMPSTARTSTREAM}
-                        className="settingstream-input"
-                        style={{ width: "90%" }}
-                        type="text"
-                        readOnly
-                      />
-
-                      <input
-                        value={showKey ? user?.cmt : "******************"}
-                        className="settingstream-input"
-                        style={{ width: "90%" }}
-                        type="text"
-                      />
-                    </Grid>
-
-                    <div
-                      style={{
-                        marginTop: "10px",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <button
-                        onClick={() => setShowKey(!showKey)}
-                        className="button-copy"
-                      >
-                        {showKey ? "Ocultar" : "Mostrar"}
-                      </button>
-                      <button
-                        onClick={() => copyToClipboard(user?.cmt)}
-                        className="button-copy"
-                      >
-                        Copiar
-                      </button>
-                      <button className="button-copy">Restablecer</button>
-                    </div>
-                  </Grid>
-                </div>
-              </section>
-            </div>
-
-            <div className="Feeddeactividades_container" style={{ height: '58vh', backgroundColor: 'rgb(19, 20, 24)', borderRadius:'10px' }}>
-              <div title="Feed de actividades" className="Feeddeactividades">
-                <span
-                  className="max-w-full shrink truncate text-base font-bold text-white"
-                  style={{ display: "flex", alignItems: "center", gap: "5%" }}
-                >
-                  <AiFillThunderbolt style={{ fontSize: "2rem" }} />
-                  Feed de actividades
-                </span>
-              </div>
-
-              <div className="FeedAct">
-                <div className="mapFeedAct">
-                  {ActivityFeed.map((item, index) => (
-                    <div key={index} className="activity-feed-item">
-                      {/* {item?.action === "follow" && ( */}
-                      <div
-                        className="base-icon icon"
-                        style={{ width: "20px", height: "20px" }}
-                      >
-                        <GoHeartFill style={{ color: "#ff69c4" }} />
-                      </div>
-                      {/* )} */}
-                      <div className="activity-feed-item__info">
-                        <span className="activity-feed-item__info_name">
-                          {item?.Nameuser}
-                        </span>
-
-                        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                          {item?.Type === "follow" && (
-                            <span className="activity-feed-item__info_action">
-                              {" "}
-                              Te comenzó a seguir
-                            </span>
-                          )}
-                          {item?.Type === "DonatePixels" && (
-                            <span className="activity-feed-item__info_action">
-                              {" "}
-                              Dono {item?.Pixeles} Pixeles
-                            </span>
-                          )}
-                          {item?.Type === "Suscribirse" && (
-                            <span className="activity-feed-item__info_action">
-                              {" "}
-                              Se suscribió
-                            </span>
-                          )}
-
-                          {/* <span>Ahora</span> */}
-                        </span>
-
-                      </div>
-                    </div>
+                            <Grid style={{ display: 'flex', alignItems: 'center', backgroundColor: '#131418', padding: '5px' }}>
+                              {section.icon}
+                              <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
+                            </Grid>
+                            {renderSectionContent(section.id)}
+                          </Grid>
+                        )}
+                      </Draggable>
+                    )
                   ))}
-                </div>
-              </div>
-            </div>
-          </div>
+                </Grid>
+                {provided.placeholder}
+              </Grid>
+            )}
+          </Droppable>
 
-          {mostrarditInfoStream && (
-            <PopupEditInfo
-              closePopup={toggleEditInfoStream}
-              stream={streamerData}
-              user={userData}
-            />
-          )}
+          {/* Columna Centro (Chat) */}
+          <Droppable droppableId="center">
+            {(provided) => (
+              <Grid
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{ width: '25%', display: sections.center.some(s => s.visible) ? 'block' : 'none' }}
+              >
+                {sections.center.map((section, index) => (
+                  section.visible && (
+                    <Draggable key={section.id} draggableId={section.id} index={index}>
+                      {(provided) => (
+                        <Grid
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={{ ...provided.draggableProps.style }}
+                        >
+                          <Grid style={{ display: 'flex', alignItems: 'center', backgroundColor: '#131418', padding: '5px' }}>
+                            {section.icon}
+                            <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
+                          </Grid>
+                          {renderSectionContent(section.id)}
+                        </Grid>
+                      )}
+                    </Draggable>
+                  )
+                ))}
+                {provided.placeholder}
+              </Grid>
+            )}
+          </Droppable>
 
-          {/* Parte 1 */}
+          {/* Columna Derecha */}
+          <Droppable droppableId="right">
+            {(provided) => (
+              <Grid
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{
+                  display: sections.right.some(s => s.visible) ? 'flex' : 'none',
+                  flexDirection: 'column',
+                  padding: '5px',
+                  borderRadius: '5px',
+                  width: '20%',
+                  height: '100%',
+                }}
+              >
+                {sections.right.map((section, index) => (
+                  section.visible && (
+                    <Draggable key={section.id} draggableId={section.id} index={index}>
+                      {(provided) => (
+                        <Grid
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={{
+                            padding: '5px',
+                            borderRadius: '5px',
+                            ...provided.draggableProps.style,
+                          }}
+                        >
+                          <Grid style={{ display: 'flex', alignItems: 'center', backgroundColor: '#131418', padding: '5px' }}>
+                            {section.icon}
+                            <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
+                          </Grid>
+                          {renderSectionContent(section.id)}
+                        </Grid>
+                      )}
+                    </Draggable>
+                  )
+                ))}
+                {provided.placeholder}
+              </Grid>
+            )}
+          </Droppable>
+        </DragDropContext>
 
-          {streamerData && userData && !isMobile && (
-            <ChatStreaming
-              streamerChat={streamerData}
-              chatExpandeds={true}
-              streamerData={streamerData}
-              user={userData}
-              isMobile={isMobile}
-              DashboardStream={true}
-            />
-          )}
-        </div>
-      </div>
-      {/* Segunda sección */}
+        {/* Barra lateral fija a la derecha */}
+        <Grid style={{ display: 'flex', flexDirection: 'column', padding: '5px', borderRadius: '5px', height: '100%', width: '5%' }}>
+          <Grid style={{ display: 'flex', flexDirection: 'column', padding: '10px', borderRadius: '5px', height: '100%', backgroundColor: '#131418', alignItems: 'center', gap: '15px' }}>
+            <Grid style={{ display: 'flex', flexDirection: 'row', gap: '5px', alignItems: 'center', backgroundColor: '#131418', width: '100%', padding: '5px', justifyContent: 'center' }}>
+              <FaInfoCircle style={{ color: "white", fontSize: "15px" }} />
+            </Grid>
+            <hr style={{ width: '100%' }} />
+            {Object.values(sections).flat().map((section) => (
+              <Grid
+                key={section.id}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: '5px',
+                  alignItems: 'center',
+                  backgroundColor: '#131418',
+                  width: '100%',
+                  padding: '5px',
+                  justifyContent: 'center',
+                  border: section.visible ? '1px solid #f16397' : '1px solid grey',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  color:'white'
+                }}
+                onClick={() => toggleSectionVisibility(section.id)}
+              >
+                {section.icon}
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+
+        {/* Popup de edición */}
+        {mostrarditInfoStream && (
+          <PopupEditInfo closePopup={toggleEditInfoStream} stream={streamerData} user={userData} />
+        )}
+
+        {/* Imagen del chancho centrada cuando ninguna sección está visible */}
+        {!Object.values(sections).flat().some(section => section.visible) && (
+          <Grid style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <img src={logoPinkker} style={{ width: '50%', padding: '15px' }} />
+          </Grid>
+        )}
+      </Grid>
     </DashboarLayout>
   );
 }
