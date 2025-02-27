@@ -26,7 +26,29 @@ import Tippy from "@tippyjs/react";
 import { FaInfoCircle } from "react-icons/fa";
 import { IoChatboxEllipsesOutline, IoNewspaperOutline, IoVideocam } from "react-icons/io5";
 import { FiTool } from "react-icons/fi";
+import { FaSave } from "react-icons/fa";
 import logoPinkker from './Chancho--dengue.webp';
+
+// Definición estática de las secciones con títulos en español e íconos
+const sectionDefinitions = {
+  infoSesion: { title: "Información de la sesión", icon: <CiStreamOn style={{ color: "white" }} /> },
+  vistaPrevia: { title: "Vista previa del stream", icon: <MdOutlineOndemandVideo style={{ color: "white" }} /> },
+  feedAct: { title: "Feed de Actividades", icon: <AiFillThunderbolt style={{ color: "white" }} /> },
+  accMod: { title: "Acciones de Moderador", icon: <IoNewspaperOutline style={{ color: "white" }} /> },
+  chat: { title: "Chat", icon: <IoChatboxEllipsesOutline style={{ color: "white" }} /> },
+  infoStream: { title: "Información del stream", icon: <FiTool style={{ color: "white" }} /> },
+  accCanal: { title: "Acciones del canal", icon: <IoVideocam style={{ color: "white" }} /> },
+};
+
+// Función para eliminar duplicados basada en el ID
+const removeDuplicates = (array) => {
+  const seen = new Set();
+  return array.filter((item) => {
+    if (seen.has(item.id)) return false;
+    seen.add(item.id);
+    return true;
+  });
+};
 
 export default function DashboardStream({ isMobile, tyExpanded, user }) {
   const [streamerData, setStreamerData] = useState(null);
@@ -47,27 +69,57 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
   const [ActivityFeed, setActivityFeed] = useState([]);
   const [elapsedTime, setElapsedTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const [menuModChatSlowMode, setModChatSlowMode] = useState(false);
+  const [draggingId, setDraggingId] = useState(null);
 
-  // Estado para las secciones del dashboard con la posición inicial respetada
-  const [sections, setSections] = useState({
-    left: [
-      { id: "infoSesion", visible: true, title: "Información de la sesión", icon: <CiStreamOn style={{color:'white'}} /> },
-      { id: "vistaPrevia", visible: true, title: "Vista previa del stream", icon: <MdOutlineOndemandVideo style={{color:'white'}}/> },
-      { id: "feedAct", visible: true, title: "Feed de Actividades", icon: <AiFillThunderbolt style={{color:'white'}}/> },
-      { id: "accMod", visible: true, title: "Acciones de Moderador", icon: <IoNewspaperOutline  style={{color:'white'}}/> },
-    ],
-    center: [
-      { id: "chat", visible: true, title: "Chat", icon: <IoChatboxEllipsesOutline style={{color:'white'}}/> },
-    ],
-    right: [
-      { id: "infoStream", visible: true, title: "Información del stream", icon: <FiTool style={{color:'white'}}/> },
-      { id: "accCanal", visible: true, title: "Acciones del canal", icon: <IoVideocam style={{color:'white'}}/> },
-    ],
-  });
+  // Estado inicial cargado desde localStorage, fusionado con definiciones estáticas y sin duplicados
+  const initialSections = localStorage.getItem("dashboardSections")
+    ? (() => {
+        const savedSections = JSON.parse(localStorage.getItem("dashboardSections"));
+        return {
+          left: removeDuplicates(savedSections.left).map((sec) => ({
+            ...sec,
+            title: sectionDefinitions[sec.id].title,
+            icon: sectionDefinitions[sec.id].icon,
+          })),
+          center: removeDuplicates(savedSections.center).map((sec) => ({
+            ...sec,
+            title: sectionDefinitions[sec.id].title,
+            icon: sectionDefinitions[sec.id].icon,
+          })),
+          right: removeDuplicates(savedSections.right).map((sec) => ({
+            ...sec,
+            title: sectionDefinitions[sec.id].title,
+            icon: sectionDefinitions[sec.id].icon,
+          })),
+        };
+      })()
+    : {
+        left: [
+          { id: "infoSesion", visible: true, ...sectionDefinitions.infoSesion },
+          { id: "vistaPrevia", visible: true, ...sectionDefinitions.vistaPrevia },
+          { id: "feedAct", visible: true, ...sectionDefinitions.feedAct },
+          { id: "accMod", visible: true, ...sectionDefinitions.accMod },
+        ],
+        center: [
+          { id: "chat", visible: true, ...sectionDefinitions.chat },
+        ],
+        right: [
+          { id: "infoStream", visible: true, ...sectionDefinitions.infoStream },
+          { id: "accCanal", visible: true, ...sectionDefinitions.accCanal },
+        ],
+      };
+  const [sections, setSections] = useState(initialSections);
 
-  // Manejar el reordenamiento al soltar un elemento, permitiendo mover entre columnas
+  // Manejar el inicio del arrastre
+  const handleDragStart = (start) => {
+    setDraggingId(start.draggableId);
+  };
+
+  // Manejar el fin del arrastre
   const handleDragEnd = (result) => {
     const { source, destination } = result;
+    setDraggingId(null);
+
     if (!destination) return;
 
     const sourceSection = source.droppableId;
@@ -91,14 +143,24 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
       const newSections = { ...prevSections };
       ["left", "center", "right"].forEach((column) => {
         newSections[column] = newSections[column].map((section) =>
-          section.id === sectionId ? { ...section, visible: !section.visible } : section
+          section.id === sectionId ? { ...section, visible: !section.visible } : { ...section }
         );
       });
+      // Eliminar duplicados después de actualizar la visibilidad
+      newSections.left = removeDuplicates(newSections.left);
+      newSections.center = removeDuplicates(newSections.center);
+      newSections.right = removeDuplicates(newSections.right);
       return newSections;
     });
   };
 
-  // Funciones existentes
+  // Guardar la posición de los componentes
+  const saveSectionsLayout = () => {
+    localStorage.setItem("dashboardSections", JSON.stringify(sections));
+    alert("Posición de los componentes guardada correctamente");
+  };
+
+  // Funciones existentes sin cambios
   const speakMessage = (message) => {
     const speech = new SpeechSynthesisUtterance();
     speech.text = message;
@@ -122,7 +184,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
       };
 
       newSocket.onmessage = (event) => {
-
         try {
           const receivedMessage = JSON.parse(event.data);
           console.log(event);
@@ -154,6 +215,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
       if (socket && socket.readyState === WebSocket.OPEN) {
         socket.send("closing");
         socket.close();
+
       }
     };
   }, []);
@@ -166,7 +228,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     };
 
     const intervalId = setInterval(pingInterval, 3000);
-    pingInterval(); // Invocar la función aquí para que se ejecute inmediatamente
+    pingInterval();
 
     if (pingIntervalRef.current) {
       clearInterval(pingIntervalRef.current);
@@ -405,7 +467,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     switch (sectionId) {
       case "infoSesion":
         return (
-          <Grid style={{ backgroundColor: '#141517', padding: '5px',display:'flex', alignItems:'center' }}>
+          <Grid style={{ backgroundColor: '#141517', padding: '5px', display: 'flex', alignItems: 'center' }}>
             {!streamerData?.online && <div className="stats-container"><span className="w-fit grow-0 rounded-[2px] px-[0.375rem] py-1 text-center text-[0.625rem] font-bold uppercase bg-[#F4F5F6] text-[#070809]">Sin conexión</span><span>Sesión</span></div>}
             <div className="stats-container"><span>{streamerData?.online && streamerData?.ViewerCount || "-"}</span><span>espectadores</span></div>
             <div className="stats-container"><span>{userData?.FollowersCount || "-"}</span><span>seguidores</span></div>
@@ -419,7 +481,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
             {getBottomButtons()}
           </>
         ) : (
-          <img src={streamerData?.stream_thumbnail} alt="Thumbnail" style={{ width: "100%"}} />
+          <img src={streamerData?.stream_thumbnail} alt="Thumbnail" style={{ width: "100%" }} />
         );
       case "feedAct":
         return (
@@ -485,26 +547,29 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
   return (
     <DashboarLayout user={user} isMobile={isMobile}>
       <Grid style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '10px', height: '100%' }}>
-        <DragDropContext onDragEnd={handleDragEnd}>
+        <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           {/* Columna Izquierda */}
           <Droppable droppableId="left">
-            {(provided) => (
+            {(provided, snapshot) => (
               <Grid
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 style={{
-                  display: sections.left.some(s => s.visible) ? 'flex' : 'none',
                   flexDirection: 'column',
                   padding: '5px',
                   borderRadius: '5px',
                   width: '50%',
                   height: '100%',
+                  backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
+                  transition: 'background-color 0.2s ease',
+                  minHeight: '200px',
+                  display: 'flex', // Siempre visible
                 }}
               >
                 {sections.left.map((section, index) => (
                   section.visible && (section.id !== "feedAct" && section.id !== "accMod") && (
                     <Draggable key={section.id} draggableId={section.id} index={index}>
-                      {(provided) => (
+                      {(provided, snapshot) => (
                         <Grid
                           ref={provided.innerRef}
                           {...provided.draggableProps}
@@ -512,6 +577,9 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                           style={{
                             padding: '5px',
                             borderRadius: '5px',
+                            backgroundColor: '#131418',
+                            opacity: snapshot.isDragging ? 0.5 : 1,
+                            border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
                             ...provided.draggableProps.style,
                           }}
                         >
@@ -530,7 +598,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                   {sections.left.map((section, index) => (
                     section.visible && (section.id === "feedAct" || section.id === "accMod") && (
                       <Draggable key={section.id} draggableId={section.id} index={index}>
-                        {(provided) => (
+                        {(provided, snapshot) => (
                           <Grid
                             ref={provided.innerRef}
                             {...provided.draggableProps}
@@ -538,7 +606,10 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                             style={{
                               padding: '5px',
                               borderRadius: '5px',
-                              width: '50%', // Cada una ocupa la mitad del ancho de la columna izquierda
+                              width: '50%',
+                              backgroundColor: '#131418',
+                              opacity: snapshot.isDragging ? 0.5 : 1,
+                              border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
                               ...provided.draggableProps.style,
                             }}
                           >
@@ -554,69 +625,46 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                   ))}
                 </Grid>
                 {provided.placeholder}
+                {snapshot.isDraggingOver && !sections.left.some((s) => s.id === draggingId) && (
+                  <div
+                    style={{
+                      height: '50px',
+                      border: '2px dashed #f16397',
+                      borderRadius: '5px',
+                      backgroundColor: 'rgba(241, 99, 151, 0.1)',
+                    }}
+                  />
+                )}
               </Grid>
             )}
           </Droppable>
 
           {/* Columna Centro (Chat) */}
           <Droppable droppableId="center">
-            {(provided) => (
-              <Grid
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={{ width: '25%', display: sections.center.some(s => s.visible) ? 'block' : 'none' }}
-              >
-                {sections.center.map((section, index) => (
-                  section.visible && (
-                    <Draggable key={section.id} draggableId={section.id} index={index}>
-                      {(provided) => (
-                        <Grid
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={{ ...provided.draggableProps.style }}
-                        >
-                          <Grid style={{ display: 'flex', alignItems: 'center', backgroundColor: '#131418', padding: '5px' }}>
-                            {section.icon}
-                            <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
-                          </Grid>
-                          {renderSectionContent(section.id)}
-                        </Grid>
-                      )}
-                    </Draggable>
-                  )
-                ))}
-                {provided.placeholder}
-              </Grid>
-            )}
-          </Droppable>
-
-          {/* Columna Derecha */}
-          <Droppable droppableId="right">
-            {(provided) => (
+            {(provided, snapshot) => (
               <Grid
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 style={{
-                  display: sections.right.some(s => s.visible) ? 'flex' : 'none',
-                  flexDirection: 'column',
-                  padding: '5px',
-                  borderRadius: '5px',
-                  width: '20%',
-                  height: '100%',
+                  width: '25%',
+                  backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
+                  transition: 'background-color 0.2s ease',
+                  minHeight: '200px',
+                  display: 'block', // Siempre visible
                 }}
               >
-                {sections.right.map((section, index) => (
+                {sections.center.map((section, index) => (
                   section.visible && (
                     <Draggable key={section.id} draggableId={section.id} index={index}>
-                      {(provided) => (
+                      {(provided, snapshot) => (
                         <Grid
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           style={{
-                            padding: '5px',
-                            borderRadius: '5px',
+                            backgroundColor: '#131418',
+                            opacity: snapshot.isDragging ? 0.5 : 1,
+                            border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
                             ...provided.draggableProps.style,
                           }}
                         >
@@ -631,6 +679,76 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                   )
                 ))}
                 {provided.placeholder}
+                {snapshot.isDraggingOver && !sections.center.some((s) => s.id === draggingId) && (
+                  <div
+                    style={{
+                      height: '50px',
+                      border: '2px dashed #f16397',
+                      borderRadius: '5px',
+                      backgroundColor: 'rgba(241, 99, 151, 0.1)',
+                    }}
+                  />
+                )}
+              </Grid>
+            )}
+          </Droppable>
+
+          {/* Columna Derecha */}
+          <Droppable droppableId="right">
+            {(provided, snapshot) => (
+              <Grid
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{
+                  flexDirection: 'column',
+                  padding: '5px',
+                  borderRadius: '5px',
+                  width: '20%',
+                  height: '100%',
+                  backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
+                  transition: 'background-color 0.2s ease',
+                  minHeight: '200px',
+                  display: 'flex', // Siempre visible
+                }}
+              >
+                {sections.right.map((section, index) => (
+                  section.visible && (
+                    <Draggable key={section.id} draggableId={section.id} index={index}>
+                      {(provided, snapshot) => (
+                        <Grid
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={{
+                            padding: '5px',
+                            borderRadius: '5px',
+                            backgroundColor: '#131418',
+                            opacity: snapshot.isDragging ? 0.5 : 1,
+                            border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
+                            ...provided.draggableProps.style,
+                          }}
+                        >
+                          <Grid style={{ display: 'flex', alignItems: 'center', backgroundColor: '#131418', padding: '5px' }}>
+                            {section.icon}
+                            <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
+                          </Grid>
+                          {renderSectionContent(section.id)}
+                        </Grid>
+                      )}
+                    </Draggable>
+                  )
+                ))}
+                {provided.placeholder}
+                {snapshot.isDraggingOver && !sections.right.some((s) => s.id === draggingId) && (
+                  <div
+                    style={{
+                      height: '50px',
+                      border: '2px dashed #f16397',
+                      borderRadius: '5px',
+                      backgroundColor: 'rgba(241, 99, 151, 0.1)',
+                    }}
+                  />
+                )}
               </Grid>
             )}
           </Droppable>
@@ -658,13 +776,33 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                   border: section.visible ? '1px solid #f16397' : '1px solid grey',
                   borderRadius: '5px',
                   cursor: 'pointer',
-                  color:'white'
+                  color: 'white'
                 }}
                 onClick={() => toggleSectionVisibility(section.id)}
               >
                 {section.icon}
               </Grid>
             ))}
+            {/* Botón para guardar la posición */}
+            <Grid
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: '5px',
+                alignItems: 'center',
+                backgroundColor: '#131418',
+                width: '100%',
+                padding: '5px',
+                justifyContent: 'center',
+                border: '1px solid #f16397',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                color: 'white'
+              }}
+              onClick={saveSectionsLayout}
+            >
+              <FaSave style={{ fontSize: '15px' }} />
+            </Grid>
           </Grid>
         </Grid>
 
