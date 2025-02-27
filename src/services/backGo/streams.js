@@ -405,3 +405,57 @@ export const downloadStream = async (id, token) => {
 	// 	console.error('Error al descargar el VOD:', error);
 	// }
 };
+export const GetInfoUserInRoomBaneados = async (token, NameUser,) => {
+	try {
+
+		const res = await axios.post(
+			`${baseURL}/stream/GetInfoUserInRoomBaneados`,
+			{
+				NameUser
+			},
+			{
+				headers: { Authorization: token },
+			}
+		);
+		return res;
+	} catch (error) {
+		return error
+	}
+};
+
+// 0 segundos(0s) a 6 meses (15552000s)
+export const UpdateAntiqueStreamDate = async (token, duration) => {
+	try {
+
+		const res = await axios.post(
+			`${baseURL}/stream/UpdateAntiqueStreamDate`,
+			{
+				duration
+			},
+			{
+				headers: { Authorization: token },
+			}
+		);
+		return res;
+	} catch (error) {
+		return error
+	}
+};
+// Rules string
+export const UpdateChatRulesStream = async (token, Rules) => {
+	try {
+
+		const res = await axios.post(
+			`${baseURL}/stream/UpdateChatRulesStream`,
+			{
+				Rules
+			},
+			{
+				headers: { Authorization: token },
+			}
+		);
+		return res;
+	} catch (error) {
+		return error
+	}
+};
