@@ -1223,7 +1223,8 @@ export function ChatStreaming({
           actionAgainst,
           timeOut,
           room,
-          token
+          token,
+          streamerChat.streamerId
         );
         alert({ type: "SUCCESS" });
       } catch (error) {

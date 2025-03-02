@@ -487,16 +487,35 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
         return (
           <div style={{ backgroundColor: '#141517', height: '12vh', overflowY: 'auto' }}>
             {ActivityFeed.map((item, index) => (
+              item.type !== "moderator" && (
               <div key={index} className="activity-feed-item">
                 <GoHeartFill style={{ color: "#ff69c4" }} />
-                <span>{item.Nameuser}</span>
-                <span>{item.Type === "follow" ? "Te comenzó a seguir" : item.Type === "DonatePixels" ? `Dono ${item.Pixeles} Pixeles` : "Se suscribió"}</span>
+                <span>{item.nameuser}</span>
+                <span>{item.type === "follow" ? "Te comenzó a seguir" : item.type === "DonatePixels" ? `Dono ${item.Pixeles} Pixeles` : item.type === "Suscribirse" && "Se suscribió"}</span>
               </div>
+              )
             ))}
           </div>
         );
       case "accMod":
-        return <Grid style={{ backgroundColor: '#141517', height: '12vh' }} />;
+        return (
+          <div style={{ backgroundColor: '#141517', height: '12vh', overflowY: 'auto' }}>
+            {ActivityFeed.map((item, index) => (
+              item.type === "moderator" && (
+              <div key={index} className="activity-feed-item">
+                <span>{item.nameuser}</span>
+                <span 
+                style={{
+                  // el texto es muy largo pero lo mismo quiero que quede en una sola linea 
+                  overflow: 'hidden',
+
+                }}
+                >{item.type === "moderator" && ` le dio ${item.action} a ${item.actionAgainst}`}</span>
+              </div>
+              )
+            ))} 
+          </div>
+        );
       case "chat":
         return streamerData && userData && !isMobile ? (
           <ChatStreaming

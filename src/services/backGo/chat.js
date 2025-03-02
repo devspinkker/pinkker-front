@@ -2,7 +2,7 @@ const axios = require('axios');
 
 const baseURL = process.env.REACT_APP_BACKCHAT;
 
-export async function actionsModeratorChatStream(action, actionAgainst, timeOut, room, token) {
+export async function actionsModeratorChatStream(action, actionAgainst, timeOut, room, token, streamerChat) {
     try {
         const response = await axios.post(
             `${baseURL}/actionsModeratorChatStream`,
@@ -11,6 +11,7 @@ export async function actionsModeratorChatStream(action, actionAgainst, timeOut,
                 actionAgainst: actionAgainst,
                 timeOut: timeOut,
                 room: room,
+                streamerChat: streamerChat
             },
             {
                 headers: {
