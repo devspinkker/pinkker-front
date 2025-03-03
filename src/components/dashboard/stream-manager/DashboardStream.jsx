@@ -50,6 +50,9 @@ const removeDuplicates = (array) => {
   });
 };
 
+// Alto estimado por componente
+const ITEM_HEIGHT = 150; // En píxeles, ajusta según el diseño real
+
 export default function DashboardStream({ isMobile, tyExpanded, user }) {
   const [streamerData, setStreamerData] = useState(null);
   const [userData, setUserData] = useState(null);
@@ -115,7 +118,25 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     setDraggingId(start.draggableId);
   };
 
-  // Manejar el fin del arrastre
+  // Función para redistribuir componentes si exceden la altura máxima
+  const redistributeSections = (newSections) => {
+    const maxItemsPerColumn = Math.floor(window.innerHeight / ITEM_HEIGHT);
+    const columns = ["left", "center", "right"];
+    
+    columns.forEach((currentSection, idx) => {
+      const visibleItems = newSections[currentSection].filter(item => item.visible);
+      if (visibleItems.length > maxItemsPerColumn) {
+        const overflowItems = visibleItems.splice(maxItemsPerColumn);
+        const nextSection = columns[(idx + 1) % columns.length]; // Ciclo: left -> center -> right -> left
+        newSections[currentSection] = newSections[currentSection].filter(item => !overflowItems.includes(item));
+        newSections[nextSection] = newSections[nextSection].concat(overflowItems);
+      }
+    });
+    
+    return newSections;
+  };
+
+  // Manejar el fin del arrastre con redistribución por overflow
   const handleDragEnd = (result) => {
     const { source, destination } = result;
     setDraggingId(null);
@@ -132,12 +153,13 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
 
     destItems.splice(destination.index, 0, movedItem);
     newSections[sourceSection] = sourceItems;
-    if (sourceSection !== destSection) newSections[destSection] = destItems;
+    newSections[destSection] = destItems;
 
-    setSections(newSections);
+    // Redistribuir componentes si exceden la altura
+    setSections(redistributeSections(newSections));
   };
 
-  // Toggle de visibilidad de una sección
+  // Toggle de visibilidad de una sección con redistribución
   const toggleSectionVisibility = (sectionId) => {
     setSections((prevSections) => {
       const newSections = { ...prevSections };
@@ -146,11 +168,10 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
           section.id === sectionId ? { ...section, visible: !section.visible } : { ...section }
         );
       });
-      // Eliminar duplicados después de actualizar la visibilidad
       newSections.left = removeDuplicates(newSections.left);
       newSections.center = removeDuplicates(newSections.center);
       newSections.right = removeDuplicates(newSections.right);
-      return newSections;
+      return redistributeSections(newSections);
     });
   };
 
@@ -215,7 +236,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
       if (socket && socket.readyState === WebSocket.OPEN) {
         socket.send("closing");
         socket.close();
-
       }
     };
   }, []);
@@ -506,9 +526,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 <span>{item.nameuser}</span>
                 <span 
                 style={{
-                  // el texto es muy largo pero lo mismo quiero que quede en una sola linea 
                   overflow: 'hidden',
-
                 }}
                 >{item.type === "moderator" && ` le dio ${item.action} a ${item.actionAgainst}`}</span>
               </div>
@@ -563,9 +581,23 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     }
   };
 
+  // Determinar si la columna central está vacía
+  const isCenterEmpty = sections.center.every(section => !section.visible);
+
   return (
     <DashboarLayout user={user} isMobile={isMobile}>
-      <Grid style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '10px', height: '100%' }}>
+      <Grid 
+        style={{ 
+          display: 'flex', 
+          flexDirection: 'row', 
+          alignItems: 'flex-start', 
+          justifyContent: 'space-between', 
+          gap: '10px', 
+          height: '100vh', 
+          width: '100%',
+          overflow: 'hidden',
+        }}
+      >
         <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           {/* Columna Izquierda */}
           <Droppable droppableId="left">
@@ -577,16 +609,17 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                   flexDirection: 'column',
                   padding: '5px',
                   borderRadius: '5px',
-                  width: '50%',
-                  height: '100%',
+                  width: isCenterEmpty ? '75%' : '50%',
+                  height: '100vh',
                   backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
-                  transition: 'background-color 0.2s ease',
-                  minHeight: '200px',
-                  display: 'flex', // Siempre visible
+                  transition: 'background-color 0.2s ease, width 0.3s ease',
+                  display: 'flex',
                 }}
               >
-                {sections.left.map((section, index) => (
-                  section.visible && (section.id !== "feedAct" && section.id !== "accMod") && (
+                {sections.left
+                  .filter((section) => section.visible)
+                  .slice(0, Math.floor(window.innerHeight / ITEM_HEIGHT))
+                  .map((section, index) => (
                     <Draggable key={section.id} draggableId={section.id} index={index}>
                       {(provided, snapshot) => (
                         <Grid
@@ -610,39 +643,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                         </Grid>
                       )}
                     </Draggable>
-                  )
-                ))}
-                {/* Contenedor horizontal para feedAct y accMod */}
-                <Grid style={{ display: 'flex', flexDirection: 'row', gap: '5px' }}>
-                  {sections.left.map((section, index) => (
-                    section.visible && (section.id === "feedAct" || section.id === "accMod") && (
-                      <Draggable key={section.id} draggableId={section.id} index={index}>
-                        {(provided, snapshot) => (
-                          <Grid
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={{
-                              padding: '5px',
-                              borderRadius: '5px',
-                              width: '50%',
-                              backgroundColor: '#131418',
-                              opacity: snapshot.isDragging ? 0.5 : 1,
-                              border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            <Grid style={{ display: 'flex', alignItems: 'center', backgroundColor: '#131418', padding: '5px' }}>
-                              {section.icon}
-                              <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
-                            </Grid>
-                            {renderSectionContent(section.id)}
-                          </Grid>
-                        )}
-                      </Draggable>
-                    )
                   ))}
-                </Grid>
                 {provided.placeholder}
                 {snapshot.isDraggingOver && !sections.left.some((s) => s.id === draggingId) && (
                   <div
@@ -665,15 +666,18 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 style={{
-                  width: '25%',
+                  width: isCenterEmpty ? '0%' : '25%',
+                  height: '100vh',
                   backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
-                  transition: 'background-color 0.2s ease',
-                  minHeight: '200px',
-                  display: 'block', // Siempre visible
+                  transition: 'background-color 0.2s ease, width 0.3s ease',
+                  display: 'block',
+                  minWidth: isCenterEmpty ? '10px' : '0',
                 }}
               >
-                {sections.center.map((section, index) => (
-                  section.visible && (
+                {sections.center
+                  .filter((section) => section.visible)
+                  .slice(0, Math.floor(window.innerHeight / ITEM_HEIGHT))
+                  .map((section, index) => (
                     <Draggable key={section.id} draggableId={section.id} index={index}>
                       {(provided, snapshot) => (
                         <Grid
@@ -695,8 +699,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                         </Grid>
                       )}
                     </Draggable>
-                  )
-                ))}
+                  ))}
                 {provided.placeholder}
                 {snapshot.isDraggingOver && !sections.center.some((s) => s.id === draggingId) && (
                   <div
@@ -723,15 +726,16 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                   padding: '5px',
                   borderRadius: '5px',
                   width: '20%',
-                  height: '100%',
+                  height: '100vh',
                   backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
                   transition: 'background-color 0.2s ease',
-                  minHeight: '200px',
-                  display: 'flex', // Siempre visible
+                  display: 'flex',
                 }}
               >
-                {sections.right.map((section, index) => (
-                  section.visible && (
+                {sections.right
+                  .filter((section) => section.visible)
+                  .slice(0, Math.floor(window.innerHeight / ITEM_HEIGHT))
+                  .map((section, index) => (
                     <Draggable key={section.id} draggableId={section.id} index={index}>
                       {(provided, snapshot) => (
                         <Grid
@@ -755,8 +759,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                         </Grid>
                       )}
                     </Draggable>
-                  )
-                ))}
+                  ))}
                 {provided.placeholder}
                 {snapshot.isDraggingOver && !sections.right.some((s) => s.id === draggingId) && (
                   <div
@@ -774,7 +777,16 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
         </DragDropContext>
 
         {/* Barra lateral fija a la derecha */}
-        <Grid style={{ display: 'flex', flexDirection: 'column', padding: '5px', borderRadius: '5px', height: '100%', width: '5%' }}>
+        <Grid 
+          style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            padding: '5px', 
+            borderRadius: '5px', 
+            height: '100vh',
+            width: '5%',
+          }}
+        >
           <Grid style={{ display: 'flex', flexDirection: 'column', padding: '10px', borderRadius: '5px', height: '100%', backgroundColor: '#131418', alignItems: 'center', gap: '15px' }}>
             <Grid style={{ display: 'flex', flexDirection: 'row', gap: '5px', alignItems: 'center', backgroundColor: '#131418', width: '100%', padding: '5px', justifyContent: 'center' }}>
               <FaInfoCircle style={{ color: "white", fontSize: "15px" }} />

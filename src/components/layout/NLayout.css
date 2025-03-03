@@ -1,20 +1,60 @@
 .navTopHome {
-    /* border-bottom: 1px solid rgb(42 46 56 / 52%);  */
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 15.5px 0rem;
+    padding: 12px 1.5rem; /* Reduce padding para más espacio */
     position: sticky;
-    top: 0px;
+    top: 0;
     z-index: 9999;
     background-color: rgb(8, 8, 8);
     width: 100%;
-    
-    
     box-shadow: 6px 2px 20px 0px #e172ff0f;
+   
 }
-.navTop{
-    max-width: calc(1400px + 6vw);
+
+.navTop {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1150px; /* Ajustado para que no se corte en 1280px */
+    margin: 0 auto;
+    padding: 0 1rem; /* Reduce el padding lateral */
+    flex-wrap: nowrap; /* Mantiene en una fila */
+}
+
+/* 📌 Ajuste especial para 1280x720 */
+@media (max-width: 1280px) {
+    .navTop {
+        max-width: 1100px; /* Reduce el ancho para evitar desbordes */
+        padding: 0 0.8rem;
+        margin: 0;
+    }
+
+    .submenu-layout{
+        right: 20% !important;
+    }
+}
+
+/* 📌 Para pantallas más pequeñas */
+@media (max-width: 1024px) {
+    .navTop {
+        max-width: 100%;
+        padding: 0 0.5rem;
+        flex-wrap: wrap; /* Permite que los elementos bajen si es necesario */
+        justify-content: center;
+    }
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+    .navTop {
+        flex-wrap: wrap; /* Evita desbordes en pantallas pequeñas */
+        justify-content: center;
+        padding: 0.5rem;
+    }
 }
 
 @media (min-width: 1200px) and (max-width: 1599px) {

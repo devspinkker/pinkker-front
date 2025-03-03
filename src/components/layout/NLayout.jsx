@@ -1322,6 +1322,8 @@ function NLayout(props) {
             flexDirection: "column",
             transition: "width .2s ease-in-out",
             zIndex: 99999,
+            
+              
           }}
         >
           {!props.user?.NameUser ? (
@@ -1339,6 +1341,7 @@ function NLayout(props) {
             //   backgroundColor: "#080808",
             //   width: "102%",
             // }}
+            style={{width: is1920x1080 ? '100%' : '85%', margin: !is1920x1080 && '0 auto'}}
             >
               <Grid
                 className="navTop"
@@ -1379,31 +1382,11 @@ function NLayout(props) {
               </Grid>
             </Grid>
           ) : (
-            <Grid className="navTopHome">
+            <Grid className="navTopHome" >
               <Grid
                 className="navTop"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: is1920x1080 ? "100%" : "100%",
-                  maxWidth: is1920x1080
-                    ? "calc(1400px + 6vw)"
-                    : "calc(1200px + 6vw)",
-                  margin: "0 auto",
-                }}
-              // style={{
-              //   borderBottom: "1px solid #2a2e38",
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "space-between",
-              //   padding: "15.5px 5.8rem",
-              //   position: "sticky",
-              //   top: 0,
-              //   zIndex: 9999,
-              //   backgroundColor: "#080808",
-              //   width: "103.5%",
-              // }}
+                
+              
               >
                 <Link to="/" style={{ width: "230px" }}>
                   <img
@@ -1587,6 +1570,7 @@ function NLayout(props) {
                         borderRadius: "0.5rem",
                         zIndex: 99999,
                       }}
+                      className="submenu-layout"
                     >
                       <Grid
                         style={{
