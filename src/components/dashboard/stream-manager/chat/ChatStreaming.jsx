@@ -1333,7 +1333,7 @@ export function ChatStreaming({
       className="ChatStreaming"
       style={{
         
-        height: DashboardStream ? "85vh" : "",
+        height: DashboardStream ? "90%" : "",
         position: DashboardStream && "relative",
       }}
     >

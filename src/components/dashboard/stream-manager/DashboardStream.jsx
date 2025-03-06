@@ -28,7 +28,8 @@ import { IoChatboxEllipsesOutline, IoNewspaperOutline, IoVideocam } from "react-
 import { FiTool } from "react-icons/fi";
 import { FaSave } from "react-icons/fa";
 import logoPinkker from './Chancho--dengue.webp';
-
+import { ResizableBox } from 'react-resizable';
+import 'react-resizable/css/styles.css';  // Asegúrate de importar los estilos
 // Definición estática de las secciones con títulos en español e íconos
 const sectionDefinitions = {
   infoSesion: { title: "Información de la sesión", icon: <CiStreamOn style={{ color: "white" }} /> },
@@ -51,7 +52,7 @@ const removeDuplicates = (array) => {
 };
 
 // Alto estimado por componente
-const ITEM_HEIGHT = 150; // En píxeles, ajusta según el diseño real
+const ITEM_HEIGHT = 185; // En píxeles, ajusta según el diseño real
 
 export default function DashboardStream({ isMobile, tyExpanded, user }) {
   const [streamerData, setStreamerData] = useState(null);
@@ -77,40 +78,40 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
   // Estado inicial cargado desde localStorage, fusionado con definiciones estáticas y sin duplicados
   const initialSections = localStorage.getItem("dashboardSections")
     ? (() => {
-        const savedSections = JSON.parse(localStorage.getItem("dashboardSections"));
-        return {
-          left: removeDuplicates(savedSections.left).map((sec) => ({
-            ...sec,
-            title: sectionDefinitions[sec.id].title,
-            icon: sectionDefinitions[sec.id].icon,
-          })),
-          center: removeDuplicates(savedSections.center).map((sec) => ({
-            ...sec,
-            title: sectionDefinitions[sec.id].title,
-            icon: sectionDefinitions[sec.id].icon,
-          })),
-          right: removeDuplicates(savedSections.right).map((sec) => ({
-            ...sec,
-            title: sectionDefinitions[sec.id].title,
-            icon: sectionDefinitions[sec.id].icon,
-          })),
-        };
-      })()
-    : {
-        left: [
-          { id: "infoSesion", visible: true, ...sectionDefinitions.infoSesion },
-          { id: "vistaPrevia", visible: true, ...sectionDefinitions.vistaPrevia },
-          { id: "feedAct", visible: true, ...sectionDefinitions.feedAct },
-          { id: "accMod", visible: true, ...sectionDefinitions.accMod },
-        ],
-        center: [
-          { id: "chat", visible: true, ...sectionDefinitions.chat },
-        ],
-        right: [
-          { id: "infoStream", visible: true, ...sectionDefinitions.infoStream },
-          { id: "accCanal", visible: true, ...sectionDefinitions.accCanal },
-        ],
+      const savedSections = JSON.parse(localStorage.getItem("dashboardSections"));
+      return {
+        left: removeDuplicates(savedSections.left).map((sec) => ({
+          ...sec,
+          title: sectionDefinitions[sec.id].title,
+          icon: sectionDefinitions[sec.id].icon,
+        })),
+        center: removeDuplicates(savedSections.center).map((sec) => ({
+          ...sec,
+          title: sectionDefinitions[sec.id].title,
+          icon: sectionDefinitions[sec.id].icon,
+        })),
+        right: removeDuplicates(savedSections.right).map((sec) => ({
+          ...sec,
+          title: sectionDefinitions[sec.id].title,
+          icon: sectionDefinitions[sec.id].icon,
+        })),
       };
+    })()
+    : {
+      left: [
+        { id: "infoSesion", visible: true, ...sectionDefinitions.infoSesion },
+        { id: "vistaPrevia", visible: true, ...sectionDefinitions.vistaPrevia },
+        { id: "feedAct", visible: true, ...sectionDefinitions.feedAct },
+        { id: "accMod", visible: true, ...sectionDefinitions.accMod },
+      ],
+      center: [
+        { id: "chat", visible: true, ...sectionDefinitions.chat },
+      ],
+      right: [
+        { id: "infoStream", visible: true, ...sectionDefinitions.infoStream },
+        { id: "accCanal", visible: true, ...sectionDefinitions.accCanal },
+      ],
+    };
   const [sections, setSections] = useState(initialSections);
 
   // Manejar el inicio del arrastre
@@ -122,7 +123,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
   const redistributeSections = (newSections) => {
     const maxItemsPerColumn = Math.floor(window.innerHeight / ITEM_HEIGHT);
     const columns = ["left", "center", "right"];
-    
+
     columns.forEach((currentSection, idx) => {
       const visibleItems = newSections[currentSection].filter(item => item.visible);
       if (visibleItems.length > maxItemsPerColumn) {
@@ -132,7 +133,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
         newSections[nextSection] = newSections[nextSection].concat(overflowItems);
       }
     });
-    
+
     return newSections;
   };
 
@@ -501,18 +502,18 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
             {getBottomButtons()}
           </>
         ) : (
-          <img src={streamerData?.stream_thumbnail} alt="Thumbnail" style={{ width: "100%" }} />
+          <img src={streamerData?.stream_thumbnail} alt="Thumbnail" style={{ width: "100%", height:'100%', objectFit:'cover' }} />
         );
       case "feedAct":
         return (
-          <div style={{ backgroundColor: '#141517', height: '12vh', overflowY: 'auto' }}>
+          <div style={{ backgroundColor: '#141517', height: '100%', overflowY: 'auto' }}>
             {ActivityFeed.map((item, index) => (
               item.type !== "moderator" && (
-              <div key={index} className="activity-feed-item">
-                <GoHeartFill style={{ color: "#ff69c4" }} />
-                <span>{item.nameuser}</span>
-                <span>{item.type === "follow" ? "Te comenzó a seguir" : item.type === "DonatePixels" ? `Dono ${item.Pixeles} Pixeles` : item.type === "Suscribirse" && "Se suscribió"}</span>
-              </div>
+                <div key={index} className="activity-feed-item">
+                  <GoHeartFill style={{ color: "#ff69c4" }} />
+                  <span>{item.nameuser}</span>
+                  <span>{item.type === "follow" ? "Te comenzó a seguir" : item.type === "DonatePixels" ? `Dono ${item.Pixeles} Pixeles` : item.type === "Suscribirse" && "Se suscribió"}</span>
+                </div>
               )
             ))}
           </div>
@@ -522,16 +523,16 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
           <div style={{ backgroundColor: '#141517', height: '12vh', overflowY: 'auto' }}>
             {ActivityFeed.map((item, index) => (
               item.type === "moderator" && (
-              <div key={index} className="activity-feed-item">
-                <span>{item.nameuser}</span>
-                <span 
-                style={{
-                  overflow: 'hidden',
-                }}
-                >{item.type === "moderator" && ` le dio ${item.action} a ${item.actionAgainst}`}</span>
-              </div>
+                <div key={index} className="activity-feed-item">
+                  <span>{item.nameuser}</span>
+                  <span
+                    style={{
+                      overflow: 'hidden',
+                    }}
+                  >{item.type === "moderator" && ` le dio ${item.action} a ${item.actionAgainst}`}</span>
+                </div>
               )
-            ))} 
+            ))}
           </div>
         );
       case "chat":
@@ -586,19 +587,22 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
 
   return (
     <DashboarLayout user={user} isMobile={isMobile}>
-      <Grid 
-        style={{ 
-          display: 'flex', 
-          flexDirection: 'row', 
-          alignItems: 'flex-start', 
-          justifyContent: 'space-between', 
-          gap: '10px', 
-          height: '100vh', 
+      <Grid
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          gap: '10px',
+          height: '100vh',
           width: '100%',
           overflow: 'hidden',
         }}
       >
+
+
         <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+
           {/* Columna Izquierda */}
           <Droppable droppableId="left">
             {(provided, snapshot) => (
@@ -606,22 +610,31 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 style={{
+                  display: 'flex',
                   flexDirection: 'column',
+                  flexGrow: 1,  // Se adapta automáticamente
                   padding: '5px',
                   borderRadius: '5px',
-                  width: isCenterEmpty ? '75%' : '50%',
                   height: '100vh',
                   backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
+                  
                   transition: 'background-color 0.2s ease, width 0.3s ease',
-                  display: 'flex',
+                  width: '50%'
                 }}
               >
-                {sections.left
-                  .filter((section) => section.visible)
-                  .slice(0, Math.floor(window.innerHeight / ITEM_HEIGHT))
-                  .map((section, index) => (
-                    <Draggable key={section.id} draggableId={section.id} index={index}>
-                      {(provided, snapshot) => (
+                {sections.left.map((section, index) => (
+                  <Draggable key={section.id} draggableId={section.id} index={index}>
+                    {(provided, snapshot) => (
+                      <ResizableBox
+                        width="100%"
+                        height={350}
+                        axis="y"
+                        resizeHandles={['s']}
+                        minConstraints={[100, 50]}
+                        maxConstraints={[100, window.innerHeight]}
+                        onResizeStop={(e, data) => console.log(data.size.height)}
+                        style={{ backgroundColor: '#141517', marginBottom: '5px' }}
+                      >
                         <Grid
                           ref={provided.innerRef}
                           {...provided.draggableProps}
@@ -633,84 +646,83 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                             opacity: snapshot.isDragging ? 0.5 : 1,
                             border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
                             ...provided.draggableProps.style,
+                            height:'100%',
+                            overflow: 'hidden',
                           }}
                         >
-                          <Grid style={{ display: 'flex', alignItems: 'center', backgroundColor: '#131418', padding: '5px' }}>
+                          <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
                             {section.icon}
                             <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
                           </Grid>
                           {renderSectionContent(section.id)}
                         </Grid>
-                      )}
-                    </Draggable>
-                  ))}
+                      </ResizableBox>
+                    )}
+                  </Draggable>
+                ))}
                 {provided.placeholder}
-                {snapshot.isDraggingOver && !sections.left.some((s) => s.id === draggingId) && (
-                  <div
-                    style={{
-                      height: '50px',
-                      border: '2px dashed #f16397',
-                      borderRadius: '5px',
-                      backgroundColor: 'rgba(241, 99, 151, 0.1)',
-                    }}
-                  />
-                )}
               </Grid>
             )}
           </Droppable>
 
-          {/* Columna Centro (Chat) */}
+          {/* Columna Centro */}
           <Droppable droppableId="center">
             {(provided, snapshot) => (
               <Grid
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 style={{
-                  width: isCenterEmpty ? '0%' : '25%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  flexGrow: 1,
+                  padding: '5px',
+                  borderRadius: '5px',
                   height: '100vh',
                   backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
-                  transition: 'background-color 0.2s ease, width 0.3s ease',
-                  display: 'block',
-                  minWidth: isCenterEmpty ? '10px' : '0',
+                  transition: 'background-color 0.2s ease',
+                  width: '25%'
+
                 }}
               >
-                {sections.center
-                  .filter((section) => section.visible)
-                  .slice(0, Math.floor(window.innerHeight / ITEM_HEIGHT))
-                  .map((section, index) => (
-                    <Draggable key={section.id} draggableId={section.id} index={index}>
-                      {(provided, snapshot) => (
+                {sections.center.map((section, index) => (
+                  <Draggable key={section.id} draggableId={section.id} index={index}>
+                    {(provided, snapshot) => (
+                      <ResizableBox
+                        width="100%"
+                        height={700}
+                        axis="y"
+                        resizeHandles={['s']}
+                        minConstraints={[100, 50]}
+                        maxConstraints={[100, window.innerHeight]}
+                        onResizeStop={(e, data) => console.log(data.size.height)}
+                        style={{ backgroundColor: '#141517', marginBottom: '5px' }}
+                      >
                         <Grid
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           style={{
+                            padding: '5px',
+                            borderRadius: '5px',
                             backgroundColor: '#131418',
                             opacity: snapshot.isDragging ? 0.5 : 1,
                             border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
                             ...provided.draggableProps.style,
+                            height:'100%',
+                            overflow: 'hidden',
                           }}
                         >
-                          <Grid style={{ display: 'flex', alignItems: 'center', backgroundColor: '#131418', padding: '5px' }}>
+                          <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
                             {section.icon}
                             <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
                           </Grid>
                           {renderSectionContent(section.id)}
                         </Grid>
-                      )}
-                    </Draggable>
-                  ))}
+                      </ResizableBox>
+                    )}
+                  </Draggable>
+                ))}
                 {provided.placeholder}
-                {snapshot.isDraggingOver && !sections.center.some((s) => s.id === draggingId) && (
-                  <div
-                    style={{
-                      height: '50px',
-                      border: '2px dashed #f16397',
-                      borderRadius: '5px',
-                      backgroundColor: 'rgba(241, 99, 151, 0.1)',
-                    }}
-                  />
-                )}
               </Grid>
             )}
           </Droppable>
@@ -722,22 +734,31 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 style={{
+                  display: 'flex',
                   flexDirection: 'column',
+                  flexGrow: 1,
                   padding: '5px',
                   borderRadius: '5px',
-                  width: '20%',
                   height: '100vh',
                   backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
                   transition: 'background-color 0.2s ease',
-                  display: 'flex',
+                  width: '25%'
+
                 }}
               >
-                {sections.right
-                  .filter((section) => section.visible)
-                  .slice(0, Math.floor(window.innerHeight / ITEM_HEIGHT))
-                  .map((section, index) => (
-                    <Draggable key={section.id} draggableId={section.id} index={index}>
-                      {(provided, snapshot) => (
+                {sections.right.map((section, index) => (
+                  <Draggable key={section.id} draggableId={section.id} index={index}>
+                    {(provided, snapshot) => (
+                      <ResizableBox
+                        width="100%"
+                        height={200}
+                        axis="y"
+                        resizeHandles={['s']}
+                        minConstraints={[100, 50]}
+                        maxConstraints={[100, window.innerHeight]}
+                        onResizeStop={(e, data) => console.log(data.size.height)}
+                        style={{ backgroundColor: '#141517', marginBottom: '5px' }}
+                      >
                         <Grid
                           ref={provided.innerRef}
                           {...provided.draggableProps}
@@ -751,38 +772,28 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                             ...provided.draggableProps.style,
                           }}
                         >
-                          <Grid style={{ display: 'flex', alignItems: 'center', backgroundColor: '#131418', padding: '5px' }}>
+                          <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
                             {section.icon}
                             <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
                           </Grid>
                           {renderSectionContent(section.id)}
                         </Grid>
-                      )}
-                    </Draggable>
-                  ))}
+                      </ResizableBox>
+                    )}
+                  </Draggable>
+                ))}
                 {provided.placeholder}
-                {snapshot.isDraggingOver && !sections.right.some((s) => s.id === draggingId) && (
-                  <div
-                    style={{
-                      height: '50px',
-                      border: '2px dashed #f16397',
-                      borderRadius: '5px',
-                      backgroundColor: 'rgba(241, 99, 151, 0.1)',
-                    }}
-                  />
-                )}
               </Grid>
             )}
           </Droppable>
         </DragDropContext>
-
         {/* Barra lateral fija a la derecha */}
-        <Grid 
-          style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            padding: '5px', 
-            borderRadius: '5px', 
+        <Grid
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '5px',
+            borderRadius: '5px',
             height: '100vh',
             width: '5%',
           }}
@@ -849,6 +860,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
           </Grid>
         )}
       </Grid>
-    </DashboarLayout>
+
+    </DashboarLayout >
   );
 }
