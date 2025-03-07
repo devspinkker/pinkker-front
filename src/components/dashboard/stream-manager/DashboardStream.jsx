@@ -23,7 +23,7 @@ import { MdOutlineOndemandVideo } from "react-icons/md";
 import { GoHeartFill } from "react-icons/go";
 import DashboarLayout from "../DashboarLayout";
 import Tippy from "@tippyjs/react";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle, FaPencilAlt, FaUndo } from "react-icons/fa";
 import { IoChatboxEllipsesOutline, IoNewspaperOutline, IoVideocam } from "react-icons/io5";
 import { FiTool } from "react-icons/fi";
 import { FaSave } from "react-icons/fa";
@@ -112,6 +112,23 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
         { id: "accCanal", visible: true, ...sectionDefinitions.accCanal },
       ],
     };
+
+  // Configuración predeterminada (original) de las secciones
+  const defaultSections = {
+    left: [
+      { id: "infoSesion", visible: true, ...sectionDefinitions.infoSesion },
+      { id: "vistaPrevia", visible: true, ...sectionDefinitions.vistaPrevia },
+      { id: "feedAct", visible: true, ...sectionDefinitions.feedAct },
+      { id: "accMod", visible: true, ...sectionDefinitions.accMod },
+    ],
+    center: [
+      { id: "chat", visible: true, ...sectionDefinitions.chat },
+    ],
+    right: [
+      { id: "infoStream", visible: true, ...sectionDefinitions.infoStream },
+      { id: "accCanal", visible: true, ...sectionDefinitions.accCanal },
+    ],
+  };
   const [sections, setSections] = useState(initialSections);
 
   // Manejar el inicio del arrastre
@@ -502,7 +519,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
             {getBottomButtons()}
           </>
         ) : (
-          <img src={streamerData?.stream_thumbnail} alt="Thumbnail" style={{ width: "100%", height:'100%', objectFit:'cover' }} />
+          <img src={streamerData?.stream_thumbnail} alt="Thumbnail" style={{ width: "100%", height: '100%', objectFit: 'cover' }} />
         );
       case "feedAct":
         return (
@@ -584,6 +601,33 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
 
   // Determinar si la columna central está vacía
   const isCenterEmpty = sections.center.every(section => !section.visible);
+  const [isEditMode, setIsEditMode] = React.useState(false);
+  const toggleEditMode = () => {
+    setIsEditMode(prev => !prev);
+  };
+  // Valores iniciales de los anchos en píxeles (basados en porcentajes del ancho de la ventana)
+  const initialLeftWidth = 40; // 50%
+  const initialCenterWidth = 20; // 25%
+  const initialRightWidth = 20; // 25%
+
+  const [leftWidth, setLeftWidth] = React.useState(initialLeftWidth); // 50% en píxeles
+  const [centerWidth, setCenterWidth] = React.useState(initialCenterWidth); // 25% en píxeles
+  const [rightWidth, setRightWidth] = React.useState(initialRightWidth); // 25% en píxeles
+
+  const resetSectionsToDefault = () => {
+    setSections(defaultSections); // Restaurar las secciones al estado original
+    setLeftWidth(initialLeftWidth); // Restaurar ancho de la columna izquierda
+    setCenterWidth(initialCenterWidth); // Restaurar ancho de la columna central
+    setRightWidth(initialRightWidth); // Restaurar ancho de la columna derecha
+  };
+
+  // Función para convertir porcentaje a píxeles basado en el ancho de la ventana
+  const percentageToPixels = (percentage) => {
+    console.log(percentage)
+    const result = (percentage / 100) * window.innerWidth
+    console.log('result', result)
+    return result;
+  };
 
   return (
     <DashboarLayout user={user} isMobile={isMobile}>
@@ -592,201 +636,272 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'flex-start',
-          justifyContent: 'space-between',
+          justifyContent:'space-between',
           gap: '10px',
-          height: '100vh',
+          height: '90vh',
           width: '100%',
           overflow: 'hidden',
         }}
       >
-
-
-        <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-
+        <DragDropContext
+          onDragStart={handleDragStart}
+          onDragEnd={isEditMode ? handleDragEnd : () => { }}
+        >
           {/* Columna Izquierda */}
-          <Droppable droppableId="left">
-            {(provided, snapshot) => (
-              <Grid
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flexGrow: 1,  // Se adapta automáticamente
-                  padding: '5px',
-                  borderRadius: '5px',
-                  height: '100vh',
-                  backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
-                  
-                  transition: 'background-color 0.2s ease, width 0.3s ease',
-                  width: '50%'
-                }}
-              >
-                {sections.left.map((section, index) => (
-                  <Draggable key={section.id} draggableId={section.id} index={index}>
-                    {(provided, snapshot) => (
-                      <ResizableBox
-                        width="100%"
-                        height={350}
-                        axis="y"
-                        resizeHandles={['s']}
-                        minConstraints={[100, 50]}
-                        maxConstraints={[100, window.innerHeight]}
-                        onResizeStop={(e, data) => console.log(data.size.height)}
-                        style={{ backgroundColor: '#141517', marginBottom: '5px' }}
+          <ResizableBox
+            width={percentageToPixels(leftWidth)} // Convertimos el porcentaje a píxeles
+            height="100%"
+            axis="x"
+            resizeHandles={isEditMode ? ['e'] : []}
+            minConstraints={[100, 0]}
+            maxConstraints={[window.innerWidth * 0.8, window.innerHeight]}
+            style={{ display: 'flex', flexDirection: 'column' }}
+            className="ColIzq"
+            onResize={(e, data) => {
+              const newWidthPercentage = (data.size.width / window.innerWidth) * 100; // Convertimos píxeles a porcentaje
+              setLeftWidth(newWidthPercentage);
+            }}
+          >
+            <Droppable droppableId="left" isDropDisabled={!isEditMode}>
+              {(provided, snapshot) => (
+                <Grid
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexGrow: 1,
+                    padding: '5px',
+                    borderRadius: '5px',
+                    height: '100%',
+                    backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
+                    transition: 'background-color 0.2s ease, width 0.3s ease',
+                    width: '100%',
+                  }}
+                >
+                  {sections.left
+                    .filter(section => section.visible)
+                    .map((section, index) => (
+                      <Draggable
+                        key={section.id}
+                        draggableId={section.id}
+                        index={index}
+                        isDragDisabled={!isEditMode}
                       >
-                        <Grid
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={{
-                            padding: '5px',
-                            borderRadius: '5px',
-                            backgroundColor: '#131418',
-                            opacity: snapshot.isDragging ? 0.5 : 1,
-                            border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
-                            ...provided.draggableProps.style,
-                            height:'100%',
-                            overflow: 'hidden',
-                          }}
-                        >
-                          <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
-                            {section.icon}
-                            <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
-                          </Grid>
-                          {renderSectionContent(section.id)}
-                        </Grid>
-                      </ResizableBox>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </Grid>
-            )}
-          </Droppable>
+                        {(provided, snapshot) => (
+                          <ResizableBox
+                            width="100%"
+                            height={350}
+                            axis="y"
+                            resizeHandles={isEditMode ? ['s'] : []}
+                            minConstraints={[100, 50]}
+                            maxConstraints={[Infinity, window.innerHeight]}
+                            onResizeStop={(e, data) => console.log(data.size.height)}
+                            style={{ backgroundColor: '#141517', marginBottom: '5px', overflow: 'hidden' }}
+                          >
+                            <Grid
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                padding: '5px',
+                                borderRadius: '5px',
+                                backgroundColor: '#131418',
+                                opacity: snapshot.isDragging ? 0.5 : 1,
+                                border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
+                                ...provided.draggableProps.style,
+                                height: '100%',
+                                overflow: 'hidden',
+                              }}
+                            >
+                              <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
+                                {section.icon}
+                                <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>
+                                  {section.title}
+                                </Typography>
+                              </Grid>
+                              {renderSectionContent(section.id)}
+                            </Grid>
+                          </ResizableBox>
+                        )}
+                      </Draggable>
+                    ))}
+                  {provided.placeholder}
+                </Grid>
+              )}
+            </Droppable>
+          </ResizableBox>
 
           {/* Columna Centro */}
-          <Droppable droppableId="center">
-            {(provided, snapshot) => (
-              <Grid
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flexGrow: 1,
-                  padding: '5px',
-                  borderRadius: '5px',
-                  height: '100vh',
-                  backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
-                  transition: 'background-color 0.2s ease',
-                  width: '25%'
-
-                }}
-              >
-                {sections.center.map((section, index) => (
-                  <Draggable key={section.id} draggableId={section.id} index={index}>
-                    {(provided, snapshot) => (
-                      <ResizableBox
-                        width="100%"
-                        height={700}
-                        axis="y"
-                        resizeHandles={['s']}
-                        minConstraints={[100, 50]}
-                        maxConstraints={[100, window.innerHeight]}
-                        onResizeStop={(e, data) => console.log(data.size.height)}
-                        style={{ backgroundColor: '#141517', marginBottom: '5px' }}
+          <ResizableBox
+            width={percentageToPixels(centerWidth)}
+            height="100%"
+            axis="x"
+            resizeHandles={isEditMode ? ['e'] : []}
+            minConstraints={[100, 0]}
+            maxConstraints={[window.innerWidth * 0.8, window.innerHeight]}
+            style={{ display: 'flex', flexDirection: 'column' }}
+            className="ColCent"
+            onResize={(e, data) => {
+              const newWidthPercentage = (data.size.width / window.innerWidth) * 100;
+              setCenterWidth(newWidthPercentage);
+            }}
+          >
+            <Droppable droppableId="center" isDropDisabled={!isEditMode}>
+              {(provided, snapshot) => (
+                <Grid
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexGrow: 1,
+                    padding: '5px',
+                    borderRadius: '5px',
+                    height: '100%',
+                    backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
+                    transition: 'background-color 0.2s ease',
+                    width: '100%',
+                  }}
+                >
+                  {sections.center
+                    .filter(section => section.visible)
+                    .map((section, index) => (
+                      <Draggable
+                        key={section.id}
+                        draggableId={section.id}
+                        index={index}
+                        isDragDisabled={!isEditMode}
                       >
-                        <Grid
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={{
-                            padding: '5px',
-                            borderRadius: '5px',
-                            backgroundColor: '#131418',
-                            opacity: snapshot.isDragging ? 0.5 : 1,
-                            border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
-                            ...provided.draggableProps.style,
-                            height:'100%',
-                            overflow: 'hidden',
-                          }}
-                        >
-                          <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
-                            {section.icon}
-                            <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
-                          </Grid>
-                          {renderSectionContent(section.id)}
-                        </Grid>
-                      </ResizableBox>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </Grid>
-            )}
-          </Droppable>
+                        {(provided, snapshot) => (
+                          <ResizableBox
+                            width="100%"
+                            height={700}
+                            axis="y"
+                            resizeHandles={isEditMode ? ['s'] : []}
+                            minConstraints={[100, 50]}
+                            maxConstraints={[Infinity, window.innerHeight * 0.9]}
+                            onResizeStop={(e, data) => console.log(data.size.height)}
+                            style={{ backgroundColor: '#141517', marginBottom: '5px', overflow: 'hidden' }}
+                          >
+                            <Grid
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                padding: '5px',
+                                borderRadius: '5px',
+                                backgroundColor: '#131418',
+                                opacity: snapshot.isDragging ? 0.5 : 1,
+                                border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
+                                ...provided.draggableProps.style,
+                                height: '100%',
+                                overflow: 'hidden',
+                              }}
+                            >
+                              <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
+                                {section.icon}
+                                <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>
+                                  {section.title}
+                                </Typography>
+                              </Grid>
+                              {renderSectionContent(section.id)}
+                            </Grid>
+                          </ResizableBox>
+                        )}
+                      </Draggable>
+                    ))}
+                  {provided.placeholder}
+                </Grid>
+              )}
+            </Droppable>
+          </ResizableBox>
 
           {/* Columna Derecha */}
-          <Droppable droppableId="right">
-            {(provided, snapshot) => (
-              <Grid
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flexGrow: 1,
-                  padding: '5px',
-                  borderRadius: '5px',
-                  height: '100vh',
-                  backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
-                  transition: 'background-color 0.2s ease',
-                  width: '25%'
-
-                }}
-              >
-                {sections.right.map((section, index) => (
-                  <Draggable key={section.id} draggableId={section.id} index={index}>
-                    {(provided, snapshot) => (
-                      <ResizableBox
-                        width="100%"
-                        height={200}
-                        axis="y"
-                        resizeHandles={['s']}
-                        minConstraints={[100, 50]}
-                        maxConstraints={[100, window.innerHeight]}
-                        onResizeStop={(e, data) => console.log(data.size.height)}
-                        style={{ backgroundColor: '#141517', marginBottom: '5px' }}
+          <ResizableBox
+            width={percentageToPixels(rightWidth)}
+            height="100%"
+            axis="x"
+            resizeHandles={isEditMode ? ['e'] : []}
+            minConstraints={[100, 0]}
+            maxConstraints={[window.innerWidth * 0.8, window.innerHeight]}
+            style={{ display: 'flex', flexDirection: 'column' }}
+            className="ColDer"
+            onResize={(e, data) => {
+              const newWidthPercentage = (data.size.width / window.innerWidth) * 100;
+              setRightWidth(newWidthPercentage);
+            }}
+          >
+            <Droppable droppableId="right" isDropDisabled={!isEditMode}>
+              {(provided, snapshot) => (
+                <Grid
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexGrow: 1,
+                    padding: '5px',
+                    borderRadius: '5px',
+                    height: '100%',
+                    backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
+                    transition: 'background-color 0.2s ease',
+                    width: '100%',
+                  }}
+                >
+                  {sections.right
+                    .filter(section => section.visible)
+                    .map((section, index) => (
+                      <Draggable
+                        key={section.id}
+                        draggableId={section.id}
+                        index={index}
+                        isDragDisabled={!isEditMode}
                       >
-                        <Grid
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={{
-                            padding: '5px',
-                            borderRadius: '5px',
-                            backgroundColor: '#131418',
-                            opacity: snapshot.isDragging ? 0.5 : 1,
-                            border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
-                            {section.icon}
-                            <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>{section.title}</Typography>
-                          </Grid>
-                          {renderSectionContent(section.id)}
-                        </Grid>
-                      </ResizableBox>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </Grid>
-            )}
-          </Droppable>
+                        {(provided, snapshot) => (
+                          <ResizableBox
+                            width="100%"
+                            height={200}
+                            axis="y"
+                            resizeHandles={isEditMode ? ['s'] : []}
+                            minConstraints={[100, 50]}
+                            maxConstraints={[Infinity, window.innerHeight * 0.9]}
+                            onResizeStop={(e, data) => console.log(data.size.height)}
+                            style={{ backgroundColor: '#141517', marginBottom: '5px', overflow: 'hidden' }}
+                          >
+                            <Grid
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                padding: '5px',
+                                borderRadius: '5px',
+                                backgroundColor: '#131418',
+                                opacity: snapshot.isDragging ? 0.5 : 1,
+                                border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
+                                ...provided.draggableProps.style,
+                                height: '100%',
+                              }}
+                            >
+                              <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
+                                {section.icon}
+                                <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>
+                                  {section.title}
+                                </Typography>
+                              </Grid>
+                              {renderSectionContent(section.id)}
+                            </Grid>
+                          </ResizableBox>
+                        )}
+                      </Draggable>
+                    ))}
+                  {provided.placeholder}
+                </Grid>
+              )}
+            </Droppable>
+          </ResizableBox>
         </DragDropContext>
+
         {/* Barra lateral fija a la derecha */}
         <Grid
           style={{
@@ -798,9 +913,31 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
             width: '5%',
           }}
         >
-          <Grid style={{ display: 'flex', flexDirection: 'column', padding: '10px', borderRadius: '5px', height: '100%', backgroundColor: '#131418', alignItems: 'center', gap: '15px' }}>
-            <Grid style={{ display: 'flex', flexDirection: 'row', gap: '5px', alignItems: 'center', backgroundColor: '#131418', width: '100%', padding: '5px', justifyContent: 'center' }}>
-              <FaInfoCircle style={{ color: "white", fontSize: "15px" }} />
+          <Grid
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '10px',
+              borderRadius: '5px',
+              height: '100%',
+              backgroundColor: '#131418',
+              alignItems: 'center',
+              gap: '15px',
+            }}
+          >
+            <Grid
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: '5px',
+                alignItems: 'center',
+                backgroundColor: '#131418',
+                width: '100%',
+                padding: '5px',
+                justifyContent: 'center',
+              }}
+            >
+              <FaInfoCircle style={{ color: 'white', fontSize: '15px' }} />
             </Grid>
             <hr style={{ width: '100%' }} />
             {Object.values(sections).flat().map((section) => (
@@ -818,13 +955,53 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                   border: section.visible ? '1px solid #f16397' : '1px solid grey',
                   borderRadius: '5px',
                   cursor: 'pointer',
-                  color: 'white'
+                  color: 'white',
                 }}
                 onClick={() => toggleSectionVisibility(section.id)}
               >
                 {section.icon}
               </Grid>
             ))}
+            {/* Botón de modo edición */}
+            <Grid
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: '5px',
+                alignItems: 'center',
+                backgroundColor: '#131418',
+                width: '100%',
+                padding: '5px',
+                justifyContent: 'center',
+                border: isEditMode ? '1px solid #f16397' : '1px solid grey',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                color: 'white',
+              }}
+              onClick={toggleEditMode}
+            >
+              <FaPencilAlt style={{ fontSize: '15px' }} />
+            </Grid>
+            {/* Botón para restaurar a la posición original */}
+            <Grid
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: '5px',
+                alignItems: 'center',
+                backgroundColor: '#131418',
+                width: '100%',
+                padding: '5px',
+                justifyContent: 'center',
+                border: '1px solid grey',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                color: 'white',
+              }}
+              onClick={resetSectionsToDefault}
+            >
+              <FaUndo style={{ fontSize: '15px' }} />
+            </Grid>
             {/* Botón para guardar la posición */}
             <Grid
               style={{
@@ -839,7 +1016,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 border: '1px solid #f16397',
                 borderRadius: '5px',
                 cursor: 'pointer',
-                color: 'white'
+                color: 'white',
               }}
               onClick={saveSectionsLayout}
             >
@@ -860,7 +1037,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
           </Grid>
         )}
       </Grid>
-
-    </DashboarLayout >
+    </DashboarLayout>
   );
 }

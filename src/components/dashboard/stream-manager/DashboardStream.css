@@ -682,13 +682,24 @@
   .draggable-section {
     transition: all 0.2s ease;
   }
-
+  .react-resizable-handle{
+    background-color: none !important;
+    
+  }
   .react-resizable-handle-n, .react-resizable-handle-s{
     width: 100% !important;
     margin: 0 !important;
+    background-color: none !important;
     left: 0 !important;
-    background-color: #ff53da;
     z-index: 200000 !important;
+  }
+
+  .react-resizable-handle-n:hover, .react-resizable-handle-s:hover{
+    background-color: #ff53da;
+  }
+  .react-resizable-handle-w:hover, .react-resizable-handle-e:hover{
+    background-color: #ff53da;
+
   }
   .react-resizable-handle-s{
     transform: rotate(0) !important;
@@ -697,6 +708,20 @@
   .react-resizable-handle{
     height: 2px !important;
   background-image: url('https://www.svgrepo.com/show/221997/resize.svg') !important;
+  }
+  .react-resizable-handle-w, .react-resizable-handle-e {
+    top: 0 !important;
+    margin: 0 !important;
+    height: 100% !important;
+    width: 0 !important;
+    transform: rotate(0) !important;
+}
+  .ColIzq{
+    height: 100% !important;
+    /* width: 50% !important; */
+  }
 
-
+  .ColDer, .ColCent{
+    height: 100% !important;
+    /* width: 25% !important; */
   }
