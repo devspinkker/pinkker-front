@@ -7,38 +7,34 @@ import {
   getStreamById,
   updateModChat,
   updateModChatSlowModeAxios,
-  CommercialInStream,
 } from "../../../services/backGo/streams";
-import { getCategorieByName } from "../../../services/categories";
 import { getStream } from "../../../services/stream";
 import ReactFlvPlayer from "../../../player/PlayerMain";
 import PopupEditInfo from "./popup/PopupEditInfo";
 import { Button, Chip, Grid, Slider, Switch, Typography } from "@mui/material";
-import {
-  AiFillThunderbolt,
-} from "react-icons/ai";
+import { AiFillThunderbolt } from "react-icons/ai";
 import { IoMdPause } from "react-icons/io";
 import { CiStreamOn } from "react-icons/ci";
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import { GoHeartFill } from "react-icons/go";
 import DashboarLayout from "../DashboarLayout";
 import Tippy from "@tippyjs/react";
-import { FaInfoCircle, FaPencilAlt, FaUndo } from "react-icons/fa";
+import { FaInfoCircle, FaPencilAlt, FaUndo, FaSave } from "react-icons/fa";
 import { IoChatboxEllipsesOutline, IoNewspaperOutline, IoVideocam } from "react-icons/io5";
 import { FiTool } from "react-icons/fi";
-import { FaSave } from "react-icons/fa";
 import logoPinkker from './Chancho--dengue.webp';
 import { ResizableBox } from 'react-resizable';
-import 'react-resizable/css/styles.css';  // Asegúrate de importar los estilos
+import 'react-resizable/css/styles.css';
+
 // Definición estática de las secciones con títulos en español e íconos
 const sectionDefinitions = {
-  infoSesion: { title: "Información de la sesión", icon: <CiStreamOn style={{ color: "white" }} /> },
-  vistaPrevia: { title: "Vista previa del stream", icon: <MdOutlineOndemandVideo style={{ color: "white" }} /> },
-  feedAct: { title: "Feed de Actividades", icon: <AiFillThunderbolt style={{ color: "white" }} /> },
-  accMod: { title: "Acciones de Moderador", icon: <IoNewspaperOutline style={{ color: "white" }} /> },
-  chat: { title: "Chat", icon: <IoChatboxEllipsesOutline style={{ color: "white" }} /> },
-  infoStream: { title: "Información del stream", icon: <FiTool style={{ color: "white" }} /> },
-  accCanal: { title: "Acciones del canal", icon: <IoVideocam style={{ color: "white" }} /> },
+  infoSesion: { title: "Información de la sesión", icon: <CiStreamOn style={{ color: "white" }} />, height: 200 },
+  vistaPrevia: { title: "Vista previa del stream", icon: <MdOutlineOndemandVideo style={{ color: "white" }} />, height: 350 },
+  feedAct: { title: "Feed de Actividades", icon: <AiFillThunderbolt style={{ color: "white" }} />, height: 300 },
+  accMod: { title: "Acciones de Moderador", icon: <IoNewspaperOutline style={{ color: "white" }} />, height: 200 },
+  chat: { title: "Chat", icon: <IoChatboxEllipsesOutline style={{ color: "white" }} />, height: 700 },
+  infoStream: { title: "Información del stream", icon: <FiTool style={{ color: "white" }} />, height: 200 },
+  accCanal: { title: "Acciones del canal", icon: <IoVideocam style={{ color: "white" }} />, height: 200 },
 };
 
 // Función para eliminar duplicados basada en el ID
@@ -51,8 +47,29 @@ const removeDuplicates = (array) => {
   });
 };
 
-// Alto estimado por componente
-const ITEM_HEIGHT = 185; // En píxeles, ajusta según el diseño real
+// Configuración predeterminada de las secciones
+const defaultSections = {
+  left: [
+    { id: "infoSesion", visible: true, ...sectionDefinitions.infoSesion },
+    { id: "vistaPrevia", visible: true, ...sectionDefinitions.vistaPrevia },
+    { id: "feedAct", visible: true, ...sectionDefinitions.feedAct },
+    { id: "accMod", visible: true, ...sectionDefinitions.accMod },
+  ],
+  center: [
+    { id: "chat", visible: true, ...sectionDefinitions.chat },
+  ],
+  right: [
+    { id: "infoStream", visible: true, ...sectionDefinitions.infoStream },
+    { id: "accCanal", visible: true, ...sectionDefinitions.accCanal },
+  ],
+};
+
+// Valores iniciales de los anchos en porcentaje
+const initialWidths = {
+  leftWidth: 40, // 40%
+  centerWidth: 35, // 35%
+  rightWidth: 20, // 20%
+};
 
 export default function DashboardStream({ isMobile, tyExpanded, user }) {
   const [streamerData, setStreamerData] = useState(null);
@@ -74,87 +91,94 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
   const [elapsedTime, setElapsedTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const [menuModChatSlowMode, setModChatSlowMode] = useState(false);
   const [draggingId, setDraggingId] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [sections, setSections] = useState(defaultSections);
+  const [leftWidth, setLeftWidth] = useState(initialWidths.leftWidth);
+  const [centerWidth, setCenterWidth] = useState(initialWidths.centerWidth);
+  const [rightWidth, setRightWidth] = useState(initialWidths.rightWidth);
 
-  // Estado inicial cargado desde localStorage, fusionado con definiciones estáticas y sin duplicados
-  const initialSections = localStorage.getItem("dashboardSections")
-    ? (() => {
-      const savedSections = JSON.parse(localStorage.getItem("dashboardSections"));
-      return {
-        left: removeDuplicates(savedSections.left).map((sec) => ({
-          ...sec,
-          title: sectionDefinitions[sec.id].title,
-          icon: sectionDefinitions[sec.id].icon,
-        })),
-        center: removeDuplicates(savedSections.center).map((sec) => ({
-          ...sec,
-          title: sectionDefinitions[sec.id].title,
-          icon: sectionDefinitions[sec.id].icon,
-        })),
-        right: removeDuplicates(savedSections.right).map((sec) => ({
-          ...sec,
-          title: sectionDefinitions[sec.id].title,
-          icon: sectionDefinitions[sec.id].icon,
-        })),
-      };
-    })()
-    : {
-      left: [
-        { id: "infoSesion", visible: true, ...sectionDefinitions.infoSesion },
-        { id: "vistaPrevia", visible: true, ...sectionDefinitions.vistaPrevia },
-        { id: "feedAct", visible: true, ...sectionDefinitions.feedAct },
-        { id: "accMod", visible: true, ...sectionDefinitions.accMod },
-      ],
-      center: [
-        { id: "chat", visible: true, ...sectionDefinitions.chat },
-      ],
-      right: [
-        { id: "infoStream", visible: true, ...sectionDefinitions.infoStream },
-        { id: "accCanal", visible: true, ...sectionDefinitions.accCanal },
-      ],
-    };
+  // Cargar layout desde localStorage
+  const loadSectionsLayout = () => {
+    const savedLayout = localStorage.getItem('dashboardLayout');
+    if (savedLayout) {
+      try {
+        const parsedLayout = JSON.parse(savedLayout);
+        const { sections: savedSections, widths } = parsedLayout;
 
-  // Configuración predeterminada (original) de las secciones
-  const defaultSections = {
-    left: [
-      { id: "infoSesion", visible: true, ...sectionDefinitions.infoSesion },
-      { id: "vistaPrevia", visible: true, ...sectionDefinitions.vistaPrevia },
-      { id: "feedAct", visible: true, ...sectionDefinitions.feedAct },
-      { id: "accMod", visible: true, ...sectionDefinitions.accMod },
-    ],
-    center: [
-      { id: "chat", visible: true, ...sectionDefinitions.chat },
-    ],
-    right: [
-      { id: "infoStream", visible: true, ...sectionDefinitions.infoStream },
-      { id: "accCanal", visible: true, ...sectionDefinitions.accCanal },
-    ],
+        // Cargar secciones con valores predeterminados si faltan
+        setSections({
+          left: savedSections?.left?.map(s => ({
+            ...s,
+            title: sectionDefinitions[s.id].title,
+            icon: sectionDefinitions[s.id].icon,
+          })) || defaultSections.left,
+          center: savedSections?.center?.map(s => ({
+            ...s,
+            title: sectionDefinitions[s.id].title,
+            icon: sectionDefinitions[s.id].icon,
+          })) || defaultSections.center,
+          right: savedSections?.right?.map(s => ({
+            ...s,
+            title: sectionDefinitions[s.id].title,
+            icon: sectionDefinitions[s.id].icon,
+          })) || defaultSections.right,
+        });
+
+        // Cargar anchos con valores predeterminados si faltan
+        setLeftWidth(widths?.leftWidth ?? initialWidths.leftWidth);
+        setCenterWidth(widths?.centerWidth ?? initialWidths.centerWidth);
+        setRightWidth(widths?.rightWidth ?? initialWidths.rightWidth);
+      } catch (error) {
+        console.error('Error al parsear el layout guardado:', error);
+        setSections(defaultSections);
+        setLeftWidth(initialWidths.leftWidth);
+        setCenterWidth(initialWidths.centerWidth);
+        setRightWidth(initialWidths.rightWidth);
+      }
+    }
   };
-  const [sections, setSections] = useState(initialSections);
+
+  useEffect(() => {
+    loadSectionsLayout();
+  }, []);
+
+  // Guardar layout en localStorage
+  const saveSectionsLayout = () => {
+    const layout = {
+      sections: {
+        left: sections.left.map(section => ({ ...section })),
+        center: sections.center.map(section => ({ ...section })),
+        right: sections.right.map(section => ({ ...section })),
+      },
+      widths: {
+        leftWidth,
+        centerWidth,
+        rightWidth,
+      },
+    };
+    localStorage.setItem('dashboardLayout', JSON.stringify(layout));
+    console.log('Layout guardado:', layout);
+  };
+
+  // Restaurar valores predeterminados
+  const resetSectionsToDefault = () => {
+    setSections(defaultSections);
+    setLeftWidth(initialWidths.leftWidth);
+    setCenterWidth(initialWidths.centerWidth);
+    setRightWidth(initialWidths.rightWidth);
+  };
+
+  // Toggle modo edición
+  const toggleEditMode = () => {
+    setIsEditMode(prev => !prev);
+  };
 
   // Manejar el inicio del arrastre
   const handleDragStart = (start) => {
     setDraggingId(start.draggableId);
   };
 
-  // Función para redistribuir componentes si exceden la altura máxima
-  const redistributeSections = (newSections) => {
-    const maxItemsPerColumn = Math.floor(window.innerHeight / ITEM_HEIGHT);
-    const columns = ["left", "center", "right"];
-
-    columns.forEach((currentSection, idx) => {
-      const visibleItems = newSections[currentSection].filter(item => item.visible);
-      if (visibleItems.length > maxItemsPerColumn) {
-        const overflowItems = visibleItems.splice(maxItemsPerColumn);
-        const nextSection = columns[(idx + 1) % columns.length]; // Ciclo: left -> center -> right -> left
-        newSections[currentSection] = newSections[currentSection].filter(item => !overflowItems.includes(item));
-        newSections[nextSection] = newSections[nextSection].concat(overflowItems);
-      }
-    });
-
-    return newSections;
-  };
-
-  // Manejar el fin del arrastre con redistribución por overflow
+  // Manejar el fin del arrastre
   const handleDragEnd = (result) => {
     const { source, destination } = result;
     setDraggingId(null);
@@ -173,33 +197,38 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     newSections[sourceSection] = sourceItems;
     newSections[destSection] = destItems;
 
-    // Redistribuir componentes si exceden la altura
-    setSections(redistributeSections(newSections));
+    setSections(newSections);
   };
 
-  // Toggle de visibilidad de una sección con redistribución
+  // Toggle visibilidad de una sección
   const toggleSectionVisibility = (sectionId) => {
     setSections((prevSections) => {
       const newSections = { ...prevSections };
       ["left", "center", "right"].forEach((column) => {
         newSections[column] = newSections[column].map((section) =>
-          section.id === sectionId ? { ...section, visible: !section.visible } : { ...section }
+          section.id === sectionId ? { ...section, visible: !section.visible } : section
         );
       });
-      newSections.left = removeDuplicates(newSections.left);
-      newSections.center = removeDuplicates(newSections.center);
-      newSections.right = removeDuplicates(newSections.right);
-      return redistributeSections(newSections);
+      return newSections;
     });
   };
 
-  // Guardar la posición de los componentes
-  const saveSectionsLayout = () => {
-    localStorage.setItem("dashboardSections", JSON.stringify(sections));
-    alert("Posición de los componentes guardada correctamente");
+  // Actualizar altura de una sección
+  const updateSectionHeight = (column, sectionId, newHeight) => {
+    setSections(prev => ({
+      ...prev,
+      [column]: prev[column].map(s =>
+        s.id === sectionId ? { ...s, height: newHeight } : s
+      ),
+    }));
   };
 
-  // Funciones existentes sin cambios
+  // Convertir porcentaje a píxeles
+  const percentageToPixels = (percentage) => {
+    return (percentage / 100) * (window.innerWidth * 0.95); // 95% del ancho total
+  };
+
+  // Funciones existentes (sin cambios significativos)
   const speakMessage = (message) => {
     const speech = new SpeechSynthesisUtterance();
     speech.text = message;
@@ -225,8 +254,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
       newSocket.onmessage = (event) => {
         try {
           const receivedMessage = JSON.parse(event.data);
-          console.log(event);
-          console.log(receivedMessage);
           if (receivedMessage.action === "DonatePixels") {
             speakMessage(receivedMessage.text);
           }
@@ -537,16 +564,12 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
         );
       case "accMod":
         return (
-          <div style={{ backgroundColor: '#141517', height: '12vh', overflowY: 'auto' }}>
+          <div style={{ backgroundColor: '#141517', height: '100%', overflowY: 'auto' }}>
             {ActivityFeed.map((item, index) => (
               item.type === "moderator" && (
                 <div key={index} className="activity-feed-item">
                   <span>{item.nameuser}</span>
-                  <span
-                    style={{
-                      overflow: 'hidden',
-                    }}
-                  >{item.type === "moderator" && ` le dio ${item.action} a ${item.actionAgainst}`}</span>
+                  <span>{item.type === "moderator" && ` le dio ${item.action} a ${item.actionAgainst}`}</span>
                 </div>
               )
             ))}
@@ -599,308 +622,293 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
     }
   };
 
-  // Determinar si la columna central está vacía
-  const isCenterEmpty = sections.center.every(section => !section.visible);
-  const [isEditMode, setIsEditMode] = React.useState(false);
-  const toggleEditMode = () => {
-    setIsEditMode(prev => !prev);
-  };
-  // Valores iniciales de los anchos en píxeles (basados en porcentajes del ancho de la ventana)
-  const initialLeftWidth = 40; // 50%
-  const initialCenterWidth = 20; // 25%
-  const initialRightWidth = 20; // 25%
-
-  const [leftWidth, setLeftWidth] = React.useState(initialLeftWidth); // 50% en píxeles
-  const [centerWidth, setCenterWidth] = React.useState(initialCenterWidth); // 25% en píxeles
-  const [rightWidth, setRightWidth] = React.useState(initialRightWidth); // 25% en píxeles
-
-  const resetSectionsToDefault = () => {
-    setSections(defaultSections); // Restaurar las secciones al estado original
-    setLeftWidth(initialLeftWidth); // Restaurar ancho de la columna izquierda
-    setCenterWidth(initialCenterWidth); // Restaurar ancho de la columna central
-    setRightWidth(initialRightWidth); // Restaurar ancho de la columna derecha
-  };
-
-  // Función para convertir porcentaje a píxeles basado en el ancho de la ventana
-  const percentageToPixels = (percentage) => {
-    console.log(percentage)
-    const result = (percentage / 100) * window.innerWidth
-    console.log('result', result)
-    return result;
-  };
-
   return (
     <DashboarLayout user={user} isMobile={isMobile}>
       <Grid
         style={{
           display: 'flex',
           flexDirection: 'row',
-          alignItems: 'flex-start',
-          justifyContent:'space-between',
-          gap: '10px',
           height: '90vh',
           width: '100%',
           overflow: 'hidden',
         }}
       >
-        <DragDropContext
-          onDragStart={handleDragStart}
-          onDragEnd={isEditMode ? handleDragEnd : () => { }}
+        <Grid
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '10px',
+            width: '95%',
+            height: '100%',
+            overflow: 'hidden',
+          }}
         >
-          {/* Columna Izquierda */}
-          <ResizableBox
-            width={percentageToPixels(leftWidth)} // Convertimos el porcentaje a píxeles
-            height="100%"
-            axis="x"
-            resizeHandles={isEditMode ? ['e'] : []}
-            minConstraints={[100, 0]}
-            maxConstraints={[window.innerWidth * 0.8, window.innerHeight]}
-            style={{ display: 'flex', flexDirection: 'column' }}
-            className="ColIzq"
-            onResize={(e, data) => {
-              const newWidthPercentage = (data.size.width / window.innerWidth) * 100; // Convertimos píxeles a porcentaje
-              setLeftWidth(newWidthPercentage);
-            }}
+          <DragDropContext
+            onDragStart={handleDragStart}
+            onDragEnd={isEditMode ? handleDragEnd : () => {}}
           >
-            <Droppable droppableId="left" isDropDisabled={!isEditMode}>
-              {(provided, snapshot) => (
-                <Grid
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    flexGrow: 1,
-                    padding: '5px',
-                    borderRadius: '5px',
-                    height: '100%',
-                    backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
-                    transition: 'background-color 0.2s ease, width 0.3s ease',
-                    width: '100%',
-                  }}
-                >
-                  {sections.left
-                    .filter(section => section.visible)
-                    .map((section, index) => (
-                      <Draggable
-                        key={section.id}
-                        draggableId={section.id}
-                        index={index}
-                        isDragDisabled={!isEditMode}
-                      >
-                        {(provided, snapshot) => (
-                          <ResizableBox
-                            width="100%"
-                            height={350}
-                            axis="y"
-                            resizeHandles={isEditMode ? ['s'] : []}
-                            minConstraints={[100, 50]}
-                            maxConstraints={[Infinity, window.innerHeight]}
-                            onResizeStop={(e, data) => console.log(data.size.height)}
-                            style={{ backgroundColor: '#141517', marginBottom: '5px', overflow: 'hidden' }}
-                          >
-                            <Grid
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                padding: '5px',
-                                borderRadius: '5px',
-                                backgroundColor: '#131418',
-                                opacity: snapshot.isDragging ? 0.5 : 1,
-                                border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
-                                ...provided.draggableProps.style,
-                                height: '100%',
-                                overflow: 'hidden',
+            {/* Columna Izquierda */}
+            <ResizableBox
+              width={percentageToPixels(leftWidth)}
+              height={window.innerHeight * 0.9}
+              axis="x"
+              resizeHandles={isEditMode ? ['e'] : []}
+              minConstraints={[100, 0]}
+              maxConstraints={[window.innerWidth * 0.8, window.innerHeight]}
+              style={{ display: 'flex', flexDirection: 'column' }}
+              className="ColIzq"
+              onResize={(e, data) => {
+                const newWidthPercentage = (data.size.width / (window.innerWidth * 0.95)) * 100;
+                setLeftWidth(newWidthPercentage);
+              }}
+            >
+              <Droppable droppableId="left" isDropDisabled={!isEditMode}>
+                {(provided, snapshot) => (
+                  <Grid
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      flexGrow: 1,
+                      padding: '5px',
+                      borderRadius: '5px',
+                      height: '100%',
+                      backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
+                      transition: 'background-color 0.2s ease',
+                      width: '100%',
+                    }}
+                  >
+                    {sections.left
+                      .filter(section => section.visible)
+                      .map((section, index) => (
+                        <Draggable
+                          key={section.id}
+                          draggableId={section.id}
+                          index={index}
+                          isDragDisabled={!isEditMode}
+                        >
+                          {(provided, snapshot) => (
+                            <ResizableBox
+                              width="100%"
+                              height={section.height || sectionDefinitions[section.id].height}
+                              axis="y"
+                              resizeHandles={isEditMode ? ['s'] : []}
+                              minConstraints={[100, 50]}
+                              maxConstraints={[Infinity, window.innerHeight * 0.9]}
+                              onResizeStop={(e, data) => {
+                                updateSectionHeight('left', section.id, data.size.height);
                               }}
+                              style={{ backgroundColor: '#141517', marginBottom: '5px', overflow: 'hidden' }}
                             >
-                              <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
-                                {section.icon}
-                                <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>
-                                  {section.title}
-                                </Typography>
+                              <Grid
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  padding: '5px',
+                                  borderRadius: '5px',
+                                  backgroundColor: '#131418',
+                                  opacity: snapshot.isDragging ? 0.5 : 1,
+                                  border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
+                                  ...provided.draggableProps.style,
+                                  height: '100%',
+                                  overflow: 'hidden',
+                                }}
+                              >
+                                <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
+                                  {section.icon}
+                                  <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>
+                                    {section.title}
+                                  </Typography>
+                                </Grid>
+                                {renderSectionContent(section.id)}
                               </Grid>
-                              {renderSectionContent(section.id)}
-                            </Grid>
-                          </ResizableBox>
-                        )}
-                      </Draggable>
-                    ))}
-                  {provided.placeholder}
-                </Grid>
-              )}
-            </Droppable>
-          </ResizableBox>
+                            </ResizableBox>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </Grid>
+                )}
+              </Droppable>
+            </ResizableBox>
 
-          {/* Columna Centro */}
-          <ResizableBox
-            width={percentageToPixels(centerWidth)}
-            height="100%"
-            axis="x"
-            resizeHandles={isEditMode ? ['e'] : []}
-            minConstraints={[100, 0]}
-            maxConstraints={[window.innerWidth * 0.8, window.innerHeight]}
-            style={{ display: 'flex', flexDirection: 'column' }}
-            className="ColCent"
-            onResize={(e, data) => {
-              const newWidthPercentage = (data.size.width / window.innerWidth) * 100;
-              setCenterWidth(newWidthPercentage);
-            }}
-          >
-            <Droppable droppableId="center" isDropDisabled={!isEditMode}>
-              {(provided, snapshot) => (
-                <Grid
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    flexGrow: 1,
-                    padding: '5px',
-                    borderRadius: '5px',
-                    height: '100%',
-                    backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
-                    transition: 'background-color 0.2s ease',
-                    width: '100%',
-                  }}
-                >
-                  {sections.center
-                    .filter(section => section.visible)
-                    .map((section, index) => (
-                      <Draggable
-                        key={section.id}
-                        draggableId={section.id}
-                        index={index}
-                        isDragDisabled={!isEditMode}
-                      >
-                        {(provided, snapshot) => (
-                          <ResizableBox
-                            width="100%"
-                            height={700}
-                            axis="y"
-                            resizeHandles={isEditMode ? ['s'] : []}
-                            minConstraints={[100, 50]}
-                            maxConstraints={[Infinity, window.innerHeight * 0.9]}
-                            onResizeStop={(e, data) => console.log(data.size.height)}
-                            style={{ backgroundColor: '#141517', marginBottom: '5px', overflow: 'hidden' }}
-                          >
-                            <Grid
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                padding: '5px',
-                                borderRadius: '5px',
-                                backgroundColor: '#131418',
-                                opacity: snapshot.isDragging ? 0.5 : 1,
-                                border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
-                                ...provided.draggableProps.style,
-                                height: '100%',
-                                overflow: 'hidden',
+            {/* Columna Centro */}
+            <ResizableBox
+              width={percentageToPixels(centerWidth)}
+              height={window.innerHeight * 0.9}
+              axis="x"
+              resizeHandles={isEditMode ? ['e'] : []}
+              minConstraints={[100, 0]}
+              maxConstraints={[window.innerWidth * 0.8, window.innerHeight]}
+              style={{ display: 'flex', flexDirection: 'column' }}
+              className="ColCent"
+              onResize={(e, data) => {
+                const newWidthPercentage = (data.size.width / (window.innerWidth * 0.95)) * 100;
+                setCenterWidth(newWidthPercentage);
+              }}
+            >
+              <Droppable droppableId="center" isDropDisabled={!isEditMode}>
+                {(provided, snapshot) => (
+                  <Grid
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      flexGrow: 1,
+                      padding: '5px',
+                      borderRadius: '5px',
+                      height: '100%',
+                      backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
+                      transition: 'background-color 0.2s ease',
+                      width: '100%',
+                    }}
+                  >
+                    {sections.center
+                      .filter(section => section.visible)
+                      .map((section, index) => (
+                        <Draggable
+                          key={section.id}
+                          draggableId={section.id}
+                          index={index}
+                          isDragDisabled={!isEditMode}
+                        >
+                          {(provided, snapshot) => (
+                            <ResizableBox
+                              width="100%"
+                              height={section.height || sectionDefinitions[section.id].height}
+                              axis="y"
+                              resizeHandles={isEditMode ? ['s'] : []}
+                              minConstraints={[100, 50]}
+                              maxConstraints={[Infinity, window.innerHeight * 0.9]}
+                              onResizeStop={(e, data) => {
+                                updateSectionHeight('center', section.id, data.size.height);
                               }}
+                              style={{ backgroundColor: '#141517', marginBottom: '5px', overflow: 'hidden' }}
                             >
-                              <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
-                                {section.icon}
-                                <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>
-                                  {section.title}
-                                </Typography>
+                              <Grid
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  padding: '5px',
+                                  borderRadius: '5px',
+                                  backgroundColor: '#131418',
+                                  opacity: snapshot.isDragging ? 0.5 : 1,
+                                  border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
+                                  ...provided.draggableProps.style,
+                                  height: '100%',
+                                  overflow: 'hidden',
+                                }}
+                              >
+                                <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
+                                  {section.icon}
+                                  <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>
+                                    {section.title}
+                                  </Typography>
+                                </Grid>
+                                {renderSectionContent(section.id)}
                               </Grid>
-                              {renderSectionContent(section.id)}
-                            </Grid>
-                          </ResizableBox>
-                        )}
-                      </Draggable>
-                    ))}
-                  {provided.placeholder}
-                </Grid>
-              )}
-            </Droppable>
-          </ResizableBox>
+                            </ResizableBox>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </Grid>
+                )}
+              </Droppable>
+            </ResizableBox>
 
-          {/* Columna Derecha */}
-          <ResizableBox
-            width={percentageToPixels(rightWidth)}
-            height="100%"
-            axis="x"
-            resizeHandles={isEditMode ? ['e'] : []}
-            minConstraints={[100, 0]}
-            maxConstraints={[window.innerWidth * 0.8, window.innerHeight]}
-            style={{ display: 'flex', flexDirection: 'column' }}
-            className="ColDer"
-            onResize={(e, data) => {
-              const newWidthPercentage = (data.size.width / window.innerWidth) * 100;
-              setRightWidth(newWidthPercentage);
-            }}
-          >
-            <Droppable droppableId="right" isDropDisabled={!isEditMode}>
-              {(provided, snapshot) => (
-                <Grid
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    flexGrow: 1,
-                    padding: '5px',
-                    borderRadius: '5px',
-                    height: '100%',
-                    backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
-                    transition: 'background-color 0.2s ease',
-                    width: '100%',
-                  }}
-                >
-                  {sections.right
-                    .filter(section => section.visible)
-                    .map((section, index) => (
-                      <Draggable
-                        key={section.id}
-                        draggableId={section.id}
-                        index={index}
-                        isDragDisabled={!isEditMode}
-                      >
-                        {(provided, snapshot) => (
-                          <ResizableBox
-                            width="100%"
-                            height={200}
-                            axis="y"
-                            resizeHandles={isEditMode ? ['s'] : []}
-                            minConstraints={[100, 50]}
-                            maxConstraints={[Infinity, window.innerHeight * 0.9]}
-                            onResizeStop={(e, data) => console.log(data.size.height)}
-                            style={{ backgroundColor: '#141517', marginBottom: '5px', overflow: 'hidden' }}
-                          >
-                            <Grid
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                padding: '5px',
-                                borderRadius: '5px',
-                                backgroundColor: '#131418',
-                                opacity: snapshot.isDragging ? 0.5 : 1,
-                                border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
-                                ...provided.draggableProps.style,
-                                height: '100%',
+            {/* Columna Derecha */}
+            <ResizableBox
+              width={percentageToPixels(rightWidth)}
+              height={window.innerHeight * 0.9}
+              axis="x"
+              resizeHandles={isEditMode ? ['e'] : []}
+              minConstraints={[100, 0]}
+              maxConstraints={[window.innerWidth * 0.8, window.innerHeight]}
+              style={{ display: 'flex', flexDirection: 'column' }}
+              className="ColDer"
+              onResize={(e, data) => {
+                const newWidthPercentage = (data.size.width / (window.innerWidth * 0.95)) * 100;
+                setRightWidth(newWidthPercentage);
+              }}
+            >
+              <Droppable droppableId="right" isDropDisabled={!isEditMode}>
+                {(provided, snapshot) => (
+                  <Grid
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      flexGrow: 1,
+                      padding: '5px',
+                      borderRadius: '5px',
+                      height: '100%',
+                      backgroundColor: snapshot.isDraggingOver ? '#2a2a2a' : 'transparent',
+                      transition: 'background-color 0.2s ease',
+                      width: '100%',
+                    }}
+                  >
+                    {sections.right
+                      .filter(section => section.visible)
+                      .map((section, index) => (
+                        <Draggable
+                          key={section.id}
+                          draggableId={section.id}
+                          index={index}
+                          isDragDisabled={!isEditMode}
+                        >
+                          {(provided, snapshot) => (
+                            <ResizableBox
+                              width="100%"
+                              height={section.height || sectionDefinitions[section.id].height}
+                              axis="y"
+                              resizeHandles={isEditMode ? ['s'] : []}
+                              minConstraints={[100, 50]}
+                              maxConstraints={[Infinity, window.innerHeight * 0.9]}
+                              onResizeStop={(e, data) => {
+                                updateSectionHeight('right', section.id, data.size.height);
                               }}
+                              style={{ backgroundColor: '#141517', marginBottom: '5px', overflow: 'hidden' }}
                             >
-                              <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
-                                {section.icon}
-                                <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>
-                                  {section.title}
-                                </Typography>
+                              <Grid
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  padding: '5px',
+                                  borderRadius: '5px',
+                                  backgroundColor: '#131418',
+                                  opacity: snapshot.isDragging ? 0.5 : 1,
+                                  border: snapshot.isDragging ? '2px dashed #f16397' : 'none',
+                                  ...provided.draggableProps.style,
+                                  height: '100%',
+                                  overflow: 'hidden',
+                                }}
+                              >
+                                <Grid style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
+                                  {section.icon}
+                                  <Typography style={{ color: 'white', fontWeight: 'bold', marginLeft: '5px' }}>
+                                    {section.title}
+                                  </Typography>
+                                </Grid>
+                                {renderSectionContent(section.id)}
                               </Grid>
-                              {renderSectionContent(section.id)}
-                            </Grid>
-                          </ResizableBox>
-                        )}
-                      </Draggable>
-                    ))}
-                  {provided.placeholder}
-                </Grid>
-              )}
-            </Droppable>
-          </ResizableBox>
-        </DragDropContext>
+                            </ResizableBox>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </Grid>
+                )}
+              </Droppable>
+            </ResizableBox>
+          </DragDropContext>
+        </Grid>
 
         {/* Barra lateral fija a la derecha */}
         <Grid
@@ -911,6 +919,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
             borderRadius: '5px',
             height: '100vh',
             width: '5%',
+            flexShrink: 0,
           }}
         >
           <Grid
@@ -962,7 +971,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
                 {section.icon}
               </Grid>
             ))}
-            {/* Botón de modo edición */}
             <Grid
               style={{
                 display: 'flex',
@@ -982,7 +990,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
             >
               <FaPencilAlt style={{ fontSize: '15px' }} />
             </Grid>
-            {/* Botón para restaurar a la posición original */}
             <Grid
               style={{
                 display: 'flex',
@@ -1002,7 +1009,6 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
             >
               <FaUndo style={{ fontSize: '15px' }} />
             </Grid>
-            {/* Botón para guardar la posición */}
             <Grid
               style={{
                 display: 'flex',
@@ -1030,7 +1036,7 @@ export default function DashboardStream({ isMobile, tyExpanded, user }) {
           <PopupEditInfo closePopup={toggleEditInfoStream} stream={streamerData} user={userData} />
         )}
 
-        {/* Imagen del chancho centrada cuando ninguna sección está visible */}
+        {/* Imagen del chancho centrada */}
         {!Object.values(sections).flat().some(section => section.visible) && (
           <Grid style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
             <img src={logoPinkker} style={{ width: '50%', padding: '15px' }} />
